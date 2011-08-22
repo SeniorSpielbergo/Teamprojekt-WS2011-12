@@ -1,0 +1,10 @@
+# Will exclude all LaTeX files
+*.pdf
+*.aux
+*.toc
+*.out
+*.log
+# Will exclude all *~ files
+*~
+# except for .gitignore
+!.gitignore
