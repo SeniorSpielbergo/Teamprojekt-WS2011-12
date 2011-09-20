@@ -6,6 +6,8 @@
 
 \begin{document}
 
+\newcommand{\TODO}[1]{\bf{TODO: #1}}
+
 \author{Vanessa Baier, Nils Breyer, Philipp Neumann, Sven Schuster, David Wille}
 \title{Teamprojekt mit LEGO-Robotern am IPS im \mbox{WS 2011/12} - Exposé}
 
@@ -19,18 +21,31 @@ Das Ziel unseres Teamprojektes ist es, dass Konzept der Turingmaschine (TM) aus 
 
 In der theoretischen Informatik versteht besteht eine TM aus einem unendlich langen Speicherband mit unendlich vielen Feldern. In jedem dieser Felder ist zu jedem Zeitpunkt genau ein Zeichen aus einem definierten endlichen Alphabet gespeichert. Ein spezielles Symbol, das sogenannte "`Blanksymbol"' dient als Repräsentant für ein leeres Feld.
  
-Weiterhin gibt es einem Lese- und Schreibkopf, der sich auf dem Speicherband feldweise bewegen und die Zeichen verändern kann. Dieser Kopf wird dabei durch ein entsprechendes Programm (formal Übergangsfunktionen) gesteuert.
+Weiterhin gibt es einem Schreib- und Lesekopf, der sich auf dem Speicherband feldweise bewegen und die Zeichen verändern kann. Dieser Kopf wird dabei durch ein entsprechendes Programm (formal Übergangsfunktion) gesteuert.
 
-\subsection{Turingmaschine mit LEGO-Robotern}
+\subsection{Simulation mit LEGO-Robotern}
 
-Natürlich lässt sich eine wie oben beschriebene Maschine nicht mit LEGO realisieren, da dies unendliche Ressourcen benötigen würde. Wir planen daher eine Simulation zu realisieren, die in etwa wie folgt funktioniert:
+Natürlich lässt sich eine wie oben beschriebene Maschine nicht mit LEGO realisieren, da dies unendliche Ressourcen benötigen würde. Wir planen daher eine Simulation zu realisieren, die wie folgt aufgebaut ist:
 
+Es soll ein Programm geben, mit dem man die Maschine am Rechner programmieren kann. D.h. die Zustandsübergänge und Aktionen, die der Schreib- und Lesekopf beim Übergang ausführen soll, werden vorher am Rechner festgelegt. Ein erstelltes Programm kann dann auf die eigentliche Maschine übertragen und dort ausgeführt werden.
 
+Die Maschine selbst könnte idealerweise als Mehrbandmaschine (also z.B. drei unabhängige Bänder und Schreib-/Leseköpfe) ausgeführt werden. Ein zusätzlicher Roboter könnte als Zentraleinheit fungieren und die Programmlogik ausführen und entsprechende Anweisungen an die Schreib-/Leseköpfe senden. Gleichzeitig könnte er über das Display den aktuellen Zustand anzeigen, in dem sich die TM befindet.
 
+Die Bänder selber werden in der Anzahl der Felder natürlich beschränkt sein, womit nicht jedes Programm simuliert werden kann. Die Symbole können durch unterschiedliche Farben codiert werden. Ein Eingabewort, dass vor der Ausführung eines Programms auf dem Band steht, kann so über Farbsensoren am Schreib-/Lesekopf erkannt werden.
+
+\TODO{so ok? eventuell noch etwas mehr zur umsetzung}
 
 \section{Pflichtziele}
 
+\begin{itemize}
+\item 
+\end{itemize}
+
 \section{Wunschziele}
+
+\begin{itemize}
+\item 
+\end{itemize}
 
 \section{Ideen zur Umsetzung}
 
