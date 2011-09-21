@@ -24,6 +24,7 @@
 *.synctex.gz
 *.el
 *.pdf
+_region_.tex
 # Will exclude all *~ files
 *~
 # except for .gitignore
