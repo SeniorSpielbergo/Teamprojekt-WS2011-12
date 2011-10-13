@@ -25,6 +25,8 @@
 *.el
 *.pdf
 _region_.tex
+.DS_Store
+*.swp
 # Will exclude all *~ files
 *~
 # except for .gitignore
