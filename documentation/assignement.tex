@@ -17,13 +17,13 @@
 
 \section{Grundidee}
 
-Das Ziel unseres Teamprojektes ist es, dass Konzept der Turingmaschine (TM) aus der theoretischen Informatik mit LEGO-Robotern zu simulieren und zu veranschaulichen. Da die TM ein theoretisches Konzept ist, wird es bei der praktischen Umsetzung zwangsläufig einige Einschränkungen geben.
+Das Ziel unseres Teamprojektes ist es, das Konzept der Turingmaschine (TM) aus der theoretischen Informatik mit LEGO-Robotern zu simulieren und zu veranschaulichen. Da die TM ein theoretisches Konzept ist, wird es bei der praktischen Umsetzung zwangsläufig einige Einschränkungen geben.
 
 \subsection{Turingmaschine in der theoretischen Informatik}
 
 In der theoretischen Informatik besteht eine TM aus einem unendlich langen Speicherband mit unendlich vielen Feldern. In jedem dieser Felder ist zu jedem Zeitpunkt genau ein Zeichen aus einem definierten endlichen Alphabet gespeichert. Ein spezielles Symbol, das sogenannte "`Blanksymbol"', dient als Repräsentant für ein leeres Feld.
  
-Weiterhin gibt es einen Schreib- und Lesekopf, der sich auf dem Speicherband feldweise bewegen und die Zeichen verändern kann. Dieser Kopf wird dabei durch ein entsprechendes Programm (formal Übergangsfunktion) gesteuert.
+Weiterhin gibt es einen Schreib- und Lesekopf, der sich auf dem Speicherband feldweise bewegen und die Zeichen verändern kann. Dieser Kopf wird dabei durch ein entsprechendes Programm (formal: Übergangsfunktion) gesteuert.
 
 \subsection{Simulation mit LEGO-Robotern}
 
@@ -33,9 +33,7 @@ Es soll ein Programm geben, mit dem man die Maschine am Rechner programmieren ka
 
 Die Maschine selbst könnte idealerweise als Mehrbandmaschine (also z.B. drei unabhängige Bänder und Schreib-/Leseköpfe) ausgeführt werden. Ein zusätzlicher Roboter könnte als Zentraleinheit fungieren und die Programmlogik ausführen und entsprechende Anweisungen an die Schreib-/Leseköpfe senden. Gleichzeitig könnte er über das Display den aktuellen Zustand anzeigen, in dem sich die TM befindet.
 
-Die Bänder selber werden in der Anzahl der Felder natürlich beschränkt sein, womit nicht jedes Programm simuliert werden kann. Die Symbole können durch unterschiedliche Farben codiert werden. Ein Eingabewort, dass vor der Ausführung eines Programms auf dem Band steht, kann so über Farbsensoren am Schreib-/Lesekopf erkannt werden.
-
-\TODO{so ok? eventuell noch etwas mehr zur umsetzung}
+Die Bänder selber werden in der Anzahl der Felder natürlich beschränkt sein, womit nicht jedes Programm simuliert werden kann. Die Symbole können durch unterschiedliche Farben codiert werden. Ein Eingabewort, das vor der Ausführung eines Programms auf dem Band steht, kann so über Farbsensoren am Schreib-/Lesekopf erkannt werden.
 
 \section{Pflichtziele}
 
@@ -43,9 +41,8 @@ Die Bänder selber werden in der Anzahl der Felder natürlich beschränkt sein, 
 \item Es wird mit LEGO-Robotern eine mechanische Simulation einer Turingmaschine mit mindestens einem Band und einem Schreib-/Lesekopf gebaut.
 \item Die Bänder enthalten mindestens 10 Felder.
 \item Auf jeder Bandzelle kann eins von mindestens 3 verschiedenen Symbolen (davon ein Blanksymbol) gespeichert werden. Die Symbole auf dem Band können z.B. durch Bauteile aus verschiedenen Farben realisiert werden.
-\item Es ist möglich vor der Ausführung eines Programms ein Eingabewort auf das Band zu schreiben, dass die Maschine dann lesen kann. 
-\item Es gibt ein Program mit dem auf einem Rechner ein Programm für die Turingmaschine erstellt und dann ausgeführt werden kann.
-\item \TODO{fehlt noch etwas wichtiges?}
+\item Es ist möglich vor der Ausführung eines Programms ein Eingabewort auf das Band zu schreiben, das die Maschine dann lesen kann. 
+\item Es gibt ein Programm, mit dem auf einem Rechner ein Programm für die Turingmaschine erstellt und dann ausgeführt werden kann.
 \end{itemize}
 
 \section{Wunschziele}
@@ -55,13 +52,10 @@ Die Bänder selber werden in der Anzahl der Felder natürlich beschränkt sein, 
 \item Es werden zwei oder drei Bänder mit unabhängigen Schreib-/Leseköpfen realisiert.
 \item Es sollen möglichst mehr als 3 Symbole und mehr als 10 Felder realisiert werden.
 \item Die Übertragung des Programms auf die Maschine erfolgt kabellos (über Bluetooth).
-\item Die Programmierung am Rechner könnte graphisch (als Zustandsgraph mit Übergängen) umgesetzt werden, um die Eingabe zu erleichtern. 
-\item \TODO{weitere ideen?}
+\item Die Programmierung am Rechner könnte graphisch (als Zustandsgraph mit Übergängen) umgesetzt werden, um die Eingabe zu erleichtern.
+\item Das Programm kann vorab am Rechner simuliert werden und es wird gewarnt, wenn das Programm aufgrund der Einschränkungen der LEGO-Maschine (Bandlänge, Simulationsdauer) nicht simulierbar ist.
+\item Es soll die Möglichkeit geben den aktuellen Zustand der Simulation zwischenspeichern und später nach einem erneuten Programmstart fortsetzen zu können.
 \end{itemize}
-
-\section{Ideen zur Umsetzung}
-
-\TODO{hier könnte man ein bisschen darauf eingeben, wie die hardware-umsetzung mit LEGO aussehen könnte...}
 
 \section{Zeitplan}
 
@@ -73,21 +67,21 @@ Der folgende Zeitplan soll nur als grobe Orientierung dienen.\\
     \hline
     ...42 &  & 23.10. & Vorplanung\\ 
     \hline
-    43 & 24.10. & 30.10. & \\
+    43 & 24.10. & 30.10. & Hardware-Prototypen bauen \\
     \hline
-    44 & 31.10. & 06.11. & \\
+    44 & 31.10. & 06.11. & Hardware-Prototypen bauen\\
     \hline
-    45 & 07.11. & 13.11. & \\
+    45 & 07.11. & 13.11. & LEGO-Programm Prototyp schreiben\\
     \hline
-    46 & 14.11. & 20.11. & \\
+    46 & 14.11. & 20.11. & LEGO-Programm Prototyp schreiben\\
     \hline
-    47 & 21.11. & 27.11. & \\
+    47 & 21.11. & 27.11. & Rechnerprogramm Prototyp schreiben\\
     \hline
-    48 & 28.11. & 04.12. & \\ 
+    48 & 28.11. & 04.12. & LEGO-Programm optimieren\\ 
     \hline
-    49 & 05.12. & 11.12. & \\
+    49 & 05.12. & 11.12. & Rechnerprogramm schreiben\\
     \hline
-    50 & 12.12. & 18.12. & \\
+    50 & 12.12. & 18.12. & Rechnerprogramm optimieren\\
     \hline
     51 & 19.12. & 25.12. & \emph{ab 24.12. Weihnachtsferien}\\
     \hline
@@ -95,11 +89,11 @@ Der folgende Zeitplan soll nur als grobe Orientierung dienen.\\
     \hline
     01 & 02.01. & 08.01. & \emph{Weihnachtsferien}\\
     \hline
-    02 & 09.01. & 15.01. & \\
+    02 & 09.01. & 15.01. & Fertigstellung LEGO-Programm\\
     \hline
-    03 & 16.01. & 22.01. & \\
+    03 & 16.01. & 22.01. & Fertigstellung Rechnerprogramm\\
     \hline
-    04 & 23.01. & 29.01. & \\
+    04 & 23.01. & 29.01. & Testphase\\
     \hline
     05 & 30.01. & 05.02. & Abgabe und Bewertung\\
     \hline
@@ -108,7 +102,5 @@ Der folgende Zeitplan soll nur als grobe Orientierung dienen.\\
   \end{tabular}
 \end{center}
 
-
-\TODO{phasen/meilensteine in den zeitplan einfügen}
 
 \end{document}
