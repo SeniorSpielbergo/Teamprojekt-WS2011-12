@@ -31,3 +31,6 @@ _region_.tex
 *~
 # except for .gitignore
 !.gitignore
+#compiled files
+*.class
+*.nxj
