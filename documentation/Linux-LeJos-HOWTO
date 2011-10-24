@@ -1,0 +1,33 @@
+Diese Anleitung zielt auf die Nutzung von LeJos mithilfe von Eclipse.
+Folgendes ist zu tun:
+1. Lade dir LeJos in der Version 0.8.5beta runter (http://sourceforge.net/projects/lejos/files/lejos-NXJ/)
+2. Entpacke dir LeJos in ein Verzeichnis in dem du Berechtigungen besitzt
+3. Lade und installiere dir Eclipse
+4. Einstellungen bei Eclipse:
+  Projekt Einstellungen
+  4.1 Rufe den Wizzard zum Erstellen eines neuen Projektes auf und wähle ein Java Projekt
+  4.2 Gib einen Projektnamen ein und klicke auf Next
+  4.3 Lösche das src Verzeichnis aus dem "Build Path"
+  4.4 Wähle Reiter "Libraries" -> Add External JARs wähle alle .jar aus dem Verzeichnis .../lejos_nxj/lib/ und bestätige -> finish
+  Run Configurations
+  4.5 Run -> External Tools -> external Tool Configurations
+  4.6 Doppelklick auf Program
+	Name: leJos Compile
+	Location: ..../lejos_nxj/bin/nxjc
+	Working Directory: ${project_loc}
+	Arguments: ${resource_loc}
+  4.7 Doppelklick auf Program
+	Name: leJos Upload
+	Location: ..../lejos_nxj/bin/nxj
+	Working Directory: ${project_loc}
+	Arguments: ${java_type_name} -v -n IPS_03 -r -b
+  4.8 Run -> external Tools -> Organize Favorites -> Add -> beide auswählen -> alles bestätigen
+  4.9 Nun kann über den external Tools Button Compiliert und auf den Roboter geladen werden
+
+das mit dem Bluetooth ist etwas heikel aber da können Niels und ich helfen.
+Ich sag nur EGit EGit :P
+
+Nützliche Seiten:
+LeJos Seite: http://lejos.sourceforge.net/
+LeJos API: http://lejos.sourceforge.net/nxt/nxj/api/index.html
+BlueCove: http://bluecove.org/bluecove-gpl/
