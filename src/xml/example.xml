@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<machine name="example">
+	
+	<node>
+		<name>q0</name>
+		<transition>q1</transition>
+		<read>c</read>
+		<write>#</write>
+	</node>
+	
+	<node>
+		<name>q1</name>
+		<transition>q1</transition>
+		<read>b</read>
+		<read>c</read>
+		<write>#</write>
+	</node>
+	
+</machine>
