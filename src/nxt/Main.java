@@ -16,9 +16,13 @@ import lejos.nxt.addon.ColorSensor;
 
 public class Main {
    public static void main(String[] args){
+	   final int PUSH_SPEED = 150;
+	   final int LINE_SPEED = 360;
        String sensor1;
        ColorSensor cs1 = new ColorSensor(SensorPort.S1);
        int pushAngle = -155;
+	   Motor.A.setSpeed(LINE_SPEED);
+	   Motor.B.setSpeed(PUSH_SPEED);
        while(!Button.ENTER.isPressed()){            
            LCD.clearDisplay();            
            sensor1 = "ColorSensor1:" + cs1.getColorNumber();
