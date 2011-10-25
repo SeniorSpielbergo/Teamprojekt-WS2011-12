@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="var" path="NXJ_HOME/lib/classes.jar"/>
+	<classpathentry kind="var" path="NXJ_HOME/lib/classes.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/nils/Documents/lib/lejos_nxj/projects/classes/doc/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="var" path="NXJ_HOME/lib/jtools.jar"/>
 	<classpathentry kind="var" path="NXJ_HOME/lib/pccomm.jar"/>
 	<classpathentry kind="var" path="NXJ_HOME/lib/pctools.jar"/>
