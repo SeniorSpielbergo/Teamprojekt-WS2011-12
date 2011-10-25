@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
 <machine name="example">
 	
@@ -12,8 +12,7 @@
 	<node>
 		<name>q1</name>
 		<transition>q1</transition>
-		<read>b</read>
-		<read>c</read>
+		<read>b,c</read>
 		<write>#</write>
 	</node>
 	
