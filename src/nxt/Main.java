@@ -1,5 +1,19 @@
 import lejos.nxt.*;
 import lejos.nxt.addon.ColorSensor;
+
+/*
+ * black = 0
+ * brown = 0
+ * blue = 2
+ * dark green = 4
+ * light green = 6
+ * yellow = 7
+ * red = 9
+ * orange = 9
+ * grey = 14
+ * white = 14
+ */
+
 public class Main {
    public static void main(String[] args){
        String sensor1;
@@ -17,8 +31,7 @@ public class Main {
            if(Button.LEFT.isPressed()){
                while(Button.LEFT.isPressed()){
                    Motor.A.backward();
-                   if (cs1.getColorNumber()>= 6 &&
-cs1.getColorNumber()<=9){
+                   if (cs1.getColorNumber()>= 2 && cs1.getColorNumber()<=14){
                        break;
                    }
                }
@@ -27,14 +40,13 @@ cs1.getColorNumber()<=9){
            if(Button.RIGHT.isPressed()){
                while(Button.RIGHT.isPressed()){
                    Motor.A.forward();
-                   if (cs1.getColorNumber()>= 6 &&
-cs1.getColorNumber()<=9){
+                   if (cs1.getColorNumber()>= 2 && cs1.getColorNumber()<=14){
                        break;
                    }
                }
                Motor.A.stop();
            }
-           if (cs1.getColorNumber()>= 6 && cs1.getColorNumber()<=9){
+           if (cs1.getColorNumber()>= 2 && cs1.getColorNumber()<=14){
                Motor.B.rotate(pushAngle);
                Motor.B.rotate(pushAngle*(-1)+1);
            }

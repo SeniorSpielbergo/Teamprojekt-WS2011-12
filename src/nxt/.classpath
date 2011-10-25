@@ -4,10 +4,6 @@
 	<classpathentry exported="true" kind="var" path="NXJ_HOME/lib/jtools.jar"/>
 	<classpathentry exported="true" kind="var" path="NXJ_HOME/lib/pccomm.jar"/>
 	<classpathentry exported="true" kind="var" path="NXJ_HOME/lib/pctools.jar"/>
-	<classpathentry kind="lib" path="/home/sven/workspace/tools/lejos_nxj/lib/classes.jar"/>
-	<classpathentry kind="lib" path="/home/sven/workspace/tools/lejos_nxj/lib/jtools.jar"/>
-	<classpathentry kind="lib" path="/home/sven/workspace/tools/lejos_nxj/lib/pccomm.jar"/>
-	<classpathentry kind="lib" path="/home/sven/workspace/tools/lejos_nxj/lib/pctools.jar"/>
 	<classpathentry kind="var" path="NXJ_HOME"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
