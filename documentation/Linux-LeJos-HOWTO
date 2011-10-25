@@ -23,7 +23,9 @@ Folgendes ist zu tun:
 	Working Directory: ${project_loc}
 	Arguments: ${java_type_name} -v -n IPS_03 -r -b
   5.8 Run -> external Tools -> Organize Favorites -> Add -> beide auswählen -> alles bestätigen
-  5.9 Nun kann über den external Tools Button Compiliert und auf den Roboter geladen werden
+  5.9 gehe auf Project -> Properties -> Java Build Path -> Libraries -> Add Variable -> Configure Variables -> New
+  5.10 gib nun unter Name "NXJ_HOME" ein und unter Path das lejos_nxj Verzeichnis
+  5.11 Nun kann über den external Tools Button Compiliert und auf den Roboter geladen werden
 
 das mit dem Bluetooth ist etwas heikel aber da können Niels und ich helfen.
 Ich sag nur EGit EGit :P
