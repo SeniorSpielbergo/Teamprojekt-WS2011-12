@@ -2,27 +2,30 @@ Diese Anleitung zielt auf die Nutzung von LeJos mithilfe von Eclipse.
 Folgendes ist zu tun:
 1. Lade dir LeJos in der Version 0.8.5beta runter (http://sourceforge.net/projects/lejos/files/lejos-NXJ/)
 2. Entpacke dir LeJos in ein Verzeichnis in dem du Berechtigungen besitzt
-3. Lade und installiere dir Eclipse
-4. Einstellungen bei Eclipse:
+3. führe "chmod a+x *" im Lejos-Verzeichnis/bin aus
+4. Lade und installiere dir Eclipse
+5. Einstellungen bei Eclipse:
   Projekt Einstellungen
-  4.1 Rufe den Wizzard zum Erstellen eines neuen Projektes auf und wähle ein Java Projekt
-  4.2 Gib einen Projektnamen ein und klicke auf Next
-  4.3 Lösche das src Verzeichnis aus dem "Build Path"
-  4.4 Wähle Reiter "Libraries" -> Add External JARs wähle alle .jar aus dem Verzeichnis .../lejos_nxj/lib/ und bestätige -> finish
+  5.1 Rufe den Wizzard zum Erstellen eines neuen Projektes auf und wähle ein Java Projekt
+  5.2 Gib einen Projektnamen ein und klicke auf Next
+  5.3 Lösche das src Verzeichnis aus dem "Build Path"
+  5.4 Wähle Reiter "Libraries" -> Add External JARs wähle alle .jar aus dem Verzeichnis .../lejos_nxj/lib/ und bestätige -> finish
   Run Configurations
-  4.5 Run -> External Tools -> external Tool Configurations
-  4.6 Doppelklick auf Program
+  5.5 Run -> External Tools -> external Tool Configurations
+  5.6 Doppelklick auf Program
 	Name: leJos Compile
 	Location: ..../lejos_nxj/bin/nxjc
 	Working Directory: ${project_loc}
 	Arguments: ${resource_loc}
-  4.7 Doppelklick auf Program
+  5.7 Doppelklick auf Program
 	Name: leJos Upload
 	Location: ..../lejos_nxj/bin/nxj
 	Working Directory: ${project_loc}
 	Arguments: ${java_type_name} -v -n IPS_03 -r -b
-  4.8 Run -> external Tools -> Organize Favorites -> Add -> beide auswählen -> alles bestätigen
-  4.9 Nun kann über den external Tools Button Compiliert und auf den Roboter geladen werden
+  5.8 Run -> external Tools -> Organize Favorites -> Add -> beide auswählen -> alles bestätigen
+  5.9 gehe auf Project -> Properties -> Java Build Path -> Libraries -> Add Variable -> Configure Variables -> New
+  5.10 gib nun unter Name "NXJ_HOME" ein und unter Path das lejos_nxj Verzeichnis
+  5.11 Nun kann über den external Tools Button Compiliert und auf den Roboter geladen werden
 
 das mit dem Bluetooth ist etwas heikel aber da können Niels und ich helfen.
 Ich sag nur EGit EGit :P
