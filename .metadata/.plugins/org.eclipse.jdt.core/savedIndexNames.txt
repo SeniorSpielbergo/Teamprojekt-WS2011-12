@@ -1,17 +1,3 @@
 INDEX VERSION 1.126+/home/sven/workspace/teamprojekt/.metadata/.plugins/org.eclipse.jdt.core
-2859745636.index
-4186241162.index
 3765020915.index
-2946918410.index
-1257828480.index
-1700471379.index
-3252505014.index
-4091304355.index
-2158492609.index
-3535258683.index
-1477775360.index
 735232133.index
-3425764745.index
-1049145842.index
-460275238.index
-990687336.index
