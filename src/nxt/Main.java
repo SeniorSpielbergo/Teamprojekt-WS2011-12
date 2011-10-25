@@ -4,7 +4,7 @@ public class Main {
    public static void main(String[] args){
        String sensor1;
        ColorSensor cs1 = new ColorSensor(SensorPort.S1);
-       int pushAngle = -145;
+       int pushAngle = -155;
        while(!Button.ENTER.isPressed()){            
            LCD.clearDisplay();            
            sensor1 = "ColorSensor1:" + cs1.getColorNumber();
