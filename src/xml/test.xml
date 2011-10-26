@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<machine name="test"/>
+<machine name="test">
+    <node>
+        <id>0</id>
+        <name>q0</name>
+    </node>
+    <edge>
+        <id>0</id>
+        <from>0</from>
+        <to>1</to>
+        <read>a,b,c</read>
+        <write>#</write>
+    </edge>
+</machine>

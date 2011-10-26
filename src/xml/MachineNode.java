@@ -2,15 +2,15 @@ import java.lang.String;
 
 public class MachineNode {
 
-	protected int id;
+	protected String id;
 	protected String name;
 	
-	public MachineNode(int id, String nodeName) {
+	public MachineNode(String id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return this.id;
 	}
 	

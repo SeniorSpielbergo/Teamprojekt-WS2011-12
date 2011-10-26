@@ -1,14 +1,15 @@
 import java.lang.String;
+import java.util.ArrayList;
 
 public class Edge {
 
-	protected int id;
-	protected int from;
-	protected int to;
-	protected String[] read;
+	protected String id;
+	protected String from;
+	protected String to;
+	protected ArrayList<String> read;
 	protected String write;
 	
-	public Edge(int id, int from, int to, String[] read, String write) {
+	public Edge(String id, String from, String to, ArrayList<String> read, String write) {
 		this.id = id;
 		this.from = from;
 		this.to = to;
@@ -16,19 +17,19 @@ public class Edge {
 		this.write = write;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return this.id;
 	}
 	
-	public int getFrom() {
+	public String getFrom() {
 		return this.from;
 	}
 	
-	public int getTo() {
+	public String getTo() {
 		return this.to;
 	}
 	
-	public String[] getRead() {
+	public ArrayList<String> getRead() {
 		return this.read;
 	}
 	
@@ -36,15 +37,15 @@ public class Edge {
 		return this.write;
 	}
 	
-	public void setFrom(int from) {
+	public void setFrom(String from) {
 		this.from = from;
 	}
 	
-	public void setTo(int to) {
+	public void setTo(String to) {
 		this.to = to;
 	}
 	
-	public void setRead(String[] read) {
+	public void setRead(ArrayList<String> read) {
 		this.read = read;
 	}
 	
