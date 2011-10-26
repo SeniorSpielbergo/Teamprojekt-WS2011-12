@@ -19,10 +19,10 @@ public class Master {
 		  LCD.clear();
 		  LCD.drawString("Connected",0,0);
 		} catch (IOException ioe) {
-		  LCD.clear();
-		  LCD.drawString("Conn Failed",0,0);
-		  Button.waitForPress();
-		  System.exit(1);
+			LCD.clear();
+			LCD.drawString("Conn Failed",0,0);
+			Button.waitForPress();
+			System.exit(1);
 		}
 	  nxt.A.forward();
 	  try {
@@ -49,7 +49,6 @@ public class Master {
 		} catch(Exception e) {
 			System.out.print(e);
 		}
-
 
 	}
 }
