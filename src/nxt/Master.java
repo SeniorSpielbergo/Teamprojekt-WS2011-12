@@ -1,66 +1,55 @@
 import lejos.nxt.*;
-import lejos.nxt.comm.*;
-import lejos.nxt.rcxcomm.*;
 import lejos.nxt.remote.*;
+import lejos.nxt.addon.ColorSensor;
+import lejos.nxt.comm.*;
+
 import java.io.*;
+
 import javax.bluetooth.*;
 public class Master {
-  public static void main(String[] args) throws Exception {
-	  String name = "IPS_03";
-     LCD.drawString("Connecting...", 0, 0);
-     RemoteDevice btrd = Bluetooth.getKnownDevice(name);
-     
+	public static void main(String[] args) throws Exception {
+		/*RemoteNXT nxt = null;
+	  try {
+		  LCD.drawString("Connecting...",0,0);
+		  //RemoteDevice btrd = Bluetooth.getKnownDevice("NXT_03");
+		  //BTConnection btc = Bluetooth.connect(btrd);
 
-     if (btrd == null) {
-       LCD.clear();
-       LCD.drawString("No such device", 0, 0);
-       Button.waitForPress();
-       System.exit(1);
-     }
+		  nxt = new RemoteNXT("NXT_03",Bluetooth.getConnector());
 
-     BTConnection btc = Bluetooth.connect(btrd);
+		  LCD.clear();
+		  LCD.drawString("Connected",0,0);
+		} catch (IOException ioe) {
+			LCD.clear();
+			LCD.drawString("Conn Failed",0,0);
+			Button.waitForPress();
+			System.exit(1);
+		}
+	  nxt.A.forward();
+	  try {
+		  Thread.sleep(1000);
+	  }
+	  catch (Exception e) {
 
-     if (btc == null) {
-       LCD.clear();
-       LCD.drawString("Connect fail", 0, 0);
-       Button.waitForPress();
-       System.exit(1);
-     }
-   
-     LCD.clear();
-     LCD.drawString("Connected", 0, 0);
+	  }
+		 */
+		ColorSensor cs1 = new ColorSensor(SensorPort.S1);
+		ColorSensor cs2 = new ColorSensor(SensorPort.S2);
+		NXTConnection connection = null;
+		LCD.drawString("waiting for bt connection", 1, 1);
+		connection = Bluetooth.waitForConnection();
+		DataOutputStream dataOut = connection.openDataOutputStream();
 
-     DataInputStream dis = btc.openDataInputStream();
-     DataOutputStream dos = btc.openDataOutputStream();
+		try {
+			while(!Button.ENTER.isPressed());{
+				dataOut.write(cs1.getColorNumber());
+				dataOut.write(cs2.getColorNumber());
+				dataOut.flush();
+				Thread.sleep(2000);
+			}
+		} catch(Exception e) {
+			System.out.print(e);
+		}
 
-     for(int i=0;i<100;i++) {
-       try { 
-         LCD.drawInt(i, 8, 0, 2);
-         dos.writeInt(i);
-         dos.flush();
-       } catch (IOException ioe) {
-         LCD.drawString("Write Exception", 0, 0);
-       }
-     
-       try {
-         LCD.drawInt(dis.readInt(),8, 0,3);
-       } catch (IOException ioe) {
-         LCD.drawString("Read Exception ", 0, 0);
-       }
-     }
-   
-     try {
-       LCD.drawString("Closing... ", 0, 0);
-       dis.close();
-       dos.close();
-       btc.close();
-     } catch (IOException ioe) {
-       LCD.drawString("Close Exception", 0, 0);
-     }
-   
-     LCD.drawString("Finished",3, 4);
-     Button.waitForPress();
-  }
+	}
 }
-
 
