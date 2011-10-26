@@ -112,9 +112,11 @@ public class InOut {
 				if (!(new File(fileName)).exists()) {
 					StreamResult result = new StreamResult(new File(fileName));
 					transformer.transform(source, result);
+					// TODO remove test output
 					System.out.println("Done writing file!\n");
 				}
 				else {
+					// TODO remove test output
 					System.out.println("File already exists!\n");
 				}
 			}
@@ -136,11 +138,13 @@ public class InOut {
 			Document doc = db.parse(file);
 			doc.getDocumentElement().normalize();
 			// print the Turing machine's name
+			// TODO remove test output
 			System.out.println("Turing machine's name: " + doc.getDocumentElement().getAttribute("name"));
 			
+			// TODO remove test output
+			System.out.println("\nNODES");
 			// get list of nodes
 			NodeList nodeList = doc.getElementsByTagName("node");
-			System.out.println("\nNODES");
 			ArrayList<MachineNode> nodes = new ArrayList<MachineNode>();
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Node currentNode = nodeList.item(i);
@@ -150,17 +154,19 @@ public class InOut {
 					String id = getTagValue("id", currentElement);
 					String name = getTagValue("name", currentElement);
 					MachineNode tempNode = new MachineNode(id, name);
+					nodes.add(tempNode);
 					
+					// TODO remove test output
 					System.out.println("\n== Node " + id + " ==\n");
 					System.out.println("id: " + id);
 					System.out.println("name: " + name);
-					nodes.add(tempNode);
 				}
 			}
 			
+			// TODO remove test output
+			System.out.println("\nEDGES");
 			// get list of edges
 			NodeList edgeList = doc.getElementsByTagName("edge");
-			System.out.println("\nEDGES");
 			ArrayList<Edge> edges = new ArrayList<Edge>();
 			for (int i = 0; i < edgeList.getLength(); i++) {
 				Node currentNode = edgeList.item(i);
@@ -175,16 +181,18 @@ public class InOut {
 					ArrayList<String> read = new ArrayList<String>();
 					for(int j = 0; j < readString.length; j++) {
 						read.add(readString[j]);
+						// TODO remove test output
 						System.out.println("read" + j + ": " + readString[j]);
 					}
 					Edge tempEdge = new Edge(id, from, to, read, write);
+					edges.add(tempEdge);
 					
+					// TODO remove test output
 					System.out.println("\n== Edge " + id + " ==\n");
 					System.out.println("id: " + id);
 					System.out.println("from: " + from);
 					System.out.println("to: " + to);
 					System.out.println("write: " + write);
-					edges.add(tempEdge);
 				}
 			}
 			graph = new Graph(nodes, edges);
