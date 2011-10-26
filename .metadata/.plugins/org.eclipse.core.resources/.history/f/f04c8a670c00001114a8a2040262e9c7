@@ -5,7 +5,7 @@ public class Test {
    public static void main(String[] args){
 	   final int PUSH_SPEED = 150;
 	   final int LINE_SPEED = 300;
-	   String sensor1, sensor2, sensor3;
+	   String sensor1, sensor2;
        ColorSensor cs1 = new ColorSensor(SensorPort.S1);
        ColorSensor cs2 = new ColorSensor(SensorPort.S2);
        ColorSensor cs3 = new ColorSensor(SensorPort.S3);
