@@ -3,6 +3,7 @@ import java.lang.String;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -29,12 +30,22 @@ public class WriteXML {
 	private static void writeXMLtoFile(String fileName, String machineName, String nodeName, String transition, String read[], String write) {
 		try {
 			try {
+				TransformerFactory transformerFactory = TransformerFactory.newInstance();
+				
+				Transformer transformer = transformerFactory.newTransformer();
+				transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
+				transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+				transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+				transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+				
 				DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+				Document doc = docBuilder.newDocument();
+				DOMSource source = new DOMSource(doc);
+				StreamResult result = new StreamResult(new File(fileName));
 				String readString = "";
 		
-				// create document
-				Document doc = docBuilder.newDocument();
+				// create root element
 				Element rootElement = doc.createElement("machine");
 				doc.appendChild(rootElement);
 		
@@ -76,10 +87,6 @@ public class WriteXML {
 				}
 			
 				// write the content into xml file
-				TransformerFactory transformerFactory = TransformerFactory.newInstance();
-				Transformer transformer = transformerFactory.newTransformer();
-				DOMSource source = new DOMSource(doc);
-				StreamResult result = new StreamResult(new File(fileName));
 			
 				transformer.transform(source, result);
 			}
