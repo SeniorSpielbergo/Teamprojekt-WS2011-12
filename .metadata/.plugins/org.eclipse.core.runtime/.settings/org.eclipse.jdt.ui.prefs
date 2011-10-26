@@ -1,5 +1,6 @@
-#Tue Oct 25 18:37:20 CEST 2011
+#Wed Oct 26 21:43:08 CEST 2011
 useQuickDiffPrefPage=true
+org.eclipse.jdt.ui.text.templates_migrated=true
 proposalOrderMigrated=true
 tabWidthPropagated=true
 content_assist_proposals_background=255,255,255
@@ -8,6 +9,7 @@ useAnnotationsPrefPage=true
 org.eclipse.jface.textfont=1|Monospace|10.0|0|GTK|1|;
 org.eclipse.jdt.ui.editor.tab.width=
 org.eclipse.jdt.ui.formatterprofiles.version=12
+org.eclipse.jdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
 content_assist_number_of_computers=13
 spelling_locale_initialized=true
 eclipse.preferences.version=1

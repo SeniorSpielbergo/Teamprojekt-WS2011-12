@@ -1,15 +1,13 @@
 import lejos.nxt.*;
 import lejos.nxt.addon.ColorSensor;
 
-public class Test {
+public class Main {
    public static void main(String[] args){
 	   final int PUSH_SPEED = 150;
 	   final int LINE_SPEED = 300;
-	   String sensor1, sensor2, sensor3;
+	   String sensor1, sensor2;
        ColorSensor cs1 = new ColorSensor(SensorPort.S1);
        ColorSensor cs2 = new ColorSensor(SensorPort.S2);
-       ColorSensor cs3 = new ColorSensor(SensorPort.S3);
-       TouchSensor ts1 = new TouchSensor(SensorPort.S4);
        int pushAngle = -155;
 	   Motor.A.setSpeed(LINE_SPEED);
 	   Motor.B.setSpeed(PUSH_SPEED);
@@ -18,18 +16,15 @@ public class Test {
 		   if(ts1.isPressed()) {
 			   cs1.initWhiteBalance();
 			   cs2.initWhiteBalance();
-			   cs3.initWhiteBalance();
 		   }
 	   }
 	   
-       while(!Button.ENTER.isPressed()){
+       while(!Button.ENTER.isPressed()){            
            LCD.clearDisplay();
            sensor1 = "ColorSensor1:" + cs1.getColorNumber();            
-           sensor2 = "ColorSensor2:" + cs2.getColorNumber();
-           sensor3 = "ColorSensor3:" + cs3.getColorNumber();   
+           sensor2 = "ColorSensor2:" + cs2.getColorNumber();            
            LCD.drawString(sensor1,0,0);
            LCD.drawString(sensor2,0,1);
-           LCD.drawString(sensor3,0,2);
            try {
                Thread.sleep(250);
            }
@@ -44,13 +39,12 @@ public class Test {
            if(Button.RIGHT.isPressed()){
                while(Button.RIGHT.isPressed()){
                    Motor.A.forward();
-               }
                Motor.A.stop();
            }
-           if (Button.ESCAPE.isPressed()){
+           /*if (cs1.getColorNumber()>= 2 && cs1.getColorNumber()<=14){
                Motor.B.rotate(pushAngle);
                Motor.B.rotate(pushAngle*(-1)+1);
-           }
+           }*/
        }
    }
 }

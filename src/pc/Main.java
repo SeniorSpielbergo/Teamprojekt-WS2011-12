@@ -26,7 +26,8 @@ public class Main {
 			
 			while (true) {
 				System.out.println("Sensor 1: " + in.readInt());
-				System.out.println("Sensor 2: " + in.readInt());	
+				System.out.println("Sensor 2: " + in.readInt());
+				System.out.println("Sensor 4: " + in.readInt());
 			}
 
 		}
