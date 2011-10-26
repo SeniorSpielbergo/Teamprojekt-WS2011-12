@@ -4,6 +4,6 @@
         <name>q0</name>
         <transition>q1</transition>
         <read>a,b,c</read>
-        <write>#</write>
+        <write>#ab</write>
     </node>
 </machine>

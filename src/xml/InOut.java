@@ -13,21 +13,12 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-public class WriteXML {
-
-	public static void main(String argv[]) {
-		// testing
-		String machineName = "test";
-		String nodeName = "q0";
-		String transition = "q1";
-		String read[] = {"a","b","c"};
-		String write = "#";
-		
-		writeXMLtoFile("test.xml", machineName, nodeName, transition, read, write);
-	}
+public class InOut {
 	
-	private static void writeXMLtoFile(String fileName, String machineName, String nodeName, String transition, String read[], String write) {
+	public static void writeXMLtoFile(String fileName, String machineName, String nodeName, String transition, String read[], String write) {
 		try {
 			try {
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -42,7 +33,6 @@ public class WriteXML {
 				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 				Document doc = docBuilder.newDocument();
 				DOMSource source = new DOMSource(doc);
-				StreamResult result = new StreamResult(new File(fileName));
 				String readString = "";
 		
 				// create root element
@@ -85,10 +75,16 @@ public class WriteXML {
 					writeElement.appendChild(doc.createTextNode(write));
 					node.appendChild(writeElement);
 				}
-			
+				
 				// write the content into xml file
-			
-				transformer.transform(source, result);
+				if (!(new File(fileName)).exists()) {
+					StreamResult result = new StreamResult(new File(fileName));
+					transformer.transform(source, result);
+					System.out.println("Done writing file!\n");
+				}
+				else {
+					System.out.println("File already exists!\n");
+				}
 			}
 			catch (ParserConfigurationException pce) {
 				pce.printStackTrace();
@@ -97,6 +93,51 @@ public class WriteXML {
 		catch (TransformerException tfe) {
 			tfe.printStackTrace();
 		}
-	} 
+	}
+	
+	public static void readXMLFromFile(String fileName) {
+		try {
+			File file = new File(fileName);
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(file);
+			doc.getDocumentElement().normalize();
+			// get list of nodes
+			NodeList nodeList = doc.getElementsByTagName("node");
+			System.out.println("Turing machine's name: " + doc.getDocumentElement().getAttribute("name"));
+
+			for (int i = 0; i < nodeList.getLength(); i++) {
+
+				Node currentNode = nodeList.item(i);
+
+				System.out.println("\n== Node " + i + " ==\n");
+
+				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+					
+					Element currentElement = (Element) currentNode;
+					System.out.println("name: " + getTagValue("name", currentElement));
+					System.out.println("transition: " + getTagValue("transition", currentElement));
+					
+					String[] read = getTagValue("read", currentElement).split(",");
+					for(int j = 0; j < read.length; j++) {
+						System.out.println("read" + j + ": " + read[j]);
+					}
+					
+					System.out.println("write: " + getTagValue("write", currentElement));
+				}
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static String getTagValue(String tag, Element currentElement) {
+		NodeList nodeList = currentElement.getElementsByTagName(tag).item(0).getChildNodes();
+
+		Node nodeValue = (Node) nodeList.item(0);
+
+		return nodeValue.getNodeValue();
+	}
 
 }
