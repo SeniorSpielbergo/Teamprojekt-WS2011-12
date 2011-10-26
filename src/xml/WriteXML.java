@@ -22,7 +22,7 @@ public class WriteXML {
 		String nodeName = "q0";
 		String transition = "q1";
 		String read[] = {"a","b","c"};
-		String write = "q0";
+		String write = "#";
 		
 		writeXMLtoFile("test.xml", machineName, nodeName, transition, read, write);
 	}
