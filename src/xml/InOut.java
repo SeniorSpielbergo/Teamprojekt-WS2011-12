@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
 
 public class InOut {
 	
-	public static void writeXMLtoFile(String fileName, String machineName, String nodeName, String transition, String read[], String write) {
+	public static void writeXMLtoFile(String fileName, String machineName, MachineNode[] nodes, Edge[] edges) {
 		try {
 			try {
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -33,7 +33,6 @@ public class InOut {
 				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 				Document doc = docBuilder.newDocument();
 				DOMSource source = new DOMSource(doc);
-				String readString = "";
 		
 				// create root element
 				Element rootElement = doc.createElement("machine");
@@ -43,38 +42,66 @@ public class InOut {
 				Attr attr = doc.createAttribute("name");
 				attr.setValue(machineName);
 				rootElement.setAttributeNode(attr);
+				
+				
+				// due to problems commented out
+				
+				// nodes
+				/*for(int i = 0; i < nodes.length; i++) {
+					// node element
+					Element[] node = doc.createElement("node");
+					rootElement.appendChild(node);
+					
+					// node id element
+					Element nodeIdElement = doc.createElement("id");
+					nodeIdElement.appendChild(doc.createTextNode("" + nodes[i].getId()));
+					node.appendChild(nodeIdElement);
 		
-				// node element
-				Element node = doc.createElement("node");
-				rootElement.appendChild(node);
+					// node name element
+					Element nameElement = doc.createElement("name");
+					nameElement.appendChild(doc.createTextNode(nodes[i].getName()));
+					node.appendChild(nameElement);
+				}
+				
+				// edges
+				for(int i = 0; i < edges.length; i++) {
+					// edge element
+					Element edge = doc.createElement("edge");
+					rootElement.appendChild(edge);
+					
+					// edge id element
+					Element edgeIdElement = doc.createElement("id");
+					edgeIdElement.appendChild(doc.createTextNode("" + edges[i].getId()));
+					edge.appendChild(edgeIdElement);
 		
-				// node name element
-				Element nameElement = doc.createElement("name");
-				nameElement.appendChild(doc.createTextNode(nodeName));
-				node.appendChild(nameElement);
+					// edge from element
+					Element fromElement = doc.createElement("from");
+					fromElement.appendChild(doc.createTextNode("" + edges[i].getFrom()));
+					edge.appendChild(fromElement);
 		
-				// node transition element
-				Element transitionElement = doc.createElement("transition");
-				transitionElement.appendChild(doc.createTextNode(transition));
-				node.appendChild(transitionElement);
-		
-				// node read element
-				if (read.length > 0) {
-					for (int i = 0; i < read.length; i++) {
-						readString = readString + read[i];
-						if (i < read.length-1) {
+					// edge to element
+					Element toElement = doc.createElement("to");
+					toElement.appendChild(doc.createTextNode("" + edges[i].getTo()));
+					edge.appendChild(toElement);
+					
+					// edge read elements
+					String readString = "";
+					String[] read = edges[i].getRead();
+					for (int j = 0; j < read.length; j++) {
+						readString = readString + read[j];
+						if (j < read.length-1) {
 							readString = readString + ",";
 						}
 					}
 					Element readElement = doc.createElement("read");
 					readElement.appendChild(doc.createTextNode(readString));
-					node.appendChild(readElement);
+					edge.appendChild(readElement);
 			
-					// node write element
+					// edge write element
 					Element writeElement = doc.createElement("write");
-					writeElement.appendChild(doc.createTextNode(write));
-					node.appendChild(writeElement);
-				}
+					writeElement.appendChild(doc.createTextNode(edges[i].getWrite()));
+					edge.appendChild(writeElement);
+				}*/
 				
 				// write the content into xml file
 				if (!(new File(fileName)).exists()) {
@@ -102,21 +129,37 @@ public class InOut {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document doc = db.parse(file);
 			doc.getDocumentElement().normalize();
+			// print the Turing machine's name
+			System.out.println("Turing machine's name: " + doc.getDocumentElement().getAttribute("name"));
 			// get list of nodes
 			NodeList nodeList = doc.getElementsByTagName("node");
-			System.out.println("Turing machine's name: " + doc.getDocumentElement().getAttribute("name"));
-
+			System.out.println("\nNODES");
+			
 			for (int i = 0; i < nodeList.getLength(); i++) {
-
 				Node currentNode = nodeList.item(i);
 
-				System.out.println("\n== Node " + i + " ==\n");
+				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element currentElement = (Element) currentNode;
+					System.out.println("\n== Node " + getTagValue("id", currentElement) + " ==\n");
+					System.out.println("id: " + getTagValue("id", currentElement));
+					System.out.println("name: " + getTagValue("name", currentElement));
+				}
+			}
+			
+			// get list of edges
+			NodeList edgeList = doc.getElementsByTagName("edge");
+			System.out.println("\nEDGES");
+			
+			for (int i = 0; i < edgeList.getLength(); i++) {
+				Node currentNode = edgeList.item(i);
 
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-					
 					Element currentElement = (Element) currentNode;
-					System.out.println("name: " + getTagValue("name", currentElement));
-					System.out.println("transition: " + getTagValue("transition", currentElement));
+					String id = getTagValue("id", currentElement);
+					System.out.println("\n== Edge " + id + " ==\n");
+					System.out.println("id: " + id);
+					System.out.println("from: " + getTagValue("from", currentElement));
+					System.out.println("to: " + getTagValue("to", currentElement));
 					
 					String[] read = getTagValue("read", currentElement).split(",");
 					for(int j = 0; j < read.length; j++) {

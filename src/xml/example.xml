@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="example">
     <node>
+        <id>0</id>
         <name>q0</name>
-        <transition>q1</transition>
-        <read>c</read>
-        <write>#</write>
     </node>
     <node>
+        <id>1</id>
         <name>q1</name>
-        <transition>q1</transition>
+    </node>
+    <edge>
+    	<id>0</id>
+        <from>0</from>
+        <to>1</to>
         <read>b,c</read>
         <write>#</write>
-    </node>
+    </edge>
 </machine>

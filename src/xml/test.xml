@@ -1,9 +1,2 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<machine name="test">
-    <node>
-        <name>q0</name>
-        <transition>q1</transition>
-        <read>a,b,c</read>
-        <write>#ab</write>
-    </node>
-</machine>
+<machine name="test"/>
