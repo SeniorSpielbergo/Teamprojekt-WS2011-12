@@ -1,20 +1,6 @@
 import lejos.nxt.*;
 import lejos.nxt.addon.ColorSensor;
 
-/*
- * TODO: check values after calibration
- * black = 0
- * brown = 0
- * blue = 2
- * dark green = 4
- * light green = 6 (u)
- * yellow = 7 (u)
- * red = 9 (u)
- * orange = 9 (u)
- * grey = 14 (u)
- * white = 14 (u)
- */
-
 public class Main {
    public static void main(String[] args){
 	   final int PUSH_SPEED = 150;
