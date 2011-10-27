@@ -20,10 +20,8 @@ public class Main {
 	   final int PUSH_SPEED = 150;
 	   final int LINE_SPEED = 300;
 	   int counter = 0;
-	   boolean cs1Active = false;
-	   boolean cs2Active = false;
-	   int oldColor1 = -1;
-	   int oldColor2 = -1;
+	   boolean grey = true;
+	   boolean color = false;
        String sensor1, sensor2, sensor3, counterString;
        ColorSensor cs1 = new ColorSensor(SensorPort.S1);
        ColorSensor cs2 = new ColorSensor(SensorPort.S2);
@@ -32,6 +30,8 @@ public class Main {
        int pushAngle = -155;
 	   Motor.A.setSpeed(LINE_SPEED);
 	   Motor.B.setSpeed(PUSH_SPEED);
+	   //Counter c = new Counter(counterSensor);
+	   //c.start();
 	   
 	   while(!Button.ESCAPE.isPressed()) {
 		   if(ts1.isPressed()) {
@@ -41,16 +41,16 @@ public class Main {
 		   }
 	   }
 	   
-       while(!Button.ENTER.isPressed()){            
+       while(!Button.ENTER.isPressed()){             
            LCD.clearDisplay();
            sensor1 = "ColorSensor1:" + cs1.getColorNumber();            
            sensor2 = "ColorSensor2:" + cs2.getColorNumber();            
            sensor3 = "ColorSensor3:" + counterSensor.getColorNumber();
-           counterString = "Counter:" + counter;
+           //counterString = "Counter:" + c.getCount();
            LCD.drawString(sensor1,0,0);
            LCD.drawString(sensor2,0,1);
            LCD.drawString(sensor3,0,2);
-           LCD.drawString(counterString,0,3);
+           //LCD.drawString(counterString,0,4);
            try {
                Thread.sleep(250);
            }
@@ -59,51 +59,12 @@ public class Main {
            if(Button.LEFT.isPressed()){
                while(Button.LEFT.isPressed()){
                    Motor.A.backward();
-                   /*if (cs1.getColorNumber()>= 2 && cs1.getColorNumber()<=14) {
-                	   if (cs1.getColorNumber() > oldColor1) {
-                		   	oldColor1 = cs1.getColorNumber();
-                		   	cs1Active = true;
-                	   }
-                   }
-                   if (cs2.getColorNumber()>= 2 && cs2.getColorNumber()<=14){
-                	   if (cs2.getColorNumber() > oldColor2) {
-               		   		oldColor2 = cs2.getColorNumber();
-               		   		cs2Active = true;
-                	   }
-                   }
-            	   if (cs1Active || cs2Active) {
-            		   cs1Active = false;
-            		   cs2Active = false;
-            		   counter--;
-            		   break;
-            	   }*/
                }
                Motor.A.stop();
            }
            if(Button.RIGHT.isPressed()){
                while(Button.RIGHT.isPressed()){
                    Motor.A.forward();
-                   /*if (cs1.getColorNumber()>= 2 && cs1.getColorNumber()<=14) {
-                	   if (cs1.getColorNumber() > oldColor1) {
-                		   	oldColor1 = cs1.getColorNumber();
-                		   	cs1Active = true;
-                	   }
-                   }
-                   if (cs2.getColorNumber()>= 2 && cs2.getColorNumber()<=14){
-                	   if (cs2.getColorNumber() > oldColor2) {
-               		   		oldColor2 = cs2.getColorNumber();
-               		   		cs2Active = true;
-                	   }
-                   }
-            	   if (cs1Active || cs2Active) {
-            		   cs1Active = false;
-            		   cs2Active = false;
-            		   counter++;
-            		   break;
-            	   }*/
-                   if (counterSensor.getColorNumber() >= 8 && counterSensor.getColorNumber() <= 10) {
-            		   counter++;
-                   }
                }
                Motor.A.stop();
            }
