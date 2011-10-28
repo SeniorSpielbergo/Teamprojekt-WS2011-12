@@ -5,33 +5,37 @@ import java.util.*;
 
 public class Main {
 	public static void main(String[] args){
-		NXTComm nxtComm = null;
+		NXTComm nxtComm_IPS_03 = null;
+		NXTComm nxtComm_NXT_03 = null;
+
 		try {
-			nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
+			nxtComm_IPS_03 = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
+			nxtComm_NXT_03 = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
 		}
 		catch (Exception e) {
 			
 		}
+		
 		NXTInfo info_IPS_03 = new NXTInfo(NXTCommFactory.BLUETOOTH, "IPS_03", "00:16:53:13:53:BB");
 		NXTInfo info_NXT_03 = new NXTInfo(NXTCommFactory.BLUETOOTH, "NXT_03", "00:16:53:0F:DB:8E");
 		
 		try {
 			System.out.println("Connecting to IPS_03...");
 
-			nxtComm.open(info_IPS_03);
+			nxtComm_IPS_03.open(info_IPS_03);
 			
-			InputStream is_IPS_03 = nxtComm.getInputStream();
-			OutputStream os_IPS_03 = nxtComm.getOutputStream();
+			InputStream is_IPS_03 = nxtComm_IPS_03.getInputStream();
+			OutputStream os_IPS_03 = nxtComm_IPS_03.getOutputStream();
 
 			DataInputStream in_IPS_03 = new DataInputStream(is_IPS_03);
 			DataOutputStream out_IPS_03 = new DataOutputStream(os_IPS_03);
 
 			System.out.println("Connected. Connecting to NXT_03...");
 			
-			nxtComm.open(info_NXT_03);
+			nxtComm_NXT_03.open(info_NXT_03);
 			
-			InputStream is_NXT_03 = nxtComm.getInputStream();
-			OutputStream os_NXT_03 = nxtComm.getOutputStream();
+			InputStream is_NXT_03 = nxtComm_NXT_03.getInputStream();
+			OutputStream os_NXT_03 = nxtComm_NXT_03.getOutputStream();
 
 			DataInputStream in_NXT_03 = new DataInputStream(is_NXT_03);
 			DataOutputStream out_NXT_03 = new DataOutputStream(os_NXT_03);
