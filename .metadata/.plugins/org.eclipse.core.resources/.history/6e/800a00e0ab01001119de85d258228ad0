@@ -52,16 +52,18 @@ public class Main {
 		c.start();
 		counterSensor = c.getCounterSensor();
 
+		while(!Button.ESCAPE.isPressed()) {
+			if(ts1.isPressed()) {
+				cs1.initWhiteBalance();
+				cs2.initWhiteBalance();
+				counterSensor.initWhiteBalance();
+			}
+		}
+
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
 			public void stateChanged(SensorPort port, int oldValue, int newValue) {
 				if (oldValue > 500 && newValue < 500) {
 					Motor.A.stop();
-					Motor.B.stop();
-					Motor.C.stop();
-					nxt_03.A.stop();
-					nxt_03.B.stop();
-					nxt_03.C.stop();
-					Main.playTune("CDECAAHCDEDCHH",200);
 				}
 			}
 		});
