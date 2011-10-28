@@ -29,6 +29,7 @@ public class Main {
 		}
 		catch (IOException e) {
 			Main.playTune("GEC",200);
+			System.exit(-1);
 		}
 		Main.playTune("CEG",200);
 		final int PUSH_SPEED = 150;
@@ -63,7 +64,6 @@ public class Main {
 					nxt_03.A.stop();
 					nxt_03.B.stop();
 					nxt_03.C.stop();
-					Main.playTune("CDECAAHCDEDCHH",200);
 					System.exit(0);
 				}
 			}
@@ -114,43 +114,60 @@ public class Main {
 			LCD.drawString(counterString,0,4);
 			if(Motor.A.isStopped()){
 				if(cs1.getColorNumber()==0){
-					while(!Button.ESCAPE.isPressed()){
+					//while(!Button.ESCAPE.isPressed()){
 						Main.playTune("X",200);
-					}
+					//}
 				}
 				if(cs2.getColorNumber()== 0){
-					while(!Button.ESCAPE.isPressed()){
+					//while(!Button.ESCAPE.isPressed()){
 						Main.playTune("X",200);
-					}
+					//}
 				}
 				Motor.B.rotate(PUSH_ANGLE);
 				Motor.B.rotate(PUSH_ANGLE*(-1)+1);
 				Motor.C.rotate(PUSH_ANGLE);
 				Motor.C.rotate(PUSH_ANGLE*(-1)+1);
+				LCD.clearDisplay();
+				sensor1 = "ColorSensor1:" + cs1.getColorNumber();            
+				sensor2 = "ColorSensor2:" + cs2.getColorNumber();            
+				sensor3 = "ColorSensor3:" + counterSensor.getColorNumber();
+				counterString = "Counter:" + counter;
+				LCD.drawString(sensor1,0,0);
+				LCD.drawString(sensor2,0,1);
+				LCD.drawString(sensor3,0,2);
+				LCD.drawString(counterString,0,4);
 				if(cs1.getColorNumber()!=0){
-					while(!Button.ESCAPE.isPressed()){
+					//while(!Button.ESCAPE.isPressed()){
 						Main.playTune("X",200);
-					}
+					//}
 				}
-				if(cs2.getColorNumber()== 0){
-					while(!Button.ESCAPE.isPressed()){
+				if(cs2.getColorNumber()!= 0){
+					//while(!Button.ESCAPE.isPressed()){
 						Main.playTune("X",200);
-					}
+					//}
 				}
 				nxt_03.B.rotate(PUSH_ANGLE_REMOTE);
 				nxt_03.B.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
 				nxt_03.C.rotate(PUSH_ANGLE_REMOTE);
 				nxt_03.C.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
-				if(cs1.getColorNumber()!=0){
-					while(!Button.ESCAPE.isPressed()){
+				LCD.clearDisplay();
+				sensor1 = "ColorSensor1:" + cs1.getColorNumber();            
+				sensor2 = "ColorSensor2:" + cs2.getColorNumber();            
+				sensor3 = "ColorSensor3:" + counterSensor.getColorNumber();
+				counterString = "Counter:" + counter;
+				LCD.drawString(sensor1,0,0);
+				LCD.drawString(sensor2,0,1);
+				LCD.drawString(sensor3,0,2);
+				LCD.drawString(counterString,0,4);
+				if(cs1.getColorNumber()==0){
+					//while(!Button.ESCAPE.isPressed()){
 						Main.playTune("X",200);
-					}
-
+					//}
 				}
-				if(cs2.getColorNumber()!= 0){
-					while(!Button.ESCAPE.isPressed()){
+				if(cs2.getColorNumber()== 0){
+					//while(!Button.ESCAPE.isPressed()){
 						Main.playTune("X",200);
-					}
+					//}
 				}
 				if(counter ==1 || counter == 8){
 					direction = !direction;
