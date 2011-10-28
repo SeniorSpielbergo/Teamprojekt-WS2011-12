@@ -1,0 +1,13 @@
+import lejos.nxt.Button;
+
+public class Calibrate {
+	public static void main(String[] args) {
+		while(!Button.ESCAPE.isPressed()) {
+			if(ts1.isPressed()) {
+				cs1.initWhiteBalance();
+				cs2.initWhiteBalance();
+				counterSensor.initWhiteBalance();
+			}
+		}
+	}
+}

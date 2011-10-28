@@ -52,6 +52,14 @@ public class Main {
 		c.start();
 		counterSensor = c.getCounterSensor();
 
+		while(!Button.ESCAPE.isPressed()) {
+			if(ts1.isPressed()) {
+				cs1.initWhiteBalance();
+				cs2.initWhiteBalance();
+				counterSensor.initWhiteBalance();
+			}
+		}
+
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
 			public void stateChanged(SensorPort port, int oldValue, int newValue) {
 				if (oldValue > 500 && newValue < 500) {
