@@ -35,6 +35,8 @@ public class Master {
 		ColorSensor cs1 = new ColorSensor(SensorPort.S1);
 		ColorSensor cs2 = new ColorSensor(SensorPort.S2);
 		ColorSensor cs3 = new ColorSensor(SensorPort.S3);
+		Slave slave = new Slave("NXT_03");
+		slave.start();
 		NXTConnection connection = null;
 		LCD.drawString("waiting for bt connection", 1, 1);
 		connection = Bluetooth.waitForConnection();

@@ -34,5 +34,3 @@ _region_.tex
 #compiled files
 *.class
 *.nxj
-#eclipse rotz
-*.classpath
