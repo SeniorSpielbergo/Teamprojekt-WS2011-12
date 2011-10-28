@@ -18,36 +18,22 @@ import java.io.*;
  * white = 14
  */
 
-public class Main2 {
+public class MainMaster {
 	static int counter = 0;
 	static ColorSensor counterSensor;
-	static RemoteNXT nxt_03;
 	static DataInputStream in;
 	static DataOutputStream out;
 
 	public static void main(String[] args) {
-		try {
-			LCD.drawString("NXT_03...", 0, 0);
-			nxt_03 = new RemoteNXT("NXT_03", Bluetooth.getConnector());
-		}
-		catch (IOException e) {
-			Main.playTune("CDECAAHCDEDCHH",200);
-		}
-		Main.playTune("HAHA",200);
-		final int PUSH_SPEED = 150;
-		final int LINE_SPEED = 250;
-		final int PUSH_ANGLE = -155;
-		final int PUSH_ANGLE_REMOTE = -165;
+		Common.playTune("HAHA",200);
 		String sensor1, sensor2, sensor3, counterString;
 		ColorSensor cs1 = new ColorSensor(SensorPort.S1);
 		ColorSensor cs2 = new ColorSensor(SensorPort.S2);
 		TouchSensor ts1 = new TouchSensor(SensorPort.S4);
 		// initialize speeds
-		Motor.A.setSpeed(LINE_SPEED);
-		Motor.B.setSpeed(PUSH_SPEED);
-		Motor.C.setSpeed(PUSH_SPEED);
-		nxt_03.B.setSpeed(PUSH_SPEED);
-		nxt_03.C.setSpeed(PUSH_SPEED);
+		Motor.A.setSpeed(Common.LINE_SPEED);
+		Motor.B.setSpeed(Common.PUSH_SPEED);
+		Motor.C.setSpeed(Common.PUSH_SPEED);
 		//initialize counter
 		Counter c = new Counter();
 		c.start();
@@ -60,14 +46,12 @@ public class Main2 {
 					Motor.A.stop();
 					Motor.B.stop();
 					Motor.C.stop();
-					nxt_03.A.stop();
-					nxt_03.B.stop();
-					nxt_03.C.stop();
 					System.exit(0);
 				}
 			}
 		});
 
+		// calibration
 		/*while(!Button.ESCAPE.isPressed()) {
 			if(ts1.isPressed()) {
 				cs1.initWhiteBalance();
@@ -76,8 +60,7 @@ public class Main2 {
 			}
 		}*/
 		
-		// setup connection           
-		LCD.clearDisplay();
+		// setup connection
 		LCD.drawString("Waiting...", 0, 0);
 		NXTConnection connection = Bluetooth.waitForConnection();           
 		LCD.clearDisplay();
@@ -100,44 +83,12 @@ public class Main2 {
 			switch (ch) {
 				case 't':
 					LCD.drawString("Pushing...", 0, 0);
-					Motor.B.rotate(PUSH_ANGLE);
-					Motor.B.rotate(PUSH_ANGLE*(-1)+1);
-					Motor.C.rotate(PUSH_ANGLE);
-					Motor.C.rotate(PUSH_ANGLE*(-1)+1);
+					Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
+					Motor.B.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+					Motor.C.rotate(Common.PUSH_ANGLE_MASTER);
+					Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+					LCD.clearDisplay();
 					break;
-			}
-		}
-	}
-	
-	public static void playTune(String m, int t) {
-		char[] charArray = m.toCharArray();
-		for(char c : charArray) {
-			if(c == 'C') {
-				Sound.playNote(Sound.PIANO,261,t);
-			}
-			if(c == 'D') {
-				Sound.playNote(Sound.PIANO,293,t);
-			}
-			if(c == 'E') {
-				Sound.playNote(Sound.PIANO,329,t);
-			}
-			if(c == 'F') {
-				Sound.playNote(Sound.PIANO,349,t);
-			}
-			if(c == 'G') {
-				Sound.playNote(Sound.PIANO,396,t);
-			}
-			if(c == 'A') {
-				Sound.playNote(Sound.PIANO,440,t);
-			}
-			if(c == 'B') {
-				Sound.playNote(Sound.PIANO,475,t);
-			}
-			if(c == 'H') {
-				Sound.playNote(Sound.PIANO,495,t);
-			}
-			if(c == 'X') {
-				Sound.playNote(Sound.PIANO,528,t);
 			}
 		}
 	}
