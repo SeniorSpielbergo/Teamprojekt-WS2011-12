@@ -43,9 +43,7 @@ public class MainMaster {
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
 			public void stateChanged(SensorPort port, int oldValue, int newValue) {
 				if (oldValue > 500 && newValue < 500) {
-					Motor.A.stop();
-					Motor.B.stop();
-					Motor.C.stop();
+					Common.playTune("HAHA",200);
 					System.exit(0);
 				}
 			}
@@ -81,6 +79,10 @@ public class MainMaster {
 	           
 			LCD.clearDisplay();
 			switch (ch) {
+				case 'q':
+					connection.close();
+					System.exit(0);
+					break;
 				case 't':
 					LCD.drawString("Pushing...", 0, 0);
 					Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
