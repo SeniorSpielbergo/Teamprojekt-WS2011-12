@@ -28,16 +28,16 @@ public class Main {
 			nxt_03 = new RemoteNXT("NXT_03", Bluetooth.getConnector());
 		}
 		catch (IOException e) {
-			Main.playTune("CDECAAHCDEDCHH",200);
+			Main.playTune("GEC",200);
 		}
-		Main.playTune("HHCDEDCHAACEDC",200);
+		Main.playTune("CEG",200);
 		final int PUSH_SPEED = 150;
 		final int LINE_SPEED = 250;
 		final int PUSH_ANGLE = -155;
 		final int PUSH_ANGLE_REMOTE = -165;
 		boolean grey = true;
 		boolean color = false;
-		boolean direction = true;
+		boolean direction = false;
 		String sensor1, sensor2, sensor3, counterString;
 		ColorSensor cs1 = new ColorSensor(SensorPort.S1);
 		ColorSensor cs2 = new ColorSensor(SensorPort.S2);
@@ -54,14 +54,6 @@ public class Main {
 		c.start();
 		counterSensor = c.getCounterSensor();
 
-		while(!Button.ESCAPE.isPressed()) {
-			if(ts1.isPressed()) {
-				cs1.initWhiteBalance();
-				cs2.initWhiteBalance();
-				counterSensor.initWhiteBalance();
-			}
-		}
-
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
 			public void stateChanged(SensorPort port, int oldValue, int newValue) {
 				if (oldValue > 500 && newValue < 500) {
@@ -72,6 +64,7 @@ public class Main {
 					nxt_03.B.stop();
 					nxt_03.C.stop();
 					Main.playTune("CDECAAHCDEDCHH",200);
+					System.exit(0);
 				}
 			}
 		});
@@ -92,21 +85,23 @@ public class Main {
 			}
 		});
 
-//		Button.ESCAPE.addButtonListener(new ButtonListener() {
-//			public void buttonPressed(Button b) {
-//				Motor.B.rotate(PUSH_ANGLE);
-//				Motor.B.rotate(PUSH_ANGLE*(-1)+1);
-//				Motor.C.rotate(PUSH_ANGLE);
-//				Motor.C.rotate(PUSH_ANGLE*(-1)+1);
-//				nxt_03.B.rotate(PUSH_ANGLE_REMOTE);
-//				nxt_03.B.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
-//				nxt_03.C.rotate(PUSH_ANGLE_REMOTE);
-//				nxt_03.C.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
-//			}
-//			public void buttonReleased(Button b) {
-//			}
-//		});
+		//		Button.ESCAPE.addButtonListener(new ButtonListener() {
+		//			public void buttonPressed(Button b) {
+		//				Motor.B.rotate(PUSH_ANGLE);
+		//				Motor.B.rotate(PUSH_ANGLE*(-1)+1);
+		//				Motor.C.rotate(PUSH_ANGLE);
+		//				Motor.C.rotate(PUSH_ANGLE*(-1)+1);
+		//				nxt_03.B.rotate(PUSH_ANGLE_REMOTE);
+		//				nxt_03.B.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
+		//				nxt_03.C.rotate(PUSH_ANGLE_REMOTE);
+		//				nxt_03.C.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
+		//			}
+		//			public void buttonReleased(Button b) {
+		//			}
+		//		});
 
+
+		Motor.A.backward();
 		while(!Button.ENTER.isPressed()){             
 			LCD.clearDisplay();
 			sensor1 = "ColorSensor1:" + cs1.getColorNumber();            
@@ -118,18 +113,49 @@ public class Main {
 			LCD.drawString(sensor3,0,2);
 			LCD.drawString(counterString,0,4);
 			if(Motor.A.isStopped()){
+				if(cs1.getColorNumber()==0){
+					while(!Button.ESCAPE.isPressed()){
+						Main.playTune("X",200);
+					}
+				}
+				if(cs2.getColorNumber()== 0){
+					while(!Button.ESCAPE.isPressed()){
+						Main.playTune("X",200);
+					}
+				}
 				Motor.B.rotate(PUSH_ANGLE);
 				Motor.B.rotate(PUSH_ANGLE*(-1)+1);
 				Motor.C.rotate(PUSH_ANGLE);
 				Motor.C.rotate(PUSH_ANGLE*(-1)+1);
+				if(cs1.getColorNumber()!=0){
+					while(!Button.ESCAPE.isPressed()){
+						Main.playTune("X",200);
+					}
+				}
+				if(cs2.getColorNumber()== 0){
+					while(!Button.ESCAPE.isPressed()){
+						Main.playTune("X",200);
+					}
+				}
 				nxt_03.B.rotate(PUSH_ANGLE_REMOTE);
 				nxt_03.B.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
 				nxt_03.C.rotate(PUSH_ANGLE_REMOTE);
 				nxt_03.C.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
+				if(cs1.getColorNumber()!=0){
+					while(!Button.ESCAPE.isPressed()){
+						Main.playTune("X",200);
+					}
+
+				}
+				if(cs2.getColorNumber()!= 0){
+					while(!Button.ESCAPE.isPressed()){
+						Main.playTune("X",200);
+					}
+				}
 				if(counter ==1 || counter == 8){
 					direction = !direction;
 				}
-				if(direction){
+				if(!direction){
 					Motor.A.forward();
 				}
 				else{
@@ -143,7 +169,7 @@ public class Main {
 			}
 		}	
 	}
-	
+
 	public static void playTune(String m, int t) {
 		char[] charArray = m.toCharArray();
 		for(char c : charArray) {
