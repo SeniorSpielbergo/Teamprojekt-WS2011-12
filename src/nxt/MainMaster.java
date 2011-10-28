@@ -43,9 +43,7 @@ public class MainMaster {
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
 			public void stateChanged(SensorPort port, int oldValue, int newValue) {
 				if (oldValue > 500 && newValue < 500) {
-					Motor.A.stop();
-					Motor.B.stop();
-					Motor.C.stop();
+					Common.playTune("HAHA",200);
 					System.exit(0);
 				}
 			}

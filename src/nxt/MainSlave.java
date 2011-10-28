@@ -26,9 +26,20 @@ public class MainSlave {
 
 	public static void main(String[] args) {
 		Common.playTune("HAHA",200);
+		TouchSensor ts1 = new TouchSensor(SensorPort.S4);
 		// initialize speeds
 		Motor.B.setSpeed(Common.PUSH_SPEED);
 		Motor.C.setSpeed(Common.PUSH_SPEED);
+		
+		// sensor listener for emergency stop
+		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
+			public void stateChanged(SensorPort port, int oldValue, int newValue) {
+				if (oldValue > 500 && newValue < 500) {
+					Common.playTune("HAHA",200);
+					System.exit(0);
+				}
+			}
+		});
 		
 		// setup connection
 		LCD.drawString("Waiting...", 0, 0);
