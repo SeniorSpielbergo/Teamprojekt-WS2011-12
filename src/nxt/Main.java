@@ -56,6 +56,12 @@ public class Main {
 			public void stateChanged(SensorPort port, int oldValue, int newValue) {
 				if (oldValue > 500 && newValue < 500) {
 					Motor.A.stop();
+					Motor.B.stop();
+					Motor.C.stop();
+					nxt_03.A.stop();
+					nxt_03.B.stop();
+					nxt_03.C.stop();
+					Main.playTune("CDECAAHCDEDCHH",200);
 				}
 			}
 		});
