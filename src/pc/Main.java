@@ -64,11 +64,11 @@ public class Main {
 					out_NXT_03.writeChar('t');
 					out_NXT_03.flush();
 				}
-				else if (cmd.equals("IPS:stone")) {
-					out_NXT_03.writeChar('s');
-					out_NXT_03.flush();
-					char c0 = in_NXT_03.readChar();
-					char c1 = in_NXT_03.readChar();
+				else if (cmd.equals("read")) {
+					out_IPS_03.writeChar('s');
+					out_IPS_03.flush();
+					char c0 = in_IPS_03.readChar();
+					char c1 = in_IPS_03.readChar();
 					System.out.println("Read: " + c0 + ", " + c1);
 				}
 			}
