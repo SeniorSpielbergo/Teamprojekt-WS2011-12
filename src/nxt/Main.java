@@ -35,6 +35,7 @@ public class Main {
 		final int PUSH_ANGLE_REMOTE = -165;
 		boolean grey = true;
 		boolean color = false;
+		boolean direction = true;
 		String sensor1, sensor2, sensor3, counterString;
 		ColorSensor cs1 = new ColorSensor(SensorPort.S1);
 		ColorSensor cs2 = new ColorSensor(SensorPort.S2);
@@ -45,6 +46,7 @@ public class Main {
 		Motor.C.setSpeed(PUSH_SPEED);
 		nxt_03.B.setSpeed(PUSH_SPEED);
 		nxt_03.C.setSpeed(PUSH_SPEED);
+		Motor.A.stop();
 		//initialize counter
 		Counter c = new Counter();
 		c.start();
@@ -82,20 +84,20 @@ public class Main {
 			}
 		});
 
-		Button.ESCAPE.addButtonListener(new ButtonListener() {
-			public void buttonPressed(Button b) {
-				Motor.B.rotate(PUSH_ANGLE);
-				Motor.B.rotate(PUSH_ANGLE*(-1)+1);
-				Motor.C.rotate(PUSH_ANGLE);
-				Motor.C.rotate(PUSH_ANGLE*(-1)+1);
-				nxt_03.B.rotate(PUSH_ANGLE_REMOTE);
-				nxt_03.B.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
-				nxt_03.C.rotate(PUSH_ANGLE_REMOTE);
-				nxt_03.C.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
-			}
-			public void buttonReleased(Button b) {
-			}
-		});
+//		Button.ESCAPE.addButtonListener(new ButtonListener() {
+//			public void buttonPressed(Button b) {
+//				Motor.B.rotate(PUSH_ANGLE);
+//				Motor.B.rotate(PUSH_ANGLE*(-1)+1);
+//				Motor.C.rotate(PUSH_ANGLE);
+//				Motor.C.rotate(PUSH_ANGLE*(-1)+1);
+//				nxt_03.B.rotate(PUSH_ANGLE_REMOTE);
+//				nxt_03.B.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
+//				nxt_03.C.rotate(PUSH_ANGLE_REMOTE);
+//				nxt_03.C.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
+//			}
+//			public void buttonReleased(Button b) {
+//			}
+//		});
 
 		while(!Button.ENTER.isPressed()){             
 			LCD.clearDisplay();
@@ -107,11 +109,30 @@ public class Main {
 			LCD.drawString(sensor2,0,1);
 			LCD.drawString(sensor3,0,2);
 			LCD.drawString(counterString,0,4);
+			if(Motor.A.isStopped()){
+				Motor.B.rotate(PUSH_ANGLE);
+				Motor.B.rotate(PUSH_ANGLE*(-1)+1);
+				Motor.C.rotate(PUSH_ANGLE);
+				Motor.C.rotate(PUSH_ANGLE*(-1)+1);
+				nxt_03.B.rotate(PUSH_ANGLE_REMOTE);
+				nxt_03.B.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
+				nxt_03.C.rotate(PUSH_ANGLE_REMOTE);
+				nxt_03.C.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
+				if(counter ==1 || counter == 8){
+					direction = !direction;
+				}
+				if(direction){
+					Motor.A.forward();
+				}
+				else{
+					Motor.A.backward();
+				}
+			}
 			try {
 				Thread.sleep(250);
 			}
 			catch (InterruptedException e) {
 			}
-		}
+		}	
 	}
 }
