@@ -4,6 +4,6 @@
 	<classpathentry exported="true" kind="var" path="NXJ_HOME/lib/jtools.jar"/>
 	<classpathentry exported="true" kind="var" path="NXJ_HOME/lib/pccomm.jar"/>
 	<classpathentry exported="true" kind="var" path="NXJ_HOME/lib/pctools.jar"/>
-	<classpathentry kind="var" path="NXJ_HOME"/>
+	<classpathentry exported="true" kind="var" path="NXJ_HOME"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

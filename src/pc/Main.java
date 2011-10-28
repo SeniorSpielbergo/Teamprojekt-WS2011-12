@@ -46,6 +46,14 @@ public class Main {
 			while (true) {
 				String cmd = JOptionPane.showInputDialog("Enter command:");
 				if (cmd.equals("quit")) {
+					System.out.println("Disconnecting...");
+					out_NXT_03.writeChar('q');
+					out_NXT_03.flush();
+					out_IPS_03.writeChar('q');
+					out_IPS_03.flush();
+					nxtComm_NXT_03.close();
+					nxtComm_IPS_03.close();
+					System.out.println("Disconnected.");
 					break;
 				}
 				else if (cmd.equals("IPS_03:test")) {
