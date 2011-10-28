@@ -16,62 +16,81 @@ import lejos.nxt.addon.ColorSensor;
  */
 
 public class Main {
-   public static void main(String[] args){
-	   final int PUSH_SPEED = 150;
-	   final int LINE_SPEED = 300;
-	   int counter = 0;
-	   boolean grey = true;
-	   boolean color = false;
-       String sensor1, sensor2, sensor3, counterString;
-       ColorSensor cs1 = new ColorSensor(SensorPort.S1);
-       ColorSensor cs2 = new ColorSensor(SensorPort.S2);
-       ColorSensor counterSensor = new ColorSensor(SensorPort.S3);
-       TouchSensor ts1 = new TouchSensor(SensorPort.S4);
-       int pushAngle = -155;
-	   Motor.A.setSpeed(LINE_SPEED);
-	   Motor.B.setSpeed(PUSH_SPEED);
-	   //Counter c = new Counter(counterSensor);
-	   //c.start();
-	   
-	   while(!Button.ESCAPE.isPressed()) {
-		   if(ts1.isPressed()) {
-			   cs1.initWhiteBalance();
-			   cs2.initWhiteBalance();
-			   counterSensor.initWhiteBalance();
-		   }
-	   }
-	   
-       while(!Button.ENTER.isPressed()){             
-           LCD.clearDisplay();
-           sensor1 = "ColorSensor1:" + cs1.getColorNumber();            
-           sensor2 = "ColorSensor2:" + cs2.getColorNumber();            
-           sensor3 = "ColorSensor3:" + counterSensor.getColorNumber();
-           //counterString = "Counter:" + c.getCount();
-           LCD.drawString(sensor1,0,0);
-           LCD.drawString(sensor2,0,1);
-           LCD.drawString(sensor3,0,2);
-           //LCD.drawString(counterString,0,4);
-           try {
-               Thread.sleep(250);
-           }
-           catch (InterruptedException e) {
-           }
-           if(Button.LEFT.isPressed()){
-               while(Button.LEFT.isPressed()){
-                   Motor.A.backward();
-               }
-               Motor.A.stop();
-           }
-           if(Button.RIGHT.isPressed()){
-               while(Button.RIGHT.isPressed()){
-                   Motor.A.forward();
-               }
-               Motor.A.stop();
-           }
-           /*if (cs1.getColorNumber()>= 2 && cs1.getColorNumber()<=14){
-               Motor.B.rotate(pushAngle);
-               Motor.B.rotate(pushAngle*(-1)+1);
-           }*/
-       }
-   }
+	static int counter = 0;
+	static ColorSensor counterSensor;
+
+	public static void main(String[] args){
+		final int PUSH_SPEED = 150;
+		final int LINE_SPEED = 250;
+		final int PUSH_ANGLE = -155;
+		boolean grey = true;
+		boolean color = false;
+		String sensor1, sensor2, sensor3, counterString;
+		ColorSensor cs1 = new ColorSensor(SensorPort.S1);
+		ColorSensor cs2 = new ColorSensor(SensorPort.S2);
+		TouchSensor ts1 = new TouchSensor(SensorPort.S4);
+		Motor.A.setSpeed(LINE_SPEED);
+		Motor.B.setSpeed(PUSH_SPEED);
+		Counter c = new Counter();
+		c.start();
+		counterSensor = c.getCounterSensor();
+
+		while(!Button.ESCAPE.isPressed()) {
+			if(ts1.isPressed()) {
+				cs1.initWhiteBalance();
+				cs2.initWhiteBalance();
+				counterSensor.initWhiteBalance();
+			}
+		}
+
+		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
+			public void stateChanged(SensorPort port, int oldValue, int newValue) {
+				if (oldValue > 500 && newValue < 500) {
+					Motor.A.stop();
+				}
+			}
+		});
+
+		Button.LEFT.addButtonListener(new ButtonListener() {
+			public void buttonPressed(Button b) {
+				Motor.A.backward();
+			}
+			public void buttonReleased(Button b) {
+			}
+		});
+
+		Button.RIGHT.addButtonListener(new ButtonListener() {
+			public void buttonPressed(Button b) {
+				Motor.A.forward();
+			}
+			public void buttonReleased(Button b) {
+			}
+		});
+
+		Button.ESCAPE.addButtonListener(new ButtonListener() {
+			public void buttonPressed(Button b) {
+				Motor.B.rotate(PUSH_ANGLE);
+				Motor.B.rotate(PUSH_ANGLE*(-1)+1);
+			}
+			public void buttonReleased(Button b) {
+			}
+		});
+
+		while(!Button.ENTER.isPressed()){             
+			LCD.clearDisplay();
+			sensor1 = "ColorSensor1:" + cs1.getColorNumber();            
+			sensor2 = "ColorSensor2:" + cs2.getColorNumber();            
+			sensor3 = "ColorSensor3:" + counterSensor.getColorNumber();
+			counterString = "Counter:" + counter;
+			LCD.drawString(sensor1,0,0);
+			LCD.drawString(sensor2,0,1);
+			LCD.drawString(sensor3,0,2);
+			LCD.drawString(counterString,0,4);
+			try {
+				Thread.sleep(250);
+			}
+			catch (InterruptedException e) {
+			}
+		}
+	}
 }
