@@ -2,30 +2,40 @@ import java.io.*;
 import lejos.nxt.*;
 import lejos.nxt.comm.Bluetooth;
 import lejos.nxt.comm.NXTConnection;
-public class Slave {
-	public static void main(String[] args){
-		NXTConnection connection = null;
-		LCD.drawString("waiting for bt connection", 1, 1);
-		connection = Bluetooth.waitForConnection();
-		DataInputStream dataIn = connection.openDataInputStream();
-		DataOutputStream dataOut = connection.openDataOutputStream();
-		int received = -1;
-		while(received < 100){
-			try{
-				received = dataIn.readInt();
-				LCD.clearDisplay();
-				
-				LCD.drawInt(received, 1, 1);
-				dataOut.writeInt(received);
-				dataOut.flush();
-			} catch(IOException e) {
-				System.out.print(e);
-			}
-		}
-		try {
-			dataIn.close();
-		} catch(IOException e) {
-			System.out.print(e);
-		}
+import lejos.nxt.remote.RemoteNXT;
+
+public class Slave extends Thread{
+	private RemoteNXT nxt = null;
+	private String name;
+	public Slave(String name){
+		this.name = name;
 	}
+	
+	public void run() {
+		try {
+			  LCD.drawString("Connecting...",0,6);
+			  //RemoteDevice btrd = Bluetooth.getKnownDevice("NXT_03");
+			  //BTConnection btc = Bluetooth.connect(btrd);
+
+			  nxt = new RemoteNXT(name, Bluetooth.getConnector());
+
+			  LCD.clear();
+			  LCD.drawString("Connected",0,6);
+			} catch (IOException ioe) {
+				LCD.clear();
+				LCD.drawString("Conn Failed",0,6);
+				Button.waitForPress();
+				System.exit(1);
+			}
+		  nxt.A.forward();
+		  try {
+			  Thread.sleep(50000);
+		  }
+		  catch (Exception e) {
+
+		  }
+		  nxt.A.stop();
+	}
+	
+	
 }
