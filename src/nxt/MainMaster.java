@@ -79,6 +79,10 @@ public class MainMaster {
 	           
 			LCD.clearDisplay();
 			switch (ch) {
+				case 'q':
+					connection.close();
+					System.exit(0);
+					break;
 				case 't':
 					LCD.drawString("Pushing...", 0, 0);
 					Motor.B.rotate(Common.PUSH_ANGLE_MASTER);

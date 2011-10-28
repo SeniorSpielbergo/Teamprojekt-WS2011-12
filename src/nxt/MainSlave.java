@@ -30,7 +30,7 @@ public class MainSlave {
 		// initialize speeds
 		Motor.B.setSpeed(Common.PUSH_SPEED);
 		Motor.C.setSpeed(Common.PUSH_SPEED);
-		
+
 		// sensor listener for emergency stop
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
 			public void stateChanged(SensorPort port, int oldValue, int newValue) {
@@ -40,7 +40,7 @@ public class MainSlave {
 				}
 			}
 		});
-		
+
 		// setup connection
 		LCD.drawString("Waiting...", 0, 0);
 		NXTConnection connection = Bluetooth.waitForConnection();           
@@ -50,7 +50,7 @@ public class MainSlave {
 		out = connection.openDataOutputStream();           
 		LCD.clearDisplay();
 		LCD.drawString("Connected", 0, 0);
-		
+
 		char ch = ' ';
 
 		while (true) {
@@ -59,9 +59,13 @@ public class MainSlave {
 			}
 			catch (IOException e) {
 			}
-	           
+
 			LCD.clearDisplay();
 			switch (ch) {
+				case 'q':
+					connection.close();
+					System.exit(0);
+					break;
 				case 't':
 					LCD.drawString("Pushing...", 0, 0);
 					Motor.B.rotate(Common.PUSH_ANGLE_SLAVE);
