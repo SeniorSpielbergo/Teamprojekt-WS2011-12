@@ -91,6 +91,44 @@ public class MainMaster {
 					Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
 					LCD.clearDisplay();
 					break;
+				case 's':
+					if (cs1.getColorNumber() >= 5 && cs1.getColorNumber() <= 10) {
+						LCD.drawString("brick", 0, 0);
+						try {
+							out.writeChar('1');
+							out.flush();
+						}
+						catch (IOException e) {
+						}
+					}
+					else {
+						LCD.drawString("no brick", 0, 0);
+						try {
+							out.writeChar('0');
+							out.flush();
+						}
+						catch (IOException e) {
+						}
+					}
+					if (cs2.getColorNumber() >= 5 && cs2.getColorNumber() <= 10) {
+						LCD.drawString("brick", 0, 0);
+						try {
+							out.writeChar('1');
+							out.flush();
+						}
+						catch (IOException e) {
+						}
+					}
+					else {
+						LCD.drawString("no brick", 0, 0);
+						try {
+							out.writeChar('0');
+							out.flush();
+						}
+						catch (IOException e) {
+						}
+					}
+					break;
 			}
 		}
 	}
