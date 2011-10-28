@@ -56,13 +56,20 @@ public class Main {
 					System.out.println("Disconnected.");
 					break;
 				}
-				else if (cmd.equals("IPS_03:test")) {
+				else if (cmd.equals("IPS:test")) {
 					out_IPS_03.writeChar('t');
 					out_IPS_03.flush();
 				}
-				else if (cmd.equals("NXT_03:test")) {
+				else if (cmd.equals("NXT:test")) {
 					out_NXT_03.writeChar('t');
 					out_NXT_03.flush();
+				}
+				else if (cmd.equals("IPS:stone")) {
+					out_NXT_03.writeChar('s');
+					out_NXT_03.flush();
+					char c0 = in_NXT_03.readChar();
+					char c1 = in_NXT_03.readChar();
+					System.out.println("Read: " + c0 + ", " + c1);
 				}
 			}
 			
