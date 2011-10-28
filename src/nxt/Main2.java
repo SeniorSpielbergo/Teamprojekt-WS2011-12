@@ -35,8 +35,6 @@ public class Main {
 		final int LINE_SPEED = 250;
 		final int PUSH_ANGLE = -155;
 		final int PUSH_ANGLE_REMOTE = -165;
-		boolean grey = true;
-		boolean color = false;
 		String sensor1, sensor2, sensor3, counterString;
 		ColorSensor cs1 = new ColorSensor(SensorPort.S1);
 		ColorSensor cs2 = new ColorSensor(SensorPort.S2);
@@ -51,15 +49,8 @@ public class Main {
 		Counter c = new Counter();
 		c.start();
 		counterSensor = c.getCounterSensor();
-
-		while(!Button.ESCAPE.isPressed()) {
-			if(ts1.isPressed()) {
-				cs1.initWhiteBalance();
-				cs2.initWhiteBalance();
-				counterSensor.initWhiteBalance();
-			}
-		}
-
+		
+		// sensor listener for emergency stop
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
 			public void stateChanged(SensorPort port, int oldValue, int newValue) {
 				if (oldValue > 500 && newValue < 500) {
@@ -74,38 +65,15 @@ public class Main {
 			}
 		});
 
-		Button.LEFT.addButtonListener(new ButtonListener() {
-			public void buttonPressed(Button b) {
-				Motor.A.backward();
+		while(!Button.ESCAPE.isPressed()) {
+			if(ts1.isPressed()) {
+				cs1.initWhiteBalance();
+				cs2.initWhiteBalance();
+				counterSensor.initWhiteBalance();
 			}
-			public void buttonReleased(Button b) {
-			}
-		});
+		}
 
-		Button.RIGHT.addButtonListener(new ButtonListener() {
-			public void buttonPressed(Button b) {
-				Motor.A.forward();
-			}
-			public void buttonReleased(Button b) {
-			}
-		});
-
-		Button.ESCAPE.addButtonListener(new ButtonListener() {
-			public void buttonPressed(Button b) {
-				Motor.B.rotate(PUSH_ANGLE);
-				Motor.B.rotate(PUSH_ANGLE*(-1)+1);
-				Motor.C.rotate(PUSH_ANGLE);
-				Motor.C.rotate(PUSH_ANGLE*(-1)+1);
-				nxt_03.B.rotate(PUSH_ANGLE_REMOTE);
-				nxt_03.B.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
-				nxt_03.C.rotate(PUSH_ANGLE_REMOTE);
-				nxt_03.C.rotate(PUSH_ANGLE_REMOTE*(-1)+1);
-			}
-			public void buttonReleased(Button b) {
-			}
-		});
-
-		while(!Button.ENTER.isPressed()){             
+		while(true){             
 			LCD.clearDisplay();
 			sensor1 = "ColorSensor1:" + cs1.getColorNumber();            
 			sensor2 = "ColorSensor2:" + cs2.getColorNumber();            
