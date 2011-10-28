@@ -28,7 +28,9 @@ public class Main {
 			nxt_03 = new RemoteNXT("NXT_03", Bluetooth.getConnector());
 		}
 		catch (IOException e) {
+			Main.playTune("CDECAAHCDEDCHH",200);
 		}
+		Main.playTune("HHCDEDCHAACEDC",200);
 		final int PUSH_SPEED = 150;
 		final int LINE_SPEED = 250;
 		final int PUSH_ANGLE = -155;
@@ -111,6 +113,39 @@ public class Main {
 				Thread.sleep(250);
 			}
 			catch (InterruptedException e) {
+			}
+		}
+	}
+	
+	public static void playTune(String m, int t) {
+		char[] charArray = m.toCharArray();
+		for(char c : charArray) {
+			if(c == 'C') {
+				Sound.playNote(Sound.PIANO,261,t);
+			}
+			if(c == 'D') {
+				Sound.playNote(Sound.PIANO,293,t);
+			}
+			if(c == 'E') {
+				Sound.playNote(Sound.PIANO,329,t);
+			}
+			if(c == 'F') {
+				Sound.playNote(Sound.PIANO,349,t);
+			}
+			if(c == 'G') {
+				Sound.playNote(Sound.PIANO,396,t);
+			}
+			if(c == 'A') {
+				Sound.playNote(Sound.PIANO,440,t);
+			}
+			if(c == 'B') {
+				Sound.playNote(Sound.PIANO,475,t);
+			}
+			if(c == 'H') {
+				Sound.playNote(Sound.PIANO,495,t);
+			}
+			if(c == 'X') {
+				Sound.playNote(Sound.PIANO,528,t);
 			}
 		}
 	}
