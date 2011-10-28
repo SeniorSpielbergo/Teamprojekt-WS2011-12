@@ -29,7 +29,6 @@ public class Main {
 				System.out.println("Sensor 2: " + in.readInt());
 				System.out.println("Sensor 4: " + in.readInt());
 			}
-
 		}
 		catch (Exception e){
 			//System.out.println(e.getMessage());
