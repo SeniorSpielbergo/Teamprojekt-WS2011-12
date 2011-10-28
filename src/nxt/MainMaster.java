@@ -18,19 +18,22 @@ import java.io.*;
  * white = 14
  */
 
-public class Main {
+public class Main2 {
 	static int counter = 0;
 	static ColorSensor counterSensor;
 	static RemoteNXT nxt_03;
+	static DataInputStream in;
+	static DataOutputStream out;
 
 	public static void main(String[] args) {
 		try {
+			LCD.drawString("NXT_03...", 0, 0);
 			nxt_03 = new RemoteNXT("NXT_03", Bluetooth.getConnector());
 		}
 		catch (IOException e) {
 			Main.playTune("CDECAAHCDEDCHH",200);
 		}
-		Main.playTune("HHCDEDCHAACEDC",200);
+		Main.playTune("HAHA",200);
 		final int PUSH_SPEED = 150;
 		final int LINE_SPEED = 250;
 		final int PUSH_ANGLE = -155;
@@ -60,33 +63,48 @@ public class Main {
 					nxt_03.A.stop();
 					nxt_03.B.stop();
 					nxt_03.C.stop();
-					Main.playTune("CDECAAHCDEDCHH",200);
+					System.exit(0);
 				}
 			}
 		});
 
-		while(!Button.ESCAPE.isPressed()) {
+		/*while(!Button.ESCAPE.isPressed()) {
 			if(ts1.isPressed()) {
 				cs1.initWhiteBalance();
 				cs2.initWhiteBalance();
 				counterSensor.initWhiteBalance();
 			}
-		}
+		}*/
+		
+		// setup connection           
+		LCD.clearDisplay();
+		LCD.drawString("Waiting...", 0, 0);
+		NXTConnection connection = Bluetooth.waitForConnection();           
+		LCD.clearDisplay();
+		LCD.drawString("Connecting...", 0, 0);
+		in = connection.openDataInputStream();
+		out = connection.openDataOutputStream();           
+		LCD.clearDisplay();
+		LCD.drawString("Connected", 0, 0);
+		
+		char ch = ' ';
 
-		while(true){             
-			LCD.clearDisplay();
-			sensor1 = "ColorSensor1:" + cs1.getColorNumber();            
-			sensor2 = "ColorSensor2:" + cs2.getColorNumber();            
-			sensor3 = "ColorSensor3:" + counterSensor.getColorNumber();
-			counterString = "Counter:" + counter;
-			LCD.drawString(sensor1,0,0);
-			LCD.drawString(sensor2,0,1);
-			LCD.drawString(sensor3,0,2);
-			LCD.drawString(counterString,0,4);
+		while (true) {
 			try {
-				Thread.sleep(250);
+				ch = in.readChar();
 			}
-			catch (InterruptedException e) {
+			catch (IOException e) {
+			}
+	           
+			LCD.clearDisplay();
+			switch (ch) {
+				case 't':
+					LCD.drawString("Pushing...", 0, 0);
+					Motor.B.rotate(PUSH_ANGLE);
+					Motor.B.rotate(PUSH_ANGLE*(-1)+1);
+					Motor.C.rotate(PUSH_ANGLE);
+					Motor.C.rotate(PUSH_ANGLE*(-1)+1);
+					break;
 			}
 		}
 	}
