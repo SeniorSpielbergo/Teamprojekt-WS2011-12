@@ -13,10 +13,10 @@ public abstract class Robot {
 		this.name = name;
 		this.mac_address = mac_address;
 	}
-	
+
 	public void connect() throws NXTCommException, IOException {
 		System.out.println("Connecting to '" + this.name + "'...");
-		
+
 		try {
 			this.comm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
 		}
@@ -26,24 +26,18 @@ public abstract class Robot {
 		}
 
 		NXTInfo info = new NXTInfo(NXTCommFactory.BLUETOOTH, this.name, this.mac_address);
-		
-		//try {
-			this.comm.open(info);
-			
-			InputStream is = comm.getInputStream();
-			OutputStream os = comm.getOutputStream();
 
-			this.input = new DataInputStream(is);
-			this.output = new DataOutputStream(os);
-			
-			System.out.println("Connected to '" + this.name + "'.");
-		//}
-		//catch (IOException e) {
-		//	System.out.println("Connecting to '" + this.name + "' failed: " + e.getMessage());
-		//	throw e;
-		//}
+		this.comm.open(info);
+
+		InputStream is = comm.getInputStream();
+		OutputStream os = comm.getOutputStream();
+
+		this.input = new DataInputStream(is);
+		this.output = new DataOutputStream(os);
+
+		System.out.println("Connected to '" + this.name + "'.");
 	}
-	
+
 	public void disconnect() {
 		System.out.println("Disconnecting '" + this.name + "'...");
 		this.sendCommand('q');
@@ -57,7 +51,7 @@ public abstract class Robot {
 
 		System.out.println("Disconnected '" + this.name + "'.");
 	}
-	
+
 	protected void sendCommand(char cmd) {
 		System.out.println("Sending to '" + this.name + "' the command '" + cmd + "'...");
 		try {
@@ -69,7 +63,7 @@ public abstract class Robot {
 			System.out.println("Sending to '" + this.name + "' the command '" + cmd + "' failed: " + e.getMessage());
 		}
 	}
-	
+
 	protected char receiveCommand() {
 		System.out.println("Receiving from '" + this.name + "'...");
 		try {
