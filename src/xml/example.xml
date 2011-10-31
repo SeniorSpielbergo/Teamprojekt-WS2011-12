@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="example">
-    <state>
-        <id>0</id>
+    <state id="0">
         <name>q0</name>
     </state>
-    <state>
-        <id>1</id>
+    <state id="1">
         <name>q1</name>
     </state>
-    <edge>
-    	<id>0</id>
+    <edge id="0">
         <from>0</from>
         <to>1</to>
         <read>b,c</read>

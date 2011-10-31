@@ -56,10 +56,10 @@ public class InOut {
 					Element state = doc.createElement("state");
 					rootElement.appendChild(state);
 					
-					// state id element
-					Element stateIdElement = doc.createElement("id");
-					stateIdElement.appendChild(doc.createTextNode(tempState.getId()));
-					state.appendChild(stateIdElement);
+					// save id of state
+					Attr attrId = doc.createAttribute("id");
+					attrId.setValue(tempState.getId());
+					state.setAttributeNode(attrId);
 		
 					// state name element
 					Element nameElement = doc.createElement("name");
@@ -74,10 +74,10 @@ public class InOut {
 					Element edge = doc.createElement("edge");
 					rootElement.appendChild(edge);
 					
-					// edge id element
-					Element edgeIdElement = doc.createElement("id");
-					edgeIdElement.appendChild(doc.createTextNode(tempEdge.getId()));
-					edge.appendChild(edgeIdElement);
+					// save id of edge
+					Attr attrEdgeId = doc.createAttribute("id");
+					attrEdgeId.setValue(tempEdge.getId());
+					edge.setAttributeNode(attrEdgeId);
 		
 					// edge from element
 					Element fromElement = doc.createElement("from");
@@ -151,7 +151,7 @@ public class InOut {
 
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element currentElement = (Element) currentNode;
-					String id = getTagValue("id", currentElement);
+					String id = currentElement.getAttribute("id");
 					String name = getTagValue("name", currentElement);
 					State tempState = new State(id, name);
 					states.add(tempState);
@@ -173,12 +173,18 @@ public class InOut {
 
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element currentElement = (Element) currentNode;
-					String id = getTagValue("id", currentElement);
+					String id = currentElement.getAttribute("id");
 					String from = getTagValue("from", currentElement);
 					String to = getTagValue("to", currentElement);
 					String write = getTagValue("write", currentElement);
 					String[] readString = getTagValue("read", currentElement).split(",");
 					ArrayList<String> read = new ArrayList<String>();
+					
+					// TODO remove test output
+					System.out.println("\n== Edge " + id + " ==\n");
+					System.out.println("id: " + id);
+					System.out.println("from: " + from);
+					System.out.println("to: " + to);
 					for(int j = 0; j < readString.length; j++) {
 						read.add(readString[j]);
 						// TODO remove test output
@@ -186,12 +192,7 @@ public class InOut {
 					}
 					Edge tempEdge = new Edge(id, from, to, read, write);
 					edges.add(tempEdge);
-					
 					// TODO remove test output
-					System.out.println("\n== Edge " + id + " ==\n");
-					System.out.println("id: " + id);
-					System.out.println("from: " + from);
-					System.out.println("to: " + to);
 					System.out.println("write: " + write);
 				}
 			}
