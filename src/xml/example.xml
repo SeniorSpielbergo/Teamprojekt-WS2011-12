@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="example">
-    <node>
+    <state>
         <id>0</id>
         <name>q0</name>
-    </node>
-    <node>
+    </state>
+    <state>
         <id>1</id>
         <name>q1</name>
-    </node>
+    </state>
     <edge>
     	<id>0</id>
         <from>0</from>

@@ -45,26 +45,26 @@ public class InOut {
 				attr.setValue(machineName);
 				rootElement.setAttributeNode(attr);
 				
-				// get nodes and edges from graph
-				ArrayList<MachineNode> nodes = graph.getNodes();
+				// get states and edges from graph
+				ArrayList<State> states = graph.getStates();
 				ArrayList<Edge> edges = graph.getEdges();
 				
-				// nodes
-				for(int i = 0; i < nodes.size(); i++) {
-					MachineNode tempNode = nodes.get(i);
-					// node element
-					Element node = doc.createElement("node");
-					rootElement.appendChild(node);
+				// states
+				for(int i = 0; i < states.size(); i++) {
+					State tempState = states.get(i);
+					// state element
+					Element state = doc.createElement("state");
+					rootElement.appendChild(state);
 					
-					// node id element
-					Element nodeIdElement = doc.createElement("id");
-					nodeIdElement.appendChild(doc.createTextNode(tempNode.getId()));
-					node.appendChild(nodeIdElement);
+					// state id element
+					Element stateIdElement = doc.createElement("id");
+					stateIdElement.appendChild(doc.createTextNode(tempState.getId()));
+					state.appendChild(stateIdElement);
 		
-					// node name element
+					// state name element
 					Element nameElement = doc.createElement("name");
-					nameElement.appendChild(doc.createTextNode(tempNode.getName()));
-					node.appendChild(nameElement);
+					nameElement.appendChild(doc.createTextNode(tempState.getName()));
+					state.appendChild(nameElement);
 				}
 				
 				// edges
@@ -142,22 +142,22 @@ public class InOut {
 			System.out.println("Turing machine's name: " + doc.getDocumentElement().getAttribute("name"));
 			
 			// TODO remove test output
-			System.out.println("\nNODES");
+			System.out.println("\nSTATES");
 			// get list of nodes
-			NodeList nodeList = doc.getElementsByTagName("node");
-			ArrayList<MachineNode> nodes = new ArrayList<MachineNode>();
-			for (int i = 0; i < nodeList.getLength(); i++) {
-				Node currentNode = nodeList.item(i);
+			NodeList stateList = doc.getElementsByTagName("state");
+			ArrayList<State> states = new ArrayList<State>();
+			for (int i = 0; i < stateList.getLength(); i++) {
+				Node currentNode = stateList.item(i);
 
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element currentElement = (Element) currentNode;
 					String id = getTagValue("id", currentElement);
 					String name = getTagValue("name", currentElement);
-					MachineNode tempNode = new MachineNode(id, name);
-					nodes.add(tempNode);
+					State tempState = new State(id, name);
+					states.add(tempState);
 					
 					// TODO remove test output
-					System.out.println("\n== Node " + id + " ==\n");
+					System.out.println("\n== State " + id + " ==\n");
 					System.out.println("id: " + id);
 					System.out.println("name: " + name);
 				}
@@ -195,7 +195,7 @@ public class InOut {
 					System.out.println("write: " + write);
 				}
 			}
-			graph = new Graph(nodes, edges);
+			graph = new Graph(states, edges);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

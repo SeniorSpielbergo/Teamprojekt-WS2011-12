@@ -1,11 +1,11 @@
 import java.lang.String;
 
-public class MachineNode {
+public class State {
 
 	protected String id;
 	protected String name;
 	
-	public MachineNode(String id, String name) {
+	public State(String id, String name) {
 		this.id = id;
 		this.name = name;
 	}

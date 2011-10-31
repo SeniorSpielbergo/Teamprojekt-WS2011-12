@@ -3,16 +3,16 @@ import java.util.ArrayList;
 
 public class Graph {
 
-	protected ArrayList<MachineNode> nodes;
+	protected ArrayList<State> states;
 	protected ArrayList<Edge> edges;
 	
-	public Graph(ArrayList<MachineNode> nodes, ArrayList<Edge> edges) {
-		this.nodes = nodes;
+	public Graph(ArrayList<State> states, ArrayList<Edge> edges) {
+		this.states = states;
 		this.edges = edges;
 	}
 	
-	public ArrayList<MachineNode> getNodes() {
-		return this.nodes;
+	public ArrayList<State> getStates() {
+		return this.states;
 	}
 	
 	public ArrayList<Edge> getEdges() {
