@@ -1,9 +1,17 @@
+/* This class contains the main method to run the server program
+ * 
+ * Responsible: Nils Breyer
+ * 
+ */
+
 import lejos.pc.comm.*;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
 public class Main {
+	public static ArrayList<Tape> tapes = new ArrayList<Tape>();
+	
 	public static void main(String[] args){
 		NXTComm nxtComm_IPS_03 = null;
 		NXTComm nxtComm_NXT_03 = null;
