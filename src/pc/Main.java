@@ -13,6 +13,10 @@ public class Main {
 	public static ArrayList<Tape> tapes = new ArrayList<Tape>();
 	
 	public static void main(String[] args){
+		MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
+		SlaveRobot nxt_03 = new SlaveRobot("NXT_03", "00:16:53:0F:DB:8E");
+		Tape tape = new Tape(ips_03, nxt_03);
+		
 //		NXTComm nxtComm_IPS_03 = null;
 //		NXTComm nxtComm_NXT_03 = null;
 //

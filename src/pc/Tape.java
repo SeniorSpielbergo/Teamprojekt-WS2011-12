@@ -16,9 +16,18 @@ public class Tape {
 	}
 	
 	public void init() {
-		this.master.connect();
-		this.slave.connect();
-		ready = true;
+		System.out.println("Initializing tape...");
+		try {
+			this.master.connect();
+			this.slave.connect();
+			ready = true;
+			System.out.println("Tape ready.");
+
+		}
+		catch (Exception e) {
+			ready = false;
+			System.out.println("Initializing tape failed.");
+		}
 	}
 	
 	public void shutdown() {
