@@ -10,7 +10,8 @@ public abstract class Robot {
 	private DataOutputStream output = null;
 
 	public Robot(String name, String mac_address) {
-
+		this.name = name;
+		this.mac_address = mac_address;
 	}
 	
 	public void connect() {

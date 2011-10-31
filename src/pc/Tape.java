@@ -5,21 +5,26 @@
  */
 
 public class Tape {
-	private MasterRobot master;
-	private SlaveRobot slave;
+	private MasterRobot master = null;
+	private SlaveRobot slave = null;
 	
 	boolean ready = false;
 
 	public Tape(MasterRobot master, SlaveRobot slave) {
-		
+		this.master = master;
+		this.slave = slave;
 	}
 	
 	public void init() {
-		
+		this.master.connect();
+		this.slave.connect();
+		ready = true;
 	}
 	
 	public void shutdown() {
-		
+		this.master.disconnect();
+		this.slave.disconnect();
+		ready = false;
 	}
 
 }
