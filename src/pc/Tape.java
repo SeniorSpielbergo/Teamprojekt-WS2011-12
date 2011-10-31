@@ -15,7 +15,7 @@ public class Tape {
 		this.slave = slave;
 	}
 	
-	public void init() {
+	public void init() throws Exception {
 		System.out.println("Initializing tape...");
 		try {
 			this.master.connect();
@@ -27,6 +27,7 @@ public class Tape {
 		catch (Exception e) {
 			ready = false;
 			System.out.println("Initializing tape failed.");
+			throw e;
 		}
 	}
 	
@@ -34,6 +35,26 @@ public class Tape {
 		this.master.disconnect();
 		this.slave.disconnect();
 		ready = false;
+	}
+	
+	public char read() {
+		return this.master.read();
+	}
+	
+	public void write(char c) {
+		//TODO implement
+	}
+	
+	public void moveLeft() {
+		this.master.moveLeft();
+	}
+	
+	public void moveRight() {
+		this.master.moveLeft();
+	}
+	
+	public void test() { //TODO: remove
+		this.master.test();
 	}
 
 }
