@@ -8,9 +8,9 @@ public class Test {
 		ArrayList<State> states = new ArrayList<State>();
 		states.add(n0);
 		ArrayList<String> read = new ArrayList<String>();
-		read.add("a");
-		read.add("b");
-		read.add("c");
+		read.add("0");
+		read.add("1");
+		read.add("2");
 		Edge e0 = new Edge("0", "0", "1", read, "#");
 		ArrayList<Edge> edges = new ArrayList<Edge>();
 		edges.add(e0);

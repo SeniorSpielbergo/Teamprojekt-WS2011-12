@@ -90,17 +90,14 @@ public class InOut {
 					edge.appendChild(toElement);
 					
 					// edge read elements
-					String readString = "";
 					ArrayList<String> read = tempEdge.getRead();
-					for (int j = 0; j < read.size(); j++) {
-						readString = readString + read.get(j);
-						if (j < read.size()-1) {
-							readString = readString + ",";
-						}
-					}
 					Element readElement = doc.createElement("read");
-					readElement.appendChild(doc.createTextNode(readString));
 					edge.appendChild(readElement);
+					for (int j = 0; j < read.size(); j++) {
+						Element symbolElement = doc.createElement("symbol");
+						symbolElement.appendChild(doc.createTextNode(read.get(j)));
+						readElement.appendChild(symbolElement);
+					}
 			
 					// edge write element
 					Element writeElement = doc.createElement("write");
@@ -177,23 +174,28 @@ public class InOut {
 					String from = getTagValue("from", currentElement);
 					String to = getTagValue("to", currentElement);
 					String write = getTagValue("write", currentElement);
-					String[] readString = getTagValue("read", currentElement).split(",");
-					ArrayList<String> read = new ArrayList<String>();
-					
 					// TODO remove test output
 					System.out.println("\n== Edge " + id + " ==\n");
 					System.out.println("id: " + id);
 					System.out.println("from: " + from);
 					System.out.println("to: " + to);
-					for(int j = 0; j < readString.length; j++) {
-						read.add(readString[j]);
-						// TODO remove test output
-						System.out.println("read" + j + ": " + readString[j]);
+					
+					NodeList readList = currentElement.getElementsByTagName("read");
+					Node currentReadNode = edgeList.item(0);
+					Element currentReadElement = (Element) currentReadNode;
+					
+					NodeList symbolList = currentReadElement.getElementsByTagName("symbol");
+					ArrayList<String> read = new ArrayList<String>();
+					for (int j = 0; j < symbolList.getLength(); j++) {
+						Node currentSymbolNode = symbolList.item(j);
+						System.out.println("read" + j + ": " + currentSymbolNode.getTextContent());
+						read.add(currentSymbolNode.getTextContent());
 					}
-					Edge tempEdge = new Edge(id, from, to, read, write);
-					edges.add(tempEdge);
+					
 					// TODO remove test output
 					System.out.println("write: " + write);
+					Edge tempEdge = new Edge(id, from, to, read, write);
+					//edges.add(tempEdge);
 				}
 			}
 			graph = new Graph(states, edges);

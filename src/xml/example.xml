@@ -9,7 +9,10 @@
     <edge id="0">
         <from>0</from>
         <to>1</to>
-        <read>b,c</read>
+        <read>
+            <symbol>0</symbol>
+            <symbol>1</symbol>
+        </read>
         <write>#</write>
     </edge>
 </machine>
