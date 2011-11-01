@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<machine name="test">
+<machine name="example">
     <state id="0">
         <name>q0</name>
     </state>
-    <edge id="0">
-        <from>0</from>
-        <to>1</to>
+    <state id="1">
+        <name>q1</name>
+    </state>
+    <edge from="0" id="0" to="1">
         <read>
             <symbol>0</symbol>
             <symbol>1</symbol>
-            <symbol>2</symbol>
         </read>
         <write>#</write>
     </edge>
