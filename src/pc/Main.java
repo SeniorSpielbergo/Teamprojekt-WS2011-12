@@ -38,6 +38,10 @@ public class Main {
 				char c = tapes.get(0).read();
 				System.out.println("Read: " + c);
 			}
+			else if (cmd.equals("write")) {
+				char write = JOptionPane.showInputDialog("Enter symbol:").toCharArray()[0];
+				tapes.get(0).write();
+			}
 		}
 
 

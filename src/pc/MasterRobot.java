@@ -13,7 +13,8 @@ public class MasterRobot extends Robot {
 	}
 	
 	public void moveLeft() {
-		//TODO: implement
+		System.out.println("Moving left...");
+		this.sendCommand('l');
 	}
 	
 	public void moveRight() {
