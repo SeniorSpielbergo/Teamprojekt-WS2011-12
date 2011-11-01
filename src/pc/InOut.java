@@ -149,6 +149,7 @@ public class InOut {
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element currentElement = (Element) currentNode;
 					String id = currentElement.getAttribute("id");
+					String type = currentElement.getAttribute("type");
 					String name = getTagValue("name", currentElement);
 					State tempState = new State(id, name);
 					states.add(tempState);
