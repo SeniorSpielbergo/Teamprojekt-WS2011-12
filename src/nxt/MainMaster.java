@@ -49,15 +49,6 @@ public class MainMaster {
 				}
 			}
 		});
-
-		// calibration
-		/*while(!Button.ESCAPE.isPressed()) {
-			if(ts1.isPressed()) {
-				cs1.initWhiteBalance();
-				cs2.initWhiteBalance();
-				counterSensor.initWhiteBalance();
-			}
-		}*/
 		
 		// setup connection
 		LCD.drawString("Waiting...", 0, 0);
@@ -92,42 +83,41 @@ public class MainMaster {
 					Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
 					LCD.clearDisplay();
 					break;
-				case 's':
+				case 'r':
+					boolean cs1Active, cs2Active;
 					if (cs1.getColorNumber() >= 5 && cs1.getColorNumber() <= 10) {
 						LCD.drawString("brick", 0, 0);
-						try {
-							out.writeChar('1');
-							out.flush();
-						}
-						catch (IOException e) {
-						}
+						cs1Active = true;
 					}
 					else {
 						LCD.drawString("no brick", 0, 0);
-						try {
-							out.writeChar('0');
-							out.flush();
-						}
-						catch (IOException e) {
-						}
+						cs1Active = false;
+						
 					}
 					if (cs2.getColorNumber() >= 5 && cs2.getColorNumber() <= 10) {
-						LCD.drawString("brick", 0, 0);
-						try {
-							out.writeChar('1');
-							out.flush();
-						}
-						catch (IOException e) {
-						}
+						LCD.drawString("brick", 0, 1);
+						cs2Active = true;
 					}
 					else {
-						LCD.drawString("no brick", 0, 0);
-						try {
+						LCD.drawString("no brick", 0, 1);
+						cs2Active = false;
+					}
+					try {
+						if (!cs1Active && !cs2Active) {
+							out.writeChar('#');
+						}
+						else if (!cs1Active && cs2Active) {
 							out.writeChar('0');
-							out.flush();
 						}
-						catch (IOException e) {
+						else if (cs1Active && !cs2Active) {
+							out.writeChar('1');
 						}
+						else if (cs1Active && cs2Active) {
+							out.writeChar('2');
+						}
+						out.flush();
+					}
+					catch (IOException e) {
 					}
 					break;
 				case 'l': 
