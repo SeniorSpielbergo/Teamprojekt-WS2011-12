@@ -40,7 +40,7 @@ public class Main {
 			}
 			else if (cmd.equals("write")) {
 				char write = JOptionPane.showInputDialog("Enter symbol:").toCharArray()[0];
-				//tapes.get(0).write();
+				tapes.get(0).write(write);
 			}
 			else if (cmd.equals("left")) {
 				tapes.get(0).moveLeft();
