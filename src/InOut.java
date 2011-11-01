@@ -180,7 +180,7 @@ public class InOut {
 					System.out.println("from: " + from);
 					System.out.println("to: " + to);
 					
-					NodeList readList = currentElement.getElementsByTagName("read");
+					//NodeList readList = currentElement.getElementsByTagName("read");
 					Node currentReadNode = edgeList.item(0);
 					Element currentReadElement = (Element) currentReadNode;
 					
@@ -195,7 +195,7 @@ public class InOut {
 					// TODO remove test output
 					System.out.println("write: " + write);
 					Edge tempEdge = new Edge(id, from, to, read, write);
-					//edges.add(tempEdge);
+					edges.add(tempEdge);
 				}
 			}
 			graph = new Graph(states, edges);
