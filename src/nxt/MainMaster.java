@@ -120,7 +120,7 @@ public class MainMaster {
 					catch (IOException e) {
 					}
 					break;
-				case 'l': 
+				case 'L': 
 					if(line.driveLeft()) {
 						try {
 							out.writeChar('.');
@@ -138,7 +138,7 @@ public class MainMaster {
 						}						
 					}
 					break;
-				case 'r': 
+				case 'R': 
 					if(line.driveRight()) {
 						try {
 							out.writeChar('.');

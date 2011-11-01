@@ -48,7 +48,7 @@ public class Line extends Thread {
 	}
 	
 	public boolean driveLeft() {
-		if(this.counter == 1){
+		if(this.counter == 0 || this.counter == 1){
 			return false;
 		}
 		else{
