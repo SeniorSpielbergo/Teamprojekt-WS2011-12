@@ -51,6 +51,21 @@ public abstract class Robot {
 
 		System.out.println("Disconnected '" + this.name + "'.");
 	}
+	
+	public void write(char current, char write) {
+		System.out.println(this.name + ": Write from "+ current + " to " + write + " ...");
+		this.sendCommand('w');
+		this.sendCommand(current);
+		this.sendCommand(write);
+		char received = this.receiveCommand();		
+		if (received == '.') {
+			System.out.println(this.name + ": Success");
+		} else if (received == '!') {
+			System.out.println(this.name + ": Write Failed");
+		} else {
+			System.out.println(this.name + ": Common Fail, read from Robot: " + received);
+		}
+	}
 
 	protected void sendCommand(char cmd) {
 		System.out.println("Sending to '" + this.name + "' the command '" + cmd + "'...");
