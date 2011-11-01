@@ -7,6 +7,7 @@
 public class Tape {
 	private MasterRobot master = null;
 	private SlaveRobot slave = null;
+	private char currentSymbol = 'n';
 	
 	boolean ready = false;
 
@@ -38,11 +39,13 @@ public class Tape {
 	}
 	
 	public char read() {
-		return this.master.read();
+		currentSymbol = this.master.read()
+		return currentSymbol;
 	}
 	
 	public void write(char c) {
-		//TODO implement
+		this.master.write(currentSymbol, c);
+		this.slave.write(currenSymbol, c);
 	}
 	
 	public void moveLeft() {
