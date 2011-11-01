@@ -8,17 +8,30 @@ public class MasterRobot extends Robot {
 		return this.receiveCommand();
 	}
 	
-	public void write(char c) {
-		//TODO: implement
-	}
-	
 	public void moveLeft() {
-		System.out.println("Moving left...");
-		this.sendCommand('l');
+		System.out.println(this.name + ": Moving left...");
+		this.sendCommand('L');
+		char received = this.receiveCommand();
+		if (received == '.') {
+			System.out.println(this.name + ": Success");
+		} else if (received == '!') {
+			System.out.println(this.name + ": Moving left failed.");
+		} else {
+			System.out.println(this.name + ": Common Fail, read from Robot: " + received);
+		}
 	}
 	
 	public void moveRight() {
-		//TODO: implement
+		System.out.println(this.name + ": Moving right...");
+		this.sendCommand('R');
+		char received = this.receiveCommand();
+		if (received == '.') {
+			System.out.println(this.name + ": Success");
+		} else if (received == '!') {
+			System.out.println(this.name + ": Moving right failed.");
+		} else {
+			System.out.println(this.name + ": Common Fail, read from Robot: " + received);
+		}
 	}
 	
 	public void test() { //TODO: remove

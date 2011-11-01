@@ -39,13 +39,13 @@ public class Tape {
 	}
 	
 	public char read() {
-		currentSymbol = this.master.read()
+		currentSymbol = this.master.read();
 		return currentSymbol;
 	}
 	
 	public void write(char c) {
 		this.master.write(currentSymbol, c);
-		this.slave.write(currenSymbol, c);
+		this.slave.write(currentSymbol, c);
 	}
 	
 	public void moveLeft() {
@@ -53,7 +53,7 @@ public class Tape {
 	}
 	
 	public void moveRight() {
-		this.master.moveLeft();
+		this.master.moveRight();
 	}
 	
 	public void test() { //TODO: remove
