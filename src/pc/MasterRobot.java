@@ -1,3 +1,8 @@
+/* This class contains special methods for the Master Robot
+ * 
+ * Responsible: Nils Breyer
+ * 
+ */
 public class MasterRobot extends Robot {
 	public MasterRobot(String name, String mac_address) {
 		super(name,mac_address);
@@ -35,6 +40,6 @@ public class MasterRobot extends Robot {
 	}
 	
 	public void test() { //TODO: remove
-
+		this.sendCommand('t');
 	}
 }
