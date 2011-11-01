@@ -34,10 +34,11 @@ public class MainMaster {
 		Motor.A.setSpeed(Common.LINE_SPEED);
 		Motor.B.setSpeed(Common.PUSH_SPEED);
 		Motor.C.setSpeed(Common.PUSH_SPEED);
+		
+		Line line = new Line();
+		line.start();
 		//initialize counter
-		Counter c = new Counter();
-		c.start();
-		counterSensor = c.getCounterSensor();
+		counterSensor = line.getCounterSensor();
 		
 		// sensor listener for emergency stop
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
@@ -123,6 +124,42 @@ public class MainMaster {
 						LCD.drawString("no brick", 0, 0);
 						try {
 							out.writeChar('0');
+							out.flush();
+						}
+						catch (IOException e) {
+						}
+					}
+					break;
+				case 'l': 
+					if(line.driveLeft()) {
+						try {
+							out.writeChar('.');
+							out.flush();
+						}
+						catch (IOException e) {
+						}
+					}
+					else {
+						try {
+							out.writeChar('!');
+							out.flush();
+						}
+						catch (IOException e) {
+						}						
+					}
+					break;
+				case 'r': 
+					if(line.driveRight()) {
+						try {
+							out.writeChar('.');
+							out.flush();
+						}
+						catch (IOException e) {
+						}
+					}
+					else {
+						try {
+							out.writeChar('!');
 							out.flush();
 						}
 						catch (IOException e) {
