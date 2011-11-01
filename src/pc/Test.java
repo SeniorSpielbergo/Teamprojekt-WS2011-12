@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Test {
 
 	public static void main(String argv[]) {
-		State n0 = new State("0", "q0");
+		State n0 = new State("0", "q0", "start");
 		ArrayList<State> states = new ArrayList<State>();
 		states.add(n0);
 		ArrayList<String> read = new ArrayList<String>();
