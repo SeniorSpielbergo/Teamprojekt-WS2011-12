@@ -35,6 +35,6 @@ public class MasterRobot extends Robot {
 	}
 	
 	public void test() { //TODO: remove
-
+		this.sendCommand('t');
 	}
 }
