@@ -3,9 +3,7 @@
     <state id="0">
         <name>q0</name>
     </state>
-    <edge id="0">
-        <from>0</from>
-        <to>1</to>
+    <edge from="0" id="0" to="1">
         <read>
             <symbol>0</symbol>
             <symbol>1</symbol>

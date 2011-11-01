@@ -79,15 +79,15 @@ public class InOut {
 					attrEdgeId.setValue(tempEdge.getId());
 					edge.setAttributeNode(attrEdgeId);
 		
-					// edge from element
-					Element fromElement = doc.createElement("from");
-					fromElement.appendChild(doc.createTextNode(tempEdge.getFrom()));
-					edge.appendChild(fromElement);
-		
-					// edge to element
-					Element toElement = doc.createElement("to");
-					toElement.appendChild(doc.createTextNode(tempEdge.getTo()));
-					edge.appendChild(toElement);
+					// save from of edge
+					Attr attrEdgeFrom = doc.createAttribute("from");
+					attrEdgeFrom.setValue(tempEdge.getFrom());
+					edge.setAttributeNode(attrEdgeFrom);
+					
+					// save to of edge
+					Attr attrEdgeTo = doc.createAttribute("to");
+					attrEdgeTo.setValue(tempEdge.getTo());
+					edge.setAttributeNode(attrEdgeTo);
 					
 					// edge read elements
 					ArrayList<String> read = tempEdge.getRead();
@@ -171,8 +171,8 @@ public class InOut {
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element currentElement = (Element) currentNode;
 					String id = currentElement.getAttribute("id");
-					String from = getTagValue("from", currentElement);
-					String to = getTagValue("to", currentElement);
+					String from = currentElement.getAttribute("from");
+					String to = currentElement.getAttribute("to");
 					String write = getTagValue("write", currentElement);
 					// TODO remove test output
 					System.out.println("\n== Edge " + id + " ==\n");
