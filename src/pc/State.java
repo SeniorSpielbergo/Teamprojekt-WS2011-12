@@ -5,6 +5,7 @@ public class State {
 	protected String id;
 	protected String name;
 	protected String type;
+	protected ArrayList labels;
 	
 	public State(String id, String name, String type) {
 		this.id = id;
@@ -24,6 +25,10 @@ public class State {
 		return this.type;
 	}
 	
+	public String getLabels() {
+		return this.labels;
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -31,5 +36,8 @@ public class State {
 	public void setType(String type) {
 		this.name = type;
 	}
-
+	
+	public boolean equals(String type){
+		return this.type.equals(type);
+	}
 }
