@@ -60,6 +60,11 @@ public class InOut {
 					Attr attrId = doc.createAttribute("id");
 					attrId.setValue(tempState.getId());
 					state.setAttributeNode(attrId);
+					
+					// save type of state
+					Attr attrType = doc.createAttribute("type");
+					attrType.setValue(tempState.getType());
+					state.setAttributeNode(attrType);
 		
 					// state name element
 					Element nameElement = doc.createElement("name");
@@ -151,13 +156,14 @@ public class InOut {
 					String id = currentElement.getAttribute("id");
 					String type = currentElement.getAttribute("type");
 					String name = getTagValue("name", currentElement);
-					State tempState = new State(id, name);
+					State tempState = new State(id, name, type);
 					states.add(tempState);
 					
 					// TODO remove test output
 					System.out.println("\n== State " + id + " ==\n");
 					System.out.println("id: " + id);
 					System.out.println("name: " + name);
+					System.out.println("type: " + type);
 				}
 			}
 			

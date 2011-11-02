@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="test">
-    <state id="0">
+    <state id="0" type="start">
         <name>q0</name>
     </state>
     <edge from="0" id="0" to="1">
