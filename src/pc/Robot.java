@@ -1,9 +1,14 @@
+/* This abstract class contains common function for Master and Slave Robots
+ * 
+ * Responsible: Nils Breyer
+ * 
+ */
 import lejos.pc.comm.*;
 import java.io.*;
 import java.util.*;
 
 public abstract class Robot {
-	private String name;
+	protected String name;
 	private String mac_address;
 	private NXTComm comm = null;
 	private DataInputStream input = null;
