@@ -1,5 +1,6 @@
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import java.awt.event.*;
 import java.io.*;
 
@@ -12,6 +13,14 @@ public class Editor extends JFrame {
 		// create fileChooser
 		final JFileChooser fc = new JFileChooser();
 		int returnVal;
+		fc.setFileFilter(new FileFilter(){
+			public boolean accept( File f ) {
+				return f.isDirectory() || f.getName().toLowerCase().endsWith( ".xml" );
+			}
+			public String getDescription() {
+				return "*.xml";
+			}
+		});
         
 		// create menu bar
 		JMenuBar menuBar = new JMenuBar();
