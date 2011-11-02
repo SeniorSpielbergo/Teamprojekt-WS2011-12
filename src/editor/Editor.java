@@ -9,6 +9,11 @@ public class Editor extends JFrame {
 	public Editor() {
 		setTitle("Editor");
 		setSize(800, 800);
+		try {
+        	UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+    	} 
+		catch (Exception e) {
+		}
 		
 		// create fileChooser
 		final JFileChooser fc = new JFileChooser();
