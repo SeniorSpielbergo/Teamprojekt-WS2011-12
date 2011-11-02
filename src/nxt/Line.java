@@ -3,6 +3,8 @@ import lejos.nxt.addon.ColorSensor;
 
 public class Line extends Thread {
 	final int LINE_SPEED = 250;
+	final int END_LEFT = 1;
+	final int END_RIGHT = 9;
 	
 	protected int counter = 0;
 	protected boolean grey = true;
@@ -15,7 +17,7 @@ public class Line extends Thread {
 	
 	public void run() {
 		while (!Button.ENTER.isPressed()) {
-			if (counterSensor.getColorNumber() >= 5 && counterSensor.getColorNumber() <= 10) {
+			if (counterSensor.getColorNumber() >= 5 && counterSensor.getColorNumber() <= 12) {
 				if (grey && !color) {
 					grey = false;
 					color = true;
@@ -33,7 +35,7 @@ public class Line extends Thread {
 					}
 				}
 			}
-			else if (counterSensor.getColorNumber() < 5) {
+			else if (counterSensor.getColorNumber() == 3) {
 				grey = true;
 			}
 		}
@@ -48,18 +50,18 @@ public class Line extends Thread {
 	}
 	
 	public boolean driveLeft() {
-		if(this.counter == 0 || this.counter == 1){
+		if(this.counter == END_LEFT-1 || this.counter == END_LEFT){
 			return false;
 		}
 		else{
 			Motor.A.forward();
 			while(!Motor.A.isStopped()){}
-			return true;			
+			return true;
 		}
 	}
 	
 	public boolean driveRight() {
-		if(this.counter == 9){
+		if(this.counter == END_RIGHT){
 			return false;
 		}
 		else {

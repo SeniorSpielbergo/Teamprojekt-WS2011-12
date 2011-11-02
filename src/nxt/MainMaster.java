@@ -24,6 +24,13 @@ public class MainMaster {
 	static DataInputStream in;
 	static DataOutputStream out;
 
+	public static void pushBit(int bit, int newBit, Motor motor) {
+		if (bit>newBit){
+			motor.rotate(Common.PUSH_ANGLE_MASTER);
+			motor.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+		}
+	}
+	
 	public static void main(String[] args) {
 		Common.playTune("HAHA",200);
 		String sensor1, sensor2, sensor3, counterString;
@@ -115,6 +122,37 @@ public class MainMaster {
 						else if (cs1Active && cs2Active) {
 							out.writeChar('2');
 						}
+						out.flush();
+					}
+					catch (IOException e) {
+					}
+					break;
+				case 'w':
+					int bit1, bit0, nbit1, nbit0;
+					char newSymbol = 'n', currentSymbol = 'n';
+					try{
+						currentSymbol = in.readChar();
+						newSymbol = in.readChar();
+					}
+					catch(IOException e){}
+					switch(currentSymbol){
+						case '#': bit1 = 0; bit0 = 0; break;
+						case '0': bit1 = 0; bit0 = 1; break;
+						case '1': bit1 = 1; bit0 = 0; break;
+						case '2': bit1 = 1; bit0 = 1; break;
+						default: bit1 = -1; bit0 = -1; break;
+					}
+					switch(newSymbol){
+						case '#': nbit1 = 0; nbit0 = 0; break;
+						case '0': nbit1 = 0; nbit0 = 1; break;
+						case '1': nbit1 = 1; nbit0 = 0; break;
+						case '2': nbit1 = 1; nbit0 = 1; break;
+						default: nbit1 = -1; nbit0 = -1; break;
+					}
+					pushBit(bit1, nbit1, Motor.B);
+					pushBit(bit0, nbit0, Motor.C);	
+					try {
+						out.writeChar('.');
 						out.flush();
 					}
 					catch (IOException e) {
