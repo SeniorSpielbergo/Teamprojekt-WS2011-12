@@ -62,13 +62,14 @@ public class Line extends Thread {
 		if(this.counter == 0)
 			return false;
 		else{
+			timer.stop();
+			timer.setDelay(1000);
+			failed = false;
 			Motor.A.forward();
 			timer.start();
 			while(!Motor.A.isStopped()){}
-			if(failed) {
-				failed = false;
+			if(failed)
 				return false;
-			}
 			timer.stop();
 			return true;
 		}
@@ -78,13 +79,14 @@ public class Line extends Thread {
 		if(this.counter == this.length)
 			return false;
 		else {
+			failed = false;
+			timer.stop();
+			timer.setDelay(1000);
 			Motor.A.backward();
 			timer.start();
 			while(!Motor.A.isStopped()){}
-			if(failed) {
-				failed = false;
+			if(failed)
 				return false;
-			}
 			timer.stop();
 			return true;
 		}
