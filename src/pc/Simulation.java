@@ -32,7 +32,7 @@ public class Simulation {
 	}
 
 
-	private findLabels(){
+	private void findLabels(){
 		for( State s : machine.getStates()){
 			for( Edge e : machine.getEdges()){
 				if(e.getFrom().equals(s.getId()))

@@ -7,10 +7,10 @@ public class Edge {
 	protected String from;
 	protected String to;
 	protected ArrayList<String> read;
-	protected String write;
-	protected String action;
+	protected ArrayList<String> write;
+	protected ArrayList<String> action;
 	
-	public Edge(String id, String from, String to, ArrayList<String> read, String write, String action) {
+	public Edge(String id, String from, String to, ArrayList<String> read, ArrayList<String> write, ArrayList<String> action) {
 		this.id = id;
 		this.from = from;
 		this.to = to;
@@ -35,11 +35,11 @@ public class Edge {
 		return this.read;
 	}
 	
-	public String getWrite() {
+	public ArrayList<String> getWrite() {
 		return this.write;
 	}
 
-	public String getAction() {
+	public ArrayList<String> getAction() {
 		return this.action;
 	}
 	
@@ -55,11 +55,11 @@ public class Edge {
 		this.read = read;
 	}
 	
-	public void setWrite(String write) {
+	public void setWrite(ArrayList<String> write) {
 		this.write = write;
 	}
 
-	public void setAction(String action) {
+	public void setAction(ArrayList<String> action) {
 		this.action = action;
 	}
 
