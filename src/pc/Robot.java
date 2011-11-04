@@ -5,7 +5,6 @@
  */
 import lejos.pc.comm.*;
 import java.io.*;
-import java.util.*;
 
 public abstract class Robot {
 	protected String name;

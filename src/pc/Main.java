@@ -1,11 +1,11 @@
+import javax.swing.*;
+import java.util.*;
+
 /** Contains the main method to run the server program
  * 
  * @author Nils Breyer
  * 
  */
-import javax.swing.*;
-import java.util.*;
-
 public class Main {
 	public static ArrayList<Tape> tapes = new ArrayList<Tape>();
 
