@@ -6,7 +6,7 @@ public class State {
 	protected String id;
 	protected String name;
 	protected String type;
-	protected ArrayList<String> labels;
+	protected ArrayList<Edge> edge;
 	
 	public State(String id, String name, String type) {
 		this.id = id;
@@ -27,8 +27,8 @@ public class State {
 		return this.type;
 	}
 	
-	public ArrayList<String> getLabels() {
-		return this.labels;
+	public ArrayList<Edge> getEgde() {
+		return this.edge;
 	}
 	
 	public void setName(String name) {
