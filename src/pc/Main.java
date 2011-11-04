@@ -7,16 +7,16 @@ import javax.swing.*;
 import java.util.*;
 
 public class Main {
-	public static ArrayList<Tape> tapes = new ArrayList<Tape>();
+	public static ArrayList<LEGOTape> tapes = new ArrayList<LEGOTape>();
 
 	public static void main(String[] args){
 		MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
 		SlaveRobot nxt_03 = new SlaveRobot("NXT_03", "00:16:53:0F:DB:8E");
-		Tape tape = new Tape(ips_03, nxt_03);
+		LEGOTape tape = new LEGOTape(ips_03, nxt_03);
 		tapes.add(tape);
 
 		try {
-			for (Tape t : tapes) {
+			for (LEGOTape t : tapes) {
 				t.init();
 			}
 		}
