@@ -141,7 +141,10 @@ public class InOut {
 			doc.getDocumentElement().normalize();
 			// print the Turing machine's name
 			// TODO remove test output
-			System.out.println("Turing machine's name: " + doc.getDocumentElement().getAttribute("name"));
+			String machineName = doc.getDocumentElement().getAttribute("name");
+			String numberTapesString = doc.getDocumentElement().getAttribute("tapes");
+			int numberTapes = Integer.parseInt(numberTapesString);
+			System.out.println("Turing machine's name: " + machineName);
 			
 			// TODO remove test output
 			System.out.println("\nSTATES");
@@ -172,47 +175,99 @@ public class InOut {
 			// get list of edges
 			NodeList edgeList = doc.getElementsByTagName("edge");
 			ArrayList<Edge> edges = new ArrayList<Edge>();
+			ArrayList<Transition> transitions = new ArrayList<Transition>();
 			for (int i = 0; i < edgeList.getLength(); i++) {
 				Node currentNode = edgeList.item(i);
 
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element currentElement = (Element) currentNode;
+					// get from an to
 					String from = currentElement.getAttribute("from");
 					String to = currentElement.getAttribute("to");
-					String write = getTagValue("write", currentElement);
 					// TODO remove test output
 					System.out.println("\n== Edge " + i + " ==\n");
 					System.out.println("from: " + from);
 					System.out.println("to: " + to);
-					
+
+					// get transitions
 					NodeList transitionList = currentElement.getElementsByTagName("transition");
+					ArrayList<Transition> transition = new ArrayList<Transition>();
 					for (int j = 0; j < transitionList.getLength(); j++) {
 						Node currentTransitionNode = transitionList.item(j);
-						Element currentTransitionElement = (Element) currentTransitionNode;
-						System.out.println("" + currentTransitionNode.getTextContent());
-						/*NodeList readList = currentTransitionElement.getElementsByTagName("read");
-						for (int k = 0; k < readList.getLength(); k++) {
-							System.out.println("test");
-						}*/
+						String id;
+						ArrayList<String> read = new ArrayList<String>();
+						ArrayList<String> write = new ArrayList<String>();
+						ArrayList<String> action = new ArrayList<String>();
+						if (currentTransitionNode.getNodeType() == Node.ELEMENT_NODE) {
+							Element currentTransitionElement = (Element) currentTransitionNode;
+							id = currentTransitionElement.getAttribute("id");
+							// TODO remove test output
+							System.out.println("== TRANSITION" + id + "==");
+
+							// get read
+							NodeList readList = currentTransitionElement.getElementsByTagName("read");
+							for (int k = 0; k < readList.getLength(); k++) {
+								Node currentReadNode = readList.item(k);
+								if (currentReadNode.getNodeType() == Node.ELEMENT_NODE) {
+									Element currentReadElement = (Element) currentReadNode;
+									NodeList readSymbolList = currentReadElement.getChildNodes();
+									for (int l = 0; l < readSymbolList.getLength(); l++) {
+										Node currentReadSymbolNode = readSymbolList.item(l);
+										if (currentReadSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+											read.add(currentReadSymbolNode.getTextContent());
+											// TODO remove test output
+											System.out.println("read: " + currentReadSymbolNode.getTextContent());
+										}
+									}
+								}
+							}
+							
+							// get write
+							NodeList writeList = currentTransitionElement.getElementsByTagName("write");
+							for (int k = 0; k < writeList.getLength(); k++) {
+								Node currentWriteNode = writeList.item(k);
+								if (currentWriteNode.getNodeType() == Node.ELEMENT_NODE) {
+									Element currentWriteElement = (Element) currentWriteNode;
+									NodeList writeSymbolList = currentWriteElement.getChildNodes();
+									for (int l = 0; l < writeSymbolList.getLength(); l++) {
+										Node currentWriteSymbolNode = writeSymbolList.item(l);
+										if (currentWriteSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+											read.add(currentWriteSymbolNode.getTextContent());
+											// TODO remove test output
+											System.out.println("write: " + currentWriteSymbolNode.getTextContent());
+										}
+									}
+								}
+							}
+							
+							// get action
+							NodeList actionList = currentTransitionElement.getElementsByTagName("action");
+							for (int k = 0; k < actionList.getLength(); k++) {
+								Node currentActionNode = actionList.item(k);
+								if (currentActionNode.getNodeType() == Node.ELEMENT_NODE) {
+									Element currentActionElement = (Element) currentActionNode;
+									NodeList actionSymbolList = currentActionElement.getChildNodes();
+									for (int l = 0; l < actionSymbolList.getLength(); l++) {
+										Node currentActionSymbolNode = actionSymbolList.item(l);
+										if (currentActionSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+											action.add(currentActionSymbolNode.getTextContent());
+											// TODO remove test output
+											System.out.println("direction: " + currentActionSymbolNode.getTextContent());
+										}
+									}
+								}
+							}
+							
+							Transition tempTransition = new Transition(id, read, write, action);
+							transitions.add(tempTransition);
+						}
 					}
-					//Node currentReadNode = edgeList.item(0);
-					//Element currentReadElement = (Element) currentReadNode;
 					
-					/*NodeList symbolList = currentReadElement.getElementsByTagName("symbol");
-					ArrayList<String> read = new ArrayList<String>();
-					for (int j = 0; j < symbolList.getLength(); j++) {
-						Node currentSymbolNode = symbolList.item(j);
-						System.out.println("read" + j + ": " + currentSymbolNode.getTextContent());
-						read.add(currentSymbolNode.getTextContent());
-					}*/
-					
-					// TODO remove test output
-					//System.out.println("write: " + write);
-					//Edge tempEdge = new Edge(id, from, to, read, write);
-					//edges.add(tempEdge);
+					Edge tempEdge = new Edge(from, to, transition);
+					edges.add(tempEdge);
 				}
 			}
-			//graph = new Graph(states, edges);
+			graph = new Graph(states, edges, machineName, numberTapes);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
