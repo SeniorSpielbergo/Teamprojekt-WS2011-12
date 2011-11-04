@@ -7,16 +7,28 @@ import javax.swing.*;
 import java.util.*;
 
 public class Main {
-	public static ArrayList<LEGOTape> tapes = new ArrayList<LEGOTape>();
+	public static ArrayList<Tape> tapes = new ArrayList<Tape>();
 
 	public static void main(String[] args){
-		MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
-		SlaveRobot nxt_03 = new SlaveRobot("NXT_03", "00:16:53:0F:DB:8E");
-		LEGOTape tape = new LEGOTape(ips_03, nxt_03);
-		tapes.add(tape);
+		
+		String type = JOptionPane.showInputDialog("Enter 'LEGO' or 'PC':");
+		if (type.equals("LEGO")) {
+			MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
+			SlaveRobot nxt_03 = new SlaveRobot("NXT_03", "00:16:53:0F:DB:8E");
+			Tape tape_lego = new LEGOTape(ips_03, nxt_03);
+			tapes.add(tape_lego);
+		}
+		else if (type.equals("PC")) {
+			Tape tape_console = new ConsoleTape();
+			tapes.add(tape_console);
+		}
+		else {
+			System.out.println("If you are too stupid to enter one of the words 'LEGO' or 'PC', you shouldn't use this prgram.");
+		}
+
 
 		try {
-			for (LEGOTape t : tapes) {
+			for (Tape t : tapes) {
 				t.init();
 			}
 		}
