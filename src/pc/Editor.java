@@ -10,7 +10,11 @@ public class Editor extends JFrame {
 		setTitle("Editor");
 		setSize(800, 800);
 		try {
-        	UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+			System.out.println(System.getProperties().getProperty("os.name"));
+			//if () {
+				UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+			//}
+			
     	} 
 		catch (Exception e) {
 		}
