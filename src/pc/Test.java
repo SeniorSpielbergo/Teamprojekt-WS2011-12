@@ -19,7 +19,10 @@ public class Test {
 		action.add("0");
 		action.add("1");
 		action.add("2");
-		Edge e0 = new Edge("0", "0", "1", read, write, action);
+		Transition t0 = new Transition("0", read, write, action);
+		ArrayList<Transition> transition = new ArrayList<Transition>();
+		transition.add(t0);
+		Edge e0 = new Edge("0", "1", transition);
 		ArrayList<Edge> edges = new ArrayList<Edge>();
 		edges.add(e0);
 		String machineName = "test";
