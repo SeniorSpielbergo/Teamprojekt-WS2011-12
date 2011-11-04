@@ -3,11 +3,11 @@ import java.util.ArrayList;
 public class Transition {
 
 	String id;
-	protected ArrayList<String> read;	// TODO character
-	protected ArrayList<String> write;	// TODO character
-	protected ArrayList<String> action;	// TODO character
+	protected ArrayList<Character> read;
+	protected ArrayList<Character> write;
+	protected ArrayList<Character> action;
 	
-	public Transition(String id, ArrayList<String> read, ArrayList<String> write, ArrayList<String> action) {
+	public Transition(String id, ArrayList<Character> read, ArrayList<Character> write, ArrayList<Character> action) {
 		this.id = id;
 		this.read = read;
 		this.write = write;
@@ -18,15 +18,15 @@ public class Transition {
 		return this.id;
 	}
 	
-	public ArrayList<String> getRead() {
+	public ArrayList<Character> getRead() {
 		return this.read;
 	}
 	
-	public ArrayList<String> getWrite() {
+	public ArrayList<Character> getWrite() {
 		return this.write;
 	}
 	
-	public ArrayList<String> getAction() {
+	public ArrayList<Character> getAction() {
 		return this.action;
 	}
 

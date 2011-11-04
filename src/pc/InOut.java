@@ -89,7 +89,22 @@ public class InOut {
 					
 					// save type of state
 					Attr attrType = doc.createAttribute("type");
-					attrType.setValue(tempState.getType());
+					String type;
+					switch(tempState.getType()) {
+						case START:
+							type = "start";
+							break;
+						case NORMAL:
+							type = "normal";
+							break;
+						case FINAL:
+							type = "final";
+							break;
+						default:
+							type = "normal";
+							break;
+					}
+					attrType.setValue(type);
 					state.setAttributeNode(attrType);
 		
 					// state name element
@@ -108,12 +123,12 @@ public class InOut {
 		
 					// save from of edge
 					Attr attrEdgeFrom = doc.createAttribute("from");
-					attrEdgeFrom.setValue(tempEdge.getFrom());
+					attrEdgeFrom.setValue(edges.get(i).getFrom().getId());
 					edge.setAttributeNode(attrEdgeFrom);
 					
 					// save to of edge
 					Attr attrEdgeTo = doc.createAttribute("to");
-					attrEdgeTo.setValue(tempEdge.getTo());
+					attrEdgeTo.setValue(edges.get(i).getTo().getId());
 					edge.setAttributeNode(attrEdgeTo);
 					
 					for (int j = 0; j < transitions.size(); j++) {
@@ -129,32 +144,32 @@ public class InOut {
 						transition.setAttributeNode(attrTransitionId);
 						
 						// edge read elements
-						ArrayList<String> read = tempTransition.getRead();
+						ArrayList<Character> read = tempTransition.getRead();
 						Element readElement = doc.createElement("read");
 						edge.appendChild(readElement);
 						for (int k = 0; k < read.size(); k++) {
 							Element symbolElement = doc.createElement("symbol");
-							symbolElement.appendChild(doc.createTextNode(read.get(k)));
+							symbolElement.appendChild(doc.createTextNode("" + read.get(k)));
 							readElement.appendChild(symbolElement);
 						}
 						
-						// edge read elements
-						ArrayList<String> write = tempTransition.getWrite();
+						// edge write elements
+						ArrayList<Character> write = tempTransition.getWrite();
 						Element writeElement = doc.createElement("write");
 						edge.appendChild(writeElement);
 						for (int k = 0; k < write.size(); k++) {
 							Element symbolElement = doc.createElement("symbol");
-							symbolElement.appendChild(doc.createTextNode(write.get(k)));
+							symbolElement.appendChild(doc.createTextNode("" + write.get(k)));
 							writeElement.appendChild(symbolElement);
 						}
 						
-						// edge read elements
-						ArrayList<String> action = tempTransition.getAction();
+						// edge action elements
+						ArrayList<Character> action = tempTransition.getAction();
 						Element actionElement = doc.createElement("action");
 						edge.appendChild(actionElement);
 						for (int k = 0; k < action.size(); k++) {
 							Element symbolElement = doc.createElement("symbol");
-							symbolElement.appendChild(doc.createTextNode(action.get(k)));
+							symbolElement.appendChild(doc.createTextNode("" + action.get(k)));
 							actionElement.appendChild(symbolElement);
 						}
 					}
@@ -243,7 +258,21 @@ public class InOut {
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element currentElement = (Element) currentNode;
 					String id = currentElement.getAttribute("id");
-					String type = currentElement.getAttribute("type");
+					State.Type type;
+					switch (currentElement.getAttribute("type")) {
+						case "start":
+							type = State.Type.START;
+							break;
+						case "normal":
+							type = State.Type.NORMAL;
+							break;
+						case "final":
+							type = State.Type.FINAL;
+							break;
+						default:
+							type = State.Type.NORMAL;
+							break;
+					}
 					String name = getTagValue("name", currentElement);
 					State tempState = new State(id, name, type);
 					states.add(tempState);
@@ -268,12 +297,20 @@ public class InOut {
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element currentElement = (Element) currentNode;
 					// get from an to
-					String from = currentElement.getAttribute("from");
-					String to = currentElement.getAttribute("to");
+					State from = null;
+					State to = null;
+					for (int j = 0; j < states.size(); j++) {
+						if (states.get(j).getId().equals(currentElement.getAttribute("from"))) {
+							from = states.get(j);
+						}
+						if (states.get(j).getId().equals(currentElement.getAttribute("to"))) {
+							to = states.get(j);
+						}
+					}
 					// TODO remove test output
 					System.out.println("\n== Edge " + i + " ==\n");
-					System.out.println("from: " + from);
-					System.out.println("to: " + to);
+					System.out.println("from: " + from.getId());
+					System.out.println("to: " + to.getId());
 
 					// get transitions
 					NodeList transitionList = currentElement.getElementsByTagName("transition");
@@ -281,9 +318,9 @@ public class InOut {
 					for (int j = 0; j < transitionList.getLength(); j++) {
 						Node currentTransitionNode = transitionList.item(j);
 						String id;
-						ArrayList<String> read = new ArrayList<String>();
-						ArrayList<String> write = new ArrayList<String>();
-						ArrayList<String> action = new ArrayList<String>();
+						ArrayList<Character> read = new ArrayList<Character>();
+						ArrayList<Character> write = new ArrayList<Character>();
+						ArrayList<Character> action = new ArrayList<Character>();
 						if (currentTransitionNode.getNodeType() == Node.ELEMENT_NODE) {
 							Element currentTransitionElement = (Element) currentTransitionNode;
 							id = currentTransitionElement.getAttribute("id");
@@ -300,7 +337,7 @@ public class InOut {
 									for (int l = 0; l < readSymbolList.getLength(); l++) {
 										Node currentReadSymbolNode = readSymbolList.item(l);
 										if (currentReadSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-											read.add(currentReadSymbolNode.getTextContent());
+											read.add(currentReadSymbolNode.getTextContent().charAt(0));
 											// TODO remove test output
 											System.out.println("read: " + currentReadSymbolNode.getTextContent());
 										}
@@ -318,7 +355,7 @@ public class InOut {
 									for (int l = 0; l < writeSymbolList.getLength(); l++) {
 										Node currentWriteSymbolNode = writeSymbolList.item(l);
 										if (currentWriteSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-											read.add(currentWriteSymbolNode.getTextContent());
+											read.add(currentWriteSymbolNode.getTextContent().charAt(0));
 											// TODO remove test output
 											System.out.println("write: " + currentWriteSymbolNode.getTextContent());
 										}
@@ -336,7 +373,7 @@ public class InOut {
 									for (int l = 0; l < actionSymbolList.getLength(); l++) {
 										Node currentActionSymbolNode = actionSymbolList.item(l);
 										if (currentActionSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-											action.add(currentActionSymbolNode.getTextContent());
+											action.add(currentActionSymbolNode.getTextContent().charAt(0));
 											// TODO remove test output
 											System.out.println("direction: " + currentActionSymbolNode.getTextContent());
 										}

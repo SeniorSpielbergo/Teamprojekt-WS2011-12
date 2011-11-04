@@ -9,10 +9,10 @@ public class State {
 
 	protected String id;
 	protected String name;
-	protected String type;	// TODO enum
+	protected Type type;
 	protected ArrayList<Edge> edge;
 	
-	public State(String id, String name, String type) {
+	public State(String id, String name, Type type) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
@@ -27,7 +27,7 @@ public class State {
 		return this.name;
 	}
 	
-	public String getType() {
+	public Type getType() {
 		return this.type;
 	}
 	
@@ -39,8 +39,8 @@ public class State {
 		this.name = name;
 	}
 	
-	public void setType(String type) {
-		this.name = type;
+	public void setType(Type type) {
+		this.type = type;
 	}
 	
 	public boolean equals(String type){

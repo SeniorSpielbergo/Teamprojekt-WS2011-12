@@ -1,23 +1,22 @@
-import java.lang.String;
 import java.util.ArrayList;
 
 public class Edge {
 
-	protected String from;	// TODO State
-	protected String to;	// TODO State
+	protected State from;
+	protected State to;
 	protected ArrayList<Transition> transition;
 	
-	public Edge(String from, String to, ArrayList<Transition> transition) {
+	public Edge(State from, State to, ArrayList<Transition> transition) {
 		this.from = from;
 		this.to = to;
 		this.transition = transition;
 	}
 	
-	public String getFrom() {
+	public State getFrom() {
 		return this.from;
 	}
 	
-	public String getTo() {
+	public State getTo() {
 		return this.to;
 	}
 	
@@ -25,11 +24,11 @@ public class Edge {
 		return this.transition;
 	}
 	
-	public void setFrom(String from) {
+	public void setFrom(State from) {
 		this.from = from;
 	}
 	
-	public void setTo(String to) {
+	public void setTo(State to) {
 		this.to = to;
 	}
 	
