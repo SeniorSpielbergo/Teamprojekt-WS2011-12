@@ -20,7 +20,7 @@ import org.w3c.dom.NodeList;
 
 public class InOut {
 	
-	/*public static void writeXMLtoFile(String fileName, String machineName, Graph graph) {
+	public static void writeXMLtoFile(String fileName, Graph graph) {
 		try {
 			try {
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -41,9 +41,14 @@ public class InOut {
 				doc.appendChild(rootElement);
 		
 				// save name of machine
-				Attr attr = doc.createAttribute("name");
-				attr.setValue(machineName);
-				rootElement.setAttributeNode(attr);
+				Attr attrName = doc.createAttribute("name");
+				attrName.setValue(graph.getName());
+				rootElement.setAttributeNode(attrName);
+				
+				// save number tapes of machine
+				Attr attrTape = doc.createAttribute("tape");
+				attrTape.setValue(String.valueOf(graph.getTapes()));
+				rootElement.setAttributeNode(attrTape);
 				
 				// get states and edges from graph
 				ArrayList<State> states = graph.getStates();
@@ -57,9 +62,9 @@ public class InOut {
 					rootElement.appendChild(state);
 					
 					// save id of state
-					Attr attrId = doc.createAttribute("id");
-					attrId.setValue(tempState.getId());
-					state.setAttributeNode(attrId);
+					Attr attrStateId = doc.createAttribute("id");
+					attrStateId.setValue(tempState.getId());
+					state.setAttributeNode(attrStateId);
 					
 					// save type of state
 					Attr attrType = doc.createAttribute("type");
@@ -73,16 +78,12 @@ public class InOut {
 				}
 				
 				// edges
-				for(int i = 0; i < edges.size(); i++) {
+				for(int i = 0; i < edges.size(); i++) { 
 					Edge tempEdge = edges.get(i);
+					ArrayList<Transition> transitions = tempEdge.getTransition();
 					// edge element
 					Element edge = doc.createElement("edge");
 					rootElement.appendChild(edge);
-					
-					// save id of edge
-					Attr attrEdgeId = doc.createAttribute("id");
-					attrEdgeId.setValue(tempEdge.getId());
-					edge.setAttributeNode(attrEdgeId);
 		
 					// save from of edge
 					Attr attrEdgeFrom = doc.createAttribute("from");
@@ -94,33 +95,61 @@ public class InOut {
 					attrEdgeTo.setValue(tempEdge.getTo());
 					edge.setAttributeNode(attrEdgeTo);
 					
-					// edge read elements
-					ArrayList<String> read = tempEdge.getRead();
-					Element readElement = doc.createElement("read");
-					edge.appendChild(readElement);
-					for (int j = 0; j < read.size(); j++) {
-						Element symbolElement = doc.createElement("symbol");
-						symbolElement.appendChild(doc.createTextNode(read.get(j)));
-						readElement.appendChild(symbolElement);
+					for (int j = 0; j < transitions.size(); j++) {
+						Transition tempTransition = transitions.get(j);
+						
+						// transition element
+						Element transition = doc.createElement("transition");
+						edge.appendChild(transition);
+						
+						// save id of transition
+						Attr attrTransitionId = doc.createAttribute("type");
+						attrTransitionId.setValue(tempTransition.getId());
+						transition.setAttributeNode(attrTransitionId);
+						
+						// edge read elements
+						ArrayList<String> read = tempTransition.getRead();
+						Element readElement = doc.createElement("read");
+						edge.appendChild(readElement);
+						for (int k = 0; k < read.size(); k++) {
+							Element symbolElement = doc.createElement("symbol");
+							symbolElement.appendChild(doc.createTextNode(read.get(k)));
+							readElement.appendChild(symbolElement);
+						}
+						
+						// edge read elements
+						ArrayList<String> write = tempTransition.getWrite();
+						Element writeElement = doc.createElement("write");
+						edge.appendChild(writeElement);
+						for (int k = 0; k < write.size(); k++) {
+							Element symbolElement = doc.createElement("symbol");
+							symbolElement.appendChild(doc.createTextNode(write.get(k)));
+							writeElement.appendChild(symbolElement);
+						}
+						
+						// edge read elements
+						ArrayList<String> action = tempTransition.getAction();
+						Element actionElement = doc.createElement("action");
+						edge.appendChild(actionElement);
+						for (int k = 0; k < action.size(); k++) {
+							Element symbolElement = doc.createElement("symbol");
+							symbolElement.appendChild(doc.createTextNode(action.get(k)));
+							actionElement.appendChild(symbolElement);
+						}
 					}
-			
-					// edge write element
-					Element writeElement = doc.createElement("write");
-					writeElement.appendChild(doc.createTextNode(tempEdge.getWrite()));
-					edge.appendChild(writeElement);
 				}
 				
 				// write the content into xml file
-				if (!(new File(fileName)).exists()) {
+				//if (!(new File(fileName)).exists()) {
 					StreamResult result = new StreamResult(new File(fileName));
 					transformer.transform(source, result);
 					// TODO remove test output
 					System.out.println("Done writing file!\n");
-				}
+				/*}
 				else {
 					// TODO remove test output
 					System.out.println("File already exists!\n");
-				}
+				}*/
 			}
 			catch (ParserConfigurationException pce) {
 				pce.printStackTrace();
@@ -129,7 +158,7 @@ public class InOut {
 		catch (TransformerException tfe) {
 			tfe.printStackTrace();
 		}
-	}*/
+	}
 	
 	public static Graph readXMLFromFile(String fileName) {
 		Graph graph = null;

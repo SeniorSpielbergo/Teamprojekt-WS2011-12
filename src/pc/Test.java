@@ -26,9 +26,9 @@ public class Test {
 		ArrayList<Edge> edges = new ArrayList<Edge>();
 		edges.add(e0);
 		String machineName = "test";
-		//Graph graph = new Graph(states, edges, machineName, 4);
+		Graph graph = new Graph(states, edges, machineName, 4);
 		
-		//InOut.writeXMLtoFile("test.xml", machineName, graph);
+		InOut.writeXMLtoFile("example.xml", graph);
 		InOut.readXMLFromFile("test.xml");
 	}
 	
