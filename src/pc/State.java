@@ -1,16 +1,18 @@
 import java.lang.String;
+import java.util.ArrayList;
 
 public class State {
 
 	protected String id;
 	protected String name;
 	protected String type;
-	protected ArrayList labels;
+	protected ArrayList<Edge> edge;
 	
 	public State(String id, String name, String type) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
+		this.edge = new ArrayList<Edge>();
 	}
 	
 	public String getId() {
@@ -25,8 +27,8 @@ public class State {
 		return this.type;
 	}
 	
-	public String getLabels() {
-		return this.labels;
+	public ArrayList<Edge> getEdge() {
+		return this.edge;
 	}
 	
 	public void setName(String name) {

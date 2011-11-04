@@ -20,7 +20,7 @@ import org.w3c.dom.NodeList;
 
 public class InOut {
 	
-	public static void writeXMLtoFile(String fileName, String machineName, Graph graph) {
+	public static void writeXMLtoFile(String fileName, Graph graph) {
 		try {
 			try {
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -41,9 +41,14 @@ public class InOut {
 				doc.appendChild(rootElement);
 		
 				// save name of machine
-				Attr attr = doc.createAttribute("name");
-				attr.setValue(machineName);
-				rootElement.setAttributeNode(attr);
+				Attr attrName = doc.createAttribute("name");
+				attrName.setValue(graph.getName());
+				rootElement.setAttributeNode(attrName);
+				
+				// save number tapes of machine
+				Attr attrTape = doc.createAttribute("tape");
+				attrTape.setValue(String.valueOf(graph.getTapes()));
+				rootElement.setAttributeNode(attrTape);
 				
 				// get states and edges from graph
 				ArrayList<State> states = graph.getStates();
@@ -57,9 +62,9 @@ public class InOut {
 					rootElement.appendChild(state);
 					
 					// save id of state
-					Attr attrId = doc.createAttribute("id");
-					attrId.setValue(tempState.getId());
-					state.setAttributeNode(attrId);
+					Attr attrStateId = doc.createAttribute("id");
+					attrStateId.setValue(tempState.getId());
+					state.setAttributeNode(attrStateId);
 					
 					// save type of state
 					Attr attrType = doc.createAttribute("type");
@@ -73,16 +78,12 @@ public class InOut {
 				}
 				
 				// edges
-				for(int i = 0; i < edges.size(); i++) {
+				for(int i = 0; i < edges.size(); i++) { 
 					Edge tempEdge = edges.get(i);
+					ArrayList<Transition> transitions = tempEdge.getTransition();
 					// edge element
 					Element edge = doc.createElement("edge");
 					rootElement.appendChild(edge);
-					
-					// save id of edge
-					Attr attrEdgeId = doc.createAttribute("id");
-					attrEdgeId.setValue(tempEdge.getId());
-					edge.setAttributeNode(attrEdgeId);
 		
 					// save from of edge
 					Attr attrEdgeFrom = doc.createAttribute("from");
@@ -94,33 +95,61 @@ public class InOut {
 					attrEdgeTo.setValue(tempEdge.getTo());
 					edge.setAttributeNode(attrEdgeTo);
 					
-					// edge read elements
-					ArrayList<String> read = tempEdge.getRead();
-					Element readElement = doc.createElement("read");
-					edge.appendChild(readElement);
-					for (int j = 0; j < read.size(); j++) {
-						Element symbolElement = doc.createElement("symbol");
-						symbolElement.appendChild(doc.createTextNode(read.get(j)));
-						readElement.appendChild(symbolElement);
+					for (int j = 0; j < transitions.size(); j++) {
+						Transition tempTransition = transitions.get(j);
+						
+						// transition element
+						Element transition = doc.createElement("transition");
+						edge.appendChild(transition);
+						
+						// save id of transition
+						Attr attrTransitionId = doc.createAttribute("type");
+						attrTransitionId.setValue(tempTransition.getId());
+						transition.setAttributeNode(attrTransitionId);
+						
+						// edge read elements
+						ArrayList<String> read = tempTransition.getRead();
+						Element readElement = doc.createElement("read");
+						edge.appendChild(readElement);
+						for (int k = 0; k < read.size(); k++) {
+							Element symbolElement = doc.createElement("symbol");
+							symbolElement.appendChild(doc.createTextNode(read.get(k)));
+							readElement.appendChild(symbolElement);
+						}
+						
+						// edge read elements
+						ArrayList<String> write = tempTransition.getWrite();
+						Element writeElement = doc.createElement("write");
+						edge.appendChild(writeElement);
+						for (int k = 0; k < write.size(); k++) {
+							Element symbolElement = doc.createElement("symbol");
+							symbolElement.appendChild(doc.createTextNode(write.get(k)));
+							writeElement.appendChild(symbolElement);
+						}
+						
+						// edge read elements
+						ArrayList<String> action = tempTransition.getAction();
+						Element actionElement = doc.createElement("action");
+						edge.appendChild(actionElement);
+						for (int k = 0; k < action.size(); k++) {
+							Element symbolElement = doc.createElement("symbol");
+							symbolElement.appendChild(doc.createTextNode(action.get(k)));
+							actionElement.appendChild(symbolElement);
+						}
 					}
-			
-					// edge write element
-					Element writeElement = doc.createElement("write");
-					writeElement.appendChild(doc.createTextNode(tempEdge.getWrite()));
-					edge.appendChild(writeElement);
 				}
 				
 				// write the content into xml file
-				if (!(new File(fileName)).exists()) {
+				//if (!(new File(fileName)).exists()) {
 					StreamResult result = new StreamResult(new File(fileName));
 					transformer.transform(source, result);
 					// TODO remove test output
 					System.out.println("Done writing file!\n");
-				}
+				/*}
 				else {
 					// TODO remove test output
 					System.out.println("File already exists!\n");
-				}
+				}*/
 			}
 			catch (ParserConfigurationException pce) {
 				pce.printStackTrace();
@@ -141,7 +170,10 @@ public class InOut {
 			doc.getDocumentElement().normalize();
 			// print the Turing machine's name
 			// TODO remove test output
-			System.out.println("Turing machine's name: " + doc.getDocumentElement().getAttribute("name"));
+			String machineName = doc.getDocumentElement().getAttribute("name");
+			String numberTapesString = doc.getDocumentElement().getAttribute("tapes");
+			int numberTapes = Integer.parseInt(numberTapesString);
+			System.out.println("Turing machine's name: " + machineName);
 			
 			// TODO remove test output
 			System.out.println("\nSTATES");
@@ -172,40 +204,99 @@ public class InOut {
 			// get list of edges
 			NodeList edgeList = doc.getElementsByTagName("edge");
 			ArrayList<Edge> edges = new ArrayList<Edge>();
+			ArrayList<Transition> transitions = new ArrayList<Transition>();
 			for (int i = 0; i < edgeList.getLength(); i++) {
 				Node currentNode = edgeList.item(i);
 
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element currentElement = (Element) currentNode;
-					String id = currentElement.getAttribute("id");
+					// get from an to
 					String from = currentElement.getAttribute("from");
 					String to = currentElement.getAttribute("to");
-					String write = getTagValue("write", currentElement);
 					// TODO remove test output
-					System.out.println("\n== Edge " + id + " ==\n");
-					System.out.println("id: " + id);
+					System.out.println("\n== Edge " + i + " ==\n");
 					System.out.println("from: " + from);
 					System.out.println("to: " + to);
-					
-					//NodeList readList = currentElement.getElementsByTagName("read");
-					Node currentReadNode = edgeList.item(0);
-					Element currentReadElement = (Element) currentReadNode;
-					
-					NodeList symbolList = currentReadElement.getElementsByTagName("symbol");
-					ArrayList<String> read = new ArrayList<String>();
-					for (int j = 0; j < symbolList.getLength(); j++) {
-						Node currentSymbolNode = symbolList.item(j);
-						System.out.println("read" + j + ": " + currentSymbolNode.getTextContent());
-						read.add(currentSymbolNode.getTextContent());
+
+					// get transitions
+					NodeList transitionList = currentElement.getElementsByTagName("transition");
+					ArrayList<Transition> transition = new ArrayList<Transition>();
+					for (int j = 0; j < transitionList.getLength(); j++) {
+						Node currentTransitionNode = transitionList.item(j);
+						String id;
+						ArrayList<String> read = new ArrayList<String>();
+						ArrayList<String> write = new ArrayList<String>();
+						ArrayList<String> action = new ArrayList<String>();
+						if (currentTransitionNode.getNodeType() == Node.ELEMENT_NODE) {
+							Element currentTransitionElement = (Element) currentTransitionNode;
+							id = currentTransitionElement.getAttribute("id");
+							// TODO remove test output
+							System.out.println("== TRANSITION" + id + "==");
+
+							// get read
+							NodeList readList = currentTransitionElement.getElementsByTagName("read");
+							for (int k = 0; k < readList.getLength(); k++) {
+								Node currentReadNode = readList.item(k);
+								if (currentReadNode.getNodeType() == Node.ELEMENT_NODE) {
+									Element currentReadElement = (Element) currentReadNode;
+									NodeList readSymbolList = currentReadElement.getChildNodes();
+									for (int l = 0; l < readSymbolList.getLength(); l++) {
+										Node currentReadSymbolNode = readSymbolList.item(l);
+										if (currentReadSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+											read.add(currentReadSymbolNode.getTextContent());
+											// TODO remove test output
+											System.out.println("read: " + currentReadSymbolNode.getTextContent());
+										}
+									}
+								}
+							}
+							
+							// get write
+							NodeList writeList = currentTransitionElement.getElementsByTagName("write");
+							for (int k = 0; k < writeList.getLength(); k++) {
+								Node currentWriteNode = writeList.item(k);
+								if (currentWriteNode.getNodeType() == Node.ELEMENT_NODE) {
+									Element currentWriteElement = (Element) currentWriteNode;
+									NodeList writeSymbolList = currentWriteElement.getChildNodes();
+									for (int l = 0; l < writeSymbolList.getLength(); l++) {
+										Node currentWriteSymbolNode = writeSymbolList.item(l);
+										if (currentWriteSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+											read.add(currentWriteSymbolNode.getTextContent());
+											// TODO remove test output
+											System.out.println("write: " + currentWriteSymbolNode.getTextContent());
+										}
+									}
+								}
+							}
+							
+							// get action
+							NodeList actionList = currentTransitionElement.getElementsByTagName("action");
+							for (int k = 0; k < actionList.getLength(); k++) {
+								Node currentActionNode = actionList.item(k);
+								if (currentActionNode.getNodeType() == Node.ELEMENT_NODE) {
+									Element currentActionElement = (Element) currentActionNode;
+									NodeList actionSymbolList = currentActionElement.getChildNodes();
+									for (int l = 0; l < actionSymbolList.getLength(); l++) {
+										Node currentActionSymbolNode = actionSymbolList.item(l);
+										if (currentActionSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+											action.add(currentActionSymbolNode.getTextContent());
+											// TODO remove test output
+											System.out.println("direction: " + currentActionSymbolNode.getTextContent());
+										}
+									}
+								}
+							}
+							
+							Transition tempTransition = new Transition(id, read, write, action);
+							transitions.add(tempTransition);
+						}
 					}
 					
-					// TODO remove test output
-					System.out.println("write: " + write);
-					Edge tempEdge = new Edge(id, from, to, read, write);
+					Edge tempEdge = new Edge(from, to, transition);
 					edges.add(tempEdge);
 				}
 			}
-			graph = new Graph(states, edges);
+			graph = new Graph(states, edges, machineName, numberTapes);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

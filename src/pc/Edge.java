@@ -3,24 +3,14 @@ import java.util.ArrayList;
 
 public class Edge {
 
-	protected String id;
 	protected String from;
 	protected String to;
-	protected ArrayList<String> read;
-	protected String write;
-	protected String action;
+	protected ArrayList<Transition> transition;
 	
-	public Edge(String id, String from, String to, ArrayList<String> read, String write, String action) {
-		this.id = id;
+	public Edge(String from, String to, ArrayList<Transition> transition) {
 		this.from = from;
 		this.to = to;
-		this.read = read;
-		this.write = write;
-		this.action = action;
-	}
-	
-	public String getId() {
-		return this.id;
+		this.transition = transition;
 	}
 	
 	public String getFrom() {
@@ -31,16 +21,8 @@ public class Edge {
 		return this.to;
 	}
 	
-	public ArrayList<String> getRead() {
-		return this.read;
-	}
-	
-	public String getWrite() {
-		return this.write;
-	}
-
-	public String getAction() {
-		return this.action;
+	public ArrayList<Transition> getTransition() {
+		return this.transition;
 	}
 	
 	public void setFrom(String from) {
@@ -51,16 +33,8 @@ public class Edge {
 		this.to = to;
 	}
 	
-	public void setRead(ArrayList<String> read) {
-		this.read = read;
-	}
-	
-	public void setWrite(String write) {
-		this.write = write;
-	}
-
-	public void setAction(String action) {
-		this.action = action;
+	public void setTransition(ArrayList<Transition> transition) {
+		this.transition = transition;
 	}
 
 }

@@ -11,14 +11,25 @@ public class Test {
 		read.add("0");
 		read.add("1");
 		read.add("2");
-		Edge e0 = new Edge("0", "0", "1", read, "#");
+		ArrayList<String> write = new ArrayList<String>();
+		write.add("0");
+		write.add("1");
+		write.add("2");
+		ArrayList<String> action = new ArrayList<String>();
+		action.add("0");
+		action.add("1");
+		action.add("2");
+		Transition t0 = new Transition("0", read, write, action);
+		ArrayList<Transition> transition = new ArrayList<Transition>();
+		transition.add(t0);
+		Edge e0 = new Edge("0", "1", transition);
 		ArrayList<Edge> edges = new ArrayList<Edge>();
 		edges.add(e0);
-		Graph graph = new Graph(states, edges);
 		String machineName = "test";
+		Graph graph = new Graph(states, edges, machineName, 4);
 		
-		InOut.writeXMLtoFile("test.xml", machineName, graph);
-		InOut.readXMLFromFile("example.xml");
+		InOut.writeXMLtoFile("example.xml", graph);
+		InOut.readXMLFromFile("test.xml");
 	}
 	
 }

@@ -1,7 +1,8 @@
-/* This class contains special methods for the Slave Robot
- * 
- * Responsible: Nils Breyer
- * 
+/**
+ * This class contains special methods for the Slave Robot
+ *
+ *
+ * @author Nils Breyer
  */
 public class SlaveRobot extends Robot {
 	public SlaveRobot(String name, String mac_address) {

@@ -4,10 +4,22 @@ public class Graph {
 
 	protected ArrayList<State> states;
 	protected ArrayList<Edge> edges;
+	protected String name;
+	protected int tapes;
 	
-	public Graph(ArrayList<State> states, ArrayList<Edge> edges) {
+	public Graph(ArrayList<State> states, ArrayList<Edge> edges, String name, int tapes) {
 		this.states = states;
 		this.edges = edges;
+		this.name = name;
+		this.tapes = tapes;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public int getTapes() {
+		return this.tapes;
 	}
 	
 	public ArrayList<State> getStates() {
