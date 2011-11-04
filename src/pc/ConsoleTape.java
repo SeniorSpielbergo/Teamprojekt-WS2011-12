@@ -1,3 +1,9 @@
+/**
+ * This class implements a tape on a console.
+ *
+ * @author Nils Breyer
+ */
+
 import java.util.*;
 
 public class ConsoleTape extends Tape {
@@ -12,7 +18,11 @@ public class ConsoleTape extends Tape {
 		this.ready = false;
 	}
 		
-	
+	/** 
+     * This method returns the char at the current tape position
+     *
+     * @return Character at the current position
+     */
 	public char read() {
 		if (this.memory.get(this.position) != null) {
 			return this.memory.get(this.position);
@@ -22,6 +32,11 @@ public class ConsoleTape extends Tape {
 		}
 	}
 	
+	/** 
+     * This method writes the char at the current tape position
+     *
+     * @param c Character to write
+     */
 	public void write(char c) {
 		this.memory.put(this.position, c);
 		this.printTape();
