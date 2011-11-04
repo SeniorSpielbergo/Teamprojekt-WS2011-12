@@ -28,9 +28,12 @@ public class Simulation {
 	}
 
 	public void runMachine(){
-
+		currentSymbol = this.tape.read();
+		for(Edge e : actualState.getLabels()){
+			if( e.getRead() == currentSymbol)
+				break;
+		}
 	}
-
 
 	private void findLabels(){
 		for( State s : machine.getStates()){
