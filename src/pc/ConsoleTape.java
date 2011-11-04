@@ -29,6 +29,7 @@ public class ConsoleTape extends Tape {
      * This method returns the char at the current tape position
      *
      * @return Character at the current position
+     * @see #write(char)
      */
 	public char read() {
 		if (this.memory.get(this.position) != null) {
@@ -43,6 +44,7 @@ public class ConsoleTape extends Tape {
      * This method writes a symbol at the current tape position
      *
      * @param c Character to write (allowed characters are #, 0, 1, 2)
+     * @see #read()
      */
 	public void write(char c) {
 		this.memory.put(this.position, c);
@@ -62,6 +64,7 @@ public class ConsoleTape extends Tape {
 	/** 
      * This method moves the tape one field to the right
      *
+     * @see #moveLeft()
      */
 	public void moveRight() {
 		position++;
