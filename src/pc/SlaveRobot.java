@@ -1,5 +1,5 @@
 /**
- * This class contains special methods for the Slave Robot
+ * Contains special methods for the Slave Robot
  *
  *
  * @author Nils Breyer

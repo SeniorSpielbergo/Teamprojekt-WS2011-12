@@ -1,4 +1,4 @@
-/** This abstract class contains common function for Master and Slave Robots
+/** Contains common function for Master and Slave Robots
  * 
  * @author Nils Breyer, Phillipp Neumann
  * 

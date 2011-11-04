@@ -1,4 +1,4 @@
-/** This class represents a physical turing machine tape and provides methods to interact with the tape
+/** Represents a physical turing machine tape and provides methods to interact with the tape
  * 
  * @author Nils Breyer
  * 
@@ -23,10 +23,9 @@ public class LEGOTape extends Tape {
 	
 	/**
 	 * Initializes the LEGO tape by connecting to the two robots
-	 * 
+	 * @throws Exception Thrown, when the tape failed to initialize
 	 * @see #shutdown()
 	 */
-	
 	public void init() throws Exception {
 		System.out.println("Initializing tape...");
 		try {

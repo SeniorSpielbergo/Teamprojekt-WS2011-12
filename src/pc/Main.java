@@ -1,6 +1,6 @@
-/* This class contains the main method to run the server program
+/** Contains the main method to run the server program
  * 
- * Responsible: Nils Breyer
+ * @author Nils Breyer
  * 
  */
 import javax.swing.*;

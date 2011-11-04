@@ -1,10 +1,9 @@
+import java.util.*;
+
 /**
- * This class implements a virtual tape and shows it on the console.
- *
+ * Implements a virtual tape and shows it on the console
  * @author Nils Breyer
  */
-
-import java.util.*;
 
 public class ConsoleTape extends Tape {
 	HashMap<Integer, Character> memory = new HashMap<Integer, Character>();
@@ -12,7 +11,7 @@ public class ConsoleTape extends Tape {
 	
 	/** 
      * This method initializes the tape
-     *
+     * @throws Exception Never thrown
      */
 	public void init() throws Exception {
 		this.ready = true;

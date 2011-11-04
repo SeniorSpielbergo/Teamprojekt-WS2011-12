@@ -1,5 +1,5 @@
 /**
- * This abstract class is the common base for LEGO and Console/PC tapes. 
+ * This abstract class is the common base class for LEGO and Console/PC tapes. 
  * It contains no concrete methods.
  *
  * @author Nils Breyer
@@ -11,16 +11,19 @@ public abstract class Tape {
 	/**
 	 * Initializes the tape
 	 * @throws Exception
+	 * @see #shutdown()
 	 */
 	public abstract void init() throws Exception;
 	
 	/**
 	 * Shutdown the tape
+	 * @see #init()
 	 */
 	public abstract void shutdown();
 	
 	/**
 	 * Reads the symbol at the current tape position
+	 * 
 	 * @return Symbol at the current tape position (#,0,1,2)
 	 */
 	public abstract char read();
