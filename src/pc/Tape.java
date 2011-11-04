@@ -1,62 +1,19 @@
-/* This class represents a physical turing machine tape and provides methods to interact with the tape
- * 
- * Responsible: Nils Breyer
- * 
- */
 
-public class Tape {
-	private MasterRobot master = null;
-	private SlaveRobot slave = null;
+public abstract class Tape {
 	private char currentSymbol = 'n';
-	
 	boolean ready = false;
-
-	public Tape(MasterRobot master, SlaveRobot slave) {
-		this.master = master;
-		this.slave = slave;
-	}
 	
-	public void init() throws Exception {
-		System.out.println("Initializing tape...");
-		try {
-			this.master.connect();
-			this.slave.connect();
-			ready = true;
-			System.out.println("Tape ready.");
-
-		}
-		catch (Exception e) {
-			ready = false;
-			System.out.println("Initializing tape failed.");
-			throw e;
-		}
-	}
+	public abstract void init() throws Exception;
 	
-	public void shutdown() {
-		this.master.disconnect();
-		this.slave.disconnect();
-		ready = false;
-	}
+	public abstract void shutdown();
 	
-	public char read() {
-		currentSymbol = this.master.read();
-		return currentSymbol;
-	}
+	public abstract char read();
 	
-	public void write(char c) {
-		this.master.write(currentSymbol, c);
-		this.slave.write(currentSymbol, c);
-	}
+	public abstract void write(char c);
 	
-	public void moveLeft() {
-		this.master.moveLeft();
-	}
+	public abstract void moveLeft();
 	
-	public void moveRight() {
-		this.master.moveRight();
-	}
+	public abstract void moveRight();
 	
-	public void test() { //TODO: remove
-		this.master.test();
-	}
+	public abstract void test();
 }
