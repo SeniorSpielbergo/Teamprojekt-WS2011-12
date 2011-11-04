@@ -1,7 +1,6 @@
 /**
  * Contains special methods for the Slave Robot
  *
- *
  * @author Nils Breyer
  */
 public class SlaveRobot extends Robot {
