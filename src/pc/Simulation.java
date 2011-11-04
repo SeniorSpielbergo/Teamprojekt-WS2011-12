@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Simulation {
 
-	Graph machine;
+	TuringMachine machine;
 	State actualState, startState, nextState;
 	ArrayList<Tape> tapes = null;
 	ArrayList<Character> currentSymbols = new ArrayList<Character>();
@@ -11,7 +11,7 @@ public class Simulation {
 
 
 
-	public Simulation(Graph g, ArrayList<Tape> tapes){
+	public Simulation(TuringMachine g, ArrayList<Tape> tapes){
 		this.tapes = tapes;
 		this.numberOfTapes = tapes.size();
 		machine = (InOut.readXMLFromFile("example.xml"));		

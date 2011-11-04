@@ -1,3 +1,9 @@
+/** This class provides methods to read and write Turing machines from / to files
+ * 
+ * @author David Wille
+ * 
+ */
+
 import java.io.File;
 import java.lang.String;
 import java.util.ArrayList;
@@ -20,7 +26,12 @@ import org.w3c.dom.NodeList;
 
 public class InOut {
 	
-	public static void writeXMLtoFile(String fileName, Graph graph) {
+	/**
+	 * Writes a Turing machine to a XML file with a given name
+	 * @param fileName File writing to (with or without .xml at the end)
+	 * @param machine Turing machine object which should be written to file
+	 */
+	public static void writeXMLtoFile(String fileName, TuringMachine machine) {
 		try {
 			try {
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -42,20 +53,20 @@ public class InOut {
 		
 				// save name of machine
 				Attr attrName = doc.createAttribute("name");
-				attrName.setValue(graph.getName());
+				attrName.setValue(machine.getName());
 				rootElement.setAttributeNode(attrName);
 				
 				// save number tapes of machine
 				Attr attrTape = doc.createAttribute("tape");
-				attrTape.setValue(String.valueOf(graph.getTapes()));
+				attrTape.setValue(String.valueOf(machine.getTapes()));
 				rootElement.setAttributeNode(attrTape);
 				
-				// get states and edges from graph
-				ArrayList<State> states = graph.getStates();
-				ArrayList<Edge> edges = graph.getEdges();
+				// get states and edges from machine
+				ArrayList<State> states = machine.getStates();
+				ArrayList<Edge> edges = machine.getEdges();
 				
 				// inputs
-				ArrayList<ArrayList<Character>> inputCharacter = graph.getInitial();
+				ArrayList<ArrayList<Character>> inputCharacter = machine.getInitial();
 				for(int i = 0; i < inputCharacter.size(); i++) {
 					ArrayList<Character> tempInput = inputCharacter.get(i);
 					
@@ -175,6 +186,11 @@ public class InOut {
 					}
 				}
 				
+				// check for right file ending
+				if (!fileName.endsWith(".xml")) {
+					fileName = fileName + ".xml";
+				}
+				
 				// write the content into xml file
 				if (!(new File(fileName)).exists()) {
 					StreamResult result = new StreamResult(new File(fileName));
@@ -196,9 +212,19 @@ public class InOut {
 		}
 	}
 	
-	public static Graph readXMLFromFile(String fileName) {
-		Graph graph = null;
+	/**
+	 * Reads a Turing machine from a XML file
+	 * @param fileName File to read the Turing machine from (with or without .xml at the end)
+	 * @return Turing machine object
+	 */
+	public static TuringMachine readXMLFromFile(String fileName) {
+		TuringMachine machine = null;
 		try {
+			// check for right file ending
+			if (!fileName.endsWith(".xml")) {
+				fileName = fileName + ".xml";
+			}
+			
 			File file = new File(fileName);
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
@@ -388,16 +414,34 @@ public class InOut {
 					
 					Edge tempEdge = new Edge(from, to, transition);
 					edges.add(tempEdge);
+					
+					// write edges that start at a state
+					for (int j = 0; j < states.size(); j++) {
+						ArrayList<Edge> tempStartEdges = new ArrayList<Edge>();
+						for (int k = 0; k < edges.size(); k++) {
+							State tempStateFrom = edges.get(k).getFrom(); 
+							if (tempStateFrom.getId().equals(states.get(j).getId())) {
+								tempStartEdges.add(edges.get(k));
+							}
+						}
+						states.get(j).setEdge(tempStartEdges);
+					}
 				}
 			}
-			graph = new Graph(states, edges, machineName, numberTapes, input);
+			machine = new TuringMachine(states, edges, machineName, numberTapes, input);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		return graph;
+		return machine;
 	}
 	
+	/**
+	 * Returns the value of an element with a certain tag
+	 * @param tag Tag you want to read
+	 * @param currentElement The current element you want to read from
+	 * @return The value of that tag
+	 */
 	private static String getTagValue(String tag, Element currentElement) {
 		NodeList nodeList = currentElement.getElementsByTagName(tag).item(0).getChildNodes();
 

@@ -1,3 +1,9 @@
+/** This class provides a test program for InOut.java
+ * 
+ * @author David Wille
+ * 
+ */
+
 import java.lang.String;
 import java.util.ArrayList;
 
@@ -36,9 +42,9 @@ public class Test {
 		}
 		edges.add(e0);
 		String machineName = "test";
-		Graph graph = new Graph(states, edges, machineName, 4, outerInitial);
+		TuringMachine machine = new TuringMachine(states, edges, machineName, 4, outerInitial);
 		
-		InOut.writeXMLtoFile("example.xml", graph);
+		InOut.writeXMLtoFile("example.xml", machine);
 		InOut.readXMLFromFile("test.xml");
 	}
 	
