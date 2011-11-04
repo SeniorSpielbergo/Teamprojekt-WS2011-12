@@ -58,14 +58,6 @@ public class Line extends Thread {
 		}
 	}
 
-	public ColorSensor getCounterSensor() {
-		return this.counterSensor;
-	}
-	
-	public int getCount() {
-		return this.counter;
-	}
-
 	public boolean moveLeft() {
 		if(this.counter == 0)
 			return false;
@@ -73,8 +65,10 @@ public class Line extends Thread {
 			Motor.A.forward();
 			timer.start();
 			while(!Motor.A.isStopped()){}
-			if(failed)
+			if(failed) {
+				failed = false;
 				return false;
+			}
 			timer.stop();
 			return true;
 		}
@@ -87,10 +81,21 @@ public class Line extends Thread {
 			Motor.A.backward();
 			timer.start();
 			while(!Motor.A.isStopped()){}
-			if(failed)
+			if(failed) {
+				failed = false;
 				return false;
+			}
 			timer.stop();
 			return true;
 		}
+	}
+	
+
+	public ColorSensor getCounterSensor() {
+		return this.counterSensor;
+	}
+	
+	public int getCount() {
+		return this.counter;
 	}
 }
