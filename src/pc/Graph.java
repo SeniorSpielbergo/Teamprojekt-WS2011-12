@@ -14,6 +14,14 @@ public class Graph {
 		this.tapes = tapes;
 	}
 	
+	public String getName() {
+		return this.name;
+	}
+	
+	public int getTapes() {
+		return this.tapes;
+	}
+	
 	public ArrayList<State> getStates() {
 		return this.states;
 	}

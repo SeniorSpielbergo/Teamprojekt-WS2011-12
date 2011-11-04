@@ -1,6 +1,6 @@
 /* This abstract class contains common function for Master and Slave Robots
  * 
- * Responsible: Nils Breyer
+ * Responsible: Nils Breyer, Phillipp Neumann
  * 
  */
 import lejos.pc.comm.*;

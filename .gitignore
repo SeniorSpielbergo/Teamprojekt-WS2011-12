@@ -36,3 +36,5 @@ _region_.tex
 *.nxj
 #Eclipse Rotz
 .metadata
+doc
+bin
