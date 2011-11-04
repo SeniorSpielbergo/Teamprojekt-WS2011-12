@@ -23,7 +23,7 @@ public class Main {
 			tapes.add(tape_console);
 		}
 		else {
-			System.out.println("If you are too stupid to enter one of the words 'LEGO' or 'PC', you shouldn't use this prgram.");
+			System.out.println("If you are too stupid to enter one of the words 'LEGO' or 'PC', you shouldn't use this program.");
 		}
 
 
