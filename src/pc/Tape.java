@@ -21,13 +21,13 @@ public abstract class Tape {
 	
 	/**
 	 * Reads the symbol at the current tape position
-	 * @return
+	 * @return Symbol at the current tape position (#,0,1,2)
 	 */
 	public abstract char read();
 	
 	/**
-	 * Initializes the tape
-	 * @throws Exception
+	 * Writes a symbol to the current tape position
+	 * @param c Symbol to write (#,0,1,2)
 	 */
 	public abstract void write(char c);
 	
