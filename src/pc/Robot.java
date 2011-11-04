@@ -15,7 +15,7 @@ public abstract class Robot {
 	private DataOutputStream output = null;
 
 	/**
-	 * Klassen Konstruktor
+	 * Constructor for a Robot
 	 * @param name Name of the Robot
 	 * @param mac_address MAC Adress of the Robot
 	 */
