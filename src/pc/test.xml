@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<machine name="test">
+<machine name="test" tapes="3">
     <state id="0" type="start">
         <name>q0</name>
     </state>
-    <edge from="0" id="0" to="1">
-        <read>
-            <symbol>0</symbol>
-            <symbol>1</symbol>
-            <symbol>2</symbol>
-        </read>
-        <write>#</write>
+    <edge from="0" to="1">
+    	<transition id="1">
+	    	<read>
+	            <symbol>0</symbol>
+	            <symbol>1</symbol>
+	            <symbol>2</symbol>
+	        </read>
+	        <write>
+	        	<symbol>0</symbol>
+	            <symbol>1</symbol>
+	            <symbol>2</symbol>
+	        </write>
+	        <action>
+	        	<direction>L</direction>
+	        	<direction>N</direction>
+	        	<direction>R</direction>
+	        </action>
+    	</transition>
+    	    	<transition id="2">
+	    	<read>
+	            <symbol>0</symbol>
+	            <symbol>1</symbol>
+	            <symbol>2</symbol>
+	        </read>
+	        <write>
+	        	<symbol>0</symbol>
+	            <symbol>1</symbol>
+	            <symbol>2</symbol>
+	        </write>
+	        <action>
+	        	<direction>L</direction>
+	        	<direction>N</direction>
+	        	<direction>R</direction>
+	        </action>
+    	</transition>
     </edge>
 </machine>
