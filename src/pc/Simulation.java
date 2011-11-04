@@ -35,8 +35,6 @@ public class Simulation {
 		}
 	}
 
-
-
 	private void findLabels(){
 		for( State s : machine.getStates()){
 			for( Edge e : machine.getEdges()){

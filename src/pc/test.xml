@@ -14,7 +14,7 @@
 	        <symbol>#</symbol>
 	        <symbol>1</symbol>
 	        <symbol>#</symbol>
-	        <symbol>#</symbol>       
+	        <symbol>#</symbol>
 		</tape>
 	</input>
     <state id="0" type="start">
@@ -24,7 +24,7 @@
         <name>q2</name>
     </state>
     <edge from="0" to="1">
-    	<transition id="1">
+    	<transition id="0">
 	    	<read>
 	            <symbol>0</symbol>
 	            <symbol>1</symbol>
@@ -41,7 +41,7 @@
 	        	<direction>R</direction>
 	        </action>
     	</transition>
-    	    	<transition id="2">
+    	<transition id="1">
 	    	<read>
 	            <symbol>0</symbol>
 	            <symbol>1</symbol>

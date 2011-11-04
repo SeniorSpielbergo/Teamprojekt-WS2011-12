@@ -20,7 +20,7 @@ import org.w3c.dom.NodeList;
 
 public class InOut {
 	
-	public static void writeXMLtoFile(String fileName, String machineName, Graph graph) {
+	/*public static void writeXMLtoFile(String fileName, String machineName, Graph graph) {
 		try {
 			try {
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -129,7 +129,7 @@ public class InOut {
 		catch (TransformerException tfe) {
 			tfe.printStackTrace();
 		}
-	}
+	}*/
 	
 	public static Graph readXMLFromFile(String fileName) {
 		Graph graph = null;
@@ -177,35 +177,42 @@ public class InOut {
 
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element currentElement = (Element) currentNode;
-					String id = currentElement.getAttribute("id");
 					String from = currentElement.getAttribute("from");
 					String to = currentElement.getAttribute("to");
 					String write = getTagValue("write", currentElement);
 					// TODO remove test output
-					System.out.println("\n== Edge " + id + " ==\n");
-					System.out.println("id: " + id);
+					System.out.println("\n== Edge " + i + " ==\n");
 					System.out.println("from: " + from);
 					System.out.println("to: " + to);
 					
-					//NodeList readList = currentElement.getElementsByTagName("read");
-					Node currentReadNode = edgeList.item(0);
-					Element currentReadElement = (Element) currentReadNode;
+					NodeList transitionList = currentElement.getElementsByTagName("transition");
+					for (int j = 0; j < transitionList.getLength(); j++) {
+						Node currentTransitionNode = transitionList.item(j);
+						Element currentTransitionElement = (Element) currentTransitionNode;
+						System.out.println("" + currentTransitionNode.getTextContent());
+						/*NodeList readList = currentTransitionElement.getElementsByTagName("read");
+						for (int k = 0; k < readList.getLength(); k++) {
+							System.out.println("test");
+						}*/
+					}
+					//Node currentReadNode = edgeList.item(0);
+					//Element currentReadElement = (Element) currentReadNode;
 					
-					NodeList symbolList = currentReadElement.getElementsByTagName("symbol");
+					/*NodeList symbolList = currentReadElement.getElementsByTagName("symbol");
 					ArrayList<String> read = new ArrayList<String>();
 					for (int j = 0; j < symbolList.getLength(); j++) {
 						Node currentSymbolNode = symbolList.item(j);
 						System.out.println("read" + j + ": " + currentSymbolNode.getTextContent());
 						read.add(currentSymbolNode.getTextContent());
-					}
+					}*/
 					
 					// TODO remove test output
-					System.out.println("write: " + write);
-					Edge tempEdge = new Edge(id, from, to, read, write);
-					edges.add(tempEdge);
+					//System.out.println("write: " + write);
+					//Edge tempEdge = new Edge(id, from, to, read, write);
+					//edges.add(tempEdge);
 				}
 			}
-			graph = new Graph(states, edges);
+			//graph = new Graph(states, edges);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
