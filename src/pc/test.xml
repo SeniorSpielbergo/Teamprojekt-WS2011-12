@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="test" tapes="3">
+	<input>
+		<tape>
+			<symbol>0</symbol>
+	        <symbol>1</symbol>
+	        <symbol>2</symbol>
+	        <symbol>2</symbol>
+	        <symbol>2</symbol>
+		</tape>
+		<tape>
+			<symbol>#</symbol>
+	        <symbol>1</symbol>
+	        <symbol>#</symbol>
+	        <symbol>1</symbol>
+	        <symbol>#</symbol>
+	        <symbol>#</symbol>       
+		</tape>
+	</input>
     <state id="0" type="start">
         <name>q0</name>
+    </state>
+    <state id="1" type="final">
+        <name>q2</name>
     </state>
     <edge from="0" to="1">
     	<transition id="1">

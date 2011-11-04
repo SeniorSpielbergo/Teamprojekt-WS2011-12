@@ -28,11 +28,16 @@ public class Simulation {
 	}
 
 	public void runMachine(){
-
+		currentSymbol = this.tape.read();
+		for(Edge e : actualState.getLabels()){
+			if( e.getRead() == currentSymbol)
+				break;
+		}
 	}
 
 
-	private findLabels(){
+
+	private void findLabels(){
 		for( State s : machine.getStates()){
 			for( Edge e : machine.getEdges()){
 				if(e.getFrom().equals(s.getId()))
