@@ -10,11 +10,9 @@ public class Editor extends JFrame {
 		setTitle("Editor");
 		setSize(800, 800);
 		try {
-			System.out.println(System.getProperties().getProperty("os.name"));
-			//if () {
+			if (System.getProperties().getProperty("os.name") == "Linux") {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-			//}
-			
+			}
     	} 
 		catch (Exception e) {
 		}
