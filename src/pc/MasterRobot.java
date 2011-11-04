@@ -1,4 +1,4 @@
-/** This class contains special methods for the Master Robot
+/** Contains special methods for the Master Robot
  * 
  * @author Nils Breyer
  * 

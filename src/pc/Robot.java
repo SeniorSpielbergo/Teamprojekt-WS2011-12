@@ -1,12 +1,11 @@
-/** This abstract class contains common function for Master and Slave Robots
+import lejos.pc.comm.*;
+import java.io.*;
+
+/** Contains common function for Master and Slave Robots
  * 
  * @author Nils Breyer, Phillipp Neumann
  * 
  */
-import lejos.pc.comm.*;
-import java.io.*;
-import java.util.*;
-
 public abstract class Robot {
 	protected String name;
 	private String mac_address;

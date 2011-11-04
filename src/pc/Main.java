@@ -1,11 +1,11 @@
-/* This class contains the main method to run the server program
- * 
- * Responsible: Nils Breyer
- * 
- */
 import javax.swing.*;
 import java.util.*;
 
+/** Contains the main method to run the server program
+ * 
+ * @author Nils Breyer
+ * 
+ */
 public class Main {
 	public static ArrayList<Tape> tapes = new ArrayList<Tape>();
 
@@ -23,7 +23,7 @@ public class Main {
 			tapes.add(tape_console);
 		}
 		else {
-			System.out.println("If you are too stupid to enter one of the words 'LEGO' or 'PC', you shouldn't use this prgram.");
+			System.out.println("If you are too stupid to enter one of the words 'LEGO' or 'PC', you shouldn't use this program.");
 		}
 
 
