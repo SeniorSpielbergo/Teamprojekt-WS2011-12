@@ -1,23 +1,41 @@
 import lejos.nxt.*;
 import lejos.nxt.addon.ColorSensor;
+import lejos.util.*;
 
 public class Line extends Thread {
-	final int LINE_SPEED = 250;
-	final int END_LEFT = 1;
-	final int END_RIGHT = 9;
+	private int counter = 0;
+	private int length = 0;
+	private long time;
+	private boolean grey = false;
+	private boolean color = false;
+	private boolean failed = false;
+	private ColorSensor counterSensor = new ColorSensor(SensorPort.S3);
 	
-	protected int counter = 0;
-	protected boolean grey = true;
-	protected boolean color = false;
-	protected ColorSensor counterSensor = new ColorSensor(SensorPort.S3);
+	private Timer timer = new Timer(1000, 
+		new TimerListener(){ 
+			public void timedOut() {
+				Motor.A.stop();
+				failed = true;
+			}
+		}
+	);
 	
-	public Line() {
-		Motor.A.setSpeed(this.LINE_SPEED);
+	public Line(int length) {
+		this.length = length;
+		Motor.A.setSpeed(Common.LINE_SPEED);
+		initialize();
+	}
+	
+	private void initialize() {
+		if(counterSensor.getColorNumber() != 2)
+			Motor.A.forward();
+		while(counterSensor.getColorNumber() != 2) {}
+		Motor.A.stop();
 	}
 	
 	public void run() {
-		while (!Button.ENTER.isPressed()) {
-			if (counterSensor.getColorNumber() >= 5 && counterSensor.getColorNumber() <= 12) {
+		while(true) {
+			if ((counterSensor.getColorNumber() >= 5 && counterSensor.getColorNumber() <= 12) || counterSensor.getColorNumber() == 2 ) {
 				if (grey && !color) {
 					grey = false;
 					color = true;
@@ -25,21 +43,53 @@ public class Line extends Thread {
 				if (color && !grey) {
 					if (Motor.A.isBackward()) {
 						color = false;
-						counter++;
+						this.counter++;
 						Motor.A.stop();
 					}
 					if (Motor.A.isForward()) {
 						color = false;
-						counter--;
+						this.counter--;
 						Motor.A.stop();
 					}
 				}
 			}
-			else if (counterSensor.getColorNumber() == 3) {
+			else if (counterSensor.getColorNumber() == 3)
 				grey = true;
-			}
 		}
 	}
+
+	public boolean moveLeft() {
+		if(this.counter == 0)
+			return false;
+		else{
+			Motor.A.forward();
+			timer.start();
+			while(!Motor.A.isStopped()){}
+			if(failed) {
+				failed = false;
+				return false;
+			}
+			timer.stop();
+			return true;
+		}
+	}
+	
+	public boolean moveRight() {
+		if(this.counter == this.length)
+			return false;
+		else {
+			Motor.A.backward();
+			timer.start();
+			while(!Motor.A.isStopped()){}
+			if(failed) {
+				failed = false;
+				return false;
+			}
+			timer.stop();
+			return true;
+		}
+	}
+	
 
 	public ColorSensor getCounterSensor() {
 		return this.counterSensor;
@@ -47,27 +97,5 @@ public class Line extends Thread {
 	
 	public int getCount() {
 		return this.counter;
-	}
-	
-	public boolean driveLeft() {
-		if(this.counter == END_LEFT-1 || this.counter == END_LEFT){
-			return false;
-		}
-		else{
-			Motor.A.forward();
-			while(!Motor.A.isStopped()){}
-			return true;
-		}
-	}
-	
-	public boolean driveRight() {
-		if(this.counter == END_RIGHT){
-			return false;
-		}
-		else {
-			Motor.A.backward();
-			while(!Motor.A.isStopped()){}
-			return true;
-		}
 	}
 }

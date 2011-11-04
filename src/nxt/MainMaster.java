@@ -42,18 +42,16 @@ public class MainMaster {
 		Motor.B.setSpeed(Common.PUSH_SPEED);
 		Motor.C.setSpeed(Common.PUSH_SPEED);
 		
-		Line line = new Line();
+		Line line = new Line(8); // laenge uebergeben
 		line.start();
 		//initialize counter
 		counterSensor = line.getCounterSensor();
-		
+				
 		// sensor listener for emergency stop
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
 			public void stateChanged(SensorPort port, int oldValue, int newValue) {
-				if (oldValue > 500 && newValue < 500) {
-					Common.playTune("HAHA",200);
+				if (oldValue > 500 && newValue < 500)
 					System.exit(0);
-				}
 			}
 		});
 		
@@ -158,8 +156,8 @@ public class MainMaster {
 					catch (IOException e) {
 					}
 					break;
-				case 'L': 
-					if(line.driveLeft()) {
+				case 'L':
+					if(line.moveLeft()) {
 						try {
 							out.writeChar('.');
 							out.flush();
@@ -177,7 +175,7 @@ public class MainMaster {
 					}
 					break;
 				case 'R': 
-					if(line.driveRight()) {
+					if(line.moveRight()) {
 						try {
 							out.writeChar('.');
 							out.flush();
