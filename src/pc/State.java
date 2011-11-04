@@ -2,10 +2,14 @@ import java.lang.String;
 import java.util.ArrayList;
 
 public class State {
+	
+	public enum Type {
+		START, NORMAL, FINAL
+	}
 
 	protected String id;
 	protected String name;
-	protected String type;
+	protected String type;	// TODO enum
 	protected ArrayList<Edge> edge;
 	
 	public State(String id, String name, String type) {

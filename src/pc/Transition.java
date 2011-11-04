@@ -3,9 +3,9 @@ import java.util.ArrayList;
 public class Transition {
 
 	String id;
-	protected ArrayList<String> read;
-	protected ArrayList<String> write;
-	protected ArrayList<String> action;
+	protected ArrayList<String> read;	// TODO character
+	protected ArrayList<String> write;	// TODO character
+	protected ArrayList<String> action;	// TODO character
 	
 	public Transition(String id, ArrayList<String> read, ArrayList<String> write, ArrayList<String> action) {
 		this.id = id;

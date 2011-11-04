@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 public class Edge {
 
-	protected String from;
-	protected String to;
+	protected String from;	// TODO State
+	protected String to;	// TODO State
 	protected ArrayList<Transition> transition;
 	
 	public Edge(String from, String to, ArrayList<Transition> transition) {
