@@ -12,7 +12,7 @@ public class State {
 		this.id = id;
 		this.name = name;
 		this.type = type;
-		this.labels = new ArrayList<String>();
+		this.edge = new ArrayList<Edge>();
 	}
 	
 	public String getId() {
@@ -27,7 +27,7 @@ public class State {
 		return this.type;
 	}
 	
-	public ArrayList<Edge> getEgde() {
+	public ArrayList<Edge> getEdge() {
 		return this.edge;
 	}
 	
