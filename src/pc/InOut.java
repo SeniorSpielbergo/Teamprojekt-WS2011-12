@@ -54,6 +54,27 @@ public class InOut {
 				ArrayList<State> states = graph.getStates();
 				ArrayList<Edge> edges = graph.getEdges();
 				
+				// inputs
+				ArrayList<ArrayList<Character>> inputCharacter = graph.getInitial();
+				for(int i = 0; i < inputCharacter.size(); i++) {
+					ArrayList<Character> tempInput = inputCharacter.get(i);
+					
+					// input element
+					Element input = doc.createElement("input");
+					rootElement.appendChild(input);
+					
+					// tape element
+					Element tape = doc.createElement("tape");
+					input.appendChild(tape);
+					
+					// input tape elements
+					for (int j = 0; j < tempInput.size(); j++) {
+						Element symbolElement = doc.createElement("symbol");
+						symbolElement.appendChild(doc.createTextNode("" + tempInput.get(j)));
+						tape.appendChild(symbolElement);
+					}
+				}
+				
 				// states
 				for(int i = 0; i < states.size(); i++) {
 					State tempState = states.get(i);
@@ -140,16 +161,16 @@ public class InOut {
 				}
 				
 				// write the content into xml file
-				//if (!(new File(fileName)).exists()) {
+				if (!(new File(fileName)).exists()) {
 					StreamResult result = new StreamResult(new File(fileName));
 					transformer.transform(source, result);
 					// TODO remove test output
 					System.out.println("Done writing file!\n");
-				/*}
+				}
 				else {
 					// TODO remove test output
 					System.out.println("File already exists!\n");
-				}*/
+				}
 			}
 			catch (ParserConfigurationException pce) {
 				pce.printStackTrace();
@@ -169,11 +190,47 @@ public class InOut {
 			Document doc = db.parse(file);
 			doc.getDocumentElement().normalize();
 			// print the Turing machine's name
-			// TODO remove test output
 			String machineName = doc.getDocumentElement().getAttribute("name");
 			String numberTapesString = doc.getDocumentElement().getAttribute("tapes");
 			int numberTapes = Integer.parseInt(numberTapesString);
+			// TODO remove test output
 			System.out.println("Turing machine's name: " + machineName);
+			
+			// TODO remove test output
+			System.out.println("\nINPUT");
+			// get list of nodes
+			NodeList inputList = doc.getElementsByTagName("input");
+			ArrayList<ArrayList<Character>> input = new ArrayList<ArrayList<Character>>();
+			for (int i = 0; i < inputList.getLength(); i++) {
+				Node currentNode = inputList.item(i);
+
+				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element currentElement = (Element) currentNode;
+					
+					// get tapes
+					NodeList tapeList = currentElement.getElementsByTagName("tape");
+					for (int j = 0; j < tapeList.getLength(); j++) {
+						Node currentTapeNode = tapeList.item(j);
+						if (currentTapeNode.getNodeType() == Node.ELEMENT_NODE) {
+							// TODO remove test output
+							System.out.println("== TAPE" + j + "==");
+							Element currentTapeElement = (Element) currentTapeNode;
+							NodeList tapeSymbolList = currentTapeElement.getChildNodes();
+							ArrayList<Character> tempInput = new ArrayList<Character>();
+							for (int k = 0; k < tapeSymbolList.getLength(); k++) {
+								Node currentTapeSymbolNode = tapeSymbolList.item(k);
+								if (currentTapeSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+									char tempChar = currentTapeSymbolNode.getTextContent().charAt(0);
+									// TODO remove test output
+									System.out.println("input: " + tempChar);
+									input.add(tempInput);
+								}
+							}
+						}
+					}
+					
+				}
+			}
 			
 			// TODO remove test output
 			System.out.println("\nSTATES");
@@ -296,7 +353,7 @@ public class InOut {
 					edges.add(tempEdge);
 				}
 			}
-			graph = new Graph(states, edges, machineName, numberTapes);
+			graph = new Graph(states, edges, machineName, numberTapes, input);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

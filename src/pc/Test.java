@@ -24,9 +24,18 @@ public class Test {
 		transition.add(t0);
 		Edge e0 = new Edge("0", "1", transition);
 		ArrayList<Edge> edges = new ArrayList<Edge>();
+		ArrayList<ArrayList<Character>> outerInitial= new ArrayList<ArrayList<Character>>();
+		for (int i = 0; i < 4; i++) {
+			ArrayList<Character> innerInitial = new ArrayList<Character>();
+			innerInitial.add('a');
+			innerInitial.add('b');
+			innerInitial.add('c');
+			innerInitial.add('d');
+			outerInitial.add(innerInitial);
+		}
 		edges.add(e0);
 		String machineName = "test";
-		Graph graph = new Graph(states, edges, machineName, 4);
+		Graph graph = new Graph(states, edges, machineName, 4, outerInitial);
 		
 		InOut.writeXMLtoFile("example.xml", graph);
 		InOut.readXMLFromFile("test.xml");

@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="test" tape="4">
+    <input>
+        <tape>
+            <symbol>a</symbol>
+            <symbol>b</symbol>
+            <symbol>c</symbol>
+            <symbol>d</symbol>
+        </tape>
+    </input>
+    <input>
+        <tape>
+            <symbol>a</symbol>
+            <symbol>b</symbol>
+            <symbol>c</symbol>
+            <symbol>d</symbol>
+        </tape>
+    </input>
+    <input>
+        <tape>
+            <symbol>a</symbol>
+            <symbol>b</symbol>
+            <symbol>c</symbol>
+            <symbol>d</symbol>
+        </tape>
+    </input>
+    <input>
+        <tape>
+            <symbol>a</symbol>
+            <symbol>b</symbol>
+            <symbol>c</symbol>
+            <symbol>d</symbol>
+        </tape>
+    </input>
     <state id="0" type="start">
         <name>q0</name>
     </state>
