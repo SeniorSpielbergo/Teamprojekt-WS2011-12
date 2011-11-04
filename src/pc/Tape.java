@@ -59,5 +59,4 @@ public class Tape {
 	public void test() { //TODO: remove
 		this.master.test();
 	}
-
 }
