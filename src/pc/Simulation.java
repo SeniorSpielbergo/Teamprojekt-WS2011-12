@@ -18,7 +18,7 @@ public class Simulation {
 		machine = new Graph(InOut.readXMLFromFile("example.xml"));		
 		for( int i =0; i <= machine.getStates().size(); i++){
 			if(machine.getStates.get(i).equals("start")){
-				startState = machine.getStates.get(i);
+				startState = machine.getStates().get(i);
 			}
 		}
 	}
