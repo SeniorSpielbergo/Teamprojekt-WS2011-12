@@ -6,7 +6,6 @@
  */
 
 public abstract class Tape {
-	private char currentSymbol = 'n';
 	boolean ready = false;
 	
 	/**
