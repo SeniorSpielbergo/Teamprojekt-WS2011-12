@@ -1,6 +1,6 @@
-/* This abstract class contains common function for Master and Slave Robots
+/** This abstract class contains common function for Master and Slave Robots
  * 
- * Responsible: Nils Breyer, Phillipp Neumann
+ * @author Nils Breyer, Phillipp Neumann
  * 
  */
 import lejos.pc.comm.*;
@@ -14,11 +14,23 @@ public abstract class Robot {
 	private DataInputStream input = null;
 	private DataOutputStream output = null;
 
+	/**
+	 * Klassen Konstruktor
+	 * @param name Name of the Robot
+	 * @param mac_address MAC Adress of the Robot
+	 */
+	
 	public Robot(String name, String mac_address) {
 		this.name = name;
 		this.mac_address = mac_address;
 	}
 
+	/**
+	 * Method to connect to the Robot
+	 * @throws NXTCommException 
+	 * @throws IOException
+	 */
+	
 	public void connect() throws NXTCommException, IOException {
 		System.out.println("Connecting to '" + this.name + "'...");
 
@@ -42,6 +54,10 @@ public abstract class Robot {
 
 		System.out.println("Connected to '" + this.name + "'.");
 	}
+	
+	/**
+	 * Method to disconnect from the Robot
+	 */
 
 	public void disconnect() {
 		System.out.println("Disconnecting '" + this.name + "'...");
@@ -57,6 +73,12 @@ public abstract class Robot {
 		System.out.println("Disconnected '" + this.name + "'.");
 	}
 	
+	/**
+	 * Method to send a character to the robot
+	 * @param current symbol that is currently on the position to write
+	 * @param write symbol that is send to the robot
+	 */
+	
 	public void write(char current, char write) {
 		System.out.println(this.name + ": Write from "+ current + " to " + write + " ...");
 		this.sendCommand('w');
@@ -71,7 +93,12 @@ public abstract class Robot {
 			System.out.println(this.name + ": Common Fail, read from Robot: " + received);
 		}
 	}
-
+	
+	/**
+	 * Send a command to the robot
+	 * @param cmd character that is send to the robot
+	 */
+	
 	protected void sendCommand(char cmd) {
 		System.out.println("Sending to '" + this.name + "' the command '" + cmd + "'...");
 		try {
@@ -84,6 +111,10 @@ public abstract class Robot {
 		}
 	}
 
+	/**
+	 * 
+	 * @return a character that have been send from the robot
+	 */
 	protected char receiveCommand() {
 		System.out.println("Receiving from '" + this.name + "'...");
 		try {
