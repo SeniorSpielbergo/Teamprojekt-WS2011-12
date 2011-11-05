@@ -88,6 +88,7 @@ public class Editor extends JFrame {
 		Editor mainWindow = new Editor();
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainWindow.setVisible(true);
+		mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
 }
