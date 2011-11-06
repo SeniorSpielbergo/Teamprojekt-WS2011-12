@@ -6,7 +6,8 @@
  */
 
 public abstract class Tape {
-	boolean ready = false;
+	protected boolean ready = false;
+	protected int position = 0;
 	
 	/**
 	 * Initializes the tape
@@ -48,4 +49,16 @@ public abstract class Tape {
 	 * This method runs a test on the tape. It is not specified what this method actually does.
 	 */
 	public abstract void test() throws TapeException;
+	
+	/**
+	 * Checks if the tape has been initialized
+	 * @return Returns true, if the tape has been initialized and false if not.
+	 */
+	public abstract boolean isReady();
+	
+	/**
+	 * Get the current position of the tape
+	 * @return The head position on the tape
+	 */
+	public abstract int getPosition() throws TapeException;
 }
