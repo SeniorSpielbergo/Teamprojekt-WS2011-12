@@ -1,15 +1,14 @@
-/** This class represents an editor for Turing machines
- * 
- * @author David Wille
- * 
- */
-
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.awt.event.*;
 import java.io.*;
 
+/** This class represents an editor for Turing machines
+ * 
+ * @author David Wille
+ * 
+ */
 public class Editor extends JFrame {
 
 	static final long serialVersionUID = -3667258249137827980L;

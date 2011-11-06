@@ -1,16 +1,15 @@
+import java.lang.String;
+import java.util.ArrayList;
+
 /** This class represents a state with it's id, name, type and edges
  * 
  * @author David Wille
  * 
  */
-
-import java.lang.String;
-import java.util.ArrayList;
-
 public class State {
 
 	/**
-	 * Represents the differnt types of states
+	 * Represents the different types of states
 	 */
 	public enum Type {
 		START, NORMAL, FINAL

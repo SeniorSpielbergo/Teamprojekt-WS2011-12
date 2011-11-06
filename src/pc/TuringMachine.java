@@ -1,11 +1,10 @@
+import java.util.ArrayList;
+
 /** This class represents a Turing machine with it's states, edges and transitions
  * 
  * @author David Wille
  * 
  */
-
-import java.util.ArrayList;
-
 public class TuringMachine {
 
 	protected ArrayList<State> states;

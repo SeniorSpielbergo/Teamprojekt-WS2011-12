@@ -1,10 +1,10 @@
+import java.util.ArrayList;
+
 /** This class represents the transitions on all tapes for a specific edge
  * 
  * @author David Wille
  * 
  */
-import java.util.ArrayList;
-
 public class Transition {
 
 	String id;

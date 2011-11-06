@@ -1,12 +1,11 @@
+import java.lang.String;
+import java.util.ArrayList;
+
 /** This class provides a test program for InOut.java
  * 
  * @author David Wille
  * 
  */
-
-import java.lang.String;
-import java.util.ArrayList;
-
 public class Test {
 
 	public static void main(String argv[]) {

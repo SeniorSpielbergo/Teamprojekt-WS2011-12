@@ -1,11 +1,10 @@
+import java.util.ArrayList;
+
 /** This class represents an edge with it'ss start and end state and it's transitions
  * 
  * @author David Wille
  * 
  */
-
-import java.util.ArrayList;
-
 public class Edge {
 
 	protected State from;
