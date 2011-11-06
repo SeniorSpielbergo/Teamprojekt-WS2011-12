@@ -11,14 +11,16 @@ public class ConsoleTape extends Tape {
 	
 	/** 
      * This method initializes the tape
-     * @throws Exception Never thrown
+     * @throws TapeException If the tape has already been initialized
      */
 	public void init() throws TapeException {
+		if (this.ready) throw new TapeException("Tape has already been initialized.", this);
 		this.ready = true;
 	}
 	
 	/**
 	 * This method shuts the tape down.
+	 * @throws TapeException If the tape has not been initialized
 	 */
 	public void shutdown() throws TapeException{
 		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
@@ -27,8 +29,8 @@ public class ConsoleTape extends Tape {
 		
 	/** 
      * This method returns the char at the current tape position
-     *
      * @return Character at the current position
+     * @throws TapeException If the tape has not been initialized
      * @see #write(char)
      */
 	public char read() throws TapeException{
@@ -44,8 +46,8 @@ public class ConsoleTape extends Tape {
 	
 	/** 
      * This method writes a symbol at the current tape position
-     *
      * @param c Character to write (allowed characters are #, 0, 1, 2)
+     * @throws TapeException If the tape has not been initialized
      * @see #read()
      */
 	public void write(char c) throws TapeException {
@@ -57,7 +59,7 @@ public class ConsoleTape extends Tape {
 	
 	/** 
      * This method moves the tape one field to the left
-     * 
+     * @throws TapeException If the tape has not been initialized
      * @see #moveRight()
      */
 	public void moveLeft() throws TapeException {
@@ -69,7 +71,7 @@ public class ConsoleTape extends Tape {
 	
 	/** 
      * This method moves the tape one field to the right
-     *
+     * @throws TapeException If the tape has not been initialized
      * @see #moveLeft()
      */
 	public void moveRight() throws TapeException {
@@ -81,6 +83,7 @@ public class ConsoleTape extends Tape {
 	
 	/**
 	 * This method runs a test on the tape. It is not specified what this method actually does.
+	 * @throws TapeException If the tape has not been initialized
 	 */
 	public void test() throws TapeException { //TODO: remove
 		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);

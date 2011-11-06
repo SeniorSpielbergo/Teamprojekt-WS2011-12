@@ -26,8 +26,10 @@ public class LEGOTape extends Tape {
 	 * @throws Exception Thrown, when the tape failed to initialize
 	 * @see #shutdown()
 	 */
-	public void init() throws Exception {
+	public void init() throws TapeException {
 		System.out.println("Initializing tape...");
+		if (this.ready) throw new TapeException("Tape has already been initialized.", this);
+
 		try {
 			this.master.connect();
 			this.slave.connect();
@@ -37,17 +39,20 @@ public class LEGOTape extends Tape {
 		}
 		catch (Exception e) {
 			ready = false;
-			System.out.println("Initializing tape failed.");
-			throw e;
+			TapeException ex = new TapeException("Initializing tape failed.", this);
+			ex.initCause(e);
+			throw ex;
 		}
 	}
 	
 	/**
 	 * Shuts the tape down by disconnecting the two robots
-	 * 
+	 * @throws TapeException If the tape has not been initialized
 	 * @see #init()
 	 */
-	public void shutdown() {
+	public void shutdown() throws TapeException {
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+
 		this.master.disconnect();
 		this.slave.disconnect();
 		ready = false;
@@ -55,48 +60,58 @@ public class LEGOTape extends Tape {
 	
 	/**
 	 * Reads the symbol at the current tape position
-	 * 
+	 * @throws TapeException If the tape has not been initialized
 	 * @return #,0,1,2
 	 * @see #write(char)
 	 */
-	public char read() {
+	public char read() throws TapeException{
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+
 		currentSymbol = this.master.read();
 		return currentSymbol;
 	}
 
 	/**
 	 * Writes a symbol to the current tape position
-	 * 
+	 * @throws TapeException If the tape has not been initialized
 	 * @param c The symbol to write (#,0,1,2)
 	 * @see #read()
 	 */
-	public void write(char c) {
+	public void write(char c) throws TapeException{
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		
 		this.master.write(currentSymbol, c);
 		this.slave.write(currentSymbol, c);
 	}
 	
 	/**
 	 * Moves the tape one field to the left
-	 * 
+	 * @throws TapeException If the tape has not been initialized
 	 * @see #moveRight()
 	 */
-	public void moveLeft() {
+	public void moveLeft() throws TapeException{
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		
 		this.master.moveLeft();
 	}
 	
 	/**
 	 * Moves the tape one field to the right
-	 * 
+	 * @throws TapeException If the tape has not been initialized
 	 * @see #moveLeft()
 	 */
-	public void moveRight() {
+	public void moveRight() throws TapeException{
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		
 		this.master.moveRight();
 	}
 	
 	/**
 	 * This method runs a test on the tape. It is not specified what this method actually does.
+	 * @throws TapeException If the tape has not been initialized
 	 */
-	public void test() { //TODO: remove
+	public void test()  throws TapeException{ //TODO: remove
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
 		this.master.test();
 	}
 }
