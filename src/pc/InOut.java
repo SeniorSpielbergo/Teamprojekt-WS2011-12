@@ -192,16 +192,10 @@ public class InOut {
 				}
 				
 				// write the content into xml file
-				if (!(new File(fileName)).exists()) {
-					StreamResult result = new StreamResult(new File(fileName));
-					transformer.transform(source, result);
-					// TODO remove test output
-					System.out.println("Done writing file!\n");
-				}
-				else {
-					// TODO remove test output
-					System.out.println("File already exists!\n");
-				}
+				StreamResult result = new StreamResult(new File(fileName));
+				transformer.transform(source, result);
+				// TODO remove test output
+				System.out.println("Done writing file!\n");
 			}
 			catch (ParserConfigurationException pce) {
 				pce.printStackTrace();
@@ -460,11 +454,23 @@ public class InOut {
 			
 			BufferedWriter writer = new BufferedWriter(out);
 			
-			// TODO write maketitle
-			
 			writer.write("\\begin{document}");
+			writer.write(System.getProperty("line.separator"));
+			
+			// write maketitle
+			writer.write("\\title{test}");
+			writer.write(System.getProperty("line.separator"));
+			writer.write("\\date{}");
+			writer.write(System.getProperty("line.separator"));
+			writer.write("\\maketitle");
+			writer.write(System.getProperty("line.separator"));
+			writer.write(System.getProperty("line.separator"));
+			
+			// write automata
 			writer.write("\\begin{center}");
+			writer.write(System.getProperty("line.separator"));
 			writer.write("\\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]");
+			writer.write(System.getProperty("line.separator"));
 			
 			// write nodes and edges
 			//writer.write();
@@ -477,7 +483,10 @@ public class InOut {
 			//\node[state,accepting] (q_F) [right of = q_1] {$q_F$};
 			
 			writer.write("\\end{tikzpicture}");
+			writer.write(System.getProperty("line.separator"));
 			writer.write("\\end{center}");
+			writer.write(System.getProperty("line.separator"));
+			writer.write("\\end{document}");
 			
 			writer.flush();
 		}
