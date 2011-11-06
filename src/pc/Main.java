@@ -10,7 +10,6 @@ public class Main {
 	public static ArrayList<Tape> tapes = new ArrayList<Tape>();
 
 	public static void main(String[] args) throws Exception{
-		
 		String type = JOptionPane.showInputDialog("Enter 'LEGO' or 'PC':");
 		if (type.equals("LEGO")) {
 			MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");

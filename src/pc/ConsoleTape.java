@@ -8,6 +8,21 @@ import java.util.*;
 public class ConsoleTape extends Tape {
 	HashMap<Integer, Character> memory = new HashMap<Integer, Character>();
 	
+	/**
+	 * Creates a new LEGO tape
+	 */
+	public ConsoleTape() {
+		super("Default LEGO tape");
+	}
+
+	/**
+	 * Creates a new LEGO tape with a specific name
+	 * @param name The tape name
+	 */
+	public ConsoleTape(String name) {
+		super(name);
+	}
+	
 	/** 
      * This method initializes the tape
      * @throws TapeException If the tape has already been initialized

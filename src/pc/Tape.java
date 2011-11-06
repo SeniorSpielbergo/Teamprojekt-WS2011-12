@@ -8,6 +8,22 @@
 public abstract class Tape {
 	protected boolean ready = false;
 	protected int position = 0;
+	protected String name = "";
+	
+	/**
+	 * Creates a new tape
+	 */
+	public Tape() {
+		this.name = "Default tape";
+	}
+	
+	/**
+	 * Creates a new tape with a specific name
+	 * @param name The tape name
+	 */
+	public Tape(String name) {
+		this.name = name;
+	}
 	
 	/**
 	 * Initializes the tape
@@ -61,4 +77,12 @@ public abstract class Tape {
 	 * @return The head position on the tape
 	 */
 	public abstract int getPosition() throws TapeException;
+	
+	/**
+	 * Get the name of the tape
+	 * @return Returns the tape name string
+	 */
+	public String getName() {
+		return this.name;
+	}
 }
