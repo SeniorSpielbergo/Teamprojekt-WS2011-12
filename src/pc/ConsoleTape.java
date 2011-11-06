@@ -114,7 +114,7 @@ public class ConsoleTape extends Tape {
 
 	@Override
 	public String toString() {
-		String text = " " + this.getName() + ": \n";
+		String text = " " + this.getName() + "@pos "  + this.getPosition() + ": \n";
 		text += "-";
 		for (int i=-20; i<=20; i++) {
 			text += "--";

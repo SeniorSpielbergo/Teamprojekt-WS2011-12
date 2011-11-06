@@ -174,4 +174,9 @@ public class LEGOTape extends Tape {
 			throw new TapeException(this, "Test failure.", e);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return " " + this.getName() + "@pos "  + this.getPosition() + ", current symbol: " + this.currentSymbol;
+	}
 }
