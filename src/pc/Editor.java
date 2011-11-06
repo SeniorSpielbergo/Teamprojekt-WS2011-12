@@ -12,6 +12,7 @@ import java.io.*;
 
 public class Editor extends JFrame {
 
+	static final long serialVersionUID = -3667258249137827980L;
 	protected TuringMachine currentMachine;
 	private JMenuItem newAction, openAction, saveAction, exportLatexPDFAction, exitAction;
 	
