@@ -25,7 +25,7 @@ public class TapeException extends IOException {
 	 * @param msg A message describing the exception
 	 */
 	public TapeException(Tape tape, String msg) {
-		super(tape.getName() + ", position " + tape.getPosition() + ": " + msg);
+		super(tape.getName() + "@pos " + tape.getPosition() + ": " + msg);
 		this.tape = tape;
 	}
 	

@@ -122,7 +122,7 @@ public class ConsoleTape extends Tape {
 		text += "\n";
 		
 		text += "|";
-		for (int i=-20; i<=20; i++) {
+		for (int i=-20; i<=20; i++) { //TODO: handle head positions <-20 und > 20 properly
 			if (this.memory.get(i) != null) {
 				text += this.memory.get(i);
 			}

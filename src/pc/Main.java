@@ -23,6 +23,7 @@ public class Main {
 		}
 		else {
 			System.out.println("If you are too stupid to enter one of the words 'LEGO' or 'PC', you shouldn't use this program.");
+			return;
 		}
 
 
@@ -61,11 +62,12 @@ public class Main {
 					tapes.get(0).moveRight();
 				}
 				else {
-					System.out.println("Unkown command.");
+					System.out.println("Unkown command '" + cmd + "'.");
 				}
 			}
 			catch (TapeException e) {
-				System.out.println("Error while excecuting the command '" + cmd + "':" + e.toString());
+				System.out.println("Error while excecuting the command '" + cmd + "': ");
+				e.printStackTrace();
 			}
 
 		}
