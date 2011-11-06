@@ -9,14 +9,14 @@ public class ConsoleTape extends Tape {
 	HashMap<Integer, Character> memory = new HashMap<Integer, Character>();
 	
 	/**
-	 * Creates a new LEGO tape
+	 * Creates a new console tape
 	 */
 	public ConsoleTape() {
-		super("Default LEGO tape");
+		super("Default console tape");
 	}
 
 	/**
-	 * Creates a new LEGO tape with a specific name
+	 * Creates a new console tape with a specific name
 	 * @param name The tape name
 	 */
 	public ConsoleTape(String name) {
