@@ -1,4 +1,4 @@
-/** Represents a physical turing machine tape and provides methods to interact with the tape
+/** Represents a physical Turing machine tape and provides methods to interact with the tape
  * 
  * @author Nils Breyer
  * 
@@ -33,6 +33,7 @@ public class LEGOTape extends Tape {
 		try {
 			this.master.connect();
 			this.slave.connect();
+			this.currentSymbol = 'n';
 			ready = true;
 			System.out.println("Tape ready.");
 
@@ -80,6 +81,9 @@ public class LEGOTape extends Tape {
 	public void write(char c) throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
+		if (this.currentSymbol == 'n') {
+			this.read();
+		}
 		this.master.write(currentSymbol, c);
 		this.slave.write(currentSymbol, c);
 	}
@@ -93,6 +97,8 @@ public class LEGOTape extends Tape {
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
 		this.master.moveLeft();
+		this.position--;
+		this.currentSymbol = 'n';
 	}
 	
 	/**
@@ -104,6 +110,8 @@ public class LEGOTape extends Tape {
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
 		this.master.moveRight();
+		this.position++;
+		this.currentSymbol = 'n';
 	}
 	
 	/**
