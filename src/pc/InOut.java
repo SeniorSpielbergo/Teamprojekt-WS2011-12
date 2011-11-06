@@ -4,7 +4,7 @@
  * 
  */
 
-import java.io.File;
+import java.io.*;
 import java.lang.String;
 import java.util.ArrayList;
 
@@ -434,6 +434,62 @@ public class InOut {
 			e.printStackTrace();
 		}
 		return machine;
+	}
+	
+	public static void writeLatexToFile(String fileName, TuringMachine machine) {
+		FileWriter out = null;
+		
+		// check for right file ending
+		if (!fileName.endsWith(".tex")) {
+			fileName = fileName + ".tex";
+		}
+		
+		try {
+			// copy from template to new file
+			File inputFile = new File("template.tex");
+			File outputFile = new File(fileName);
+
+			FileReader in = new FileReader(inputFile);
+			out = new FileWriter(outputFile);
+			int c;
+
+			while ((c = in.read()) != -1) {
+				out.write(c);
+			}
+			in.close();
+			
+			BufferedWriter writer = new BufferedWriter(out);
+			
+			// TODO write maketitle
+			
+			writer.write("\\begin{document}");
+			writer.write("\\begin{center}");
+			writer.write("\\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]");
+			
+			// write nodes and edges
+			//writer.write();
+			//writer.write(System.getProperty("line.separator"));
+			
+			
+			//\node[state, initial] 	(q_0) {$q_0$}; 
+			//\node[state] (q_1) [right of = q_0] {$q_1$};
+			//\node[state] (q_2) [below of = q_0] {$q_2$};
+			//\node[state,accepting] (q_F) [right of = q_1] {$q_F$};
+			
+			writer.write("\\end{tikzpicture}");
+			writer.write("\\end{center}");
+			
+			writer.flush();
+		}
+		catch (IOException e) {
+		}
+		finally {
+			try {
+				out.close();
+			}
+			catch (IOException e) {
+			}
+		}
 	}
 	
 	/**
