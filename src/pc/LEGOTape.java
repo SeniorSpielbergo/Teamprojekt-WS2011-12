@@ -43,7 +43,7 @@ public class LEGOTape extends Tape {
 	 * @see #shutdown()
 	 */
 	public void init() throws TapeException {
-		System.out.println("Initializing tape...");
+		System.out.println(this.name + ": Initializing tape...");
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
 
 		try {
@@ -51,7 +51,7 @@ public class LEGOTape extends Tape {
 			this.slave.connect();
 			this.currentSymbol = 'n';
 			ready = true;
-			System.out.println("Tape ready.");
+			System.out.println(this.name + ": Tape ready.");
 
 		}
 		catch (Exception e) {
