@@ -22,7 +22,7 @@ public class ConsoleTape extends Tape {
 	 * @throws TapeException If the tape has not been initialized
 	 */
 	public void shutdown() throws TapeException{
-		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
+		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		this.ready = false;
 	}
 		
@@ -33,7 +33,7 @@ public class ConsoleTape extends Tape {
      * @see #write(char)
      */
 	public char read() throws TapeException{
-		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
+		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		
 		if (this.memory.get(this.position) != null) {
 			return this.memory.get(this.position);
@@ -50,7 +50,7 @@ public class ConsoleTape extends Tape {
      * @see #read()
      */
 	public void write(char c) throws TapeException {
-		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
+		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		
 		this.memory.put(this.position, c);
 		this.printTape();
@@ -62,7 +62,7 @@ public class ConsoleTape extends Tape {
      * @see #moveRight()
      */
 	public void moveLeft() throws TapeException {
-		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
+		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		
 		position--;
 		this.printTape();
@@ -74,7 +74,7 @@ public class ConsoleTape extends Tape {
      * @see #moveLeft()
      */
 	public void moveRight() throws TapeException {
-		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
+		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		
 		position++;
 		this.printTape();
@@ -85,7 +85,7 @@ public class ConsoleTape extends Tape {
 	 * @throws TapeException If the tape has not been initialized
 	 */
 	public void test() throws TapeException { //TODO: remove
-		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
+		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		
 		System.out.println("Test"); 
 	}

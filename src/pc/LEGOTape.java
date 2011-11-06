@@ -1,3 +1,4 @@
+import java.io.*;
 /** Represents a physical Turing machine tape and provides methods to interact with the tape
  * 
  * @author Nils Breyer
@@ -40,9 +41,7 @@ public class LEGOTape extends Tape {
 		}
 		catch (Exception e) {
 			ready = false;
-			TapeException ex = new TapeException(this, "Tape has already been initialized.");
-			ex.initCause(e);
-			throw ex;
+			throw new TapeException(this, "Tape couldn't be initialized.", e);
 		}
 	}
 	
@@ -52,10 +51,16 @@ public class LEGOTape extends Tape {
 	 * @see #init()
 	 */
 	public void shutdown() throws TapeException {
-		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
+		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
-		this.master.disconnect();
-		this.slave.disconnect();
+		try {
+			this.master.disconnect();
+			this.slave.disconnect();
+		}
+		catch (IOException e) {
+			throw new TapeException(this, "Tape did not shutdown properly.", e);
+		}
+
 		ready = false;
 	}
 	
@@ -66,10 +71,16 @@ public class LEGOTape extends Tape {
 	 * @see #write(char)
 	 */
 	public char read() throws TapeException{
-		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
+		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
-		currentSymbol = this.master.read();
-		return currentSymbol;
+		try {
+			currentSymbol = this.master.read();
+			return currentSymbol;
+		}
+		catch (IOException e) {
+			this.currentSymbol = 'n';
+			throw new TapeException(this, "Reading failure.", e);
+		}
 	}
 
 	/**
@@ -79,13 +90,19 @@ public class LEGOTape extends Tape {
 	 * @see #read()
 	 */
 	public void write(char c) throws TapeException{
-		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
+		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		
 		if (this.currentSymbol == 'n') {
 			this.read();
 		}
-		this.master.write(currentSymbol, c);
-		this.slave.write(currentSymbol, c);
+		try {
+			this.master.write(currentSymbol, c);
+			this.slave.write(currentSymbol, c);
+		}
+		catch (IOException e) {
+			throw new TapeException(this, "Writing failure.", e);
+		}
+
 	}
 	
 	/**
@@ -96,9 +113,17 @@ public class LEGOTape extends Tape {
 	public void moveLeft() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
-		this.master.moveLeft();
-		this.position--;
-		this.currentSymbol = 'n';
+		try {
+			this.master.moveLeft();
+			this.position--;
+			this.currentSymbol = 'n';
+		}
+		catch (IOException e) {
+			this.currentSymbol = 'n';
+			throw new TapeException(this, "Moving failure.", e);
+		}
+
+
 	}
 	
 	/**
@@ -109,9 +134,16 @@ public class LEGOTape extends Tape {
 	public void moveRight() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
-		this.master.moveRight();
-		this.position++;
-		this.currentSymbol = 'n';
+		try {
+			this.master.moveRight();
+			this.position++;
+			this.currentSymbol = 'n';
+		}
+		catch (IOException e) {
+			this.currentSymbol = 'n';
+			throw new TapeException(this, "Moving failure.", e);
+		}
+
 	}
 	
 	/**
@@ -120,7 +152,12 @@ public class LEGOTape extends Tape {
 	 */
 	public void test()  throws TapeException{ //TODO: remove
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
-		this.master.test();
+		try {
+			this.master.test();
+		}
+		catch (IOException e) {
+			throw new TapeException(this, "Test failure.", e);
+		}
 	}
 
 	/**

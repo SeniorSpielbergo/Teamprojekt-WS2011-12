@@ -1,3 +1,5 @@
+import java.io.*;
+
 /** Contains special methods for the Master Robot
  * 
  * @author Nils Breyer
@@ -17,7 +19,7 @@ public class MasterRobot extends Robot {
 	 * Implementation to send the MasterRobot the command to read a symbol
 	 * @return Returns the symbol that have been read on the tape
 	 */
-	public char read() {
+	public char read() throws IOException {
 		this.sendCommand('r');
 		return this.receiveCommand();
 	}
@@ -25,23 +27,25 @@ public class MasterRobot extends Robot {
 	/**
 	 * Send the MasterRobot the command to move to the next position right of the current
 	 */
-	public void moveLeft() {
+	public void moveLeft() throws IOException {
 		System.out.println(this.name + ": Moving left...");
 		this.sendCommand('L');
 		char received = this.receiveCommand();
 		if (received == '.') {
-			System.out.println(this.name + ": Success");
+			System.out.println(this.name + ": Moving left finished succesfully.");
 		} else if (received == '!') {
 			System.out.println(this.name + ": Moving left failed.");
+			throw new IOException("Received error from robot '" + this.name + ": Moving left failed.");
 		} else {
 			System.out.println(this.name + ": Common Fail, read from Robot: " + received);
+			throw new IOException("Received unexpected symbol from robot '" + this.name + ".");
 		}
 	}
 	
 	/**
 	 * Send the MasterRobot the command to move to the next position left of the current
 	 */
-	public void moveRight() {
+	public void moveRight() throws IOException {
 		System.out.println(this.name + ": Moving right...");
 		this.sendCommand('R');
 		char received = this.receiveCommand();
@@ -57,7 +61,7 @@ public class MasterRobot extends Robot {
 	/**
 	 * Test the tape
 	 */
-	public void test() { //TODO: remove
+	public void test() throws IOException { //TODO: remove
 		this.sendCommand('t');
 	}
 }
