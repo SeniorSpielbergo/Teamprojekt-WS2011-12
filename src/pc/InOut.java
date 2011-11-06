@@ -431,8 +431,6 @@ public class InOut {
 	}
 	
 	public static void writeLatexToFile(String fileName, TuringMachine machine) {
-		FileWriter out = null;
-		
 		// check for right file ending
 		if (!fileName.endsWith(".tex")) {
 			fileName = fileName + ".tex";
@@ -444,7 +442,7 @@ public class InOut {
 			File outputFile = new File(fileName);
 
 			FileReader in = new FileReader(inputFile);
-			out = new FileWriter(outputFile);
+			FileWriter out = new FileWriter(outputFile);
 			int c;
 
 			while ((c = in.read()) != -1) {
@@ -485,13 +483,6 @@ public class InOut {
 			writer.close();
 		}
 		catch (IOException e) {
-		}
-		finally {
-			try {
-				out.close();
-			}
-			catch (IOException e) {
-			}
 		}
 	}
 	
