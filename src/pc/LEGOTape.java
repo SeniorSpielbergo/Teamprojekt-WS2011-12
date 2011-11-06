@@ -1,4 +1,5 @@
 import java.io.*;
+
 /** Represents a physical Turing machine tape and provides methods to interact with the tape
  * 
  * @author Nils Breyer
@@ -13,13 +14,27 @@ public class LEGOTape extends Tape {
 	boolean ready = false;
 
 	/**
-	 * Constructs a new LEGO tape based on two NXT robots
+	 * Constructs a new LEGO tape based on two NXT robots with the name "Default LEGO tape"
 	 * @param master The robot that can move the tape, read and write symbols
 	 * @param slave The robot that can only write
+	 * @see #LEGOTape(String, MasterRobot, SlaveRobot)
 	 */
 	public LEGOTape(MasterRobot master, SlaveRobot slave) {
 		this.master = master;
 		this.slave = slave;
+		this.name = "Default LEGO tape";
+	}
+	
+	/**
+	 * Constructs a new LEGO tape based on two NXT robots with a specific name
+	 * @param name Tape name string
+	 * @param master The robot that can move the tape, read and write symbols
+	 * @param slave The robot that can only write
+	 */
+	public LEGOTape(String name, MasterRobot master, SlaveRobot slave) {
+		this.master = master;
+		this.slave = slave;
+		this.name = name;
 	}
 	
 	/**
