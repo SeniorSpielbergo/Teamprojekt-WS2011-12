@@ -159,20 +159,4 @@ public class LEGOTape extends Tape {
 			throw new TapeException(this, "Test failure.", e);
 		}
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isReady() {
-		return this.ready;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public int getPosition() throws TapeException {
-		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
-
-		return this.position;
-	}
 }

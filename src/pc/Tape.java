@@ -70,13 +70,17 @@ public abstract class Tape {
 	 * Checks if the tape has been initialized
 	 * @return Returns true, if the tape has been initialized and false if not.
 	 */
-	public abstract boolean isReady();
+	public boolean isReady() {
+		return this.ready;
+	}
 	
 	/**
 	 * Get the current position of the tape
 	 * @return The head position on the tape
 	 */
-	public abstract int getPosition() throws TapeException;
+	public int getPosition() {
+		return this.position;
+	}
 	
 	/**
 	 * Get the name of the tape
