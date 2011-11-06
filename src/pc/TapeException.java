@@ -20,4 +20,12 @@ public class TapeException extends IOException {
 		this.tape = tape;
 	}
 	
+	public int getTapePosition() throws TapeException{
+		return this.tape.getPosition();
+	}
+	
+	public Tape getTape() {
+		return this.tape;
+	}
+	
 }
