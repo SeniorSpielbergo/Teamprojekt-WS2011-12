@@ -114,4 +114,20 @@ public class LEGOTape extends Tape {
 		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
 		this.master.test();
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean isReady() {
+		return this.ready;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public int getPosition() throws TapeException {
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+
+		return this.position;
+	}
 }

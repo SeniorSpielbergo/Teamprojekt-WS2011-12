@@ -90,6 +90,22 @@ public class ConsoleTape extends Tape {
 		
 		System.out.println("Test"); 
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean isReady() {
+		return this.ready;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public int getPosition() throws TapeException {
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+
+		return this.position;
+	}
 	
 	/**
 	 * Prints the tape to the console (from position -20 to +20)
