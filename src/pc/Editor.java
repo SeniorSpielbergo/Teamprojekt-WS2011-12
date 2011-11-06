@@ -6,9 +6,13 @@ import java.io.*;
 
 public class Editor extends JFrame {
 
+	protected TuringMachine currentMachine;
+	private JMenuItem newAction, openAction, saveAction, exportLatexPDFAction, exitAction;
+
 	public Editor() {
 		setTitle("Editor");
 		setSize(800, 800);
+		// try to set look for Linux
 		try {
 			if (System.getProperties().getProperty("os.name") == "Linux") {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
@@ -20,8 +24,18 @@ public class Editor extends JFrame {
 		// create fileChooser
 		final JFileChooser fc = new JFileChooser();
 		int returnVal;
-		fc.setFileFilter(new FileFilter(){
-			public boolean accept( File f ) {
+		
+		// set current directory
+		try {
+			File currentDirectory = new File(new File(".").getCanonicalPath());
+    		fc.setCurrentDirectory(currentDirectory);
+		}
+		catch (IOException e) {
+		}
+		
+		// set xml filter
+		fc.setFileFilter (new FileFilter() {
+			public boolean accept(File f) {
 				return f.isDirectory() || f.getName().toLowerCase().endsWith( ".xml" );
 			}
 			public String getDescription() {
@@ -40,18 +54,22 @@ public class Editor extends JFrame {
 		menuBar.add(fileMenu);
         
 		// create menu subitems
-		JMenuItem newAction = new JMenuItem("New");
-		JMenuItem openAction = new JMenuItem("Open");
-		JMenuItem saveAction = new JMenuItem("Save");
-		JMenuItem exitAction = new JMenuItem("Exit");
+		newAction = new JMenuItem("New");
+		openAction = new JMenuItem("Open");
+		saveAction = new JMenuItem("Save");
+		exportLatexPDFAction = new JMenuItem("Export as LaTeX and pdf");
+		exitAction = new JMenuItem("Exit");
 		
-		// disable saveAction
+		// disable actions
 		saveAction.setEnabled(false);
+		exportLatexPDFAction.setEnabled(false);
         
 		// add menu subitems
 		fileMenu.add(newAction);
 		fileMenu.add(openAction);
 		fileMenu.add(saveAction);
+		fileMenu.add(new JSeparator());
+		fileMenu.add(exportLatexPDFAction);
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exitAction);
 		
@@ -61,12 +79,22 @@ public class Editor extends JFrame {
 		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_DOWN_MASK));
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', CTRL_DOWN_MASK));
 		
+		newAction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, "Not implemented yet!");
+				saveAction.setEnabled(true);
+				exportLatexPDFAction.setEnabled(true);
+			}
+		});
+		
 		openAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int retVal = fc.showOpenDialog(null);
 				if (retVal == JFileChooser.APPROVE_OPTION) {
  					File selectedFile = fc.getSelectedFile();
-					JOptionPane.showMessageDialog(null, selectedFile.getName());
+					currentMachine = InOut.readXMLFromFile(selectedFile.getName());
+					saveAction.setEnabled(true);
+					exportLatexPDFAction.setEnabled(true);
 				}
 			}
 		});
@@ -74,6 +102,19 @@ public class Editor extends JFrame {
 		saveAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				fc.showSaveDialog(null);
+				JOptionPane.showMessageDialog(null, "Not implemented yet!");
+				//InOut.writeXMLFromFile(selectedFile.getName(), currentMachine);
+			}
+		});
+		
+		exportLatexPDFAction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(null, "Not implemented yet!");
+				//try {
+				//	Runtime.getRuntime().exec("pdflatex -output-directory=" + path);
+				//}
+				//catch (Exception e) {
+				//}
 			}
 		});
 		
