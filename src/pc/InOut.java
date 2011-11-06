@@ -31,7 +31,7 @@ public class InOut {
 	 * @param fileName File writing to (with or without .xml at the end)
 	 * @param machine Turing machine object which should be written to file
 	 */
-	public static void writeXMLtoFile(String fileName, TuringMachine machine) {
+	public static void writeXMLToFile(String fileName, TuringMachine machine) {
 		try {
 			try {
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();

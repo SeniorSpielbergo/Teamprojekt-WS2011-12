@@ -44,7 +44,7 @@ public class Test {
 		String machineName = "test";
 		TuringMachine machine = new TuringMachine(states, edges, machineName, 4, outerInitial);
 		
-		InOut.writeXMLtoFile("example.xml", machine);
+		InOut.writeXMLToFile("example.xml", machine);
 		InOut.readXMLFromFile("test.xml");
 	}
 	
