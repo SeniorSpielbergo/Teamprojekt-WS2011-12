@@ -451,44 +451,38 @@ public class InOut {
 				out.write(c);
 			}
 			in.close();
+			out.close();
 			
-			BufferedWriter writer = new BufferedWriter(out);
+			// edit new file
+			BufferedReader reader = new BufferedReader(new FileReader(outputFile));
 			
-			writer.write("\\begin{document}");
-			writer.write(System.getProperty("line.separator"));
+			// read text to temp string
+			String line = "";
+			String oldContent = "";
+			String makeTitleName, automata, newContent;
+			while((line = reader.readLine()) != null) {
+				oldContent += line + "\n";
+			}
+			reader.close();
 			
 			// write maketitle
-			writer.write("\\title{test}");
-			writer.write(System.getProperty("line.separator"));
-			writer.write("\\date{}");
-			writer.write(System.getProperty("line.separator"));
-			writer.write("\\maketitle");
-			writer.write(System.getProperty("line.separator"));
-			writer.write(System.getProperty("line.separator"));
+			makeTitleName = "\\title{test}";
 			
 			// write automata
-			writer.write("\\begin{center}");
-			writer.write(System.getProperty("line.separator"));
-			writer.write("\\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]");
-			writer.write(System.getProperty("line.separator"));
+			automata = "test_automata";
 			
 			// write nodes and edges
-			//writer.write();
-			//writer.write(System.getProperty("line.separator"));
-			
-			
 			//\node[state, initial] 	(q_0) {$q_0$}; 
 			//\node[state] (q_1) [right of = q_0] {$q_1$};
 			//\node[state] (q_2) [below of = q_0] {$q_2$};
 			//\node[state,accepting] (q_F) [right of = q_1] {$q_F$};
 			
-			writer.write("\\end{tikzpicture}");
-			writer.write(System.getProperty("line.separator"));
-			writer.write("\\end{center}");
-			writer.write(System.getProperty("line.separator"));
-			writer.write("\\end{document}");
+			newContent = oldContent.replace("{PLACEHOLDER_MAKETITLENAME}", makeTitleName);
+			newContent = newContent.replace("{PLACEHOLDER_AUTOMATA}", automata);
 			
-			writer.flush();
+			FileWriter writer = new FileWriter(outputFile);
+			writer.write(newContent);
+			writer.close();
 		}
 		catch (IOException e) {
 		}
