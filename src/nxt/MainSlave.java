@@ -18,19 +18,28 @@ import java.io.*;
  * white = 14
  */
 
+/**
+ * Application running on the Slave-NXT.
+ * @author David Wille
+ * @author Sven Schuster
+ */
 public class MainSlave {
 	static int counter = 0;
 	static ColorSensor counterSensor;
 	static DataInputStream in;
 	static DataOutputStream out;
 
-	public static void pushBit(int bit, int newBit, Motor motor) {
+	private static void pushBit(int bit, int newBit, Motor motor) {
 		if (bit<newBit){
 			motor.rotate(Common.PUSH_ANGLE_SLAVE);
 			motor.rotate(Common.PUSH_ANGLE_SLAVE*(-1)+1);
 		}
 	}
 	
+	/**
+	 * Establishes connection to the controlling PC and waits for commands.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Common.playTune("HAHA",200);
 		TouchSensor ts1 = new TouchSensor(SensorPort.S4);

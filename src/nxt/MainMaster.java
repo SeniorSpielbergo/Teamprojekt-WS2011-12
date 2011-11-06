@@ -18,19 +18,29 @@ import java.io.*;
  * white = 14
  */
 
+/**
+ * Application running on the Master-NXT.
+ * @author David Wille
+ * @author Sven Schuster
+ */
 public class MainMaster {
 	static int counter = 0;
 	static ColorSensor counterSensor;
 	static DataInputStream in;
 	static DataOutputStream out;
 
-	public static void pushBit(int bit, int newBit, Motor motor) {
+	// Pushes one bit with given motor 
+	private static void pushBit(int bit, int newBit, Motor motor) {
 		if (bit>newBit){
 			motor.rotate(Common.PUSH_ANGLE_MASTER);
 			motor.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
 		}
 	}
 	
+	/**
+	 * Establishes connection to the controlling PC and waits for commands.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Common.playTune("HAHA",200);
 		String sensor1, sensor2, sensor3, counterString;
