@@ -9,7 +9,7 @@ import java.util.*;
 public class Main {
 	public static ArrayList<Tape> tapes = new ArrayList<Tape>();
 
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 		
 		String type = JOptionPane.showInputDialog("Enter 'LEGO' or 'PC':");
 		if (type.equals("LEGO")) {

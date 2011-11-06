@@ -13,14 +13,15 @@ public class ConsoleTape extends Tape {
      * This method initializes the tape
      * @throws Exception Never thrown
      */
-	public void init() throws Exception {
+	public void init() throws TapeException {
 		this.ready = true;
 	}
 	
 	/**
 	 * This method shuts the tape down.
 	 */
-	public void shutdown()  {
+	public void shutdown() throws TapeException{
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
 		this.ready = false;
 	}
 		
@@ -30,7 +31,9 @@ public class ConsoleTape extends Tape {
      * @return Character at the current position
      * @see #write(char)
      */
-	public char read() {
+	public char read() throws TapeException{
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		
 		if (this.memory.get(this.position) != null) {
 			return this.memory.get(this.position);
 		}
@@ -45,7 +48,9 @@ public class ConsoleTape extends Tape {
      * @param c Character to write (allowed characters are #, 0, 1, 2)
      * @see #read()
      */
-	public void write(char c) {
+	public void write(char c) throws TapeException {
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		
 		this.memory.put(this.position, c);
 		this.printTape();
 	}
@@ -55,7 +60,9 @@ public class ConsoleTape extends Tape {
      * 
      * @see #moveRight()
      */
-	public void moveLeft() {
+	public void moveLeft() throws TapeException {
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		
 		position--;
 		this.printTape();
 	}
@@ -65,7 +72,9 @@ public class ConsoleTape extends Tape {
      *
      * @see #moveLeft()
      */
-	public void moveRight() {
+	public void moveRight() throws TapeException {
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		
 		position++;
 		this.printTape();
 	}
@@ -73,7 +82,9 @@ public class ConsoleTape extends Tape {
 	/**
 	 * This method runs a test on the tape. It is not specified what this method actually does.
 	 */
-	public void test() {//TODO: remove
+	public void test() throws TapeException { //TODO: remove
+		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		
 		System.out.println("Test"); 
 	}
 	
