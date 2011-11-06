@@ -8,6 +8,22 @@
 public abstract class Tape {
 	protected boolean ready = false;
 	protected int position = 0;
+	protected String name = "";
+	
+	/**
+	 * Creates a new tape
+	 */
+	public Tape() {
+		this.name = "Default tape";
+	}
+	
+	/**
+	 * Creates a new tape with a specific name
+	 * @param name The tape name
+	 */
+	public Tape(String name) {
+		this.name = name;
+	}
 	
 	/**
 	 * Initializes the tape
@@ -54,11 +70,23 @@ public abstract class Tape {
 	 * Checks if the tape has been initialized
 	 * @return Returns true, if the tape has been initialized and false if not.
 	 */
-	public abstract boolean isReady();
+	public boolean isReady() {
+		return this.ready;
+	}
 	
 	/**
 	 * Get the current position of the tape
 	 * @return The head position on the tape
 	 */
-	public abstract int getPosition() throws TapeException;
+	public int getPosition() {
+		return this.position;
+	}
+	
+	/**
+	 * Get the name of the tape
+	 * @return Returns the tape name string
+	 */
+	public String getName() {
+		return this.name;
+	}
 }

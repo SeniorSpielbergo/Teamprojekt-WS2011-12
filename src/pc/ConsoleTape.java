@@ -8,6 +8,21 @@ import java.util.*;
 public class ConsoleTape extends Tape {
 	HashMap<Integer, Character> memory = new HashMap<Integer, Character>();
 	
+	/**
+	 * Creates a new console tape
+	 */
+	public ConsoleTape() {
+		super("Default console tape");
+	}
+
+	/**
+	 * Creates a new console tape with a specific name
+	 * @param name The tape name
+	 */
+	public ConsoleTape(String name) {
+		super(name);
+	}
+	
 	/** 
      * This method initializes the tape
      * @throws TapeException If the tape has already been initialized
@@ -91,53 +106,45 @@ public class ConsoleTape extends Tape {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isReady() {
-		return this.ready;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public int getPosition() throws TapeException {
-		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
-
-		return this.position;
-	}
-	
-	/**
 	 * Prints the tape to the console (from position -20 to +20)
 	 */
 	public void printTape() {
-		System.out.print("-");
-		for (int i=-20; i<=20; i++) {
-			System.out.print("--");
-		}
-		System.out.println("");
+		System.out.print(this.toString());
+	}
 
-		System.out.print("|");
+	@Override
+	public String toString() {
+		String text = " " + this.getName() + "@pos "  + this.getPosition() + ": \n";
+		text += "-";
 		for (int i=-20; i<=20; i++) {
+			text += "--";
+		}
+		text += "\n";
+		
+		text += "|";
+		for (int i=-20; i<=20; i++) { //TODO: handle head positions <-20 und > 20 properly
 			if (this.memory.get(i) != null) {
-				System.out.print(this.memory.get(i));
+				text += this.memory.get(i);
 			}
 			else {
-				System.out.print("#");
+				text += "#";
 			}
-			System.out.print("|");
+			text += "|";
 		}
-		System.out.println("");
+		text += "\n";
 		
 		for (int i=-20; i<this.position; i++) {
-			System.out.print("  ");
+			text += "  ";
 		}
-		System.out.print(" ^");
-		System.out.println("");
+		text += " ^";
+		text += "\n";
 	
-		System.out.print("-");
+		text += "-";
 		for (int i=-20; i<=20; i++) {
-			System.out.print("--");
+			text += "--";
 		}
-		System.out.println("");
+		text += "\n";
+		
+		return text;
 	}
 }

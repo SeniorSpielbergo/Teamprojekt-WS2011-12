@@ -1,4 +1,5 @@
 import java.io.*;
+
 /** Represents a physical Turing machine tape and provides methods to interact with the tape
  * 
  * @author Nils Breyer
@@ -13,13 +14,27 @@ public class LEGOTape extends Tape {
 	boolean ready = false;
 
 	/**
-	 * Constructs a new LEGO tape based on two NXT robots
+	 * Constructs a new LEGO tape based on two NXT robots with the name "Default LEGO tape"
 	 * @param master The robot that can move the tape, read and write symbols
 	 * @param slave The robot that can only write
+	 * @see #LEGOTape(String, MasterRobot, SlaveRobot)
 	 */
 	public LEGOTape(MasterRobot master, SlaveRobot slave) {
 		this.master = master;
 		this.slave = slave;
+		this.name = "Default LEGO tape";
+	}
+	
+	/**
+	 * Constructs a new LEGO tape based on two NXT robots with a specific name
+	 * @param name Tape name string
+	 * @param master The robot that can move the tape, read and write symbols
+	 * @param slave The robot that can only write
+	 */
+	public LEGOTape(String name, MasterRobot master, SlaveRobot slave) {
+		this.master = master;
+		this.slave = slave;
+		this.name = name;
 	}
 	
 	/**
@@ -28,7 +43,7 @@ public class LEGOTape extends Tape {
 	 * @see #shutdown()
 	 */
 	public void init() throws TapeException {
-		System.out.println("Initializing tape...");
+		System.out.println(this.name + ": Initializing tape...");
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
 
 		try {
@@ -36,7 +51,7 @@ public class LEGOTape extends Tape {
 			this.slave.connect();
 			this.currentSymbol = 'n';
 			ready = true;
-			System.out.println("Tape ready.");
+			System.out.println(this.name + ": Tape ready.");
 
 		}
 		catch (Exception e) {
@@ -159,20 +174,9 @@ public class LEGOTape extends Tape {
 			throw new TapeException(this, "Test failure.", e);
 		}
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isReady() {
-		return this.ready;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public int getPosition() throws TapeException {
-		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
-
-		return this.position;
+	
+	@Override
+	public String toString() {
+		return " " + this.getName() + "@pos "  + this.getPosition() + ", current symbol: " + this.currentSymbol;
 	}
 }

@@ -9,8 +9,7 @@ import java.util.*;
 public class Main {
 	public static ArrayList<Tape> tapes = new ArrayList<Tape>();
 
-	public static void main(String[] args) throws Exception{
-		
+	public static void main(String[] args) {
 		String type = JOptionPane.showInputDialog("Enter 'LEGO' or 'PC':");
 		if (type.equals("LEGO")) {
 			MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
@@ -24,6 +23,7 @@ public class Main {
 		}
 		else {
 			System.out.println("If you are too stupid to enter one of the words 'LEGO' or 'PC', you shouldn't use this program.");
+			return;
 		}
 
 
@@ -39,27 +39,37 @@ public class Main {
 
 		while (true) {
 			String cmd = JOptionPane.showInputDialog("Enter command:");
-			if (cmd.equals("quit")) {
-				tapes.get(0).shutdown();
-				break;
+			try {
+				if (cmd.equals("quit")) {
+					tapes.get(0).shutdown();
+					break;
+				}
+				else if (cmd.equals("test")) {
+					tapes.get(0).test();
+				}
+				else if (cmd.equals("read")) {
+					char c = tapes.get(0).read();
+					System.out.println("Read: " + c);
+				}
+				else if (cmd.equals("write")) {
+					char write = JOptionPane.showInputDialog("Enter new symbol:").toCharArray()[0];
+					tapes.get(0).write(write);
+				}
+				else if (cmd.equals("left")) {
+					tapes.get(0).moveLeft();
+				}
+				else if (cmd.equals("right")) {
+					tapes.get(0).moveRight();
+				}
+				else {
+					System.out.println("Unkown command '" + cmd + "'.");
+				}
 			}
-			else if (cmd.equals("test")) {
-				tapes.get(0).test();
+			catch (TapeException e) {
+				System.out.println("Error while excecuting the command '" + cmd + "': ");
+				e.printStackTrace();
 			}
-			else if (cmd.equals("read")) {
-				char c = tapes.get(0).read();
-				System.out.println("Read: " + c);
-			}
-			else if (cmd.equals("write")) {
-				char write = JOptionPane.showInputDialog("Enter new symbol:").toCharArray()[0];
-				tapes.get(0).write(write);
-			}
-			else if (cmd.equals("left")) {
-				tapes.get(0).moveLeft();
-			}
-			else if (cmd.equals("right")) {
-				tapes.get(0).moveRight();
-			}
+
 		}
 	}
 }
