@@ -58,7 +58,7 @@ public abstract class Robot {
 	 * Method to disconnect from the Robot
 	 */
 
-	public void disconnect() {
+	public void disconnect() throws IOException {
 		System.out.println("Disconnecting '" + this.name + "'...");
 		this.sendCommand('q');
 		try {
@@ -67,6 +67,7 @@ public abstract class Robot {
 		}
 		catch (IOException e) {
 			System.out.println("WARNING: Disconnecting '" + this.name + "' didn't work properly: " + e.getMessage());
+			throw e;
 		}
 
 		System.out.println("Disconnected '" + this.name + "'.");
@@ -78,18 +79,20 @@ public abstract class Robot {
 	 * @param write symbol that is send to the robot
 	 */
 	
-	public void write(char current, char write) {
+	public void write(char current, char write) throws IOException{
 		System.out.println(this.name + ": Write from "+ current + " to " + write + " ...");
 		this.sendCommand('w');
 		this.sendCommand(current);
 		this.sendCommand(write);
 		char received = this.receiveCommand();		
 		if (received == '.') {
-			System.out.println(this.name + ": Success");
+			System.out.println(this.name + ": Writing finished successfully.");
 		} else if (received == '!') {
 			System.out.println(this.name + ": Write Failed");
+			throw new IOException("Received error from robot '" + this.name + ": Writing failed.");
 		} else {
 			System.out.println(this.name + ": Common Fail, read from Robot: " + received);
+			throw new IOException("Received unexpected symbol from robot '" + this.name + ".");
 		}
 	}
 	
@@ -98,7 +101,7 @@ public abstract class Robot {
 	 * @param cmd character that is send to the robot
 	 */
 	
-	protected void sendCommand(char cmd) {
+	protected void sendCommand(char cmd) throws IOException {
 		System.out.println("Sending to '" + this.name + "' the command '" + cmd + "'...");
 		try {
 			this.output.writeChar(cmd);
@@ -107,6 +110,7 @@ public abstract class Robot {
 		}
 		catch (IOException e) {
 			System.out.println("Sending to '" + this.name + "' the command '" + cmd + "' failed: " + e.getMessage());
+			throw e;
 		}
 	}
 
@@ -114,7 +118,7 @@ public abstract class Robot {
 	 * 
 	 * @return a character that have been send from the robot
 	 */
-	protected char receiveCommand() {
+	protected char receiveCommand() throws IOException {
 		System.out.println("Receiving from '" + this.name + "'...");
 		try {
 			char cmd = this.input.readChar();
@@ -123,7 +127,7 @@ public abstract class Robot {
 		}
 		catch (IOException e) {
 			System.out.println("Receiving from '" + this.name + "' failed: " + e.getMessage());
-			return ' '; //TODO: better solution?
+			throw e;
 		}
 	}
 }

@@ -15,9 +15,15 @@ public class TapeException extends IOException {
 		this.tape = tape;
 	}
 	
-	public TapeException(String msg, Tape tape) {
+	public TapeException(Tape tape, String msg) {
 		super(msg);
 		this.tape = tape;
+	}
+	
+	public TapeException(Tape tape, String msg, Throwable initCause) {
+		super(msg);
+		this.tape = tape;
+		this.initCause(initCause);
 	}
 	
 	public int getTapePosition() throws TapeException{
