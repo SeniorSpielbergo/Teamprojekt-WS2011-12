@@ -1,3 +1,9 @@
+/** This class represents an editor for Turing machines
+ * 
+ * @author David Wille
+ * 
+ */
+
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -8,7 +14,10 @@ public class Editor extends JFrame {
 
 	protected TuringMachine currentMachine;
 	private JMenuItem newAction, openAction, saveAction, exportLatexPDFAction, exitAction;
-
+	
+	/**
+	 * Constructs the Editor window with all actionListeners and a basic setup
+	 */
 	public Editor() {
 		setTitle("Editor");
 		setSize(800, 800);
@@ -23,7 +32,6 @@ public class Editor extends JFrame {
 		
 		// create fileChooser
 		final JFileChooser fc = new JFileChooser();
-		int returnVal;
 		
 		// set current directory
 		try {
@@ -125,6 +133,10 @@ public class Editor extends JFrame {
 		});
 	}
 	
+	/**
+	 * The editor main, which initializes a new editor window
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Editor mainWindow = new Editor();
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
