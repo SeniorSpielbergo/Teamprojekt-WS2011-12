@@ -28,7 +28,7 @@ public class LEGOTape extends Tape {
 	 */
 	public void init() throws TapeException {
 		System.out.println("Initializing tape...");
-		if (this.ready) throw new TapeException("Tape has already been initialized.", this);
+		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
 
 		try {
 			this.master.connect();
@@ -39,7 +39,7 @@ public class LEGOTape extends Tape {
 		}
 		catch (Exception e) {
 			ready = false;
-			TapeException ex = new TapeException("Initializing tape failed.", this);
+			TapeException ex = new TapeException(this, "Tape has already been initialized.");
 			ex.initCause(e);
 			throw ex;
 		}
@@ -51,7 +51,7 @@ public class LEGOTape extends Tape {
 	 * @see #init()
 	 */
 	public void shutdown() throws TapeException {
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 
 		this.master.disconnect();
 		this.slave.disconnect();
@@ -65,7 +65,7 @@ public class LEGOTape extends Tape {
 	 * @see #write(char)
 	 */
 	public char read() throws TapeException{
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 
 		currentSymbol = this.master.read();
 		return currentSymbol;
@@ -78,7 +78,7 @@ public class LEGOTape extends Tape {
 	 * @see #read()
 	 */
 	public void write(char c) throws TapeException{
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
 		this.master.write(currentSymbol, c);
 		this.slave.write(currentSymbol, c);
@@ -90,7 +90,7 @@ public class LEGOTape extends Tape {
 	 * @see #moveRight()
 	 */
 	public void moveLeft() throws TapeException{
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
 		this.master.moveLeft();
 	}
@@ -101,7 +101,7 @@ public class LEGOTape extends Tape {
 	 * @see #moveLeft()
 	 */
 	public void moveRight() throws TapeException{
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
 		this.master.moveRight();
 	}
@@ -111,7 +111,7 @@ public class LEGOTape extends Tape {
 	 * @throws TapeException If the tape has not been initialized
 	 */
 	public void test()  throws TapeException{ //TODO: remove
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		this.master.test();
 	}
 
@@ -126,7 +126,7 @@ public class LEGOTape extends Tape {
 	 * {@inheritDoc}
 	 */
 	public int getPosition() throws TapeException {
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 
 		return this.position;
 	}

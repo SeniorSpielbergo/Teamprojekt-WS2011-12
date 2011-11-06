@@ -7,14 +7,13 @@ import java.util.*;
 
 public class ConsoleTape extends Tape {
 	HashMap<Integer, Character> memory = new HashMap<Integer, Character>();
-	int position = 0;
 	
 	/** 
      * This method initializes the tape
      * @throws TapeException If the tape has already been initialized
      */
 	public void init() throws TapeException {
-		if (this.ready) throw new TapeException("Tape has already been initialized.", this);
+		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		this.ready = true;
 	}
 	
@@ -23,7 +22,7 @@ public class ConsoleTape extends Tape {
 	 * @throws TapeException If the tape has not been initialized
 	 */
 	public void shutdown() throws TapeException{
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		this.ready = false;
 	}
 		
@@ -34,7 +33,7 @@ public class ConsoleTape extends Tape {
      * @see #write(char)
      */
 	public char read() throws TapeException{
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
 		if (this.memory.get(this.position) != null) {
 			return this.memory.get(this.position);
@@ -51,7 +50,7 @@ public class ConsoleTape extends Tape {
      * @see #read()
      */
 	public void write(char c) throws TapeException {
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
 		this.memory.put(this.position, c);
 		this.printTape();
@@ -63,7 +62,7 @@ public class ConsoleTape extends Tape {
      * @see #moveRight()
      */
 	public void moveLeft() throws TapeException {
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
 		position--;
 		this.printTape();
@@ -75,7 +74,7 @@ public class ConsoleTape extends Tape {
      * @see #moveLeft()
      */
 	public void moveRight() throws TapeException {
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
 		position++;
 		this.printTape();
@@ -86,7 +85,7 @@ public class ConsoleTape extends Tape {
 	 * @throws TapeException If the tape has not been initialized
 	 */
 	public void test() throws TapeException { //TODO: remove
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
 		System.out.println("Test"); 
 	}
@@ -102,7 +101,7 @@ public class ConsoleTape extends Tape {
 	 * {@inheritDoc}
 	 */
 	public int getPosition() throws TapeException {
-		if (!this.ready) throw new TapeException("Tape has not been initialized.", this);
+		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
 		return this.position;
 	}
