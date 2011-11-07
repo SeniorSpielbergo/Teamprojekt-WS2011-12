@@ -7,7 +7,7 @@ import java.util.*;
 
 public class ConsoleTape extends Tape {
 	HashMap<Integer, Character> memory = new HashMap<Integer, Character>();
-	
+
 	/**
 	 * Creates a new console tape
 	 */
@@ -22,16 +22,16 @@ public class ConsoleTape extends Tape {
 	public ConsoleTape(String name) {
 		super(name);
 	}
-	
+
 	/** 
-     * This method initializes the tape
-     * @throws TapeException If the tape has already been initialized
-     */
+	 * This method initializes the tape
+	 * @throws TapeException If the tape has already been initialized
+	 */
 	public void init() throws TapeException {
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		this.ready = true;
 	}
-	
+
 	/**
 	 * This method shuts the tape down.
 	 * @throws TapeException If the tape has not been initialized
@@ -40,16 +40,16 @@ public class ConsoleTape extends Tape {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		this.ready = false;
 	}
-		
+
 	/** 
-     * This method returns the char at the current tape position
-     * @return Character at the current position
-     * @throws TapeException If the tape has not been initialized
-     * @see #write(char)
-     */
+	 * This method returns the char at the current tape position
+	 * @return Character at the current position
+	 * @throws TapeException If the tape has not been initialized
+	 * @see #write(char)
+	 */
 	public char read() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
-		
+
 		if (this.memory.get(this.position) != null) {
 			return this.memory.get(this.position);
 		}
@@ -57,51 +57,51 @@ public class ConsoleTape extends Tape {
 			return '#';
 		}
 	}
-	
+
 	/** 
-     * This method writes a symbol at the current tape position
-     * @param c Character to write (allowed characters are #, 0, 1, 2)
-     * @throws TapeException If the tape has not been initialized
-     * @see #read()
-     */
+	 * This method writes a symbol at the current tape position
+	 * @param c Character to write (allowed characters are #, 0, 1, 2)
+	 * @throws TapeException If the tape has not been initialized
+	 * @see #read()
+	 */
 	public void write(char c) throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
-		
+
 		this.memory.put(this.position, c);
 		this.printTape();
 	}
-	
+
 	/** 
-     * This method moves the tape one field to the left
-     * @throws TapeException If the tape has not been initialized
-     * @see #moveRight()
-     */
+	 * This method moves the tape one field to the left
+	 * @throws TapeException If the tape has not been initialized
+	 * @see #moveRight()
+	 */
 	public void moveLeft() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
-		
+
 		position--;
 		this.printTape();
 	}
-	
+
 	/** 
-     * This method moves the tape one field to the right
-     * @throws TapeException If the tape has not been initialized
-     * @see #moveLeft()
-     */
+	 * This method moves the tape one field to the right
+	 * @throws TapeException If the tape has not been initialized
+	 * @see #moveLeft()
+	 */
 	public void moveRight() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
-		
+
 		position++;
 		this.printTape();
 	}
-	
+
 	/**
 	 * This method runs a test on the tape. It is not specified what this method actually does.
 	 * @throws TapeException If the tape has not been initialized
 	 */
 	public void test() throws TapeException { //TODO: remove
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
-		
+
 		System.out.println("Test"); 
 	}
 
@@ -115,14 +115,23 @@ public class ConsoleTape extends Tape {
 	@Override
 	public String toString() {
 		String text = " " + this.getName() + "@pos "  + this.getPosition() + ": \n";
-		text += "-";
-		for (int i=-20; i<=20; i++) {
+		int offset = this.getPosition() - (this.getPosition() % 10) - 20 ;
+		text += this.getMemoryAsFormattedString(offset, 40);
+		
+		return text;
+	}
+
+	public String getMemoryAsFormattedString(int offset, int length) {
+		if (length < 1) return "";
+
+		String text = "-";
+		for (int i=offset; i<=offset+length; i++) {
 			text += "--";
 		}
 		text += "\n";
-		
+
 		text += "|";
-		for (int i=-20; i<=20; i++) { //TODO: handle head positions <-20 und > 20 properly
+		for (int i=offset; i<=offset+length; i++) {
 			if (this.memory.get(i) != null) {
 				text += this.memory.get(i);
 			}
@@ -132,19 +141,21 @@ public class ConsoleTape extends Tape {
 			text += "|";
 		}
 		text += "\n";
-		
-		for (int i=-20; i<this.position; i++) {
-			text += "  ";
+
+		if (this.position >= offset && this.position <= offset+length) {
+			for (int i=offset; i<this.position; i++) {
+				text += "  ";
+			}
+			text += " ^";
 		}
-		text += " ^";
 		text += "\n";
-	
+
 		text += "-";
-		for (int i=-20; i<=20; i++) {
+		for (int i=offset; i<=offset+length; i++) {
 			text += "--";
 		}
 		text += "\n";
-		
+
 		return text;
 	}
 }
