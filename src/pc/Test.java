@@ -10,9 +10,10 @@ public class Test {
 
 	public static void main(String argv[]) {
 		State n0 = new State("0", "q0", State.Type.START);
-		State n1 = new State("1", "q1", State.Type.START);
+		State n1 = new State("1", "q1", State.Type.NORMAL);
 		ArrayList<State> states = new ArrayList<State>();
 		states.add(n0);
+		states.add(n1);
 		ArrayList<Character> read = new ArrayList<Character>();
 		read.add('0');
 		read.add('1');

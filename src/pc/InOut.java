@@ -430,6 +430,11 @@ public class InOut {
 		return machine;
 	}
 	
+	/**
+	 * Writes a Turing machine to a LaTex file
+	 * @param fileName Name of the file, where to write to
+	 * @param machine Turing machine that should be written to the file
+	 */
 	public static void writeLatexToFile(String fileName, TuringMachine machine) {
 		// check for right file ending
 		if (!fileName.endsWith(".tex")) {
@@ -457,7 +462,8 @@ public class InOut {
 			// read text to temp string
 			String line = "";
 			String oldContent = "";
-			String makeTitleName, automata, newContent;
+			String automata = "";
+			String makeTitleName, newContent;
 			while((line = reader.readLine()) != null) {
 				oldContent += line + "\n";
 			}
@@ -466,8 +472,8 @@ public class InOut {
 			// write maketitle
 			makeTitleName = "\\title{test}";
 			
-			// write automata
-			automata = "test_automata";
+			// write automata nodes
+			automata += writeStateToLatex(machine.getStates());
 			
 			// write nodes and edges
 			//\node[state, initial] 	(q_0) {$q_0$}; 
@@ -484,6 +490,53 @@ public class InOut {
 		}
 		catch (IOException e) {
 		}
+	}
+	
+	/**
+	 * Returns the LaTeX string of nodes for an automata
+	 * @param states The states that should be converted to LaTeX
+	 * @return String of nodes formated for an automata 
+	 */
+	private static String writeStateToLatex(ArrayList<State> states) {
+		String output = "";
+		State oldLeft = states.get(0), oldMiddle = states.get(0);
+		for (int i = 0; i < states.size(); i++) {
+			State currentState = states.get(i);
+			String type = "";
+			String name = currentState.getName();
+			// check type of node
+			switch (currentState.getType()) {
+				case START:
+					type = ", initial";
+					break;
+				case NORMAL:
+					break;
+				case FINAL:
+					type = ", accepting";
+					break;
+				default:
+					break;
+			}
+			
+			if (i % 3 == 0) {
+				if (i == 0) {
+					output += "\\node[state" + type + "] (" + name + ") {$" + name + "$};\n";
+				}
+				else {
+					output += "\\node[state" + type + "] (" + name + ") [below of = " + oldLeft.getName() + "] {$" + name + "$};\n";
+				}
+				oldLeft = currentState;
+			}
+			else if (i % 3 == 1) {
+				output += "\\node[state" + type + "] (" + name + ") [right of = " + oldLeft.getName() + "] {$" + name + "$};\n";
+				oldMiddle = currentState;
+			}
+			else if (i % 3 == 2) {
+				output += "\\node[state" + type + "] (" + name + ") [right of = " + oldMiddle.getName() + "] {$" + name + "$};\n";
+			}
+			
+		}
+		return output;
 	}
 	
 	/**
