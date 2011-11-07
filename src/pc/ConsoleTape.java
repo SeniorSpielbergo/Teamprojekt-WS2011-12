@@ -112,6 +112,10 @@ public class ConsoleTape extends Tape {
 		System.out.print(this.toString());
 	}
 
+	/**
+	 * Returns a formatted string representing the current tape state.
+	 * It includes the tape name, relevant parts of the memory and the head position.
+	 */
 	@Override
 	public String toString() {
 		String text = " " + this.getName() + "@pos "  + this.getPosition() + ": \n";
@@ -121,15 +125,24 @@ public class ConsoleTape extends Tape {
 		return text;
 	}
 
+	/**
+	 * Returns a formatted string representing the current memory state.
+	 * It includes specified part of the memory and the head position.
+	 * @param offset First memory position to be included
+	 * @param length Number of memory fields to be included
+	 * @return The formatted string with the memory content
+	 */
 	public String getMemoryAsFormattedString(int offset, int length) {
 		if (length < 1) return "";
 
+		//print top horizontal line
 		String text = "-";
 		for (int i=offset; i<=offset+length; i++) {
 			text += "--";
 		}
 		text += "\n";
 
+		//print memory
 		text += "|";
 		for (int i=offset; i<=offset+length; i++) {
 			if (this.memory.get(i) != null) {
@@ -142,6 +155,7 @@ public class ConsoleTape extends Tape {
 		}
 		text += "\n";
 
+		//print head position
 		if (this.position >= offset && this.position <= offset+length) {
 			for (int i=offset; i<this.position; i++) {
 				text += "  ";
@@ -150,6 +164,7 @@ public class ConsoleTape extends Tape {
 		}
 		text += "\n";
 
+		//print bottom horizontal line
 		text += "-";
 		for (int i=offset; i<=offset+length; i++) {
 			text += "--";

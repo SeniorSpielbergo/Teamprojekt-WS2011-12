@@ -26,6 +26,10 @@ public class Editor extends JFrame {
 			if (System.getProperties().getProperty("os.name") == "Linux") {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 			}
+			else if (System.getProperties().getProperty("os.name") == "Mac OS X") {
+				//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				//System.setProperty("apple.laf.useScreenMenuBar", "true");
+			}
     	} 
 		catch (Exception e) {
 		}
@@ -131,6 +135,7 @@ public class Editor extends JFrame {
 				System.exit(0);
 			}
 		});
+		
 	}
 	
 	/**
