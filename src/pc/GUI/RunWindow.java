@@ -49,12 +49,13 @@ public class RunWindow extends JFrame implements ActionListener {
 		// add to window and set layout
 		contentPane.add(inputContainer, BorderLayout.BEFORE_FIRST_LINE);
 		contentPane.add(expandContainer, BorderLayout.WEST);		
-		contentPane.add(comboContainer, BorderLayout.CENTER);
+		contentPane.add(comboContainer, BorderLayout.SOUTH);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == expandWindowButton) {
-			this.setSize(600, 250);
+			int comboHeight = comboContainer.getHeight();
+			this.setSize(600, 175 + comboHeight);
 			comboContainer.setVisible(true);
 		}
 	}
