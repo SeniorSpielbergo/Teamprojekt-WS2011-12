@@ -212,9 +212,12 @@ public class Editor extends JFrame {
 			Simulation sim = new Simulation(this.currentMachine, tapes);
 			sim.runMachine();
 		}
-		catch (TapeException e){
-			JOptionPane.showMessageDialog(null, "Error during simulation.");
+		catch (Exception e){
 			e.printStackTrace();
+			final Writer result = new StringWriter();
+		    final PrintWriter printWriter = new PrintWriter(result);
+		    e.printStackTrace(printWriter);
+		    JOptionPane.showMessageDialog(null, "Error during simulation:\n" + result.toString());
 		}
 
 
