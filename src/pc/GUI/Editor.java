@@ -229,7 +229,7 @@ public class Editor extends JFrame {
 			t.write(c);
 			t.moveRight();
 		}
-		for (Character c : input) {
+		for (int i = 0; i < input.size(); i++) {
 			t.moveLeft();
 		}
 		
