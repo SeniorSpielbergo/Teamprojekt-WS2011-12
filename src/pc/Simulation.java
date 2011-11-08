@@ -11,26 +11,25 @@ public class Simulation {
 
 
 
-	public Simulation(TuringMachine g, ArrayList<Tape> tapes){
+	public Simulation(TuringMachine machine, ArrayList<Tape> tapes){
+		this.machine = machine;
 		this.tapes = tapes;
-		this.numberOfTapes = tapes.size();
-		machine = (InOut.readXMLFromFile("example.xml"));		
-		for( int i =0; i <= machine.getStates().size(); i++){
-			if(machine.getStates().get(i).equals("start")){
+		this.numberOfTapes = machine.tapes;
+		for( int i =0; i < machine.getStates().size(); i++){
+			if(machine.getStates().get(i).getType() == State.Type.START){
 				startState = machine.getStates().get(i);
+				actualState = startState;
 			}
+
 		}
-	}
-
-	void createMachine(){
-
-		actualState = startState;
+		System.out.println(startState.id);
+		System.out.println(actualState.id);
 		this.findEdge();
-
 	}
+
 
 	public void runMachine()throws TapeException{
-		if(!actualState.getType().equals("final")){
+		if(actualState.getType() != State.Type.FINAL){
 			for(int i = 0; i < numberOfTapes; i++)
 				currentSymbols.add(i,this.tapes.get(i).read());
 
@@ -53,10 +52,17 @@ public class Simulation {
 			}
 
 			actualState = nextState;
-			if(!actualState.getType().equals("final")){
+			if(!(actualState.getType() == State.Type.FINAL)){
 				runMachine();
 			}
 
+			else{
+				System.out.println("ich habe fertig");
+			}
+
+		}
+		else{
+			System.out.println("ich musste nie was tun");
 		}
 	}
 
@@ -67,8 +73,8 @@ public class Simulation {
 				for(int i = 0; i < numberOfTapes; i++)
 					if( e.getTransition().get(j).getRead().get(i) == currentSymbols.get(i)){
 						label = e.getTransition().get(j);
-						//nextState = e.getTransition().getTo();
-						
+						nextState = e.getTo();
+
 					}
 					else{
 						label = null;
