@@ -78,7 +78,7 @@ public class Simulation {
 				System.out.println(e.getTransition().get(j).getId() +" ");
 				System.out.println("Groeße read: "+e.getTransition().get(j).getRead().size());
 				for(int i = 0; i < numberOfTapes; i++){
-
+					//hier liegt vielleicht irgendwo der Fehler
 					if( e.getTransition().get(j).getRead().get(i) == currentSymbols.get(i)){
 
 						label = e.getTransition().get(j);
