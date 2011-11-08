@@ -71,5 +71,29 @@ public class TuringMachine {
 	public ArrayList<Edge> getEdges() {
 		return this.edges;
 	}
+	
+	
+	
+
+	@Override
+	public String toString() {
+		return "TuringMachine [states=" + states + ", edges=" + edges
+				+ ", name=" + name + ", tapes=" + tapes + ", initial="
+				+ initial + "]";
+	}
+
+	public void printTuringMachine() {
+		System.out.println("TM name: " + this.getName());
+		System.out.println("Tapes count:" + this.getTapes());
+		System.out.println("Input: ");
+		for (int i= 0; i < this.getTapes(); i++) {
+			System.out.print(" Tape " + i + ": ");
+			for (Character c : this.getInitial().get(i)) {
+				System.out.print(c);
+			}
+			System.out.println();
+		}
+		
+	}
 
 }

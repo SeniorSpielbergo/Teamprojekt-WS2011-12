@@ -148,7 +148,7 @@ public class Editor extends JFrame {
 		Editor mainWindow = new Editor();
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainWindow.setVisible(true);
-		mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 	
 	public void newFile() {
@@ -191,6 +191,7 @@ public class Editor extends JFrame {
 	}
 	
 	public void simulate() {
+		System.out.println(this.currentMachine);
 		ArrayList<Tape> tapes = new ArrayList<Tape>();
 		
 		try {
