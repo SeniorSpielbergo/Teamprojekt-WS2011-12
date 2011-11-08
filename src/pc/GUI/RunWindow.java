@@ -20,6 +20,7 @@ public class RunWindow extends JFrame implements ActionListener {
 		JComboBox[] combo = new JComboBox[machine.getTapes()];
 		JLabel[] tapeLabel = new JLabel[machine.getTapes()];
 		JTextField[] tapeName = new JTextField[machine.getTapes()];
+		JPanel[] tapePanel = new JPanel[machine.getTapes()];
 		setTitle("Run");
 		setSize(600, 150);
 		
@@ -32,19 +33,24 @@ public class RunWindow extends JFrame implements ActionListener {
 		comboContainer.setBorder(BorderFactory.createTitledBorder("Tapes"));
 		inputContainer.setBorder(BorderFactory.createTitledBorder("Input"));
 		expandWindowButton.addActionListener(this);
+		BoxLayout layout = new BoxLayout(comboContainer, BoxLayout.Y_AXIS);
+		comboContainer.setLayout(layout);
 		
 		// initialize combo boxes
 		for (int i = 0; i < combo.length; i++) {
 			combo[i] = new JComboBox();
 			tapeLabel[i] = new JLabel("Tape" + i + ":");
 			tapeName[i] = new JTextField(20);
+			tapePanel[i] = new JPanel();
 			
 			for (int j = 0; j < description.length; j++) {
 				combo[i].addItem(description[j]);
 			}
-			comboContainer.add(tapeLabel[i]);
-			comboContainer.add(tapeName[i]);
-			comboContainer.add(combo[i]);
+			tapePanel[i].add(tapeLabel[i]);
+			tapePanel[i].add(tapeName[i]);
+			tapePanel[i].add(combo[i]);
+			comboContainer.add(tapePanel[i]);
+			
 		}
 		comboContainer.setVisible(false);
 		// add to window and set layout
