@@ -210,11 +210,10 @@ public class Editor extends JFrame {
 		}
 
 
-
-
 	}
 	
 	public void writeInputWordToTape(Tape t, ArrayList<Character> input) throws TapeException{
+		System.out.println("Input length: " + input.size());
 		for (Character c : input) {
 			t.write(c);
 			t.moveRight();
