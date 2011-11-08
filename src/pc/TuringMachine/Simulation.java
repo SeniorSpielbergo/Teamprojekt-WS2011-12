@@ -31,7 +31,7 @@ public class Simulation {
 	}
 
 
-	public void runMachine()throws TapeException{
+	public void runMachine() throws TapeException{
 		if(actualState.getType() != State.Type.FINAL){
 			for(int i = 0; i < numberOfTapes; i++)
 				currentSymbols.add(i,this.tapes.get(i).read());
