@@ -9,6 +9,7 @@ public class RunWindow extends JFrame implements ActionListener {
 	private String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
 	protected TuringMachine machine;
 	private JButton expandWindowButton;
+	private boolean isExpanded = false;
 	private JPanel inputContainer = new JPanel();
 	private JPanel comboContainer = new JPanel();
 	private JPanel expandContainer = new JPanel();
@@ -54,8 +55,15 @@ public class RunWindow extends JFrame implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == expandWindowButton) {
-			this.setSize(600, 250);
-			comboContainer.setVisible(true);
+			if (!isExpanded){
+				this.setSize(600, 250);
+				comboContainer.setVisible(true);
+				isExpanded = true;
+			} else {
+				comboContainer.setVisible(false);
+				this.setSize(600, 150);
+				isExpanded = false;
+			}
 		}
 	}
 }
