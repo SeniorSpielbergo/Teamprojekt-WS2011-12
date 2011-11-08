@@ -5,9 +5,11 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
 import TuringMachine.*;
+import Tape.*;
 
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /** This class represents an editor for Turing machines
  * 
@@ -81,6 +83,7 @@ public class Editor extends JFrame {
 		// disable actions
 		saveAction.setEnabled(false);
 		exportLatexAction.setEnabled(false);
+		runAction.setEnabled(false);
         
 		// add menu subitems
 		fileMenu.add(newAction);
@@ -152,6 +155,7 @@ public class Editor extends JFrame {
 		JOptionPane.showMessageDialog(null, "Not implemented yet!");
 		saveAction.setEnabled(true);
 		exportLatexAction.setEnabled(true);
+		runAction.setEnabled(true);
 	}
 	
 	public void openFile() {
@@ -161,6 +165,7 @@ public class Editor extends JFrame {
 			currentMachine = InOut.readXMLFromFile(selectedFile.getName());
 			saveAction.setEnabled(true);
 			exportLatexAction.setEnabled(true);
+			runAction.setEnabled(true);
 		}
 	}
 	
@@ -179,8 +184,41 @@ public class Editor extends JFrame {
 	}
 	
 	public void runSimulation() {
-		RunWindow runWindow = new RunWindow();
+		RunWindow runWindow = new RunWindow(currentMachine);
 		runWindow.setVisible(true);
+		runWindow.setLocationRelativeTo(null);
 	}
+	
+	public void simulate() {
+		ArrayList<Tape> tapes = new ArrayList<Tape>();
+		
+		try {
+			for (int i=0; i < this.currentMachine.getTapes(); i++) {
+				Tape tape_console = new ConsoleTape();
+				tapes.add(tape_console);
+				this.writeInputWordToTape(tape_console, this.currentMachine.getInitial().get(i));
+			}
 
+			Simulation sim = new Simulation(this.currentMachine, tapes);
+		}
+		catch (TapeException e){
+			JOptionPane.showMessageDialog(null, "Error during simulation.");
+			e.printStackTrace();
+		}
+
+
+
+
+	}
+	
+	public void writeInputWordToTape(Tape t, ArrayList<Character> input) throws TapeException{
+		for (Character c : input) {
+			t.write(c);
+			t.moveRight();
+		}
+		for (Character c : input) {
+			t.moveLeft();
+		}
+		
+	}
 }

@@ -1,10 +1,16 @@
 package GUI;
 import java.awt.event.*;
 import javax.swing.*;
-
+import TuringMachine.*;
 
 public class RunWindow extends JFrame implements ActionListener {
-	public RunWindow() {
+
+	
+	protected TuringMachine machine;
+	
+	public RunWindow(TuringMachine machine) {
+		this.machine = machine;
+		JComboBox[] combo = new JComboBox[machine.getTapes()];
 		setTitle("Run");
 		setSize(600, 200);
 	}
