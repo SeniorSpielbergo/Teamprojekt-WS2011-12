@@ -1,7 +1,6 @@
 package TuringMachine;
-import java.util.ArrayList;
 
-import TuringMachine.*;
+import java.util.ArrayList;
 import Tape.*;
 
 
@@ -74,7 +73,7 @@ public class Simulation {
 		Transition label= null;
 		for(Edge e : actualState.getEdge()){
 			for(int j = 0; j < e.getTransition().size(); j++){
-				for(int i = 0; i < numberOfTapes; i++)
+				for(int i = 0; i < numberOfTapes; i++){
 					if( e.getTransition().get(j).getRead().get(i) == currentSymbols.get(i)){
 						label = e.getTransition().get(j);
 						nextState = e.getTo();
@@ -85,6 +84,10 @@ public class Simulation {
 						nextState = null;
 						break;
 					}
+				}
+				if(label != null){
+					break;
+				}
 			}
 		}
 		return label;

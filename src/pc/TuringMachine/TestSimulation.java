@@ -1,7 +1,6 @@
 package TuringMachine;
 import java.util.ArrayList;
 import Tape.*;
-import TuringMachine.*;
 
 public class TestSimulation {
 
