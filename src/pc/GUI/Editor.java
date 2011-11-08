@@ -187,6 +187,7 @@ public class Editor extends JFrame {
 		RunWindow runWindow = new RunWindow(currentMachine);
 		runWindow.setVisible(true);
 		runWindow.setLocationRelativeTo(null);
+		simulate();
 	}
 	
 	public void simulate() {
@@ -195,11 +196,13 @@ public class Editor extends JFrame {
 		try {
 			for (int i=0; i < this.currentMachine.getTapes(); i++) {
 				Tape tape_console = new ConsoleTape();
+				tape_console.init();
 				tapes.add(tape_console);
 				this.writeInputWordToTape(tape_console, this.currentMachine.getInitial().get(i));
 			}
 
 			Simulation sim = new Simulation(this.currentMachine, tapes);
+			sim.runMachine();
 		}
 		catch (TapeException e){
 			JOptionPane.showMessageDialog(null, "Error during simulation.");
