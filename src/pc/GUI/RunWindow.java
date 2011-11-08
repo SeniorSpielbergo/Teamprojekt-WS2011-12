@@ -8,7 +8,10 @@ public class RunWindow extends JFrame implements ActionListener {
 	
 	private String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
 	protected TuringMachine machine;
-	public JButton expandWindowButton;
+	private JButton expandWindowButton;
+	private JPanel inputContainer = new JPanel();
+	private JPanel comboContainer = new JPanel();
+	private JPanel expandContainer = new JPanel();
 	
 	public RunWindow(TuringMachine machine) {
 		expandWindowButton = new JButton("expand Options");
@@ -17,13 +20,12 @@ public class RunWindow extends JFrame implements ActionListener {
 		JLabel[] tapeLabel = new JLabel[machine.getTapes()];
 		JTextField[] tapeName = new JTextField[machine.getTapes()];
 		setTitle("Run");
-		setSize(600, 200);
+		setSize(600, 150);
 		
 		Container contentPane = this.getContentPane();
-		JPanel inputContainer = new JPanel();
-		JPanel comboContainer = new JPanel();
-		JPanel expandContainer = new JPanel();
+		
 		JTextField input = new JTextField(50);
+		input.setText(machine.getInitial().toString());
 		inputContainer.add(input);
 		expandContainer.add(expandWindowButton);
 		comboContainer.setBorder(BorderFactory.createTitledBorder("Tapes"));
@@ -43,15 +45,17 @@ public class RunWindow extends JFrame implements ActionListener {
 			comboContainer.add(tapeName[i]);
 			comboContainer.add(combo[i]);
 		}
-		
+		comboContainer.setVisible(false);
 		// add to window and set layout
 		contentPane.add(inputContainer, BorderLayout.BEFORE_FIRST_LINE);
+		contentPane.add(expandContainer, BorderLayout.WEST);		
 		contentPane.add(comboContainer, BorderLayout.CENTER);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == expandWindowButton) {
-			this.setSize(600, 500);
+			this.setSize(600, 250);
+			comboContainer.setVisible(true);
 		}
 	}
 }
