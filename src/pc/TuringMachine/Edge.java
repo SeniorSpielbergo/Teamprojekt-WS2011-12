@@ -1,3 +1,4 @@
+package TuringMachine;
 import java.util.ArrayList;
 
 /** This class represents an edge with it'ss start and end state and it's transitions

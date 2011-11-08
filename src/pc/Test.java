@@ -1,5 +1,6 @@
 import java.lang.String;
 import java.util.ArrayList;
+import TuringMachine.*;
 
 /** This class provides a test program for InOut.java
  * 

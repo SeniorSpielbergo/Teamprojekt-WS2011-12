@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+import TuringMachine.*;
+import Tape.*;
+
 
 public class Simulation {
 

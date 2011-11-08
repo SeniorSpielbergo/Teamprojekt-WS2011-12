@@ -1,3 +1,5 @@
+package Tape;
+
 /**
  * This abstract class is the common base class for LEGO and Console/PC tapes.
  * It contains no concrete methods.
