@@ -18,10 +18,9 @@ public class RunWindow extends JFrame implements ActionListener {
 		setSize(600, 200);
 		
 		// set layout
-		GroupLayout layout = new GroupLayout(this);
-		this.setLayout(layout);
-		layout.setAutoCreateGaps(true);
-		layout.setAutoCreateContainerGaps(true);
+		Container contentPane = this.getContentPane();
+		JPanel comboContainer = new JPanel();
+		comboContainer.setBorder(BorderFactory.createTitledBorder("Tapes"));
 		expandWindowButton.addActionListener(this);
 		
 		for (int i = 0; i < combo.length; i++) {
@@ -29,13 +28,15 @@ public class RunWindow extends JFrame implements ActionListener {
 			for (int j = 0; j < description.length; j++) {
 				combo[i].addItem(description[j]);
 			}
+			comboContainer.add(combo[i]);
 		}
 		
-		layout.setHorizontalGroup(
+		/*layout.setHorizontalGroup(
 		   layout.createSequentialGroup()
 		      .addComponent(combo[0])
 		      .addComponent(expandWindowButton)
-		);
+		);*/
+		contentPane.add(comboContainer, BorderLayout.BEFORE_FIRST_LINE);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
