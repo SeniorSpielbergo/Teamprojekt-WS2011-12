@@ -373,7 +373,7 @@ public class InOut {
 									for (int l = 0; l < writeSymbolList.getLength(); l++) {
 										Node currentWriteSymbolNode = writeSymbolList.item(l);
 										if (currentWriteSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-											read.add(currentWriteSymbolNode.getTextContent().charAt(0));
+											write.add(currentWriteSymbolNode.getTextContent().charAt(0));
 											// TODO remove test output
 											System.out.println("write: " + currentWriteSymbolNode.getTextContent());
 										}
@@ -400,7 +400,7 @@ public class InOut {
 							}
 
 							Transition tempTransition = new Transition(id, read, write, action);
-							transitions.add(tempTransition);
+							transition.add(tempTransition);
 						}
 					}
 

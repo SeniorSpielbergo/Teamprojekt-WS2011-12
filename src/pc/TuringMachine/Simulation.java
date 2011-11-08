@@ -25,8 +25,8 @@ public class Simulation {
 			}
 
 		}
-		System.out.println(startState.getId());
-		System.out.println(actualState.getId());
+		System.out.println("Start: "+startState.getId());
+		System.out.println("aktueller Zustand: " +actualState.getId());
 		this.findEdge();
 	}
 
@@ -37,6 +37,7 @@ public class Simulation {
 				currentSymbols.add(i,this.tapes.get(i).read());
 
 			Transition rightLabel = getRightLabel();
+			System.out.println("rightLable: "+rightLabel);
 
 			for(int i = 0; i < numberOfTapes; i++){
 				tapes.get(i).write(rightLabel.getWrite().get(i));
@@ -72,9 +73,14 @@ public class Simulation {
 	private Transition getRightLabel(){
 		Transition label= null;
 		for(Edge e : actualState.getEdge()){
+			System.out.println("Transition: "+e.getTransition().size());
 			for(int j = 0; j < e.getTransition().size(); j++){
+				System.out.println(e.getTransition().get(j).getId() +" ");
+				System.out.println("Groeße read: "+e.getTransition().get(j).getRead().size());
 				for(int i = 0; i < numberOfTapes; i++){
+
 					if( e.getTransition().get(j).getRead().get(i) == currentSymbols.get(i)){
+
 						label = e.getTransition().get(j);
 						nextState = e.getTo();
 
@@ -102,4 +108,5 @@ public class Simulation {
 		}
 
 	}
+
 }

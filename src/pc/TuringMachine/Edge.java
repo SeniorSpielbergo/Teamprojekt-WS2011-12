@@ -72,4 +72,12 @@ public class Edge {
 		this.transition = transition;
 	}
 
+	@Override
+	public String toString() {
+		return "Edge [from=" + from + ", to=" + to + ", transition="
+				+ transition + "]\n";
+	}
+	
+	
+
 }

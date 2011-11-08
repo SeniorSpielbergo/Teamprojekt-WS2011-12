@@ -59,4 +59,12 @@ public class Transition {
 		return this.action;
 	}
 
+	@Override
+	public String toString() {
+		return "Transition [id=" + id + ", read=" + read + ", write=" + write
+				+ ", action=" + action + "]\n";
+	}
+	
+	
+
 }
