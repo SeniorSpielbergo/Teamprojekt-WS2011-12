@@ -1,4 +1,6 @@
 import javax.swing.*;
+import Tape.*;
+
 import java.util.*;
 
 /** Contains the main method to run the server program
