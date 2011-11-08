@@ -13,7 +13,7 @@ public class Editor extends JFrame {
 
 	static final long serialVersionUID = -3667258249137827980L;
 	protected TuringMachine currentMachine;
-	private JMenuItem newAction, openAction, saveAction, exportLatexPDFAction, exitAction;
+	private JMenuItem newAction, openAction, saveAction, exportLatexAction, exitAction;
 	
 	/**
 	 * Constructs the Editor window with all actionListeners and a basic setup
@@ -69,19 +69,19 @@ public class Editor extends JFrame {
 		newAction = new JMenuItem("New");
 		openAction = new JMenuItem("Open");
 		saveAction = new JMenuItem("Save");
-		exportLatexPDFAction = new JMenuItem("Export as LaTeX and pdf");
+		exportLatexAction = new JMenuItem("Export as LaTeX");
 		exitAction = new JMenuItem("Exit");
 		
 		// disable actions
 		saveAction.setEnabled(false);
-		exportLatexPDFAction.setEnabled(false);
+		exportLatexAction.setEnabled(false);
         
 		// add menu subitems
 		fileMenu.add(newAction);
 		fileMenu.add(openAction);
 		fileMenu.add(saveAction);
 		fileMenu.add(new JSeparator());
-		fileMenu.add(exportLatexPDFAction);
+		fileMenu.add(exportLatexAction);
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exitAction);
 		
@@ -95,7 +95,7 @@ public class Editor extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane.showMessageDialog(null, "Not implemented yet!");
 				saveAction.setEnabled(true);
-				exportLatexPDFAction.setEnabled(true);
+				exportLatexAction.setEnabled(true);
 			}
 		});
 		
@@ -106,7 +106,7 @@ public class Editor extends JFrame {
  					File selectedFile = fc.getSelectedFile();
 					currentMachine = InOut.readXMLFromFile(selectedFile.getName());
 					saveAction.setEnabled(true);
-					exportLatexPDFAction.setEnabled(true);
+					exportLatexAction.setEnabled(true);
 				}
 			}
 		});
@@ -119,14 +119,9 @@ public class Editor extends JFrame {
 			}
 		});
 		
-		exportLatexPDFAction.addActionListener(new ActionListener() {
+		exportLatexAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane.showMessageDialog(null, "Not implemented yet!");
-				//try {
-				//	Runtime.getRuntime().exec("pdflatex -output-directory=" + path);
-				//}
-				//catch (Exception e) {
-				//}
 			}
 		});
 		

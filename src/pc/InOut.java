@@ -278,20 +278,16 @@ public class InOut {
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element currentElement = (Element) currentNode;
 					String id = currentElement.getAttribute("id");
-					State.Type type;
-					switch (currentElement.getAttribute("type")) {
-						case "start":
-							type = State.Type.START;
-							break;
-						case "normal":
-							type = State.Type.NORMAL;
-							break;
-						case "final":
-							type = State.Type.FINAL;
-							break;
-						default:
-							type = State.Type.NORMAL;
-							break;
+					State.Type type = null;
+					String typeString = currentElement.getAttribute("type");
+					if (typeString == "start") {
+						type = State.Type.START;
+					}
+					else if (typeString == "normal") {
+						type = State.Type.NORMAL;
+					}
+					else if (typeString == "final") {
+						type = State.Type.FINAL;
 					}
 					String name = getTagValue("name", currentElement);
 					State tempState = new State(id, name, type);
