@@ -218,6 +218,7 @@ public class Editor extends JFrame {
 		    final PrintWriter printWriter = new PrintWriter(result);
 		    e.printStackTrace(printWriter);
 		    JOptionPane.showMessageDialog(null, "Error during simulation:\n" + result.toString());
+		    ErrorDialog.showError("Test", e);
 		}
 
 
