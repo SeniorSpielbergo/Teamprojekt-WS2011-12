@@ -191,13 +191,21 @@ public class Editor extends JFrame {
 	
 	public void simulate() {
 		ArrayList<Tape> tapes = new ArrayList<Tape>();
-		for (int i=0; i < this.currentMachine.getTapes(); i++) {
-			Tape tape_console = new ConsoleTape();
-			tapes.add(tape_console);
-			this.writeInputWordToTape(tape_console, this.currentMachine.getInitial().get(i));
+		
+		try {
+			for (int i=0; i < this.currentMachine.getTapes(); i++) {
+				Tape tape_console = new ConsoleTape();
+				tapes.add(tape_console);
+				this.writeInputWordToTape(tape_console, this.currentMachine.getInitial().get(i));
+			}
+
+			Simulation sim = new Simulation(this.currentMachine, tapes);
+		}
+		catch (TapeException e){
+			JOptionPane.showMessageDialog(null, "Error during simulation.");
+			e.printStackTrace();
 		}
 
-		Simulation sim = new Simulation(this.currentMachine, tapes);
 
 
 
