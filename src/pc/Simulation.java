@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+import Tape.Tape;
+import Tape.TapeException;
+
 
 public class Simulation {
 

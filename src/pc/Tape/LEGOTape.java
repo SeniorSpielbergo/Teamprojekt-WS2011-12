@@ -1,3 +1,5 @@
+package Tape;
+
 import java.io.*;
 
 /** Represents a physical Turing machine tape and provides methods to interact with the tape
