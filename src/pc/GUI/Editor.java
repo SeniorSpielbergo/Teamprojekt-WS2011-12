@@ -7,6 +7,7 @@ import javax.swing.filechooser.FileFilter;
 import TuringMachine.*;
 import Tape.*;
 
+import java.awt.Toolkit;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ import java.util.ArrayList;
  * 
  */
 public class Editor extends JFrame {
-
 	static final long serialVersionUID = -3667258249137827980L;
+	static final String appName = "Turing Simulator";
 	protected TuringMachine currentMachine;
 	private JMenuItem newAction, openAction, saveAction, exportLatexAction, exitAction, runAction, testAction;
 	private final JFileChooser fc = new JFileChooser();
@@ -31,12 +32,12 @@ public class Editor extends JFrame {
 		setSize(800, 800);
 		// try to set look for Linux
 		try {
-			if (System.getProperties().getProperty("os.name") == "Linux") {
+			if (System.getProperties().getProperty("os.name").equals("Linux")) {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 			}
-			else if (System.getProperties().getProperty("os.name") == "Mac OS X") {
-				//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				//System.setProperty("apple.laf.useScreenMenuBar", "true");
+			else if (System.getProperties().getProperty("os.name").equals("Mac OS X")) {
+				System.setProperty("com.apple.mrj.application.apple.menu.about.name", Editor.appName);
+				System.setProperty("apple.laf.useScreenMenuBar", "true");
 			}
     	} 
 		catch (Exception e) {
@@ -98,11 +99,11 @@ public class Editor extends JFrame {
 		simulationMenu.add(testAction);
 		
 		// menu shortcuts
-		newAction.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_DOWN_MASK));
-		openAction.setAccelerator(KeyStroke.getKeyStroke('O', CTRL_DOWN_MASK));
-		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_DOWN_MASK));
-		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', CTRL_DOWN_MASK));
-		runAction.setAccelerator(KeyStroke.getKeyStroke('R', CTRL_DOWN_MASK));
+		newAction.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		openAction.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		runAction.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		
 		newAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
