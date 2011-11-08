@@ -212,13 +212,11 @@ public class Editor extends JFrame {
 			Simulation sim = new Simulation(this.currentMachine, tapes);
 			sim.runMachine();
 		}
+		catch (TapeException e){
+		    ErrorDialog.showError("The simulation failed because of a Tape exception (" + e.getMessage() + ").", e);
+		}
 		catch (Exception e){
-			//e.printStackTrace();
-			//final Writer result = new StringWriter();
-		    //final PrintWriter printWriter = new PrintWriter(result);
-		    //e.printStackTrace(printWriter);
-		    //JOptionPane.showMessageDialog(null, "Error during simulation:\n" + result.toString());
-		    ErrorDialog.showError("Error during simulation. Lorem ipsum  Lorem ipsum Lorem ipsum Lorem ipsum  Lorem ipsum Lorem ipsum  Lorem ipsum  Lorem ipsum  Lorem ipsum  Lorem ipsum  Lorem ipsum", e);
+		    ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
 		}
 
 

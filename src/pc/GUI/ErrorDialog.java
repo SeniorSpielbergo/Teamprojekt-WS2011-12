@@ -36,7 +36,8 @@ public class ErrorDialog extends JDialog {
 		jTextAreaErrorMsg = new JTextArea();
 		jTextAreaErrorMsg.setEditable(false);
 		jTextAreaErrorMsg.setLineWrap(true);
-		jTextAreaErrorMsg.setPreferredSize(new Dimension(400,80));
+		jTextAreaErrorMsg.setWrapStyleWord(true);
+		jTextAreaErrorMsg.setPreferredSize(new Dimension(300,80));
 		jTextAreaErrorMsg.setMaximumSize(new Dimension(500,300));
 		jTextAreaErrorMsg.setText(msg);
 		jTextAreaErrorMsg.setFont(jTextAreaErrorMsg.getFont().deriveFont(
@@ -81,8 +82,11 @@ public class ErrorDialog extends JDialog {
 		jPanelButtons.add(Box.createHorizontalGlue());
 		jPanelButtons.add(jButtonToggleDetails);
 		jPanelButtons.add(Box.createRigidArea(new Dimension(10, 0)));
-		jPanelButtons .add(jButtonClose);
+		jPanelButtons.add(jButtonClose);
 		
+		getRootPane().setDefaultButton(jButtonClose);
+
+		//build layout
 		this.setLayout(new BorderLayout());
 		this.add(jPanelTop, BorderLayout.NORTH);
 		this.add(jPanelCenter, BorderLayout.CENTER);
@@ -155,12 +159,16 @@ public class ErrorDialog extends JDialog {
 		this.dispose();
 	}
 
-	public static void showError(String errorMessage, Throwable throwable) {
-		ErrorDialog errorDialog = new ErrorDialog(errorMessage, throwable);
+	public static void showError(String msg, Throwable throwable) {
+		ErrorDialog errorDialog = new ErrorDialog(msg, throwable);
 		errorDialog.setVisible(true);
+		
+		//console output
+		System.out.println("Error: " + msg);
+		throwable.printStackTrace();
 	}
 
-	public static void showError(String errorMessage) {
-		ErrorDialog.showError(errorMessage, null);
+	public static void showError(String msg) {
+		ErrorDialog.showError(msg, null);
 	}
 }
