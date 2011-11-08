@@ -94,4 +94,9 @@ public class State {
 	public boolean equals(String type){
 		return this.type.equals(type);
 	}
+	
+	@Override
+	public String toString() {
+		return "State [id=" + id + ", name=" + name + ", type=" + type + "]";
+	}
 }
