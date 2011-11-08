@@ -29,7 +29,7 @@ public class Simulation {
 
 	}
 
-	public void runMachine(){
+	public void runMachine()throws TapeException{
 		if(!actualState.getType().equals("final")){
 			for(int i = 0; i < numberOfTapes; i++)
 				currentSymbols.add(i,this.tapes.get(i).read());
@@ -37,9 +37,9 @@ public class Simulation {
 			Transition rightLabel = getRightLabel();
 
 			for(int i = 0; i < numberOfTapes; i++){
-				tapes.get(i).write(rightLabel.getWrite().get(i).charAt(0));
+				tapes.get(i).write(rightLabel.getWrite().get(i));
 
-				switch(rightLabel.getAction().get(i).charAt(0)){
+				switch(rightLabel.getAction().get(i)){
 
 				case 'R':
 					tapes.get(i).moveRight();
@@ -65,7 +65,7 @@ public class Simulation {
 		for(Edge e : actualState.getEdge()){
 			for(int j = 0; j < e.getTransition().size(); j++){
 				for(int i = 0; i < numberOfTapes; i++)
-					if( e.getTransition().get(j).getRead().get(i).charAt(0) == currentSymbols.get(i)){
+					if( e.getTransition().get(j).getRead().get(i) == currentSymbols.get(i)){
 						label = e.getTransition().get(j);
 						//nextState = e.getTransition().getTo();
 						
