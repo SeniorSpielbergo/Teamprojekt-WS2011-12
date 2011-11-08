@@ -19,7 +19,7 @@ public class ErrorDialog extends JDialog {
 	private JButton jButtonToggleDetails;
 	private JScrollPane jScrollPaneException;
 	private JTextArea jTextAreaException;
-	private JLabel jLabelErrorMsg;
+	private JTextArea jTextAreaErrorMsg;
 
 
 	public ErrorDialog(String msg) {
@@ -33,15 +33,20 @@ public class ErrorDialog extends JDialog {
 		this.setResizable(false);
 		
 		//Error message
-		jLabelErrorMsg = new JLabel();
-		jLabelErrorMsg.setText(msg);
-		jLabelErrorMsg.setFont(jLabelErrorMsg.getFont().deriveFont(
-				jLabelErrorMsg.getFont().getStyle() | Font.BOLD, jLabelErrorMsg.getFont().getSize()+1));
+		jTextAreaErrorMsg = new JTextArea();
+		jTextAreaErrorMsg.setEditable(false);
+		jTextAreaErrorMsg.setLineWrap(true);
+		jTextAreaErrorMsg.setPreferredSize(new Dimension(400,80));
+		jTextAreaErrorMsg.setMaximumSize(new Dimension(500,300));
+		jTextAreaErrorMsg.setText(msg);
+		jTextAreaErrorMsg.setFont(jTextAreaErrorMsg.getFont().deriveFont(
+				jTextAreaErrorMsg.getFont().getStyle() | Font.BOLD, jTextAreaErrorMsg.getFont().getSize()+1));
+		jTextAreaErrorMsg.setBackground(this.getBackground());
 		
 		jPanelTop = new JPanel();
 		jPanelTop.setLayout(new BorderLayout());
 		jPanelTop.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		jPanelTop.add(jLabelErrorMsg);
+		jPanelTop.add(jTextAreaErrorMsg);
 	
 		//Exception details
 		jPanelCenter = new JPanel();

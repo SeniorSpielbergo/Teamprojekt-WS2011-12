@@ -213,12 +213,12 @@ public class Editor extends JFrame {
 			sim.runMachine();
 		}
 		catch (Exception e){
-			e.printStackTrace();
-			final Writer result = new StringWriter();
-		    final PrintWriter printWriter = new PrintWriter(result);
-		    e.printStackTrace(printWriter);
-		    JOptionPane.showMessageDialog(null, "Error during simulation:\n" + result.toString());
-		    ErrorDialog.showError("Test", e);
+			//e.printStackTrace();
+			//final Writer result = new StringWriter();
+		    //final PrintWriter printWriter = new PrintWriter(result);
+		    //e.printStackTrace(printWriter);
+		    //JOptionPane.showMessageDialog(null, "Error during simulation:\n" + result.toString());
+		    ErrorDialog.showError("Error during simulation. Lorem ipsum  Lorem ipsum Lorem ipsum Lorem ipsum  Lorem ipsum Lorem ipsum  Lorem ipsum  Lorem ipsum  Lorem ipsum  Lorem ipsum  Lorem ipsum", e);
 		}
 
 
