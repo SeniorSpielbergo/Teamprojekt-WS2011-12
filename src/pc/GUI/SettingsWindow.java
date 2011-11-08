@@ -1,4 +1,6 @@
 package GUI;
-public class SettingsWindow {
+import javax.swing.*;
+
+public class SettingsWindow extends JFrame {
 	
 }

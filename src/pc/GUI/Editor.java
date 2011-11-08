@@ -18,7 +18,7 @@ public class Editor extends JFrame {
 
 	static final long serialVersionUID = -3667258249137827980L;
 	protected TuringMachine currentMachine;
-	private JMenuItem newAction, openAction, saveAction, exportLatexAction, exitAction, runAction, settingsAction;
+	private JMenuItem newAction, openAction, saveAction, exportLatexAction, exitAction, runAction;
 	private final JFileChooser fc = new JFileChooser();
 	
 	/**
@@ -77,7 +77,6 @@ public class Editor extends JFrame {
 		exportLatexAction = new JMenuItem("Export as LaTeX");
 		exitAction = new JMenuItem("Exit");
 		runAction = new JMenuItem("Run");
-		settingsAction = new JMenuItem("Settings");
 		
 		// disable actions
 		saveAction.setEnabled(false);
@@ -92,7 +91,6 @@ public class Editor extends JFrame {
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exitAction);
 		simulationMenu.add(runAction);
-		simulationMenu.add(settingsAction);
 		
 		// menu shortcuts
 		newAction.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_DOWN_MASK));
@@ -128,12 +126,6 @@ public class Editor extends JFrame {
 		runAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				runSimulation();
-			}
-		});
-		
-		settingsAction.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				openSimulationSettings();
 			}
 		});
 		
