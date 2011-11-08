@@ -19,8 +19,12 @@ public class RunWindow extends JFrame implements ActionListener {
 		
 		// set layout
 		Container contentPane = this.getContentPane();
+		JPanel inputContainer = new JPanel();
 		JPanel comboContainer = new JPanel();
+		JTextField input = new JTextField(50);
+		inputContainer.add(input);
 		comboContainer.setBorder(BorderFactory.createTitledBorder("Tapes"));
+		inputContainer.setBorder(BorderFactory.createTitledBorder("Input"));
 		expandWindowButton.addActionListener(this);
 		
 		for (int i = 0; i < combo.length; i++) {
@@ -36,7 +40,8 @@ public class RunWindow extends JFrame implements ActionListener {
 		      .addComponent(combo[0])
 		      .addComponent(expandWindowButton)
 		);*/
-		contentPane.add(comboContainer, BorderLayout.BEFORE_FIRST_LINE);
+		contentPane.add(inputContainer, BorderLayout.BEFORE_FIRST_LINE);
+		contentPane.add(comboContainer, BorderLayout.CENTER);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
