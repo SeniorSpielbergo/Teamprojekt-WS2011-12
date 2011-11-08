@@ -13,7 +13,7 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class ErrorDialog extends JDialog {
 	private JPanel jPanelTop;
-	private JPanel jPanelBottom;
+	private JPanel jPanelButtons;
 	private JPanel jPanelCenter;
 	private JButton jButtonClose;
 	private JButton jButtonToggleDetails;
@@ -48,7 +48,7 @@ public class ErrorDialog extends JDialog {
 		jScrollPaneErrorMsg.setBorder(null);
 		jScrollPaneErrorMsg.setSize(new Dimension(405, 80));
 		jScrollPaneErrorMsg.setLocation(new Point(13, 13));
-		jScrollPaneErrorMsg.setOpaque(true);
+		jScrollPaneErrorMsg.setOpaque(false);
 		jScrollPaneErrorMsg.getViewport().setOpaque(false);
 	
 		jPanelTop.add(jScrollPaneErrorMsg);
@@ -61,10 +61,9 @@ public class ErrorDialog extends JDialog {
 		jPanelCenter.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		jPanelCenter.add(jScrollPaneException);
 
-		jPanelBottom = new JPanel();
+		
 		jButtonToggleDetails = new JButton();
 		jButtonClose = new JButton();
-		jPanelBottom.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 15));
 
 		jButtonToggleDetails.setText("Show details");
 		jButtonToggleDetails.addActionListener(new ActionListener() {
@@ -72,7 +71,6 @@ public class ErrorDialog extends JDialog {
 				toggleDetails();
 			}
 		});
-		jPanelBottom.add(jButtonToggleDetails);
 
 		jButtonClose.setText("Ok");
 		jButtonClose.addActionListener(new ActionListener() {
@@ -80,13 +78,20 @@ public class ErrorDialog extends JDialog {
 				dispose();
 			}
 		});
-		jPanelBottom.add(jButtonClose);
 
+		jPanelButtons = new JPanel();
+		jPanelButtons.setLayout(new BoxLayout(jPanelButtons, BoxLayout.LINE_AXIS));
+		jPanelButtons.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+		jPanelButtons.add(Box.createHorizontalGlue());
+		jPanelButtons.add(jButtonToggleDetails);
+		jPanelButtons.add(Box.createRigidArea(new Dimension(10, 0)));
+		jPanelButtons .add(jButtonClose);
+		
 		this.setLayout(new BorderLayout());
 		this.add(jPanelTop, BorderLayout.NORTH);
 		this.add(jPanelCenter, BorderLayout.CENTER);
-		this.add(jPanelBottom, BorderLayout.SOUTH);
-
+		this.add(jPanelButtons, BorderLayout.SOUTH);
+		
 		//this.jTextPaneErrorMsg.setEditorKit(new VerticalCenteredEditorKit());
 		this.jTextPaneErrorMsg.setText(msg);
 
