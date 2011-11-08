@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import Tape.*;
+import TuringMachine.*;
 
 public class TestSimulation {
 
@@ -8,7 +10,7 @@ public class TestSimulation {
 		tape.init();
 		tapes.add(tape);
 		TuringMachine machine = InOut.readXMLFromFile("TMadd.xml");
-		System.out.println(machine.tapes);
+		System.out.println(machine.getTapes());
 		Simulation simulation = new Simulation(machine, tapes);
 
 		

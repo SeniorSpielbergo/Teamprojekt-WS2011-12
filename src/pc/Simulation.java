@@ -17,7 +17,7 @@ public class Simulation {
 	public Simulation(TuringMachine machine, ArrayList<Tape> tapes){
 		this.machine = machine;
 		this.tapes = tapes;
-		this.numberOfTapes = machine.tapes;
+		this.numberOfTapes = machine.getTapes();
 		for( int i =0; i < machine.getStates().size(); i++){
 			if(machine.getStates().get(i).getType() == State.Type.START){
 				startState = machine.getStates().get(i);
@@ -25,8 +25,8 @@ public class Simulation {
 			}
 
 		}
-		System.out.println(startState.id);
-		System.out.println(actualState.id);
+		System.out.println(startState.getId());
+		System.out.println(actualState.getId());
 		this.findEdge();
 	}
 
