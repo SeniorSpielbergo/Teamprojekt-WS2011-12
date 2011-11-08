@@ -13,7 +13,8 @@ public class Editor extends JFrame {
 
 	static final long serialVersionUID = -3667258249137827980L;
 	protected TuringMachine currentMachine;
-	private JMenuItem newAction, openAction, saveAction, exportLatexAction, exitAction;
+	private JMenuItem newAction, openAction, saveAction, exportLatexAction, exitAction, runAction, settingsAction;
+	private final JFileChooser fc = new JFileChooser();
 	
 	/**
 	 * Constructs the Editor window with all actionListeners and a basic setup
@@ -33,9 +34,6 @@ public class Editor extends JFrame {
     	} 
 		catch (Exception e) {
 		}
-		
-		// create fileChooser
-		final JFileChooser fc = new JFileChooser();
 		
 		// set current directory
 		try {
@@ -63,7 +61,9 @@ public class Editor extends JFrame {
         
 		// create menu items
 		JMenu fileMenu = new JMenu("File");
+		JMenu simulationMenu = new JMenu("Simulation");
 		menuBar.add(fileMenu);
+		menuBar.add(simulationMenu);
         
 		// create menu subitems
 		newAction = new JMenuItem("New");
@@ -71,6 +71,8 @@ public class Editor extends JFrame {
 		saveAction = new JMenuItem("Save");
 		exportLatexAction = new JMenuItem("Export as LaTeX");
 		exitAction = new JMenuItem("Exit");
+		runAction = new JMenuItem("Run");
+		settingsAction = new JMenuItem("Settings");
 		
 		// disable actions
 		saveAction.setEnabled(false);
@@ -84,50 +86,55 @@ public class Editor extends JFrame {
 		fileMenu.add(exportLatexAction);
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exitAction);
+		simulationMenu.add(runAction);
+		simulationMenu.add(settingsAction);
 		
 		// menu shortcuts
 		newAction.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_DOWN_MASK));
 		openAction.setAccelerator(KeyStroke.getKeyStroke('O', CTRL_DOWN_MASK));
 		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_DOWN_MASK));
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', CTRL_DOWN_MASK));
+		runAction.setAccelerator(KeyStroke.getKeyStroke('R', CTRL_DOWN_MASK));
 		
 		newAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Not implemented yet!");
-				saveAction.setEnabled(true);
-				exportLatexAction.setEnabled(true);
+				newFile();
 			}
 		});
 		
 		openAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int retVal = fc.showOpenDialog(null);
-				if (retVal == JFileChooser.APPROVE_OPTION) {
- 					File selectedFile = fc.getSelectedFile();
-					currentMachine = InOut.readXMLFromFile(selectedFile.getName());
-					saveAction.setEnabled(true);
-					exportLatexAction.setEnabled(true);
-				}
+				openFile();
 			}
 		});
 		
 		saveAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				fc.showSaveDialog(null);
-				JOptionPane.showMessageDialog(null, "Not implemented yet!");
-				//InOut.writeXMLFromFile(selectedFile.getName(), currentMachine);
+				saveFile();
 			}
 		});
 		
 		exportLatexAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(null, "Not implemented yet!");
+				exportLatex();
+			}
+		});
+		
+		runAction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				runSimulation();
+			}
+		});
+		
+		settingsAction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openSimulationSettings();
 			}
 		});
 		
 		exitAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
+				exitEditor();
 			}
 		});
 		
@@ -142,6 +149,44 @@ public class Editor extends JFrame {
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainWindow.setVisible(true);
 		mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
+	}
+	
+	public void newFile() {
+		JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		saveAction.setEnabled(true);
+		exportLatexAction.setEnabled(true);
+	}
+	
+	public void openFile() {
+		int retVal = fc.showOpenDialog(null);
+		if (retVal == JFileChooser.APPROVE_OPTION) {
+				File selectedFile = fc.getSelectedFile();
+			currentMachine = InOut.readXMLFromFile(selectedFile.getName());
+			saveAction.setEnabled(true);
+			exportLatexAction.setEnabled(true);
+		}
+	}
+	
+	public void saveFile() {
+		fc.showSaveDialog(null);
+		JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		//InOut.writeXMLFromFile(selectedFile.getName(), currentMachine);
+	}
+	
+	public void exportLatex() {
+		JOptionPane.showMessageDialog(null, "Not implemented yet!");
+	}
+	
+	public void exitEditor() {
+		System.exit(0);
+	}
+	
+	public void runSimulation() {
+		JOptionPane.showMessageDialog(null, "Not implemented yet!");
+	}
+	
+	public void openSimulationSettings() {
+		JOptionPane.showMessageDialog(null, "Not implemented yet!");
 	}
 
 }
