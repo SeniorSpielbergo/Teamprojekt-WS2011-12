@@ -17,10 +17,9 @@ public class ErrorDialog extends JDialog {
 	private JPanel jPanelCenter;
 	private JButton jButtonClose;
 	private JButton jButtonToggleDetails;
-	private JScrollPane jScrollPaneErrorMsg;
-	private JTextPane jTextPaneErrorMsg;
 	private JScrollPane jScrollPaneException;
 	private JTextArea jTextAreaException;
+	private JLabel jLabelErrorMsg;
 
 
 	public ErrorDialog(String msg) {
@@ -32,36 +31,28 @@ public class ErrorDialog extends JDialog {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setModal(true);
 		this.setResizable(false);
-
-		jPanelTop = new JPanel();
-		jPanelTop.setLayout(null);
-		jPanelTop.setPreferredSize(new Dimension(480, 100));
-
-		jTextPaneErrorMsg = new JTextPane();
-		jTextPaneErrorMsg.setFont(jTextPaneErrorMsg.getFont().deriveFont(
-				jTextPaneErrorMsg.getFont().getStyle() | Font.BOLD, jTextPaneErrorMsg.getFont().getSize()+1));
-		jTextPaneErrorMsg.setBorder(null);
-		jTextPaneErrorMsg.setEditable(false);
-		jTextPaneErrorMsg.setOpaque(true);
 		
-		jScrollPaneErrorMsg = new JScrollPane(jTextPaneErrorMsg);
-		jScrollPaneErrorMsg.setBorder(null);
-		jScrollPaneErrorMsg.setSize(new Dimension(405, 80));
-		jScrollPaneErrorMsg.setLocation(new Point(13, 13));
-		jScrollPaneErrorMsg.setOpaque(false);
-		jScrollPaneErrorMsg.getViewport().setOpaque(false);
+		//Error message
+		jLabelErrorMsg = new JLabel();
+		jLabelErrorMsg.setText(msg);
+		jLabelErrorMsg.setFont(jLabelErrorMsg.getFont().deriveFont(
+				jLabelErrorMsg.getFont().getStyle() | Font.BOLD, jLabelErrorMsg.getFont().getSize()+1));
+		
+		jPanelTop = new JPanel();
+		jPanelTop.setLayout(new BorderLayout());
+		jPanelTop.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		jPanelTop.add(jLabelErrorMsg);
 	
-		jPanelTop.add(jScrollPaneErrorMsg);
-
+		//Exception details
 		jPanelCenter = new JPanel();
-		jPanelCenter.setSize(new Dimension(420, 300));
 		jTextAreaException = new JTextArea();
 		jScrollPaneException = new JScrollPane(jTextAreaException);
 		jScrollPaneException.setPreferredSize(new Dimension(470, 300));
-		jPanelCenter.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		jPanelCenter.setLayout(new BorderLayout());
+		jPanelCenter.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		jPanelCenter.add(jScrollPaneException);
 
-		
+		//Add Buttons
 		jButtonToggleDetails = new JButton();
 		jButtonClose = new JButton();
 
@@ -91,9 +82,6 @@ public class ErrorDialog extends JDialog {
 		this.add(jPanelTop, BorderLayout.NORTH);
 		this.add(jPanelCenter, BorderLayout.CENTER);
 		this.add(jPanelButtons, BorderLayout.SOUTH);
-		
-		//this.jTextPaneErrorMsg.setEditorKit(new VerticalCenteredEditorKit());
-		this.jTextPaneErrorMsg.setText(msg);
 
 		this.jPanelCenter.setVisible(false);
 
@@ -124,11 +112,13 @@ public class ErrorDialog extends JDialog {
 	private void toggleDetails() {
 		if (this.jPanelCenter.isVisible()) {
 			this.jButtonToggleDetails.setText("Show details");
+			this.setResizable(false);
 			this.jPanelCenter.setVisible(false);
 			this.pack();
 			centerDialogOnTheScreen();
 		} else {
 			this.jButtonToggleDetails.setText("Hide details");
+			this.setResizable(true);
 			this.jPanelCenter.setVisible(true);
 			this.pack();
 			centerDialogOnTheScreen();
