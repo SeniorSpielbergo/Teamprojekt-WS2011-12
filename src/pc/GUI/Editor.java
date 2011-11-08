@@ -81,6 +81,7 @@ public class Editor extends JFrame {
 		// disable actions
 		saveAction.setEnabled(false);
 		exportLatexAction.setEnabled(false);
+		runAction.setEnabled(false);
         
 		// add menu subitems
 		fileMenu.add(newAction);
@@ -152,6 +153,7 @@ public class Editor extends JFrame {
 		JOptionPane.showMessageDialog(null, "Not implemented yet!");
 		saveAction.setEnabled(true);
 		exportLatexAction.setEnabled(true);
+		runAction.setEnabled(true);
 	}
 	
 	public void openFile() {
@@ -161,6 +163,7 @@ public class Editor extends JFrame {
 			currentMachine = InOut.readXMLFromFile(selectedFile.getName());
 			saveAction.setEnabled(true);
 			exportLatexAction.setEnabled(true);
+			runAction.setEnabled(true);
 		}
 	}
 	
@@ -179,8 +182,9 @@ public class Editor extends JFrame {
 	}
 	
 	public void runSimulation() {
-		RunWindow runWindow = new RunWindow();
+		RunWindow runWindow = new RunWindow(currentMachine);
 		runWindow.setVisible(true);
+		runWindow.setLocationRelativeTo(null);
 	}
 
 }
