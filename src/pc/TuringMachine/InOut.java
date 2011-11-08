@@ -26,7 +26,7 @@ import org.w3c.dom.NodeList;
  */
 
 public class InOut {
-	
+
 	/**
 	 * Writes a Turing machine to a XML file with a given name
 	 * @param fileName File writing to (with or without .xml at the end)
@@ -36,49 +36,49 @@ public class InOut {
 		try {
 			try {
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
-				
+
 				Transformer transformer = transformerFactory.newTransformer();
 				transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
 				transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
 				transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 				transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-				
+
 				DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 				Document doc = docBuilder.newDocument();
 				DOMSource source = new DOMSource(doc);
-		
+
 				// create root element
 				Element rootElement = doc.createElement("machine");
 				doc.appendChild(rootElement);
-		
+
 				// save name of machine
 				Attr attrName = doc.createAttribute("name");
 				attrName.setValue(machine.getName());
 				rootElement.setAttributeNode(attrName);
-				
+
 				// save number tapes of machine
 				Attr attrTape = doc.createAttribute("tape");
 				attrTape.setValue(String.valueOf(machine.getTapes()));
 				rootElement.setAttributeNode(attrTape);
-				
+
 				// get states and edges from machine
 				ArrayList<State> states = machine.getStates();
 				ArrayList<Edge> edges = machine.getEdges();
-				
+
 				// inputs
 				ArrayList<ArrayList<Character>> inputCharacter = machine.getInitial();
 				for(int i = 0; i < inputCharacter.size(); i++) {
 					ArrayList<Character> tempInput = inputCharacter.get(i);
-					
+
 					// input element
 					Element input = doc.createElement("input");
 					rootElement.appendChild(input);
-					
+
 					// tape element
 					Element tape = doc.createElement("tape");
 					input.appendChild(tape);
-					
+
 					// input tape elements
 					for (int j = 0; j < tempInput.size(); j++) {
 						Element symbolElement = doc.createElement("symbol");
@@ -86,45 +86,45 @@ public class InOut {
 						tape.appendChild(symbolElement);
 					}
 				}
-				
+
 				// states
 				for(int i = 0; i < states.size(); i++) {
 					State tempState = states.get(i);
 					// state element
 					Element state = doc.createElement("state");
 					rootElement.appendChild(state);
-					
+
 					// save id of state
 					Attr attrStateId = doc.createAttribute("id");
 					attrStateId.setValue(tempState.getId());
 					state.setAttributeNode(attrStateId);
-					
+
 					// save type of state
 					Attr attrType = doc.createAttribute("type");
 					String type;
 					switch(tempState.getType()) {
-						case START:
-							type = "start";
-							break;
-						case NORMAL:
-							type = "normal";
-							break;
-						case FINAL:
-							type = "final";
-							break;
-						default:
-							type = "normal";
-							break;
+					case START:
+						type = "start";
+						break;
+					case NORMAL:
+						type = "normal";
+						break;
+					case FINAL:
+						type = "final";
+						break;
+					default:
+						type = "normal";
+						break;
 					}
 					attrType.setValue(type);
 					state.setAttributeNode(attrType);
-		
+
 					// state name element
 					Element nameElement = doc.createElement("name");
 					nameElement.appendChild(doc.createTextNode(tempState.getName()));
 					state.appendChild(nameElement);
 				}
-				
+
 				// edges
 				for(int i = 0; i < edges.size(); i++) { 
 					Edge tempEdge = edges.get(i);
@@ -132,29 +132,29 @@ public class InOut {
 					// edge element
 					Element edge = doc.createElement("edge");
 					rootElement.appendChild(edge);
-		
+
 					// save from of edge
 					Attr attrEdgeFrom = doc.createAttribute("from");
 					attrEdgeFrom.setValue(edges.get(i).getFrom().getId());
 					edge.setAttributeNode(attrEdgeFrom);
-					
+
 					// save to of edge
 					Attr attrEdgeTo = doc.createAttribute("to");
 					attrEdgeTo.setValue(edges.get(i).getTo().getId());
 					edge.setAttributeNode(attrEdgeTo);
-					
+
 					for (int j = 0; j < transitions.size(); j++) {
 						Transition tempTransition = transitions.get(j);
-						
+
 						// transition element
 						Element transition = doc.createElement("transition");
 						edge.appendChild(transition);
-						
+
 						// save id of transition
 						Attr attrTransitionId = doc.createAttribute("type");
 						attrTransitionId.setValue(tempTransition.getId());
 						transition.setAttributeNode(attrTransitionId);
-						
+
 						// edge read elements
 						ArrayList<Character> read = tempTransition.getRead();
 						Element readElement = doc.createElement("read");
@@ -164,7 +164,7 @@ public class InOut {
 							symbolElement.appendChild(doc.createTextNode("" + read.get(k)));
 							readElement.appendChild(symbolElement);
 						}
-						
+
 						// edge write elements
 						ArrayList<Character> write = tempTransition.getWrite();
 						Element writeElement = doc.createElement("write");
@@ -174,7 +174,7 @@ public class InOut {
 							symbolElement.appendChild(doc.createTextNode("" + write.get(k)));
 							writeElement.appendChild(symbolElement);
 						}
-						
+
 						// edge action elements
 						ArrayList<Character> action = tempTransition.getAction();
 						Element actionElement = doc.createElement("action");
@@ -186,12 +186,12 @@ public class InOut {
 						}
 					}
 				}
-				
+
 				// check for right file ending
 				if (!fileName.endsWith(".xml")) {
 					fileName = fileName + ".xml";
 				}
-				
+
 				// write the content into xml file
 				StreamResult result = new StreamResult(new File(fileName));
 				transformer.transform(source, result);
@@ -206,7 +206,7 @@ public class InOut {
 			tfe.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Reads a Turing machine from a XML file
 	 * @param fileName File to read the Turing machine from (with or without .xml at the end)
@@ -219,7 +219,7 @@ public class InOut {
 			if (!fileName.endsWith(".xml")) {
 				fileName = fileName + ".xml";
 			}
-			
+
 			File file = new File(fileName);
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
@@ -231,7 +231,7 @@ public class InOut {
 			int numberTapes = Integer.parseInt(numberTapesString);
 			// TODO remove test output
 			System.out.println("Turing machine's name: " + machineName);
-			
+
 			// TODO remove test output
 			System.out.println("\nINPUT");
 			// get list of nodes
@@ -242,7 +242,7 @@ public class InOut {
 
 				if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element currentElement = (Element) currentNode;
-					
+
 					// get tapes
 					NodeList tapeList = currentElement.getElementsByTagName("tape");
 					for (int j = 0; j < tapeList.getLength(); j++) {
@@ -259,15 +259,16 @@ public class InOut {
 									char tempChar = currentTapeSymbolNode.getTextContent().charAt(0);
 									// TODO remove test output
 									System.out.println("input: " + tempChar);
-									input.add(tempInput);
+									tempInput.add(tempChar);
 								}
 							}
+							input.add(tempInput);
 						}
 					}
-					
+
 				}
 			}
-			
+
 			// TODO remove test output
 			System.out.println("\nSTATES");
 			// get list of nodes
@@ -293,7 +294,7 @@ public class InOut {
 					String name = getTagValue("name", currentElement);
 					State tempState = new State(id, name, type);
 					states.add(tempState);
-					
+
 					// TODO remove test output
 					System.out.println("\n== State " + id + " ==\n");
 					System.out.println("id: " + id);
@@ -301,7 +302,7 @@ public class InOut {
 					System.out.println("type: " + type);
 				}
 			}
-			
+
 			// TODO remove test output
 			System.out.println("\nEDGES");
 			// get list of edges
@@ -361,7 +362,7 @@ public class InOut {
 									}
 								}
 							}
-							
+
 							// get write
 							NodeList writeList = currentTransitionElement.getElementsByTagName("write");
 							for (int k = 0; k < writeList.getLength(); k++) {
@@ -379,7 +380,7 @@ public class InOut {
 									}
 								}
 							}
-							
+
 							// get action
 							NodeList actionList = currentTransitionElement.getElementsByTagName("action");
 							for (int k = 0; k < actionList.getLength(); k++) {
@@ -397,15 +398,15 @@ public class InOut {
 									}
 								}
 							}
-							
+
 							Transition tempTransition = new Transition(id, read, write, action);
 							transitions.add(tempTransition);
 						}
 					}
-					
+
 					Edge tempEdge = new Edge(from, to, transition);
 					edges.add(tempEdge);
-					
+
 					// write edges that start at a state
 					for (int j = 0; j < states.size(); j++) {
 						ArrayList<Edge> tempStartEdges = new ArrayList<Edge>();
@@ -426,7 +427,7 @@ public class InOut {
 		}
 		return machine;
 	}
-	
+
 	/**
 	 * Writes a Turing machine to a LaTex file
 	 * @param fileName Name of the file, where to write to
@@ -437,7 +438,7 @@ public class InOut {
 		if (!fileName.endsWith(".tex")) {
 			fileName = fileName + ".tex";
 		}
-		
+
 		try {
 			// copy from template to new file
 			File inputFile = new File("template.tex");
@@ -452,10 +453,10 @@ public class InOut {
 			}
 			in.close();
 			out.close();
-			
+
 			// edit new file
 			BufferedReader reader = new BufferedReader(new FileReader(outputFile));
-			
+
 			// read text to temp string
 			String line = "";
 			String oldContent = "";
@@ -465,22 +466,22 @@ public class InOut {
 				oldContent += line + "\n";
 			}
 			reader.close();
-			
+
 			// write maketitle
 			makeTitleName = "\\title{test}";
-			
+
 			// write automata nodes
 			automata += writeStateToLatex(machine.getStates());
-			
+
 			// write nodes and edges
 			//\node[state, initial] 	(q_0) {$q_0$}; 
 			//\node[state] (q_1) [right of = q_0] {$q_1$};
 			//\node[state] (q_2) [below of = q_0] {$q_2$};
 			//\node[state,accepting] (q_F) [right of = q_1] {$q_F$};
-			
+
 			newContent = oldContent.replace("{PLACEHOLDER_MAKETITLENAME}", makeTitleName);
 			newContent = newContent.replace("{PLACEHOLDER_AUTOMATA}", automata);
-			
+
 			FileWriter writer = new FileWriter(outputFile);
 			writer.write(newContent);
 			writer.close();
@@ -488,7 +489,7 @@ public class InOut {
 		catch (IOException e) {
 		}
 	}
-	
+
 	/**
 	 * Returns the LaTeX string of nodes for an automata
 	 * @param states The states that should be converted to LaTeX
@@ -503,18 +504,18 @@ public class InOut {
 			String name = currentState.getName();
 			// check type of node
 			switch (currentState.getType()) {
-				case START:
-					type = ", initial";
-					break;
-				case NORMAL:
-					break;
-				case FINAL:
-					type = ", accepting";
-					break;
-				default:
-					break;
+			case START:
+				type = ", initial";
+				break;
+			case NORMAL:
+				break;
+			case FINAL:
+				type = ", accepting";
+				break;
+			default:
+				break;
 			}
-			
+
 			if (i % 3 == 0) {
 				if (i == 0) {
 					output += "\\node[state" + type + "] (" + name + ") {$" + name + "$};\n";
@@ -531,11 +532,11 @@ public class InOut {
 			else if (i % 3 == 2) {
 				output += "\\node[state" + type + "] (" + name + ") [right of = " + oldMiddle.getName() + "] {$" + name + "$};\n";
 			}
-			
+
 		}
 		return output;
 	}
-	
+
 	/**
 	 * Returns the value of an element with a certain tag
 	 * @param tag Tag you want to read
