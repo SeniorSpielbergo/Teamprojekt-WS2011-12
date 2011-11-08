@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 
+import TuringMachine.Edge;
+import TuringMachine.InOut;
+import TuringMachine.State;
+import TuringMachine.Transition;
+import TuringMachine.TuringMachine;
+
 
 public class Simulation {
 

@@ -1,3 +1,4 @@
+package TuringMachine;
 import java.util.ArrayList;
 
 /** This class represents a Turing machine with it's states, edges and transitions

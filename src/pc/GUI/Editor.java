@@ -1,6 +1,12 @@
+package GUI;
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+
+import TuringMachine.InOut;
+import TuringMachine.TuringMachine;
+
 import java.awt.event.*;
 import java.io.*;
 
