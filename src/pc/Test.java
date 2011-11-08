@@ -45,8 +45,7 @@ public class Test {
 		TuringMachine machine = new TuringMachine(states, edges, machineName, 4, outerInitial);
 		
 		InOut.writeXMLToFile("example.xml", machine);
-		InOut.readXMLFromFile("test.xml");
-		InOut.writeLatexToFile("example.tex", machine);
+		InOut.readXMLFromFile("TMadd.xml");
 	}
 	
 }

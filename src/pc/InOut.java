@@ -280,13 +280,13 @@ public class InOut {
 					String id = currentElement.getAttribute("id");
 					State.Type type = null;
 					String typeString = currentElement.getAttribute("type");
-					if (typeString == "start") {
+					if (typeString.equals("start")) {
 						type = State.Type.START;
 					}
-					else if (typeString == "normal") {
+					else if (typeString.equals("normal")) {
 						type = State.Type.NORMAL;
 					}
-					else if (typeString == "final") {
+					else if (typeString.equals("final")) {
 						type = State.Type.FINAL;
 					}
 					String name = getTagValue("name", currentElement);
