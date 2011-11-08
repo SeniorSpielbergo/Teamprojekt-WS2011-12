@@ -95,7 +95,8 @@ public class ErrorDialog extends JDialog {
 		this.jPanelCenter.setVisible(false);
 
 		if (exception != null) {
-			String exceptionText = getStackTraceString(exception);
+			String exceptionText = "Error: " + msg + "\n\n";
+			exceptionText += getStackTraceString(exception);
 			jTextAreaException.setText(exceptionText);
 			jTextAreaException.setEditable(false);
 		} else {

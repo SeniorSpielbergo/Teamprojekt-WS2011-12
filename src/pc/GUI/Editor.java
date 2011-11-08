@@ -201,6 +201,7 @@ public class Editor extends JFrame {
 		System.out.println(this.currentMachine);
 		ArrayList<Tape> tapes = new ArrayList<Tape>();
 		
+		//create tapes and write input
 		try {
 			for (int i=0; i < this.currentMachine.getTapes(); i++) {
 				Tape tape_console = new ConsoleTape();
@@ -208,17 +209,27 @@ public class Editor extends JFrame {
 				tapes.add(tape_console);
 				this.writeInputWordToTape(tape_console, this.currentMachine.getInitial().get(i));
 			}
-
+		}
+		catch (TapeException e){
+		    ErrorDialog.showError("The initialization of the tapes failed because of a Tape exception (" + e.getMessage() + ").", e);
+		    return;
+		}
+		catch (RuntimeException e){
+		    ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
+		    return;
+		}
+		
+		//simulate
+		try {
 			Simulation sim = new Simulation(this.currentMachine, tapes);
 			sim.runMachine();
 		}
 		catch (TapeException e){
 		    ErrorDialog.showError("The simulation failed because of a Tape exception (" + e.getMessage() + ").", e);
 		}
-		catch (Exception e){
+		catch (RuntimeException e){
 		    ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
 		}
-
 
 	}
 	
