@@ -5,9 +5,11 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
 import TuringMachine.*;
+import Tape.*;
 
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /** This class represents an editor for Turing machines
  * 
@@ -182,5 +184,29 @@ public class Editor extends JFrame {
 		RunWindow runWindow = new RunWindow();
 		runWindow.setVisible(true);
 	}
+	
+	public void simulate() {
+		ArrayList<Tape> tapes = new ArrayList<Tape>();
+		for (int i=0; i < this.currentMachine.getTapes(); i++) {
+			Tape tape_console = new ConsoleTape();
+			tapes.add(tape_console);
+			this.writeInputWordToTape(tape_console, this.currentMachine.getInitial().get(i));
+		}
 
+		Simulation sim = new Simulation(this.currentMachine, tapes);
+
+
+
+	}
+	
+	public void writeInputWordToTape(Tape t, ArrayList<Character> input) throws TapeException{
+		for (Character c : input) {
+			t.write(c);
+			t.moveRight();
+		}
+		for (Character c : input) {
+			t.moveLeft();
+		}
+		
+	}
 }
