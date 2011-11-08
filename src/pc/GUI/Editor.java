@@ -179,11 +179,8 @@ public class Editor extends JFrame {
 	}
 	
 	public void runSimulation() {
-		JOptionPane.showMessageDialog(null, "Not implemented yet!");
-	}
-	
-	public void openSimulationSettings() {
-		JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		RunWindow runWindow = new RunWindow();
+		runWindow.setVisible(true);
 	}
 
 }
