@@ -26,7 +26,7 @@ public class Line extends Thread {
 	};
 	
 	/**
-	 * Creates a new Line with given length. The Line will initially move to the mostleft position.
+	 * Creates a new Line with given length. The Line will initially move to the leftmost position.
 	 * @param length Length of line
 	 */
 	public Line(int length) {
@@ -44,7 +44,7 @@ public class Line extends Thread {
 	}
 	
 	/**
-	 * Thread counting at which position the Tape currently is, starting at the mostleft position 0.
+	 * Thread counting at which position the Tape currently is, starting at the leftmost position 0.
 	 */
 	public void run() {
 		while(true) {
@@ -122,7 +122,7 @@ public class Line extends Thread {
 	}
 	
 	/**
-	 * Returns the current position, starting with the mostleft position 0.
+	 * Returns the current position, starting with the leftmost position 0.
 	 * @return int position
 	 */
 	public int getCount() {
