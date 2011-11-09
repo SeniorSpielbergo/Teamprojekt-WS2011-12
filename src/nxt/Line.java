@@ -1,6 +1,6 @@
 import lejos.nxt.*;
 import lejos.nxt.addon.ColorSensor;
-import lejos.util.*;
+import lejos.util.TimerListener;
 
 /**
  * Representation of a Lego-Tape with controlling functions.
@@ -16,11 +16,10 @@ public class Line extends Thread {
 	private boolean failed = false;
 	private ColorSensor counterSensor = new ColorSensor(SensorPort.S3);
 	
-	private Timer timer = new Timer(2000, 
+	private Timer timer = new Timer(800, 
 		new TimerListener(){ 
 			public void timedOut() {
 				LCD.drawString("Timer abgelaufen", 0, 1);
-				timer.stop();
 				Motor.A.stop();
 				failed = true;
 			}
@@ -83,7 +82,6 @@ public class Line extends Thread {
 			return false;
 		else{
 			//timer.stop();
-			timer.setDelay(2000);
 			failed = false;
 			Motor.A.forward();
 			timer.start();
@@ -106,7 +104,6 @@ public class Line extends Thread {
 		else {
 			failed = false;
 			//timer.stop();
-			timer.setDelay(2000);
 			Motor.A.backward();
 			timer.start();
 			while(!Motor.A.isStopped()){}
