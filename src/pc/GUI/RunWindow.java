@@ -59,6 +59,7 @@ public class RunWindow extends JFrame {
 			tapePanel[i].add(combo[i]);
 			comboContainer.add(tapePanel[i]);
 			inputContainer.add(input[i]);
+			input[i].setText(machine.getInput(i));
 		}
 		contentPane.add(runCancelContainer, BorderLayout.AFTER_LAST_LINE);
 		// add to window and set layout

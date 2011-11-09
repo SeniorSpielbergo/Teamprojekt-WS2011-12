@@ -56,6 +56,14 @@ public class TuringMachine {
 		return this.initial;
 	}
 	
+	public String getInput(int i) {
+		String input = "";
+		for (int j = 0; j < getInitial().get(i).size(); j++){
+			input = input + getInitial().get(i).get(j);
+		}
+		return input;
+	}
+	
 	/**
 	 * Returns the Turing machine's states
 	 * @return Turing Machine's states
