@@ -39,7 +39,6 @@ public class RunWindow extends JFrame {
 		setSize(600, 250);
 		
 		Container contentPane = this.getContentPane();
-		
 		BoxLayout inputLayout = new BoxLayout(inputContainer, BoxLayout.Y_AXIS);
 		inputContainer.setLayout(inputLayout);
 		BoxLayout layoutCombo = new BoxLayout(comboContainer, BoxLayout.Y_AXIS);
@@ -70,8 +69,8 @@ public class RunWindow extends JFrame {
 			input[i].setText(machine.getInput(i));
 			inputContainer.add(inputPanel[i]);
 		}
-		inputPane.add(inputContainer);
-		comboPane.add(comboContainer);
+		inputPane.add(inputContainer, new ScrollPaneLayout());
+		comboPane.add(comboContainer, new ScrollPaneLayout());
 		contentPane.add(runCancelContainer, BorderLayout.AFTER_LAST_LINE);
 		// add to window and set layout
 		tabbedPane.addTab("Input", inputContainer);
