@@ -14,7 +14,6 @@ public class Timer implements Runnable {
 	}
 
 	public void run () {
-		c = false;
 		try {Thread.sleep(delay);}
 		catch (InterruptedException e) {}
 		if (!c)
