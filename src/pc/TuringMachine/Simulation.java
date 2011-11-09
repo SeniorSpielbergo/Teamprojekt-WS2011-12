@@ -56,6 +56,8 @@ public class Simulation {
 			}
 
 			actualState = nextState;
+			System.out.println("aktueller Zustand: " +actualState.getId());
+
 			if(!(actualState.getType() == State.Type.FINAL)){
 				runMachine();
 			}
