@@ -2,6 +2,7 @@ package GUI;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
 import TuringMachine.*;
 
 public class RunWindow extends JFrame {
@@ -19,6 +20,7 @@ public class RunWindow extends JFrame {
 		JLabel[] tapeLabel = new JLabel[machine.getTapes()];
 		JTextField[] tapeName = new JTextField[machine.getTapes()];
 		JPanel[] tapePanel = new JPanel[machine.getTapes()];
+		JPanel[] inputPanel = new JPanel[machine.getTapes()];
 		JTextField[] input = new JTextField[machine.getTapes()];
 		JButton runButton = new JButton("run");
 		InputMap inputMap = runButton.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
@@ -31,16 +33,17 @@ public class RunWindow extends JFrame {
 		runButton.getActionMap().put("ESC", new ClickAction(cancelButton));
 		setTitle("Run");
 		setSize(600, 250);
-		setResizable(false);
 		
 		Container contentPane = this.getContentPane();
 		
+		BoxLayout inputLayout = new BoxLayout(inputContainer, BoxLayout.Y_AXIS);
+		inputContainer.setLayout(inputLayout);
 		BoxLayout layoutCombo = new BoxLayout(comboContainer, BoxLayout.Y_AXIS);
 		comboContainer.setLayout(layoutCombo);
-		BoxLayout runCancelCombo = new BoxLayout(runCancelContainer, BoxLayout.X_AXIS);
-		runCancelContainer.setLayout(runCancelCombo);
+		BoxLayout runCancel = new BoxLayout(runCancelContainer, BoxLayout.X_AXIS);
+		runCancelContainer.setLayout(runCancel);
 		runCancelContainer.add(cancelButton);
-		runCancelContainer.add(Box.createRigidArea(new Dimension(510,20)));
+		runCancelContainer.add(Box.createHorizontalGlue());
 		runCancelContainer.add(runButton);
 		
 		// initialize combo boxes
@@ -49,7 +52,8 @@ public class RunWindow extends JFrame {
 			tapeLabel[i] = new JLabel("Tape" + i + ":");
 			tapeName[i] = new JTextField(20);
 			tapePanel[i] = new JPanel();
-			input[i] = new JTextField(50);
+			inputPanel[i] = new JPanel();
+			input[i] = new JTextField(20);
 			
 			for (int j = 0; j < description.length; j++) {
 				combo[i].addItem(description[j]);
@@ -57,8 +61,9 @@ public class RunWindow extends JFrame {
 			tapePanel[i].add(tapeLabel[i]);
 			tapePanel[i].add(tapeName[i]);
 			tapePanel[i].add(combo[i]);
+			inputPanel[i].add(input[i]);
 			comboContainer.add(tapePanel[i]);
-			inputContainer.add(input[i]);
+			inputContainer.add(inputPanel[i]);
 		}
 		contentPane.add(runCancelContainer, BorderLayout.AFTER_LAST_LINE);
 		// add to window and set layout
