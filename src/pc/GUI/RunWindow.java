@@ -71,8 +71,6 @@ public class RunWindow extends JFrame {
 		}
 		inputPane = new JScrollPane(inputContainer);
 		comboPane = new JScrollPane(comboContainer);
-		//inputPane.add(inputContainer, new ScrollPaneLayout());
-		//comboPane.add(comboContainer, new ScrollPaneLayout());
 		contentPane.add(runCancelContainer, BorderLayout.AFTER_LAST_LINE);
 		// add to window and set layout
 		tabbedPane.addTab("Input", inputPane);
