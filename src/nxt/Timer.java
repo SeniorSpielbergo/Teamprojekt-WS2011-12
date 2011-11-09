@@ -13,18 +13,12 @@ public class Timer implements Runnable {
 		this.delay = delay;
 	}
 
-
 	public void run () {
 		c = false;
-		LCD.drawString("timed out",0,3);
-		LCD.drawString(""+c,0,2);
 		try {Thread.sleep(delay);}
 		catch (InterruptedException e) {}
-		LCD.drawString(""+c,5,2);
-		if (!c){
-			LCD.drawString("timed out",0,6);
+		if (!c)
 			tl.timedOut();
-		}
 	}
 
 	public void start() {
@@ -32,9 +26,7 @@ public class Timer implements Runnable {
 	}
 
 	public void stop() {
-		LCD.drawString("ich bin in stop()",0,4);
 		c = true;
 	}
-
 }
 

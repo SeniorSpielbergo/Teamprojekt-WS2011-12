@@ -19,7 +19,6 @@ public class Line extends Thread {
 	private Timer timer = new Timer(800, 
 		new TimerListener(){ 
 			public void timedOut() {
-				LCD.drawString("Timer abgelaufen", 0, 1);
 				Motor.A.stop();
 				failed = true;
 			}
