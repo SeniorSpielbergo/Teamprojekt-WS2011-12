@@ -33,11 +33,12 @@ public class Simulation {
 
 	public void runMachine() throws TapeException{
 		if(actualState.getType() != State.Type.FINAL){
+			currentSymbols.clear();
 			for(int i = 0; i < numberOfTapes; i++)
 				currentSymbols.add(i,this.tapes.get(i).read());
 
 			Transition rightLabel = getRightLabel();
-			System.out.println("rightLable: "+rightLabel);
+			System.out.println("rightLabel: "+rightLabel);
 
 			for(int i = 0; i < numberOfTapes; i++){
 				tapes.get(i).write(rightLabel.getWrite().get(i));
@@ -80,12 +81,13 @@ public class Simulation {
 				System.out.println(e.getTransition().get(j).getId() +" ");
 				System.out.println("Groeße read: "+e.getTransition().get(j).getRead().size());
 				for(int i = 0; i < numberOfTapes; i++){
+					System.out.println("Transition-Symbol: " + e.getTransition().get(j).getRead().get(i));
+					System.out.println("Tape symbol: " + currentSymbols.get(i));
 					//hier liegt vielleicht irgendwo der Fehler
 					if( e.getTransition().get(j).getRead().get(i) == currentSymbols.get(i)){
-
 						label = e.getTransition().get(j);
+						System.out.println(label);
 						nextState = e.getTo();
-
 					}
 					else{
 						label = null;
@@ -94,7 +96,8 @@ public class Simulation {
 					}
 				}
 				if(label != null){
-					break;
+					System.out.println("Edge: " + e);
+					return label;
 				}
 			}
 		}

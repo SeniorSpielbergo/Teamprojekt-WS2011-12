@@ -133,6 +133,7 @@ public class LEGOTape extends Tape {
 		try {
 			this.master.moveLeft();
 			this.position--;
+			System.out.println(this.name + "@pos " + this.position);
 			this.currentSymbol = 'n';
 		}
 		catch (IOException e) {
@@ -154,6 +155,7 @@ public class LEGOTape extends Tape {
 		try {
 			this.master.moveRight();
 			this.position++;
+			System.out.println(this.name + "@pos " + this.position);
 			this.currentSymbol = 'n';
 		}
 		catch (IOException e) {

@@ -57,10 +57,10 @@ public class Main {
 					char write = JOptionPane.showInputDialog("Enter new symbol:").toCharArray()[0];
 					tapes.get(0).write(write);
 				}
-				else if (cmd.equals("left")) {
+				else if (cmd.equals("l")) {
 					tapes.get(0).moveLeft();
 				}
-				else if (cmd.equals("right")) {
+				else if (cmd.equals("r")) {
 					tapes.get(0).moveRight();
 				}
 				else {

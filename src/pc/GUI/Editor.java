@@ -205,10 +205,18 @@ public class Editor extends JFrame {
 		//create tapes and write input
 		try {
 			for (int i=0; i < this.currentMachine.getTapes(); i++) {
-				Tape tape_console = new ConsoleTape();
-				tape_console.init();
-				tapes.add(tape_console);
-				this.writeInputWordToTape(tape_console, this.currentMachine.getInitial().get(i));
+//				Tape tape_console = new ConsoleTape();
+//				tape_console.init();
+//				tapes.add(tape_console);
+//				this.writeInputWordToTape(tape_console, this.currentMachine.getInitial().get(i));
+
+				
+				MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
+				SlaveRobot nxt_03 = new SlaveRobot("NXT_03", "00:16:53:0F:DB:8E");
+				Tape tape_lego = new LEGOTape(ips_03, nxt_03);
+				tape_lego.init();
+				tapes.add(tape_lego);
+				this.writeInputWordToTape(tape_lego, this.currentMachine.getInitial().get(i));
 			}
 		}
 		catch (TapeException e){

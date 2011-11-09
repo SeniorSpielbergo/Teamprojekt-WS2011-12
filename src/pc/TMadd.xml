@@ -29,7 +29,10 @@
     <state id="5" type="normal">
         <name>q4</name>
     </state>
-    <state id="6" type="final">
+    <state id="6" type="normal">
+        <name>q5</name>
+    </state>
+    <state id="7" type="final">
         <name>qF</name>
     </state>
     <edge from="0" to="1">
@@ -173,6 +176,19 @@
     		</write>
     		<action>
     			<direction>R</direction>
+    		</action> 
+    	</transition>
+    </edge>
+    <edge from="6" to="7">
+    	<transition id="11">
+    		<read>
+    			<symbol>0</symbol>
+    		</read>
+    		<write>
+    			<symbol>#</symbol>
+    		</write>
+    		<action>
+    			<direction>N</direction>
     		</action> 
     	</transition>
     </edge>

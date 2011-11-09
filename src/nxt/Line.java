@@ -16,9 +16,11 @@ public class Line extends Thread {
 	private boolean failed = false;
 	private ColorSensor counterSensor = new ColorSensor(SensorPort.S3);
 	
-	private Timer timer = new Timer(1000, 
+	private Timer timer = new Timer(2000, 
 		new TimerListener(){ 
 			public void timedOut() {
+				LCD.drawString("Timer abgelaufen", 0, 1);
+				timer.stop();
 				Motor.A.stop();
 				failed = true;
 			}
@@ -80,8 +82,8 @@ public class Line extends Thread {
 		if(this.counter == 0)
 			return false;
 		else{
-			timer.stop();
-			timer.setDelay(1000);
+			//timer.stop();
+			timer.setDelay(2000);
 			failed = false;
 			Motor.A.forward();
 			timer.start();
@@ -103,8 +105,8 @@ public class Line extends Thread {
 			return false;
 		else {
 			failed = false;
-			timer.stop();
-			timer.setDelay(1000);
+			//timer.stop();
+			timer.setDelay(2000);
 			Motor.A.backward();
 			timer.start();
 			while(!Motor.A.isStopped()){}

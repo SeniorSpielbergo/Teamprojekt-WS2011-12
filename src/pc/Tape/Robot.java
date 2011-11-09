@@ -113,6 +113,12 @@ public abstract class Robot {
 			System.out.println("Sending to '" + this.name + "' the command '" + cmd + "' failed: " + e.getMessage());
 			throw e;
 		}
+		try {
+			//Thread.sleep(1000);
+		}
+		catch (Exception e) {
+			
+		}
 	}
 
 	/**
