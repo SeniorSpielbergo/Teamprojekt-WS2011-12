@@ -54,8 +54,10 @@ public class MasterRobot extends Robot {
 			System.out.println(this.name + ": Success");
 		} else if (received == '!') {
 			System.out.println(this.name + ": Moving right failed.");
+			throw new IOException("Received error from robot '" + this.name + ": Moving right failed.");
 		} else {
 			System.out.println(this.name + ": Common Fail, read from Robot: " + received);
+			throw new IOException("Received unexpected symbol from robot '" + this.name + ".");
 		}
 	}
 	

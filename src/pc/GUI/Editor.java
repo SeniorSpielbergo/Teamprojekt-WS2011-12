@@ -210,7 +210,6 @@ public class Editor extends JFrame {
 //				tapes.add(tape_console);
 //				this.writeInputWordToTape(tape_console, this.currentMachine.getInitial().get(i));
 
-				
 				MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
 				SlaveRobot nxt_03 = new SlaveRobot("NXT_03", "00:16:53:0F:DB:8E");
 				Tape tape_lego = new LEGOTape(ips_03, nxt_03);

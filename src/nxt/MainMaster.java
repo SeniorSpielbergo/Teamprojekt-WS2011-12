@@ -82,6 +82,7 @@ public class MainMaster {
 				ch = in.readChar();
 			}
 			catch (IOException e) {
+				break;
 			}
 	           
 			LCD.clearDisplay();

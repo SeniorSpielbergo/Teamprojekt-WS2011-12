@@ -334,6 +334,7 @@ public class InOut {
 					NodeList transitionList = currentElement.getElementsByTagName("transition");
 					ArrayList<Transition> transition = new ArrayList<Transition>();
 					for (int j = 0; j < transitionList.getLength(); j++) {
+						transition.clear();
 						Node currentTransitionNode = transitionList.item(j);
 						String id;
 						ArrayList<Character> read = new ArrayList<Character>();
