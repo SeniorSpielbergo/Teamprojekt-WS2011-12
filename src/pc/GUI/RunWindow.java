@@ -69,20 +69,20 @@ public class RunWindow extends JFrame {
 			input[i].setText(machine.getInput(i));
 			inputContainer.add(inputPanel[i]);
 		}
-		inputPane.add(inputContainer, new ScrollPaneLayout());
-		comboPane.add(comboContainer, new ScrollPaneLayout());
+		inputPane = new JScrollPane(inputContainer);
+		comboPane = new JScrollPane(comboContainer);
+		//inputPane.add(inputContainer, new ScrollPaneLayout());
+		//comboPane.add(comboContainer, new ScrollPaneLayout());
 		contentPane.add(runCancelContainer, BorderLayout.AFTER_LAST_LINE);
 		// add to window and set layout
-		tabbedPane.addTab("Input", inputContainer);
-		tabbedPane.addTab("Tape settings", comboContainer);
+		tabbedPane.addTab("Input", inputPane);
+		tabbedPane.addTab("Tape settings", comboPane);
 		contentPane.add(tabbedPane);
 	}
 	
 	public void initRunWindow(int tapes) {
 		inputContainer  = new JPanel();
 		comboContainer = new JPanel();
-		inputPane = new JScrollPane();
-		comboPane = new JScrollPane();
 		runCancelContainer = new JPanel();
 		tabbedPane = new JTabbedPane();
 		combo  = new JComboBox[tapes];
