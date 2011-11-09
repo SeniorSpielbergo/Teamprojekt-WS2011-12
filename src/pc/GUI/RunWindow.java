@@ -9,20 +9,24 @@ public class RunWindow extends JFrame {
 	
 	private String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
 	protected TuringMachine machine;
-	private JPanel inputContainer = new JPanel();
-	private JPanel comboContainer = new JPanel();
-	private JPanel runCancelContainer = new JPanel();
-	private JTabbedPane tabbedPane = new JTabbedPane();
+	private JPanel inputContainer;
+	private JPanel comboContainer;
+	private JScrollPane inputPane;
+	private JScrollPane comboPane; 
+	private JPanel runCancelContainer;
+	private JTabbedPane tabbedPane;
+	private JComboBox[] combo;
+	private JLabel[] tapeLabel;
+	private JTextField[] tapeName;
+	private JPanel[] tapePanel;
+	private JPanel[] inputPanel;
+	private JTextField[] input;
+	private JButton runButton;
 	
 	public RunWindow(TuringMachine machine) {
 		this.machine = machine;
-		JComboBox[] combo = new JComboBox[machine.getTapes()];
-		JLabel[] tapeLabel = new JLabel[machine.getTapes()];
-		JTextField[] tapeName = new JTextField[machine.getTapes()];
-		JPanel[] tapePanel = new JPanel[machine.getTapes()];
-		JPanel[] inputPanel = new JPanel[machine.getTapes()];
-		JTextField[] input = new JTextField[machine.getTapes()];
-		JButton runButton = new JButton("run");
+		initRunWindow(machine.getTapes());
+		
 		InputMap inputMap = runButton.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
 		KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
 		inputMap.put(enter, "ENTER");
@@ -66,11 +70,29 @@ public class RunWindow extends JFrame {
 			input[i].setText(machine.getInput(i));
 			inputContainer.add(inputPanel[i]);
 		}
+		inputPane.add(inputContainer);
+		comboPane.add(comboContainer);
 		contentPane.add(runCancelContainer, BorderLayout.AFTER_LAST_LINE);
 		// add to window and set layout
 		tabbedPane.addTab("Input", inputContainer);
 		tabbedPane.addTab("Tape settings", comboContainer);
 		contentPane.add(tabbedPane);
+	}
+	
+	public void initRunWindow(int tapes) {
+		inputContainer  = new JPanel();
+		comboContainer = new JPanel();
+		inputPane = new JScrollPane();
+		comboPane = new JScrollPane();
+		runCancelContainer = new JPanel();
+		tabbedPane = new JTabbedPane();
+		combo  = new JComboBox[tapes];
+		tapeLabel = new JLabel[tapes];
+		tapeName = new JTextField[tapes];
+		tapePanel = new JPanel[tapes];
+		inputPanel = new JPanel[tapes];
+		input = new JTextField[tapes];
+		runButton = new JButton("run");
 	}
 	
 	public class ClickAction extends AbstractAction {
