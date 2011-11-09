@@ -4,37 +4,44 @@ import java.awt.event.*;
 import javax.swing.*;
 import TuringMachine.*;
 
-public class RunWindow extends JFrame implements ActionListener {
+public class RunWindow extends JFrame {
 	
 	private String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
 	protected TuringMachine machine;
-	private JButton expandWindowButton;
-	private boolean isExpanded = false;
 	private JPanel inputContainer = new JPanel();
 	private JPanel comboContainer = new JPanel();
-	private JPanel expandContainer = new JPanel();
+	private JPanel runCancelContainer = new JPanel();
+	private JTabbedPane tabbedPane = new JTabbedPane();
 	
 	public RunWindow(TuringMachine machine) {
-		expandWindowButton = new JButton("expand Options");
 		this.machine = machine;
 		JComboBox[] combo = new JComboBox[machine.getTapes()];
 		JLabel[] tapeLabel = new JLabel[machine.getTapes()];
 		JTextField[] tapeName = new JTextField[machine.getTapes()];
 		JPanel[] tapePanel = new JPanel[machine.getTapes()];
+		JTextField[] input = new JTextField[machine.getTapes()];
+		JButton runButton = new JButton("run");
+		InputMap inputMap = runButton.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
+		KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+		inputMap.put(enter, "ENTER");
+		runButton.getActionMap().put("ENTER", new ClickAction(runButton));
+		JButton cancelButton = new JButton("cancel");
+		KeyStroke cancel = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+		inputMap.put(cancel, "ESC");
+		runButton.getActionMap().put("ESC", new ClickAction(cancelButton));
 		setTitle("Run");
-		setSize(600, 150);
+		setSize(600, 250);
+		setResizable(false);
 		
 		Container contentPane = this.getContentPane();
 		
-		JTextField input = new JTextField(50);
-		input.setText(machine.getInitial().toString());
-		inputContainer.add(input);
-		expandContainer.add(expandWindowButton);
-		comboContainer.setBorder(BorderFactory.createTitledBorder("Tapes"));
-		inputContainer.setBorder(BorderFactory.createTitledBorder("Input"));
-		expandWindowButton.addActionListener(this);
-		BoxLayout layout = new BoxLayout(comboContainer, BoxLayout.Y_AXIS);
-		comboContainer.setLayout(layout);
+		BoxLayout layoutCombo = new BoxLayout(comboContainer, BoxLayout.Y_AXIS);
+		comboContainer.setLayout(layoutCombo);
+		BoxLayout runCancelCombo = new BoxLayout(runCancelContainer, BoxLayout.X_AXIS);
+		runCancelContainer.setLayout(runCancelCombo);
+		runCancelContainer.add(cancelButton);
+		runCancelContainer.add(Box.createRigidArea(new Dimension(510,20)));
+		runCancelContainer.add(runButton);
 		
 		// initialize combo boxes
 		for (int i = 0; i < combo.length; i++) {
@@ -42,6 +49,7 @@ public class RunWindow extends JFrame implements ActionListener {
 			tapeLabel[i] = new JLabel("Tape" + i + ":");
 			tapeName[i] = new JTextField(20);
 			tapePanel[i] = new JPanel();
+			input[i] = new JTextField(50);
 			
 			for (int j = 0; j < description.length; j++) {
 				combo[i].addItem(description[j]);
@@ -50,27 +58,24 @@ public class RunWindow extends JFrame implements ActionListener {
 			tapePanel[i].add(tapeName[i]);
 			tapePanel[i].add(combo[i]);
 			comboContainer.add(tapePanel[i]);
-			
+			inputContainer.add(input[i]);
 		}
-		comboContainer.setVisible(false);
+		contentPane.add(runCancelContainer, BorderLayout.AFTER_LAST_LINE);
 		// add to window and set layout
-		contentPane.add(inputContainer, BorderLayout.BEFORE_FIRST_LINE);
-		contentPane.add(expandContainer, BorderLayout.WEST);		
-		contentPane.add(comboContainer, BorderLayout.SOUTH);
+		tabbedPane.addTab("Input", inputContainer);
+		tabbedPane.addTab("Tape settings", comboContainer);
+		contentPane.add(tabbedPane);
 	}
 	
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == expandWindowButton) {
-			if (!isExpanded){
-				int comboHeight = comboContainer.getHeight();
-				this.setSize(600, 175 + comboHeight);
-				comboContainer.setVisible(true);
-				isExpanded = true;
-			} else {
-				comboContainer.setVisible(false);
-				this.setSize(600, 150);
-				isExpanded = false;
-			}
+	public class ClickAction extends AbstractAction {
+		private JButton button;
+		
+		public ClickAction(JButton button) {
+			this.button = button;
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			button.doClick();
 		}
 	}
 }
