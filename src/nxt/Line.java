@@ -8,6 +8,8 @@ import lejos.util.TimerListener;
  *
  */
 public class Line extends Thread {
+	private final int TIMER_LENGTH = 800;
+	
 	private int counter = 0;
 	private int length = 0;
 	private long time;
@@ -15,15 +17,13 @@ public class Line extends Thread {
 	private boolean color = false;
 	private boolean failed = false;
 	private ColorSensor counterSensor = new ColorSensor(SensorPort.S3);
-	
-	private Timer timer = new Timer(800, 
-		new TimerListener(){ 
-			public void timedOut() {
-				Motor.A.stop();
-				failed = true;
-			}
+	private Timer timer;
+	private TimerListener tl = new TimerListener(){ 
+		public void timedOut() {
+			Motor.A.stop();
+			failed = true;
 		}
-	);
+	};
 	
 	/**
 	 * Creates a new Line with given length. The Line will initially move to the mostleft position.
@@ -80,8 +80,8 @@ public class Line extends Thread {
 		if(this.counter == 0)
 			return false;
 		else{
-			//timer.stop();
 			failed = false;
+			timer = new Timer(this.TIMER_LENGTH,tl);
 			Motor.A.forward();
 			timer.start();
 			while(!Motor.A.isStopped()){}
@@ -102,7 +102,7 @@ public class Line extends Thread {
 			return false;
 		else {
 			failed = false;
-			//timer.stop();
+			timer = new Timer(this.TIMER_LENGTH,tl);
 			Motor.A.backward();
 			timer.start();
 			while(!Motor.A.isStopped()){}
