@@ -37,6 +37,7 @@ public class RunWindow extends JFrame {
 		runButton.getActionMap().put("ESC", new ClickAction(cancelButton));
 		setTitle("Run");
 		setSize(600, 250);
+		this.setResizable(false);
 		
 		Container contentPane = this.getContentPane();
 		BoxLayout inputLayout = new BoxLayout(inputContainer, BoxLayout.Y_AXIS);
