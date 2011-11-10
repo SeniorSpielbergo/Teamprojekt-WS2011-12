@@ -160,8 +160,10 @@ public class Editor extends JFrame implements ActionListener {
 	}
 	
 	public void saveFile() {
-		fc.showSaveDialog(null);
-		JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		int retVal = fc.showSaveDialog(null);
+		if (retVal == JFileChooser.APPROVE_OPTION) {
+			JOptionPane.showMessageDialog(null, "Saved successfully!");
+		}
 		//InOut.writeXMLFromFile(selectedFile.getName(), currentMachine);
 	}
 	

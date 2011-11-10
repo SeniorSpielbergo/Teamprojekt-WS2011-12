@@ -2,6 +2,8 @@ package TuringMachine;
 import java.io.*;
 import java.lang.String;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -472,13 +474,12 @@ public class InOut {
 			makeTitleName = "\\title{test}";
 
 			// write automata nodes
-			automata += writeStateToLatex(machine.getStates());
-
-			// write nodes and edges
-			//\node[state, initial] 	(q_0) {$q_0$}; 
-			//\node[state] (q_1) [right of = q_0] {$q_1$};
-			//\node[state] (q_2) [below of = q_0] {$q_2$};
-			//\node[state,accepting] (q_F) [right of = q_1] {$q_F$};
+			automata += writeStatesToLatex(machine.getStates());
+			
+			automata += "\n";
+			
+			// write automata edges
+			automata += writeEdgesToLatex(machine.getEdges());
 
 			newContent = oldContent.replace("{PLACEHOLDER_MAKETITLENAME}", makeTitleName);
 			newContent = newContent.replace("{PLACEHOLDER_AUTOMATA}", automata);
@@ -496,7 +497,7 @@ public class InOut {
 	 * @param states The states that should be converted to LaTeX
 	 * @return String of nodes formated for an automata 
 	 */
-	private static String writeStateToLatex(ArrayList<State> states) {
+	private static String writeStatesToLatex(ArrayList<State> states) {
 		String output = "";
 		State oldLeft = states.get(0), oldMiddle = states.get(0);
 		for (int i = 0; i < states.size(); i++) {
@@ -505,16 +506,16 @@ public class InOut {
 			String name = currentState.getName();
 			// check type of node
 			switch (currentState.getType()) {
-			case START:
-				type = ", initial";
-				break;
-			case NORMAL:
-				break;
-			case FINAL:
-				type = ", accepting";
-				break;
-			default:
-				break;
+				case START:
+					type = ", initial";
+					break;
+				case NORMAL:
+					break;
+				case FINAL:
+					type = ", accepting";
+					break;
+				default:
+					break;
 			}
 
 			if (i % 3 == 0) {
@@ -536,6 +537,76 @@ public class InOut {
 
 		}
 		return output;
+	}
+	
+	/**
+	 * Returns the LaTeX string of edges for an automata
+	 * @param edges The edges that should be converted to LaTeX
+	 * @return String of edges formated for an automata
+	 */
+	private static String writeEdgesToLatex(ArrayList<Edge> edges) {
+		String output = "";
+		for (int i = 0; i < edges.size(); i++) {
+			Edge currentEdge = edges.get(i);
+			for (int j = 0; j < currentEdge.getTransition().size(); j++) {
+				Transition currentTransition = currentEdge.getTransition().get(j);
+				String transition = writeTransitionString(currentTransition);
+				State from = currentEdge.getFrom();
+				State to = currentEdge.getTo();
+				if (from.equals(to)) {
+					output += "\\path[->] (" + from.getName() +  ") edge [loop above] node {" + transition + "} ();\n";
+				}
+				else {
+					output += "\\path[->] (" + from.getName() +  ") edge [bend left] node {" + transition + "} (" + to.getName() +  ");\n";
+				}
+			}
+		}
+		return output;
+	}
+	
+	/**
+	 * Returns the LaTeX string of a transition for an automata
+	 * @param transition The transition that should be converted to LaTeX
+	 * @return String of a transition formated for an automata
+	 */
+	private static String writeTransitionString(Transition transition) {
+		String output = "";
+		String readString = "<";
+		String writeActionString = "<";
+		Transition currentTransition = transition;
+		ArrayList<Character> read = currentTransition.getRead(); 
+		ArrayList<Character> write = currentTransition.getWrite(); 
+		ArrayList<Character> action = currentTransition.getAction();
+		for (int i = 0; i < read.size(); i++) {
+			readString += "" + checkHash(read.get(i));
+			if (i == read.size()-1) {
+				readString += ">";
+			}
+			else {
+				readString += ", ";
+			}
+		}
+		for (int i = 0; i < write.size(); i++) {
+			writeActionString += "" + checkHash(write.get(i)) + ", ";
+			writeActionString += "" + checkHash(action.get(i)) + ">";
+			if (i != write.size()-1) {
+				writeActionString += ", ";
+			}
+		}
+		output += readString + " / " + writeActionString;
+		return output;
+	}
+	
+	/**
+	 * Checks for hashes and escapes them
+	 * @param charToCheck Character to check for a hash
+	 * @return The initial character or an escaped hash
+	 */
+	private static String checkHash(char charToCheck) {
+		if (charToCheck == '#') {
+			return "\\#";
+		}
+		return "" + charToCheck;
 	}
 
 	/**

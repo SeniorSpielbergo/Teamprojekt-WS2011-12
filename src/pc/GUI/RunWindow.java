@@ -1,11 +1,12 @@
 package GUI;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 import TuringMachine.*;
 
-public class RunWindow extends JFrame {
+public class RunWindow extends JFrame implements ActionListener {
 	
 	private String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
 	protected TuringMachine machine;
@@ -22,6 +23,7 @@ public class RunWindow extends JFrame {
 	private JPanel[] inputPanel;
 	private JTextField[] input;
 	private JButton runButton;
+	private JButton cancelButton;
 	
 	public RunWindow(TuringMachine machine) {
 		this.machine = machine;
@@ -31,10 +33,12 @@ public class RunWindow extends JFrame {
 		KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
 		inputMap.put(enter, "ENTER");
 		runButton.getActionMap().put("ENTER", new ClickAction(runButton));
-		JButton cancelButton = new JButton("cancel");
+		
 		KeyStroke cancel = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
 		inputMap.put(cancel, "ESC");
 		runButton.getActionMap().put("ESC", new ClickAction(cancelButton));
+		cancelButton.addActionListener(this);
+		
 		setTitle("Run");
 		setSize(600, 250);
 		this.setResizable(false);
@@ -91,6 +95,13 @@ public class RunWindow extends JFrame {
 		inputPanel = new JPanel[tapes];
 		input = new JTextField[tapes];
 		runButton = new JButton("run");
+		cancelButton = new JButton("cancel");
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == cancelButton) {
+			this.setVisible(false);
+		}
 	}
 	
 	public class ClickAction extends AbstractAction {
