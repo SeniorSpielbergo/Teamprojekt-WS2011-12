@@ -42,7 +42,7 @@ public class Editor extends JFrame implements ActionListener {
 		
 		initEditor();
 		
-		// set current directory
+		// set current directory for file chooser
 		try {
 			File currentDirectory = new File(new File(".").getCanonicalPath());
     		fc.setCurrentDirectory(currentDirectory);
@@ -50,7 +50,7 @@ public class Editor extends JFrame implements ActionListener {
 		catch (IOException e) {
 		}
 		
-		// set xml filter
+		// set xml filter for file chooser
 		fc.setFileFilter (new FileFilter() {
 			public boolean accept(File f) {
 				return f.isDirectory() || f.getName().toLowerCase().endsWith( ".xml" );
