@@ -17,11 +17,20 @@ import java.util.ArrayList;
  * @author David Wille
  * 
  */
-public class Editor extends JFrame {
+public class Editor extends JFrame implements ActionListener {
 	static final long serialVersionUID = -3667258249137827980L;
 	static final String appName = "Turing Simulator";
 	protected TuringMachine currentMachine;
-	private JMenuItem newAction, openAction, saveAction, exportLatexAction, exitAction, runAction, testAction;
+	private JMenuItem newAction;
+	private JMenuItem openAction;
+	private JMenuItem saveAction;
+	private JMenuItem exportLatexAction;
+	private JMenuItem exitAction;
+	private JMenuItem runAction;
+	private JMenuItem testAction;
+	private JMenuBar menuBar;
+	private JMenu fileMenu;
+	private JMenu simulationMenu;
 	private final JFileChooser fc = new JFileChooser();
 	
 	/**
@@ -30,18 +39,8 @@ public class Editor extends JFrame {
 	public Editor() {
 		setTitle("Editor");
 		setSize(800, 800);
-		// try to set look for Linux
-		try {
-			if (System.getProperties().getProperty("os.name").equals("Linux")) {
-				UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-			}
-			else if (System.getProperties().getProperty("os.name").equals("Mac OS X")) {
-				System.setProperty("com.apple.mrj.application.apple.menu.about.name", Editor.appName);
-				System.setProperty("apple.laf.useScreenMenuBar", "true");
-			}
-    	} 
-		catch (Exception e) {
-		}
+		
+		initEditor();
 		
 		// set current directory
 		try {
@@ -60,27 +59,9 @@ public class Editor extends JFrame {
 				return "*.xml";
 			}
 		});
-        
-		// create menu bar
-		JMenuBar menuBar = new JMenuBar();
 		
-		// set menu bar
-		setJMenuBar(menuBar);
-        
-		// create menu items
-		JMenu fileMenu = new JMenu("File");
-		JMenu simulationMenu = new JMenu("Simulation");
 		menuBar.add(fileMenu);
 		menuBar.add(simulationMenu);
-        
-		// create menu subitems
-		newAction = new JMenuItem("New");
-		openAction = new JMenuItem("Open");
-		saveAction = new JMenuItem("Save");
-		exportLatexAction = new JMenuItem("Export as LaTeX");
-		exitAction = new JMenuItem("Exit");
-		runAction = new JMenuItem("Run");
-		testAction = new JMenuItem("Test");
 		
 		// disable actions
 		saveAction.setEnabled(false);
@@ -104,49 +85,6 @@ public class Editor extends JFrame {
 		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		runAction.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		
-		newAction.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				newFile();
-			}
-		});
-		
-		openAction.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				openFile();
-			}
-		});
-		
-		saveAction.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				saveFile();
-			}
-		});
-		
-		exportLatexAction.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				exportLatex();
-			}
-		});
-		
-		runAction.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				runSimulation();
-			}
-		});
-		
-		testAction.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				simulate();
-			}
-		});
-		
-		exitAction.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				exitEditor();
-			}
-		});
-		
 	}
 	
 	/**
@@ -154,10 +92,53 @@ public class Editor extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		// try to set look for Linux
+		try {
+			if (System.getProperties().getProperty("os.name").equals("Linux")) {
+				UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+			}
+			else if (System.getProperties().getProperty("os.name").equals("Mac OS X")) {
+				System.setProperty("com.apple.mrj.application.apple.menu.about.name", Editor.appName);
+				System.setProperty("apple.laf.useScreenMenuBar", "true");
+			}
+    	} 
+		catch (Exception e) {
+		}
+		
 		Editor mainWindow = new Editor();
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainWindow.setVisible(true);
 		//mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
+	}
+	
+	public void initEditor() {
+		// create menu bar
+		menuBar = new JMenuBar();
+				
+		// set menu bar
+		setJMenuBar(menuBar);
+		
+		// create menu subitems
+		newAction = new JMenuItem("New");
+		openAction = new JMenuItem("Open");
+		saveAction = new JMenuItem("Save");
+		exportLatexAction = new JMenuItem("Export as LaTeX");
+		exitAction = new JMenuItem("Exit");
+		runAction = new JMenuItem("Run");
+		testAction = new JMenuItem("Test");
+		
+		// create menu items
+		fileMenu = new JMenu("File");
+		simulationMenu = new JMenu("Simulation");
+		
+		// init actionListener
+		newAction.addActionListener(this);
+		openAction.addActionListener(this);
+		saveAction.addActionListener(this);
+		exportLatexAction.addActionListener(this);
+		exitAction.addActionListener(this);
+		runAction.addActionListener(this);
+		testAction.addActionListener(this);
 	}
 	
 	public void newFile() {
@@ -259,4 +240,26 @@ public class Editor extends JFrame {
 		}
 		
 	}
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == newAction) {
+			newFile();
+		}
+		else if (e.getSource() == openAction) {
+			openFile();
+		}
+		else if (e.getSource() == saveAction) {
+			saveFile();
+		}
+		else if (e.getSource() == exportLatexAction) {
+			exportLatex();
+		}
+		else if (e.getSource() == runAction) {
+			runSimulation();
+		}
+		else if (e.getSource() == testAction) {
+			simulate();
+		}
+	}
+	
 }
