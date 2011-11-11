@@ -59,6 +59,9 @@ public class Transition {
 		return this.action;
 	}
 
+	/**
+	 * Gives a string representation of the Transition
+	 */
 	@Override
 	public String toString() {
 		return "Transition [id=" + id + ", read=" + read + ", write=" + write

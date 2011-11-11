@@ -80,6 +80,9 @@ public class TuringMachine {
 		return this.edges;
 	}
 	
+	/**
+	 * Gives a string representation of the Turing Machine
+	 */
 	@Override
 	public String toString() {
 		String str = "";
@@ -89,11 +92,6 @@ public class TuringMachine {
 		str += "States: " + states + "\n";
 		str += "Edges:\n" + edges + "\n";
 		return str;
-	}
-
-	public void printTuringMachine() {
-
-		
 	}
 
 }

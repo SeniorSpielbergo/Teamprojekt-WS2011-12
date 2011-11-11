@@ -95,6 +95,9 @@ public class State {
 		return this.type.equals(type);
 	}
 	
+	/**
+	 * Gives a string representation of the State
+	 */
 	@Override
 	public String toString() {
 		return "State [id=" + id + ", name=" + name + ", type=" + type + "]";

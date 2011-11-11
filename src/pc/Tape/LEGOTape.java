@@ -179,6 +179,9 @@ public class LEGOTape extends Tape {
 		}
 	}
 	
+	/**
+	 * Gives a string representation of the tape state, including the name, head position and the current symbol
+	 */
 	@Override
 	public String toString() {
 		return " " + this.getName() + "@pos "  + this.getPosition() + ", current symbol: " + this.currentSymbol;
