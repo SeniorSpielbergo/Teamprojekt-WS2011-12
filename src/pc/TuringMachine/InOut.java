@@ -471,7 +471,7 @@ public class InOut {
 			reader.close();
 
 			// write maketitle
-			makeTitleName = "\\title{test}";
+			makeTitleName = "\\title{" + machine.getName() + "}";
 
 			// write automata nodes
 			automata += writeStatesToLatex(machine.getStates());
@@ -578,7 +578,7 @@ public class InOut {
 		ArrayList<Character> write = currentTransition.getWrite(); 
 		ArrayList<Character> action = currentTransition.getAction();
 		for (int i = 0; i < read.size(); i++) {
-			readString += "" + checkHash(read.get(i));
+			readString += "" + escapeHash(read.get(i));
 			if (i == read.size()-1) {
 				readString += ">";
 			}
@@ -587,8 +587,8 @@ public class InOut {
 			}
 		}
 		for (int i = 0; i < write.size(); i++) {
-			writeActionString += "" + checkHash(write.get(i)) + ", ";
-			writeActionString += "" + checkHash(action.get(i)) + ">";
+			writeActionString += "" + escapeHash(write.get(i)) + ", ";
+			writeActionString += "" + escapeHash(action.get(i)) + ">";
 			if (i != write.size()-1) {
 				writeActionString += ", ";
 			}
@@ -602,7 +602,7 @@ public class InOut {
 	 * @param charToCheck Character to check for a hash
 	 * @return The initial character or an escaped hash
 	 */
-	private static String checkHash(char charToCheck) {
+	private static String escapeHash(char charToCheck) {
 		if (charToCheck == '#') {
 			return "\\#";
 		}
