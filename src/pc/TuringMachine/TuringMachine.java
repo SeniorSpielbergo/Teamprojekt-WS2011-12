@@ -14,6 +14,12 @@ public class TuringMachine {
 	protected int tapes;
 	protected ArrayList<ArrayList<Character>> initial;
 	
+	
+	public TuringMachine() {
+		this(new ArrayList<State>(), new ArrayList<Edge>(), "Untitled Turing machine",
+				0, new ArrayList<ArrayList<Character>>());
+	}
+
 	/**
 	 * Constructs a new Turing machine with edges, states and transitions
 	 * @param states All states of the Turing machine
