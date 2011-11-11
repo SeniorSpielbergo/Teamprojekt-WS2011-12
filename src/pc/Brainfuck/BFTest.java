@@ -7,15 +7,16 @@ public class BFTest {
 		final int TAPE_LENGTH = 9;
 		ConsoleTape ct = new ConsoleTape();
 		ct.init();
-		// zaehle binaer 255 nullen
+		
+		// count 255 symbols binary
 		String inputString = "";
 		for(int i = 0; i < Math.pow(2,TAPE_LENGTH-1)-1; i++)
 			inputString += "0";
 		File file = new File("binary_count.bf");
 		
-		// addiere 2+2 unaer 
-		// String inputString = "00#00";
-		// File file = new File("../unary_add.bf");
+		// add 2+2 unary
+		/*String inputString = "00#00";
+		File file = new File("unary_add.bf");*/
 		
 		byte[] buffer = new byte[(int) file.length()];
 		BufferedInputStream f = new BufferedInputStream(new FileInputStream(file.getPath()));
