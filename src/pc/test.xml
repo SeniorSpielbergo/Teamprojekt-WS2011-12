@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<machine name="test" tapes="4">
+<machine name="test" tapes="4" xml-version="2">
 	<tape name="input tape" type="LEGO">
 		<master mac-address="00:16:53:13:53:BB">IPS_03</master>
 		<slave mac-address="00:16:53:0F:DB:8E">NXT_03</slave>
