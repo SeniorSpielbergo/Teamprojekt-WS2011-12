@@ -185,16 +185,16 @@ public class TuringMachine {
 			NodeList inputList = tapeElement.getElementsByTagName("input");
 			Node inputNode = null;
 			for (int j=0; j < inputList.getLength(); i++) {
+				if (inputNode != null && inputList.item(0).getNodeType() != Node.ELEMENT_NODE ) {
+					throw new IOException("Multiple input words for tape '" + tapeName + "' are not allowed.");
+				}
 				inputNode = inputList.item(i);
 				if (inputNode.getNodeType() != Node.ELEMENT_NODE) {
 					break; //ignore attributes etc.
 				}
-				if (inputNode != null) {
-					throw new IOException("Multiple input words for tape " + tapeName + " are not allowed.");
-				}
 			}
 			if (inputNode == null) {
-				throw new IOException("Input word missing for tape " + tapeName + ".");
+				throw new IOException("Input word missing for tape '" + tapeName + "'.");
 			}
 			Element inputElement = (Element) inputNode;
 
@@ -204,8 +204,8 @@ public class TuringMachine {
 				if (inputSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
 					String symbolString = inputSymbolNode.getTextContent();
 					if (inputSymbolNode.getTextContent().length() != 1) {
-						throw new IOException("Expected exactly one character per symbol in input word of tape " 
-								+ tapeName + " but found the string '" + symbolString + "' with a length of "
+						throw new IOException("Expected exactly one character per symbol in input word of tape '" 
+								+ tapeName + "' but found the string '" + symbolString + "' with a length of "
 								+ symbolString.length() + " instead.");
 					}
 					inputWord += inputSymbolNode.getTextContent().charAt(0);

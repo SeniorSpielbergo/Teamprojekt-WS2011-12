@@ -187,9 +187,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 	
 	public void simulate() {
-		System.out.println(this.currentMachine);
-		ArrayList<Tape> tapes = new ArrayList<Tape>();
-		
+		System.out.println(this.currentMachine);		
 		//create tapes and write input
 		try {
 			//TODO: remove old code
