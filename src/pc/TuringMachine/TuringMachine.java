@@ -152,13 +152,13 @@ public class TuringMachine {
 			Node tapeNode = tapeList.item(i);
 
 			if (tapeNode.getNodeType() != Node.ELEMENT_NODE) {
-				break; //ignore whitespace etc.
+				break; //ignore attributes etc.
 			}
 			Element tapeElement = (Element) tapeNode;
 
 			//Get tape type and name
 			String tapeType = tapeElement.getAttribute("type");
-			String tapeName = tapeElement.getAttribute("name");
+			String tapeName = InOut.getTagValue("name", tapeElement);
 
 			//Get input word
 			String inputWord = "";
@@ -168,7 +168,7 @@ public class TuringMachine {
 			for (int j=0; j < inputList.getLength(); i++) {
 				inputNode = inputList.item(i);
 				if (inputNode.getNodeType() != Node.ELEMENT_NODE) {
-					break; //ignore whitespace etc.
+					break; //ignore attributes etc.
 				}
 				if (inputNode != null) {
 					throw new IOException("Multiple input words for tape " + tapeName + " are not allowed.");
@@ -214,9 +214,18 @@ public class TuringMachine {
 			tape.setInputWord(inputWord);
 			this.tapes.add(tape);
 		} //end for (next tape)
+		
+		//Check if tape count attribute matches the number of tapes
+		String machineTapesCountString = doc.getDocumentElement().getAttribute("tapes");
+		int machineTapesCount = Integer.parseInt(machineTapesCountString);
+		
+		if (machineTapesCount != this.tapes.size()) {
+			throw new IOException("The tapes count attribute of the machine did not match the number of tapes actually defined (attribute is " 
+					+ machineTapesCountString + " but " + this.tapes.size() + " tapes were defined).");
+		}
 	}
 
-	public void loadStates(Document doc) {
+	public void loadStates(Document doc) throws IOException {
 		// get list of nodes
 		NodeList stateList = doc.getElementsByTagName("state");
 		ArrayList<State> states = new ArrayList<State>();
@@ -237,7 +246,7 @@ public class TuringMachine {
 				else if (typeString.equals("final")) {
 					type = State.Type.FINAL;
 				}
-				String name = getTagValue("name", currentElement);
+				String name = InOut.getTagValue("name", currentElement);
 				State tempState = new State(id, name, type);
 				states.add(tempState);
 
@@ -377,7 +386,7 @@ public class TuringMachine {
 		String str = "";
 		str += "TM name: " + this.getName() + ", ";
 		str += "Tapes count:" + this.getTapes() + "\n";
-		str += "Input: " + initial + "\n";
+		str += "Tapes: " + tapes + "\n";
 		str += "States: " + states + "\n";
 		str += "Edges:\n" + edges + "\n";
 		return str;

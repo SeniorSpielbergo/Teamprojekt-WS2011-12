@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="test" tapes="1" xml-version="2">
-	<tape name="Primary tape" type="console">
+	<tape type="console">
+		<name>Primary tape</name>
 		<input>
 			<symbol>#</symbol>
 			<symbol>0</symbol>

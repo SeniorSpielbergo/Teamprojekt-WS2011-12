@@ -1,6 +1,12 @@
 import java.lang.String;
 import java.util.ArrayList;
+
+import Tape.ConsoleTape;
+import Tape.Tape;
+import Tape.TapeException;
 import TuringMachine.*;
+import TuringMachine.Edge;
+import TuringMachine.State;
 
 /** This class provides a test program for InOut.java
  * 
@@ -32,21 +38,28 @@ public class Test {
 		transition.add(t0);
 		Edge e0 = new Edge(n0, n1, transition);
 		ArrayList<Edge> edges = new ArrayList<Edge>();
-		ArrayList<ArrayList<Character>> outerInitial= new ArrayList<ArrayList<Character>>();
+		ArrayList<Tape> tapes = new ArrayList<Tape>();
 		for (int i = 0; i < 4; i++) {
-			ArrayList<Character> innerInitial = new ArrayList<Character>();
-			innerInitial.add('a');
-			innerInitial.add('b');
-			innerInitial.add('c');
-			innerInitial.add('d');
-			outerInitial.add(innerInitial);
+			ConsoleTape tape = new ConsoleTape();
+			try {
+				tape.setInputWord("abcd");
+			}
+			catch (TapeException e) {
+				e.printStackTrace();
+			}
 		}
 		edges.add(e0);
 		String machineName = "test";
-		TuringMachine machine = new TuringMachine(states, edges, machineName, 4, outerInitial);
+		TuringMachine machine = new TuringMachine(machineName, states, edges, new ArrayList<Tape>());
 		
 		InOut.writeXMLToFile("example.xml", machine);
-		TuringMachine machine2 = InOut.readXMLFromFile("TMadd.xml");
+		TuringMachine machine2 = null;
+		try {
+			machine2 = TuringMachine.loadFromXML("TMadd.xml");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		InOut.writeLatexToFile("example.tex", machine2);
 	}
 	

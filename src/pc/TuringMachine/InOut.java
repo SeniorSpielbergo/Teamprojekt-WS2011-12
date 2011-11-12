@@ -395,12 +395,32 @@ public class InOut {
 	 * @param currentElement The current element you want to read from
 	 * @return The value of that tag
 	 */
-	private static String getTagValue(String tag, Element currentElement) {
-		NodeList nodeList = currentElement.getElementsByTagName(tag).item(0).getChildNodes();
+	public static String getTagValue(String tag, Element currentElement) throws IOException {
+		NodeList nodeList = currentElement.getElementsByTagName(tag);
+		if (nodeList.getLength() > 1) {
+			throw new IOException("The tag '" + tag + "' is ambigious because it was used multiple times on '" 
+					+ currentElement.getNodeName() + "'.");
+		}
+		if (nodeList.getLength() < 1) {
+			throw new IOException("Missing tag '" + tag + "' on '" + currentElement.getNodeName() + "'.");
+		}
+		NodeList childList = nodeList.item(0).getChildNodes();
 
-		Node nodeValue = (Node) nodeList.item(0);
-
-		return nodeValue.getNodeValue();
+		Node child = null;
+		for (int i = 0; i < childList.getLength(); i++) {
+			child = childList.item(i);
+			if (child.getNodeType() != Node.TEXT_NODE) {
+				break; //ignore attributes etc.
+			}
+		}
+		
+		if (child != null) {
+			return child.getNodeValue();
+		}
+		else {
+			System.out.println("WARNING: Tag '" + tag + "' on '" + currentElement.getNodeName() + "' is empty.");
+			return "";
+		}
 	}
 
 }
