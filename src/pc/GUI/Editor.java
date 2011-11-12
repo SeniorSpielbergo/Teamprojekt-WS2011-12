@@ -230,18 +230,6 @@ public class Editor extends JFrame implements ActionListener {
 		    ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
 		}
 	}
-	
-	public void writeInputWordToTape(Tape t, ArrayList<Character> input) throws TapeException{
-		System.out.println("Input length: " + input.size());
-		for (Character c : input) {
-			t.write(c);
-			t.moveRight();
-		}
-		for (int i = 0; i < input.size(); i++) {
-			t.moveLeft();
-		}
-		
-	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == newAction) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="test" tapes="1">
-	<input>
-		<tape>
+	<tape name="Primary tape" type="console">
+		<input>
 			<symbol>#</symbol>
 			<symbol>0</symbol>
 	        <symbol>0</symbol>
@@ -9,9 +9,9 @@
 	        <symbol>0</symbol>
 	        <symbol>0</symbol>
 	        <symbol>#</symbol>
-		</tape>
-	</input>
-	 <state id="0" type="start">
+		</input>
+	</tape>
+	<state id="0" type="start">
         <name>qS</name>
     </state>
     <state id="1" type="normal">

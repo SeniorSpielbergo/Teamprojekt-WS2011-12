@@ -69,17 +69,17 @@ public class TuringMachine {
 	 * Returns the initial configuration for the Turing machine's tapes
 	 * @return Initial configuration for the Turing machine's tapes
 	 */
-//	public ArrayList<ArrayList<Character>> getInitial() {
-//		return this.initial;
-//	}
+	//	public ArrayList<ArrayList<Character>> getInitial() {
+	//		return this.initial;
+	//	}
 
-//	public String getInput(int i) {
-//		String input = "";
-//		for (int j = 0; j < getInitial().get(i).size(); j++){
-//			input = input + getInitial().get(i).get(j);
-//		}
-//		return input;
-//	}
+	//	public String getInput(int i) {
+	//		String input = "";
+	//		for (int j = 0; j < getInitial().get(i).size(); j++){
+	//			input = input + getInitial().get(i).get(j);
+	//		}
+	//		return input;
+	//	}
 
 	/**
 	 * Returns the Turing machine's states
@@ -107,6 +107,7 @@ public class TuringMachine {
 			throw new IOException("Wrong file extension of file '" + filename + "'. Must be '.xml'");
 		}
 
+		//parse document
 		File file = new File(filename);
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		Document doc = null;
@@ -119,12 +120,12 @@ public class TuringMachine {
 			ioex.initCause(e);
 			throw ioex;
 		}
-
 		doc.getDocumentElement().normalize();
 
 		// read Turing machine's name
 		String machineName = doc.getDocumentElement().getAttribute("name");
 
+		//load the rest
 		TuringMachine machine = new TuringMachine(machineName);
 		machine.loadTapeConfig(doc);
 		machine.loadStates(doc);
@@ -138,206 +139,207 @@ public class TuringMachine {
 		int numberTapes = Integer.parseInt(numberTapesString);
 
 		// get list of nodes
-		NodeList inputList = doc.getElementsByTagName("input");
-		ArrayList<ArrayList<Character>> input = new ArrayList<ArrayList<Character>>();
-		for (int i = 0; i < inputList.getLength(); i++) {
-			Node currentNode = inputList.item(i);
+		NodeList tapeList = doc.getElementsByTagName("tape");
+		for (int i = 0; i < tapeList.getLength(); i++) {
+			Node tapeNode = tapeList.item(i);
 
-			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element currentElement = (Element) currentNode;
+			if (tapeNode.getNodeType() != Node.ELEMENT_NODE) {
+				break; //ignore whitespace etc.
+			}
+			Element tapeElement = (Element) tapeNode;
 
-				// get tapes
-				NodeList tapeList = currentElement.getElementsByTagName("tape");
-				for (int j = 0; j < tapeList.getLength(); j++) {
-					Node currentTapeNode = tapeList.item(j);
-					if (currentTapeNode.getNodeType() == Node.ELEMENT_NODE) {
-						// TODO remove test output
-						System.out.println("== TAPE" + j + "==");
-						Element currentTapeElement = (Element) currentTapeNode;
-						NodeList tapeSymbolList = currentTapeElement.getChildNodes();
-						ArrayList<Character> tempInput = new ArrayList<Character>();
-						for (int k = 0; k < tapeSymbolList.getLength(); k++) {
-							Node currentTapeSymbolNode = tapeSymbolList.item(k);
-							if (currentTapeSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-								char tempChar = currentTapeSymbolNode.getTextContent().charAt(0);
-								// TODO remove test output
-								System.out.println("input: " + tempChar);
-								tempInput.add(tempChar);
-							}
+			// get tapes
+			NodeList tapeList = currentElement.getElementsByTagName("tape");
+			for (int j = 0; j < tapeList.getLength(); j++) {
+				Node currentTapeNode = tapeList.item(j);
+				if (currentTapeNode.getNodeType() == Node.ELEMENT_NODE) {
+					// TODO remove test output
+					System.out.println("== TAPE" + j + "==");
+					Element currentTapeElement = (Element) currentTapeNode;
+					NodeList tapeSymbolList = currentTapeElement.getChildNodes();
+					ArrayList<Character> tempInput = new ArrayList<Character>();
+					for (int k = 0; k < tapeSymbolList.getLength(); k++) {
+						Node currentTapeSymbolNode = tapeSymbolList.item(k);
+						if (currentTapeSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+							char tempChar = currentTapeSymbolNode.getTextContent().charAt(0);
+							// TODO remove test output
+							System.out.println("input: " + tempChar);
+							tempInput.add(tempChar);
 						}
-						input.add(tempInput);
 					}
+					input.add(tempInput);
 				}
-
 			}
+
 		}
 	}
+}
 
-	public void loadStates(Document doc) {
-		// get list of nodes
-		NodeList stateList = doc.getElementsByTagName("state");
-		ArrayList<State> states = new ArrayList<State>();
-		for (int i = 0; i < stateList.getLength(); i++) {
-			Node currentNode = stateList.item(i);
+public void loadStates(Document doc) {
+	// get list of nodes
+	NodeList stateList = doc.getElementsByTagName("state");
+	ArrayList<State> states = new ArrayList<State>();
+	for (int i = 0; i < stateList.getLength(); i++) {
+		Node currentNode = stateList.item(i);
 
-			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element currentElement = (Element) currentNode;
-				String id = currentElement.getAttribute("id");
-				State.Type type = null;
-				String typeString = currentElement.getAttribute("type");
-				if (typeString.equals("start")) {
-					type = State.Type.START;
-				}
-				else if (typeString.equals("normal")) {
-					type = State.Type.NORMAL;
-				}
-				else if (typeString.equals("final")) {
-					type = State.Type.FINAL;
-				}
-				String name = getTagValue("name", currentElement);
-				State tempState = new State(id, name, type);
-				states.add(tempState);
-
-				// TODO remove test output
-				System.out.println("\n== State " + id + " ==\n");
-				System.out.println("id: " + id);
-				System.out.println("name: " + name);
-				System.out.println("type: " + type);
+		if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element currentElement = (Element) currentNode;
+			String id = currentElement.getAttribute("id");
+			State.Type type = null;
+			String typeString = currentElement.getAttribute("type");
+			if (typeString.equals("start")) {
+				type = State.Type.START;
 			}
+			else if (typeString.equals("normal")) {
+				type = State.Type.NORMAL;
+			}
+			else if (typeString.equals("final")) {
+				type = State.Type.FINAL;
+			}
+			String name = getTagValue("name", currentElement);
+			State tempState = new State(id, name, type);
+			states.add(tempState);
+
+			// TODO remove test output
+			System.out.println("\n== State " + id + " ==\n");
+			System.out.println("id: " + id);
+			System.out.println("name: " + name);
+			System.out.println("type: " + type);
 		}
 	}
+}
 
-	public void loadEdges(Document doc) {
-		// get list of edges
-		NodeList edgeList = doc.getElementsByTagName("edge");
-		ArrayList<Edge> edges = new ArrayList<Edge>();
-		ArrayList<Transition> transitions = new ArrayList<Transition>();
-		for (int i = 0; i < edgeList.getLength(); i++) {
-			Node currentNode = edgeList.item(i);
+public void loadEdges(Document doc) {
+	// get list of edges
+	NodeList edgeList = doc.getElementsByTagName("edge");
+	ArrayList<Edge> edges = new ArrayList<Edge>();
+	ArrayList<Transition> transitions = new ArrayList<Transition>();
+	for (int i = 0; i < edgeList.getLength(); i++) {
+		Node currentNode = edgeList.item(i);
 
-			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element currentElement = (Element) currentNode;
-				// get from an to
-				State from = null;
-				State to = null;
-				for (int j = 0; j < states.size(); j++) {
-					if (states.get(j).getId().equals(currentElement.getAttribute("from"))) {
-						from = states.get(j);
-					}
-					if (states.get(j).getId().equals(currentElement.getAttribute("to"))) {
-						to = states.get(j);
-					}
+		if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element currentElement = (Element) currentNode;
+			// get from an to
+			State from = null;
+			State to = null;
+			for (int j = 0; j < states.size(); j++) {
+				if (states.get(j).getId().equals(currentElement.getAttribute("from"))) {
+					from = states.get(j);
 				}
-				// TODO remove test output
-				System.out.println("\n== Edge " + i + " ==\n");
-				System.out.println("from: " + from.getId());
-				System.out.println("to: " + to.getId());
+				if (states.get(j).getId().equals(currentElement.getAttribute("to"))) {
+					to = states.get(j);
+				}
+			}
+			// TODO remove test output
+			System.out.println("\n== Edge " + i + " ==\n");
+			System.out.println("from: " + from.getId());
+			System.out.println("to: " + to.getId());
 
-				// get transitions
-				NodeList transitionList = currentElement.getElementsByTagName("transition");
-				ArrayList<Transition> transition = new ArrayList<Transition>();
-				for (int j = 0; j < transitionList.getLength(); j++) {
-					transition.clear();
-					Node currentTransitionNode = transitionList.item(j);
-					String id;
-					ArrayList<Character> read = new ArrayList<Character>();
-					ArrayList<Character> write = new ArrayList<Character>();
-					ArrayList<Character> action = new ArrayList<Character>();
-					if (currentTransitionNode.getNodeType() == Node.ELEMENT_NODE) {
-						Element currentTransitionElement = (Element) currentTransitionNode;
-						id = currentTransitionElement.getAttribute("id");
-						// TODO remove test output
-						System.out.println("== TRANSITION" + id + "==");
+			// get transitions
+			NodeList transitionList = currentElement.getElementsByTagName("transition");
+			ArrayList<Transition> transition = new ArrayList<Transition>();
+			for (int j = 0; j < transitionList.getLength(); j++) {
+				transition.clear();
+				Node currentTransitionNode = transitionList.item(j);
+				String id;
+				ArrayList<Character> read = new ArrayList<Character>();
+				ArrayList<Character> write = new ArrayList<Character>();
+				ArrayList<Character> action = new ArrayList<Character>();
+				if (currentTransitionNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element currentTransitionElement = (Element) currentTransitionNode;
+					id = currentTransitionElement.getAttribute("id");
+					// TODO remove test output
+					System.out.println("== TRANSITION" + id + "==");
 
-						// get read
-						NodeList readList = currentTransitionElement.getElementsByTagName("read");
-						for (int k = 0; k < readList.getLength(); k++) {
-							Node currentReadNode = readList.item(k);
-							if (currentReadNode.getNodeType() == Node.ELEMENT_NODE) {
-								Element currentReadElement = (Element) currentReadNode;
-								NodeList readSymbolList = currentReadElement.getChildNodes();
-								for (int l = 0; l < readSymbolList.getLength(); l++) {
-									Node currentReadSymbolNode = readSymbolList.item(l);
-									if (currentReadSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-										read.add(currentReadSymbolNode.getTextContent().charAt(0));
-										// TODO remove test output
-										System.out.println("read: " + currentReadSymbolNode.getTextContent());
-									}
+					// get read
+					NodeList readList = currentTransitionElement.getElementsByTagName("read");
+					for (int k = 0; k < readList.getLength(); k++) {
+						Node currentReadNode = readList.item(k);
+						if (currentReadNode.getNodeType() == Node.ELEMENT_NODE) {
+							Element currentReadElement = (Element) currentReadNode;
+							NodeList readSymbolList = currentReadElement.getChildNodes();
+							for (int l = 0; l < readSymbolList.getLength(); l++) {
+								Node currentReadSymbolNode = readSymbolList.item(l);
+								if (currentReadSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+									read.add(currentReadSymbolNode.getTextContent().charAt(0));
+									// TODO remove test output
+									System.out.println("read: " + currentReadSymbolNode.getTextContent());
 								}
 							}
 						}
+					}
 
-						// get write
-						NodeList writeList = currentTransitionElement.getElementsByTagName("write");
-						for (int k = 0; k < writeList.getLength(); k++) {
-							Node currentWriteNode = writeList.item(k);
-							if (currentWriteNode.getNodeType() == Node.ELEMENT_NODE) {
-								Element currentWriteElement = (Element) currentWriteNode;
-								NodeList writeSymbolList = currentWriteElement.getChildNodes();
-								for (int l = 0; l < writeSymbolList.getLength(); l++) {
-									Node currentWriteSymbolNode = writeSymbolList.item(l);
-									if (currentWriteSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-										write.add(currentWriteSymbolNode.getTextContent().charAt(0));
-										// TODO remove test output
-										System.out.println("write: " + currentWriteSymbolNode.getTextContent());
-									}
+					// get write
+					NodeList writeList = currentTransitionElement.getElementsByTagName("write");
+					for (int k = 0; k < writeList.getLength(); k++) {
+						Node currentWriteNode = writeList.item(k);
+						if (currentWriteNode.getNodeType() == Node.ELEMENT_NODE) {
+							Element currentWriteElement = (Element) currentWriteNode;
+							NodeList writeSymbolList = currentWriteElement.getChildNodes();
+							for (int l = 0; l < writeSymbolList.getLength(); l++) {
+								Node currentWriteSymbolNode = writeSymbolList.item(l);
+								if (currentWriteSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+									write.add(currentWriteSymbolNode.getTextContent().charAt(0));
+									// TODO remove test output
+									System.out.println("write: " + currentWriteSymbolNode.getTextContent());
 								}
 							}
 						}
+					}
 
-						// get action
-						NodeList actionList = currentTransitionElement.getElementsByTagName("action");
-						for (int k = 0; k < actionList.getLength(); k++) {
-							Node currentActionNode = actionList.item(k);
-							if (currentActionNode.getNodeType() == Node.ELEMENT_NODE) {
-								Element currentActionElement = (Element) currentActionNode;
-								NodeList actionSymbolList = currentActionElement.getChildNodes();
-								for (int l = 0; l < actionSymbolList.getLength(); l++) {
-									Node currentActionSymbolNode = actionSymbolList.item(l);
-									if (currentActionSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-										action.add(currentActionSymbolNode.getTextContent().charAt(0));
-										// TODO remove test output
-										System.out.println("direction: " + currentActionSymbolNode.getTextContent());
-									}
+					// get action
+					NodeList actionList = currentTransitionElement.getElementsByTagName("action");
+					for (int k = 0; k < actionList.getLength(); k++) {
+						Node currentActionNode = actionList.item(k);
+						if (currentActionNode.getNodeType() == Node.ELEMENT_NODE) {
+							Element currentActionElement = (Element) currentActionNode;
+							NodeList actionSymbolList = currentActionElement.getChildNodes();
+							for (int l = 0; l < actionSymbolList.getLength(); l++) {
+								Node currentActionSymbolNode = actionSymbolList.item(l);
+								if (currentActionSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+									action.add(currentActionSymbolNode.getTextContent().charAt(0));
+									// TODO remove test output
+									System.out.println("direction: " + currentActionSymbolNode.getTextContent());
 								}
 							}
 						}
+					}
 
-						Transition tempTransition = new Transition(id, read, write, action);
-						transition.add(tempTransition);
+					Transition tempTransition = new Transition(id, read, write, action);
+					transition.add(tempTransition);
+				}
+			}
+
+			Edge tempEdge = new Edge(from, to, transition);
+			edges.add(tempEdge);
+
+			// write edges that start at a state
+			for (int j = 0; j < states.size(); j++) {
+				ArrayList<Edge> tempStartEdges = new ArrayList<Edge>();
+				for (int k = 0; k < edges.size(); k++) {
+					State tempStateFrom = edges.get(k).getFrom(); 
+					if (tempStateFrom.getId().equals(states.get(j).getId())) {
+						tempStartEdges.add(edges.get(k));
 					}
 				}
-
-				Edge tempEdge = new Edge(from, to, transition);
-				edges.add(tempEdge);
-
-				// write edges that start at a state
-				for (int j = 0; j < states.size(); j++) {
-					ArrayList<Edge> tempStartEdges = new ArrayList<Edge>();
-					for (int k = 0; k < edges.size(); k++) {
-						State tempStateFrom = edges.get(k).getFrom(); 
-						if (tempStateFrom.getId().equals(states.get(j).getId())) {
-							tempStartEdges.add(edges.get(k));
-						}
-					}
-					states.get(j).setEdge(tempStartEdges);
-				}
+				states.get(j).setEdge(tempStartEdges);
 			}
 		}
 	}
+}
 
-	/**
-	 * Gives a string representation of the Turing Machine
-	 */
-	@Override
-	public String toString() {
-		String str = "";
-		str += "TM name: " + this.getName() + ", ";
-		str += "Tapes count:" + this.getTapes() + "\n";
-		str += "Input: " + initial + "\n";
-		str += "States: " + states + "\n";
-		str += "Edges:\n" + edges + "\n";
-		return str;
-	}
+/**
+ * Gives a string representation of the Turing Machine
+ */
+@Override
+public String toString() {
+	String str = "";
+	str += "TM name: " + this.getName() + ", ";
+	str += "Tapes count:" + this.getTapes() + "\n";
+	str += "Input: " + initial + "\n";
+	str += "States: " + states + "\n";
+	str += "Edges:\n" + edges + "\n";
+	return str;
+}
 
 }

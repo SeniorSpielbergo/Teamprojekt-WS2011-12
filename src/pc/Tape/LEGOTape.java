@@ -52,6 +52,8 @@ public class LEGOTape extends Tape {
 			this.master.connect();
 			this.slave.connect();
 			this.currentSymbol = 'n';
+			//TODO: write input word to tape
+
 			ready = true;
 			System.out.println(this.name + ": Tape ready.");
 
@@ -60,6 +62,7 @@ public class LEGOTape extends Tape {
 			ready = false;
 			throw new TapeException(this, "Tape couldn't be initialized.", e);
 		}
+		
 	}
 	
 	/**

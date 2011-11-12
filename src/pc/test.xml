@@ -1,78 +1,86 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="test" tapes="4">
-	<input>
-		<tape>
+	<tape name="input tape" type="LEGO">
+		<master mac-address="00:16:53:13:53:BB">IPS_03</master>
+		<slave mac-address="00:16:53:0F:DB:8E">NXT_03</slave>
+		<input>
 			<symbol>0</symbol>
-	        <symbol>1</symbol>
-	        <symbol>2</symbol>
-	        <symbol>2</symbol>
-	        <symbol>2</symbol>
-		</tape>
-		<tape>
+			<symbol>1</symbol>
+			<symbol>2</symbol>
+			<symbol>2</symbol>
+			<symbol>2</symbol>
+		</input>
+	</tape>
+	<tape name="second tape" type="console">
+		<input>
 			<symbol>#</symbol>
-	        <symbol>1</symbol>
-	        <symbol>#</symbol>
-	        <symbol>1</symbol>
-	        <symbol>#</symbol>
-	        <symbol>#</symbol>
-		</tape>
-		<tape>
+			<symbol>1</symbol>
 			<symbol>#</symbol>
-	        <symbol>1</symbol>
-	        <symbol>#</symbol>
-	        <symbol>1</symbol>
-	        <symbol>#</symbol>
-	        <symbol>#</symbol>
-		</tape>
-		<tape>
+			<symbol>1</symbol>
 			<symbol>#</symbol>
-	        <symbol>1</symbol>
-	        <symbol>#</symbol>
-	        <symbol>1</symbol>
-	        <symbol>#</symbol>
-	        <symbol>#</symbol>
-		</tape>
-	</input>
-    <state id="0" type="start">
-        <name>q0</name>
-    </state>
-    <state id="1" type="final">
-        <name>q2</name>
-    </state>
-    <edge from="0" to="1">
-    	<transition id="0">
-	    	<read>
-	            <symbol>0</symbol>
-	            <symbol>1</symbol>
-	            <symbol>2</symbol>
-	        </read>
-	        <write>
-	        	<symbol>0</symbol>
-	            <symbol>1</symbol>
-	            <symbol>2</symbol>
-	        </write>
-	        <action>
-	        	<direction>L</direction>
-	        	<direction>N</direction>
-	        	<direction>R</direction>
-	        </action>
-    	</transition>
-    	<transition id="1">
-	    	<read>
-	            <symbol>0</symbol>
-	            <symbol>1</symbol>
-	            <symbol>2</symbol>
-	        </read>
-	        <write>
-	        	<symbol>0</symbol>
-	            <symbol>1</symbol>
-	            <symbol>2</symbol>
-	        </write>
-	        <action>
-	        	<direction>L</direction>
-	        	<direction>N</direction>
-	        	<direction>R</direction>
-	        </action>
-    	</transition>
-    </edge>
+			<symbol>#</symbol>
+		</input>
+	</tape>
+	<tape name="third tape" type="console">
+		<input>
+			<symbol>#</symbol>
+			<symbol>1</symbol>
+			<symbol>#</symbol>
+			<symbol>1</symbol>
+			<symbol>#</symbol>
+			<symbol>#</symbol>
+		</input>
+	</tape>
+	<tape name="fourth tape" type="console">
+		<input>
+			<symbol>#</symbol>
+			<symbol>1</symbol>
+			<symbol>#</symbol>
+			<symbol>1</symbol>
+			<symbol>#</symbol>
+			<symbol>#</symbol>
+		</input>
+	</tape>
+	<state id="0" type="start">
+		<name>q0</name>
+	</state>
+	<state id="1" type="final">
+		<name>q2</name>
+	</state>
+	<edge from="0" to="1">
+		<transition id="0">
+			<read>
+				<symbol>0</symbol>
+				<symbol>1</symbol>
+				<symbol>2</symbol>
+			</read>
+			<write>
+				<symbol>0</symbol>
+				<symbol>1</symbol>
+				<symbol>2</symbol>
+			</write>
+			<action>
+				<direction>L</direction>
+				<direction>N</direction>
+				<direction>R</direction>
+			</action>
+		</transition>
+		<transition id="1">
+			<read>
+				<symbol>0</symbol>
+				<symbol>1</symbol>
+				<symbol>2</symbol>
+			</read>
+			<write>
+				<symbol>0</symbol>
+				<symbol>1</symbol>
+				<symbol>2</symbol>
+			</write>
+			<action>
+				<direction>L</direction>
+				<direction>N</direction>
+				<direction>R</direction>
+			</action>
+		</transition>
+	</edge>
 </machine>

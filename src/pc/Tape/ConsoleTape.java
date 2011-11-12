@@ -31,7 +31,19 @@ public class ConsoleTape extends Tape {
 	 */
 	public void init() throws TapeException {
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
+		
+		//write input word to tape
+		for (int i = 0; i < this.inputWord.length(); i++) {
+			this.write(this.inputWord.charAt(i));
+			this.moveRight();
+		}
+		for (int i = 0; i < this.inputWord.length(); i++) {
+			this.moveLeft();
+		}
+		
+		//set ready
 		this.ready = true;
+		System.out.println(this.name + ": Tape ready.");
 	}
 
 	/**
