@@ -14,6 +14,7 @@ import org.w3c.dom.NodeList;
 import Tape.ConsoleTape;
 import Tape.LEGOTape;
 import Tape.Tape;
+import Tape.TapeException;
 
 /** This class represents a Turing machine with it's states, edges and transitions
  * 
@@ -49,12 +50,26 @@ public class TuringMachine {
 		this.name = name;
 		this.tapes = tapes;
 	}
+	
+	public void initTapes() throws TapeException {
+		//init tapes
+		for (Tape tape : this.tapes) {
+			tape.init();
+		}
+	}
+	
+	public void shutdownTapes() throws TapeException {
+		//init tapes
+		for (Tape tape : this.tapes) {
+			tape.shutdown();
+		}
+	}
+	
 
 	/**
 	 * Returns the Turing machine's name
 	 * @return The Turing machine's name
 	 */
-
 	public String getName() {
 		return this.name;
 	}
@@ -65,6 +80,10 @@ public class TuringMachine {
 	 */
 	public ArrayList<Tape> getTapes() {
 		return this.tapes;
+	}
+	
+	public int getNumberOfTapes() {
+		return this.tapes.size();
 	}
 
 	/**

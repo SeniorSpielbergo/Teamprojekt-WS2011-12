@@ -1,17 +1,18 @@
 package TuringMachine;
+import java.io.IOException;
 import java.util.ArrayList;
 import Tape.*;
 
 public class TestSimulation {
 
-	public static void main (String[] args) throws TapeException{
+	public static void main (String[] args) throws TapeException, IOException{
 		ArrayList<Tape> tapes = new ArrayList<Tape>();
 		ConsoleTape tape = new ConsoleTape();
 		tape.init();
 		tapes.add(tape);
-		TuringMachine machine = InOut.readXMLFromFile("TMadd.xml");
+		TuringMachine machine = TuringMachine.loadFromXML("TMadd.xml");
 		System.out.println(machine.getTapes());
-		Simulation simulation = new Simulation(machine, tapes);
+		Simulation simulation = new Simulation(machine);
 
 		
 		try{

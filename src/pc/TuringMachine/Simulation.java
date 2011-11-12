@@ -10,15 +10,13 @@ public class Simulation {
 	State actualState, startState, nextState;
 	ArrayList<Tape> tapes = null;
 	ArrayList<Character> currentSymbols = new ArrayList<Character>();
-	int numberOfTapes;
 
 
-
-	public Simulation(TuringMachine machine, ArrayList<Tape> tapes){
+	public Simulation(TuringMachine machine) throws TapeException{
 		this.machine = machine;
-		this.tapes = tapes;
-		this.numberOfTapes = machine.getTapes();
-		for( int i =0; i < machine.getStates().size(); i++){
+		this.tapes = machine.getTapes();
+		
+		for( int i=0; i < machine.getStates().size(); i++){
 			if(machine.getStates().get(i).getType() == State.Type.START){
 				startState = machine.getStates().get(i);
 				actualState = startState;
@@ -30,17 +28,16 @@ public class Simulation {
 		this.findEdge();
 	}
 
-
 	public void runMachine() throws TapeException{
 		if(actualState.getType() != State.Type.FINAL){
 			currentSymbols.clear();
-			for(int i = 0; i < numberOfTapes; i++)
+			for(int i = 0; i < machine.getNumberOfTapes(); i++)
 				currentSymbols.add(i,this.tapes.get(i).read());
 
 			Transition rightLabel = getRightLabel();
 			System.out.println("rightLabel: "+rightLabel);
 
-			for(int i = 0; i < numberOfTapes; i++){
+			for(int i = 0; i < machine.getNumberOfTapes(); i++){
 				tapes.get(i).write(rightLabel.getWrite().get(i));
 
 				switch(rightLabel.getAction().get(i)){
@@ -80,7 +77,7 @@ public class Simulation {
 			for(int j = 0; j < e.getTransition().size(); j++){
 				System.out.println(e.getTransition().get(j).getId() +" ");
 				System.out.println("Groeße read: "+e.getTransition().get(j).getRead().size());
-				for(int i = 0; i < numberOfTapes; i++){
+				for(int i = 0; i < machine.getNumberOfTapes(); i++){
 					System.out.println("Transition-Symbol: " + e.getTransition().get(j).getRead().get(i));
 					System.out.println("Tape symbol: " + currentSymbols.get(i));
 					//hier liegt vielleicht irgendwo der Fehler

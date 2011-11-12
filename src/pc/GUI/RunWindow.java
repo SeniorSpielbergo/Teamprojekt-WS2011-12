@@ -27,7 +27,7 @@ public class RunWindow extends JFrame implements ActionListener {
 	
 	public RunWindow(TuringMachine machine) {
 		this.machine = machine;
-		initRunWindow(machine.getTapes());
+		initRunWindow(machine.getNumberOfTapes());
 		
 		InputMap inputMap = runButton.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
 		KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
@@ -71,7 +71,7 @@ public class RunWindow extends JFrame implements ActionListener {
 			tapePanel[i].add(combo[i]);
 			inputPanel[i].add(input[i]);
 			comboContainer.add(tapePanel[i]);
-			input[i].setText(machine.getInput(i));
+			input[i].setText(machine.getTapes().get(i).getInputWord());
 			inputContainer.add(inputPanel[i]);
 		}
 		inputPane = new JScrollPane(inputContainer);
