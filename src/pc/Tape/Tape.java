@@ -69,6 +69,8 @@ public abstract class Tape {
 	 */
 	public abstract void test() throws TapeException; //TODO: remove
 	
+	public abstract void writeInputWord() throws TapeException;
+	
 	/**
 	 * Checks if the tape has been initialized
 	 * @return Returns true, if the tape has been initialized and false if not.

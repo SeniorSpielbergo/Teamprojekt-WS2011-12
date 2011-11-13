@@ -57,6 +57,7 @@ public class TuringMachine {
 		//init tapes
 		for (Tape tape : this.tapes) {
 			tape.init();
+			tape.writeInputWord();
 		}
 	}
 	

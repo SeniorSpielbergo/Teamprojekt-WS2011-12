@@ -9,6 +9,9 @@ import java.io.*;
  */
 
 public class LEGOTape extends Tape {
+	public static final int MIN_POSITION = 0;
+	public static final int MAX_POSITION = 8;
+	
 	private MasterRobot master = null;
 	private SlaveRobot slave = null;
 	private char currentSymbol = 'n';
@@ -52,7 +55,6 @@ public class LEGOTape extends Tape {
 			this.master.connect();
 			this.slave.connect();
 			this.currentSymbol = 'n';
-			//TODO: write input word to tape
 
 			ready = true;
 			System.out.println(this.name + ": Tape ready.");
@@ -82,6 +84,25 @@ public class LEGOTape extends Tape {
 		}
 
 		ready = false;
+	}
+	
+	public void writeInputWord() throws TapeException {
+		if (this.position != 0) {
+			throw new TapeException(this, "Input word can only be written when at position 0");
+		}
+		//write input word to tape
+		for (int i = 0; i <= LEGOTape.MAX_POSITION; i++) {
+			if (i < this.inputWord.length()) {
+				this.write(this.inputWord.charAt(i));
+			}
+			else {
+				this.write('#'); //fill the rest of the tape with #
+			}
+			this.moveRight();
+		}
+		for (int i = LEGOTape.MAX_POSITION; i <= 0; i--) {
+			this.moveLeft();
+		}
 	}
 	
 	/**

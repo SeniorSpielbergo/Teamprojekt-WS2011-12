@@ -190,28 +190,6 @@ public class Editor extends JFrame implements ActionListener {
 		System.out.println(this.currentMachine);		
 		//create tapes and write input
 		try {
-			//TODO: remove old code
-//			for (int i=0; i < this.currentMachine.getTapes(); i++) {
-//				String type = JOptionPane.showInputDialog("Enter 'LEGO' or 'PC':");
-//				if (type.equals("LEGO")) {
-//					MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
-//					SlaveRobot nxt_03 = new SlaveRobot("NXT_03", "00:16:53:0F:DB:8E");
-//					Tape tape_lego = new LEGOTape(ips_03, nxt_03);
-//					tape_lego.init();
-//					tapes.add(tape_lego);
-//					this.writeInputWordToTape(tape_lego, this.currentMachine.getInitial().get(i));
-//				}
-//				else if (type.equals("PC")) {
-//					Tape tape_console = new ConsoleTape();
-//					tape_console.init();
-//					tapes.add(tape_console);
-//					this.writeInputWordToTape(tape_console, this.currentMachine.getInitial().get(i));
-//				}
-//				else {
-//				    ErrorDialog.showError("If you are too stupid to enter one of the words 'LEGO' or 'PC', you shouldn't use this program.");
-//					return;
-//				}
-//			}
 			this.currentMachine.initTapes();
 		}
 		catch (TapeException e){
