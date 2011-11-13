@@ -36,6 +36,7 @@ public class RunWindow extends JFrame implements ActionListener {
 		this.machine = machine;
 		initRunWindow(machine.getNumberOfTapes());
 		
+		// set enter and escape button listener
 		InputMap inputMap = runButton.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
 		KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
 		inputMap.put(enter, "ENTER");
@@ -46,10 +47,12 @@ public class RunWindow extends JFrame implements ActionListener {
 		runButton.getActionMap().put("ESC", new ClickAction(cancelButton));
 		cancelButton.addActionListener(this);
 		
+		// window title and size
 		setTitle("Run");
 		setSize(600, 250);
 		this.setResizable(false);
 		
+		// layout
 		Container contentPane = this.getContentPane();
 		BoxLayout inputLayout = new BoxLayout(inputContainer, BoxLayout.Y_AXIS);
 		inputContainer.setLayout(inputLayout);
@@ -94,7 +97,7 @@ public class RunWindow extends JFrame implements ActionListener {
 		inputPane = new JScrollPane(inputContainer);
 		comboPane = new JScrollPane(comboContainer);
 		contentPane.add(runCancelContainer, BorderLayout.AFTER_LAST_LINE);
-		// add to window and set layout
+		
 		tabbedPane.addTab("Input", inputPane);
 		tabbedPane.addTab("Tape settings", comboPane);
 		contentPane.add(tabbedPane);
