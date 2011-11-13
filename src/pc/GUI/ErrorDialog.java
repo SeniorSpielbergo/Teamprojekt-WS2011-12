@@ -120,8 +120,8 @@ public class ErrorDialog extends JDialog {
 			jTextAreaErrorMsgSmall.setEditable(false);
 			jTextAreaErrorMsgSmall.setLineWrap(true);
 			jTextAreaErrorMsgSmall.setWrapStyleWord(true);
-			jTextAreaErrorMsgSmall.setPreferredSize(new Dimension(300,40));
-			jTextAreaErrorMsgSmall.setMaximumSize(new Dimension(500,300));
+			jTextAreaErrorMsgSmall.setPreferredSize(new Dimension(400,60));
+			jTextAreaErrorMsgSmall.setMaximumSize(new Dimension(600,300));
 			jTextAreaErrorMsgSmall.setText(exception.getMessage());
 			jTextAreaErrorMsgSmall.setBackground(this.getBackground());
 			jPanelTop.add(jTextAreaErrorMsgSmall, BorderLayout.SOUTH);
