@@ -54,21 +54,31 @@ public class RunWindow extends JFrame implements ActionListener {
 		runCancelContainer.add(Box.createHorizontalGlue());
 		runCancelContainer.add(runButton);
 		
-		// initialize combo boxes
+		// initialize tape settings
 		for (int i = 0; i < combo.length; i++) {
+			String tapeType = this.machine.getTapes().get(i).getType();
 			combo[i] = new JComboBox();
-			tapeLabel[i] = new JLabel("Tape" + i + ":");
-			tapeName[i] = new JTextField(20);
+			tapeLabel[i] = new JLabel(this.machine.getTapes().get(i).getName());
+			tapeName[i] = new JTextField(this.machine.getTapes().get(i).getName(), 20);
 			tapePanel[i] = new JPanel();
 			inputPanel[i] = new JPanel();
 			input[i] = new JTextField(20);
 			
 			for (int j = 0; j < description.length; j++) {
 				combo[i].addItem(description[j]);
+				if (tapeType.equals("LEGO")) {
+					combo[i].setSelectedItem(description[0]);
+				}
+				else if (tapeType.equals("console")) {
+					combo[i].setSelectedItem(description[1]);
+				}
+				else if (tapeType.equals("gui")) {
+					combo[i].setSelectedItem(description[2]);
+				}
 			}
-			tapePanel[i].add(tapeLabel[i]);
 			tapePanel[i].add(tapeName[i]);
 			tapePanel[i].add(combo[i]);
+			inputPanel[i].add(tapeLabel[i]);
 			inputPanel[i].add(input[i]);
 			comboContainer.add(tapePanel[i]);
 			input[i].setText(machine.getTapes().get(i).getInputWord());

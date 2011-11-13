@@ -1,6 +1,7 @@
 package Tape;
 
 import java.util.*;
+import java.lang.String;
 
 /**
  * Implements a virtual tape and shows it on the console
@@ -35,6 +36,14 @@ public class ConsoleTape extends Tape {
 		//set ready
 		this.ready = true;
 		System.out.println(this.name + ": Tape ready.");
+	}
+	
+	/**
+	 * Returns the tape type
+	 * @return Returns "console"
+	 */
+	public String getType() {
+		return "console";
 	}
 
 	/**
