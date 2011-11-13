@@ -103,10 +103,19 @@ public abstract class Tape {
 		this.name = name;
 	}
 
+	/**
+	 * Get the input word
+	 * @return Input word
+	 */
 	public String getInputWord() {
 		return inputWord;
 	}
 
+	/**
+	 * Set the input word
+	 * @param inputWord New input word
+	 * @throws TapeException Exception if error occurs while setting input word
+	 */
 	public void setInputWord(String inputWord) throws TapeException {
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized. Input word can't be changed at this time anymore.");
 		this.inputWord = inputWord;
