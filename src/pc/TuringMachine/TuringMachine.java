@@ -129,6 +129,7 @@ public class TuringMachine {
 		}
 
 		//parse document
+		System.out.println("Loading file '" + filename + "...");
 		File file = new File(filename);
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		Document doc = null;
@@ -154,17 +155,17 @@ public class TuringMachine {
 
 		//load the rest
 		TuringMachine machine = new TuringMachine(machineName);
+		System.out.println("Loading tape configuration...");
 		machine.loadTapesConfig(doc);
+		System.out.println("Loading states...");
 		machine.loadStates(doc);
+		System.out.println("Loading edges and transitions...");
 		machine.loadEdges(doc);
 
 		return machine;
 	}
 
 	public void loadTapesConfig(Document doc) throws IOException{
-		String numberTapesString = doc.getDocumentElement().getAttribute("tapes");
-		int numberTapes = Integer.parseInt(numberTapesString);
-
 		//Iterate through a list of tape nodes
 		NodeList tapeList = doc.getElementsByTagName("tape");
 		for (int i = 0; i < tapeList.getLength(); i++) {
@@ -184,11 +185,11 @@ public class TuringMachine {
 
 			NodeList inputList = tapeElement.getElementsByTagName("input");
 			Node inputNode = null;
-			for (int j=0; j < inputList.getLength(); i++) {
+			for (int j=0; j < inputList.getLength(); j++) {
 				if (inputNode != null && inputList.item(0).getNodeType() != Node.ELEMENT_NODE ) {
 					throw new IOException("Multiple input words for tape '" + tapeName + "' are not allowed.");
 				}
-				inputNode = inputList.item(i);
+				inputNode = inputList.item(j);
 				if (inputNode.getNodeType() != Node.ELEMENT_NODE) {
 					break; //ignore attributes etc.
 				}
@@ -247,7 +248,6 @@ public class TuringMachine {
 	public void loadStates(Document doc) throws IOException {
 		// get list of nodes
 		NodeList stateList = doc.getElementsByTagName("state");
-		ArrayList<State> states = new ArrayList<State>();
 		for (int i = 0; i < stateList.getLength(); i++) {
 			Node currentNode = stateList.item(i);
 
@@ -281,8 +281,6 @@ public class TuringMachine {
 	public void loadEdges(Document doc) {
 		// get list of edges
 		NodeList edgeList = doc.getElementsByTagName("edge");
-		ArrayList<Edge> edges = new ArrayList<Edge>();
-		ArrayList<Transition> transitions = new ArrayList<Transition>();
 		for (int i = 0; i < edgeList.getLength(); i++) {
 			Node currentNode = edgeList.item(i);
 
