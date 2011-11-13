@@ -6,7 +6,7 @@ import javax.swing.*;
 
 import TuringMachine.*;
 
-public class RunWindow extends JFrame implements ActionListener {
+public class RunWindow extends JFrame implements ActionListener, KeyListener {
 	
 	static final long serialVersionUID = -3667258249137827980L;
 	private String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
@@ -70,6 +70,7 @@ public class RunWindow extends JFrame implements ActionListener {
 			combo[i] = new JComboBox();
 			tapeLabel[i] = new JLabel(this.machine.getTapes().get(i).getName());
 			tapeName[i] = new JTextField(this.machine.getTapes().get(i).getName(), 20);
+			tapeName[i].addKeyListener(this);
 			tapePanel[i] = new JPanel();
 			inputPanel[i] = new JPanel();
 			input[i] = new JTextField(20);
@@ -132,6 +133,20 @@ public class RunWindow extends JFrame implements ActionListener {
 		else if(e.getSource() == runButton) {
 			JOptionPane.showMessageDialog(null, "Not implemented yet!");
 		}
+	}
+	
+	public void keyReleased(KeyEvent e) {
+		for (int i = 0; i < tapeName.length; i++) {
+			tapeLabel[i].setText(tapeName[i].getText());
+		}
+	}
+	
+	public void keyPressed(KeyEvent e) {
+		
+	}
+	
+	public void keyTyped(KeyEvent e) {
+		
 	}
 	
 	/**
