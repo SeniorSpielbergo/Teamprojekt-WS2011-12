@@ -193,7 +193,7 @@ public class Editor extends JFrame implements ActionListener {
 			this.currentMachine.initTapes();
 		}
 		catch (TapeException e){
-		    ErrorDialog.showError("The initialization of the tapes failed because of a Tape exception (" + e.getMessage() + ").", e);
+		    ErrorDialog.showError("The initialization of the tapes failed because of a tape exception.", e);
 		    return;
 		}
 		catch (RuntimeException e){
@@ -207,7 +207,7 @@ public class Editor extends JFrame implements ActionListener {
 			sim.runMachine();
 		}
 		catch (TapeException e){
-		    ErrorDialog.showError("The simulation failed because of a Tape exception (" + e.getMessage() + ").", e);
+		    ErrorDialog.showError("The simulation failed because of a tape exception.", e);
 		}
 		catch (RuntimeException e){
 		    ErrorDialog.showError("The simulation failed because of an undefined exception.", e);

@@ -24,7 +24,9 @@ public class ErrorDialog extends JDialog {
 	private JButton jButtonToggleDetails;
 	private JScrollPane jScrollPaneException;
 	private JTextArea jTextAreaException;
-	private JTextArea jTextAreaErrorMsg;
+	private JTextArea jTextAreaErrorMsg;	
+	private JTextArea jTextAreaErrorMsgSmall;
+
 
 
 	/**
@@ -51,7 +53,7 @@ public class ErrorDialog extends JDialog {
 		jTextAreaErrorMsg.setEditable(false);
 		jTextAreaErrorMsg.setLineWrap(true);
 		jTextAreaErrorMsg.setWrapStyleWord(true);
-		jTextAreaErrorMsg.setPreferredSize(new Dimension(300,80));
+		jTextAreaErrorMsg.setPreferredSize(new Dimension(400,50));
 		jTextAreaErrorMsg.setMaximumSize(new Dimension(500,300));
 		jTextAreaErrorMsg.setText(msg);
 		jTextAreaErrorMsg.setFont(jTextAreaErrorMsg.getFont().deriveFont(
@@ -61,7 +63,7 @@ public class ErrorDialog extends JDialog {
 		jPanelTop = new JPanel();
 		jPanelTop.setLayout(new BorderLayout());
 		jPanelTop.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		jPanelTop.add(jTextAreaErrorMsg);
+		jPanelTop.add(jTextAreaErrorMsg, BorderLayout.NORTH);
 	
 		//Exception details
 		jPanelCenter = new JPanel();
@@ -113,6 +115,17 @@ public class ErrorDialog extends JDialog {
 			exceptionText += getStackTraceString(exception);
 			jTextAreaException.setText(exceptionText);
 			jTextAreaException.setEditable(false);
+			
+			jTextAreaErrorMsgSmall = new JTextArea();
+			jTextAreaErrorMsgSmall.setEditable(false);
+			jTextAreaErrorMsgSmall.setLineWrap(true);
+			jTextAreaErrorMsgSmall.setWrapStyleWord(true);
+			jTextAreaErrorMsgSmall.setPreferredSize(new Dimension(300,40));
+			jTextAreaErrorMsgSmall.setMaximumSize(new Dimension(500,300));
+			jTextAreaErrorMsgSmall.setText(exception.getMessage());
+			jTextAreaErrorMsgSmall.setBackground(this.getBackground());
+			jPanelTop.add(jTextAreaErrorMsgSmall, BorderLayout.SOUTH);
+
 		} else {
 			this.jButtonToggleDetails.setVisible(false);
 		}
