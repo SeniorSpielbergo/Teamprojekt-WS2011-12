@@ -237,7 +237,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * ActionListener for the buttons
+	 * Responds to a clicked button
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == newAction) {

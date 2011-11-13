@@ -124,7 +124,7 @@ public class RunWindow extends JFrame implements ActionListener, KeyListener {
 	}
 	
 	/**
-	 * ActionListener for the buttons
+	 * Responds to a clicked button
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == cancelButton) {
@@ -135,16 +135,25 @@ public class RunWindow extends JFrame implements ActionListener, KeyListener {
 		}
 	}
 	
+	/**
+	 * Responds to a released key
+	 */
 	public void keyReleased(KeyEvent e) {
 		for (int i = 0; i < tapeName.length; i++) {
 			tapeLabel[i].setText(tapeName[i].getText());
 		}
 	}
 	
+	/**
+	 * Responds to a pressed key
+	 */
 	public void keyPressed(KeyEvent e) {
 		
 	}
 	
+	/**
+	 * Responds to typed key
+	 */
 	public void keyTyped(KeyEvent e) {
 		
 	}
