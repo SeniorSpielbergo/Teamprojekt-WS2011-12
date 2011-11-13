@@ -29,10 +29,17 @@ public class TuringMachine {
 	protected ArrayList<Edge> edges;
 	protected ArrayList<Tape> tapes;
 
+	/**
+	 * Constructs an untitled Turing machine
+	 */
 	public TuringMachine() {
 		this("Untitled Turing machine");
 	}
 
+	/**
+	 * Constructs an empty Turing machine with a name
+	 * @param name Name for the Turing machine
+	 */
 	public TuringMachine(String name) {
 		this(name, new ArrayList<State>(), new ArrayList<Edge>(), new ArrayList<Tape>());
 	}
@@ -53,6 +60,10 @@ public class TuringMachine {
 		this.tapes = tapes;
 	}
 	
+	/**
+	 * Initializes the tapes
+	 * @throws TapeException Exception if any problems occur while initializing
+	 */
 	public void initTapes() throws TapeException {
 		//init tapes
 		for (Tape tape : this.tapes) {
@@ -61,6 +72,10 @@ public class TuringMachine {
 		}
 	}
 	
+	/**
+	 * Shuts down the tapes
+	 * @throws TapeException Exception if any problems occur while shuting down
+	 */
 	public void shutdownTapes() throws TapeException {
 		//init tapes
 		for (Tape tape : this.tapes) {
@@ -152,6 +167,11 @@ public class TuringMachine {
 		return machine;
 	}
 
+	/**
+	 * Loads the tapes' configuration from a xml Document 
+	 * @param doc Document to load the configuration from
+	 * @throws IOException Exception if any problems occur while reading the configuration
+	 */
 	public void loadTapesConfig(Document doc) throws IOException{
 		//Iterate through a list of tape nodes
 		NodeList tapeList = doc.getElementsByTagName("tape");
@@ -224,7 +244,12 @@ public class TuringMachine {
 					+ machineTapesCountString + " but " + this.tapes.size() + " tapes were defined).");
 		}
 	}
-
+	
+	/**
+	 * Loads the states from an xml Document
+	 * @param doc The document where to get the states
+	 * @throws IOException Exception if any problem occurs while reading the states
+	 */
 	public void loadStates(Document doc) throws IOException {
 		// get list of nodes
 		NodeList stateList = doc.getElementsByTagName("state");
@@ -233,7 +258,11 @@ public class TuringMachine {
 
 			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element currentElement = (Element) currentNode;
-				String id = currentElement.getAttribute("id"); //TODO: check if id is used only once
+				String id = currentElement.getAttribute("id");
+				if (checkExistenceOfId(id)) {
+					throw new IOException("Id: " + id + " already exists! Please check your xml file!");
+				}
+				
 				State.Type type = null;
 				String typeString = currentElement.getAttribute("type");
 				if (typeString.equals("start")) {
@@ -256,6 +285,11 @@ public class TuringMachine {
 		} //end for (next state)
 	}
 
+	/**
+	 * Loads the edges from an xml Document
+	 * @param doc The document where to get the edges
+	 * @throws IOException Exception if any problem occurs while reading the edges
+	 */
 	public void loadEdges(Document doc) {
 		// get list of edges
 		NodeList edgeList = doc.getElementsByTagName("edge");
@@ -371,6 +405,20 @@ public class TuringMachine {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Checks if a given id already exists
+	 * @param id Id to check
+	 * @return true/false depending on existence
+	 */
+	public boolean checkExistenceOfId(String id) {
+		for (int i = 0; i < this.states.size(); i++) {
+			if (this.states.get(i).getId() == id) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
