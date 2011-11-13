@@ -132,9 +132,15 @@ public class ConsoleTape extends Tape {
 	 */
 	@Override
 	public String toString() {
-		String text = " " + this.getName() + "@pos "  + this.getPosition() + ": \n";
-		int offset = this.getPosition() - (this.getPosition() % 10) - 20 ;
-		text += this.getMemoryAsFormattedString(offset, 40);
+		String text;
+		if (ready) {
+			text = " " + this.getName() + "@pos "  + this.getPosition() + ": \n";
+			int offset = this.getPosition() - (this.getPosition() % 10) - 20 ;
+			text += this.getMemoryAsFormattedString(offset, 40);
+		}
+		else {
+			text = " " + this.getName() + " (tape not initialized), input word: " + this.inputWord;
+		}
 		
 		return text;
 	}

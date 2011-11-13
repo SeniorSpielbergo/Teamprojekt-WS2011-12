@@ -187,6 +187,14 @@ public class LEGOTape extends Tape {
 	 */
 	@Override
 	public String toString() {
-		return " " + this.getName() + "@pos "  + this.getPosition() + ", current symbol: " + this.currentSymbol;
+		String text;
+		if (ready) {
+			text =  " " + this.getName() + "@pos "  + this.getPosition() + ", current symbol: " + this.currentSymbol;
+
+		}
+		else {
+			text = " " + this.getName() + " (tape not initialized), input word: " + this.inputWord;
+		}
+		return text;
 	}
 }

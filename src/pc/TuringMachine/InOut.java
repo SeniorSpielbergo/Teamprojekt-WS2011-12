@@ -422,5 +422,24 @@ public class InOut {
 			return "";
 		}
 	}
+	
+	public static Element getChildElement(String tag, Element currentElement) throws IOException {
+		NodeList nodeList = currentElement.getElementsByTagName(tag);
+		Node node = null;
+		for (int i=0; i < nodeList.getLength(); i++) {
+			if (node != null && nodeList.item(0).getNodeType() != Node.ELEMENT_NODE ) {
+				throw new IOException("Multiple input tag '" + tag + "' on '" + currentElement.getNodeName() + " is not allowed.");
+			}
+			node = nodeList.item(i);
+			if (node.getNodeType() != Node.ELEMENT_NODE) {
+				break; //ignore attributes etc.
+			}
+		}
+		if (node == null) {
+			throw new IOException("Expected missing tag '" + tag + "' on '" + currentElement.getNodeName() + ".");
+		}
+		Element element = (Element) node;
+		return element;
+	}
 
 }

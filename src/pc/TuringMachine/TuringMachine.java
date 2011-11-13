@@ -13,6 +13,8 @@ import org.w3c.dom.NodeList;
 
 import Tape.ConsoleTape;
 import Tape.LEGOTape;
+import Tape.MasterRobot;
+import Tape.SlaveRobot;
 import Tape.Tape;
 import Tape.TapeException;
 
@@ -183,21 +185,7 @@ public class TuringMachine {
 			//Get input word
 			String inputWord = "";
 
-			NodeList inputList = tapeElement.getElementsByTagName("input");
-			Node inputNode = null;
-			for (int j=0; j < inputList.getLength(); j++) {
-				if (inputNode != null && inputList.item(0).getNodeType() != Node.ELEMENT_NODE ) {
-					throw new IOException("Multiple input words for tape '" + tapeName + "' are not allowed.");
-				}
-				inputNode = inputList.item(j);
-				if (inputNode.getNodeType() != Node.ELEMENT_NODE) {
-					break; //ignore attributes etc.
-				}
-			}
-			if (inputNode == null) {
-				throw new IOException("Input word missing for tape '" + tapeName + "'.");
-			}
-			Element inputElement = (Element) inputNode;
+			Element inputElement = InOut.getChildElement("input", tapeElement);
 
 			NodeList inputSymbolList = inputElement.getElementsByTagName("symbol");
 			for (int k = 0; k < inputSymbolList.getLength(); k++) {
@@ -216,9 +204,15 @@ public class TuringMachine {
 			//create the tape
 			Tape tape = null;
 			if (tapeType.equals("LEGO")) {
-				//TODO: read master/slave name and mac address
-				//LEGOTape tape = new LEGOTape();
-				throw new IOException("Parsing LEGO tape not implemented yet.");
+				String masterName = InOut.getTagValue("master", tapeElement);
+				String masterMacAddress = InOut.getChildElement("master", tapeElement).getAttribute("mac-address");
+				String slaveName = InOut.getTagValue("slave", tapeElement);
+				String slaveMacAddress = InOut.getChildElement("slave", tapeElement).getAttribute("mac-address");
+				
+				MasterRobot master = new MasterRobot(masterName, masterMacAddress);
+				SlaveRobot slave = new SlaveRobot(slaveName, slaveMacAddress);
+
+				tape = new LEGOTape(master, slave);
 			}
 			else if (tapeType.equals("console")) {
 				tape = new ConsoleTape();
@@ -233,6 +227,7 @@ public class TuringMachine {
 			tape.setName(tapeName);
 			tape.setInputWord(inputWord);
 			this.tapes.add(tape);
+			System.out.println(tape); //TODO: remove debug output
 		} //end for (next tape)
 		
 		//Check if tape count attribute matches the number of tapes
@@ -253,7 +248,7 @@ public class TuringMachine {
 
 			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element currentElement = (Element) currentNode;
-				String id = currentElement.getAttribute("id");
+				String id = currentElement.getAttribute("id"); //TODO: check if id is used only once
 				State.Type type = null;
 				String typeString = currentElement.getAttribute("type");
 				if (typeString.equals("start")) {
@@ -265,17 +260,15 @@ public class TuringMachine {
 				else if (typeString.equals("final")) {
 					type = State.Type.FINAL;
 				}
+				else {
+					throw new IOException("Unsupported state type '" + typeString + "' for the state with id " + id + ".  Expected 'start', 'final' or 'normal'.");
+				}
 				String name = InOut.getTagValue("name", currentElement);
-				State tempState = new State(id, name, type);
-				states.add(tempState);
-
-				// TODO remove test output
-				System.out.println("\n== State " + id + " ==\n");
-				System.out.println("id: " + id);
-				System.out.println("name: " + name);
-				System.out.println("type: " + type);
+				State state = new State(id, name, type);
+				states.add(state);
+				System.out.println(state); //TODO: remove debug output
 			}
-		}
+		} //end for (next state)
 	}
 
 	public void loadEdges(Document doc) {
