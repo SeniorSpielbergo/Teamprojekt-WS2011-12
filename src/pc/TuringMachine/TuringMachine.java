@@ -90,22 +90,6 @@ public class TuringMachine {
 	}
 
 	/**
-	 * Returns the initial configuration for the Turing machine's tapes
-	 * @return Initial configuration for the Turing machine's tapes
-	 */
-	//	public ArrayList<ArrayList<Character>> getInitial() {
-	//		return this.initial;
-	//	}
-
-	//	public String getInput(int i) {
-	//		String input = "";
-	//		for (int j = 0; j < getInitial().get(i).size(); j++){
-	//			input = input + getInitial().get(i).get(j);
-	//		}
-	//		return input;
-	//	}
-
-	/**
 	 * Returns the Turing machine's states
 	 * @return Turing Machine's states
 	 */
