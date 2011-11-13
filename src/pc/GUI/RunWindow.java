@@ -8,6 +8,7 @@ import TuringMachine.*;
 
 public class RunWindow extends JFrame implements ActionListener {
 	
+	static final long serialVersionUID = -3667258249137827980L;
 	private String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
 	protected TuringMachine machine;
 	private JPanel inputContainer;
@@ -16,6 +17,7 @@ public class RunWindow extends JFrame implements ActionListener {
 	private JScrollPane comboPane; 
 	private JPanel runCancelContainer;
 	private JTabbedPane tabbedPane;
+	@SuppressWarnings("rawtypes")	// because of java7
 	private JComboBox[] combo;
 	private JLabel[] tapeLabel;
 	private JTextField[] tapeName;
@@ -25,6 +27,11 @@ public class RunWindow extends JFrame implements ActionListener {
 	private JButton runButton;
 	private JButton cancelButton;
 	
+	/**
+	 * Constructs the run window
+	 * @param machine Turing machine needed to show the run settings
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public RunWindow(TuringMachine machine) {
 		this.machine = machine;
 		initRunWindow(machine.getNumberOfTapes());
@@ -93,6 +100,10 @@ public class RunWindow extends JFrame implements ActionListener {
 		contentPane.add(tabbedPane);
 	}
 	
+	/**
+	 * Initializes the window
+	 * @param tapes Number of tapes
+	 */
 	public void initRunWindow(int tapes) {
 		inputContainer  = new JPanel();
 		comboContainer = new JPanel();
@@ -108,13 +119,23 @@ public class RunWindow extends JFrame implements ActionListener {
 		cancelButton = new JButton("cancel");
 	}
 	
+	/**
+	 * ActionListener for the buttons
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == cancelButton) {
 			this.setVisible(false);
 		}
+		else if(e.getSource() == runButton) {
+			JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		}
 	}
 	
+	/**
+	 * Used for the window focused actions
+	 */
 	public class ClickAction extends AbstractAction {
+		static final long serialVersionUID = -3667258249137827980L;
 		private JButton button;
 		
 		public ClickAction(JButton button) {

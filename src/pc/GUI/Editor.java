@@ -1,5 +1,4 @@
 package GUI;
-import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -10,7 +9,6 @@ import Tape.*;
 import java.awt.Toolkit;
 import java.awt.event.*;
 import java.io.*;
-import java.util.ArrayList;
 
 /** This class represents an editor for Turing machines
  * 
@@ -111,6 +109,9 @@ public class Editor extends JFrame implements ActionListener {
 		//mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 	
+	/**
+	 * Initializes the editor
+	 */
 	public void initEditor() {
 		// create menu bar
 		menuBar = new JMenuBar();
@@ -141,6 +142,9 @@ public class Editor extends JFrame implements ActionListener {
 		testAction.addActionListener(this);
 	}
 	
+	/**
+	 * Creates a new file
+	 */
 	public void newFile() {
 		JOptionPane.showMessageDialog(null, "Not implemented yet!");
 		saveAction.setEnabled(true);
@@ -148,6 +152,9 @@ public class Editor extends JFrame implements ActionListener {
 		runAction.setEnabled(true);
 	}
 	
+	/**
+	 * Opens a file
+	 */
 	public void openFile() {
 		int retVal = fc.showOpenDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
@@ -164,6 +171,9 @@ public class Editor extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Saves a file
+	 */
 	public void saveFile() {
 		int retVal = fc.showSaveDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
@@ -172,20 +182,32 @@ public class Editor extends JFrame implements ActionListener {
 		//InOut.writeXMLFromFile(selectedFile.getName(), currentMachine);
 	}
 	
+	/**
+	 * Exports the Turing machine to LaTeX
+	 */
 	public void exportLatex() {
 		JOptionPane.showMessageDialog(null, "Not implemented yet!");
 	}
 	
+	/**
+	 * Closes the editor
+	 */
 	public void exitEditor() {
 		System.exit(0);
 	}
 	
+	/**
+	 * Opens the run window
+	 */
 	public void runSimulation() {
 		RunWindow runWindow = new RunWindow(currentMachine);
 		runWindow.setVisible(true);
 		runWindow.setLocationRelativeTo(null);
 	}
 	
+	/**
+	 * Simulates the Turing machine
+	 */
 	public void simulate() {
 		System.out.println(this.currentMachine);		
 		//create tapes and write input
@@ -214,6 +236,9 @@ public class Editor extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * ActionListener for the buttons
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == newAction) {
 			newFile();
