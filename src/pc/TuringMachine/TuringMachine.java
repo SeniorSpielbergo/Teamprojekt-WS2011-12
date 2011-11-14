@@ -251,7 +251,7 @@ public class TuringMachine {
 				String name = InOut.getTagValue("name", currentElement);
 				State state = new State(id, name, type);
 				states.add(state);
-				System.out.println(state); //TODO: remove debug output
+				System.out.println(" " + state); //TODO: remove debug output
 			}
 		} //end for (next state)
 	}
