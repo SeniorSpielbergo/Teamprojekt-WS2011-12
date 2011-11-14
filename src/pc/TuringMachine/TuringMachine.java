@@ -131,7 +131,7 @@ public class TuringMachine {
 		}
 
 		//parse document
-		System.out.println("Loading file '" + filename + "...");
+		System.out.println("Loading file '" + filename + "'...");
 		File file = new File(filename);
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		Document doc = null;
