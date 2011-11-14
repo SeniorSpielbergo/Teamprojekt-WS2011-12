@@ -369,7 +369,7 @@ public class TuringMachine {
 
 		return new Transition(id, read, write, action);
 	}
-	
+
 	private ArrayList<Character> loadSymbolList(String tag, Element transitionElement) throws IOException {
 		String id = transitionElement.getAttribute("id");
 		ArrayList<Character> symbols = new ArrayList<Character>();

@@ -35,178 +35,178 @@ public class InOut {
 	 * @param machine Turing machine object which should be written to file
 	 */
 	public static void writeXMLToFile(String fileName, TuringMachine machine) { //TODO: an neues XML format anpassen
-//		try {
-//			try {
-//				TransformerFactory transformerFactory = TransformerFactory.newInstance();
-//
-//				Transformer transformer = transformerFactory.newTransformer();
-//				transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
-//				transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-//				transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//				transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-//
-//				DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-//				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-//				Document doc = docBuilder.newDocument();
-//				DOMSource source = new DOMSource(doc);
-//
-//				// create root element
-//				Element rootElement = doc.createElement("machine");
-//				doc.appendChild(rootElement);
-//
-//				// save name of machine
-//				Attr attrName = doc.createAttribute("name");
-//				attrName.setValue(machine.getName());
-//				rootElement.setAttributeNode(attrName);
-//
-//				// save number tapes of machine
-//				Attr attrTape = doc.createAttribute("tape");
-//				attrTape.setValue(String.valueOf(machine.getTapes()));
-//				rootElement.setAttributeNode(attrTape);
-//
-//				// get states and edges from machine
-//				ArrayList<State> states = machine.getStates();
-//				ArrayList<Edge> edges = machine.getEdges();
-//
-//				// inputs
-//				ArrayList<ArrayList<Character>> inputCharacter = machine.getInitial();
-//				for(int i = 0; i < inputCharacter.size(); i++) {
-//					ArrayList<Character> tempInput = inputCharacter.get(i);
-//
-//					// input element
-//					Element input = doc.createElement("input");
-//					rootElement.appendChild(input);
-//
-//					// tape element
-//					Element tape = doc.createElement("tape");
-//					input.appendChild(tape);
-//
-//					// input tape elements
-//					for (int j = 0; j < tempInput.size(); j++) {
-//						Element symbolElement = doc.createElement("symbol");
-//						symbolElement.appendChild(doc.createTextNode("" + tempInput.get(j)));
-//						tape.appendChild(symbolElement);
-//					}
-//				}
-//
-//				// states
-//				for(int i = 0; i < states.size(); i++) {
-//					State tempState = states.get(i);
-//					// state element
-//					Element state = doc.createElement("state");
-//					rootElement.appendChild(state);
-//
-//					// save id of state
-//					Attr attrStateId = doc.createAttribute("id");
-//					attrStateId.setValue(tempState.getId());
-//					state.setAttributeNode(attrStateId);
-//
-//					// save type of state
-//					Attr attrType = doc.createAttribute("type");
-//					String type;
-//					switch(tempState.getType()) {
-//					case START:
-//						type = "start";
-//						break;
-//					case NORMAL:
-//						type = "normal";
-//						break;
-//					case FINAL:
-//						type = "final";
-//						break;
-//					default:
-//						type = "normal";
-//						break;
-//					}
-//					attrType.setValue(type);
-//					state.setAttributeNode(attrType);
-//
-//					// state name element
-//					Element nameElement = doc.createElement("name");
-//					nameElement.appendChild(doc.createTextNode(tempState.getName()));
-//					state.appendChild(nameElement);
-//				}
-//
-//				// edges
-//				for(int i = 0; i < edges.size(); i++) { 
-//					Edge tempEdge = edges.get(i);
-//					ArrayList<Transition> transitions = tempEdge.getTransition();
-//					// edge element
-//					Element edge = doc.createElement("edge");
-//					rootElement.appendChild(edge);
-//
-//					// save from of edge
-//					Attr attrEdgeFrom = doc.createAttribute("from");
-//					attrEdgeFrom.setValue(edges.get(i).getFrom().getId());
-//					edge.setAttributeNode(attrEdgeFrom);
-//
-//					// save to of edge
-//					Attr attrEdgeTo = doc.createAttribute("to");
-//					attrEdgeTo.setValue(edges.get(i).getTo().getId());
-//					edge.setAttributeNode(attrEdgeTo);
-//
-//					for (int j = 0; j < transitions.size(); j++) {
-//						Transition tempTransition = transitions.get(j);
-//
-//						// transition element
-//						Element transition = doc.createElement("transition");
-//						edge.appendChild(transition);
-//
-//						// save id of transition
-//						Attr attrTransitionId = doc.createAttribute("type");
-//						attrTransitionId.setValue(tempTransition.getId());
-//						transition.setAttributeNode(attrTransitionId);
-//
-//						// edge read elements
-//						ArrayList<Character> read = tempTransition.getRead();
-//						Element readElement = doc.createElement("read");
-//						edge.appendChild(readElement);
-//						for (int k = 0; k < read.size(); k++) {
-//							Element symbolElement = doc.createElement("symbol");
-//							symbolElement.appendChild(doc.createTextNode("" + read.get(k)));
-//							readElement.appendChild(symbolElement);
-//						}
-//
-//						// edge write elements
-//						ArrayList<Character> write = tempTransition.getWrite();
-//						Element writeElement = doc.createElement("write");
-//						edge.appendChild(writeElement);
-//						for (int k = 0; k < write.size(); k++) {
-//							Element symbolElement = doc.createElement("symbol");
-//							symbolElement.appendChild(doc.createTextNode("" + write.get(k)));
-//							writeElement.appendChild(symbolElement);
-//						}
-//
-//						// edge action elements
-//						ArrayList<Character> action = tempTransition.getAction();
-//						Element actionElement = doc.createElement("action");
-//						edge.appendChild(actionElement);
-//						for (int k = 0; k < action.size(); k++) {
-//							Element symbolElement = doc.createElement("symbol");
-//							symbolElement.appendChild(doc.createTextNode("" + action.get(k)));
-//							actionElement.appendChild(symbolElement);
-//						}
-//					}
-//				}
-//
-//				// check for right file ending
-//				if (!fileName.endsWith(".xml")) {
-//					fileName = fileName + ".xml";
-//				}
-//
-//				// write the content into xml file
-//				StreamResult result = new StreamResult(new File(fileName));
-//				transformer.transform(source, result);
-//				// TODO remove test output
-//				System.out.println("Done writing file!\n");
-//			}
-//			catch (ParserConfigurationException pce) {
-//				pce.printStackTrace();
-//			}
-//		}
-//		catch (TransformerException tfe) {
-//			tfe.printStackTrace();
-//		}
+		//		try {
+		//			try {
+		//				TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		//
+		//				Transformer transformer = transformerFactory.newTransformer();
+		//				transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
+		//				transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+		//				transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		//				transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+		//
+		//				DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		//				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+		//				Document doc = docBuilder.newDocument();
+		//				DOMSource source = new DOMSource(doc);
+		//
+		//				// create root element
+		//				Element rootElement = doc.createElement("machine");
+		//				doc.appendChild(rootElement);
+		//
+		//				// save name of machine
+		//				Attr attrName = doc.createAttribute("name");
+		//				attrName.setValue(machine.getName());
+		//				rootElement.setAttributeNode(attrName);
+		//
+		//				// save number tapes of machine
+		//				Attr attrTape = doc.createAttribute("tape");
+		//				attrTape.setValue(String.valueOf(machine.getTapes()));
+		//				rootElement.setAttributeNode(attrTape);
+		//
+		//				// get states and edges from machine
+		//				ArrayList<State> states = machine.getStates();
+		//				ArrayList<Edge> edges = machine.getEdges();
+		//
+		//				// inputs
+		//				ArrayList<ArrayList<Character>> inputCharacter = machine.getInitial();
+		//				for(int i = 0; i < inputCharacter.size(); i++) {
+		//					ArrayList<Character> tempInput = inputCharacter.get(i);
+		//
+		//					// input element
+		//					Element input = doc.createElement("input");
+		//					rootElement.appendChild(input);
+		//
+		//					// tape element
+		//					Element tape = doc.createElement("tape");
+		//					input.appendChild(tape);
+		//
+		//					// input tape elements
+		//					for (int j = 0; j < tempInput.size(); j++) {
+		//						Element symbolElement = doc.createElement("symbol");
+		//						symbolElement.appendChild(doc.createTextNode("" + tempInput.get(j)));
+		//						tape.appendChild(symbolElement);
+		//					}
+		//				}
+		//
+		//				// states
+		//				for(int i = 0; i < states.size(); i++) {
+		//					State tempState = states.get(i);
+		//					// state element
+		//					Element state = doc.createElement("state");
+		//					rootElement.appendChild(state);
+		//
+		//					// save id of state
+		//					Attr attrStateId = doc.createAttribute("id");
+		//					attrStateId.setValue(tempState.getId());
+		//					state.setAttributeNode(attrStateId);
+		//
+		//					// save type of state
+		//					Attr attrType = doc.createAttribute("type");
+		//					String type;
+		//					switch(tempState.getType()) {
+		//					case START:
+		//						type = "start";
+		//						break;
+		//					case NORMAL:
+		//						type = "normal";
+		//						break;
+		//					case FINAL:
+		//						type = "final";
+		//						break;
+		//					default:
+		//						type = "normal";
+		//						break;
+		//					}
+		//					attrType.setValue(type);
+		//					state.setAttributeNode(attrType);
+		//
+		//					// state name element
+		//					Element nameElement = doc.createElement("name");
+		//					nameElement.appendChild(doc.createTextNode(tempState.getName()));
+		//					state.appendChild(nameElement);
+		//				}
+		//
+		//				// edges
+		//				for(int i = 0; i < edges.size(); i++) { 
+		//					Edge tempEdge = edges.get(i);
+		//					ArrayList<Transition> transitions = tempEdge.getTransition();
+		//					// edge element
+		//					Element edge = doc.createElement("edge");
+		//					rootElement.appendChild(edge);
+		//
+		//					// save from of edge
+		//					Attr attrEdgeFrom = doc.createAttribute("from");
+		//					attrEdgeFrom.setValue(edges.get(i).getFrom().getId());
+		//					edge.setAttributeNode(attrEdgeFrom);
+		//
+		//					// save to of edge
+		//					Attr attrEdgeTo = doc.createAttribute("to");
+		//					attrEdgeTo.setValue(edges.get(i).getTo().getId());
+		//					edge.setAttributeNode(attrEdgeTo);
+		//
+		//					for (int j = 0; j < transitions.size(); j++) {
+		//						Transition tempTransition = transitions.get(j);
+		//
+		//						// transition element
+		//						Element transition = doc.createElement("transition");
+		//						edge.appendChild(transition);
+		//
+		//						// save id of transition
+		//						Attr attrTransitionId = doc.createAttribute("type");
+		//						attrTransitionId.setValue(tempTransition.getId());
+		//						transition.setAttributeNode(attrTransitionId);
+		//
+		//						// edge read elements
+		//						ArrayList<Character> read = tempTransition.getRead();
+		//						Element readElement = doc.createElement("read");
+		//						edge.appendChild(readElement);
+		//						for (int k = 0; k < read.size(); k++) {
+		//							Element symbolElement = doc.createElement("symbol");
+		//							symbolElement.appendChild(doc.createTextNode("" + read.get(k)));
+		//							readElement.appendChild(symbolElement);
+		//						}
+		//
+		//						// edge write elements
+		//						ArrayList<Character> write = tempTransition.getWrite();
+		//						Element writeElement = doc.createElement("write");
+		//						edge.appendChild(writeElement);
+		//						for (int k = 0; k < write.size(); k++) {
+		//							Element symbolElement = doc.createElement("symbol");
+		//							symbolElement.appendChild(doc.createTextNode("" + write.get(k)));
+		//							writeElement.appendChild(symbolElement);
+		//						}
+		//
+		//						// edge action elements
+		//						ArrayList<Character> action = tempTransition.getAction();
+		//						Element actionElement = doc.createElement("action");
+		//						edge.appendChild(actionElement);
+		//						for (int k = 0; k < action.size(); k++) {
+		//							Element symbolElement = doc.createElement("symbol");
+		//							symbolElement.appendChild(doc.createTextNode("" + action.get(k)));
+		//							actionElement.appendChild(symbolElement);
+		//						}
+		//					}
+		//				}
+		//
+		//				// check for right file ending
+		//				if (!fileName.endsWith(".xml")) {
+		//					fileName = fileName + ".xml";
+		//				}
+		//
+		//				// write the content into xml file
+		//				StreamResult result = new StreamResult(new File(fileName));
+		//				transformer.transform(source, result);
+		//				// TODO remove test output
+		//				System.out.println("Done writing file!\n");
+		//			}
+		//			catch (ParserConfigurationException pce) {
+		//				pce.printStackTrace();
+		//			}
+		//		}
+		//		catch (TransformerException tfe) {
+		//			tfe.printStackTrace();
+		//		}
 	}
 
 
@@ -255,9 +255,9 @@ public class InOut {
 
 			// write automata nodes
 			automata += writeStatesToLatex(machine.getStates());
-			
+
 			automata += "\n";
-			
+
 			// write automata edges
 			automata += writeEdgesToLatex(machine.getEdges());
 
@@ -286,16 +286,16 @@ public class InOut {
 			String name = currentState.getName();
 			// check type of node
 			switch (currentState.getType()) {
-				case START:
-					type = ", initial";
-					break;
-				case NORMAL:
-					break;
-				case FINAL:
-					type = ", accepting";
-					break;
-				default:
-					break;
+			case START:
+				type = ", initial";
+				break;
+			case NORMAL:
+				break;
+			case FINAL:
+				type = ", accepting";
+				break;
+			default:
+				break;
 			}
 
 			if (i % 3 == 0) {
@@ -318,7 +318,7 @@ public class InOut {
 		}
 		return output;
 	}
-	
+
 	/**
 	 * Returns the LaTeX string of edges for an automata
 	 * @param edges The edges that should be converted to LaTeX
@@ -343,7 +343,7 @@ public class InOut {
 		}
 		return output;
 	}
-	
+
 	/**
 	 * Returns the LaTeX string of a transition for an automata
 	 * @param transition The transition that should be converted to LaTeX
@@ -376,7 +376,7 @@ public class InOut {
 		output += readString + " / " + writeActionString;
 		return output;
 	}
-	
+
 	/**
 	 * Checks for hashes and escapes them
 	 * @param charToCheck Character to check for a hash
@@ -413,7 +413,7 @@ public class InOut {
 				break; //ignore attributes etc.
 			}
 		}
-		
+
 		if (child != null) {
 			return child.getNodeValue();
 		}
@@ -422,7 +422,7 @@ public class InOut {
 			return "";
 		}
 	}
-	
+
 	public static Element getChildElement(String tag, Element currentElement) throws IOException {
 		NodeList nodeList = currentElement.getElementsByTagName(tag);
 		Node node = null;
