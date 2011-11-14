@@ -10,7 +10,7 @@ public class Edge {
 
 	protected State from;
 	protected State to;
-	protected ArrayList<Transition> transition;
+	protected ArrayList<Transition> transitions;
 	
 	/**
 	 * Constructs an edge from a state to another with it's transitions
@@ -18,10 +18,10 @@ public class Edge {
 	 * @param to End state
 	 * @param transition Transitions for this edge
 	 */
-	public Edge(State from, State to, ArrayList<Transition> transition) {
+	public Edge(State from, State to, ArrayList<Transition> transitions) {
 		this.from = from;
 		this.to = to;
-		this.transition = transition;
+		this.transitions = transitions;
 	}
 	
 	/**
@@ -44,8 +44,8 @@ public class Edge {
 	 * Returns the transitions for this edge
 	 * @return Transitions for this edge
 	 */
-	public ArrayList<Transition> getTransition() {
-		return this.transition;
+	public ArrayList<Transition> getTransitions() {
+		return this.transitions;
 	}
 	
 	/**
@@ -67,9 +67,9 @@ public class Edge {
 	/**
 	 * Sets the transitions for this edge
 	 * @param transition Transitions for this edge
-	 */
-	public void setTransition(ArrayList<Transition> transition) {
-		this.transition = transition;
+	 */ //FIXME: ist diese methode Ÿberhaupt nštig (wird ja schon im konstruktor Ÿbergeben)
+	public void setTransitions(ArrayList<Transition> transitions) {
+		this.transitions = transitions;
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class Edge {
 	@Override
 	public String toString() {
 		return "Edge [from=" + from + ", to=" + to + ", transition="
-				+ transition + "]\n";
+				+ transitions + "]\n";
 	}
 	
 	

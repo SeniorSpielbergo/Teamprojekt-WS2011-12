@@ -328,8 +328,8 @@ public class InOut {
 		String output = "";
 		for (int i = 0; i < edges.size(); i++) {
 			Edge currentEdge = edges.get(i);
-			for (int j = 0; j < currentEdge.getTransition().size(); j++) {
-				Transition currentTransition = currentEdge.getTransition().get(j);
+			for (int j = 0; j < currentEdge.getTransitions().size(); j++) {
+				Transition currentTransition = currentEdge.getTransitions().get(j);
 				String transition = writeTransitionString(currentTransition);
 				State from = currentEdge.getFrom();
 				State to = currentEdge.getTo();

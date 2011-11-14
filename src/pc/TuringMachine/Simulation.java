@@ -73,16 +73,15 @@ public class Simulation {
 	private Transition getRightLabel(){
 		Transition label= null;
 		for(Edge e : actualState.getEdge()){
-			System.out.println("Transition: "+e.getTransition().size());
-			for(int j = 0; j < e.getTransition().size(); j++){
-				System.out.println(e.getTransition().get(j).getId() +" ");
-				System.out.println("Groeße read: "+e.getTransition().get(j).getRead().size());
+			System.out.println("Transition: "+e.getTransitions().size());
+			for(int j = 0; j < e.getTransitions().size(); j++){
+				System.out.println(e.getTransitions().get(j).getId() +" ");
+				System.out.println("Groeße read: "+e.getTransitions().get(j).getRead().size());
 				for(int i = 0; i < machine.getNumberOfTapes(); i++){
-					System.out.println("Transition-Symbol: " + e.getTransition().get(j).getRead().get(i));
+					System.out.println("Transition-Symbol: " + e.getTransitions().get(j).getRead().get(i));
 					System.out.println("Tape symbol: " + currentSymbols.get(i));
-					//hier liegt vielleicht irgendwo der Fehler
-					if( e.getTransition().get(j).getRead().get(i) == currentSymbols.get(i)){
-						label = e.getTransition().get(j);
+					if( e.getTransitions().get(j).getRead().get(i) == currentSymbols.get(i)){
+						label = e.getTransitions().get(j);
 						System.out.println(label);
 						nextState = e.getTo();
 					}

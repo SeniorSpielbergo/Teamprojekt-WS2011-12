@@ -59,7 +59,7 @@ public class TuringMachine {
 		this.name = name;
 		this.tapes = tapes;
 	}
-	
+
 	/**
 	 * Initializes the tapes
 	 * @throws TapeException Exception if any problems occur while initializing
@@ -71,7 +71,7 @@ public class TuringMachine {
 			tape.writeInputWord();
 		}
 	}
-	
+
 	/**
 	 * Shuts down the tapes
 	 * @throws TapeException Exception if any problems occur while shuting down
@@ -82,7 +82,7 @@ public class TuringMachine {
 			tape.shutdown();
 		}
 	}
-	
+
 
 	/**
 	 * Returns the Turing machine's name
@@ -99,7 +99,7 @@ public class TuringMachine {
 	public ArrayList<Tape> getTapes() {
 		return this.tapes;
 	}
-	
+
 	public int getNumberOfTapes() {
 		return this.tapes.size();
 	}
@@ -163,6 +163,8 @@ public class TuringMachine {
 		machine.loadStates(doc);
 		System.out.println("Loading edges and transitions...");
 		machine.loadEdges(doc);
+		System.out.println("File '" + filename + "' successfully loaded.");
+
 
 		return machine;
 	}
@@ -205,7 +207,7 @@ public class TuringMachine {
 					inputWord += inputSymbolNode.getTextContent().charAt(0);
 				}
 			}
-			
+
 			//create the tape
 			Tape tape = null;
 			if (tapeType.equals("LEGO")) {
@@ -213,7 +215,7 @@ public class TuringMachine {
 				String masterMacAddress = InOut.getChildElement("master", tapeElement).getAttribute("mac-address");
 				String slaveName = InOut.getTagValue("slave", tapeElement);
 				String slaveMacAddress = InOut.getChildElement("slave", tapeElement).getAttribute("mac-address");
-				
+
 				MasterRobot master = new MasterRobot(masterName, masterMacAddress);
 				SlaveRobot slave = new SlaveRobot(slaveName, slaveMacAddress);
 
@@ -228,23 +230,23 @@ public class TuringMachine {
 			else {
 				throw new IOException("Unsupported tape type '" + tapeType + "' for tape ' " + tapeName + "'.");
 			}
-			
+
 			tape.setName(tapeName);
 			tape.setInputWord(inputWord);
 			this.tapes.add(tape);
 			System.out.println(tape); //TODO: remove debug output
 		} //end for (next tape)
-		
+
 		//Check if tape count attribute matches the number of tapes
 		String machineTapesCountString = doc.getDocumentElement().getAttribute("tapes");
 		int machineTapesCount = Integer.parseInt(machineTapesCountString);
-		
+
 		if (machineTapesCount != this.tapes.size()) {
 			throw new IOException("The tapes count attribute of the machine did not match the number of tapes actually defined (attribute is " 
 					+ machineTapesCountString + " but " + this.tapes.size() + " tapes were defined).");
 		}
 	}
-	
+
 	/**
 	 * Loads the states from an xml Document
 	 * @param doc The document where to get the states
@@ -259,10 +261,10 @@ public class TuringMachine {
 			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element currentElement = (Element) currentNode;
 				String id = currentElement.getAttribute("id");
-				if (checkExistenceOfId(id)) {
-					throw new IOException("Id: " + id + " already exists! Please check your xml file!");
+				if (this.getStateById(id) != null) {
+					throw new IOException("State ID '" + id + "' already exists! Please check your xml file!");
 				}
-				
+
 				State.Type type = null;
 				String typeString = currentElement.getAttribute("type");
 				if (typeString.equals("start")) {
@@ -290,110 +292,45 @@ public class TuringMachine {
 	 * @param doc The document where to get the edges
 	 * @throws IOException Exception if any problem occurs while reading the edges
 	 */
-	public void loadEdges(Document doc) {
+	public void loadEdges(Document doc) throws IOException {
 		// get list of edges
 		NodeList edgeList = doc.getElementsByTagName("edge");
 		for (int i = 0; i < edgeList.getLength(); i++) {
-			Node currentNode = edgeList.item(i);
+			Node edgeNode = edgeList.item(i);
 
-			if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element currentElement = (Element) currentNode;
-				// get from an to
-				State from = null;
-				State to = null;
-				for (int j = 0; j < states.size(); j++) {
-					if (states.get(j).getId().equals(currentElement.getAttribute("from"))) {
-						from = states.get(j);
-					}
-					if (states.get(j).getId().equals(currentElement.getAttribute("to"))) {
-						to = states.get(j);
-					}
+			if (edgeNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element edgeElement = (Element) edgeNode;
+				// get from and to
+				String fromId = edgeElement.getAttribute("from");
+				String toId = edgeElement.getAttribute("to");
+				State from = this.getStateById(fromId);
+				State to = this.getStateById(toId);
+
+				if (from == null) {
+					throw new IOException("Invalid edge starting point: No such state with ID '" + fromId + "'.");
 				}
-				// TODO remove test output
-				System.out.println("\n== Edge " + i + " ==\n");
-				System.out.println("from: " + from.getId());
-				System.out.println("to: " + to.getId());
+				if (to == null) {
+					throw new IOException("Invalid edge end point: No such state with ID '" + fromId + "'.");
+				}
 
 				// get transitions
-				NodeList transitionList = currentElement.getElementsByTagName("transition");
-				ArrayList<Transition> transition = new ArrayList<Transition>();
+				NodeList transitionList = edgeElement.getElementsByTagName("transition");
+				ArrayList<Transition> transitions = new ArrayList<Transition>();
 				for (int j = 0; j < transitionList.getLength(); j++) {
-					transition.clear();
-					Node currentTransitionNode = transitionList.item(j);
-					String id;
-					ArrayList<Character> read = new ArrayList<Character>();
-					ArrayList<Character> write = new ArrayList<Character>();
-					ArrayList<Character> action = new ArrayList<Character>();
-					if (currentTransitionNode.getNodeType() == Node.ELEMENT_NODE) {
-						Element currentTransitionElement = (Element) currentTransitionNode;
-						id = currentTransitionElement.getAttribute("id");
-						// TODO remove test output
-						System.out.println("== TRANSITION" + id + "==");
-
-						// get read
-						NodeList readList = currentTransitionElement.getElementsByTagName("read");
-						for (int k = 0; k < readList.getLength(); k++) {
-							Node currentReadNode = readList.item(k);
-							if (currentReadNode.getNodeType() == Node.ELEMENT_NODE) {
-								Element currentReadElement = (Element) currentReadNode;
-								NodeList readSymbolList = currentReadElement.getChildNodes();
-								for (int l = 0; l < readSymbolList.getLength(); l++) {
-									Node currentReadSymbolNode = readSymbolList.item(l);
-									if (currentReadSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-										read.add(currentReadSymbolNode.getTextContent().charAt(0));
-										// TODO remove test output
-										System.out.println("read: " + currentReadSymbolNode.getTextContent());
-									}
-								}
-							}
-						}
-
-						// get write
-						NodeList writeList = currentTransitionElement.getElementsByTagName("write");
-						for (int k = 0; k < writeList.getLength(); k++) {
-							Node currentWriteNode = writeList.item(k);
-							if (currentWriteNode.getNodeType() == Node.ELEMENT_NODE) {
-								Element currentWriteElement = (Element) currentWriteNode;
-								NodeList writeSymbolList = currentWriteElement.getChildNodes();
-								for (int l = 0; l < writeSymbolList.getLength(); l++) {
-									Node currentWriteSymbolNode = writeSymbolList.item(l);
-									if (currentWriteSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-										write.add(currentWriteSymbolNode.getTextContent().charAt(0));
-										// TODO remove test output
-										System.out.println("write: " + currentWriteSymbolNode.getTextContent());
-									}
-								}
-							}
-						}
-
-						// get action
-						NodeList actionList = currentTransitionElement.getElementsByTagName("action");
-						for (int k = 0; k < actionList.getLength(); k++) {
-							Node currentActionNode = actionList.item(k);
-							if (currentActionNode.getNodeType() == Node.ELEMENT_NODE) {
-								Element currentActionElement = (Element) currentActionNode;
-								NodeList actionSymbolList = currentActionElement.getChildNodes();
-								for (int l = 0; l < actionSymbolList.getLength(); l++) {
-									Node currentActionSymbolNode = actionSymbolList.item(l);
-									if (currentActionSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-										action.add(currentActionSymbolNode.getTextContent().charAt(0));
-										// TODO remove test output
-										System.out.println("direction: " + currentActionSymbolNode.getTextContent());
-									}
-								}
-							}
-						}
-
-						Transition tempTransition = new Transition(id, read, write, action);
-						transition.add(tempTransition);
+					Node transitionNode = transitionList.item(j);
+					if (transitionNode.getNodeType() == Node.ELEMENT_NODE) {
+						Element transitionElement = (Element) transitionNode;
+						Transition transition = this.loadTransition(transitionElement);
+						transitions.add(transition);
 					}
 				}
 
-				Edge tempEdge = new Edge(from, to, transition);
-				edges.add(tempEdge);
+				Edge edge = new Edge(from, to, transitions);
+				edges.add(edge);
+				System.out.println(" " + edge); //TODO: remove debug output
 
 				// write edges that start at a state
-				for (int j = 0; j < states.size(); j++) {
+				for (int j = 0; j < states.size(); j++) { //TODO: review
 					ArrayList<Edge> tempStartEdges = new ArrayList<Edge>();
 					for (int k = 0; k < edges.size(); k++) {
 						State tempStateFrom = edges.get(k).getFrom(); 
@@ -404,21 +341,104 @@ public class TuringMachine {
 					states.get(j).setEdge(tempStartEdges);
 				}
 			}
-		}
-	}
-	
-	/**
-	 * Checks if a given id already exists
-	 * @param id Id to check
-	 * @return true/false depending on existence
-	 */
-	public boolean checkExistenceOfId(String id) {
-		for (int i = 0; i < this.states.size(); i++) {
-			if (this.states.get(i).getId() == id) {
-				return true;
+		} //end for (next edge)
+
+		//check transition ids integrity
+		for (Edge edge : this.edges) {
+			for(Transition transition : edge.getTransitions()) {
+				if (this.getTransitionById(transition.getId()) != transition) {
+					throw new IOException("Transition ID '" + transition.getId() + "' is used more than once! Please check your xml file!");
+				}
 			}
 		}
-		return false;
+	}
+
+	private Transition loadTransition(Element transitionElement) {
+		String id;
+		ArrayList<Character> read = new ArrayList<Character>();
+		ArrayList<Character> write = new ArrayList<Character>();
+		ArrayList<Character> action = new ArrayList<Character>();
+		id = transitionElement.getAttribute("id");
+
+		// get read
+		NodeList readList = transitionElement.getElementsByTagName("read");
+		for (int k = 0; k < readList.getLength(); k++) {
+			Node currentReadNode = readList.item(k);
+			if (currentReadNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element currentReadElement = (Element) currentReadNode;
+				NodeList readSymbolList = currentReadElement.getChildNodes();
+				for (int l = 0; l < readSymbolList.getLength(); l++) {
+					Node currentReadSymbolNode = readSymbolList.item(l);
+					if (currentReadSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+						read.add(currentReadSymbolNode.getTextContent().charAt(0));
+					}
+				}
+			}
+		}
+
+		// get write
+		NodeList writeList = transitionElement.getElementsByTagName("write");
+		for (int k = 0; k < writeList.getLength(); k++) {
+			Node currentWriteNode = writeList.item(k);
+			if (currentWriteNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element currentWriteElement = (Element) currentWriteNode;
+				NodeList writeSymbolList = currentWriteElement.getChildNodes();
+				for (int l = 0; l < writeSymbolList.getLength(); l++) {
+					Node currentWriteSymbolNode = writeSymbolList.item(l);
+					if (currentWriteSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+						write.add(currentWriteSymbolNode.getTextContent().charAt(0));
+					}
+				}
+			}
+		}
+
+		// get action
+		NodeList actionList = transitionElement.getElementsByTagName("action");
+		for (int k = 0; k < actionList.getLength(); k++) {
+			Node currentActionNode = actionList.item(k);
+			if (currentActionNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element currentActionElement = (Element) currentActionNode;
+				NodeList actionSymbolList = currentActionElement.getChildNodes();
+				for (int l = 0; l < actionSymbolList.getLength(); l++) {
+					Node currentActionSymbolNode = actionSymbolList.item(l);
+					if (currentActionSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
+						action.add(currentActionSymbolNode.getTextContent().charAt(0));
+					}
+				}
+			}
+		}
+
+		return new Transition(id, read, write, action);
+	}
+
+	/**
+	 * Gets a state of the TuringMachine with a given ID
+	 * @param id Id to be searched
+	 * @return The State with the given ID, or null if the state doesn't exist
+	 */
+	public State getStateById(String id) {
+		for (State state : this.states) {
+			if (state.getId().equals(id)) {
+				return state;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Gets a transition of the TuringMachine with a given ID
+	 * @param id Id to be searched
+	 * @return The Transition with the given ID, or null if the state doesn't exist
+	 */
+	public Transition getTransitionById(String id) {
+		for (Edge edge : this.edges) {
+			for (Transition transition : edge.transitions) {
+				if (transition.getId().equals(id)) {
+					return transition;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
