@@ -174,7 +174,7 @@ public class TuringMachine {
 	 * @param doc Document to load the configuration from
 	 * @throws IOException Exception if any problems occur while reading the configuration
 	 */
-	public void loadTapesConfig(Document doc) throws IOException{
+	private void loadTapesConfig(Document doc) throws IOException{
 		//Iterate through a list of tape nodes
 		NodeList tapeList = doc.getElementsByTagName("tape");
 		for (int i = 0; i < tapeList.getLength(); i++) {
@@ -252,7 +252,7 @@ public class TuringMachine {
 	 * @param doc The document where to get the states
 	 * @throws IOException Exception if any problem occurs while reading the states
 	 */
-	public void loadStates(Document doc) throws IOException {
+	private void loadStates(Document doc) throws IOException {
 		// get list of nodes
 		NodeList stateList = doc.getElementsByTagName("state");
 		for (int i = 0; i < stateList.getLength(); i++) {
@@ -292,7 +292,7 @@ public class TuringMachine {
 	 * @param doc The document where to get the edges
 	 * @throws IOException Exception if any problem occurs while reading the edges
 	 */
-	public void loadEdges(Document doc) throws IOException {
+	private void loadEdges(Document doc) throws IOException {
 		// get list of edges
 		NodeList edgeList = doc.getElementsByTagName("edge");
 		for (int i = 0; i < edgeList.getLength(); i++) {
@@ -353,62 +353,42 @@ public class TuringMachine {
 		}
 	}
 
-	private Transition loadTransition(Element transitionElement) {
-		String id;
-		ArrayList<Character> read = new ArrayList<Character>();
-		ArrayList<Character> write = new ArrayList<Character>();
-		ArrayList<Character> action = new ArrayList<Character>();
-		id = transitionElement.getAttribute("id");
+	private Transition loadTransition(Element transitionElement) throws IOException {
+		String id = transitionElement.getAttribute("id");
 
-		// get read
-		NodeList readList = transitionElement.getElementsByTagName("read");
-		for (int k = 0; k < readList.getLength(); k++) {
-			Node currentReadNode = readList.item(k);
-			if (currentReadNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element currentReadElement = (Element) currentReadNode;
-				NodeList readSymbolList = currentReadElement.getChildNodes();
-				for (int l = 0; l < readSymbolList.getLength(); l++) {
-					Node currentReadSymbolNode = readSymbolList.item(l);
-					if (currentReadSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-						read.add(currentReadSymbolNode.getTextContent().charAt(0));
-					}
-				}
-			}
-		}
+		ArrayList<Character> read = this.loadSymbolList("read", transitionElement);
+		ArrayList<Character> write = this.loadSymbolList("write", transitionElement);
+		ArrayList<Character> action = this.loadSymbolList("action", transitionElement);
 
-		// get write
-		NodeList writeList = transitionElement.getElementsByTagName("write");
-		for (int k = 0; k < writeList.getLength(); k++) {
-			Node currentWriteNode = writeList.item(k);
-			if (currentWriteNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element currentWriteElement = (Element) currentWriteNode;
-				NodeList writeSymbolList = currentWriteElement.getChildNodes();
-				for (int l = 0; l < writeSymbolList.getLength(); l++) {
-					Node currentWriteSymbolNode = writeSymbolList.item(l);
-					if (currentWriteSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-						write.add(currentWriteSymbolNode.getTextContent().charAt(0));
-					}
-				}
-			}
-		}
-
-		// get action
-		NodeList actionList = transitionElement.getElementsByTagName("action");
-		for (int k = 0; k < actionList.getLength(); k++) {
-			Node currentActionNode = actionList.item(k);
-			if (currentActionNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element currentActionElement = (Element) currentActionNode;
-				NodeList actionSymbolList = currentActionElement.getChildNodes();
-				for (int l = 0; l < actionSymbolList.getLength(); l++) {
-					Node currentActionSymbolNode = actionSymbolList.item(l);
-					if (currentActionSymbolNode.getNodeType() == Node.ELEMENT_NODE) {
-						action.add(currentActionSymbolNode.getTextContent().charAt(0));
-					}
-				}
+		// check actions
+		for (Character c : action) {
+			if (!(c=='L' || c=='N' || c=='R')) {
+				throw new IOException("Unsupported action '" + c + "'. Must be 'L', 'N' or 'R' (Transition ID '" + id + ")");
 			}
 		}
 
 		return new Transition(id, read, write, action);
+	}
+	
+	private ArrayList<Character> loadSymbolList(String tag, Element transitionElement) throws IOException {
+		String id = transitionElement.getAttribute("id");
+		ArrayList<Character> symbols = new ArrayList<Character>();
+
+		Element tagElement = InOut.getChildElement(tag, transitionElement);
+		NodeList symbolList = tagElement.getChildNodes();
+		for (int i = 0; i < symbolList.getLength(); i++) {
+			Node symbolNode = symbolList.item(i);
+			if (symbolNode.getNodeType() == Node.ELEMENT_NODE) {
+				String symbolString = symbolNode.getTextContent();
+				if (symbolString.length() != 1) {
+					throw new IOException("Expected exactly one character per symbol in the '" 
+							+ tag + "' section of transition with ID '" + id + "' but found the string '" 
+							+ symbolString + "' with a length of " + symbolString.length() + " instead.");
+				}
+				symbols.add(symbolString.charAt(0));
+			}
+		}
+		return symbols;
 	}
 
 	/**
