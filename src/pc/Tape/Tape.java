@@ -1,5 +1,7 @@
 package Tape;
 
+import java.lang.String;
+
 /**
  * This abstract class is the common base class for LEGO and Console/PC tapes.
  * It contains only few concrete methods.
@@ -69,7 +71,14 @@ public abstract class Tape {
 	 */
 	public abstract void test() throws TapeException; //TODO: remove
 	
+	// TODO javadoc
 	public abstract void writeInputWord() throws TapeException;
+	
+	/**
+	 * This method returns the tape type
+	 * @return
+	 */
+	public abstract String getType();
 	
 	/**
 	 * Checks if the tape has been initialized
@@ -103,10 +112,19 @@ public abstract class Tape {
 		this.name = name;
 	}
 
+	/**
+	 * Get the input word
+	 * @return Input word
+	 */
 	public String getInputWord() {
 		return inputWord;
 	}
 
+	/**
+	 * Set the input word
+	 * @param inputWord New input word
+	 * @throws TapeException Exception if error occurs while setting input word
+	 */
 	public void setInputWord(String inputWord) throws TapeException {
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized. Input word can't be changed at this time anymore.");
 		this.inputWord = inputWord;

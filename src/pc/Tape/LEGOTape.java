@@ -1,6 +1,7 @@
 package Tape;
 
 import java.io.*;
+import java.lang.String;
 
 /** Represents a physical Turing machine tape and provides methods to interact with the tape
  * 
@@ -65,6 +66,14 @@ public class LEGOTape extends Tape {
 			throw new TapeException(this, "Tape couldn't be initialized.", e);
 		}
 		
+	}
+	
+	/**
+	 * Returns the tape type
+	 * @return Returns "LEGO"
+	 */
+	public String getType() {
+		return "LEGO";
 	}
 	
 	/**
