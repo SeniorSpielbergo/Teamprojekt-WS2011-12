@@ -209,7 +209,10 @@ public class ErrorDialog extends JDialog {
 		
 		//console output
 		System.out.println("Error: " + msg);
-		throwable.printStackTrace();
+		
+		if (throwable != null) {
+			throwable.printStackTrace();
+		}
 	}
 
 	/**

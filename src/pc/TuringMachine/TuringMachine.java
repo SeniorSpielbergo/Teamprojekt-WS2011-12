@@ -5,7 +5,14 @@ import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -389,6 +396,78 @@ public class TuringMachine {
 			}
 		}
 		return symbols;
+	}
+
+
+	public void saveXML(String filename) throws IOException {
+		System.out.println("Saving file '" + filename + "'...");
+
+		if (!filename.endsWith(".xml")) {
+			throw new IOException("Wrong file extension of file '" + filename + "'. Must be '.xml'");
+		}
+
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
+		Transformer transformer = null;
+		DocumentBuilder docBuilder = null;
+		try {
+			transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			docBuilder = docFactory.newDocumentBuilder();
+		} catch (TransformerConfigurationException e) {
+			IOException ex = new IOException("Cannot write XML files. Serious configuration error.");
+			ex.initCause(e);
+		} catch (ParserConfigurationException e) {
+			IOException ex = new IOException("Cannot write XML files. Serious configuration error.");
+			ex.initCause(e);
+		}
+
+		Document doc = docBuilder.newDocument();
+		//DOMSource source = new DOMSource(doc);
+
+		// create root element
+		Element rootElement = doc.createElement("machine");
+		doc.appendChild(rootElement);
+
+		// save name of machine
+		Attr attrName = doc.createAttribute("name");
+		attrName.setValue(this.getName());
+		rootElement.setAttributeNode(attrName);
+
+		// save number tapes of machine
+		Attr attrTape = doc.createAttribute("tape");
+		attrTape.setValue(String.valueOf(this.getTapes().size()));
+		rootElement.setAttributeNode(attrTape);
+		
+		//save the rest
+		System.out.println("Saving tape configuration...");
+		this.saveTapesConfig(rootElement);
+		System.out.println("Saving states...");
+		this.saveStates(rootElement);
+		System.out.println("Saving edges and transitions...");
+		this.saveEdges(rootElement);
+		System.out.println("File '" + filename + "' successfully saved.");
+	}
+	
+	private void saveTapesConfig(Element rootElement) {
+		//TODO: implement
+	}
+	
+	private void saveStates(Element rootElement) {
+		//TODO: implement
+	}
+	
+	private void saveEdges(Element rootElement) {
+		//TODO: implement
+	}
+	
+	private void saveTransition(Element rootElement) {
+		//TODO: implement
 	}
 
 	/**
