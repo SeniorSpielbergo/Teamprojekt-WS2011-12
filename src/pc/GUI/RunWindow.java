@@ -4,9 +4,17 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import Tape.*;
 import TuringMachine.*;
 
-public class RunWindow extends JFrame implements ActionListener, KeyListener {
+public class RunWindow extends JDialog implements ActionListener, KeyListener {
+
+	/**
+	 * Represents the different types of states
+	 */
+	public enum Return {
+		CANCEL, RUN
+	}
 	
 	static final long serialVersionUID = -3667258249137827980L;
 	private final String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
@@ -17,7 +25,7 @@ public class RunWindow extends JFrame implements ActionListener, KeyListener {
 	private JScrollPane comboPane; 
 	private JPanel runCancelContainer;
 	private JTabbedPane tabbedPane;
-	@SuppressWarnings("rawtypes")	// because of java7
+	@SuppressWarnings({"rawtypes"})	// because of java7
 	private JComboBox[] combo;
 	private JLabel[] tapeLabel;
 	private JTextField[] tapeName;
@@ -26,13 +34,15 @@ public class RunWindow extends JFrame implements ActionListener, KeyListener {
 	private JTextField[] input;
 	private JButton runButton;
 	private JButton cancelButton;
+	private Return returnValue;
 	
 	/**
 	 * Constructs the run window
 	 * @param machine Turing machine needed to show the run settings
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })		// because of java7
 	public RunWindow(TuringMachine machine) {
+		this.setModal(true);
 		this.machine = machine;
 		initRunWindow(machine.getNumberOfTapes());
 		
@@ -124,6 +134,24 @@ public class RunWindow extends JFrame implements ActionListener, KeyListener {
 		cancelButton = new JButton("cancel");
 	}
 	
+	public Return showDialog() {
+		this.setVisible(true);
+		
+		return returnValue;
+	}
+	
+	private void updateTapeWords() {
+		for (int i = 0; i < input.length; i++) {
+			Tape tempTape = this.machine.getTapes().get(i);
+			try {
+				tempTape.setInputWord(input[i].getText());
+			}
+			catch (TapeException te) {
+				ErrorDialog.showError("Error while setting new input word!", te);
+			}
+		}
+	}
+	
 	private ItemListener createItemListener(final int index) {
 		return new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -147,10 +175,16 @@ public class RunWindow extends JFrame implements ActionListener, KeyListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == cancelButton) {
+			updateTapeWords();
 			this.setVisible(false);
+			dispose();
+			returnValue = Return.CANCEL;
 		}
 		else if(e.getSource() == runButton) {
-			JOptionPane.showMessageDialog(null, "Not implemented yet!");
+			updateTapeWords();
+			this.setVisible(false);
+			dispose();
+			returnValue = Return.RUN;
 		}
 	}
 	

@@ -5,6 +5,7 @@ import javax.swing.filechooser.FileFilter;
 
 import TuringMachine.*;
 import Tape.*;
+import GUI.RunWindow.*;
 
 import java.awt.Toolkit;
 import java.awt.event.*;
@@ -201,8 +202,12 @@ public class Editor extends JFrame implements ActionListener {
 	 */
 	public void runSimulation() {
 		RunWindow runWindow = new RunWindow(currentMachine);
-		runWindow.setVisible(true);
 		runWindow.setLocationRelativeTo(null);
+		
+		Return returnValue = runWindow.showDialog();
+		if (returnValue == Return.RUN) {
+			simulate();
+		}
 	}
 	
 	/**
