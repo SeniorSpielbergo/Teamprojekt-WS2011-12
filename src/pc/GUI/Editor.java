@@ -23,6 +23,7 @@ public class Editor extends JFrame implements ActionListener {
 	private JMenuItem newAction;
 	private JMenuItem openAction;
 	private JMenuItem saveAction;
+	private JMenuItem saveAsAction;
 	private JMenuItem exportLatexAction;
 	private JMenuItem exitAction;
 	private JMenuItem runAction;
@@ -63,6 +64,7 @@ public class Editor extends JFrame implements ActionListener {
 		
 		// disable actions
 		saveAction.setEnabled(false);
+		saveAsAction.setEnabled(false);
 		exportLatexAction.setEnabled(false);
 		runAction.setEnabled(false);
         
@@ -70,6 +72,7 @@ public class Editor extends JFrame implements ActionListener {
 		fileMenu.add(newAction);
 		fileMenu.add(openAction);
 		fileMenu.add(saveAction);
+		fileMenu.add(saveAsAction);
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exportLatexAction);
 		fileMenu.add(new JSeparator());
@@ -123,6 +126,7 @@ public class Editor extends JFrame implements ActionListener {
 		newAction = new JMenuItem("New");
 		openAction = new JMenuItem("Open");
 		saveAction = new JMenuItem("Save");
+		saveAsAction = new JMenuItem("Save As...");
 		exportLatexAction = new JMenuItem("Export as LaTeX");
 		exitAction = new JMenuItem("Exit");
 		runAction = new JMenuItem("Run");
@@ -134,7 +138,7 @@ public class Editor extends JFrame implements ActionListener {
 		// init actionListener
 		newAction.addActionListener(this);
 		openAction.addActionListener(this);
-		saveAction.addActionListener(this);
+		saveAsAction.addActionListener(this);
 		exportLatexAction.addActionListener(this);
 		exitAction.addActionListener(this);
 		runAction.addActionListener(this);
@@ -146,6 +150,7 @@ public class Editor extends JFrame implements ActionListener {
 	public void newFile() {
 		JOptionPane.showMessageDialog(null, "Not implemented yet!");
 		saveAction.setEnabled(true);
+		saveAsAction.setEnabled(true);
 		exportLatexAction.setEnabled(true);
 		runAction.setEnabled(true);
 	}
@@ -160,6 +165,7 @@ public class Editor extends JFrame implements ActionListener {
 			try {
 				currentMachine = TuringMachine.loadFromXML(selectedFile.getName());
 				saveAction.setEnabled(true);
+				saveAsAction.setEnabled(true);
 				exportLatexAction.setEnabled(true);
 				runAction.setEnabled(true);
 			}
@@ -173,6 +179,13 @@ public class Editor extends JFrame implements ActionListener {
 	 * Saves a file
 	 */
 	public void saveFile() {
+		// TODO save
+	}
+	
+	/**
+	 * Saves a file under a certain name
+	 */
+	public void saveAsFile() {
 		int retVal = fc.showSaveDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			JOptionPane.showMessageDialog(null, "Saved successfully!");
@@ -250,6 +263,9 @@ public class Editor extends JFrame implements ActionListener {
 		}
 		else if (e.getSource() == saveAction) {
 			saveFile();
+		}
+		else if (e.getSource() == saveAsAction) {
+			saveAsFile();
 		}
 		else if (e.getSource() == exportLatexAction) {
 			exportLatex();
