@@ -456,10 +456,70 @@ public class TuringMachine {
 	
 	private void saveTapesConfig(Element rootElement) {
 		//TODO: implement
+		
+		//				// inputs
+		//				ArrayList<ArrayList<Character>> inputCharacter = machine.getInitial();
+		//				for(int i = 0; i < inputCharacter.size(); i++) {
+		//					ArrayList<Character> tempInput = inputCharacter.get(i);
+		//
+		//					// input element
+		//					Element input = doc.createElement("input");
+		//					rootElement.appendChild(input);
+		//
+		//					// tape element
+		//					Element tape = doc.createElement("tape");
+		//					input.appendChild(tape);
+		//
+		//					// input tape elements
+		//					for (int j = 0; j < tempInput.size(); j++) {
+		//						Element symbolElement = doc.createElement("symbol");
+		//						symbolElement.appendChild(doc.createTextNode("" + tempInput.get(j)));
+		//						tape.appendChild(symbolElement);
+		//					}
+		//				}
 	}
 	
 	private void saveStates(Element rootElement) {
 		//TODO: implement
+		
+		//
+		//				// states
+		//				for(int i = 0; i < states.size(); i++) {
+		//					State tempState = states.get(i);
+		//					// state element
+		//					Element state = doc.createElement("state");
+		//					rootElement.appendChild(state);
+		//
+		//					// save id of state
+		//					Attr attrStateId = doc.createAttribute("id");
+		//					attrStateId.setValue(tempState.getId());
+		//					state.setAttributeNode(attrStateId);
+		//
+		//					// save type of state
+		//					Attr attrType = doc.createAttribute("type");
+		//					String type;
+		//					switch(tempState.getType()) {
+		//					case START:
+		//						type = "start";
+		//						break;
+		//					case NORMAL:
+		//						type = "normal";
+		//						break;
+		//					case FINAL:
+		//						type = "final";
+		//						break;
+		//					default:
+		//						type = "normal";
+		//						break;
+		//					}
+		//					attrType.setValue(type);
+		//					state.setAttributeNode(attrType);
+		//
+		//					// state name element
+		//					Element nameElement = doc.createElement("name");
+		//					nameElement.appendChild(doc.createTextNode(tempState.getName()));
+		//					state.appendChild(nameElement);
+		//				}
 	}
 	
 	private void saveEdges(Element rootElement) {
