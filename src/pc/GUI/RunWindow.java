@@ -57,6 +57,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		inputMap.put(cancel, "ESC");
 		runButton.getActionMap().put("ESC", new ClickAction(cancelButton));
 		cancelButton.addActionListener(this);
+		runButton.addActionListener(this);
 		
 		// window title and size
 		setTitle("Run");

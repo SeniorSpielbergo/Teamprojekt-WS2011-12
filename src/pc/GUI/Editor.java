@@ -26,7 +26,6 @@ public class Editor extends JFrame implements ActionListener {
 	private JMenuItem exportLatexAction;
 	private JMenuItem exitAction;
 	private JMenuItem runAction;
-	private JMenuItem testAction;
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
 	private JMenu simulationMenu;
@@ -76,7 +75,6 @@ public class Editor extends JFrame implements ActionListener {
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exitAction);
 		simulationMenu.add(runAction);
-		simulationMenu.add(testAction);
 		
 		// menu shortcuts
 		newAction.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -127,7 +125,6 @@ public class Editor extends JFrame implements ActionListener {
 		exportLatexAction = new JMenuItem("Export as LaTeX");
 		exitAction = new JMenuItem("Exit");
 		runAction = new JMenuItem("Run");
-		testAction = new JMenuItem("Test");
 		
 		// create menu items
 		fileMenu = new JMenu("File");
@@ -140,7 +137,6 @@ public class Editor extends JFrame implements ActionListener {
 		exportLatexAction.addActionListener(this);
 		exitAction.addActionListener(this);
 		runAction.addActionListener(this);
-		testAction.addActionListener(this);
 	}
 	
 	/**
@@ -259,9 +255,6 @@ public class Editor extends JFrame implements ActionListener {
 		}
 		else if (e.getSource() == runAction) {
 			runSimulation();
-		}
-		else if (e.getSource() == testAction) {
-			simulate();
 		}
 	}
 	
