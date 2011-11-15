@@ -159,13 +159,13 @@ public class Editor extends JFrame implements ActionListener {
 				File selectedFile = fc.getSelectedFile();
 			try {
 				currentMachine = TuringMachine.loadFromXML(selectedFile.getName());
+				saveAction.setEnabled(true);
+				exportLatexAction.setEnabled(true);
+				runAction.setEnabled(true);
 			}
 			catch (Exception e) {
 				ErrorDialog.showError("The file '" + selectedFile.getName() + "' couldn't be openend, because the file is corrupt.", e);
 			}
-			saveAction.setEnabled(true);
-			exportLatexAction.setEnabled(true);
-			runAction.setEnabled(true);
 		}
 	}
 	
