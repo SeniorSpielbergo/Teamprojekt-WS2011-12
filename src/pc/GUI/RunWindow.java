@@ -21,9 +21,9 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	private final String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
 	protected TuringMachine machine;
 	private JPanel inputContainer;
-	private JPanel comboContainer;
+	private JPanel tapeSettingsContainer;
 	private JScrollPane inputPane;
-	private JScrollPane comboPane; 
+	private JScrollPane tapeSettingsPane;
 	private JPanel runCancelContainer;
 	private JTabbedPane tabbedPane;
 	@SuppressWarnings({"rawtypes"})	// because of java7
@@ -106,12 +106,12 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			c.gridx = 0;
 			c.gridy = i;
 			c.insets = new Insets(5,5,5,5);
-			comboContainer.add(tapeName[i], c);
+			tapeSettingsContainer.add(tapeName[i], c);
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 1;
 			c.gridy = i;
 			c.insets = new Insets(5,5,5,5);
-			comboContainer.add(tapeCombo[i], c);
+			tapeSettingsContainer.add(tapeCombo[i], c);
 			// layout for input tab
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
@@ -126,14 +126,14 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		}
 		// add scroll bars
 		inputPane = new JScrollPane(inputContainer);
-		comboPane = new JScrollPane(comboContainer);
+		tapeSettingsPane = new JScrollPane(tapeSettingsContainer);
 		
 		// add run and cancel button at the end
 		contentPane.add(runCancelContainer, BorderLayout.AFTER_LAST_LINE);
 		
 		// add tabs
 		tabbedPane.addTab("Input", inputPane);
-		tabbedPane.addTab("Tape settings", comboPane);
+		tabbedPane.addTab("Tape settings", tapeSettingsPane);
 		
 		// add to window
 		contentPane.add(tabbedPane);
@@ -145,7 +145,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 */
 	public void initRunWindow(int tapes) {
 		inputContainer  = new JPanel(new GridBagLayout());
-		comboContainer = new JPanel(new GridBagLayout());
+		tapeSettingsContainer = new JPanel(new GridBagLayout());
 		runCancelContainer = new JPanel();
 		tabbedPane = new JTabbedPane();
 		tapeCombo  = new JComboBox[tapes];
