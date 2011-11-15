@@ -444,7 +444,7 @@ public class TuringMachine {
 		rootElement.setAttributeNode(attrName);
 
 		// save number tapes of machine
-		Attr attrTape = doc.createAttribute("tape");
+		Attr attrTape = doc.createAttribute("tapes");
 		attrTape.setValue(String.valueOf(this.getTapes().size()));
 		rootElement.setAttributeNode(attrTape);
 		

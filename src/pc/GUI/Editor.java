@@ -163,7 +163,7 @@ public class Editor extends JFrame implements ActionListener {
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 				File selectedFile = fc.getSelectedFile();
 			try {
-				currentMachine = TuringMachine.loadFromXML(selectedFile.getName());
+				currentMachine = TuringMachine.loadFromXML(selectedFile.getPath());
 				saveAction.setEnabled(true);
 				saveAsAction.setEnabled(true);
 				exportLatexAction.setEnabled(true);
@@ -238,11 +238,25 @@ public class Editor extends JFrame implements ActionListener {
 			this.currentMachine.initTapes();
 		}
 		catch (TapeException e){
+			try {
+				this.currentMachine.shutdownTapes();
+			} catch (TapeException e1) {
+				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+				e1.printStackTrace();
+			}
 		    ErrorDialog.showError("The initialization of the tapes failed because of a tape exception.", e);
+		   
 		    return;
 		}
 		catch (RuntimeException e){
+			try {
+				this.currentMachine.shutdownTapes();
+			} catch (TapeException e1) {
+				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+				e1.printStackTrace();
+			}
 		    ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
+
 		    return;
 		}
 		
@@ -256,6 +270,13 @@ public class Editor extends JFrame implements ActionListener {
 		}
 		catch (RuntimeException e){
 		    ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
+		}
+		finally {
+			try {
+				this.currentMachine.shutdownTapes();
+			} catch (TapeException e) {
+			    ErrorDialog.showError("Warning: The tapes could't be shutdown correctly.", e);
+			}
 		}
 	}
 

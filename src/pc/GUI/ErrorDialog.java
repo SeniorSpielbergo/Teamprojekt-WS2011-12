@@ -204,15 +204,15 @@ public class ErrorDialog extends JDialog {
 	 * @param throwable The exception that occurred
 	 */
 	public static void showError(String msg, Throwable throwable) {
-		ErrorDialog errorDialog = new ErrorDialog(msg, throwable);
-		errorDialog.setVisible(true);
-		
-		//console output
+		//console output as fallback
 		System.out.println("Error: " + msg);
 		
 		if (throwable != null) {
 			throwable.printStackTrace();
 		}
+		
+		ErrorDialog errorDialog = new ErrorDialog(msg, throwable);
+		errorDialog.setVisible(true);
 	}
 
 	/**
