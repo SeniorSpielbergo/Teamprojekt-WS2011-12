@@ -444,6 +444,11 @@ public class TuringMachine {
 		attrTape.setValue(String.valueOf(this.getTapes().size()));
 		rootElement.setAttributeNode(attrTape);
 		
+		// save xml version number
+		Attr attrXMLVersion = doc.createAttribute("xml-version");
+		attrXMLVersion.setValue("2");
+		rootElement.setAttributeNode(attrXMLVersion);
+		
 		//save the rest
 		System.out.println("Saving tape configuration...");
 		this.saveTapesConfig(rootElement);
