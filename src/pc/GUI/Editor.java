@@ -180,6 +180,7 @@ public class Editor extends JFrame implements ActionListener {
 	 */
 	public void saveFile() {
 		// TODO save
+		JOptionPane.showMessageDialog(null, "Not implemented yet!");
 	}
 	
 	/**
@@ -188,14 +189,14 @@ public class Editor extends JFrame implements ActionListener {
 	public void saveAsFile() {
 		int retVal = fc.showSaveDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fc.getSelectedFile();
 			try {
-				File selectedFile = fc.getSelectedFile();
-				this.currentMachine.saveXML(selectedFile.getName());
+				this.currentMachine.saveXML(selectedFile.getPath());
 			} catch (IOException e) {
-			    ErrorDialog.showError("Saving the file '" + fc.getName() + "' failed because of an I/O error.", e);
+			    ErrorDialog.showError("Saving the file '" + selectedFile.getName() + "' failed because of an I/O error.", e);
 			}
 			catch (RuntimeException e){
-			    ErrorDialog.showError("Saving the file '" + fc.getName() + "' failed because of an unkown error.", e);
+			    ErrorDialog.showError("Saving the file '" + selectedFile.getName() + "' failed because of an unkown error.", e);
 			}
 		}
 	}

@@ -401,7 +401,10 @@ public class TuringMachine {
 		return symbols;
 	}
 
-
+	/**
+	 * Writes the Turing machine to a XML file with a given name
+	 * @param fileName File writing to (with or without .xml at the end)
+	 */
 	public void saveXML(String filename) throws IOException {
 		System.out.println("Saving file '" + filename + "'...");
 
@@ -457,7 +460,7 @@ public class TuringMachine {
 		this.saveStates(rootElement);
 		System.out.println("Saving edges and transitions...");
 		this.saveEdges(rootElement);
-		System.out.println("Writing to file...");
+		System.out.println("Saving to file...");
 		StreamResult result = new StreamResult(new File(filename));
 		DOMSource source = new DOMSource(doc);
 		try {
