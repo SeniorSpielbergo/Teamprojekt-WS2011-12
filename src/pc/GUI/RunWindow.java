@@ -27,12 +27,10 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	private JPanel runCancelContainer;
 	private JTabbedPane tabbedPane;
 	@SuppressWarnings({"rawtypes"})	// because of java7
-	private JComboBox[] combo;
+	private JComboBox[] tapeCombo;
 	private JLabel[] tapeLabel;
 	private JTextField[] tapeName;
-	private JPanel[] tapePanel;
-	private JPanel[] inputPanel;
-	private JTextField[] input;
+	private JTextField[] tapeInput;
 	private JButton runButton;
 	private JButton cancelButton;
 	private ReturnValue returnValue;
@@ -45,6 +43,12 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	public RunWindow(TuringMachine machine) {
 		this.setModal(true);
 		this.machine = machine;
+		
+		// window title and size
+		setTitle("Run");
+		setSize(600, 250);
+		this.setResizable(false);
+		
 		initRunWindow(machine.getNumberOfTapes());
 		
 		// set enter and escape button listener
@@ -59,54 +63,60 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		cancelButton.addActionListener(this);
 		runButton.addActionListener(this);
 		
-		// window title and size
-		setTitle("Run");
-		setSize(600, 250);
-		this.setResizable(false);
-		
-		// layout
+		// layout for run and cancel button
 		Container contentPane = this.getContentPane();
-		BoxLayout inputLayout = new BoxLayout(inputContainer, BoxLayout.Y_AXIS);
-		inputContainer.setLayout(inputLayout);
-		BoxLayout layoutCombo = new BoxLayout(comboContainer, BoxLayout.Y_AXIS);
-		comboContainer.setLayout(layoutCombo);
 		BoxLayout runCancel = new BoxLayout(runCancelContainer, BoxLayout.X_AXIS);
 		runCancelContainer.setLayout(runCancel);
 		runCancelContainer.add(cancelButton);
 		runCancelContainer.add(Box.createHorizontalGlue());
 		runCancelContainer.add(runButton);
 		
-		// initialize tape settings
-		for (int i = 0; i < combo.length; i++) {
+		// show window content
+		for (int i = 0; i < tapeCombo.length; i++) {
 			String tapeType = this.machine.getTapes().get(i).getType();
-			combo[i] = new JComboBox();
+			GridBagConstraints c = new GridBagConstraints();
+			
+			// initialize the fields to display the content
+			tapeCombo[i] = new JComboBox();
 			tapeLabel[i] = new JLabel(this.machine.getTapes().get(i).getName());
 			tapeName[i] = new JTextField(this.machine.getTapes().get(i).getName(), 20);
 			tapeName[i].addKeyListener(this);
-			tapePanel[i] = new JPanel();
-			inputPanel[i] = new JPanel();
-			input[i] = new JTextField(20);
+			tapeInput[i] = new JTextField(20);
 			
 			for (int j = 0; j < description.length; j++) {
-				combo[i].addItem(description[j]);
-				combo[i].addItemListener(createItemListener(i));
+				tapeCombo[i].addItem(description[j]);
+				tapeCombo[i].addItemListener(createItemListener(i));
 				if (tapeType.equals("LEGO")) {
-					combo[i].setSelectedItem(description[0]);
+					tapeCombo[i].setSelectedItem(description[0]);
 				}
 				else if (tapeType.equals("console")) {
-					combo[i].setSelectedItem(description[1]);
+					tapeCombo[i].setSelectedItem(description[1]);
 				}
 				else if (tapeType.equals("gui")) {
-					combo[i].setSelectedItem(description[2]);
+					tapeCombo[i].setSelectedItem(description[2]);
 				}
 			}
-			tapePanel[i].add(tapeName[i]);
-			tapePanel[i].add(combo[i]);
-			inputPanel[i].add(tapeLabel[i]);
-			inputPanel[i].add(input[i]);
-			comboContainer.add(tapePanel[i]);
-			input[i].setText(machine.getTapes().get(i).getInputWord());
-			inputContainer.add(inputPanel[i]);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridx = 0;
+			c.gridy = i;
+			c.insets = new Insets(5,5,5,5);
+			comboContainer.add(tapeName[i], c);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridx = 1;
+			c.gridy = i;
+			c.insets = new Insets(5,5,5,5);
+			comboContainer.add(tapeCombo[i], c);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridx = 0;
+			c.gridy = i;
+			c.insets = new Insets(5,5,5,5);
+			inputContainer.add(tapeLabel[i], c);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridx = 1;
+			c.gridy = i;
+			c.insets = new Insets(5,5,5,5);
+			inputContainer.add(tapeInput[i], c);
+			tapeInput[i].setText(machine.getTapes().get(i).getInputWord());
 		}
 		inputPane = new JScrollPane(inputContainer);
 		comboPane = new JScrollPane(comboContainer);
@@ -122,16 +132,14 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 * @param tapes Number of tapes
 	 */
 	public void initRunWindow(int tapes) {
-		inputContainer  = new JPanel();
-		comboContainer = new JPanel();
+		inputContainer  = new JPanel(new GridBagLayout());
+		comboContainer = new JPanel(new GridBagLayout());
 		runCancelContainer = new JPanel();
 		tabbedPane = new JTabbedPane();
-		combo  = new JComboBox[tapes];
+		tapeCombo  = new JComboBox[tapes];
 		tapeLabel = new JLabel[tapes];
 		tapeName = new JTextField[tapes];
-		tapePanel = new JPanel[tapes];
-		inputPanel = new JPanel[tapes];
-		input = new JTextField[tapes];
+		tapeInput = new JTextField[tapes];
 		runButton = new JButton("run");
 		cancelButton = new JButton("cancel");
 	}
@@ -150,10 +158,10 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 * Updates the input words for the tapes
 	 */
 	private void updateTapeWords() {
-		for (int i = 0; i < input.length; i++) {
+		for (int i = 0; i < tapeInput.length; i++) {
 			Tape tempTape = this.machine.getTapes().get(i);
 			try {
-				tempTape.setInputWord(input[i].getText());
+				tempTape.setInputWord(tapeInput[i].getText());
 			}
 			catch (TapeException te) {
 				ErrorDialog.showError("Error while setting new input word!", te);
