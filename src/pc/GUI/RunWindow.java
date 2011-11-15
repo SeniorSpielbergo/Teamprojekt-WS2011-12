@@ -4,6 +4,12 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import Tape.ConsoleTape;
+import Tape.LEGOTape;
+import Tape.MasterRobot;
+import Tape.SlaveRobot;
+import Tape.Tape;
+import Tape.TapeException;
 import TuringMachine.*;
 
 public class RunWindow extends JFrame implements ActionListener, KeyListener {
@@ -126,12 +132,31 @@ public class RunWindow extends JFrame implements ActionListener, KeyListener {
 	
 	private ItemListener createItemListener(final int index) {
 		return new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
+			public void itemStateChanged(ItemEvent e) { //TODO check if it works
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					if (e.getItem().toString() == description[0]) {
+						MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
+						SlaveRobot nxt_03 = new SlaveRobot("NXT_03", "00:16:53:0F:DB:8E");
+						Tape tape_lego = new LEGOTape(machine.getTapes().get(index).getName() ,ips_03, nxt_03);
+						
+						try {
+							tape_lego.setInputWord(machine.getTapes().get(index).getInputWord());
+						} catch (TapeException e1) {
+							ErrorDialog.showError("Error changing Tapetype", e1);
+						}						
+						machine.getTapes().remove(index);						
+						machine.getTapes().add(index, tape_lego);
 						
 					}
 					else if (e.getItem().toString() == description[1]) {
+						Tape tape_console = new ConsoleTape(machine.getTapes().get(index).getName());
+						try {
+							tape_console.setInputWord(machine.getTapes().get(index).getInputWord());
+						} catch (TapeException e1) {
+							ErrorDialog.showError("Error changing Tapetype", e1);
+						}						
+						machine.getTapes().remove(index);						
+						machine.getTapes().add(index, tape_console);
 						
 					}
 					else if (e.getItem().toString() == description[2]) {
