@@ -93,7 +93,7 @@ public class Editor extends JFrame implements ActionListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// try to set look for Linux
+		// try to set look for Linux and Mac OS X
 		try {
 			if (System.getProperties().getProperty("os.name").equals("Linux")) {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
