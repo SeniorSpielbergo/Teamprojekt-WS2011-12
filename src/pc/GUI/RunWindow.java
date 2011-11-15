@@ -9,7 +9,7 @@ import TuringMachine.*;
 public class RunWindow extends JFrame implements ActionListener, KeyListener {
 	
 	static final long serialVersionUID = -3667258249137827980L;
-	private String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
+	private final String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
 	protected TuringMachine machine;
 	private JPanel inputContainer;
 	private JPanel comboContainer;
@@ -77,6 +77,7 @@ public class RunWindow extends JFrame implements ActionListener, KeyListener {
 			
 			for (int j = 0; j < description.length; j++) {
 				combo[i].addItem(description[j]);
+				combo[i].addItemListener(createItemListener(i));
 				if (tapeType.equals("LEGO")) {
 					combo[i].setSelectedItem(description[0]);
 				}
@@ -123,6 +124,24 @@ public class RunWindow extends JFrame implements ActionListener, KeyListener {
 		cancelButton = new JButton("cancel");
 	}
 	
+	private ItemListener createItemListener(final int index) {
+		return new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					if (e.getItem().toString() == description[0]) {
+						
+					}
+					else if (e.getItem().toString() == description[1]) {
+						
+					}
+					else if (e.getItem().toString() == description[2]) {
+						// TODO create graphic tape
+					}
+				}
+			}
+		};
+	}
+	
 	/**
 	 * Responds to a clicked button
 	 */
@@ -141,6 +160,7 @@ public class RunWindow extends JFrame implements ActionListener, KeyListener {
 	public void keyReleased(KeyEvent e) {
 		for (int i = 0; i < tapeName.length; i++) {
 			tapeLabel[i].setText(tapeName[i].getText());
+			this.machine.getTapes().get(i).setName(tapeName[i].getText());
 		}
 	}
 	
