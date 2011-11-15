@@ -49,6 +49,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		setSize(600, 250);
 		this.setResizable(false);
 		
+		// initialize
 		initRunWindow(machine.getNumberOfTapes());
 		
 		// set enter and escape button listener
@@ -83,6 +84,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			tapeName[i].addKeyListener(this);
 			tapeInput[i] = new JTextField(20);
 			
+			// initialize the combo boxes
 			for (int j = 0; j < description.length; j++) {
 				tapeCombo[i].addItem(description[j]);
 				tapeCombo[i].addItemListener(createItemListener(i));
@@ -96,6 +98,10 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 					tapeCombo[i].setSelectedItem(description[2]);
 				}
 			}
+			// set input word for tape i
+			tapeInput[i].setText(machine.getTapes().get(i).getInputWord()); 
+			
+			// layout for tape settings tab
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
 			c.gridy = i;
@@ -106,6 +112,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			c.gridy = i;
 			c.insets = new Insets(5,5,5,5);
 			comboContainer.add(tapeCombo[i], c);
+			// layout for input tab
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
 			c.gridy = i;
@@ -116,14 +123,19 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			c.gridy = i;
 			c.insets = new Insets(5,5,5,5);
 			inputContainer.add(tapeInput[i], c);
-			tapeInput[i].setText(machine.getTapes().get(i).getInputWord());
 		}
+		// add scroll bars
 		inputPane = new JScrollPane(inputContainer);
 		comboPane = new JScrollPane(comboContainer);
+		
+		// add run and cancel button at the end
 		contentPane.add(runCancelContainer, BorderLayout.AFTER_LAST_LINE);
 		
+		// add tabs
 		tabbedPane.addTab("Input", inputPane);
 		tabbedPane.addTab("Tape settings", comboPane);
+		
+		// add to window
 		contentPane.add(tabbedPane);
 	}
 	
