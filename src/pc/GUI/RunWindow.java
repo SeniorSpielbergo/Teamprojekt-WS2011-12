@@ -11,7 +11,7 @@ import TuringMachine.*;
 public class RunWindow extends JDialog implements ActionListener, KeyListener {
 
 	/**
-	 * Represents the different types of states
+	 * Represents the return values for this window
 	 */
 	public enum ReturnValue {
 		CANCEL, RUN
@@ -136,12 +136,19 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		cancelButton = new JButton("cancel");
 	}
 	
+	/**
+	 * Shows the window
+	 * @return RUN/CANCEL depending on the user decision
+	 */
 	public ReturnValue showDialog() {
 		this.setVisible(true);
 		
 		return returnValue;
 	}
 	
+	/**
+	 * Updates the input words for the tapes
+	 */
 	private void updateTapeWords() {
 		for (int i = 0; i < input.length; i++) {
 			Tape tempTape = this.machine.getTapes().get(i);
@@ -154,6 +161,11 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		}
 	}
 	
+	/**
+	 * Creates an ItemListener listening to changes in the combo boxes
+	 * @param index Number of the combo box
+	 * @return ItemListener for the combo box
+	 */
 	private ItemListener createItemListener(final int index) {
 		return new ItemListener() {
 			public void itemStateChanged(ItemEvent e) { //TODO check if it works
