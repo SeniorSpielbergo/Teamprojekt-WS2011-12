@@ -11,7 +11,7 @@ import java.lang.String;
 
 public class LEGOTape extends Tape {
 	public static final int MIN_POSITION = 0;
-	public static final int MAX_POSITION = 7;
+	public static final int MAX_POSITION = 8;
 	
 	private MasterRobot master = null;
 	private SlaveRobot slave = null;
@@ -100,19 +100,19 @@ public class LEGOTape extends Tape {
 			throw new TapeException(this, "Input word can only be written when at position 0");
 		}
 		//write input word to tape
-		for (int i = 0; i < LEGOTape.MAX_POSITION; i++) {
+		for (int i = 0; i <= LEGOTape.MAX_POSITION; i++) {
 			if (i < this.inputWord.length()) {
 				this.write(this.inputWord.charAt(i));
 			}
 			else {
 				this.write('#'); //fill the rest of the tape with #
 			}
-			System.out.println("Position: " + i);
-			this.moveRight();
+			if (i < LEGOTape.MAX_POSITION) {
+				this.moveRight();
+			}
 		}
-		this.write('#');
 
-		for (int i = LEGOTape.MAX_POSITION; i <= 0; i--) {
+		for (int i = LEGOTape.MAX_POSITION; i > 0; i--) {
 			this.moveLeft();
 		}
 	}

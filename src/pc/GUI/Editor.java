@@ -188,9 +188,16 @@ public class Editor extends JFrame implements ActionListener {
 	public void saveAsFile() {
 		int retVal = fc.showSaveDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
-			JOptionPane.showMessageDialog(null, "Saved successfully!");
+			try {
+				File selectedFile = fc.getSelectedFile();
+				this.currentMachine.saveXML(selectedFile.getName());
+			} catch (IOException e) {
+			    ErrorDialog.showError("Saving the file '" + fc.getName() + "' failed because of an I/O error.", e);
+			}
+			catch (RuntimeException e){
+			    ErrorDialog.showError("Saving the file '" + fc.getName() + "' failed because of an unkown error.", e);
+			}
 		}
-		//InOut.writeXMLFromFile(selectedFile.getName(), currentMachine);
 	}
 	
 	/**
