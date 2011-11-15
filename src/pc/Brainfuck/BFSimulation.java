@@ -15,7 +15,7 @@ public class BFSimulation {
 	int inputIterator = 0;
 	char toWrite;
 	JLabel outputLabel;
-	
+
 	/**
 	 * Creates new Simulator with given Tape and Input-String.
 	 * @param tape Tape to run the simulation on.
@@ -27,7 +27,7 @@ public class BFSimulation {
 		this.inputString = inputString;
 		this.outputLabel = outputLabel;
 	}
-	
+
 	/**
 	 * Returns the Output of the simulated brainfuck-Application.
 	 * @return String output
@@ -35,7 +35,7 @@ public class BFSimulation {
 	public String getOutput() {
 		return this.outputString;
 	}
-	
+
 	// Prints the output into the outputLabel if existing, else prints output to console.
 	private void output() {
 		if(outputLabel != null)
@@ -43,11 +43,11 @@ public class BFSimulation {
 		else
 			System.out.println(outputString);
 	}
-	
+
 	// Checks syntax of brainfuck-Application (just checks the loops)
 	private boolean checkSyntax(String code) {
 		int i = 0,
-			x = 0;
+				x = 0;
 		while(i < code.length()) {
 			if(code.charAt(i) == '[')
 				x++;
@@ -59,7 +59,7 @@ public class BFSimulation {
 		}
 		return x == 0;
 	}
-	
+
 	/**
 	 * Executing the given brainfuck-Code.
 	 * @param code The brainfuck-Code to be executed.
@@ -70,6 +70,8 @@ public class BFSimulation {
 		int instructionPointer = 0;
 		if(checkSyntax(code)){
 			while(instructionPointer < code.length()){
+				System.out.println("IP: " + instructionPointer);
+				System.out.println("current char: " + code.charAt(instructionPointer));
 				switch(code.charAt(instructionPointer)) {
 				case '<': 
 					tape.moveLeft();
@@ -79,48 +81,49 @@ public class BFSimulation {
 					break;
 				case '+': 
 					switch(tape.read()) {
-						case '#':
-							tape.write('0'); break;
-						case '0':
-							tape.write('1'); break;
-						case '1': 
-							tape.write('2'); break;
-						case '2': 
-							break;
-						default: 
-							break;
+					case '#':
+						tape.write('0'); break;
+					case '0':
+						tape.write('1'); break;
+					case '1': 
+						tape.write('2'); break;
+					case '2': 
+						break;
+					default: 
+						break;
 					}
 					break;
 				case '-':
 					switch(tape.read()) {
-						case '#':
-							break;
-						case '0':
-							tape.write('#'); break;
-						case '1': 
-							tape.write('0'); break;
-						case '2': 
-							tape.write('1'); break;
-						default: 
-							break;
+					case '#':
+						break;
+					case '0':
+						tape.write('#'); break;
+					case '1': 
+						tape.write('0'); break;
+					case '2': 
+						tape.write('1'); break;
+					default: 
+						break;
 					}
-					
+
 					break;
 				case '[': 
 					int currentValue;
 					while(true) {
 						switch(tape.read()) {
-							case '#':
-								currentValue = 0; break;
-							case '0':
-								currentValue = 1; break;
-							case '1': 
-								currentValue = 2; break;
-							case '2': 
-								currentValue = 3; break;
-							default: 
-								currentValue = 0; break;
+						case '#':
+							currentValue = 0; break;
+						case '0':
+							currentValue = 1; break;
+						case '1': 
+							currentValue = 2; break;
+						case '2': 
+							currentValue = 3; break;
+						default: 
+							currentValue = 0; break;
 						}
+						System.out.println("currentValue: " + currentValue);
 						if(currentValue == 0){
 							int x = 0;
 							int y = 1;
@@ -129,14 +132,15 @@ public class BFSimulation {
 								i++;
 								x++;
 								switch(code.charAt(i)){
-									case '[': y++; break;
-									case ']': y--; break;
-									default: break;
+								case '[': y++; break;
+								case ']': y--; break;
+								default: break;
 								}
 								if(code.charAt(i) == ']' && y == 0)
 									break;
 							}
 							instructionPointer += x;
+							System.out.println("IP set to " + instructionPointer + ", char: " + code.charAt(instructionPointer));
 							break;
 						}
 						else{
@@ -146,20 +150,21 @@ public class BFSimulation {
 							while(x != 0){
 								i++;
 								switch(code.charAt(i)) {
-									case '[': 
+								case '[': 
+									loopCode+=code.charAt(i);
+									x++; 
+									break;
+								case ']':
+									x--; 
+									if(x != 0)
 										loopCode+=code.charAt(i);
-										x++; 
-										break;
-									case ']':
-										x--; 
-										if(x != 0)
-											loopCode+=code.charAt(i);
-										break;
-									default: 
-										loopCode+=code.charAt(i); 
-										break;
+									break;
+								default: 
+									loopCode+=code.charAt(i); 
+									break;
 								}
 							}
+							System.out.println("loopcode: " + loopCode);
 							runSimulation(loopCode);
 						}
 					}

@@ -3,8 +3,14 @@ at the moment theres a maximum of 8bit numbers
 to increase maximum the first line of init has to be adjusted
 
 init
->+ >+ >+ >+ >+ >+ >+ >+
-[<]
+>[-]+
+>[-]+
+>[-]+
+>[-]+
+>[-]+
+>[-]+
+>[-]+
+>[-]<[<]
 count
 ,
 [

@@ -6,6 +6,7 @@ import javax.swing.filechooser.FileFilter;
 import TuringMachine.*;
 import Tape.*;
 import GUI.RunWindow.*;
+import GUI.Brainfuck.*;
 
 import java.awt.Toolkit;
 import java.awt.event.*;
@@ -20,7 +21,9 @@ public class Editor extends JFrame implements ActionListener {
 	static final long serialVersionUID = -3667258249137827980L;
 	static final String appName = "Turing Simulator";
 	protected TuringMachine currentMachine;
-	private JMenuItem newAction;
+	private JMenu newSubmenu;
+	private JMenuItem newBFAction;
+	private JMenuItem newTMAction;
 	private JMenuItem openAction;
 	private JMenuItem saveAction;
 	private JMenuItem saveAsAction;
@@ -69,7 +72,7 @@ public class Editor extends JFrame implements ActionListener {
 		runAction.setEnabled(false);
         
 		// add menu subitems
-		fileMenu.add(newAction);
+		fileMenu.add(newSubmenu);
 		fileMenu.add(openAction);
 		fileMenu.add(saveAction);
 		fileMenu.add(saveAsAction);
@@ -80,7 +83,7 @@ public class Editor extends JFrame implements ActionListener {
 		simulationMenu.add(runAction);
 		
 		// menu shortcuts
-		newAction.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		//newFile.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		openAction.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -122,8 +125,14 @@ public class Editor extends JFrame implements ActionListener {
 		// set menu bar
 		setJMenuBar(menuBar);
 		
+		// create submenu items
+		newSubmenu = new JMenu("New..");
+		newTMAction = new JMenuItem("New TM");
+		newBFAction = new JMenuItem("New BF");
+		newSubmenu.add(newTMAction);
+		newSubmenu.add(newBFAction);
+		
 		// create menu subitems
-		newAction = new JMenuItem("New");
 		openAction = new JMenuItem("Open");
 		saveAction = new JMenuItem("Save");
 		saveAsAction = new JMenuItem("Save As...");
@@ -136,7 +145,8 @@ public class Editor extends JFrame implements ActionListener {
 		simulationMenu = new JMenu("Simulation");
 		
 		// init actionListener
-		newAction.addActionListener(this);
+		newTMAction.addActionListener(this);
+		newBFAction.addActionListener(this);
 		openAction.addActionListener(this);
 		saveAsAction.addActionListener(this);
 		exportLatexAction.addActionListener(this);
@@ -145,13 +155,27 @@ public class Editor extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Creates a new file
+	 * Creates a new TM file
 	 */
-	public void newFile() {
+	public void newTMFile() {
 		JOptionPane.showMessageDialog(null, "Not implemented yet!");
 		saveAction.setEnabled(true);
 		saveAsAction.setEnabled(true);
 		exportLatexAction.setEnabled(true);
+		runAction.setEnabled(true);
+	}
+	
+	/**
+	 * Creates a new BF file
+	 */
+	public void newBFFile() {
+		BrainfuckEditor brainfuckEditor = new BrainfuckEditor();
+		brainfuckEditor.setVisible(true);
+		add(brainfuckEditor);
+		validate();
+		saveAction.setEnabled(true);
+		saveAsAction.setEnabled(true);
+		exportLatexAction.setEnabled(false);
 		runAction.setEnabled(true);
 	}
 	
@@ -284,8 +308,11 @@ public class Editor extends JFrame implements ActionListener {
 	 * Responds to a clicked button
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == newAction) {
-			newFile();
+		if (e.getSource() == newTMAction) {
+			newTMFile();
+		}
+		else if (e.getSource() == newBFAction) {
+			newBFFile();
 		}
 		else if (e.getSource() == openAction) {
 			openFile();
