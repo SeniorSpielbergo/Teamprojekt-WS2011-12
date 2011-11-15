@@ -214,8 +214,8 @@ public class Editor extends JFrame implements ActionListener {
 		RunWindow runWindow = new RunWindow(currentMachine);
 		runWindow.setLocationRelativeTo(null);
 		
-		Return returnValue = runWindow.showDialog();
-		if (returnValue == Return.RUN) {
+		ReturnValue returnValue = runWindow.showDialog();
+		if (returnValue == ReturnValue.RUN) {
 			simulate();
 		}
 	}

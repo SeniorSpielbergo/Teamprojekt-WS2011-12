@@ -13,7 +13,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	/**
 	 * Represents the different types of states
 	 */
-	public enum Return {
+	public enum ReturnValue {
 		CANCEL, RUN
 	}
 	
@@ -35,7 +35,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	private JTextField[] input;
 	private JButton runButton;
 	private JButton cancelButton;
-	private Return returnValue;
+	private ReturnValue returnValue;
 	
 	/**
 	 * Constructs the run window
@@ -136,7 +136,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		cancelButton = new JButton("cancel");
 	}
 	
-	public Return showDialog() {
+	public ReturnValue showDialog() {
 		this.setVisible(true);
 		
 		return returnValue;
@@ -199,13 +199,13 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			updateTapeWords();
 			this.setVisible(false);
 			dispose();
-			returnValue = Return.CANCEL;
+			returnValue = ReturnValue.CANCEL;
 		}
 		else if(e.getSource() == runButton) {
 			updateTapeWords();
 			this.setVisible(false);
 			dispose();
-			returnValue = Return.RUN;
+			returnValue = ReturnValue.RUN;
 		}
 	}
 	
