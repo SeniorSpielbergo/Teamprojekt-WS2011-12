@@ -302,6 +302,9 @@ public class Editor extends JFrame implements ActionListener {
 		else if (e.getSource() == runAction) {
 			runSimulation();
 		}
+		else if (e.getSource() == exitAction) {
+			exitEditor();
+		}
 	}
 	
 }
