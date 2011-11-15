@@ -455,11 +455,11 @@ public class TuringMachine {
 		
 		//save the rest
 		System.out.println("Saving tape configuration...");
-		this.saveTapesConfig(rootElement);
+		this.saveTapesConfig(doc, rootElement);
 		System.out.println("Saving states...");
-		this.saveStates(rootElement);
+		this.saveStates(doc, rootElement);
 		System.out.println("Saving edges and transitions...");
-		this.saveEdges(rootElement);
+		this.saveEdges(doc, rootElement);
 		System.out.println("Saving to file...");
 		StreamResult result = new StreamResult(new File(filename));
 		DOMSource source = new DOMSource(doc);
@@ -473,7 +473,7 @@ public class TuringMachine {
 		System.out.println("File '" + filename + "' successfully saved.");
 	}
 	
-	private void saveTapesConfig(Element rootElement) {
+	private void saveTapesConfig(Document doc, Element rootElement) {
 		//TODO: implement
 		
 		//				// inputs
@@ -498,50 +498,45 @@ public class TuringMachine {
 		//				}
 	}
 	
-	private void saveStates(Element rootElement) {
-		//TODO: implement
-		
-		//
-		//				// states
-		//				for(int i = 0; i < states.size(); i++) {
-		//					State tempState = states.get(i);
-		//					// state element
-		//					Element state = doc.createElement("state");
-		//					rootElement.appendChild(state);
-		//
-		//					// save id of state
-		//					Attr attrStateId = doc.createAttribute("id");
-		//					attrStateId.setValue(tempState.getId());
-		//					state.setAttributeNode(attrStateId);
-		//
-		//					// save type of state
-		//					Attr attrType = doc.createAttribute("type");
-		//					String type;
-		//					switch(tempState.getType()) {
-		//					case START:
-		//						type = "start";
-		//						break;
-		//					case NORMAL:
-		//						type = "normal";
-		//						break;
-		//					case FINAL:
-		//						type = "final";
-		//						break;
-		//					default:
-		//						type = "normal";
-		//						break;
-		//					}
-		//					attrType.setValue(type);
-		//					state.setAttributeNode(attrType);
-		//
-		//					// state name element
-		//					Element nameElement = doc.createElement("name");
-		//					nameElement.appendChild(doc.createTextNode(tempState.getName()));
-		//					state.appendChild(nameElement);
-		//				}
+	private void saveStates(Document doc, Element rootElement) {
+		for(State state : this.states) {
+			// state element
+			Element stateElement = doc.createElement("state");
+			rootElement.appendChild(stateElement);
+
+			// save id of state
+			Attr attrStateId = doc.createAttribute("id");
+			attrStateId.setValue(state.getId());
+			stateElement.setAttributeNode(attrStateId);
+
+			// save type of state
+			Attr attrType = doc.createAttribute("type");
+			String type;
+			switch(state.getType()) {
+			case START:
+				type = "start";
+				break;
+			case NORMAL:
+				type = "normal";
+				break;
+			case FINAL:
+				type = "final";
+				break;
+			default:
+				type = "normal";
+				break;
+			}
+			attrType.setValue(type);
+			stateElement.setAttributeNode(attrType);
+
+			// state name element
+			Element nameElement = doc.createElement("name");
+			nameElement.appendChild(doc.createTextNode(state.getName()));
+			stateElement.appendChild(nameElement);
+		}
 	}
 	
-	private void saveEdges(Element rootElement) {
+	private void saveEdges(Document doc, Element rootElement) {
 		//TODO: implement
 		
 		//				// edges
