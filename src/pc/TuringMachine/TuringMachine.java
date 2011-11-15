@@ -474,28 +474,51 @@ public class TuringMachine {
 	}
 	
 	private void saveTapesConfig(Document doc, Element rootElement) {
-		//TODO: implement
-		
-		//				// inputs
-		//				ArrayList<ArrayList<Character>> inputCharacter = machine.getInitial();
-		//				for(int i = 0; i < inputCharacter.size(); i++) {
-		//					ArrayList<Character> tempInput = inputCharacter.get(i);
-		//
-		//					// input element
-		//					Element input = doc.createElement("input");
-		//					rootElement.appendChild(input);
-		//
-		//					// tape element
-		//					Element tape = doc.createElement("tape");
-		//					input.appendChild(tape);
-		//
-		//					// input tape elements
-		//					for (int j = 0; j < tempInput.size(); j++) {
-		//						Element symbolElement = doc.createElement("symbol");
-		//						symbolElement.appendChild(doc.createTextNode("" + tempInput.get(j)));
-		//						tape.appendChild(symbolElement);
-		//					}
-		//				}
+		for (Tape tape : this.tapes) {
+			// tape element
+			Element tapeElement = doc.createElement("tape");
+			rootElement.appendChild(tapeElement);
+			
+			// save tape type number
+			Attr attrType = doc.createAttribute("type");
+			attrType.setValue(tape.getType());
+			tapeElement.setAttributeNode(attrType);
+			
+			//save tape name
+			Element nameElement = doc.createElement("name");
+			nameElement.appendChild(doc.createTextNode(tape.getName()));
+			tapeElement.appendChild(nameElement);
+						
+			if (tape.getType().equals("LEGO")) {
+				LEGOTape lego_tape = (LEGOTape) tape;
+				
+				//save master robot name and mac address
+				Element masterElement = doc.createElement("master");
+				Attr attrMasterMac = doc.createAttribute("mac-address");
+				attrMasterMac.setValue(lego_tape.getMaster().getMacAddress());
+				masterElement.setAttributeNode(attrMasterMac);
+				masterElement.appendChild(doc.createTextNode(lego_tape.getMaster().getName()));
+				tapeElement.appendChild(masterElement);
+				
+				//save slave robot name and mac address
+				Element slaveElement = doc.createElement("slave");
+				Attr attrSlaveMac = doc.createAttribute("mac-address");
+				attrSlaveMac.setValue(lego_tape.getSlave().getMacAddress());
+				slaveElement.setAttributeNode(attrSlaveMac);
+				slaveElement.appendChild(doc.createTextNode(lego_tape.getSlave().getName()));
+				tapeElement.appendChild(slaveElement);
+			}
+			
+			// save input word
+			Element inputElement = doc.createElement("input");
+			tapeElement.appendChild(inputElement);
+
+			for (char symbol : tape.getInputWord().toCharArray()) {
+				Element symbolElement = doc.createElement("symbol");
+				symbolElement.appendChild(doc.createTextNode("" + symbol));
+				inputElement.appendChild(symbolElement);
+			}
+		}
 	}
 	
 	private void saveStates(Document doc, Element rootElement) {

@@ -117,6 +117,14 @@ public class LEGOTape extends Tape {
 		}
 	}
 	
+	public MasterRobot getMaster() {
+		return master;
+	}
+
+	public SlaveRobot getSlave() {
+		return slave;
+	}
+
 	/**
 	 * Reads the symbol at the current tape position
 	 * @throws TapeException If the tape has not been initialized

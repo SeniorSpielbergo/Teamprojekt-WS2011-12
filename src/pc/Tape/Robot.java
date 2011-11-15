@@ -137,4 +137,12 @@ public abstract class Robot {
 			throw e;
 		}
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getMacAddress() {
+		return mac_address;
+	}
 }
