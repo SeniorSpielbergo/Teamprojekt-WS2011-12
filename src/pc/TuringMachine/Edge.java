@@ -67,7 +67,7 @@ public class Edge {
 	/**
 	 * Sets the transitions for this edge
 	 * @param transition Transitions for this edge
-	 */ //FIXME: ist diese methode Ÿberhaupt nštig (wird ja schon im konstruktor Ÿbergeben)
+	 */ //FIXME: is this method necessary?
 	public void setTransitions(ArrayList<Transition> transitions) {
 		this.transitions = transitions;
 	}
