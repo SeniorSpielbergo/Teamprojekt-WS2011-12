@@ -11,7 +11,7 @@ import java.lang.String;
 
 public class LEGOTape extends Tape {
 	public static final int MIN_POSITION = 0;
-	public static final int MAX_POSITION = 8;
+	public static final int MAX_POSITION = 7;
 	
 	private MasterRobot master = null;
 	private SlaveRobot slave = null;
@@ -107,6 +107,7 @@ public class LEGOTape extends Tape {
 			else {
 				this.write('#'); //fill the rest of the tape with #
 			}
+			System.out.println("Position: " + i);
 			this.moveRight();
 		}
 		this.write('#');
