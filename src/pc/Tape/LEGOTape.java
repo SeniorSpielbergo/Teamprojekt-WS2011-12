@@ -100,7 +100,7 @@ public class LEGOTape extends Tape {
 			throw new TapeException(this, "Input word can only be written when at position 0");
 		}
 		//write input word to tape
-		for (int i = 0; i <= LEGOTape.MAX_POSITION; i++) {
+		for (int i = 0; i < LEGOTape.MAX_POSITION; i++) {
 			if (i < this.inputWord.length()) {
 				this.write(this.inputWord.charAt(i));
 			}
@@ -109,6 +109,8 @@ public class LEGOTape extends Tape {
 			}
 			this.moveRight();
 		}
+		this.write('#');
+
 		for (int i = LEGOTape.MAX_POSITION; i <= 0; i--) {
 			this.moveLeft();
 		}

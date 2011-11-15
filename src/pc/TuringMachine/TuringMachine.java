@@ -9,8 +9,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -428,8 +430,6 @@ public class TuringMachine {
 		}
 
 		Document doc = docBuilder.newDocument();
-		//DOMSource source = new DOMSource(doc);
-
 		// create root element
 		Element rootElement = doc.createElement("machine");
 		doc.appendChild(rootElement);
@@ -451,6 +451,16 @@ public class TuringMachine {
 		this.saveStates(rootElement);
 		System.out.println("Saving edges and transitions...");
 		this.saveEdges(rootElement);
+		System.out.println("Writing to file...");
+		StreamResult result = new StreamResult(new File(filename));
+		DOMSource source = new DOMSource(doc);
+		try {
+			transformer.transform(source, result);
+		} catch (TransformerException e) {
+			IOException ioex = new IOException("Error while writing the file '" + filename + "' to disk.");
+			ioex.initCause(e);
+			throw ioex;
+		}
 		System.out.println("File '" + filename + "' successfully saved.");
 	}
 	
@@ -524,6 +534,68 @@ public class TuringMachine {
 	
 	private void saveEdges(Element rootElement) {
 		//TODO: implement
+		
+		//				// edges
+		//				for(int i = 0; i < edges.size(); i++) { 
+		//					Edge tempEdge = edges.get(i);
+		//					ArrayList<Transition> transitions = tempEdge.getTransition();
+		//					// edge element
+		//					Element edge = doc.createElement("edge");
+		//					rootElement.appendChild(edge);
+		//
+		//					// save from of edge
+		//					Attr attrEdgeFrom = doc.createAttribute("from");
+		//					attrEdgeFrom.setValue(edges.get(i).getFrom().getId());
+		//					edge.setAttributeNode(attrEdgeFrom);
+		//
+		//					// save to of edge
+		//					Attr attrEdgeTo = doc.createAttribute("to");
+		//					attrEdgeTo.setValue(edges.get(i).getTo().getId());
+		//					edge.setAttributeNode(attrEdgeTo);
+		//
+		//					for (int j = 0; j < transitions.size(); j++) {
+		//						Transition tempTransition = transitions.get(j);
+		//
+		//						// transition element
+		//						Element transition = doc.createElement("transition");
+		//						edge.appendChild(transition);
+		//
+		//						// save id of transition
+		//						Attr attrTransitionId = doc.createAttribute("type");
+		//						attrTransitionId.setValue(tempTransition.getId());
+		//						transition.setAttributeNode(attrTransitionId);
+		//
+		//						// edge read elements
+		//						ArrayList<Character> read = tempTransition.getRead();
+		//						Element readElement = doc.createElement("read");
+		//						edge.appendChild(readElement);
+		//						for (int k = 0; k < read.size(); k++) {
+		//							Element symbolElement = doc.createElement("symbol");
+		//							symbolElement.appendChild(doc.createTextNode("" + read.get(k)));
+		//							readElement.appendChild(symbolElement);
+		//						}
+		//
+		//						// edge write elements
+		//						ArrayList<Character> write = tempTransition.getWrite();
+		//						Element writeElement = doc.createElement("write");
+		//						edge.appendChild(writeElement);
+		//						for (int k = 0; k < write.size(); k++) {
+		//							Element symbolElement = doc.createElement("symbol");
+		//							symbolElement.appendChild(doc.createTextNode("" + write.get(k)));
+		//							writeElement.appendChild(symbolElement);
+		//						}
+		//
+		//						// edge action elements
+		//						ArrayList<Character> action = tempTransition.getAction();
+		//						Element actionElement = doc.createElement("action");
+		//						edge.appendChild(actionElement);
+		//						for (int k = 0; k < action.size(); k++) {
+		//							Element symbolElement = doc.createElement("symbol");
+		//							symbolElement.appendChild(doc.createTextNode("" + action.get(k)));
+		//							actionElement.appendChild(symbolElement);
+		//						}
+		//					}
+		//				}
 	}
 	
 	private void saveTransition(Element rootElement) {
