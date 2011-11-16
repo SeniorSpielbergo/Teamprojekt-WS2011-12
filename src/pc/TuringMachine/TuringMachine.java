@@ -366,10 +366,21 @@ public class TuringMachine {
 	private Transition loadTransition(Element transitionElement) throws IOException {
 		String id = transitionElement.getAttribute("id");
 
-		ArrayList<Character> read = this.loadSymbolList("read", transitionElement);
-		ArrayList<Character> write = this.loadSymbolList("write", transitionElement);
-		ArrayList<Character> action = this.loadSymbolList("action", transitionElement);
+		ArrayList<Character> read = this.loadSymbolList("read", "symbol", transitionElement);
+		ArrayList<Character> write = this.loadSymbolList("write", "symbol", transitionElement);
+		ArrayList<Character> action = this.loadSymbolList("action", "direction", transitionElement);
 
+		//check number of symbols
+		if (read.size() != this.getNumberOfTapes()) {
+			throw new IOException("Expected " + this.getNumberOfTapes() + " read symbols for Transition ID '" + id + "', but found " + read.size() + ". Make sure that the number of symbols matches the number of tapes.");
+		}
+		if (write.size() != this.getNumberOfTapes()) {
+			throw new IOException("Expected " + this.getNumberOfTapes() + " write symbols for Transition ID '" + id + "', but found " + read.size() + ". Make sure that the number of symbols matches the number of tapes.");
+		}
+		if (action.size() != this.getNumberOfTapes()) {
+			throw new IOException("Expected " + this.getNumberOfTapes() + " action symbols for Transition ID '" + id + "', but found " + read.size() + ". Make sure that the number of symbols matches the number of tapes.");
+		}
+		
 		// check actions
 		for (Character c : action) {
 			if (!(c=='L' || c=='N' || c=='R')) {
@@ -380,7 +391,7 @@ public class TuringMachine {
 		return new Transition(id, read, write, action);
 	}
 
-	private ArrayList<Character> loadSymbolList(String tag, Element transitionElement) throws IOException {
+	private ArrayList<Character> loadSymbolList(String tag, String symboltag, Element transitionElement) throws IOException {
 		String id = transitionElement.getAttribute("id");
 		ArrayList<Character> symbols = new ArrayList<Character>();
 
@@ -388,7 +399,7 @@ public class TuringMachine {
 		NodeList symbolList = tagElement.getChildNodes();
 		for (int i = 0; i < symbolList.getLength(); i++) {
 			Node symbolNode = symbolList.item(i);
-			if (symbolNode.getNodeType() == Node.ELEMENT_NODE) {
+			if (symbolNode.getNodeType() == Node.ELEMENT_NODE && symbolNode.getNodeName().equals(symboltag)) {
 				String symbolString = symbolNode.getTextContent();
 				if (symbolString.length() != 1) {
 					throw new IOException("Expected exactly one character per symbol in the '" 
