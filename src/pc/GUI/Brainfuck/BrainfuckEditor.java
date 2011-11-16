@@ -105,6 +105,10 @@ public class BrainfuckEditor extends JPanel{
 		return this.outputTextLabel.getText();
 	}
 	
+	public void saveFile() throws IOException{
+		saveFile(filename);
+	}
+	
 	public void saveFile(String path) throws IOException{
 		FileWriter fstream = new FileWriter(path);
 		BufferedWriter out = new BufferedWriter(fstream);

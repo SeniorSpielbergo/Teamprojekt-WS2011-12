@@ -7,7 +7,6 @@ import TuringMachine.*;
 import Tape.*;
 import GUI.RunWindow.*;
 import GUI.Brainfuck.*;
-import Brainfuck.*;
 
 import java.awt.Toolkit;
 import java.awt.event.*;
@@ -184,7 +183,6 @@ public class Editor extends JFrame implements ActionListener {
 			case FILETYPE_BF: 
 				brainfuckEditor = new BrainfuckEditor();
 				exportLatexAction.setEnabled(false);
-				brainfuckEditor.reset();
 				add(brainfuckEditor);
 				validate();
 				break;
