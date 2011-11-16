@@ -492,7 +492,17 @@ public class TuringMachine {
 			
 			// save tape type number
 			Attr attrType = doc.createAttribute("type");
-			attrType.setValue(tape.getType());
+			String tapeType = "";
+			if (tape.getType() == Tape.Type.LEGO) {
+				tapeType = "LEGO";
+			}
+			else if (tape.getType() == Tape.Type.CONSOLE) {
+				tapeType = "console";
+			}
+			else if (tape.getType() == Tape.Type.GUI) {
+				tapeType = "gui";
+			}
+			attrType.setValue(tapeType);
 			tapeElement.setAttributeNode(attrType);
 			
 			//save tape name

@@ -42,8 +42,8 @@ public class ConsoleTape extends Tape {
 	 * Returns the tape type
 	 * @return Returns "console"
 	 */
-	public String getType() {
-		return "console";
+	public Type getType() {
+		return Type.CONSOLE;
 	}
 
 	/**

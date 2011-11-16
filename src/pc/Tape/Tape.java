@@ -16,6 +16,13 @@ public abstract class Tape {
 	protected String inputWord = "";
 	
 	/**
+	 * Enum representing the tape types
+	 */
+	public enum Type {
+		LEGO, CONSOLE, GUI
+	}
+	
+	/**
 	 * Creates a new tape
 	 */
 	public Tape() {
@@ -78,7 +85,7 @@ public abstract class Tape {
 	 * This method returns the tape type
 	 * @return
 	 */
-	public abstract String getType();
+	public abstract Type getType();
 	
 	/**
 	 * Checks if the tape has been initialized
