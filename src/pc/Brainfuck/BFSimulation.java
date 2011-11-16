@@ -70,8 +70,6 @@ public class BFSimulation {
 		int instructionPointer = 0;
 		if(checkSyntax(code)){
 			while(instructionPointer < code.length()){
-				System.out.println("IP: " + instructionPointer);
-				System.out.println("current char: " + code.charAt(instructionPointer));
 				switch(code.charAt(instructionPointer)) {
 				case '<': 
 					tape.moveLeft();
@@ -123,7 +121,6 @@ public class BFSimulation {
 						default: 
 							currentValue = 0; break;
 						}
-						System.out.println("currentValue: " + currentValue);
 						if(currentValue == 0){
 							int x = 0;
 							int y = 1;
@@ -140,7 +137,6 @@ public class BFSimulation {
 									break;
 							}
 							instructionPointer += x;
-							System.out.println("IP set to " + instructionPointer + ", char: " + code.charAt(instructionPointer));
 							break;
 						}
 						else{
@@ -164,7 +160,6 @@ public class BFSimulation {
 									break;
 								}
 							}
-							System.out.println("loopcode: " + loopCode);
 							runSimulation(loopCode);
 						}
 					}

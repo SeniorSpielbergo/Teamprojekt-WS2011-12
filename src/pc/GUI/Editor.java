@@ -21,6 +21,7 @@ public class Editor extends JFrame implements ActionListener {
 	static final long serialVersionUID = -3667258249137827980L;
 	static final String appName = "Turing Simulator";
 	protected TuringMachine currentMachine;
+	private BrainfuckEditor brainfuckEditor; 
 	private JMenu newSubmenu;
 	private JMenuItem newBFAction;
 	private JMenuItem newTMAction;
@@ -34,6 +35,10 @@ public class Editor extends JFrame implements ActionListener {
 	private JMenu fileMenu;
 	private JMenu simulationMenu;
 	private final JFileChooser fc = new JFileChooser();
+	
+	private int currentFileType;
+	private final int FILETYPE_TM = 0;
+	private final int FILETYPE_BF = 1;	
 	
 	/**
 	 * Constructs the Editor window with all actionListeners and a basic setup
@@ -53,6 +58,14 @@ public class Editor extends JFrame implements ActionListener {
 		}
 		
 		// set xml filter for file chooser
+		fc.setFileFilter (new FileFilter() {
+			public boolean accept(File f) {
+				return f.isDirectory() || f.getName().toLowerCase().endsWith( ".bf" );
+			}
+			public String getDescription() {
+				return "*.bf";
+			}
+		});
 		fc.setFileFilter (new FileFilter() {
 			public boolean accept(File f) {
 				return f.isDirectory() || f.getName().toLowerCase().endsWith( ".xml" );
@@ -89,7 +102,6 @@ public class Editor extends JFrame implements ActionListener {
 		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		runAction.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-	
 	}
 	
 	/**
@@ -156,28 +168,25 @@ public class Editor extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Creates a new TM file
+	 * Creates a new file
 	 */
-	public void newTMFile() {
-		JOptionPane.showMessageDialog(null, "Not implemented yet!");
+	public void newFile() {
+		resetEditor();
 		saveAction.setEnabled(true);
 		saveAsAction.setEnabled(true);
-		exportLatexAction.setEnabled(true);
 		runAction.setEnabled(true);
-	}
-	
-	/**
-	 * Creates a new BF file
-	 */
-	public void newBFFile() {
-		BrainfuckEditor brainfuckEditor = new BrainfuckEditor();
-		brainfuckEditor.setVisible(true);
-		add(brainfuckEditor);
-		validate();
-		saveAction.setEnabled(true);
-		saveAsAction.setEnabled(true);
-		exportLatexAction.setEnabled(false);
-		runAction.setEnabled(true);
+		switch(currentFileType) {
+			case FILETYPE_TM:
+				exportLatexAction.setEnabled(true);
+				JOptionPane.showMessageDialog(null, "Not implemented yet!");
+				break;
+			case FILETYPE_BF: 
+				brainfuckEditor = new BrainfuckEditor();
+				exportLatexAction.setEnabled(false);
+				add(brainfuckEditor);
+				validate();
+				break;
+		}
 	}
 	
 	/**
@@ -185,17 +194,37 @@ public class Editor extends JFrame implements ActionListener {
 	 */
 	public void openFile() {
 		int retVal = fc.showOpenDialog(null);
+		resetEditor();
 		if (retVal == JFileChooser.APPROVE_OPTION) {
-				File selectedFile = fc.getSelectedFile();
-			try {
-				currentMachine = TuringMachine.loadFromXML(selectedFile.getPath());
-				saveAction.setEnabled(true);
-				saveAsAction.setEnabled(true);
-				exportLatexAction.setEnabled(true);
-				runAction.setEnabled(true);
+			File selectedFile = fc.getSelectedFile();
+			if(selectedFile.getName().toLowerCase().endsWith( ".xml" )) {
+				try {
+					currentMachine = TuringMachine.loadFromXML(selectedFile.getPath());
+					saveAction.setEnabled(true);
+					saveAsAction.setEnabled(true);
+					exportLatexAction.setEnabled(true);
+					runAction.setEnabled(true);
+					currentFileType = FILETYPE_TM;
+				}
+				catch (Exception e) {
+					ErrorDialog.showError("The file '" + selectedFile.getName() + "' couldn't be openend, because the file is corrupt.", e);
+				}
 			}
-			catch (Exception e) {
-				ErrorDialog.showError("The file '" + selectedFile.getName() + "' couldn't be openend, because the file is corrupt.", e);
+			else if(selectedFile.getName().toLowerCase().endsWith( ".bf" )) {
+				try {
+					brainfuckEditor = new BrainfuckEditor();
+					brainfuckEditor.openFile(selectedFile);
+					add(brainfuckEditor);
+					saveAction.setEnabled(true);
+					saveAsAction.setEnabled(true);
+					runAction.setEnabled(true);
+					exportLatexAction.setEnabled(false);
+					validate();
+					currentFileType = FILETYPE_BF;
+				}
+				catch(Exception e) {
+					ErrorDialog.showError("The file '" + selectedFile.getName() + "' couldn't be openend, because the file is corrupt.", e);
+				}
 			}
 		}
 	}
@@ -205,7 +234,14 @@ public class Editor extends JFrame implements ActionListener {
 	 */
 	public void saveFile() {
 		// TODO save
-		JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		switch(currentFileType) {
+			case FILETYPE_TM: 
+				JOptionPane.showMessageDialog(null, "Not implemented yet!");
+				break;
+			case FILETYPE_BF: 
+				JOptionPane.showMessageDialog(null, "Not implemented yet!");
+				break;
+		}
 	}
 	
 	/**
@@ -216,7 +252,15 @@ public class Editor extends JFrame implements ActionListener {
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
 			try { //TODO: check if the file already exists and prompt if to save anyway
-				this.currentMachine.saveXML(selectedFile.getPath());
+				switch(currentFileType) {
+				case FILETYPE_TM:
+					this.currentMachine.saveXML(selectedFile.getPath());
+					break;
+				case FILETYPE_BF:
+					this.brainfuckEditor.saveFile(selectedFile.getPath());
+					break;
+				}
+				
 			} catch (IOException e) {
 			    ErrorDialog.showError("Saving the file '" + selectedFile.getName() + "' failed because of an I/O error.", e);
 			}
@@ -310,10 +354,12 @@ public class Editor extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == newTMAction) {
-			newTMFile();
+			currentFileType = FILETYPE_TM;
+			newFile();
 		}
 		else if (e.getSource() == newBFAction) {
-			newBFFile();
+			currentFileType = FILETYPE_BF;
+			newFile();
 		}
 		else if (e.getSource() == openAction) {
 			openFile();
@@ -335,4 +381,13 @@ public class Editor extends JFrame implements ActionListener {
 		}
 	}
 	
+	public void resetEditor() {
+		try {
+			remove(brainfuckEditor);
+		}
+		catch(Exception e) {
+			
+		}
+		validate();
+	}
 }
