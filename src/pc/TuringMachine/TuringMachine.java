@@ -560,73 +560,65 @@ public class TuringMachine {
 	}
 	
 	private void saveEdges(Document doc, Element rootElement) {
-		//TODO: implement
-		
-		//				// edges
-		//				for(int i = 0; i < edges.size(); i++) { 
-		//					Edge tempEdge = edges.get(i);
-		//					ArrayList<Transition> transitions = tempEdge.getTransition();
-		//					// edge element
-		//					Element edge = doc.createElement("edge");
-		//					rootElement.appendChild(edge);
-		//
-		//					// save from of edge
-		//					Attr attrEdgeFrom = doc.createAttribute("from");
-		//					attrEdgeFrom.setValue(edges.get(i).getFrom().getId());
-		//					edge.setAttributeNode(attrEdgeFrom);
-		//
-		//					// save to of edge
-		//					Attr attrEdgeTo = doc.createAttribute("to");
-		//					attrEdgeTo.setValue(edges.get(i).getTo().getId());
-		//					edge.setAttributeNode(attrEdgeTo);
-		//
-		//					for (int j = 0; j < transitions.size(); j++) {
-		//						Transition tempTransition = transitions.get(j);
-		//
-		//						// transition element
-		//						Element transition = doc.createElement("transition");
-		//						edge.appendChild(transition);
-		//
-		//						// save id of transition
-		//						Attr attrTransitionId = doc.createAttribute("type");
-		//						attrTransitionId.setValue(tempTransition.getId());
-		//						transition.setAttributeNode(attrTransitionId);
-		//
-		//						// edge read elements
-		//						ArrayList<Character> read = tempTransition.getRead();
-		//						Element readElement = doc.createElement("read");
-		//						edge.appendChild(readElement);
-		//						for (int k = 0; k < read.size(); k++) {
-		//							Element symbolElement = doc.createElement("symbol");
-		//							symbolElement.appendChild(doc.createTextNode("" + read.get(k)));
-		//							readElement.appendChild(symbolElement);
-		//						}
-		//
-		//						// edge write elements
-		//						ArrayList<Character> write = tempTransition.getWrite();
-		//						Element writeElement = doc.createElement("write");
-		//						edge.appendChild(writeElement);
-		//						for (int k = 0; k < write.size(); k++) {
-		//							Element symbolElement = doc.createElement("symbol");
-		//							symbolElement.appendChild(doc.createTextNode("" + write.get(k)));
-		//							writeElement.appendChild(symbolElement);
-		//						}
-		//
-		//						// edge action elements
-		//						ArrayList<Character> action = tempTransition.getAction();
-		//						Element actionElement = doc.createElement("action");
-		//						edge.appendChild(actionElement);
-		//						for (int k = 0; k < action.size(); k++) {
-		//							Element symbolElement = doc.createElement("symbol");
-		//							symbolElement.appendChild(doc.createTextNode("" + action.get(k)));
-		//							actionElement.appendChild(symbolElement);
-		//						}
-		//					}
-		//				}
+		for (Edge edge : this.getEdges()) {
+			Element edgeElement = doc.createElement("edge");
+			rootElement.appendChild(edgeElement);
+			
+			// save from of edge
+			Attr attrEdgeFrom = doc.createAttribute("from");
+			attrEdgeFrom.setValue(edge.getFrom().getId());
+			edgeElement.setAttributeNode(attrEdgeFrom);
+			
+			// save to of edge
+			Attr attrEdgeTo = doc.createAttribute("to");
+			attrEdgeTo.setValue(edge.getTo().getId());
+			edgeElement.setAttributeNode(attrEdgeTo);
+			
+			for (Transition transition : edge.getTransitions()) {
+				this.saveTransition(transition, doc, edgeElement);
+			}
+		}
 	}
 	
-	private void saveTransition(Element rootElement) {
-		//TODO: implement
+	private void saveTransition(Transition transition, Document doc, Element edgeElement) {
+		// transition element
+		Element transitionElement = doc.createElement("transition");
+		edgeElement.appendChild(transitionElement);
+
+		// save id of transition
+		Attr attrTransitionId = doc.createAttribute("id");
+		attrTransitionId.setValue(transition.getId());
+		transitionElement.setAttributeNode(attrTransitionId);
+
+		// edge read elements
+		ArrayList<Character> read = transition.getRead();
+		Element readElement = doc.createElement("read");
+		transitionElement.appendChild(readElement);
+		for (int k = 0; k < read.size(); k++) {
+			Element symbolElement = doc.createElement("symbol");
+			symbolElement.appendChild(doc.createTextNode("" + read.get(k)));
+			readElement.appendChild(symbolElement);
+		}
+
+		// edge write elements
+		ArrayList<Character> write = transition.getWrite();
+		Element writeElement = doc.createElement("write");
+		transitionElement.appendChild(writeElement);
+		for (int k = 0; k < write.size(); k++) {
+			Element symbolElement = doc.createElement("symbol");
+			symbolElement.appendChild(doc.createTextNode("" + write.get(k)));
+			writeElement.appendChild(symbolElement);
+		}
+
+		// edge action elements
+		ArrayList<Character> action = transition.getAction();
+		Element actionElement = doc.createElement("action");
+		transitionElement.appendChild(actionElement);
+		for (int k = 0; k < action.size(); k++) {
+			Element symbolElement = doc.createElement("direction");
+			symbolElement.appendChild(doc.createTextNode("" + action.get(k)));
+			actionElement.appendChild(symbolElement);
+		}
 	}
 
 	/**
