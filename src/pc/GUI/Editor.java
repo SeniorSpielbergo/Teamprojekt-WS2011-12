@@ -5,6 +5,8 @@ import javax.swing.filechooser.FileFilter;
 
 import TuringMachine.*;
 import Tape.*;
+import GUI.RunWindow.*;
+import GUI.Brainfuck.*;
 
 import java.awt.Toolkit;
 import java.awt.event.*;
@@ -19,13 +21,15 @@ public class Editor extends JFrame implements ActionListener {
 	static final long serialVersionUID = -3667258249137827980L;
 	static final String appName = "Turing Simulator";
 	protected TuringMachine currentMachine;
-	private JMenuItem newAction;
+	private JMenu newSubmenu;
+	private JMenuItem newBFAction;
+	private JMenuItem newTMAction;
 	private JMenuItem openAction;
 	private JMenuItem saveAction;
+	private JMenuItem saveAsAction;
 	private JMenuItem exportLatexAction;
 	private JMenuItem exitAction;
 	private JMenuItem runAction;
-	private JMenuItem testAction;
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
 	private JMenu simulationMenu;
@@ -63,26 +67,29 @@ public class Editor extends JFrame implements ActionListener {
 		
 		// disable actions
 		saveAction.setEnabled(false);
+		saveAsAction.setEnabled(false);
 		exportLatexAction.setEnabled(false);
 		runAction.setEnabled(false);
         
 		// add menu subitems
-		fileMenu.add(newAction);
+		fileMenu.add(newSubmenu);
 		fileMenu.add(openAction);
 		fileMenu.add(saveAction);
+		fileMenu.add(saveAsAction);
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exportLatexAction);
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exitAction);
 		simulationMenu.add(runAction);
-		simulationMenu.add(testAction);
 		
 		// menu shortcuts
-		newAction.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		newTMAction.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		newBFAction.setAccelerator(KeyStroke.getKeyStroke('B', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		openAction.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		runAction.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	
 	}
 	
 	/**
@@ -90,7 +97,7 @@ public class Editor extends JFrame implements ActionListener {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// try to set look for Linux
+		// try to set look for Linux and Mac OS X
 		try {
 			if (System.getProperties().getProperty("os.name").equals("Linux")) {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
@@ -119,36 +126,57 @@ public class Editor extends JFrame implements ActionListener {
 		// set menu bar
 		setJMenuBar(menuBar);
 		
+		// create submenu items
+		newSubmenu = new JMenu("New..");
+		newTMAction = new JMenuItem("New TM");
+		newBFAction = new JMenuItem("New BF");
+		newSubmenu.add(newTMAction);
+		newSubmenu.add(newBFAction);
+		
 		// create menu subitems
-		newAction = new JMenuItem("New");
 		openAction = new JMenuItem("Open");
 		saveAction = new JMenuItem("Save");
+		saveAsAction = new JMenuItem("Save As...");
 		exportLatexAction = new JMenuItem("Export as LaTeX");
 		exitAction = new JMenuItem("Exit");
 		runAction = new JMenuItem("Run");
-		testAction = new JMenuItem("Test");
 		
 		// create menu items
 		fileMenu = new JMenu("File");
 		simulationMenu = new JMenu("Simulation");
 		
 		// init actionListener
-		newAction.addActionListener(this);
+		newTMAction.addActionListener(this);
+		newBFAction.addActionListener(this);
 		openAction.addActionListener(this);
-		saveAction.addActionListener(this);
+		saveAsAction.addActionListener(this);
 		exportLatexAction.addActionListener(this);
 		exitAction.addActionListener(this);
 		runAction.addActionListener(this);
-		testAction.addActionListener(this);
 	}
 	
 	/**
-	 * Creates a new file
+	 * Creates a new TM file
 	 */
-	public void newFile() {
+	public void newTMFile() {
 		JOptionPane.showMessageDialog(null, "Not implemented yet!");
 		saveAction.setEnabled(true);
+		saveAsAction.setEnabled(true);
 		exportLatexAction.setEnabled(true);
+		runAction.setEnabled(true);
+	}
+	
+	/**
+	 * Creates a new BF file
+	 */
+	public void newBFFile() {
+		BrainfuckEditor brainfuckEditor = new BrainfuckEditor();
+		brainfuckEditor.setVisible(true);
+		add(brainfuckEditor);
+		validate();
+		saveAction.setEnabled(true);
+		saveAsAction.setEnabled(true);
+		exportLatexAction.setEnabled(false);
 		runAction.setEnabled(true);
 	}
 	
@@ -160,14 +188,15 @@ public class Editor extends JFrame implements ActionListener {
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 				File selectedFile = fc.getSelectedFile();
 			try {
-				currentMachine = TuringMachine.loadFromXML(selectedFile.getName());
+				currentMachine = TuringMachine.loadFromXML(selectedFile.getPath());
+				saveAction.setEnabled(true);
+				saveAsAction.setEnabled(true);
+				exportLatexAction.setEnabled(true);
+				runAction.setEnabled(true);
 			}
 			catch (Exception e) {
 				ErrorDialog.showError("The file '" + selectedFile.getName() + "' couldn't be openend, because the file is corrupt.", e);
 			}
-			saveAction.setEnabled(true);
-			exportLatexAction.setEnabled(true);
-			runAction.setEnabled(true);
 		}
 	}
 	
@@ -175,11 +204,26 @@ public class Editor extends JFrame implements ActionListener {
 	 * Saves a file
 	 */
 	public void saveFile() {
+		// TODO save
+		JOptionPane.showMessageDialog(null, "Not implemented yet!");
+	}
+	
+	/**
+	 * Saves a file under a certain name
+	 */
+	public void saveAsFile() {
 		int retVal = fc.showSaveDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
-			JOptionPane.showMessageDialog(null, "Saved successfully!");
+			File selectedFile = fc.getSelectedFile();
+			try { //TODO: check if the file already exists and prompt if to save anyway
+				this.currentMachine.saveXML(selectedFile.getPath());
+			} catch (IOException e) {
+			    ErrorDialog.showError("Saving the file '" + selectedFile.getName() + "' failed because of an I/O error.", e);
+			}
+			catch (RuntimeException e){
+			    ErrorDialog.showError("Saving the file '" + selectedFile.getName() + "' failed because of an unkown error.", e);
+			}
 		}
-		//InOut.writeXMLFromFile(selectedFile.getName(), currentMachine);
 	}
 	
 	/**
@@ -201,8 +245,12 @@ public class Editor extends JFrame implements ActionListener {
 	 */
 	public void runSimulation() {
 		RunWindow runWindow = new RunWindow(currentMachine);
-		runWindow.setVisible(true);
 		runWindow.setLocationRelativeTo(null);
+		
+		ReturnValue returnValue = runWindow.showDialog();
+		if (returnValue == ReturnValue.RUN) {
+			simulate();
+		}
 	}
 	
 	/**
@@ -215,11 +263,25 @@ public class Editor extends JFrame implements ActionListener {
 			this.currentMachine.initTapes();
 		}
 		catch (TapeException e){
+			try {
+				this.currentMachine.shutdownTapes();
+			} catch (TapeException e1) {
+				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+				e1.printStackTrace();
+			}
 		    ErrorDialog.showError("The initialization of the tapes failed because of a tape exception.", e);
+		   
 		    return;
 		}
 		catch (RuntimeException e){
+			try {
+				this.currentMachine.shutdownTapes();
+			} catch (TapeException e1) {
+				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+				e1.printStackTrace();
+			}
 		    ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
+
 		    return;
 		}
 		
@@ -234,14 +296,24 @@ public class Editor extends JFrame implements ActionListener {
 		catch (RuntimeException e){
 		    ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
 		}
+		finally {
+			try {
+				this.currentMachine.shutdownTapes();
+			} catch (TapeException e) {
+			    ErrorDialog.showError("Warning: The tapes could't be shutdown correctly.", e);
+			}
+		}
 	}
 
 	/**
 	 * Responds to a clicked button
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == newAction) {
-			newFile();
+		if (e.getSource() == newTMAction) {
+			newTMFile();
+		}
+		else if (e.getSource() == newBFAction) {
+			newBFFile();
 		}
 		else if (e.getSource() == openAction) {
 			openFile();
@@ -249,14 +321,17 @@ public class Editor extends JFrame implements ActionListener {
 		else if (e.getSource() == saveAction) {
 			saveFile();
 		}
+		else if (e.getSource() == saveAsAction) {
+			saveAsFile();
+		}
 		else if (e.getSource() == exportLatexAction) {
 			exportLatex();
 		}
 		else if (e.getSource() == runAction) {
 			runSimulation();
 		}
-		else if (e.getSource() == testAction) {
-			simulate();
+		else if (e.getSource() == exitAction) {
+			exitEditor();
 		}
 	}
 	

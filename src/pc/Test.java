@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.lang.String;
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ import TuringMachine.State;
  */
 public class Test {
 
-	public static void main(String argv[]) {
+	public static void main(String argv[]) throws IOException {
 		State n0 = new State("0", "q0", State.Type.START);
 		State n1 = new State("1", "q1", State.Type.NORMAL);
 		ArrayList<State> states = new ArrayList<State>();
@@ -52,7 +53,7 @@ public class Test {
 		String machineName = "test";
 		TuringMachine machine = new TuringMachine(machineName, states, edges, new ArrayList<Tape>());
 		
-		InOut.writeXMLToFile("example.xml", machine);
+		machine.saveXML("example.xml");
 		TuringMachine machine2 = null;
 		try {
 			machine2 = TuringMachine.loadFromXML("TMadd.xml");

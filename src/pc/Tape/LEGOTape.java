@@ -107,13 +107,24 @@ public class LEGOTape extends Tape {
 			else {
 				this.write('#'); //fill the rest of the tape with #
 			}
-			this.moveRight();
+			if (i < LEGOTape.MAX_POSITION) {
+				this.moveRight();
+			}
 		}
-		for (int i = LEGOTape.MAX_POSITION; i <= 0; i--) {
+
+		for (int i = LEGOTape.MAX_POSITION; i > 0; i--) {
 			this.moveLeft();
 		}
 	}
 	
+	public MasterRobot getMaster() {
+		return master;
+	}
+
+	public SlaveRobot getSlave() {
+		return slave;
+	}
+
 	/**
 	 * Reads the symbol at the current tape position
 	 * @throws TapeException If the tape has not been initialized

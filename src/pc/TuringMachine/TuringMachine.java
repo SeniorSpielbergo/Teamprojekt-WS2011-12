@@ -5,7 +5,16 @@ import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -68,6 +77,7 @@ public class TuringMachine {
 		//init tapes
 		for (Tape tape : this.tapes) {
 			tape.init();
+			System.out.println("Writing input..."); //TODO: remove
 			tape.writeInputWord();
 		}
 	}
@@ -356,10 +366,21 @@ public class TuringMachine {
 	private Transition loadTransition(Element transitionElement) throws IOException {
 		String id = transitionElement.getAttribute("id");
 
-		ArrayList<Character> read = this.loadSymbolList("read", transitionElement);
-		ArrayList<Character> write = this.loadSymbolList("write", transitionElement);
-		ArrayList<Character> action = this.loadSymbolList("action", transitionElement);
+		ArrayList<Character> read = this.loadSymbolList("read", "symbol", transitionElement);
+		ArrayList<Character> write = this.loadSymbolList("write", "symbol", transitionElement);
+		ArrayList<Character> action = this.loadSymbolList("action", "direction", transitionElement);
 
+		//check number of symbols
+		if (read.size() != this.getNumberOfTapes()) {
+			throw new IOException("Expected " + this.getNumberOfTapes() + " read symbols for Transition ID '" + id + "', but found " + read.size() + ". Make sure that the number of symbols matches the number of tapes.");
+		}
+		if (write.size() != this.getNumberOfTapes()) {
+			throw new IOException("Expected " + this.getNumberOfTapes() + " write symbols for Transition ID '" + id + "', but found " + read.size() + ". Make sure that the number of symbols matches the number of tapes.");
+		}
+		if (action.size() != this.getNumberOfTapes()) {
+			throw new IOException("Expected " + this.getNumberOfTapes() + " action symbols for Transition ID '" + id + "', but found " + read.size() + ". Make sure that the number of symbols matches the number of tapes.");
+		}
+		
 		// check actions
 		for (Character c : action) {
 			if (!(c=='L' || c=='N' || c=='R')) {
@@ -370,7 +391,7 @@ public class TuringMachine {
 		return new Transition(id, read, write, action);
 	}
 
-	private ArrayList<Character> loadSymbolList(String tag, Element transitionElement) throws IOException {
+	private ArrayList<Character> loadSymbolList(String tag, String symboltag, Element transitionElement) throws IOException {
 		String id = transitionElement.getAttribute("id");
 		ArrayList<Character> symbols = new ArrayList<Character>();
 
@@ -378,7 +399,7 @@ public class TuringMachine {
 		NodeList symbolList = tagElement.getChildNodes();
 		for (int i = 0; i < symbolList.getLength(); i++) {
 			Node symbolNode = symbolList.item(i);
-			if (symbolNode.getNodeType() == Node.ELEMENT_NODE) {
+			if (symbolNode.getNodeType() == Node.ELEMENT_NODE && symbolNode.getNodeName().equals(symboltag)) {
 				String symbolString = symbolNode.getTextContent();
 				if (symbolString.length() != 1) {
 					throw new IOException("Expected exactly one character per symbol in the '" 
@@ -389,6 +410,226 @@ public class TuringMachine {
 			}
 		}
 		return symbols;
+	}
+
+	/**
+	 * Writes the Turing machine to a XML file with a given name
+	 * @param fileName File writing to (with or without .xml at the end)
+	 */
+	public void saveXML(String filename) throws IOException {
+		System.out.println("Saving file '" + filename + "'...");
+
+		if (!filename.endsWith(".xml")) {
+			throw new IOException("Wrong file extension of file '" + filename + "'. Must be '.xml'");
+		}
+
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
+		Transformer transformer = null;
+		DocumentBuilder docBuilder = null;
+		try {
+			transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			docBuilder = docFactory.newDocumentBuilder();
+		} catch (TransformerConfigurationException e) {
+			IOException ex = new IOException("Cannot write XML files. Serious configuration error.");
+			ex.initCause(e);
+		} catch (ParserConfigurationException e) {
+			IOException ex = new IOException("Cannot write XML files. Serious configuration error.");
+			ex.initCause(e);
+		}
+
+		Document doc = docBuilder.newDocument();
+		// create root element
+		Element rootElement = doc.createElement("machine");
+		doc.appendChild(rootElement);
+
+		// save name of machine
+		Attr attrName = doc.createAttribute("name");
+		attrName.setValue(this.getName());
+		rootElement.setAttributeNode(attrName);
+
+		// save number tapes of machine
+		Attr attrTape = doc.createAttribute("tapes");
+		attrTape.setValue(String.valueOf(this.getTapes().size()));
+		rootElement.setAttributeNode(attrTape);
+		
+		// save xml version number
+		Attr attrXMLVersion = doc.createAttribute("xml-version");
+		attrXMLVersion.setValue("2");
+		rootElement.setAttributeNode(attrXMLVersion);
+		
+		//save the rest
+		System.out.println("Saving tape configuration...");
+		this.saveTapesConfig(doc, rootElement);
+		System.out.println("Saving states...");
+		this.saveStates(doc, rootElement);
+		System.out.println("Saving edges and transitions...");
+		this.saveEdges(doc, rootElement);
+		System.out.println("Saving to file...");
+		StreamResult result = new StreamResult(new File(filename));
+		DOMSource source = new DOMSource(doc);
+		try {
+			transformer.transform(source, result);
+		} catch (TransformerException e) {
+			IOException ioex = new IOException("Error while writing the file '" + filename + "' to disk.");
+			ioex.initCause(e);
+			throw ioex;
+		}
+		System.out.println("File '" + filename + "' successfully saved.");
+	}
+	
+	private void saveTapesConfig(Document doc, Element rootElement) {
+		for (Tape tape : this.tapes) {
+			// tape element
+			Element tapeElement = doc.createElement("tape");
+			rootElement.appendChild(tapeElement);
+			
+			// save tape type number
+			Attr attrType = doc.createAttribute("type");
+			attrType.setValue(tape.getType());
+			tapeElement.setAttributeNode(attrType);
+			
+			//save tape name
+			Element nameElement = doc.createElement("name");
+			nameElement.appendChild(doc.createTextNode(tape.getName()));
+			tapeElement.appendChild(nameElement);
+						
+			if (tape.getType().equals("LEGO")) {
+				LEGOTape lego_tape = (LEGOTape) tape;
+				
+				//save master robot name and mac address
+				Element masterElement = doc.createElement("master");
+				Attr attrMasterMac = doc.createAttribute("mac-address");
+				attrMasterMac.setValue(lego_tape.getMaster().getMacAddress());
+				masterElement.setAttributeNode(attrMasterMac);
+				masterElement.appendChild(doc.createTextNode(lego_tape.getMaster().getName()));
+				tapeElement.appendChild(masterElement);
+				
+				//save slave robot name and mac address
+				Element slaveElement = doc.createElement("slave");
+				Attr attrSlaveMac = doc.createAttribute("mac-address");
+				attrSlaveMac.setValue(lego_tape.getSlave().getMacAddress());
+				slaveElement.setAttributeNode(attrSlaveMac);
+				slaveElement.appendChild(doc.createTextNode(lego_tape.getSlave().getName()));
+				tapeElement.appendChild(slaveElement);
+			}
+			
+			// save input word
+			Element inputElement = doc.createElement("input");
+			tapeElement.appendChild(inputElement);
+
+			for (char symbol : tape.getInputWord().toCharArray()) {
+				Element symbolElement = doc.createElement("symbol");
+				symbolElement.appendChild(doc.createTextNode("" + symbol));
+				inputElement.appendChild(symbolElement);
+			}
+		}
+	}
+	
+	private void saveStates(Document doc, Element rootElement) {
+		for(State state : this.states) {
+			// state element
+			Element stateElement = doc.createElement("state");
+			rootElement.appendChild(stateElement);
+
+			// save id of state
+			Attr attrStateId = doc.createAttribute("id");
+			attrStateId.setValue(state.getId());
+			stateElement.setAttributeNode(attrStateId);
+
+			// save type of state
+			Attr attrType = doc.createAttribute("type");
+			String type;
+			switch(state.getType()) {
+			case START:
+				type = "start";
+				break;
+			case NORMAL:
+				type = "normal";
+				break;
+			case FINAL:
+				type = "final";
+				break;
+			default:
+				type = "normal";
+				break;
+			}
+			attrType.setValue(type);
+			stateElement.setAttributeNode(attrType);
+
+			// state name element
+			Element nameElement = doc.createElement("name");
+			nameElement.appendChild(doc.createTextNode(state.getName()));
+			stateElement.appendChild(nameElement);
+		}
+	}
+	
+	private void saveEdges(Document doc, Element rootElement) {
+		for (Edge edge : this.getEdges()) {
+			Element edgeElement = doc.createElement("edge");
+			rootElement.appendChild(edgeElement);
+			
+			// save from of edge
+			Attr attrEdgeFrom = doc.createAttribute("from");
+			attrEdgeFrom.setValue(edge.getFrom().getId());
+			edgeElement.setAttributeNode(attrEdgeFrom);
+			
+			// save to of edge
+			Attr attrEdgeTo = doc.createAttribute("to");
+			attrEdgeTo.setValue(edge.getTo().getId());
+			edgeElement.setAttributeNode(attrEdgeTo);
+			
+			for (Transition transition : edge.getTransitions()) {
+				this.saveTransition(transition, doc, edgeElement);
+			}
+		}
+	}
+	
+	private void saveTransition(Transition transition, Document doc, Element edgeElement) {
+		// transition element
+		Element transitionElement = doc.createElement("transition");
+		edgeElement.appendChild(transitionElement);
+
+		// save id of transition
+		Attr attrTransitionId = doc.createAttribute("id");
+		attrTransitionId.setValue(transition.getId());
+		transitionElement.setAttributeNode(attrTransitionId);
+
+		// edge read elements
+		ArrayList<Character> read = transition.getRead();
+		Element readElement = doc.createElement("read");
+		transitionElement.appendChild(readElement);
+		for (int k = 0; k < read.size(); k++) {
+			Element symbolElement = doc.createElement("symbol");
+			symbolElement.appendChild(doc.createTextNode("" + read.get(k)));
+			readElement.appendChild(symbolElement);
+		}
+
+		// edge write elements
+		ArrayList<Character> write = transition.getWrite();
+		Element writeElement = doc.createElement("write");
+		transitionElement.appendChild(writeElement);
+		for (int k = 0; k < write.size(); k++) {
+			Element symbolElement = doc.createElement("symbol");
+			symbolElement.appendChild(doc.createTextNode("" + write.get(k)));
+			writeElement.appendChild(symbolElement);
+		}
+
+		// edge action elements
+		ArrayList<Character> action = transition.getAction();
+		Element actionElement = doc.createElement("action");
+		transitionElement.appendChild(actionElement);
+		for (int k = 0; k < action.size(); k++) {
+			Element symbolElement = doc.createElement("direction");
+			symbolElement.appendChild(doc.createTextNode("" + action.get(k)));
+			actionElement.appendChild(symbolElement);
+		}
 	}
 
 	/**
