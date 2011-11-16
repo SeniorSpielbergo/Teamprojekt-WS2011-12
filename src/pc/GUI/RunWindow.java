@@ -19,7 +19,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	}
 	
 	static final long serialVersionUID = -3667258249137827980L;
-	private final String[][] robots = {{"IPS_03", "00:16:53:13:53:BB"}, {"NXT_03", "00:16:53:0F:DB:8E"}};	// TODO read from xml
+	private ArrayList<ArrayList<String>> robots = new ArrayList<ArrayList<String>>();
 	private final String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
 	protected TuringMachine machine;
 	private JPanel inputContainer;
@@ -145,10 +145,10 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			c.gridy = i;
 			c.insets = new Insets(5,5,5,5);
 			robotSettingsContainer.add(robotTapeLabel[i], c);
-			for (int j = 0; j < robots.length; j++) {
+			for (int j = 0; j < robots.size(); j++) {
 				// TODO robot initialize
-				robotCombo1[i].addItem(robots[j][0] + " - " + robots[j][1]);
-				robotCombo2[i].addItem(robots[j][0] + " - " + robots[j][1]);
+				robotCombo1[i].addItem(robots.get(j).get(0) + " - " + robots.get(j).get(1));
+				robotCombo2[i].addItem(robots.get(j).get(1) + " - " + robots.get(j).get(1));
 			}
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 1;
@@ -188,8 +188,8 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		if (type ==  Tape.Type.LEGO) {
 			int robotNumber1 = robotCombo1[tape].getSelectedIndex();
 			int robotNumber2 = robotCombo2[tape].getSelectedIndex();
-			MasterRobot master = new MasterRobot(robots[robotNumber1][0], robots[robotNumber1][1]);
-			SlaveRobot slave = new SlaveRobot(robots[robotNumber2][0], robots[robotNumber2][1]);
+			MasterRobot master = new MasterRobot(robots.get(robotNumber1).get(0), robots.get(robotNumber1).get(1));
+			SlaveRobot slave = new SlaveRobot(robots.get(robotNumber2).get(0), robots.get(robotNumber2).get(1));
 			Tape tape_lego = new LEGOTape(machine.getTapes().get(tape).getName(), master, slave);
 			try {
 				tape_lego.setInputWord(machine.getTapes().get(tape).getInputWord());
@@ -250,6 +250,12 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 * @param tapes Number of tapes
 	 */
 	private void initRunWindow(int tapes) {
+		try {
+			robots = OrganizeRobots.readRobotsFromXML();
+		}
+		catch (Exception e) {
+			// TODO exception handling
+		}
 		inputContainer  = new JPanel(new GridBagLayout());
 		tapeSettingsContainer = new JPanel(new GridBagLayout());
 		robotSettingsContainer = new JPanel(new GridBagLayout());
@@ -297,9 +303,9 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 * @return true/false accordingly
 	 */
 	private boolean checkRobots() {
-		int[] counter = new int[robots.length];
+		int[] counter = new int[robots.size()];
 		// initialize counter
-		for (int i = 0; i < robots.length; i++) {
+		for (int i = 0; i < robots.size(); i++) {
 			counter[i] = 0;
 		}
 		// count for every robot
@@ -311,7 +317,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			}
 		}
 		// check if robots are assigned to > 1 tape
-		for (int i = 0; i < robots.length; i++) {
+		for (int i = 0; i < robots.size(); i++) {
 			if (counter[i] > 1) {
 				return false;
 			}

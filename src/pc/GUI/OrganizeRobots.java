@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,6 +14,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import TuringMachine.*;
 
@@ -21,7 +24,7 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 	static final long serialVersionUID = -3667258249137827980L;
 	private JTable table;
 	private JScrollPane tablePane;
-	private String[][] data;
+	private ArrayList<ArrayList<String>> data;
 	private JButton okButton;
 	private JPanel okContainer;
 	
@@ -51,14 +54,24 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 			data = readRobotsFromXML();
 		}
 		catch (Exception e) {
-			System.out.println(e.getLocalizedMessage());
 			// TODO handle exception
 		}
-		table = new JTable(data, head);
+		OrganizeRobotsTable model = new OrganizeRobotsTable();
+		table = new JTable(model);
+		
+		if (data != null) {
+			for (int i = 0; i < data.size(); i++) {
+				model.addRow(data.get(i).get(0), data.get(i).get(1));
+				table.setEditingColumn(i);
+			}
+		}
+		
 		tablePane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
+		table.setColumnSelectionAllowed(true);
+		table.setRowSelectionAllowed(true);
 		
-		//contentPane.add(tablePane);
+		contentPane.add(tablePane);
 	}
 	
 	/**
@@ -68,7 +81,7 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 		this.setVisible(true);
 	}
 	
-	private static String[][] readRobotsFromXML() throws IOException {
+	public static ArrayList<ArrayList<String>> readRobotsFromXML() throws IOException {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		Document doc = null;
 		
@@ -78,14 +91,11 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 		}
 		catch (Exception e) {
 			// TODO handle exception
-			System.out.println(e.getLocalizedMessage());
 		}
 		doc.getDocumentElement().normalize();
 		
 		// get number robots
-		System.out.println(doc.getDocumentElement().getAttribute("robots"));
-		int robotsNumber = Integer.parseInt(doc.getDocumentElement().getAttribute("robots"));
-		String[][] output = new String[robotsNumber][2];
+		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
 		
 		NodeList robotList = doc.getElementsByTagName("robot");
 		for (int i = 0; i < robotList.getLength(); i++) {
@@ -99,14 +109,19 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 			String name = InOut.getTagValue("name", robotElement);
 			String mac = InOut.getTagValue("mac", robotElement);
 			
-			output[i][0] = name;
-			output[i][1] = mac;
+			ArrayList<String> robot = new ArrayList<String>();
+			robot.add(name);
+			robot.add(mac);
+			output.add(robot);
 		}
-		
-		System.out.println(output.toString());
 		
 		return output;
 	}
+	
+	private void writeRobotsToXML(ArrayList<ArrayList<String>> robots) {
+		// TODO write out
+	}
+	
 	/**
 	 * Responds to a clicked button
 	 */
