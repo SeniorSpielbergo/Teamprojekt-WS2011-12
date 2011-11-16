@@ -40,6 +40,8 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	private JButton runButton;
 	private JButton cancelButton;
 	private ReturnValue returnValue;
+	private boolean errorSettingLEGO = true;
+	private int stateChangedCounter = 0;
 	
 	/**
 	 * Constructs the run window
@@ -97,9 +99,11 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 				tapeCombo[i].addItem(description[j]);
 				tapeCombo[i].addItemListener(createItemListener(i));
 				if (tapeType.equals("LEGO")) {
+					if (!initialLEGOTape) {
+						initialLEGOTape = true;
+						initialLEGOTapeIndex = i;
+					}
 					tapeCombo[i].setSelectedItem(description[0]);
-					initialLEGOTape = true;
-					initialLEGOTapeIndex = i;
 				}
 				else if (tapeType.equals("console")) {
 					tapeCombo[i].setSelectedItem(description[1]);
@@ -194,7 +198,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		tabbedPane = new JTabbedPane();
 		tapeCombo  = new JComboBox[tapes];
 		robotCombo = new JComboBox[2];
-		robotTapeLabel = new JLabel();
+		robotTapeLabel = new JLabel("");
 		tapeLabel = new JLabel[tapes];
 		tapeName = new JTextField[tapes];
 		tapeInput = new JTextField[tapes];
@@ -250,8 +254,20 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 						machine.getTapes().add(index, tape_lego);
 						
 						if (tabbedPane.getTabCount() == 3) {
-							robotTapeLabel.setText(machine.getTapes().get(index).getName());
-							tabbedPane.setEnabledAt(2, true);
+							if (!tabbedPane.isEnabledAt(2) || robotTapeLabel.getText().equals("")) {
+								robotTapeLabel.setText(machine.getTapes().get(index).getName());
+								tabbedPane.setEnabledAt(2, true);
+							}
+							else {
+								errorSettingLEGO = true;
+								stateChangedCounter++;
+								tapeCombo[index].setSelectedItem(description[1]);
+								if (stateChangedCounter == 3) {
+									JOptionPane.showMessageDialog(null, "Only one LEGO-Tape possible at a time!");
+									errorSettingLEGO = false;
+									stateChangedCounter = 0;
+								}
+							}
 						}
 					}
 					else if (e.getItem().toString() == description[1]) {
@@ -265,14 +281,20 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 						machine.getTapes().add(index, tape_console);
 						
 						if (tabbedPane.getTabCount() == 3) {
-							tabbedPane.setEnabledAt(2, false);
+							if (!errorSettingLEGO) {
+								robotTapeLabel.setText("");
+								tabbedPane.setEnabledAt(2, false);
+							}
 						}
 					}
 					else if (e.getItem().toString() == description[2]) {
 						// TODO create graphic tape
 						
 						if (tabbedPane.getTabCount() == 3) {
-							tabbedPane.setEnabledAt(2, false);
+							if (!errorSettingLEGO) {
+								robotTapeLabel.setText("");
+								tabbedPane.setEnabledAt(2, false);
+							}
 						}
 					}
 				}

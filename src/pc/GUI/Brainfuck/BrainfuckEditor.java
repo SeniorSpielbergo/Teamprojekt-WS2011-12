@@ -23,7 +23,7 @@ public class BrainfuckEditor extends JPanel{
 		codePane.setPreferredSize(new Dimension(100,100));
 
 		inputLabel = new JLabel("Inputstring: ");
-		inputField = new JTextField("Type your inputstring here",10);
+		inputField = new JTextField("Type your input string here",10);
 		inputField.setFont(new Font("Courier", Font.PLAIN, 14));
 		
 		outputTextLabel = new JLabel("Output: ", SwingConstants.LEFT);
