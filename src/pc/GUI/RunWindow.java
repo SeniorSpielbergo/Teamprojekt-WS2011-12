@@ -32,16 +32,17 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	@SuppressWarnings({"rawtypes"})	// because of java7
 	private JComboBox[] tapeCombo;
 	@SuppressWarnings("rawtypes")	// because of java7
-	private JComboBox[] robotCombo;
+	private JComboBox[] robotCombo1;
+	@SuppressWarnings("rawtypes")	// because of java7
+	private JComboBox[] robotCombo2;
 	private JLabel[] tapeLabel;
-	private JLabel robotTapeLabel;
+	private JLabel[] robotTapeLabel;
 	private JTextField[] tapeName;
 	private JTextField[] tapeInput;
 	private JButton runButton;
 	private JButton cancelButton;
 	private ReturnValue returnValue;
-	private boolean errorSettingLEGO = true;
-	private int stateChangedCounter = 0;
+	private int numberLEGOTapes = 0;
 	
 	/**
 	 * Constructs the run window
@@ -50,7 +51,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	@SuppressWarnings({ "rawtypes", "unchecked" })		// because of java7
 	public RunWindow(TuringMachine machine) {
 		boolean initialLEGOTape = false;
-		int initialLEGOTapeIndex = -1;
 		this.setModal(true);
 		this.machine = machine;
 		
@@ -89,6 +89,8 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			
 			// initialize the fields to display the content
 			tapeCombo[i] = new JComboBox();
+			robotCombo1[i] = new JComboBox();
+			robotCombo2[i] = new JComboBox();
 			tapeLabel[i] = new JLabel(this.machine.getTapes().get(i).getName());
 			tapeName[i] = new JTextField(this.machine.getTapes().get(i).getName(), 20);
 			tapeName[i].addKeyListener(this);
@@ -98,18 +100,27 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			for (int j = 0; j < description.length; j++) {
 				tapeCombo[i].addItem(description[j]);
 				tapeCombo[i].addItemListener(createItemListener(i));
+				robotTapeLabel[i] = new JLabel();
 				if (tapeType.equals("LEGO")) {
-					if (!initialLEGOTape) {
-						initialLEGOTape = true;
-						initialLEGOTapeIndex = i;
-					}
+					initialLEGOTape = true;
+					robotTapeLabel[i].setText(tapeName[i].getText());
 					tapeCombo[i].setSelectedItem(description[0]);
+					robotTapeLabel[i].setVisible(true);
+					robotCombo1[i].setVisible(true);
+					robotCombo2[i].setVisible(true);
+					numberLEGOTapes++;
 				}
 				else if (tapeType.equals("console")) {
 					tapeCombo[i].setSelectedItem(description[1]);
+					robotTapeLabel[i].setVisible(false);
+					robotCombo1[i].setVisible(false);
+					robotCombo2[i].setVisible(false);
 				}
 				else if (tapeType.equals("gui")) {
 					tapeCombo[i].setSelectedItem(description[2]);
+					robotTapeLabel[i].setVisible(false);
+					robotCombo1[i].setVisible(false);
+					robotCombo2[i].setVisible(false);
 				}
 			}
 			// set input word for tape i
@@ -140,25 +151,23 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			// layout for robots tab
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
-			c.gridy = 0;
+			c.gridy = i;
 			c.insets = new Insets(5,5,5,5);
-			robotSettingsContainer.add(robotTapeLabel, c);
-			robotCombo[0] = new JComboBox();
-			robotCombo[1] = new JComboBox();
+			robotSettingsContainer.add(robotTapeLabel[i], c);
 			for (int j = 0; j < robots.length; j++) {
-				robotCombo[0].addItem(robots[j][0] + " - " + robots[j][1]);
-				robotCombo[1].addItem(robots[j][0] + " - " + robots[j][1]);
+				robotCombo1[i].addItem(robots[j][0] + " - " + robots[j][1]);
+				robotCombo2[i].addItem(robots[j][0] + " - " + robots[j][1]);
 			}
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 1;
-			c.gridy = 0;
+			c.gridy = i;
 			c.insets = new Insets(5,5,5,5);
-			robotSettingsContainer.add(robotCombo[0], c);
+			robotSettingsContainer.add(robotCombo1[i], c);
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 2;
-			c.gridy = 0;
+			c.gridy = i;
 			c.insets = new Insets(5,5,5,5);
-			robotSettingsContainer.add(robotCombo[1], c);
+			robotSettingsContainer.add(robotCombo2[i], c);
 		}
 		// add scroll bars
 		inputPane = new JScrollPane(inputContainer);
@@ -176,7 +185,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		// enable on LEGO tape
 		if (initialLEGOTape) {
 			tabbedPane.setEnabledAt(2, true);
-			robotTapeLabel.setText(tapeName[initialLEGOTapeIndex].getText());
 		}
 		else {
 			tabbedPane.setEnabledAt(2, false);
@@ -197,8 +205,9 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		runCancelContainer = new JPanel();
 		tabbedPane = new JTabbedPane();
 		tapeCombo  = new JComboBox[tapes];
-		robotCombo = new JComboBox[2];
-		robotTapeLabel = new JLabel("");
+		robotCombo1 = new JComboBox[tapes];
+		robotCombo2 = new JComboBox[tapes];
+		robotTapeLabel = new JLabel[tapes];
 		tapeLabel = new JLabel[tapes];
 		tapeName = new JTextField[tapes];
 		tapeInput = new JTextField[tapes];
@@ -239,7 +248,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	private ItemListener createItemListener(final int index) {
 		return new ItemListener() {
 			public void itemStateChanged(ItemEvent e) { //TODO check if it works
-				if (e.getStateChange() == ItemEvent.SELECTED) {
+				if (e.getStateChange() == ItemEvent.ITEM_STATE_CHANGED) {
 					if (e.getItem().toString() == description[0]) {
 						MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
 						SlaveRobot nxt_03 = new SlaveRobot("NXT_03", "00:16:53:0F:DB:8E");
@@ -254,19 +263,11 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 						machine.getTapes().add(index, tape_lego);
 						
 						if (tabbedPane.getTabCount() == 3) {
-							if (!tabbedPane.isEnabledAt(2) || robotTapeLabel.getText().equals("")) {
-								robotTapeLabel.setText(machine.getTapes().get(index).getName());
+							if (!tabbedPane.isEnabledAt(2)) {
+								robotTapeLabel[index].setText(machine.getTapes().get(index).getName());
 								tabbedPane.setEnabledAt(2, true);
-							}
-							else {
-								errorSettingLEGO = true;
-								stateChangedCounter++;
-								tapeCombo[index].setSelectedItem(description[1]);
-								if (stateChangedCounter == 3) {
-									JOptionPane.showMessageDialog(null, "Only one LEGO-Tape possible at a time!");
-									errorSettingLEGO = false;
-									stateChangedCounter = 0;
-								}
+								numberLEGOTapes++;
+								System.out.println(numberLEGOTapes);
 							}
 						}
 					}
@@ -281,8 +282,10 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 						machine.getTapes().add(index, tape_console);
 						
 						if (tabbedPane.getTabCount() == 3) {
-							if (!errorSettingLEGO) {
-								robotTapeLabel.setText("");
+							numberLEGOTapes--;
+							System.out.println(numberLEGOTapes);
+							robotTapeLabel[index].setText("");
+							if (numberLEGOTapes == 0) {
 								tabbedPane.setEnabledAt(2, false);
 							}
 						}
@@ -291,8 +294,10 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 						// TODO create graphic tape
 						
 						if (tabbedPane.getTabCount() == 3) {
-							if (!errorSettingLEGO) {
-								robotTapeLabel.setText("");
+							numberLEGOTapes--;
+							System.out.println(numberLEGOTapes);
+							robotTapeLabel[index].setText("");
+							if (numberLEGOTapes == 0) {
 								tabbedPane.setEnabledAt(2, false);
 							}
 						}

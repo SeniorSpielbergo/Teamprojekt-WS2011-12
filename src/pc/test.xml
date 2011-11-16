@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<machine name="test" tapes="4" xml-version="2">
+<machine name="test" tapes="3" xml-version="2">
 	<tape type="LEGO">
 		<name>input tape</name>
 		<master mac-address="00:16:53:13:53:BB">IPS_03</master>
@@ -25,17 +25,6 @@
 	</tape>
 	<tape type="console">
 		<name>third tape</name>
-		<input>
-			<symbol>#</symbol>
-			<symbol>1</symbol>
-			<symbol>#</symbol>
-			<symbol>1</symbol>
-			<symbol>#</symbol>
-			<symbol>#</symbol>
-		</input>
-	</tape>
-	<tape type="console">
-		<name>fourth tape</name>
 		<input>
 			<symbol>#</symbol>
 			<symbol>1</symbol>
