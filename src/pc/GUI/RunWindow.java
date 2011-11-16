@@ -143,6 +143,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			c.insets = new Insets(5,5,5,5);
 			robotSettingsContainer.add(robotTapeLabel[i], c);
 			for (int j = 0; j < robots.length; j++) {
+				// TODO robot initialize
 				robotCombo1[i].addItem(robots[j][0] + " - " + robots[j][1]);
 				robotCombo2[i].addItem(robots[j][0] + " - " + robots[j][1]);
 			}
@@ -288,6 +289,12 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 					if (tabbedPane.getTabCount() == 3) {
 						refreshRobotSettings();
 					}
+				}
+				else if (robotCombo1[index].getSelectedItem().toString() == robots[0][0]) {
+					// TODO robot refresh
+				}
+				else if (robotCombo2[index].getSelectedItem().toString() == robots[0][0]) {
+					// TODO robot refresh
 				}
 			}
 		};
