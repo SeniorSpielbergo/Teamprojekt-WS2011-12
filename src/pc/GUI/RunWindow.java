@@ -72,6 +72,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		runButton.getActionMap().put("ESC", new ClickAction(cancelButton));
 		cancelButton.addActionListener(this);
 		runButton.addActionListener(this);
+		this.getRootPane().setDefaultButton(runButton);
 		
 		// layout for run and cancel button
 		Container contentPane = this.getContentPane();
@@ -216,8 +217,8 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		tapeLabel = new JLabel[tapes];
 		tapeName = new JTextField[tapes];
 		tapeInput = new JTextField[tapes];
-		runButton = new JButton("run");
-		cancelButton = new JButton("cancel");
+		runButton = new JButton("Run");
+		cancelButton = new JButton("Cancel");
 	}
 	
 	/**
