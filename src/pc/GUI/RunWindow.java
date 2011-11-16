@@ -176,6 +176,12 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		refreshRobotSettings();
 	}
 	
+	public void refreshLEGOTapes(int tape) {
+//		MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
+//		SlaveRobot nxt_03 = new SlaveRobot("NXT_03", "00:16:53:0F:DB:8E");
+//		Tape tape_lego = new LEGOTape(machine.getTapes().get(index).getName() ,ips_03, nxt_03);
+	}
+	
 	public void refreshRobotSettings() {
 		ArrayList<Tape> tapes = this.machine.getTapes();
 		int counter = 0;
