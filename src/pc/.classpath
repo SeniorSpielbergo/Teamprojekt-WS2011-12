@@ -6,5 +6,6 @@
 	<classpathentry kind="var" path="NXJ_HOME/lib/pctools.jar"/>
 	<classpathentry kind="var" path="NXJ_HOME/lib/classes.jar"/>
 	<classpathentry kind="var" path="NXJ_HOME/lib/jtools.jar"/>
+	<classpathentry kind="var" path="JGRAPH_HOME/lib/jgraphx.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
