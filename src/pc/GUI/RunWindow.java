@@ -221,6 +221,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	private void refreshRobotSettings() {
 		ArrayList<Tape> tapes = this.machine.getTapes();
 		int counter = 0;
+		// make labels and combo boxes visible
 		for (int i = 0; i < tapes.size(); i++) {
 			if (tapes.get(i).getType() == Tape.Type.LEGO) {
 				robotTapeLabel[i].setText(tapeName[i].getText());
@@ -235,6 +236,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 				robotCombo2[i].setVisible(false);
 			}
 		}
+		// hide/unhide robots tab
 		if (counter == 0) {
 			tabbedPane.setEnabledAt(2, false);
 		}
@@ -291,6 +293,33 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	}
 	
 	/**
+	 * Checks if robots are assigned to more than one tape
+	 * @return true/false accordingly
+	 */
+	private boolean checkRobots() {
+		int[] counter = new int[robots.length];
+		// initialize counter
+		for (int i = 0; i < robots.length; i++) {
+			counter[i] = 0;
+		}
+		// count for every robot
+		for (int i = 0; i < tapeCombo.length; i++) {
+			Tape tempTape = this.machine.getTapes().get(i);
+			if (tempTape.getType() == Tape.Type.LEGO) {
+				counter[robotCombo1[i].getSelectedIndex()]++;
+				counter[robotCombo2[i].getSelectedIndex()]++;
+			}
+		}
+		// check if robots are assigned to > 1 tape
+		for (int i = 0; i < robots.length; i++) {
+			if (counter[i] > 1) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
 	 * Creates an ItemListener listening to changes in the combo boxes
 	 * @param index Number of the combo box
 	 * @return ItemListener for the combo box
@@ -319,30 +348,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 				}
 			}
 		};
-	}
-	
-	/**
-	 * Checks if robots are assigned to more than one tape
-	 * @return true/false accordingly
-	 */
-	private boolean checkRobots() {
-		int[] counter = new int[robots.length];
-		for (int i = 0; i < robots.length; i++) {
-			counter[i] = 0;
-		}
-		for (int i = 0; i < tapeCombo.length; i++) {
-			Tape tempTape = this.machine.getTapes().get(i);
-			if (tempTape.getType() == Tape.Type.LEGO) {
-				counter[robotCombo1[i].getSelectedIndex()]++;
-				counter[robotCombo2[i].getSelectedIndex()]++;
-			}
-		}
-		for (int i = 0; i < robots.length; i++) {
-			if (counter[i] > 1) {
-				return false;
-			}
-		}
-		return true;
 	}
 	
 	/**
