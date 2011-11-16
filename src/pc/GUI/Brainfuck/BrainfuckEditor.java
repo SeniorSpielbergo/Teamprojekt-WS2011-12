@@ -2,6 +2,7 @@ package GUI.Brainfuck;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 
 public class BrainfuckEditor extends JPanel{
 	private static final long serialVersionUID = -6379014025769077968L;
@@ -12,6 +13,7 @@ public class BrainfuckEditor extends JPanel{
 	private JLabel inputLabel;
 	private JLabel outputLabel;
 	private JLabel outputTextLabel;
+	private String filename;
 	
 	public BrainfuckEditor() {
 		codeTextArea = new JTextArea("Type your brainfuck code here");
@@ -74,28 +76,56 @@ public class BrainfuckEditor extends JPanel{
 		add(codePane,c);
 	}
 	
-	public void setOutputText(String text) {
-		this.outputLabel.setText(text);
+	public void setCode(String code) {
+		this.codeTextArea.setText(code);
+	}
+	
+	public void setInput(String text) {
+		this.inputField.setText(text);
+	}
+	
+	public void setOutput(String text) {
+		this.outputTextLabel.setText(text);
 	}
 	
 	public void appendTextToOutputText(String text) {
 		String currentText = this.outputLabel.getText();
 		this.outputLabel.setText(currentText + text);
 	}
-	
-	public void setInputText(String text) {
-		this.inputField.setText(text);
-	}
-	
-	public String getOutput() {
-		return this.outputTextLabel.getText();
+
+	public String getCode() {
+		return this.codeTextArea.getText();
 	}
 	
 	public String getInput() {
 		return this.inputField.getText();
 	}
 	
-	public String getCode() {
-		return this.codeTextArea.getText();
+	public String getOutput() {
+		return this.outputTextLabel.getText();
+	}
+	
+	public void saveFile(String path) throws IOException{
+		FileWriter fstream = new FileWriter(path);
+		BufferedWriter out = new BufferedWriter(fstream);
+		out.write(getCode());
+		out.close();
+	}
+	
+	public void openFile(File selectedFile) throws FileNotFoundException, IOException {
+		this.filename = selectedFile.getPath();
+		byte[] buffer = new byte[(int) selectedFile.length()];
+		BufferedInputStream f = new BufferedInputStream(new FileInputStream(selectedFile.getPath()));
+		f.read(buffer);
+		String code = new String(buffer);
+		reset();
+		setCode(code);
+	}
+	
+	public void reset() {
+		this.filename = "";
+		setCode("Type your brainfuck code here");
+		setInput("Type your input string here");
+		setOutput("");
 	}
 }
