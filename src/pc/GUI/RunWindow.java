@@ -1,6 +1,7 @@
 package GUI;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -42,7 +43,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	private JButton runButton;
 	private JButton cancelButton;
 	private ReturnValue returnValue;
-	private int numberLEGOTapes = 0;
 	
 	/**
 	 * Constructs the run window
@@ -50,7 +50,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })		// because of java7
 	public RunWindow(TuringMachine machine) {
-		boolean initialLEGOTape = false;
 		this.setModal(true);
 		this.machine = machine;
 		
@@ -99,28 +98,15 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			// initialize the combo boxes
 			for (int j = 0; j < description.length; j++) {
 				tapeCombo[i].addItem(description[j]);
-				tapeCombo[i].addItemListener(createItemListener(i));
-				robotTapeLabel[i] = new JLabel();
+				tapeCombo[i].addActionListener(createItemListener(i));
 				if (tapeType.equals("LEGO")) {
-					initialLEGOTape = true;
-					robotTapeLabel[i].setText(tapeName[i].getText());
 					tapeCombo[i].setSelectedItem(description[0]);
-					robotTapeLabel[i].setVisible(true);
-					robotCombo1[i].setVisible(true);
-					robotCombo2[i].setVisible(true);
-					numberLEGOTapes++;
 				}
 				else if (tapeType.equals("console")) {
 					tapeCombo[i].setSelectedItem(description[1]);
-					robotTapeLabel[i].setVisible(false);
-					robotCombo1[i].setVisible(false);
-					robotCombo2[i].setVisible(false);
 				}
 				else if (tapeType.equals("gui")) {
 					tapeCombo[i].setSelectedItem(description[2]);
-					robotTapeLabel[i].setVisible(false);
-					robotCombo1[i].setVisible(false);
-					robotCombo2[i].setVisible(false);
 				}
 			}
 			// set input word for tape i
@@ -138,6 +124,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			c.insets = new Insets(5,5,5,5);
 			tapeSettingsContainer.add(tapeCombo[i], c);
 			// layout for input tab
+			robotTapeLabel[i] = new JLabel();
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
 			c.gridy = i;
@@ -182,16 +169,34 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		tabbedPane.addTab("Tape settings", tapeSettingsPane);
 		tabbedPane.addTab("Robot settings", robotSettingsPane);
 		
-		// enable on LEGO tape
-		if (initialLEGOTape) {
-			tabbedPane.setEnabledAt(2, true);
-		}
-		else {
-			tabbedPane.setEnabledAt(2, false);
-		}
-		
 		// add to window
 		contentPane.add(tabbedPane);
+		refreshRobotSettings();
+	}
+	
+	public void refreshRobotSettings() {
+		ArrayList<Tape> tapes = this.machine.getTapes();
+		int counter = 0;
+		for (int i = 0; i < tapes.size(); i++) {
+			if (tapes.get(i).getType() == "LEGO") {
+				robotTapeLabel[i].setText(tapeName[i].getText());
+				robotTapeLabel[i].setVisible(true);
+				robotCombo1[i].setVisible(true);
+				robotCombo2[i].setVisible(true);
+				counter++;
+			}
+			else if (tapes.get(i).getType() == "console" || tapes.get(i).getType() == "gui") {
+				robotTapeLabel[i].setVisible(false);
+				robotCombo1[i].setVisible(false);
+				robotCombo2[i].setVisible(false);
+			}
+		}
+		if (counter == 0) {
+			tabbedPane.setEnabledAt(2, false);
+		}
+		else {
+			tabbedPane.setEnabledAt(2, true);
+		}
 	}
 	
 	/**
@@ -245,62 +250,42 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 * @param index Number of the combo box
 	 * @return ItemListener for the combo box
 	 */
-	private ItemListener createItemListener(final int index) {
-		return new ItemListener() {
-			public void itemStateChanged(ItemEvent e) { //TODO check if it works
-				if (e.getStateChange() == ItemEvent.ITEM_STATE_CHANGED) {
-					if (e.getItem().toString() == description[0]) {
-						MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
-						SlaveRobot nxt_03 = new SlaveRobot("NXT_03", "00:16:53:0F:DB:8E");
-						Tape tape_lego = new LEGOTape(machine.getTapes().get(index).getName() ,ips_03, nxt_03);
-						
-						try {
-							tape_lego.setInputWord(machine.getTapes().get(index).getInputWord());
-						} catch (TapeException e1) {
-							ErrorDialog.showError("Error changing Tapetype", e1);
-						}						
-						machine.getTapes().remove(index);						
-						machine.getTapes().add(index, tape_lego);
-						
-						if (tabbedPane.getTabCount() == 3) {
-							if (!tabbedPane.isEnabledAt(2)) {
-								robotTapeLabel[index].setText(machine.getTapes().get(index).getName());
-								tabbedPane.setEnabledAt(2, true);
-								numberLEGOTapes++;
-								System.out.println(numberLEGOTapes);
-							}
-						}
+	private ActionListener createItemListener(final int index) {
+		return new ActionListener() {
+			public void actionPerformed(ActionEvent e) { //TODO check if it works
+				if (tapeCombo[index].getSelectedItem().toString() == description[0]) {
+					MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
+					SlaveRobot nxt_03 = new SlaveRobot("NXT_03", "00:16:53:0F:DB:8E");
+					Tape tape_lego = new LEGOTape(machine.getTapes().get(index).getName() ,ips_03, nxt_03);
+					
+					try {
+						tape_lego.setInputWord(machine.getTapes().get(index).getInputWord());
+					} catch (TapeException e1) {
+						ErrorDialog.showError("Error changing Tapetype", e1);
+					}						
+					machine.getTapes().remove(index);						
+					machine.getTapes().add(index, tape_lego);
+					if (tabbedPane.getTabCount() == 3) {
+						refreshRobotSettings();
 					}
-					else if (e.getItem().toString() == description[1]) {
-						Tape tape_console = new ConsoleTape(machine.getTapes().get(index).getName());
-						try {
-							tape_console.setInputWord(machine.getTapes().get(index).getInputWord());
-						} catch (TapeException e1) {
-							ErrorDialog.showError("Error changing Tapetype", e1);
-						}						
-						machine.getTapes().remove(index);						
-						machine.getTapes().add(index, tape_console);
-						
-						if (tabbedPane.getTabCount() == 3) {
-							numberLEGOTapes--;
-							System.out.println(numberLEGOTapes);
-							robotTapeLabel[index].setText("");
-							if (numberLEGOTapes == 0) {
-								tabbedPane.setEnabledAt(2, false);
-							}
-						}
+				}
+				else if (tapeCombo[index].getSelectedItem().toString() == description[1]) {
+					Tape tape_console = new ConsoleTape(machine.getTapes().get(index).getName());
+					try {
+						tape_console.setInputWord(machine.getTapes().get(index).getInputWord());
+					} catch (TapeException e1) {
+						ErrorDialog.showError("Error changing Tapetype", e1);
+					}						
+					machine.getTapes().remove(index);						
+					machine.getTapes().add(index, tape_console);
+					if (tabbedPane.getTabCount() == 3) {
+						refreshRobotSettings();
 					}
-					else if (e.getItem().toString() == description[2]) {
-						// TODO create graphic tape
-						
-						if (tabbedPane.getTabCount() == 3) {
-							numberLEGOTapes--;
-							System.out.println(numberLEGOTapes);
-							robotTapeLabel[index].setText("");
-							if (numberLEGOTapes == 0) {
-								tabbedPane.setEnabledAt(2, false);
-							}
-						}
+				}
+				else if (tapeCombo[index].getSelectedItem().toString() == description[2]) {
+					// TODO create graphic tape
+					if (tabbedPane.getTabCount() == 3) {
+						refreshRobotSettings();
 					}
 				}
 			}
