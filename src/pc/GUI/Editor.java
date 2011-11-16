@@ -302,8 +302,9 @@ public class Editor extends JFrame implements ActionListener {
 	}
 	
 	public void organizeRobots() {
-		JOptionPane.showMessageDialog(null, "Not implemented yet!");
-		// TODO implement
+		OrganizeRobots organizeRobotsWindow = new OrganizeRobots();
+		organizeRobotsWindow.setLocationRelativeTo(null);
+		organizeRobotsWindow.showDialog();
 	}
 	
 	/**
