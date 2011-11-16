@@ -31,6 +31,7 @@ public class Editor extends JFrame implements ActionListener {
 	private JMenuItem exportLatexAction;
 	private JMenuItem exitAction;
 	private JMenuItem runAction;
+	private JMenuItem organizeRobotsAction;
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
 	private JMenu simulationMenu;
@@ -94,6 +95,7 @@ public class Editor extends JFrame implements ActionListener {
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exitAction);
 		simulationMenu.add(runAction);
+		simulationMenu.add(organizeRobotsAction);
 		
 		// menu shortcuts
 		newTMAction.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -152,6 +154,7 @@ public class Editor extends JFrame implements ActionListener {
 		exportLatexAction = new JMenuItem("Export as LaTeX");
 		exitAction = new JMenuItem("Exit");
 		runAction = new JMenuItem("Run");
+		organizeRobotsAction = new JMenuItem("Organize Robots");
 		
 		// create menu items
 		fileMenu = new JMenu("File");
@@ -165,6 +168,7 @@ public class Editor extends JFrame implements ActionListener {
 		exportLatexAction.addActionListener(this);
 		exitAction.addActionListener(this);
 		runAction.addActionListener(this);
+		organizeRobotsAction.addActionListener(this);
 	}
 	
 	/**
@@ -297,6 +301,11 @@ public class Editor extends JFrame implements ActionListener {
 		}
 	}
 	
+	public void organizeRobots() {
+		JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		// TODO implement
+	}
+	
 	/**
 	 * Simulates the Turing machine
 	 */
@@ -375,6 +384,9 @@ public class Editor extends JFrame implements ActionListener {
 		}
 		else if (e.getSource() == runAction) {
 			runSimulation();
+		}
+		else if (e.getSource() == organizeRobotsAction) {
+			organizeRobots();
 		}
 		else if (e.getSource() == exitAction) {
 			exitEditor();

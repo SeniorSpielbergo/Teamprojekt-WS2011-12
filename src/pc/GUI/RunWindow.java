@@ -19,7 +19,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	}
 	
 	static final long serialVersionUID = -3667258249137827980L;
-	private final String[][] robots = {{"IPS_03", "00:16:53:13:53:BB"}, {"NXT_03", "00:16:53:0F:DB:8E"}};
+	private final String[][] robots = {{"IPS_03", "00:16:53:13:53:BB"}, {"NXT_03", "00:16:53:0F:DB:8E"}};	// TODO read from xml
 	private final String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
 	protected TuringMachine machine;
 	private JPanel inputContainer;
@@ -179,6 +179,11 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		refreshRobotSettings();
 	}
 	
+	/**
+	 * Refreshes the tape to a certain type
+	 * @param tape Tape number
+	 * @param type Tape type it should be changed to
+	 */
 	private void refreshTapes(int tape, Tape.Type type) {
 		if (type ==  Tape.Type.LEGO) {
 			int robotNumber1 = robotCombo1[tape].getSelectedIndex();
@@ -210,6 +215,9 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		}
 	}
 	
+	/**
+	 * Refreshes the robot settings tab on change
+	 */
 	private void refreshRobotSettings() {
 		ArrayList<Tape> tapes = this.machine.getTapes();
 		int counter = 0;
@@ -313,6 +321,10 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		};
 	}
 	
+	/**
+	 * Checks if robots are assigned to more than one tape
+	 * @return true/false accordingly
+	 */
 	private boolean checkRobots() {
 		int[] counter = new int[robots.length];
 		for (int i = 0; i < robots.length; i++) {
