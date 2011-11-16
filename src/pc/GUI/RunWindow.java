@@ -210,6 +210,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		tapeSettingsContainer = new JPanel(new GridBagLayout());
 		robotSettingsContainer = new JPanel(new GridBagLayout());
 		runCancelContainer = new JPanel();
+		runCancelContainer.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		tabbedPane = new JTabbedPane();
 		tapeCombo  = new JComboBox[tapes];
 		robotCombo1 = new JComboBox[tapes];
