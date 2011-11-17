@@ -26,8 +26,8 @@ public class OrganizeRobotsTable extends AbstractTableModel {
 		return columnsNames[i];
 	}
 	
-	public void setValueAt(String value, int row, int col) {
-		data.get(row).set(col, value);
+	public void setValueAt(Object value, int row, int col) {
+		data.get(row).set(col, (String) value);
 		fireTableCellUpdated(row, col);
 	}
 	

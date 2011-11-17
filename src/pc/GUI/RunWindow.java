@@ -251,7 +251,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 */
 	private void initRunWindow(int tapes) {
 		try {
-			robots = OrganizeRobots.readRobotsFromXML();
+			robots = OrganizeRobots.loadRobotsFromXML();
 		}
 		catch (Exception e) {
 			// TODO exception handling

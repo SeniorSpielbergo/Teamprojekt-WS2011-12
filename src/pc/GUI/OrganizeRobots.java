@@ -22,21 +22,25 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.swing.*;
+import javax.swing.event.*;
 
 import TuringMachine.*;
 
-public class OrganizeRobots extends JDialog implements ActionListener {
+public class OrganizeRobots extends JDialog implements ActionListener, TableModelListener {
 
 	static final long serialVersionUID = -3667258249137827980L;
 	private JTable table;
 	private JScrollPane tablePane;
 	private ArrayList<ArrayList<String>> data;
-	private JButton okButton;
+	private JButton saveButton;
 	private JButton addButton;
 	private JButton deleteButton;
-	private JPanel okContainer;
+	private JButton cancelButton;
+	private JPanel saveCancelContainer;
 	private JPanel addDeleteContainer;
 	private OrganizeRobotsTable model;
+	private boolean tableInitialized = false;
+	private boolean dataChanged = false;
 	
 	public OrganizeRobots() {
 		this.setModal(true);
@@ -44,24 +48,27 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 		
 		// window title and size
 		setTitle("Organize robots");
-		setSize(400, 500);
+		setSize(450, 550);
 		this.setResizable(false);
 		
 		// ok button
-		okContainer = new JPanel();
-		okContainer.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-		BoxLayout okLayout = new BoxLayout(okContainer, BoxLayout.X_AXIS);
-		okContainer.setLayout(okLayout);
-		okButton = new JButton("OK");
-		okButton.addActionListener(this);
-		okContainer.add(Box.createHorizontalGlue());
-		okContainer.add(okButton);
-		this.getRootPane().setDefaultButton(okButton);
-		contentPane.add(okContainer, BorderLayout.AFTER_LAST_LINE);
+		saveCancelContainer = new JPanel();
+		saveCancelContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		BoxLayout okLayout = new BoxLayout(saveCancelContainer, BoxLayout.X_AXIS);
+		saveCancelContainer.setLayout(okLayout);
+		cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(this);
+		saveButton = new JButton("OK");
+		saveButton.addActionListener(this);
+		saveCancelContainer.add(cancelButton);
+		saveCancelContainer.add(Box.createHorizontalGlue());
+		saveCancelContainer.add(saveButton);
+		this.getRootPane().setDefaultButton(saveButton);
+		contentPane.add(saveCancelContainer, BorderLayout.AFTER_LAST_LINE);
 		
 		// add / delete button
 		addDeleteContainer = new JPanel();
-		addDeleteContainer.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+		addDeleteContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 10));
 		BoxLayout addDeleteLayout = new BoxLayout(addDeleteContainer, BoxLayout.X_AXIS);
 		addDeleteContainer.setLayout(addDeleteLayout);
 		addButton = new JButton("Add");
@@ -74,13 +81,14 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 		contentPane.add(addDeleteContainer, BorderLayout.AFTER_LINE_ENDS);
 		
 		try {
-			data = readRobotsFromXML();
+			data = loadRobotsFromXML();
 		}
 		catch (Exception e) {
-			// TODO handle exception
+			ErrorDialog.showError("Parsing the XML file failed.", e);
 		}
 		model = new OrganizeRobotsTable();
 		table = new JTable(model);
+		table.getModel().addTableModelListener(this);
 		
 		if (data != null) {
 			for (int i = 0; i < data.size(); i++) {
@@ -90,11 +98,13 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 		}
 		
 		tablePane = new JScrollPane(table);
+		tablePane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		table.setFillsViewportHeight(true);
 		table.setColumnSelectionAllowed(true);
 		table.setRowSelectionAllowed(true);
 		
 		contentPane.add(tablePane);
+		tableInitialized = true;
 	}
 	
 	/**
@@ -104,44 +114,49 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 		this.setVisible(true);
 	}
 	
-	public static ArrayList<ArrayList<String>> readRobotsFromXML() throws IOException {
+	public static ArrayList<ArrayList<String>> loadRobotsFromXML() throws IOException {
+		File file = new File("robots.xml");
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		Document doc = null;
 		
-		try {
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			doc = db.parse(new File("robots.xml"));
+		if (file.exists()) {
+			try {
+				DocumentBuilder db = dbf.newDocumentBuilder();
+				doc = db.parse(file);
+			}
+			catch (Exception e) {
+				ErrorDialog.showError("Parsing XML failed. Check the syntax of the file 'robots.xml'!", e);
+			}
+			doc.getDocumentElement().normalize();
 		}
-		catch (Exception e) {
-			// TODO handle exception
-		}
-		doc.getDocumentElement().normalize();
 		
 		// get number robots
 		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
 		
-		NodeList robotList = doc.getElementsByTagName("robot");
-		for (int i = 0; i < robotList.getLength(); i++) {
-			Node robotNode = robotList.item(i);
-
-			if (robotNode.getNodeType() != Node.ELEMENT_NODE) {
-				break;
+		if (file.exists()) {
+			NodeList robotList = doc.getElementsByTagName("robot");
+			for (int i = 0; i < robotList.getLength(); i++) {
+				Node robotNode = robotList.item(i);
+	
+				if (robotNode.getNodeType() != Node.ELEMENT_NODE) {
+					break;
+				}
+	
+				Element robotElement = (Element) robotNode;
+				String name = InOut.getTagValue("name", robotElement);
+				String mac = InOut.getTagValue("mac", robotElement);
+				
+				ArrayList<String> robot = new ArrayList<String>();
+				robot.add(name);
+				robot.add(mac);
+				output.add(robot);
 			}
-
-			Element robotElement = (Element) robotNode;
-			String name = InOut.getTagValue("name", robotElement);
-			String mac = InOut.getTagValue("mac", robotElement);
-			
-			ArrayList<String> robot = new ArrayList<String>();
-			robot.add(name);
-			robot.add(mac);
-			output.add(robot);
 		}
 		
 		return output;
 	}
 	
-	private void writeRobotsToXML(ArrayList<ArrayList<String>> robots) {
+	private void saveRobotsToXML(ArrayList<ArrayList<String>> robots) {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
 		Transformer transformer = null;
@@ -157,9 +172,9 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			docBuilder = docFactory.newDocumentBuilder();
 		} catch (TransformerConfigurationException e) {
-			// TODO handle exception
+			ErrorDialog.showError("Cannot write XML files. Serious configuration error.", e);
 		} catch (ParserConfigurationException e) {
-			// TODO handle exception
+			ErrorDialog.showError("Cannot write XML files. Serious configuration error.", e);
 		}
 		
 		Document doc = docBuilder.newDocument();
@@ -168,16 +183,18 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 		doc.appendChild(rootElement);
 		
 		for (int i = 0; i < robots.size(); i++) {
-			Element robotElement = doc.createElement("robot");
-			rootElement.appendChild(robotElement);
-			
-			Element nameElement = doc.createElement("name");
-			nameElement.appendChild(doc.createTextNode(robots.get(i).get(0)));
-			robotElement.appendChild(nameElement);
-			
-			Element macElement = doc.createElement("mac");
-			macElement.appendChild(doc.createTextNode(robots.get(i).get(1)));
-			robotElement.appendChild(macElement);
+			if (robots.get(i).get(0) != "" && robots.get(i).get(1) != "") {
+				Element robotElement = doc.createElement("robot");
+				rootElement.appendChild(robotElement);
+				
+				Element nameElement = doc.createElement("name");
+				nameElement.appendChild(doc.createTextNode(robots.get(i).get(0)));
+				robotElement.appendChild(nameElement);
+				
+				Element macElement = doc.createElement("mac");
+				macElement.appendChild(doc.createTextNode(robots.get(i).get(1)));
+				robotElement.appendChild(macElement);
+			}
 		}
 		
 		StreamResult result = new StreamResult(new File("robots.xml"));
@@ -186,7 +203,7 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 		try {
 			transformer.transform(source, result);
 		} catch (TransformerException e) {
-			// TODO handle exception
+			ErrorDialog.showError("Problem writing to 'robots.xml'!", e);
 		}
 	}
 	
@@ -194,8 +211,23 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 	 * Responds to a clicked button
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == okButton) {
-			writeRobotsToXML(data);
+		if (e.getSource() == saveButton) {
+			saveRobotsToXML(data);
+			this.setVisible(false);
+			dispose();
+		}
+		else if (e.getSource() == cancelButton) {
+			if (dataChanged) {
+				int answer = JOptionPane.showConfirmDialog(null, "The data changed! Do you really want quit without saving?",
+													"Not saved!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				if (answer == JOptionPane.NO_OPTION) {
+					return;
+				}
+				else if (answer == JOptionPane.YES_OPTION) {
+					this.setVisible(false);
+					dispose();
+				}
+			}
 			this.setVisible(false);
 			dispose();
 		}
@@ -207,7 +239,31 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 				model.deleteRow(table.getSelectedRow());
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "You have to select a row first in order to delete it!");
+				JOptionPane.showMessageDialog(null, "You first have to select a row in order to delete it!");
+			}
+		}
+	}
+
+	@Override
+	public void tableChanged(TableModelEvent e) {
+		if (tableInitialized) {
+			int row = e.getFirstRow();
+			int col = e.getColumn();
+			if (e.getType() == TableModelEvent.UPDATE) {
+				String newData = (String) this.table.getModel().getValueAt(row, col);
+				data.get(row).set(col, newData);
+				dataChanged = true;
+			}
+			else if (e.getType() == TableModelEvent.INSERT) {
+				ArrayList<String> tempData = new ArrayList<String>();
+				tempData.add("");
+				tempData.add("");
+				data.add(tempData);
+				dataChanged = true;
+			}
+			else if (e.getType() == TableModelEvent.DELETE) {
+				data.remove(row);
+				dataChanged = true;
 			}
 		}
 	}
