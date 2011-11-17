@@ -54,7 +54,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		
 		// window title and size
 		setTitle("Organize robots");
-		setSize(450, 550);
+		setSize(450, 350);
 		this.setResizable(false);
 		
 		// ok button
