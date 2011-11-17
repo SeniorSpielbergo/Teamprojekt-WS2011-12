@@ -49,6 +49,9 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	private boolean tableInitialized = false;
 	private boolean dataChanged = false;
 	
+	/**
+	 * Constructs the window to organize the robots
+	 */
 	public OrganizeRobots() {
 		this.setModal(true);
 		Container contentPane = this.getContentPane();
@@ -124,6 +127,11 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		this.setVisible(true);
 	}
 	
+	/**
+	 * Loads the robots from the robots.xml
+	 * @return ArrayList of robots with their MAC-Addresses
+	 * @throws IOException Exception on loading problems
+	 */
 	public static ArrayList<ArrayList<String>> loadRobotsFromXML() throws IOException {
 		File file = new File("robots.xml");
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -166,6 +174,10 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		return output;
 	}
 	
+	/**
+	 * Saves the robots with their MAC-Addresses to the robots.xml
+	 * @param robots ArrayList of robots, which should be saved
+	 */
 	private void saveRobotsToXML(ArrayList<ArrayList<String>> robots) {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
@@ -219,6 +231,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	
 	/**
 	 * Responds to a clicked button
+	 * @param e ActionEvent that indicates changes
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == saveButton) {
@@ -254,7 +267,10 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		}
 	}
 
-	@Override
+	/**
+	 * Responds to data changes in the table
+	 * @param e TableModelEvent that indicates changes
+	 */
 	public void tableChanged(TableModelEvent e) {
 		if (tableInitialized) {
 			int row = e.getFirstRow();
@@ -278,6 +294,10 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		}
 	}
 
+	/**
+	 * Responds to selection changes
+	 * @param e ListSelectionEvent that indicates changes
+	 */
 	public void valueChanged(ListSelectionEvent e) {
 		int row = table.getSelectedRow();
 		table.setColumnSelectionInterval(0, 1);
