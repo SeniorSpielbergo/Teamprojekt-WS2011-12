@@ -49,7 +49,7 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 		
 		// ok button
 		okContainer = new JPanel();
-		okContainer.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+		okContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		BoxLayout okLayout = new BoxLayout(okContainer, BoxLayout.X_AXIS);
 		okContainer.setLayout(okLayout);
 		okButton = new JButton("OK");
