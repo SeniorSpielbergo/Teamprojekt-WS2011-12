@@ -200,7 +200,7 @@ public class OrganizeRobots extends JDialog implements ActionListener {
 			dispose();
 		}
 		else if (e.getSource() == addButton) {
-			model.addRow("bla", "bla");
+			model.addRow("", "");
 		}
 		else if (e.getSource() == deleteButton) {
 			if (table.getSelectedRow() != -1) {
