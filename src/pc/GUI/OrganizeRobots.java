@@ -32,7 +32,7 @@ import TuringMachine.*;
  * 
  */
 
-public class OrganizeRobots extends JDialog implements ActionListener, TableModelListener {
+public class OrganizeRobots extends JDialog implements ActionListener, TableModelListener, ListSelectionListener {
 
 	static final long serialVersionUID = -3667258249137827980L;
 	private JTable table;
@@ -45,6 +45,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	private JPanel saveCancelContainer;
 	private JPanel addDeleteContainer;
 	private OrganizeRobotsTable model;
+	private ListSelectionModel listSelectionModel;
 	private boolean tableInitialized = false;
 	private boolean dataChanged = false;
 	
@@ -95,6 +96,9 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		model = new OrganizeRobotsTable();
 		table = new JTable(model);
 		table.getModel().addTableModelListener(this);
+		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		listSelectionModel = table.getSelectionModel();
+		listSelectionModel.addListSelectionListener(this);
 		
 		if (data != null) {
 			for (int i = 0; i < data.size(); i++) {
@@ -272,5 +276,11 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 				dataChanged = true;
 			}
 		}
+	}
+
+	public void valueChanged(ListSelectionEvent e) {
+		int row = table.getSelectedRow();
+		table.setColumnSelectionInterval(0, 1);
+		table.setRowSelectionInterval(row, row);
 	}
 }
