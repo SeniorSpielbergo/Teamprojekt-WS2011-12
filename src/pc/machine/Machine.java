@@ -1,5 +1,6 @@
 package machine;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Tape.Tape;
@@ -67,4 +68,7 @@ public abstract class Machine {
 	public int getNumberOfTapes() {
 		return this.tapes.size();
 	}
+	
+	public abstract void save(String filename) throws IOException;
+	
 }

@@ -3,6 +3,7 @@ package GUI;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
+import machine.Machine;
 import machine.turing.*;
 import Tape.*;
 import GUI.RunWindow.*;
@@ -20,7 +21,7 @@ import java.io.*;
 public class Editor extends JFrame implements ActionListener {
 	static final long serialVersionUID = -3667258249137827980L;
 	static final String appName = "Turing Simulator";
-	protected TuringMachine currentMachine;
+	protected Machine currentMachine;
 	private BrainfuckEditor brainfuckEditor; 
 	private JMenu newSubmenu;
 	private JMenuItem newBFAction;
@@ -203,7 +204,7 @@ public class Editor extends JFrame implements ActionListener {
 			File selectedFile = fc.getSelectedFile();
 			if(selectedFile.getName().toLowerCase().endsWith( ".xml" )) {
 				try {
-					currentMachine = TuringMachine.loadFromXML(selectedFile.getPath());
+					currentMachine = TuringMachine.load(selectedFile.getPath());
 					saveAction.setEnabled(true);
 					saveAsAction.setEnabled(true);
 					exportLatexAction.setEnabled(true);
@@ -258,7 +259,7 @@ public class Editor extends JFrame implements ActionListener {
 			try { //TODO: check if the file already exists and prompt if to save anyway
 				switch(currentFileType) {
 				case FILETYPE_TM:
-					this.currentMachine.saveXML(selectedFile.getPath());
+					this.currentMachine.save(selectedFile.getPath());
 					break;
 				case FILETYPE_BF:
 					this.brainfuckEditor.saveFile(selectedFile.getPath());
@@ -341,8 +342,12 @@ public class Editor extends JFrame implements ActionListener {
 		
 		//simulate
 		try {
-			Simulation sim = new Simulation(this.currentMachine);
-			sim.runMachine();
+			//TODO: implement simulation for brainfuck
+			if (this.currentMachine.getClass().getName().equals("TuringMachine")) {
+				TuringMachine turingMachine = (TuringMachine) this.currentMachine;
+				Simulation sim = new Simulation(turingMachine);
+				sim.runMachine();
+			}
 		}
 		catch (TapeException e){
 		    ErrorDialog.showError("The simulation failed because of a tape exception.", e);

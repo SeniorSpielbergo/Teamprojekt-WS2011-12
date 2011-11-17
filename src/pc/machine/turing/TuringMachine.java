@@ -90,7 +90,7 @@ public class TuringMachine extends Machine{
 	 * @param filename File to read the Turing machine from (with or without .xml at the end)
 	 * @return Turing machine object
 	 */
-	public static TuringMachine loadFromXML(String filename) throws IOException {
+	public static TuringMachine load(String filename) throws IOException {
 		if (!filename.endsWith(".xml")) {
 			throw new IOException("Wrong file extension of file '" + filename + "'. Must be '.xml'");
 		}
@@ -371,7 +371,7 @@ public class TuringMachine extends Machine{
 	 * Writes the Turing machine to a XML file with a given name
 	 * @param fileName File writing to (with or without .xml at the end)
 	 */
-	public void saveXML(String filename) throws IOException {
+	public void save(String filename) throws IOException {
 		System.out.println("Saving file '" + filename + "'...");
 
 		if (!filename.endsWith(".xml")) {

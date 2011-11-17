@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import Tape.*;
+import machine.Machine;
 import machine.turing.*;
 
 /** This class represents window for the run settings
@@ -26,7 +27,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	static final long serialVersionUID = -3667258249137827980L;
 	private ArrayList<ArrayList<String>> robots = new ArrayList<ArrayList<String>>();
 	private final String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
-	protected TuringMachine machine;
+	protected Machine machine;
 	private JPanel inputContainer;
 	private JPanel tapeSettingsContainer;
 	private JPanel robotSettingsContainer;
@@ -51,12 +52,12 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	
 	/**
 	 * Constructs the run window
-	 * @param machine Turing machine needed to show the run settings
+	 * @param currentMachine Turing machine needed to show the run settings
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })		// because of java7
-	public RunWindow(TuringMachine machine) {
+	public RunWindow(Machine currentMachine) {
 		this.setModal(true);
-		this.machine = machine;
+		this.machine = currentMachine;
 		
 		// window title and size
 		setTitle("Run");
@@ -64,7 +65,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		this.setResizable(false);
 		
 		// initialize
-		initRunWindow(machine.getNumberOfTapes());
+		initRunWindow(currentMachine.getNumberOfTapes());
 		
 		// set enter and escape button listener
 		InputMap inputMap = runButton.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
@@ -119,7 +120,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 				}
 			}
 			// set input word for tape i
-			tapeInput[i].setText(machine.getTapes().get(i).getInputWord()); 
+			tapeInput[i].setText(currentMachine.getTapes().get(i).getInputWord()); 
 			
 			// layout for tape settings tab
 			c.fill = GridBagConstraints.HORIZONTAL;
