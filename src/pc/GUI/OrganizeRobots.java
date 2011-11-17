@@ -96,6 +96,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		catch (Exception e) {
 			ErrorDialog.showError("Parsing the XML file failed.", e);
 		}
+		// add table
 		model = new OrganizeRobotsTable();
 		table = new JTable(model);
 		table.getModel().addTableModelListener(this);
@@ -103,6 +104,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		listSelectionModel = table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(this);
 		
+		// if robots.xml not empty
 		if (data != null) {
 			for (int i = 0; i < data.size(); i++) {
 				model.addRow(data.get(i).get(0), data.get(i).get(1));
@@ -137,6 +139,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		Document doc = null;
 		
+		// only parse if file exists
 		if (file.exists()) {
 			try {
 				DocumentBuilder db = dbf.newDocumentBuilder();
@@ -148,10 +151,11 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			doc.getDocumentElement().normalize();
 		}
 		
-		// get number robots
 		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
 		
+		// only parse if file exists
 		if (file.exists()) {
+			// get robots with attributes
 			NodeList robotList = doc.getElementsByTagName("robot");
 			for (int i = 0; i < robotList.getLength(); i++) {
 				Node robotNode = robotList.item(i);
@@ -184,6 +188,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		Transformer transformer = null;
 		DocumentBuilder docBuilder = null;
 		
+		// prepare xml
 		try {
 			transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
@@ -199,6 +204,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			ErrorDialog.showError("Cannot write XML files. Serious configuration error.", e);
 		}
 		
+		// write to file
 		Document doc = docBuilder.newDocument();
 
 		Element rootElement = doc.createElement("robots");
