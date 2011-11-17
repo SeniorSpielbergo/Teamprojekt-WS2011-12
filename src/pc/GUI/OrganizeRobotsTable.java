@@ -27,9 +27,7 @@ public class OrganizeRobotsTable extends AbstractTableModel {
 	}
 	
 	public void setValueAt(String value, int row, int col) {
-		ArrayList<String> tempList = data.get(row);
-		tempList.set(col, value);
-		data.set(row, tempList);
+		data.get(row).set(col, value);
 		fireTableCellUpdated(row, col);
 	}
 	
@@ -42,5 +40,11 @@ public class OrganizeRobotsTable extends AbstractTableModel {
 		row.add(name);
 		row.add(mac);
 		data.add(row);
+		fireTableRowsInserted(data.size()-1, data.size()-1);
+	}
+	
+	public void deleteRow(int row) {
+		data.remove(row);
+		fireTableRowsDeleted(row, row);
 	}
 }
