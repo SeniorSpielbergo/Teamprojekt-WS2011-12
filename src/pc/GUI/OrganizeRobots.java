@@ -26,6 +26,12 @@ import javax.swing.event.*;
 
 import TuringMachine.*;
 
+/** This class represents the window used to organize the robots
+ * 
+ * @author David Wille
+ * 
+ */
+
 public class OrganizeRobots extends JDialog implements ActionListener, TableModelListener {
 
 	static final long serialVersionUID = -3667258249137827980L;

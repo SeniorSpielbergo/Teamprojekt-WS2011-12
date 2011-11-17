@@ -5,9 +5,14 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-
 import Tape.*;
 import TuringMachine.*;
+
+/** This class represents window for the run settings
+ * 
+ * @author David Wille, Philipp Neumann
+ * 
+ */
 
 public class RunWindow extends JDialog implements ActionListener, KeyListener {
 

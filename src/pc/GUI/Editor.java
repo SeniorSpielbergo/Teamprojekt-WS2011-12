@@ -14,7 +14,7 @@ import java.io.*;
 
 /** This class represents an editor for Turing machines
  * 
- * @author David Wille
+ * @author Vanessa Baier, Nils Breyer, Sven Schuster, Philipp Neumann, David Wille
  * 
  */
 public class Editor extends JFrame implements ActionListener {

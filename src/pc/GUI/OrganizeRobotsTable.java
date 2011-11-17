@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 import javax.swing.table.*;
 
+/** This class represents the table model used to organize the robots
+ * 
+ * @author David Wille
+ * 
+ */
+
 public class OrganizeRobotsTable extends AbstractTableModel {
 	
 	static final long serialVersionUID = -3667258249137827980L;
