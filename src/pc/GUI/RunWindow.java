@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import Tape.*;
-import TuringMachine.*;
+import machine.turing.*;
 
 /** This class represents window for the run settings
  * 

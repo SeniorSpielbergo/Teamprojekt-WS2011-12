@@ -24,7 +24,7 @@ import org.w3c.dom.NodeList;
 import javax.swing.*;
 import javax.swing.event.*;
 
-import TuringMachine.*;
+import machine.turing.*;
 
 /** This class represents the window used to organize the robots
  * 

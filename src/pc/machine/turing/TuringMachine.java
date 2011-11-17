@@ -1,4 +1,4 @@
-package TuringMachine;
+package machine.turing;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

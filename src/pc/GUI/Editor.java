@@ -3,7 +3,7 @@ package GUI;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
-import TuringMachine.*;
+import machine.turing.*;
 import Tape.*;
 import GUI.RunWindow.*;
 import GUI.Brainfuck.*;
