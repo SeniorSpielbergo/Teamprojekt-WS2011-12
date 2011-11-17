@@ -14,6 +14,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import machine.Machine;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -32,11 +34,9 @@ import Tape.TapeException;
  * @author David Wille
  * 
  */
-public class TuringMachine {
-	protected String name;
+public class TuringMachine extends Machine{
 	protected ArrayList<State> states;
 	protected ArrayList<Edge> edges;
-	protected ArrayList<Tape> tapes;
 
 	/**
 	 * Constructs an untitled Turing machine
@@ -63,55 +63,10 @@ public class TuringMachine {
 	 */
 
 	public TuringMachine(String name, ArrayList<State> states, ArrayList<Edge> edges, ArrayList<Tape> tapes) {
+		super(name);
 		this.states = states;
 		this.edges = edges;
-		this.name = name;
 		this.tapes = tapes;
-	}
-
-	/**
-	 * Initializes the tapes
-	 * @throws TapeException Exception if any problems occur while initializing
-	 */
-	public void initTapes() throws TapeException {
-		//init tapes
-		for (Tape tape : this.tapes) {
-			tape.init();
-			System.out.println("Writing input..."); //TODO: remove
-			tape.writeInputWord();
-		}
-	}
-
-	/**
-	 * Shuts down the tapes
-	 * @throws TapeException Exception if any problems occur while shuting down
-	 */
-	public void shutdownTapes() throws TapeException {
-		//init tapes
-		for (Tape tape : this.tapes) {
-			tape.shutdown();
-		}
-	}
-
-
-	/**
-	 * Returns the Turing machine's name
-	 * @return The Turing machine's name
-	 */
-	public String getName() {
-		return this.name;
-	}
-
-	/**
-	 * Returns the Turing machine's number of tapes
-	 * @return Number of tapes
-	 */
-	public ArrayList<Tape> getTapes() {
-		return this.tapes;
-	}
-
-	public int getNumberOfTapes() {
-		return this.tapes.size();
 	}
 
 	/**
