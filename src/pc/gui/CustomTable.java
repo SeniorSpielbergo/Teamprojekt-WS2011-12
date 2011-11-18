@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import javax.swing.table.*;
 
-/** This class represents the table model used to organize the robots
+/** This class represents a table model
  * 
  * @author David Wille
  * 
  */
 
-public class OrganizeRobotsTable extends AbstractTableModel {
+public class CustomTable extends AbstractTableModel {
 	
 	static final long serialVersionUID = -3667258249137827980L;
 	private String[] columnsNames = {"Name", "MAC-Address"};
