@@ -1,5 +1,6 @@
 package machine.turing;
 import gui.MachineEditor;
+import gui.turing.TuringMachineEditor;
 
 import java.io.File;
 import java.io.IOException;
@@ -652,7 +653,12 @@ public class TuringMachine extends Machine{
 
 	@Override
 	protected MachineEditor createEditor() {
-		return null;
+		return new TuringMachineEditor(); //TODO: review
+	}
+
+	@Override
+	public MachineType getType() {
+		return Machine.MachineType.TuringMachine;
 	}
 	
 	

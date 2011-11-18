@@ -9,6 +9,9 @@ import tape.Tape;
 import tape.TapeException;
 
 public abstract class Machine {
+	public enum MachineType {
+		TuringMachine, BrainfuckMachine
+	}
 	protected String name;
 
 	protected ArrayList<Tape> tapes;
@@ -83,7 +86,9 @@ public abstract class Machine {
 	
 	protected abstract MachineEditor createEditor();
 	
-	public MachineEditor getEditorSingleton() {
+	public MachineEditor getEditor() {
 		return this.editor;
 	}
+	
+	public abstract MachineType getType();
 }

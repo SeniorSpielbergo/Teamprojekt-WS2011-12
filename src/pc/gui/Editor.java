@@ -47,10 +47,6 @@ public class Editor extends JFrame implements ActionListener {
 	private JMenu helpMenu;
 	private final JFileChooser fc = new JFileChooser();
 
-	private int currentFileType;
-	private final int FILETYPE_TM = 0;
-	private final int FILETYPE_BF = 1;	
-
 	/**
 	 * Constructs the Editor window with all actionListeners and a basic setup
 	 */
@@ -202,22 +198,17 @@ public class Editor extends JFrame implements ActionListener {
 	/**
 	 * Creates a new file
 	 */
-	public void newFile() {
+	public void newFile(Machine.MachineType type) {
 		this.closeCurrentFile();
-		resetEditor();
 		saveAction.setEnabled(true);
 		saveAsAction.setEnabled(true);
 		runAction.setEnabled(true);
-		switch(currentFileType) {
-		case FILETYPE_TM:
-			exportLatexAction.setEnabled(true);
-			JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		switch(type) {
+		case TuringMachine:
+			this.currentMachine = new TuringMachine();
 			break;
-		case FILETYPE_BF: 
-			brainfuckEditor = new BrainfuckEditor();
-			exportLatexAction.setEnabled(false);
-			add(brainfuckEditor);
-			validate();
+		case BrainfuckMachine:
+			this.currentMachine = new BrainfuckMachine();
 			break;
 		}
 	}
@@ -228,17 +219,14 @@ public class Editor extends JFrame implements ActionListener {
 	public void openFile() {
 		this.closeCurrentFile();
 		int retVal = fc.showOpenDialog(null);
-		resetEditor();
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
 			Machine machine = null;
 			if(selectedFile.getName().toLowerCase().endsWith( ".xml" )) {
 				machine = new TuringMachine();
-				currentFileType = FILETYPE_TM;
 			}
 			else if(selectedFile.getName().toLowerCase().endsWith( ".bf" )) {
-			    machine = new BrainfuckMachine();
-				currentFileType = FILETYPE_BF;
+				machine = new BrainfuckMachine();
 			}
 			else {
 				ErrorDialog.showError("The file '" + selectedFile.getName() + "' couldn't be openend, because the filetype is not supported.");
@@ -247,11 +235,7 @@ public class Editor extends JFrame implements ActionListener {
 			try {
 				machine.load(selectedFile.getName());
 				this.currentMachine = machine;
-				saveAction.setEnabled(true);
-				saveAsAction.setEnabled(true);
-				runAction.setEnabled(true);
-				exportLatexAction.setEnabled(false);
-				validate();
+				this.loadEditor();
 			}
 			catch(Exception e) {
 				ErrorDialog.showError("The file '" + selectedFile.getName() + "' couldn't be openend, because the file is corrupt.", e);
@@ -286,16 +270,7 @@ public class Editor extends JFrame implements ActionListener {
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
 			try { //TODO: check if the file already exists and prompt if to save anyway
-				switch(currentFileType) {
-				case FILETYPE_TM:
-					this.currentMachine.save(selectedFile.getPath());
-					break;
-				case FILETYPE_BF:
-					JOptionPane.showMessageDialog(null, "Not implemented yet!");
-					//this.brainfuckEditor.saveFile(selectedFile.getPath());
-					break;
-				}
-
+				this.currentMachine.save(selectedFile.getPath());
 			} catch (IOException e) {
 				ErrorDialog.showError("Saving the file '" + selectedFile.getName() + "' failed because of an I/O error.", e);
 			}
@@ -315,6 +290,10 @@ public class Editor extends JFrame implements ActionListener {
 	public void closeCurrentFile() {
 		//TODO: prompt user to save
 		this.currentFilename = "";
+		
+		if (this.currentMachine != null) {
+			this.remove(this.currentMachine.getEditor());
+		}
 	}
 
 	/**
@@ -401,12 +380,10 @@ public class Editor extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == newTMAction) {
-			currentFileType = FILETYPE_TM;
-			newFile();
+			newFile(Machine.MachineType.TuringMachine);
 		}
 		else if (e.getSource() == newBFAction) {
-			currentFileType = FILETYPE_BF;
-			newFile();
+			newFile(Machine.MachineType.BrainfuckMachine);
 		}
 		else if (e.getSource() == openAction) {
 			openFile();
@@ -446,13 +423,14 @@ public class Editor extends JFrame implements ActionListener {
 		}
 	}
 
-	public void resetEditor() {
-		try {
-			remove(brainfuckEditor);
-		}
-		catch(Exception e) {
-
-		}
+	public void loadEditor() {
+		this.add(this.currentMachine.getEditor());
+		
+		saveAction.setEnabled(true);
+		saveAsAction.setEnabled(true);
+		runAction.setEnabled(true);
+		exportLatexAction.setEnabled(false);
+		
 		validate();
 	}
 }
