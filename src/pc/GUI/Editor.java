@@ -342,8 +342,8 @@ public class Editor extends JFrame implements ActionListener {
 		
 		//simulate
 		try {
-			//TODO: implement simulation for brainfuck
-			if (this.currentMachine.getClass().getName().equals("TuringMachine")) {
+			//TODO: implement simulation for brainfuc			
+			if (this.currentMachine.getClass().getName().equals("machine.turing.TuringMachine")) {
 				TuringMachine turingMachine = (TuringMachine) this.currentMachine;
 				Simulation sim = new Simulation(turingMachine);
 				sim.runMachine();
