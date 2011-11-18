@@ -1,10 +1,13 @@
 package GUI.Brainfuck;
 
 import javax.swing.*;
+
+import GUI.MachineEditor;
+
 import java.awt.*;
 import java.io.*;
 
-public class BrainfuckEditor extends JPanel{
+public class BrainfuckEditor extends MachineEditor{
 	private static final long serialVersionUID = -6379014025769077968L;
 	
 	private JTextArea codeTextArea;

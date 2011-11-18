@@ -151,9 +151,18 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			c.insets = new Insets(5,5,5,5);
 			robotSettingsContainer.add(robotTapeLabel[i], c);
 			for (int j = 0; j < robots.size(); j++) {
-				// TODO robot initialize
 				robotCombo1[i].addItem(robots.get(j).get(0) + " - " + robots.get(j).get(1));
 				robotCombo2[i].addItem(robots.get(j).get(0) + " - " + robots.get(j).get(1));
+			}
+			// initialize robots
+			if (tapeType == Tape.Type.LEGO) {
+				LEGOTape tape = (LEGOTape) this.machine.getTapes().get(i);
+				String masterName = tape.getMaster().getName();
+				String masterMac = tape.getSlave().getMacAddress();
+				String slaveName = tape.getSlave().getName();
+				String slaveMac = tape.getSlave().getMacAddress();
+				robotCombo1[i].setSelectedItem(masterName + " - " + masterMac);
+				robotCombo2[i].setSelectedItem(slaveName + " - " + slaveMac);
 			}
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 1;
