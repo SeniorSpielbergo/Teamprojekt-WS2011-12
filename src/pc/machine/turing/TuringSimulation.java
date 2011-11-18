@@ -1,10 +1,12 @@
 package machine.turing;
 
 import java.util.ArrayList;
+
+import machine.Simulation;
 import tape.*;
 
 
-public class Simulation {
+public class TuringSimulation extends Simulation{
 
 	TuringMachine machine;
 	State actualState, startState, nextState;
@@ -12,8 +14,8 @@ public class Simulation {
 	ArrayList<Character> currentSymbols = new ArrayList<Character>();
 
 
-	public Simulation(TuringMachine machine) throws TapeException{
-		this.machine = machine;
+	public TuringSimulation(TuringMachine machine) throws TapeException{
+		super(machine);
 		this.tapes = machine.getTapes();
 		
 		for( int i=0; i < machine.getStates().size(); i++){

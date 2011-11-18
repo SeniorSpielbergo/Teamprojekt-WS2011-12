@@ -1,5 +1,8 @@
-package Brainfuck;
+package machine.brainfuck;
 import tape.*;
+
+import machine.*;
+
 import javax.swing.JLabel;
 
 /**
@@ -7,12 +10,11 @@ import javax.swing.JLabel;
  * @author Sven Schuster
  *
  */
-public class BFSimulation {
-	Tape tape;
+public class BrainfuckSimulation extends Simulation {
+	Tape actionTape;
+	Tape inputTape;
 	String code;
-	String inputString;
 	String outputString = "";
-	int inputIterator = 0;
 	char toWrite;
 	JLabel outputLabel;
 
@@ -22,10 +24,11 @@ public class BFSimulation {
 	 * @param inputString Optional String for the brainfuck-Application to read.
 	 * @param outputLabel Label to write the output in. 
 	 */
-	public BFSimulation(Tape tape, String inputString, JLabel outputLabel){
-		this.tape = tape;
-		this.inputString = inputString;
-		this.outputLabel = outputLabel;
+	public BrainfuckSimulation(BrainfuckMachine machine){
+		super(machine);
+		this.actionTape = machine.getTapes().get(0);
+		this.inputTape = machine.getTapes().get(1);
+		this.code = machine.getCode();
 	}
 
 	/**
@@ -38,10 +41,7 @@ public class BFSimulation {
 
 	// Prints the output into the outputLabel if existing, else prints output to console.
 	private void output() {
-		if(outputLabel != null)
-			outputLabel.setText(outputString);
-		else
-			System.out.println(outputString);
+		outputLabel.setText(outputString);
 	}
 
 	// Checks syntax of brainfuck-Application (just checks the loops)
@@ -59,32 +59,35 @@ public class BFSimulation {
 		}
 		return x == 0;
 	}
-
+	
 	/**
-	 * Executing the given brainfuck-Code.
-	 * @param code The brainfuck-Code to be executed.
+	 * Executing the brainfuckMachine.
 	 * @throws TapeException If something on the tape went wrong.
 	 * @throws IllegalArgumentException If the syntax of the brainfuck-Code is not correct. 
 	 */
-	public void runSimulation(String code) throws TapeException, IllegalArgumentException {
+	public void runMachine() throws TapeException, IllegalArgumentException {
+		runMachine(code);
+	}
+
+	private void runMachine(String code) throws TapeException, IllegalArgumentException {
 		int instructionPointer = 0;
 		if(checkSyntax(code)){
 			while(instructionPointer < code.length()){
 				switch(code.charAt(instructionPointer)) {
 				case '<': 
-					tape.moveLeft();
+					actionTape.moveLeft();
 					break;
 				case '>': 
-					tape.moveRight();
+					actionTape.moveRight();
 					break;
 				case '+': 
-					switch(tape.read()) {
+					switch(actionTape.read()) {
 					case '#':
-						tape.write('0'); break;
+						actionTape.write('0'); break;
 					case '0':
-						tape.write('1'); break;
+						actionTape.write('1'); break;
 					case '1': 
-						tape.write('2'); break;
+						actionTape.write('2'); break;
 					case '2': 
 						break;
 					default: 
@@ -92,15 +95,15 @@ public class BFSimulation {
 					}
 					break;
 				case '-':
-					switch(tape.read()) {
+					switch(actionTape.read()) {
 					case '#':
 						break;
 					case '0':
-						tape.write('#'); break;
+						actionTape.write('#'); break;
 					case '1': 
-						tape.write('0'); break;
+						actionTape.write('0'); break;
 					case '2': 
-						tape.write('1'); break;
+						actionTape.write('1'); break;
 					default: 
 						break;
 					}
@@ -109,7 +112,7 @@ public class BFSimulation {
 				case '[': 
 					int currentValue;
 					while(true) {
-						switch(tape.read()) {
+						switch(actionTape.read()) {
 						case '#':
 							currentValue = 0; break;
 						case '0':
@@ -160,22 +163,20 @@ public class BFSimulation {
 									break;
 								}
 							}
-							runSimulation(loopCode);
+							runMachine(loopCode);
 						}
 					}
 					break;
 				case ']': 
 					break;
 				case '.': 
-					outputString += tape.read();
+					outputString += actionTape.read();
 					output();
 					break;
-				case ',': 
-					if(inputIterator < inputString.length())
-						tape.write(inputString.charAt(inputIterator));
-					else
-						tape.write('#');
-					inputIterator++;
+				case ',':
+					char input = inputTape.read();
+					inputTape.moveRight();
+					actionTape.write(input);
 					break;
 				}
 				instructionPointer++;

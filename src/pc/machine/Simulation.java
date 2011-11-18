@@ -1,5 +1,7 @@
 package machine;
 
+import tape.TapeException;
+
 public abstract class Simulation {
 
 	Machine machine;
@@ -8,7 +10,7 @@ public abstract class Simulation {
 		this.machine = machine;
 	}
 	
-	public abstract void runMachine();
+	public abstract void runMachine() throws TapeException;
 	
 
 }

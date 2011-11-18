@@ -1,4 +1,6 @@
 package machine.turing;
+import gui.MachineEditor;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import machine.Machine;
+import machine.Simulation;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -37,6 +40,8 @@ import tape.TapeException;
 public class TuringMachine extends Machine{
 	protected ArrayList<State> states;
 	protected ArrayList<Edge> edges;
+	
+	protected MachineEditor editor;
 
 	/**
 	 * Constructs an untitled Turing machine
@@ -638,5 +643,21 @@ public class TuringMachine extends Machine{
 		str += "Edges:\n" + edges + "\n";
 		return str;
 	}
+
+	@Override
+	public Simulation createSimulation() throws TapeException{
+		return new TuringSimulation(this);
+	}
+
+	@Override
+	protected MachineEditor createEditor() {
+		return null;
+	}
+	
+	
+	
+	
+	
+	
 
 }

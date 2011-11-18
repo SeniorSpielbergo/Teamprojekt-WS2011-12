@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
 import machine.Machine;
+import machine.Simulation;
 import machine.turing.*;
 import tape.*;
 import gui.RunWindow.*;
@@ -240,6 +241,8 @@ public class Editor extends JFrame implements ActionListener {
 				}
 			}
 			else if(selectedFile.getName().toLowerCase().endsWith( ".bf" )) {
+				JOptionPane.showMessageDialog(null, "Not implemented yet!");
+				/*
 				try {
 					brainfuckEditor = new BrainfuckEditor();
 					brainfuckEditor.openFile(selectedFile);
@@ -253,7 +256,10 @@ public class Editor extends JFrame implements ActionListener {
 				}
 				catch(Exception e) {
 					ErrorDialog.showError("The file '" + selectedFile.getName() + "' couldn't be openend, because the file is corrupt.", e);
-				}
+				}*/
+			}
+			else {
+				ErrorDialog.showError("The file '" + selectedFile.getName() + "' couldn't be openend, because the filetype is not supported.");
 			}
 		}
 	}
@@ -286,7 +292,8 @@ public class Editor extends JFrame implements ActionListener {
 					this.currentMachine.save(selectedFile.getPath());
 					break;
 				case FILETYPE_BF:
-					this.brainfuckEditor.saveFile(selectedFile.getPath());
+					JOptionPane.showMessageDialog(null, "Not implemented yet!");
+					//this.brainfuckEditor.saveFile(selectedFile.getPath());
 					break;
 				}
 				
@@ -366,12 +373,8 @@ public class Editor extends JFrame implements ActionListener {
 		
 		//simulate
 		try {
-			//TODO: implement simulation for brainfuc			
-			if (this.currentMachine.getClass().getName().equals("machine.turing.TuringMachine")) {
-				TuringMachine turingMachine = (TuringMachine) this.currentMachine;
-				Simulation sim = new Simulation(turingMachine);
-				sim.runMachine();
-			}
+			Simulation sim = this.currentMachine.createSimulation();
+			sim.runMachine();
 		}
 		catch (TapeException e){
 		    ErrorDialog.showError("The simulation failed because of a tape exception.", e);
