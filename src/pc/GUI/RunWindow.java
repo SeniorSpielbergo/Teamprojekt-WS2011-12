@@ -153,7 +153,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			for (int j = 0; j < robots.size(); j++) {
 				// TODO robot initialize
 				robotCombo1[i].addItem(robots.get(j).get(0) + " - " + robots.get(j).get(1));
-				robotCombo2[i].addItem(robots.get(j).get(1) + " - " + robots.get(j).get(1));
+				robotCombo2[i].addItem(robots.get(j).get(0) + " - " + robots.get(j).get(1));
 			}
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 1;
