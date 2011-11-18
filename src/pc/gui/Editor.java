@@ -241,6 +241,8 @@ public class Editor extends JFrame implements ActionListener {
 				}
 			}
 			else if(selectedFile.getName().toLowerCase().endsWith( ".bf" )) {
+				JOptionPane.showMessageDialog(null, "Not implemented yet!");
+				/*
 				try {
 					brainfuckEditor = new BrainfuckEditor();
 					brainfuckEditor.openFile(selectedFile);
@@ -254,7 +256,7 @@ public class Editor extends JFrame implements ActionListener {
 				}
 				catch(Exception e) {
 					ErrorDialog.showError("The file '" + selectedFile.getName() + "' couldn't be openend, because the file is corrupt.", e);
-				}
+				}*/
 			}
 		}
 	}
@@ -287,7 +289,8 @@ public class Editor extends JFrame implements ActionListener {
 					this.currentMachine.save(selectedFile.getPath());
 					break;
 				case FILETYPE_BF:
-					this.brainfuckEditor.saveFile(selectedFile.getPath());
+					JOptionPane.showMessageDialog(null, "Not implemented yet!");
+					//this.brainfuckEditor.saveFile(selectedFile.getPath());
 					break;
 				}
 				
