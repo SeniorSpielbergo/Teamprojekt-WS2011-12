@@ -83,7 +83,7 @@ public abstract class Tape {
 	
 	/**
 	 * This method returns the tape type
-	 * @return
+	 * @return Either "LEGO" or "console" or "GUI" depending on the type of the tape
 	 */
 	public abstract Type getType();
 	

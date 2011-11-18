@@ -59,9 +59,7 @@ public class TuringMachine extends Machine{
 	 * @param edges All edges of the Turing machine
 	 * @param name The name of the Turing machine
 	 * @param tapes The number of tapes used in the Turing machine
-	 * @param initial The initial input on the Turing machine's tapes
 	 */
-
 	public TuringMachine(String name, ArrayList<State> states, ArrayList<Edge> edges, ArrayList<Tape> tapes) {
 		super(name);
 		this.states = states;
@@ -369,7 +367,7 @@ public class TuringMachine extends Machine{
 
 	/**
 	 * Writes the Turing machine to a XML file with a given name
-	 * @param fileName File writing to (with or without .xml at the end)
+	 * @param filename File writing to (with or without .xml at the end)
 	 */
 	public void save(String filename) throws IOException {
 		System.out.println("Saving file '" + filename + "'...");
