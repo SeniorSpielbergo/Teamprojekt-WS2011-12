@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import machine.turing.*;
 
-import Tape.ConsoleTape;
-import Tape.Tape;
-import Tape.TapeException;
+import tape.ConsoleTape;
+import tape.Tape;
+import tape.TapeException;
 
 /** This class provides a test program for InOut.java
  * 

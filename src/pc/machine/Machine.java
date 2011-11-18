@@ -3,8 +3,8 @@ package machine;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Tape.Tape;
-import Tape.TapeException;
+import tape.Tape;
+import tape.TapeException;
 
 public abstract class Machine {
 	protected String name;

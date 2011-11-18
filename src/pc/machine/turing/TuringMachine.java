@@ -22,12 +22,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import Tape.ConsoleTape;
-import Tape.LEGOTape;
-import Tape.MasterRobot;
-import Tape.SlaveRobot;
-import Tape.Tape;
-import Tape.TapeException;
+import tape.ConsoleTape;
+import tape.LEGOTape;
+import tape.MasterRobot;
+import tape.SlaveRobot;
+import tape.Tape;
+import tape.TapeException;
 
 /** This class represents a Turing machine with it's states, edges and transitions
  * 

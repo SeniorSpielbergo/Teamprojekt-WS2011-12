@@ -1,6 +1,6 @@
 package Brainfuck;
 import java.io.*;
-import Tape.*;
+import tape.*;
 
 public class BFTest {
 	public static void main(String[] args) throws IOException {

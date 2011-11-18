@@ -1,4 +1,4 @@
-package Tape;
+package tape;
 
 /**
  * Contains special methods for the Slave Robot

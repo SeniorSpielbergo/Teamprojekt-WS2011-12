@@ -5,7 +5,7 @@ import javax.swing.filechooser.FileFilter;
 
 import machine.Machine;
 import machine.turing.*;
-import Tape.*;
+import tape.*;
 import GUI.RunWindow.*;
 import GUI.Brainfuck.*;
 

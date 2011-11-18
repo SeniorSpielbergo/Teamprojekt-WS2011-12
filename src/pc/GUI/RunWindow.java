@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import Tape.*;
+import tape.*;
 import machine.Machine;
 import machine.turing.*;
 

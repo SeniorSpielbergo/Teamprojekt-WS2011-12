@@ -1,5 +1,5 @@
 package Brainfuck;
-import Tape.*;
+import tape.*;
 import javax.swing.JLabel;
 
 /**

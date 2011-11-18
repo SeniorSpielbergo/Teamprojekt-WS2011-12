@@ -1,5 +1,5 @@
 import javax.swing.*;
-import Tape.*;
+import tape.*;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package Tape;
+package tape;
 import java.io.*;
 
 /** Contains special methods for the Master Robot

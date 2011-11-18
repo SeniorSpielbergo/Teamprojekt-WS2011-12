@@ -1,4 +1,4 @@
-package Tape;
+package tape;
 
 import java.lang.String;
 
