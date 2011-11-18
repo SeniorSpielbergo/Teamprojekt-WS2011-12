@@ -47,7 +47,6 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	private OrganizeRobotsTable model;
 	private ListSelectionModel listSelectionModel;
 	private boolean tableInitialized = false;
-	private boolean dataChanged = false;
 	
 	/**
 	 * Constructs the window to organize the robots
@@ -246,17 +245,6 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			dispose();
 		}
 		else if (e.getSource() == cancelButton) {
-			if (dataChanged) {
-				int answer = JOptionPane.showConfirmDialog(null, "The data changed! Do you really want quit without saving?",
-													"Not saved!", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-				if (answer == JOptionPane.NO_OPTION) {
-					return;
-				}
-				else if (answer == JOptionPane.YES_OPTION) {
-					this.setVisible(false);
-					dispose();
-				}
-			}
 			this.setVisible(false);
 			dispose();
 		}
@@ -284,18 +272,15 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			if (e.getType() == TableModelEvent.UPDATE) {
 				String newData = (String) this.table.getModel().getValueAt(row, col);
 				data.get(row).set(col, newData);
-				dataChanged = true;
 			}
 			else if (e.getType() == TableModelEvent.INSERT) {
 				ArrayList<String> tempData = new ArrayList<String>();
 				tempData.add("");
 				tempData.add("");
 				data.add(tempData);
-				dataChanged = true;
 			}
 			else if (e.getType() == TableModelEvent.DELETE) {
 				data.remove(row);
-				dataChanged = true;
 			}
 		}
 	}
