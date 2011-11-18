@@ -7,7 +7,6 @@ import javax.swing.*;
 
 import tape.*;
 import machine.Machine;
-import machine.turing.*;
 
 /** This class represents window for the run settings
  * 
