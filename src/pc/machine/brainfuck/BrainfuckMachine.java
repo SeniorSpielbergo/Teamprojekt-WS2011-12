@@ -41,7 +41,7 @@ public class BrainfuckMachine extends Machine {
 	}
 	
 	public void load(String fileName) throws FileNotFoundException, IOException {
-		byte[] buffer = new byte[(int) fileName.length()];
+		byte[] buffer = new byte[(int) fileName.length()];//FIXME: the buffer has only the size of the number of characters of the filename! -> file is not completely loaded!
 		BufferedInputStream f = new BufferedInputStream(new FileInputStream(fileName));
 		f.read(buffer);
 		String code = new String(buffer);
@@ -64,5 +64,10 @@ public class BrainfuckMachine extends Machine {
 	
 	public JLabel getOutputLabel() {
 		return brainfuckEditor.getOutputLabel();
+	}
+
+	@Override
+	public MachineType getType() {
+		return Machine.MachineType.BrainfuckMachine;
 	}
 }
