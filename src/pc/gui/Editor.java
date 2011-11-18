@@ -22,10 +22,9 @@ import java.io.*;
  */
 public class Editor extends JFrame implements ActionListener {
 	static final long serialVersionUID = -3667258249137827980L;
-	static final String appName = "Turing Simulator";
+	static final String appName = "TuringBrain IDE";
 	protected Machine currentMachine;
 	private String currentFilename = "";
-	private BrainfuckEditor brainfuckEditor; 
 	private JMenu newSubmenu;
 	private JMenuItem newBFAction;
 	private JMenuItem newTMAction;
@@ -51,7 +50,7 @@ public class Editor extends JFrame implements ActionListener {
 	 * Constructs the Editor window with all actionListeners and a basic setup
 	 */
 	public Editor() {
-		setTitle("Editor");
+		setTitle(appName);
 		setSize(800, 800);
 
 		initEditor();
@@ -141,6 +140,7 @@ public class Editor extends JFrame implements ActionListener {
 		Editor mainWindow = new Editor();
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainWindow.setVisible(true);
+
 		//mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
@@ -155,9 +155,9 @@ public class Editor extends JFrame implements ActionListener {
 		setJMenuBar(menuBar);
 
 		// create submenu items
-		newSubmenu = new JMenu("New..");
-		newTMAction = new JMenuItem("New TM");
-		newBFAction = new JMenuItem("New BF");
+		newSubmenu = new JMenu("New");
+		newTMAction = new JMenuItem("Turing machine...");
+		newBFAction = new JMenuItem("Brainfuck program");
 		newSubmenu.add(newTMAction);
 		newSubmenu.add(newBFAction);
 
@@ -291,6 +291,7 @@ public class Editor extends JFrame implements ActionListener {
 	 * Closes the editor
 	 */
 	public void exitEditor() {
+		this.closeCurrentFile();
 		System.exit(0);
 	}
 
@@ -416,28 +417,30 @@ public class Editor extends JFrame implements ActionListener {
 
 	public void loadEditor() {
 		this.add(this.currentMachine.getEditor());
-		
+
 		saveAction.setEnabled(true);
 		saveAsAction.setEnabled(true);
 		runAction.setEnabled(true);
 		exportLatexAction.setEnabled(false);
-		
+
 		validate();
 	}
-	
+
 	public void closeCurrentFile() {
-		//TODO: prompt user to save
-		this.currentFilename = "";
-		
-		saveAction.setEnabled(false);
-		saveAsAction.setEnabled(false);
-		runAction.setEnabled(false);
-		exportLatexAction.setEnabled(false);
-		
 		if (this.currentMachine != null) {
+			int result = JOptionPane.showConfirmDialog(null, "Do you want to save the current machine?", "Close file", JOptionPane.YES_NO_OPTION);
+			if (result == JOptionPane.YES_OPTION) {
+				this.saveFile();
+			}
+
+			this.currentFilename = "";
+
+			saveAction.setEnabled(false);
+			saveAsAction.setEnabled(false);
+			runAction.setEnabled(false);
+			exportLatexAction.setEnabled(false);
+
 			this.remove(this.currentMachine.getEditor());
 		}
-		
-
 	}
 }
