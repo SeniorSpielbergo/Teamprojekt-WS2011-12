@@ -1,4 +1,4 @@
-package gui.Brainfuck;
+package gui.brainfuck;
 
 import javax.swing.*;
 
