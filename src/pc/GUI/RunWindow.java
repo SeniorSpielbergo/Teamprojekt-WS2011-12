@@ -108,13 +108,13 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			for (int j = 0; j < description.length; j++) {
 				tapeCombo[i].addItem(description[j]);
 				tapeCombo[i].addActionListener(createItemListener(i));
-				if (tapeType.equals("LEGO")) {
+				if (tapeType == Tape.Type.LEGO) {
 					tapeCombo[i].setSelectedItem(description[0]);
 				}
-				else if (tapeType.equals("console")) {
+				else if (tapeType == Tape.Type.CONSOLE) {
 					tapeCombo[i].setSelectedItem(description[1]);
 				}
-				else if (tapeType.equals("gui")) {
+				else if (tapeType == Tape.Type.GUI) {
 					tapeCombo[i].setSelectedItem(description[2]);
 				}
 			}
@@ -153,7 +153,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			for (int j = 0; j < robots.size(); j++) {
 				// TODO robot initialize
 				robotCombo1[i].addItem(robots.get(j).get(0) + " - " + robots.get(j).get(1));
-				robotCombo2[i].addItem(robots.get(j).get(1) + " - " + robots.get(j).get(1));
+				robotCombo2[i].addItem(robots.get(j).get(0) + " - " + robots.get(j).get(1));
 			}
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 1;
@@ -259,7 +259,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			robots = OrganizeRobots.loadRobotsFromXML();
 		}
 		catch (Exception e) {
-			// TODO exception handling
+			ErrorDialog.showError("Parsing the XML file failed.", e);
 		}
 		inputContainer  = new JPanel(new GridBagLayout());
 		tapeSettingsContainer = new JPanel(new GridBagLayout());
@@ -341,6 +341,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 				if (tabbedPane.getTabCount() == 3) {
 					if (e.getSource().equals(tapeCombo[index])) {
 						if (tapeCombo[index].getSelectedItem().toString() == description[0]) {
+							System.out.println("lego");	//TODO delete
 							refreshTapes(index, Tape.Type.LEGO);
 							refreshRobotSettings();
 						}
