@@ -256,6 +256,9 @@ public class Editor extends JFrame implements ActionListener {
 					ErrorDialog.showError("The file '" + selectedFile.getName() + "' couldn't be openend, because the file is corrupt.", e);
 				}
 			}
+			else {
+				ErrorDialog.showError("The file '" + selectedFile.getName() + "' couldn't be openend, because the filetype is not supported.");
+			}
 		}
 	}
 	
