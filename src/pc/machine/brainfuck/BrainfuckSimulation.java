@@ -29,6 +29,7 @@ public class BrainfuckSimulation extends Simulation {
 		this.actionTape = machine.getTapes().get(0);
 		this.inputTape = machine.getTapes().get(1);
 		this.code = machine.getCode();
+		this.outputLabel = machine.getOutputLabel();
 	}
 
 	/**
@@ -41,7 +42,7 @@ public class BrainfuckSimulation extends Simulation {
 
 	// Prints the output into the outputLabel if existing, else prints output to console.
 	private void output() {
-		outputLabel.setText(outputString);
+		this.outputLabel.setText(outputString);
 	}
 
 	// Checks syntax of brainfuck-Application (just checks the loops)
