@@ -13,15 +13,19 @@ import javax.swing.table.*;
 public class CustomTable extends AbstractTableModel {
 	
 	static final long serialVersionUID = -3667258249137827980L;
-	private String[] columnsNames = {"Name", "MAC-Address"};
+	private String[] columnNames;
 	private ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+	
+	public CustomTable(String[] head) {
+		 columnNames = head;
+	}
 
 	/**
 	 * Returns the number of columns
 	 * @return Number of columns
 	 */
 	public int getColumnCount() {
-		return columnsNames.length;
+		return columnNames.length;
 	}
 
 	/**
@@ -48,7 +52,7 @@ public class CustomTable extends AbstractTableModel {
 	 * @return Column name
 	 */
 	public String getColumnName(int i) {
-		return columnsNames[i];
+		return columnNames[i];
 	}
 	
 	/**

@@ -96,7 +96,8 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			ErrorDialog.showError("Parsing the XML file failed.", e);
 		}
 		// add table
-		model = new CustomTable();
+		String[] head = {"Name", "MAC-Address"};
+		model = new CustomTable(head);
 		table = new JTable(model);
 		table.getModel().addTableModelListener(this);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -254,9 +255,6 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		else if (e.getSource() == deleteButton) {
 			if (table.getSelectedRow() != -1) {
 				model.deleteRow(table.getSelectedRow());
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "You first have to select a row in order to delete it!");
 			}
 		}
 	}
