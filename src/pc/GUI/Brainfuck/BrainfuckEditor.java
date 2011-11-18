@@ -110,10 +110,7 @@ public class BrainfuckEditor extends JPanel{
 	}
 	
 	public void saveFile(String path) throws IOException{
-		FileWriter fstream = new FileWriter(path);
-		BufferedWriter out = new BufferedWriter(fstream);
-		out.write(getCode());
-		out.close();
+
 	}
 	
 	public void openFile(File selectedFile) throws FileNotFoundException, IOException {
