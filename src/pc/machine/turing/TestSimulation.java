@@ -1,7 +1,7 @@
-package TuringMachine;
+package machine.turing;
 import java.io.IOException;
 import java.util.ArrayList;
-import Tape.*;
+import tape.*;
 
 public class TestSimulation {
 

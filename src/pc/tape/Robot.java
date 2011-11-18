@@ -1,4 +1,4 @@
-package Tape;
+package tape;
 import lejos.pc.comm.*;
 import java.io.*;
 

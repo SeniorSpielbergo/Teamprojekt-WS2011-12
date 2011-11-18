@@ -1,4 +1,4 @@
-package TuringMachine;
+package machine.turing;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,29 +14,29 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import machine.Machine;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import Tape.ConsoleTape;
-import Tape.LEGOTape;
-import Tape.MasterRobot;
-import Tape.SlaveRobot;
-import Tape.Tape;
-import Tape.TapeException;
+import tape.ConsoleTape;
+import tape.LEGOTape;
+import tape.MasterRobot;
+import tape.SlaveRobot;
+import tape.Tape;
+import tape.TapeException;
 
 /** This class represents a Turing machine with it's states, edges and transitions
  * 
  * @author David Wille
  * 
  */
-public class TuringMachine {
-	protected String name;
+public class TuringMachine extends Machine{
 	protected ArrayList<State> states;
 	protected ArrayList<Edge> edges;
-	protected ArrayList<Tape> tapes;
 
 	/**
 	 * Constructs an untitled Turing machine
@@ -59,59 +59,12 @@ public class TuringMachine {
 	 * @param edges All edges of the Turing machine
 	 * @param name The name of the Turing machine
 	 * @param tapes The number of tapes used in the Turing machine
-	 * @param initial The initial input on the Turing machine's tapes
 	 */
-
 	public TuringMachine(String name, ArrayList<State> states, ArrayList<Edge> edges, ArrayList<Tape> tapes) {
+		super(name);
 		this.states = states;
 		this.edges = edges;
-		this.name = name;
 		this.tapes = tapes;
-	}
-
-	/**
-	 * Initializes the tapes
-	 * @throws TapeException Exception if any problems occur while initializing
-	 */
-	public void initTapes() throws TapeException {
-		//init tapes
-		for (Tape tape : this.tapes) {
-			tape.init();
-			System.out.println("Writing input..."); //TODO: remove
-			tape.writeInputWord();
-		}
-	}
-
-	/**
-	 * Shuts down the tapes
-	 * @throws TapeException Exception if any problems occur while shuting down
-	 */
-	public void shutdownTapes() throws TapeException {
-		//init tapes
-		for (Tape tape : this.tapes) {
-			tape.shutdown();
-		}
-	}
-
-
-	/**
-	 * Returns the Turing machine's name
-	 * @return The Turing machine's name
-	 */
-	public String getName() {
-		return this.name;
-	}
-
-	/**
-	 * Returns the Turing machine's number of tapes
-	 * @return Number of tapes
-	 */
-	public ArrayList<Tape> getTapes() {
-		return this.tapes;
-	}
-
-	public int getNumberOfTapes() {
-		return this.tapes.size();
 	}
 
 	/**
@@ -135,7 +88,7 @@ public class TuringMachine {
 	 * @param filename File to read the Turing machine from (with or without .xml at the end)
 	 * @return Turing machine object
 	 */
-	public static TuringMachine loadFromXML(String filename) throws IOException {
+	public static TuringMachine load(String filename) throws IOException {
 		if (!filename.endsWith(".xml")) {
 			throw new IOException("Wrong file extension of file '" + filename + "'. Must be '.xml'");
 		}
@@ -414,9 +367,9 @@ public class TuringMachine {
 
 	/**
 	 * Writes the Turing machine to a XML file with a given name
-	 * @param fileName File writing to (with or without .xml at the end)
+	 * @param filename File writing to (with or without .xml at the end)
 	 */
-	public void saveXML(String filename) throws IOException {
+	public void save(String filename) throws IOException {
 		System.out.println("Saving file '" + filename + "'...");
 
 		if (!filename.endsWith(".xml")) {
@@ -492,7 +445,17 @@ public class TuringMachine {
 			
 			// save tape type number
 			Attr attrType = doc.createAttribute("type");
-			attrType.setValue(tape.getType());
+			String tapeType = "";
+			if (tape.getType() == Tape.Type.LEGO) {
+				tapeType = "LEGO";
+			}
+			else if (tape.getType() == Tape.Type.CONSOLE) {
+				tapeType = "console";
+			}
+			else if (tape.getType() == Tape.Type.GUI) {
+				tapeType = "gui";
+			}
+			attrType.setValue(tapeType);
 			tapeElement.setAttributeNode(attrType);
 			
 			//save tape name

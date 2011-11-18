@@ -1,4 +1,4 @@
-package TuringMachine;
+package machine.turing;
 import java.util.ArrayList;
 
 /** This class represents the transitions on all tapes for a specific edge

@@ -1,4 +1,4 @@
-package Tape;
+package tape;
 
 import java.io.*;
 import java.lang.String;
@@ -72,8 +72,8 @@ public class LEGOTape extends Tape {
 	 * Returns the tape type
 	 * @return Returns "LEGO"
 	 */
-	public String getType() {
-		return "LEGO";
+	public Type getType() {
+		return Type.LEGO;
 	}
 	
 	/**

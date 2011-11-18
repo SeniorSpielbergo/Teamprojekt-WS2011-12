@@ -2,12 +2,11 @@ import java.io.IOException;
 import java.lang.String;
 import java.util.ArrayList;
 
-import Tape.ConsoleTape;
-import Tape.Tape;
-import Tape.TapeException;
-import TuringMachine.*;
-import TuringMachine.Edge;
-import TuringMachine.State;
+import machine.turing.*;
+
+import tape.ConsoleTape;
+import tape.Tape;
+import tape.TapeException;
 
 /** This class provides a test program for InOut.java
  * 

@@ -1,4 +1,4 @@
-package TuringMachine;
+package machine.turing;
 import java.util.ArrayList;
 
 /** This class represents an edge with it'ss start and end state and it's transitions
@@ -16,7 +16,7 @@ public class Edge {
 	 * Constructs an edge from a state to another with it's transitions
 	 * @param from Start state
 	 * @param to End state
-	 * @param transition Transitions for this edge
+	 * @param transitions Transitions for this edge
 	 */
 	public Edge(State from, State to, ArrayList<Transition> transitions) {
 		this.from = from;
@@ -66,7 +66,7 @@ public class Edge {
 	
 	/**
 	 * Sets the transitions for this edge
-	 * @param transition Transitions for this edge
+	 * @param transitions Transitions for this edge
 	 */ //FIXME: is this method necessary?
 	public void setTransitions(ArrayList<Transition> transitions) {
 		this.transitions = transitions;

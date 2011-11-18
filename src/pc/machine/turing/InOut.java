@@ -1,4 +1,4 @@
-package TuringMachine;
+package machine.turing;
 import java.io.*;
 import java.lang.String;
 import java.util.ArrayList;

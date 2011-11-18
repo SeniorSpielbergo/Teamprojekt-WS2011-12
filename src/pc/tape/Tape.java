@@ -1,4 +1,4 @@
-package Tape;
+package tape;
 
 import java.lang.String;
 
@@ -14,6 +14,13 @@ public abstract class Tape {
 	protected int position = 0;
 	protected String name = "";
 	protected String inputWord = "";
+	
+	/**
+	 * Enum representing the tape types
+	 */
+	public enum Type {
+		LEGO, CONSOLE, GUI
+	}
 	
 	/**
 	 * Creates a new tape
@@ -76,9 +83,9 @@ public abstract class Tape {
 	
 	/**
 	 * This method returns the tape type
-	 * @return
+	 * @return Either "LEGO" or "console" or "GUI" depending on the type of the tape
 	 */
-	public abstract String getType();
+	public abstract Type getType();
 	
 	/**
 	 * Checks if the tape has been initialized
