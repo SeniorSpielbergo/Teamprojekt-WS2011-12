@@ -21,7 +21,6 @@ public class Simulation {
 				startState = machine.getStates().get(i);
 				actualState = startState;
 			}
-
 		}
 		System.out.println("Start: "+startState.getId());
 		System.out.println("aktueller Zustand: " +actualState.getId());

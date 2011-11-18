@@ -1,5 +1,7 @@
 package GUI;
 
-public abstract class MachineEditor {
+import javax.swing.JPanel;
 
+public abstract class MachineEditor extends JPanel {
+	
 }
