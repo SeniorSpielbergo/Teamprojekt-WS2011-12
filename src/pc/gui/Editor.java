@@ -287,15 +287,6 @@ public class Editor extends JFrame implements ActionListener {
 		JOptionPane.showMessageDialog(null, "Not implemented yet!");
 	}
 
-	public void closeCurrentFile() {
-		//TODO: prompt user to save
-		this.currentFilename = "";
-		
-		if (this.currentMachine != null) {
-			this.remove(this.currentMachine.getEditor());
-		}
-	}
-
 	/**
 	 * Closes the editor
 	 */
@@ -432,5 +423,21 @@ public class Editor extends JFrame implements ActionListener {
 		exportLatexAction.setEnabled(false);
 		
 		validate();
+	}
+	
+	public void closeCurrentFile() {
+		//TODO: prompt user to save
+		this.currentFilename = "";
+		
+		saveAction.setEnabled(false);
+		saveAsAction.setEnabled(false);
+		runAction.setEnabled(false);
+		exportLatexAction.setEnabled(false);
+		
+		if (this.currentMachine != null) {
+			this.remove(this.currentMachine.getEditor());
+		}
+		
+
 	}
 }
