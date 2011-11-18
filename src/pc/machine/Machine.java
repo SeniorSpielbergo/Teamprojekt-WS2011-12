@@ -1,5 +1,7 @@
 package machine;
 
+import gui.MachineEditor;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -10,6 +12,8 @@ public abstract class Machine {
 	protected String name;
 
 	protected ArrayList<Tape> tapes;
+	
+	protected MachineEditor editor;
 
 	/**
 	 * Constructs an untitled Turing machine
@@ -73,4 +77,15 @@ public abstract class Machine {
 	
 	public abstract Simulation createSimulation() throws TapeException;
 	
+	protected abstract MachineEditor createEditor();
+	
+	public MachineEditor getEditorSingleton() {
+		if (this.editor == null) {
+			this.editor = this.createEditor();
+			return this.editor;
+		}
+		else {
+			return this.editor;
+		}
+	}
 }

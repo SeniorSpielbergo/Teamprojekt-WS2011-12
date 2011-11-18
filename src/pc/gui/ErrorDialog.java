@@ -24,7 +24,7 @@ public class ErrorDialog extends JDialog {
 	private JButton jButtonToggleDetails;
 	private JScrollPane jScrollPaneException;
 	private JTextArea jTextAreaException;
-	private JTextArea jTextAreaErrorMsg;	
+	private JTextArea jTextAreaErrorMsg;
 	private JTextArea jTextAreaErrorMsgSmall;
 
 
