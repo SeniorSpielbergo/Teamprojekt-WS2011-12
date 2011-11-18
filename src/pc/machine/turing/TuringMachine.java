@@ -93,10 +93,14 @@ public class TuringMachine extends Machine{
 	 * @param filename File to read the Turing machine from (with or without .xml at the end)
 	 * @return Turing machine object
 	 */
-	public static TuringMachine load(String filename) throws IOException {
+	public void load(String filename) throws IOException {
 		if (!filename.endsWith(".xml")) {
 			throw new IOException("Wrong file extension of file '" + filename + "'. Must be '.xml'");
 		}
+		//clear data
+		this.edges.clear();
+		this.states.clear();
+		this.tapes.clear();
 
 		//parse document
 		System.out.println("Loading file '" + filename + "'...");
@@ -116,6 +120,7 @@ public class TuringMachine extends Machine{
 
 		// read Turing machine's name
 		String machineName = doc.getDocumentElement().getAttribute("name");
+		this.name = machineName;
 		String machineXMLVersion = doc.getDocumentElement().getAttribute("xml-version");
 
 		if (!machineXMLVersion.equals("2")) {
@@ -124,17 +129,13 @@ public class TuringMachine extends Machine{
 		}
 
 		//load the rest
-		TuringMachine machine = new TuringMachine(machineName);
 		System.out.println("Loading tape configuration...");
-		machine.loadTapesConfig(doc);
+		this.loadTapesConfig(doc);
 		System.out.println("Loading states...");
-		machine.loadStates(doc);
+		this.loadStates(doc);
 		System.out.println("Loading edges and transitions...");
-		machine.loadEdges(doc);
+		this.loadEdges(doc);
 		System.out.println("File '" + filename + "' successfully loaded.");
-
-
-		return machine;
 	}
 
 	/**

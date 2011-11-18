@@ -74,6 +74,7 @@ public abstract class Machine {
 	}
 	
 	public abstract void save(String filename) throws IOException;
+	public abstract void load(String filename) throws IOException;
 	
 	public abstract Simulation createSimulation() throws TapeException;
 	
