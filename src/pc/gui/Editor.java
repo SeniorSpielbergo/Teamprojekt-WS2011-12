@@ -11,6 +11,7 @@ import tape.*;
 import gui.RunWindow.*;
 import gui.brainfuck.*;
 
+import java.awt.Event;
 import java.awt.Toolkit;
 import java.awt.event.*;
 import java.io.*;
@@ -109,7 +110,8 @@ public class Editor extends JFrame implements ActionListener {
 		helpMenu.add(aboutAction);
 
 		// menu shortcuts
-		newTMAction.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		newTMAction.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		newBFAction.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | Event.SHIFT_MASK ));
 		openAction.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -162,17 +164,17 @@ public class Editor extends JFrame implements ActionListener {
 		newSubmenu.add(newBFAction);
 
 		// create menu subitems
-		openAction = new JMenuItem("Open");
+		openAction = new JMenuItem("Open...");
 		saveAction = new JMenuItem("Save");
 		saveAsAction = new JMenuItem("Save As...");
 		exportLatexAction = new JMenuItem("Export as LaTeX");
 		exitAction = new JMenuItem("Exit");
-		runAction = new JMenuItem("Run");
+		runAction = new JMenuItem("Run...");
 		copyAction = new JMenuItem("Copy");
 		cutAction = new JMenuItem("Cut");
 		pasteAction = new JMenuItem("Paste");
-		organizeRobotsAction = new JMenuItem("Organize robots");
-		aboutAction = new JMenuItem("About");
+		organizeRobotsAction = new JMenuItem("Organize robots...");
+		aboutAction = new JMenuItem("About...");
 
 		// create menu items
 		fileMenu = new JMenu("File");

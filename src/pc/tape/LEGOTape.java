@@ -87,6 +87,9 @@ public class LEGOTape extends Tape {
 		try {
 			this.master.disconnect();
 			this.slave.disconnect();
+			//reset tape
+			this.currentSymbol = 'n';
+			this.position = 0;
 		}
 		catch (IOException e) {
 			throw new TapeException(this, "Tape did not shutdown properly.", e);
