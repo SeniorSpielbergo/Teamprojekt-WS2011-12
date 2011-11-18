@@ -5,6 +5,7 @@ import javax.swing.filechooser.FileFilter;
 
 import machine.Machine;
 import machine.Simulation;
+import machine.brainfuck.BrainfuckMachine;
 import machine.turing.*;
 import tape.*;
 import gui.RunWindow.*;
@@ -236,7 +237,7 @@ public class Editor extends JFrame implements ActionListener {
 				currentFileType = FILETYPE_TM;
 			}
 			else if(selectedFile.getName().toLowerCase().endsWith( ".bf" )) {
-				//Machine machine = new BrainfuckMachine();
+			    machine = new BrainfuckMachine();
 				currentFileType = FILETYPE_BF;
 			}
 			else {

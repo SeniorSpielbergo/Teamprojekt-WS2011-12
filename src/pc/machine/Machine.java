@@ -19,7 +19,7 @@ public abstract class Machine {
 	 * Constructs an untitled Turing machine
 	 */
 	public Machine() {
-		this.name = "Untitled machine";
+		this("Untitled machine");
 	}
 
 	/**
@@ -28,6 +28,9 @@ public abstract class Machine {
 	 */
 	public Machine(String name) {
 		this.name = name;
+		this.tapes = new ArrayList<Tape>();
+		this.editor = this.createEditor();
+
 	}
 
 	/**
@@ -81,12 +84,6 @@ public abstract class Machine {
 	protected abstract MachineEditor createEditor();
 	
 	public MachineEditor getEditorSingleton() {
-		if (this.editor == null) {
-			this.editor = this.createEditor();
-			return this.editor;
-		}
-		else {
-			return this.editor;
-		}
+		return this.editor;
 	}
 }
