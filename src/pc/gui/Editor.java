@@ -1,13 +1,14 @@
-package GUI;
+package gui;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
 import machine.Machine;
+import machine.Simulation;
 import machine.turing.*;
 import tape.*;
-import GUI.RunWindow.*;
-import GUI.Brainfuck.*;
+import gui.RunWindow.*;
+import gui.brainfuck.*;
 
 import java.awt.Toolkit;
 import java.awt.event.*;
@@ -366,12 +367,8 @@ public class Editor extends JFrame implements ActionListener {
 		
 		//simulate
 		try {
-			//TODO: implement simulation for brainfuc			
-			if (this.currentMachine.getClass().getName().equals("machine.turing.TuringMachine")) {
-				TuringMachine turingMachine = (TuringMachine) this.currentMachine;
-				Simulation sim = new Simulation(turingMachine);
-				sim.runMachine();
-			}
+			Simulation sim = this.currentMachine.createSimulation();
+			sim.runMachine();
 		}
 		catch (TapeException e){
 		    ErrorDialog.showError("The simulation failed because of a tape exception.", e);

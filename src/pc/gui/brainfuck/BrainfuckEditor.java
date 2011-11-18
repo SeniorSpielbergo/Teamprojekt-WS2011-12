@@ -1,8 +1,8 @@
-package GUI.Brainfuck;
+package gui.brainfuck;
 
 import javax.swing.*;
 
-import GUI.MachineEditor;
+import gui.MachineEditor;
 
 import java.awt.*;
 import java.io.*;

@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -44,7 +44,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	private JButton cancelButton;
 	private JPanel saveCancelContainer;
 	private JPanel addDeleteContainer;
-	private OrganizeRobotsTable model;
+	private CustomTable model;
 	private ListSelectionModel listSelectionModel;
 	private boolean tableInitialized = false;
 	
@@ -96,7 +96,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			ErrorDialog.showError("Parsing the XML file failed.", e);
 		}
 		// add table
-		model = new OrganizeRobotsTable();
+		model = new CustomTable();
 		table = new JTable(model);
 		table.getModel().addTableModelListener(this);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);

@@ -1,4 +1,4 @@
-package GUI;
+package gui.turing;
 
 import javax.swing.*;
 import java.awt.*;

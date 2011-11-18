@@ -15,6 +15,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import machine.Machine;
+import machine.Simulation;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -638,5 +639,12 @@ public class TuringMachine extends Machine{
 		str += "Edges:\n" + edges + "\n";
 		return str;
 	}
+
+	@Override
+	public Simulation createSimulation() throws TapeException{
+		return new TuringSimulation(this);
+	}
+	
+	
 
 }
