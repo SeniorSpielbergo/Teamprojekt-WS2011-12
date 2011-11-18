@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.File;
 
 import javax.swing.JLabel;
 
@@ -41,8 +42,9 @@ public class BrainfuckMachine extends Machine {
 	}
 	
 	public void load(String fileName) throws FileNotFoundException, IOException {
-		byte[] buffer = new byte[(int) fileName.length()];//FIXME: the buffer has only the size of the number of characters of the filename! -> file is not completely loaded!
-		BufferedInputStream f = new BufferedInputStream(new FileInputStream(fileName));
+		File file = new File(fileName);
+		byte[] buffer = new byte[(int) file.length()];
+		BufferedInputStream f = new BufferedInputStream(new FileInputStream(file));
 		f.read(buffer);
 		String code = new String(buffer);
 		brainfuckEditor.setCode(code);
