@@ -184,6 +184,7 @@ public class Editor extends JFrame implements ActionListener {
 		newTMAction.addActionListener(this);
 		newBFAction.addActionListener(this);
 		openAction.addActionListener(this);
+		saveAction.addActionListener(this);
 		saveAsAction.addActionListener(this);
 		exportLatexAction.addActionListener(this);
 		exitAction.addActionListener(this);
@@ -200,15 +201,14 @@ public class Editor extends JFrame implements ActionListener {
 	 */
 	public void newFile(Machine.MachineType type) {
 		this.closeCurrentFile();
-		saveAction.setEnabled(true);
-		saveAsAction.setEnabled(true);
-		runAction.setEnabled(true);
 		switch(type) {
 		case TuringMachine:
 			this.currentMachine = new TuringMachine();
+			this.loadEditor();
 			break;
 		case BrainfuckMachine:
 			this.currentMachine = new BrainfuckMachine();
+			this.loadEditor();
 			break;
 		}
 	}
