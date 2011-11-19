@@ -90,9 +90,10 @@ public class TuringMachine extends Machine{
 	}
 
 	/**
-	 * Reads a Turing machine from a XML file
-	 * @param filename File to read the Turing machine from (with or without .xml at the end)
-	 * @return Turing machine object
+	 * Reads a Turing machine from a XML file.
+	 * The data (states, edges...) of the current TuringMachine object will be overwritten with the data from the file. 
+	 * @param filename File to read the Turing machine from
+	 * @throws IOException If an I/O error occurs while reading the file, or the file content is corrupt.
 	 */
 	public void load(String filename) throws IOException {
 		if (!filename.endsWith(".xml")) {
