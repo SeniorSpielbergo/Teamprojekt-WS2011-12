@@ -8,7 +8,11 @@ import java.io.*;
  * 
  */
 public abstract class Robot {
+	/**
+	 * The name of the robot
+	 */
 	protected String name;
+
 	private String mac_address;
 	private NXTComm comm = null;
 	private DataInputStream input = null;
@@ -19,7 +23,7 @@ public abstract class Robot {
 	 * @param name Name of the Robot
 	 * @param mac_address MAC Adress of the Robot
 	 */
-	
+
 	public Robot(String name, String mac_address) {
 		this.name = name;
 		this.mac_address = mac_address;
@@ -27,10 +31,10 @@ public abstract class Robot {
 
 	/**
 	 * Method to connect to the Robot
-	 * @throws NXTCommException 
-	 * @throws IOException
+	 * @throws NXTCommException Thrown, if the connecting fails
+	 * @throws IOException Thrown if the connection couldn't be opened
 	 */
-	
+
 	public void connect() throws NXTCommException, IOException {
 		System.out.println("Connecting to '" + this.name + "'...");
 
@@ -54,11 +58,11 @@ public abstract class Robot {
 
 		System.out.println("Connected to '" + this.name + "'.");
 	}
-	
+
 	/**
 	 * Method to disconnect from the Robot
+	 * @throws IOException Thrown if the disconnecting fails
 	 */
-
 	public void disconnect() throws IOException {
 		System.out.println("Disconnecting '" + this.name + "'...");
 		this.sendCommand('q');
@@ -73,13 +77,13 @@ public abstract class Robot {
 
 		System.out.println("Disconnected '" + this.name + "'.");
 	}
-	
+
 	/**
 	 * Method to send a character to the robot
 	 * @param current symbol that is currently on the position to write
 	 * @param write symbol that is send to the robot
+	 * @throws IOException Thrown if the sending or receiving of commands fails or the robot returns an error
 	 */
-	
 	public void write(char current, char write) throws IOException{
 		System.out.println(this.name + ": Write from "+ current + " to " + write + " ...");
 		this.sendCommand('w');
@@ -96,12 +100,12 @@ public abstract class Robot {
 			throw new IOException("Received unexpected symbol from robot '" + this.name + ".");
 		}
 	}
-	
+
 	/**
 	 * Send a command to the robot
 	 * @param cmd character that is send to the robot
+	 * @throws IOException Thrown if the sending fails
 	 */
-	
 	protected void sendCommand(char cmd) throws IOException {
 		System.out.println("Sending to '" + this.name + "' the command '" + cmd + "'...");
 		try {
@@ -117,13 +121,14 @@ public abstract class Robot {
 			//Thread.sleep(1000);
 		}
 		catch (Exception e) {
-			
+
 		}
 	}
 
 	/**
 	 * 
 	 * @return a character that have been send from the robot
+	 * @throws IOException Thrown if the receiving fails
 	 */
 	protected char receiveCommand() throws IOException {
 		System.out.println("Receiving from '" + this.name + "'...");
@@ -138,10 +143,18 @@ public abstract class Robot {
 		}
 	}
 
+	/**
+	 * Returns the name of the robot
+	 * @return Robot name string
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Returns the Mac Address of the robot
+	 * @return Robot Mac address string
+	 */
 	public String getMacAddress() {
 		return mac_address;
 	}

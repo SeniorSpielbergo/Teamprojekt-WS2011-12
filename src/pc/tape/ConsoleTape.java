@@ -9,6 +9,9 @@ import java.lang.String;
  */
 
 public class ConsoleTape extends Tape {
+	/**
+	 * Stores the current tape content
+	 */
 	HashMap<Integer, Character> memory = new HashMap<Integer, Character>();
 
 	/**
@@ -32,12 +35,12 @@ public class ConsoleTape extends Tape {
 	 */
 	public void init() throws TapeException {
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
-		
+
 		//set ready
 		this.ready = true;
 		System.out.println(this.name + ": Tape ready.");
 	}
-	
+
 	/**
 	 * Returns the tape type
 	 * @return Returns "console"
@@ -52,13 +55,13 @@ public class ConsoleTape extends Tape {
 	 */
 	public void shutdown() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
-		
+
 		//reset tape
 		this.ready = false;
 		this.position = 0;
 		this.memory.clear();
 	}
-	
+
 	public void writeInputWord() throws TapeException {
 		if (this.position != 0) {
 			throw new TapeException(this, "Input word can only be written when at position 0");
@@ -159,7 +162,7 @@ public class ConsoleTape extends Tape {
 		else {
 			text = " " + this.getName() + " (tape not initialized), input word: " + this.inputWord;
 		}
-		
+
 		return text;
 	}
 

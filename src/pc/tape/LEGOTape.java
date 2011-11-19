@@ -10,14 +10,26 @@ import java.lang.String;
  */
 
 public class LEGOTape extends Tape {
+	/**
+	 * The minimal position of the head allowed on the LEGO tape
+	 */
 	public static final int MIN_POSITION = 0;
-	public static final int MAX_POSITION = 8;
-	
+	/**
+	 * The maximal position of the head allowed on the LEGO tape
+	 */
+	public static final int MAX_POSITION = 8;	
+	/**
+	 * The master robot of the tape
+	 */
 	private MasterRobot master = null;
+	/**
+	 * The slave robot of the tape
+	 */
 	private SlaveRobot slave = null;
+	/**
+	 * The symbol at the current position
+	 */
 	private char currentSymbol = 'n';
-	
-	boolean ready = false;
 
 	/**
 	 * Constructs a new LEGO tape based on two NXT robots with the name "Default LEGO tape"
@@ -30,7 +42,7 @@ public class LEGOTape extends Tape {
 		this.slave = slave;
 		this.name = "Default LEGO tape";
 	}
-	
+
 	/**
 	 * Constructs a new LEGO tape based on two NXT robots with a specific name
 	 * @param name Tape name string
@@ -42,10 +54,10 @@ public class LEGOTape extends Tape {
 		this.slave = slave;
 		this.name = name;
 	}
-	
+
 	/**
 	 * Initializes the LEGO tape by connecting to the two robots
-	 * @throws Exception Thrown, when the tape failed to initialize
+	 * @throws TapeException Thrown, when the tape failed to initialize
 	 * @see #shutdown()
 	 */
 	public void init() throws TapeException {
@@ -65,9 +77,9 @@ public class LEGOTape extends Tape {
 			ready = false;
 			throw new TapeException(this, "Tape couldn't be initialized.", e);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Returns the tape type
 	 * @return Returns "LEGO"
@@ -75,7 +87,7 @@ public class LEGOTape extends Tape {
 	public Type getType() {
 		return Type.LEGO;
 	}
-	
+
 	/**
 	 * Shuts the tape down by disconnecting the two robots
 	 * @throws TapeException If the tape has not been initialized
@@ -97,7 +109,7 @@ public class LEGOTape extends Tape {
 
 		ready = false;
 	}
-	
+
 	public void writeInputWord() throws TapeException {
 		if (this.position != 0) {
 			throw new TapeException(this, "Input word can only be written when at position 0");
@@ -119,11 +131,19 @@ public class LEGOTape extends Tape {
 			this.moveLeft();
 		}
 	}
-	
+
+	/**
+	 * Gets the master robot of the tape
+	 * @return The master robot of the tape
+	 */
 	public MasterRobot getMaster() {
 		return master;
 	}
 
+	/**
+	 * Gets the slave robot of the tape
+	 * @return The slave robot of the tape
+	 */
 	public SlaveRobot getSlave() {
 		return slave;
 	}
@@ -149,13 +169,13 @@ public class LEGOTape extends Tape {
 
 	/**
 	 * Writes a symbol to the current tape position
-	 * @throws TapeException If the tape has not been initialized
 	 * @param c The symbol to write (#,0,1,2)
+	 * @throws TapeException If the tape has not been initialized
 	 * @see #read()
 	 */
 	public void write(char c) throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
-		
+
 		if (this.currentSymbol == 'n') {
 			this.read();
 		}
@@ -168,7 +188,7 @@ public class LEGOTape extends Tape {
 		}
 
 	}
-	
+
 	/**
 	 * Moves the tape one field to the left
 	 * @throws TapeException If the tape has not been initialized
@@ -176,7 +196,7 @@ public class LEGOTape extends Tape {
 	 */
 	public void moveLeft() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
-		
+
 		try {
 			this.master.moveLeft();
 			this.position--;
@@ -190,7 +210,7 @@ public class LEGOTape extends Tape {
 
 
 	}
-	
+
 	/**
 	 * Moves the tape one field to the right
 	 * @throws TapeException If the tape has not been initialized
@@ -198,7 +218,7 @@ public class LEGOTape extends Tape {
 	 */
 	public void moveRight() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
-		
+
 		try {
 			this.master.moveRight();
 			this.position++;
@@ -211,7 +231,7 @@ public class LEGOTape extends Tape {
 		}
 
 	}
-	
+
 	/**
 	 * This method runs a test on the tape. It is not specified what this method actually does.
 	 * @throws TapeException If the tape has not been initialized
@@ -225,7 +245,7 @@ public class LEGOTape extends Tape {
 			throw new TapeException(this, "Test failure.", e);
 		}
 	}
-	
+
 	/**
 	 * Gives a string representation of the tape state, including the name, head position and the current symbol
 	 */

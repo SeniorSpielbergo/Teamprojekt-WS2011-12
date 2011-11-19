@@ -19,7 +19,7 @@ public class TapeException extends IOException {
 		super();
 		this.tape = tape;
 	}
-	
+
 	/**
 	 * Creates a new TapeException based on a tape object and a message
 	 * @param tape The tape that caused the exception
@@ -29,7 +29,7 @@ public class TapeException extends IOException {
 		super(tape.getName() + "@pos " + tape.getPosition() + ": " + msg);
 		this.tape = tape;
 	}
-	
+
 	/**
 	 * Creates a new TapeException based on a tape object, a message and an initial cause
 	 * @param tape The tape that caused the exception
@@ -49,5 +49,5 @@ public class TapeException extends IOException {
 	public Tape getTape() {
 		return this.tape;
 	}
-	
+
 }
