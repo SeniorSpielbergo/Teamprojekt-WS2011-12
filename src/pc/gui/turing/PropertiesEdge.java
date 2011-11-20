@@ -57,6 +57,15 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 		listSelectionModel = table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(this);
 		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					JOptionPane.showMessageDialog(null, "Not implemented yet!");
+				}
+			}
+		});
+		
 		// initialize table
 		// TODO
 		String[] tempData = {"*", "#", "N"};
