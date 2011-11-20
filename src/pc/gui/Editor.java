@@ -9,7 +9,6 @@ import machine.brainfuck.BrainfuckMachine;
 import machine.turing.*;
 import tape.*;
 import gui.RunWindow.*;
-import gui.brainfuck.*;
 
 import java.awt.Event;
 import java.awt.Toolkit;
@@ -21,9 +20,15 @@ import java.io.*;
  * @author Vanessa Baier, Nils Breyer, Sven Schuster, Philipp Neumann, David Wille
  * 
  */
+@SuppressWarnings("serial")
 public class Editor extends JFrame implements ActionListener {
-	static final long serialVersionUID = -3667258249137827980L;
-	static final String appName = "TuringBrain IDE";
+	/**
+	 * The name of the application
+	 */
+	public static final String appName = "TuringBrain IDE";
+	/**
+	 * The machine currently open in the editor
+	 */
 	protected Machine currentMachine;
 	private String currentFilename = "";
 	private JMenu newSubmenu;
@@ -123,7 +128,7 @@ public class Editor extends JFrame implements ActionListener {
 
 	/**
 	 * The editor main, which initializes a new editor window
-	 * @param args
+	 * @param args Command line arguments
 	 */
 	public static void main(String[] args) {
 		// try to set look for Linux and Mac OS X
@@ -200,6 +205,7 @@ public class Editor extends JFrame implements ActionListener {
 
 	/**
 	 * Creates a new file
+	 * @param type The machine type to be created
 	 */
 	public void newFile(Machine.MachineType type) {
 		this.closeCurrentFile();
@@ -310,6 +316,9 @@ public class Editor extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * Shows the window to add and remove robots
+	 */
 	public void organizeRobots() {
 		OrganizeRobots organizeRobotsWindow = new OrganizeRobots();
 		organizeRobotsWindow.setLocationRelativeTo(null);
@@ -419,7 +428,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Loads an editor
+	 * Loads and prepares the editor for the current machine
 	 */
 	public void loadEditor() {
 		this.add(this.currentMachine.getEditor());
@@ -433,7 +442,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Closes the current file and asks if it should be saved
+	 * Closes the current machine. Must be run before a new machine can be loaded.
 	 */
 	public void closeCurrentFile() {
 		if (this.currentMachine != null) {
@@ -450,6 +459,7 @@ public class Editor extends JFrame implements ActionListener {
 			exportLatexAction.setEnabled(false);
 
 			this.remove(this.currentMachine.getEditor());
+			this.currentMachine = null;
 		}
 	}
 }

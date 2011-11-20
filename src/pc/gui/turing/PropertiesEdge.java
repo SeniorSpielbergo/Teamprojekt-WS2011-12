@@ -15,6 +15,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	
 	static final long serialVersionUID = -3667258249137827980L;
 	private JTable table;
+	private JPanel addDeleteContainer;
 	private JScrollPane tablePane;
 	private CustomTable model;
 	private JButton addButton;
@@ -40,33 +41,10 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	 */
 	public PropertiesEdge(int numberTapes) {
 		this.numberTapes = numberTapes;
-		this.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		// content panel
 		this.setBorder(BorderFactory.createTitledBorder("Properties"));
-
-		// add container
-		addButton = new JButton("Add");
-		deleteButton = new JButton("Delete");
-		addButton.addActionListener(this);
-		deleteButton.addActionListener(this);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.1;
-		c.weighty = 1.0;
-		c.gridx = 0;
-		c.gridy = 1;
-		c.anchor = GridBagConstraints.LAST_LINE_START;
-		c.insets = new Insets(5,5,5,20);
-		this.add(deleteButton, c);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.weightx = 0.15;
-		c.weighty = 1.0;
-		c.gridx = 2;
-		c.gridy = 1;
-		c.anchor = GridBagConstraints.LAST_LINE_END;
-		c.insets = new Insets(5,20,5,5);
-		this.add(addButton, c);
 		
 		// table
 		model = new CustomTable(head, editable);
@@ -85,16 +63,28 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 		model.addRow(tempData);
 		
 		// scroll panel
-		c.fill = GridBagConstraints.BOTH;
+		tablePane = new JScrollPane(table);
+		this.add(tablePane, BorderLayout.CENTER);
+		
+		// add / delete container
+		GridBagConstraints c = new GridBagConstraints();
+		addDeleteContainer = new JPanel(new GridLayout());
+		addButton = new JButton("+");
+		deleteButton = new JButton("-");
+		addButton.addActionListener(this);
+		deleteButton.addActionListener(this);
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.weightx = 1.0;
-		c.weighty = 1.0;
-		c.gridwidth = 3;
-		c.anchor = GridBagConstraints.CENTER;
-		c.insets = new Insets(0,0,0,0);
-		tablePane = new JScrollPane(table);
-		this.add(tablePane, c);
+		c.insets = new Insets(5,5,5,20);
+		addDeleteContainer.add(deleteButton, c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = 0;
+		c.insets = new Insets(5,20,5,5);
+		addDeleteContainer.add(addButton, c);
+		this.add(addDeleteContainer, BorderLayout.AFTER_LAST_LINE);
+		
 		tableInitialized = true;
 	}
 
