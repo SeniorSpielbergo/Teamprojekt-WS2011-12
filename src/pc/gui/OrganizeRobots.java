@@ -77,16 +77,17 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		
 		// add / delete button
 		addDeleteContainer = new JPanel();
-		addDeleteContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 10));
-		BoxLayout addDeleteLayout = new BoxLayout(addDeleteContainer, BoxLayout.X_AXIS);
+		addDeleteContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		BoxLayout addDeleteLayout = new BoxLayout(addDeleteContainer, BoxLayout.Y_AXIS);
 		addDeleteContainer.setLayout(addDeleteLayout);
-		addButton = new JButton("Add");
+		addButton = new JButton("+");
 		addButton.addActionListener(this);
-		deleteButton = new JButton("Delete");
+		deleteButton = new JButton("-");
 		deleteButton.addActionListener(this);
-		addDeleteContainer.add(deleteButton);
-		addDeleteContainer.add(Box.createHorizontalGlue());
 		addDeleteContainer.add(addButton);
+		addDeleteContainer.add(Box.createRigidArea(new Dimension(10, 10)));
+		addDeleteContainer.add(deleteButton);
+
 		contentPane.add(addDeleteContainer, BorderLayout.AFTER_LINE_ENDS);
 		
 		try {
@@ -113,7 +114,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		}
 		
 		tablePane = new JScrollPane(table);
-		tablePane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		tablePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		table.setFillsViewportHeight(true);
 		table.setColumnSelectionAllowed(true);
 		table.setRowSelectionAllowed(true);
