@@ -24,9 +24,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	}
 	
 	static final long serialVersionUID = -3667258249137827980L;
-	private ArrayList<ArrayList<String>> robots = new ArrayList<ArrayList<String>>();
-	private final String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
-	protected Machine machine;
 	private JPanel inputContainer;
 	private JPanel tapeSettingsContainer;
 	private JPanel robotSettingsContainer;
@@ -47,6 +44,21 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	private JTextField[] tapeInput;
 	private JButton runButton;
 	private JButton cancelButton;
+	/**
+	 * Stores the list of robots available
+	 */
+	private ArrayList<ArrayList<String>> robots = new ArrayList<ArrayList<String>>();
+	/**
+	 * Stores the descriptions for the combo boxes
+	 */
+	private final String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
+	/**
+	 * Stores the current machine
+	 */
+	protected Machine machine;
+	/**
+	 * Stores the value returned by the dialog
+	 */
 	private ReturnValue returnValue;
 	
 	/**

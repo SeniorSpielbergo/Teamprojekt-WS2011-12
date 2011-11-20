@@ -13,14 +13,23 @@ import javax.swing.table.*;
 public class CustomTable extends AbstractTableModel {
 
 	static final long serialVersionUID = -3667258249137827980L;
+	/**
+	 * Stores the columns names
+	 */
 	private String[] columnNames;
+	/**
+	 * Stores the data
+	 */
 	private ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+	/**
+	 * Stores which columns are editable
+	 */
 	private boolean[] editable;
 
 	/**
-	 * Constructs a custom table with column names and sets if rows are editable
+	 * Constructs a custom table with column names and sets if columns are editable
 	 * @param head Names for the columns
-	 * @param editable Editable rows
+	 * @param editable Editable columns
 	 */
 	public CustomTable(String[] head, boolean[] editable) {
 		this.editable = editable;

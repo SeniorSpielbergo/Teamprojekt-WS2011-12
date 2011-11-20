@@ -37,7 +37,6 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	static final long serialVersionUID = -3667258249137827980L;
 	private JTable table;
 	private JScrollPane tablePane;
-	private ArrayList<ArrayList<String>> data;
 	private JButton saveButton;
 	private JButton addButton;
 	private JButton deleteButton;
@@ -46,8 +45,21 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	private JPanel addDeleteContainer;
 	private CustomTable model;
 	private ListSelectionModel listSelectionModel;
+	/**
+	 * Stores the data
+	 */
+	private ArrayList<ArrayList<String>> data;
+	/**
+	 * Stores whether the table is initialized
+	 */
 	private boolean tableInitialized = false;
+	/**
+	 * Contains the columns names
+	 */
 	private String[] head = {"Name", "MAC-Address"};
+	/**
+	 * Stores which columns are editable
+	 */
 	private boolean[] editable = {true, true};
 	
 	/**

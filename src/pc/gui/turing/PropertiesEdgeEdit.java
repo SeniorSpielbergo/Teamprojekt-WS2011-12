@@ -17,12 +17,31 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener {
 	private JButton cancelButton;
 	private JButton saveButton;
 	private JPanel saveCancelContainer;
+	/**
+	 * Stores whether the table is initialized
+	 */
 	private boolean tableInitialized = false;
+	/**
+	 * Stores the number of tapes
+	 */
 	private int numberTapes;
+	/**
+	 * Stores the data returned by the dialog
+	 */
 	private String[] returnData;
+	/**
+	 * Stores the columns names
+	 */
 	private String[] head = {"Tape", "Input", "Output", "Action"};
+	/**
+	 * Stores which columns are editable
+	 */
 	private boolean[] editable = {false, true, true, true};
 	
+	/**
+	 * Constructs a dialog to edit the properties of a transition
+	 * @param numberTapes Number of tapes in the current machine
+	 */
 	public PropertiesEdgeEdit(int numberTapes) {
 		this.setModal(true);
 		this.numberTapes = numberTapes;
@@ -74,12 +93,20 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener {
 		tableInitialized = true;
 	}
 	
+	/**
+	 * Shows the Dialog
+	 * @return The data edited by the user
+	 */
 	public String[] showEdit() {
 		this.setVisible(true);
 		
 		return returnData;
 	}
 	
+	/**
+	 * Responds to a clicked button
+	 * @param e ActionEvent that indicates changes
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == saveButton) {

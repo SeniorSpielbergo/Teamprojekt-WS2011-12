@@ -21,10 +21,23 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	private JButton deleteButton;
 	private int numberTapes;
 	private ListSelectionModel listSelectionModel;
+	/**
+	 * Stores whether the table is initialized
+	 */
 	private boolean tableInitialized = false;
+	/**
+	 * Stores the columns names
+	 */
 	private String[] head = {"Input", "Output", "Action"};
+	/**
+	 * Stores which columns are editable
+	 */
 	private boolean[] editable = {false, false, false};
 	
+	/**
+	 * Constructs a panel showing all transitions of the current edge
+	 * @param numberTapes Number of tapes in the current machine
+	 */
 	public PropertiesEdge(int numberTapes) {
 		this.numberTapes = numberTapes;
 		this.setLayout(new GridBagLayout());
@@ -85,6 +98,10 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 		tableInitialized = true;
 	}
 
+	/**
+	 * Responds to a clicked button
+	 * @param e ActionEvent that indicates changes
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addButton) {

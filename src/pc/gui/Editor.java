@@ -418,6 +418,9 @@ public class Editor extends JFrame implements ActionListener {
 		}
 	}
 
+	/**
+	 * Loads an editor
+	 */
 	public void loadEditor() {
 		this.add(this.currentMachine.getEditor());
 
@@ -429,6 +432,9 @@ public class Editor extends JFrame implements ActionListener {
 		validate();
 	}
 
+	/**
+	 * Closes the current file and asks if it should be saved
+	 */
 	public void closeCurrentFile() {
 		if (this.currentMachine != null) {
 			int result = JOptionPane.showConfirmDialog(null, "Do you want to save the current machine?", "Close file", JOptionPane.YES_NO_OPTION);
