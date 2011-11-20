@@ -76,17 +76,21 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		contentPane.add(saveCancelContainer, BorderLayout.AFTER_LAST_LINE);
 		
 		// add / delete button
-		addDeleteContainer = new JPanel();
+		addDeleteContainer = new JPanel(new GridBagLayout());
 		addDeleteContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		BoxLayout addDeleteLayout = new BoxLayout(addDeleteContainer, BoxLayout.Y_AXIS);
-		addDeleteContainer.setLayout(addDeleteLayout);
+		GridBagConstraints c = new GridBagConstraints();
 		addButton = new JButton("+");
 		addButton.addActionListener(this);
 		deleteButton = new JButton("-");
 		deleteButton.addActionListener(this);
-		addDeleteContainer.add(addButton);
-		addDeleteContainer.add(Box.createRigidArea(new Dimension(10, 10)));
-		addDeleteContainer.add(deleteButton);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		addDeleteContainer.add(addButton, c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 1;
+		addDeleteContainer.add(deleteButton, c);
 
 		contentPane.add(addDeleteContainer, BorderLayout.AFTER_LINE_ENDS);
 		
