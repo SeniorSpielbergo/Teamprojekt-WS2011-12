@@ -102,26 +102,28 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		}
 		// add table
 		String[] head = {"Name", "MAC-Address"};
-		model = new CustomTable(head);
+		model = new CustomTable(head, true);
 		table = new JTable(model);
 		table.getModel().addTableModelListener(this);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		table.setFillsViewportHeight(true);
+		table.setColumnSelectionAllowed(true);
+		table.setRowSelectionAllowed(true);
+		table.setFocusable(false);
 		listSelectionModel = table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(this);
 		
 		// if robots.xml not empty
 		if (data != null) {
 			for (int i = 0; i < data.size(); i++) {
-				model.addRow(data.get(i).get(0), data.get(i).get(1));
+				String[] tempData = {data.get(i).get(0), data.get(i).get(1)};
+				model.addRow(tempData);
 				table.setEditingColumn(i);
 			}
 		}
 		
 		tablePane = new JScrollPane(table);
 		tablePane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		table.setFillsViewportHeight(true);
-		table.setColumnSelectionAllowed(true);
-		table.setRowSelectionAllowed(true);
 		
 		contentPane.add(tablePane);
 		tableInitialized = true;
@@ -255,7 +257,8 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			dispose();
 		}
 		else if (e.getSource() == addButton) {
-			model.addRow("", "");
+			String[] tempData = {"", ""};
+			model.addRow(tempData);
 		}
 		else if (e.getSource() == deleteButton) {
 			if (table.getSelectedRow() != -1) {
@@ -294,6 +297,9 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	 */
 	public void valueChanged(ListSelectionEvent e) {
 		int row = table.getSelectedRow();
+		if (row == -1) {
+			row = table.getRowCount() - 1;
+		}
 		table.setColumnSelectionInterval(0, 1);
 		table.setRowSelectionInterval(row, row);
 	}

@@ -11,13 +11,15 @@ import javax.swing.table.*;
  */
 
 public class CustomTable extends AbstractTableModel {
-	
+
 	static final long serialVersionUID = -3667258249137827980L;
 	private String[] columnNames;
 	private ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
-	
-	public CustomTable(String[] head) {
-		 columnNames = head;
+	private boolean editable;
+
+	public CustomTable(String[] head, boolean editable) {
+		this.editable = editable;
+		columnNames = head;
 	}
 
 	/**
@@ -45,7 +47,7 @@ public class CustomTable extends AbstractTableModel {
 	public String getValueAt(int i, int j) {
 		return data.get(i).get(j);
 	}
-	
+
 	/**
 	 * Returns the column name
 	 * @param i Column number
@@ -54,7 +56,7 @@ public class CustomTable extends AbstractTableModel {
 	public String getColumnName(int i) {
 		return columnNames[i];
 	}
-	
+
 	/**
 	 * Sets the value in the specified cell
 	 * @param value Value which should be set
@@ -65,7 +67,7 @@ public class CustomTable extends AbstractTableModel {
 		data.get(row).set(col, (String) value);
 		fireTableCellUpdated(row, col);
 	}
-	
+
 	/**
 	 * Returns if the cell is editable
 	 * @param row Row number
@@ -73,22 +75,27 @@ public class CustomTable extends AbstractTableModel {
 	 * @return true/false If cell editable
 	 */
 	public boolean isCellEditable(int row, int col) {
-		return true;
+		if (editable) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
-	
+
 	/**
 	 * Add row to table
-	 * @param name Name of the robot
-	 * @param mac MAC-Address of the robot
+	 * @param values Values to be inserted
 	 */
-	public void addRow(String name, String mac) {
+	public void addRow(String[] values) {
 		ArrayList<String> row = new ArrayList<String>();
-		row.add(name);
-		row.add(mac);
+		for (int i = 0; i < values.length; i++) {
+			row.add(values[i]);
+		}
 		data.add(row);
 		fireTableRowsInserted(data.size()-1, data.size()-1);
 	}
-	
+
 	/**
 	 * Delete row
 	 * @param row Row which should be deleted
