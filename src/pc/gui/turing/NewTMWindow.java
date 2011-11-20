@@ -26,7 +26,7 @@ public class NewTMWindow extends JFrame implements ActionListener{
 		name.setText("Name");
 		panelName.add(name);
 
-		fieldName = new JTextField("                            ");
+		fieldName = new JTextField(10);
 		panelName.add(fieldName);
 
 		tapes = new JLabel();
