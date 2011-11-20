@@ -75,7 +75,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 1.0;
-		c.weightx = 1.0;
+		c.weighty = 1.0;
 		c.gridwidth = 3;
 		c.anchor = GridBagConstraints.CENTER;
 		c.insets = new Insets(0,0,0,0);
