@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.Dimension;
-
 import gui.turing.PropertiesEdge;
 
 import javax.swing.JFrame;

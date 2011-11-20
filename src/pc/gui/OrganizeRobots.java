@@ -47,6 +47,8 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	private CustomTable model;
 	private ListSelectionModel listSelectionModel;
 	private boolean tableInitialized = false;
+	private String[] head = {"Name", "MAC-Address"};
+	private boolean[] editable = {true, true};
 	
 	/**
 	 * Constructs the window to organize the robots
@@ -56,11 +58,11 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		Container contentPane = this.getContentPane();
 		
 		// window title and size
-		setTitle("Organize robots");
-		setSize(450, 350);
+		this.setTitle("Organize robots");
+		this.setSize(450, 350);
 		this.setResizable(false);
 		
-		// ok button
+		// ok and cancel button
 		saveCancelContainer = new JPanel();
 		saveCancelContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		BoxLayout okLayout = new BoxLayout(saveCancelContainer, BoxLayout.X_AXIS);
@@ -101,8 +103,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			ErrorDialog.showError("Parsing the XML file failed.", e);
 		}
 		// add table
-		String[] head = {"Name", "MAC-Address"};
-		model = new CustomTable(head, true);
+		model = new CustomTable(head, editable);
 		table = new JTable(model);
 		table.getModel().addTableModelListener(this);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -246,6 +247,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	 * Responds to a clicked button
 	 * @param e ActionEvent that indicates changes
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == saveButton) {
 			saveRobotsToXML(data);
@@ -271,6 +273,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	 * Responds to data changes in the table
 	 * @param e TableModelEvent that indicates changes
 	 */
+	@Override
 	public void tableChanged(TableModelEvent e) {
 		if (tableInitialized) {
 			int row = e.getFirstRow();
@@ -295,6 +298,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	 * Responds to selection changes
 	 * @param e ListSelectionEvent that indicates changes
 	 */
+	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		int row = table.getSelectedRow();
 		if (row == -1) {

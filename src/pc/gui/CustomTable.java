@@ -15,9 +15,14 @@ public class CustomTable extends AbstractTableModel {
 	static final long serialVersionUID = -3667258249137827980L;
 	private String[] columnNames;
 	private ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
-	private boolean editable;
+	private boolean[] editable;
 
-	public CustomTable(String[] head, boolean editable) {
+	/**
+	 * Constructs a custom table with column names and sets if rows are editable
+	 * @param head Names for the columns
+	 * @param editable Editable rows
+	 */
+	public CustomTable(String[] head, boolean[] editable) {
 		this.editable = editable;
 		columnNames = head;
 	}
@@ -26,6 +31,7 @@ public class CustomTable extends AbstractTableModel {
 	 * Returns the number of columns
 	 * @return Number of columns
 	 */
+	@Override
 	public int getColumnCount() {
 		return columnNames.length;
 	}
@@ -34,6 +40,7 @@ public class CustomTable extends AbstractTableModel {
 	 * Returns the number of rows
 	 * @return Number of rows
 	 */
+	@Override
 	public int getRowCount() {
 		return data.size();
 	}
@@ -44,6 +51,7 @@ public class CustomTable extends AbstractTableModel {
 	 * @param j Column number
 	 * @return Value of the cell
 	 */
+	@Override
 	public String getValueAt(int i, int j) {
 		return data.get(i).get(j);
 	}
@@ -53,6 +61,7 @@ public class CustomTable extends AbstractTableModel {
 	 * @param i Column number
 	 * @return Column name
 	 */
+	@Override
 	public String getColumnName(int i) {
 		return columnNames[i];
 	}
@@ -63,6 +72,7 @@ public class CustomTable extends AbstractTableModel {
 	 * @param row Row number
 	 * @param col Column number
 	 */
+	@Override
 	public void setValueAt(Object value, int row, int col) {
 		data.get(row).set(col, (String) value);
 		fireTableCellUpdated(row, col);
@@ -74,8 +84,9 @@ public class CustomTable extends AbstractTableModel {
 	 * @param col Column number
 	 * @return true/false If cell editable
 	 */
+	@Override
 	public boolean isCellEditable(int row, int col) {
-		if (editable) {
+		if (editable[col]) {
 			return true;
 		}
 		else {

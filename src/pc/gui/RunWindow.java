@@ -59,8 +59,8 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		this.machine = currentMachine;
 		
 		// window title and size
-		setTitle("Run");
-		setSize(700, 250);
+		this.setTitle("Run");
+		this.setSize(700, 250);
 		this.setResizable(false);
 		
 		// initialize
@@ -375,6 +375,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 * Responds to a clicked button
 	 * @param e ActionEvent that indicates changes
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == cancelButton) {
 			updateTapeWords();
@@ -399,6 +400,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 * Responds to a released key
 	 * @param e KeyEvent that indicates changes
 	 */
+	@Override
 	public void keyReleased(KeyEvent e) {
 		for (int i = 0; i < tapeName.length; i++) {
 			tapeLabel[i].setText(tapeName[i].getText());
@@ -410,6 +412,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 * Responds to a pressed key
 	 * @param e KeyEvent that indicates changes
 	 */
+	@Override
 	public void keyPressed(KeyEvent e) {
 		
 	}
@@ -418,6 +421,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 * Responds to a typed key
 	 * @param e KeyEvent that indicates changes
 	 */
+	@Override
 	public void keyTyped(KeyEvent e) {
 		
 	}
@@ -441,6 +445,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		 * Responds to a clicked button
 		 * @param e ActionEvent that indicates changes
 		 */
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			button.doClick();
 		}

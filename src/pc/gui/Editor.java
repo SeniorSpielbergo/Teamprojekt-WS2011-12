@@ -372,6 +372,7 @@ public class Editor extends JFrame implements ActionListener {
 	 * Responds to a clicked button
 	 * @param e ActionEvent that indicates changes
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == newTMAction) {
 			newFile(Machine.MachineType.TuringMachine);

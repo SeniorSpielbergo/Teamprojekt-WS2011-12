@@ -22,6 +22,8 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	private int numberTapes;
 	private ListSelectionModel listSelectionModel;
 	private boolean tableInitialized = false;
+	private String[] head = {"Input", "Output", "Action"};
+	private boolean[] editable = {false, false, false};
 	
 	public PropertiesEdge(int numberTapes) {
 		this.numberTapes = numberTapes;
@@ -54,8 +56,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 		this.add(addButton, c);
 		
 		// table
-		String[] head = {"Input", "Output", "Action"};
-		model = new CustomTable(head, false);
+		model = new CustomTable(head, editable);
 		table = new JTable(model);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		table.setFillsViewportHeight(true);
@@ -67,7 +68,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 		
 		// initialize table
 		// TODO
-		String[] tempData = {"*", "*", "N"};
+		String[] tempData = {"*", "#", "N"};
 		model.addRow(tempData);
 		
 		// scroll panel
@@ -84,10 +85,15 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 		tableInitialized = true;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addButton) {
-			String[] tempData = {"*", "*", "N"};
-			model.addRow(tempData);
+			PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes);
+			editWindow.setLocationRelativeTo(null);
+			String[] tempData = editWindow.showEdit();
+			if (tempData != null) {
+				model.addRow(tempData);
+			}
 		}
 		else if (e.getSource() == deleteButton) {
 			if (table.getSelectedRow() != -1) {
@@ -100,18 +106,19 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	 * Responds to data changes in the table
 	 * @param e TableModelEvent that indicates changes
 	 */
+	@Override
 	public void tableChanged(TableModelEvent e) {
 		if (tableInitialized) {
 			int row = e.getFirstRow();
 			int col = e.getColumn();
 			if (e.getType() == TableModelEvent.UPDATE) {
-				// TODO
+				// TODO update
 			}
 			else if (e.getType() == TableModelEvent.INSERT) {
-				// TODO
+				// TODO insert
 			}
 			else if (e.getType() == TableModelEvent.DELETE) {
-				// TODO
+				// TODO delete
 			}
 		}
 	}
@@ -120,6 +127,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	 * Responds to selection changes
 	 * @param e ListSelectionEvent that indicates changes
 	 */
+	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		int row = table.getSelectedRow();
 		if (row == -1) {
