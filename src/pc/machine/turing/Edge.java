@@ -7,9 +7,17 @@ import java.util.ArrayList;
  * 
  */
 public class Edge {
-
+	/**
+	 * The state where the edge starts from
+	 */
 	protected State from;
+	/**
+	 * The state where the edge ends
+	 */
 	protected State to;
+	/**
+	 * Contains all transitions of this edge
+	 */
 	protected ArrayList<Transition> transitions;
 	
 	/**

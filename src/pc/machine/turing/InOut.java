@@ -197,6 +197,7 @@ public class InOut {
 	 * @param tag Tag you want to read
 	 * @param currentElement The current element you want to read from
 	 * @return The value of that tag
+	 * @throws IOException Thrown if not tag with the specified name is found or if it is not unique (used multiple times)
 	 */
 	public static String getTagValue(String tag, Element currentElement) throws IOException {
 		NodeList nodeList = currentElement.getElementsByTagName(tag);
@@ -226,6 +227,13 @@ public class InOut {
 		}
 	}
 
+	/**
+	 * Gets a child element node with a specific name that is a child of the currentElement
+	 * @param tag The name of the child element to search
+	 * @param currentElement The parent element of the child to search
+	 * @return The child node with the specified name
+	 * @throws IOException Thrown if the child not is not unique (if the tag is used multiple times) or if the specified tag is not existent
+	 */
 	public static Element getChildElement(String tag, Element currentElement) throws IOException {
 		NodeList nodeList = currentElement.getElementsByTagName(tag);
 		Node node = null;

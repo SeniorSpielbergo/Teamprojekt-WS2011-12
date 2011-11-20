@@ -35,13 +35,21 @@ import tape.TapeException;
 
 /** This class represents a Turing machine with it's states, edges and transitions
  * 
- * @author David Wille
+ * @author David Wille, Nils Breyer
  * 
  */
 public class TuringMachine extends Machine{
+	/**
+	 * Contains all states of this machine
+	 */
 	protected ArrayList<State> states;
+	/**
+	 * Contains all edges of this machine
+	 */
 	protected ArrayList<Edge> edges;
-	
+	/**
+	 * The MachineEditor for this machine
+	 */
 	protected MachineEditor editor;
 
 	/**

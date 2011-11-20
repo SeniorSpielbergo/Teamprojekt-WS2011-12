@@ -8,17 +8,39 @@ import java.util.ArrayList;
  * 
  */
 public class State {
-
 	/**
 	 * Represents the different types of states
 	 */
 	public enum Type {
-		START, NORMAL, FINAL
+		/**
+		 * A Start state
+		 */
+		START, 
+		/**
+		 * A normal state
+		 */
+		NORMAL, 
+		/**
+		 * A final state
+		 */
+		FINAL
 	}
 
+	/**
+	 * The state id string for internal use
+	 */
 	protected String id;
+	/**
+	 * The name of the state (only used to display to the user)
+	 */
 	protected String name;
+	/**
+	 * The state type
+	 */
 	protected Type type;
+	/**
+	 * Contains all edges starting at this state //TODO: review if it is better to search the edges dynamically
+	 */
 	protected ArrayList<Edge> edge;
 	
 	/**
@@ -51,22 +73,6 @@ public class State {
 	}
 	
 	/**
-	 * Returns the state type
-	 * @return State type
-	 */
-	public Type getType() {
-		return this.type;
-	}
-	
-	/**
-	 * Returns the edges starting from this state
-	 * @return Edges starting at this edge
-	 */
-	public ArrayList<Edge> getEdge() {
-		return this.edge;
-	}
-	
-	/**
 	 * Sets the state name
 	 * @param name State name
 	 */
@@ -75,24 +81,35 @@ public class State {
 	}
 	
 	/**
-	 * Sets the state type
-	 * @param type State type
+	 * Returns the edges starting from this state
+	 * @return Edges starting at this edge  //TODO: review if it is better to search the edges dynamically
 	 */
-	public void setType(Type type) {
-		this.type = type;
+	public ArrayList<Edge> getEdge() {
+		return this.edge;
 	}
 	
 	/**
 	 * Sets the edges starting at this state
-	 * @param edge Edges starting at this state
+	 * @param edge Edges starting at this state  //TODO: review if it is better to search the edges dynamically
 	 */
 	public void setEdge(ArrayList<Edge> edge) {
 		this.edge = edge;
 	}
 	
-	// TODO javadoc
-	public boolean equals(String type){
-		return this.type.equals(type);
+	/**
+	 * Returns the state type
+	 * @return State type
+	 */
+	public Type getType() {
+		return this.type;
+	}
+	
+	/**
+	 * Sets the state type
+	 * @param type State type
+	 */
+	public void setType(Type type) {
+		this.type = type;
 	}
 	
 	/**

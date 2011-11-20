@@ -7,10 +7,21 @@ import java.util.ArrayList;
  * 
  */
 public class Transition {
-
+	/**
+	 * The unique id string of the transition
+	 */
 	String id;
+	/**
+	 * The symbols to be read for each tape
+	 */
 	protected ArrayList<Character> read;
+	/**
+	 * The symbols to be written for each tape
+	 */
 	protected ArrayList<Character> write;
+	/**
+	 * The directions to move for each tape
+	 */
 	protected ArrayList<Character> action;
 	
 	/**
