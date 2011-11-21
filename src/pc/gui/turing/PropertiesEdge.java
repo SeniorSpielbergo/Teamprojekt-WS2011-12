@@ -78,8 +78,8 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 		// add / delete container
 		GridBagConstraints c = new GridBagConstraints();
 		addDeleteContainer = new JPanel(new GridLayout());
-		addButton = new JButton("+");
-		deleteButton = new JButton("-");
+		addButton = new JButton("Add");
+		deleteButton = new JButton("Remove");
 		addButton.addActionListener(this);
 		deleteButton.addActionListener(this);
 		c.fill = GridBagConstraints.HORIZONTAL;
