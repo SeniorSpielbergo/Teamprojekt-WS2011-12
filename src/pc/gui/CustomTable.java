@@ -115,6 +115,18 @@ public class CustomTable extends AbstractTableModel {
 		data.add(row);
 		fireTableRowsInserted(data.size()-1, data.size()-1);
 	}
+	
+	/**
+	 * Updates a row with the given values
+	 * @param values Values to set
+	 * @param row Row that should be updated
+	 */
+	public void updateRow(String[] values, int row) {
+		for (int i = 0; i < values.length; i++) {
+			setValueAt(values[i], row, i);
+			fireTableCellUpdated(row, i);
+		}
+	}
 
 	/**
 	 * Delete row

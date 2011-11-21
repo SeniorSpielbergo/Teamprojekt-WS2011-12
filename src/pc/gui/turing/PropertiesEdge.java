@@ -61,7 +61,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					JOptionPane.showMessageDialog(null, "Not implemented yet!");
+					editTable(table.getSelectedRow());
 				}
 			}
 		});
@@ -95,6 +95,13 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 		this.add(addDeleteContainer, BorderLayout.AFTER_LAST_LINE);
 		
 		tableInitialized = true;
+	}
+	
+	private void editTable(int row) {
+		PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes);
+		String[] tempData = editWindow.showEdit();
+		editWindow.setLocationRelativeTo(null);
+		model.updateRow(tempData, row);
 	}
 
 	/**
