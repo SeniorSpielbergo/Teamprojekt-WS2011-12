@@ -1,6 +1,11 @@
 package gui.turing;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
@@ -9,12 +14,35 @@ import com.mxgraph.view.mxGraph;
 import gui.MachineEditor;
 
 public class TuringMachineEditor extends MachineEditor {
+	protected JPanel jPanelLeft = null;
+	protected JPanel jPanelGraph = null;
+	protected mxGraph graph = null;
+	protected JSplitPane jSplitPaneHorizontal = null;
 
 	public TuringMachineEditor() {
 		super();
 
+		//create left panel
+		this.jPanelLeft = new JPanel();
 
+		//create main graph panel
+		this.jPanelGraph = new JPanel();
+		this.jPanelGraph.setLayout(new BorderLayout());
+		
+		//create split pane
+		this.jSplitPaneHorizontal = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				this.jPanelLeft, this.jPanelGraph);
+		this.jSplitPaneHorizontal.setOneTouchExpandable(true);
+		this.jSplitPaneHorizontal.setDividerLocation(150);
+		Dimension minimumSize = new Dimension(100, 50);
+		this.jPanelLeft.setMinimumSize(minimumSize);
+		this.jPanelGraph.setMinimumSize(minimumSize);
+		this.setLayout(new BorderLayout());
+		this.add(this.jSplitPaneHorizontal, BorderLayout.CENTER);
+
+		//create the graph
 		mxGraph graph = new mxGraph();
+
 		Object parent = graph.getDefaultParent();
 
 		graph.getModel().beginUpdate();
@@ -32,7 +60,8 @@ public class TuringMachineEditor extends MachineEditor {
 		}
 
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
-		this.add(graphComponent);
+		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
+
 	}
 
 
