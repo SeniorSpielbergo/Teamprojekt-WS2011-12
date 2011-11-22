@@ -8,7 +8,14 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import com.mxgraph.swing.mxGraphComponent;
+
+import com.mxgraph.view.mxGraphSelectionModel;
 import com.mxgraph.view.mxGraph;
+
+import com.mxgraph.util.mxEvent;
+import com.mxgraph.util.mxEventSource;
+import com.mxgraph.util.mxEventSource.mxIEventListener;
+import com.mxgraph.util.mxEventObject;
 
 
 import gui.MachineEditor;
@@ -18,7 +25,9 @@ public class TuringMachineEditor extends MachineEditor {
 	protected JPanel jPanelGraph = null;
 	protected mxGraph graph = null;
 	protected JSplitPane jSplitPaneHorizontal = null;
-
+	protected JPanel jPanelToolBox = null;
+	protected JPanel jPanelProperties = null;
+	
 	public TuringMachineEditor() {
 		super();
 
@@ -61,7 +70,19 @@ public class TuringMachineEditor extends MachineEditor {
 
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
+		
+		
 
+	}
+	
+	private void displayProperties(PropertiesEdge prop){
+		jPanelProperties.removeAll();
+		jPanelProperties.add(prop);
+	}
+	
+	private void displayProperties(PropertiesState prop){
+		jPanelProperties.removeAll();
+		jPanelProperties.add(prop);
 	}
 
 
