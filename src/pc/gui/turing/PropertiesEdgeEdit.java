@@ -3,12 +3,17 @@ package gui.turing;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import gui.CustomTable;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
-public class PropertiesEdgeEdit extends JDialog implements ActionListener {
+public class PropertiesEdgeEdit extends JDialog implements ActionListener, TableModelListener, ListSelectionListener {
 	
 	static final long serialVersionUID = -3667258249137827980L;
 	private JTable table;
@@ -17,6 +22,7 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener {
 	private JButton cancelButton;
 	private JButton saveButton;
 	private JPanel saveCancelContainer;
+	private ListSelectionModel listSelectionModel;
 	/**
 	 * Stores whether the table is initialized
 	 */
@@ -28,7 +34,7 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener {
 	/**
 	 * Stores the data returned by the dialog
 	 */
-	private String[] returnData;
+	private ArrayList<ArrayList<String>> returnData = new ArrayList<ArrayList<String>>();
 	/**
 	 * Stores the columns names
 	 */
@@ -70,20 +76,25 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener {
 		// add table
 		model = new CustomTable(head, editable);
 		table = new JTable(model);
-//		table.getModel().addTableModelListener(this);
+		table.getModel().addTableModelListener(this);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		table.setFillsViewportHeight(true);
 		table.setColumnSelectionAllowed(true);
 		table.setRowSelectionAllowed(true);
 		table.setFocusable(false);
-//		listSelectionModel = table.getSelectionModel();
-//		listSelectionModel.addListSelectionListener(this);
+		listSelectionModel = table.getSelectionModel();
+		listSelectionModel.addListSelectionListener(this);
 		
-		// initialize table
+		// initialize table // TODO
 		for (int i = 0; i < numberTapes; i++) {
 			String[] tempData = {"" + i, "*", "#", "N"};
 			model.addRow(tempData);
 			table.setEditingColumn(i);
+			ArrayList<String> initial = new ArrayList<String>();
+			initial.add("*");
+			initial.add("#");
+			initial.add("N");
+			returnData.add(initial);
 		}
 		
 		tablePane = new JScrollPane(table);
@@ -97,7 +108,7 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener {
 	 * Shows the Dialog
 	 * @return The data edited by the user
 	 */
-	public String[] showEdit() {
+	public ArrayList<ArrayList<String>> showEdit() {
 		this.setVisible(true);
 		
 		return returnData;
@@ -110,8 +121,6 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == saveButton) {
-			String[] tempData = {"*", "#", "N"};
-			returnData = tempData;
 			this.setVisible(false);
 			dispose();
 		}
@@ -120,6 +129,36 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener {
 			this.setVisible(false);
 			dispose();
 		}
+	}
+
+	/**
+	 * Responds to data changes in the table
+	 * @param e TableModelEvent that indicates changes
+	 */
+	@Override
+	public void tableChanged(TableModelEvent e) {
+		if (tableInitialized) {
+			int row = e.getFirstRow();
+			int col = e.getColumn();
+			if (e.getType() == TableModelEvent.UPDATE) {
+				String newData = (String) this.table.getModel().getValueAt(row, col);
+				returnData.get(row).set(col, newData);
+			}
+		}
+	}
+
+	/**
+	 * Responds to selection changes
+	 * @param e ListSelectionEvent that indicates changes
+	 */
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		int row = table.getSelectedRow();
+		if (row == -1) {
+			row = table.getRowCount() - 1;
+		}
+		table.setColumnSelectionInterval(0, 3);
+		table.setRowSelectionInterval(row, row);
 	}
 	
 }
