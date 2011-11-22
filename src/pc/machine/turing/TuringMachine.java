@@ -47,10 +47,6 @@ public class TuringMachine extends Machine{
 	 * Contains all edges of this machine
 	 */
 	protected ArrayList<Edge> edges;
-	/**
-	 * The MachineEditor for this machine
-	 */
-	protected MachineEditor editor;
 
 	/**
 	 * Constructs an untitled Turing machine
@@ -674,7 +670,7 @@ public class TuringMachine extends Machine{
 
 	@Override
 	protected MachineEditor createEditor() {
-		return new TuringMachineEditor(); //TODO: review
+		return new TuringMachineEditor(this); //TODO: review
 	}
 
 	@Override

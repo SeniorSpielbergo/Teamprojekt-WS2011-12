@@ -7,6 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import machine.turing.Edge;
+import machine.turing.State;
+import machine.turing.TuringMachine;
+
 import com.mxgraph.swing.mxGraphComponent;
 
 import com.mxgraph.view.mxGraphSelectionModel;
@@ -21,6 +25,9 @@ import com.mxgraph.util.mxEventObject;
 import gui.MachineEditor;
 
 public class TuringMachineEditor extends MachineEditor {
+	private TuringMachine machine = null;
+	private Object selectedObject = null;
+	
 	protected JPanel jPanelLeft = null;
 	protected JPanel jPanelGraph = null;
 	protected mxGraph graph = null;
@@ -28,8 +35,9 @@ public class TuringMachineEditor extends MachineEditor {
 	protected JPanel jPanelToolBox = null;
 	protected JPanel jPanelProperties = null;
 	
-	public TuringMachineEditor() {
+	public TuringMachineEditor(TuringMachine machine) {
 		super();
+		this.machine = machine;
 
 		//create left panel
 		this.jPanelLeft = new JPanel();
@@ -72,17 +80,19 @@ public class TuringMachineEditor extends MachineEditor {
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
 		
 		
-
+		System.out.println("TEST: " + this.machine);
+		//this.displayProperties(this.machine.getEdges().get(0));
 	}
 	
-	private void displayProperties(PropertiesEdge prop){
+	private void displayProperties(Edge prop){
+		PropertiesEdge propertiesEdge = new PropertiesEdge(3); //TODO: fix
 		jPanelProperties.removeAll();
-		jPanelProperties.add(prop);
+		jPanelProperties.add(propertiesEdge);
 	}
 	
-	private void displayProperties(PropertiesState prop){
+	private void displayProperties(State prop){
 		jPanelProperties.removeAll();
-		jPanelProperties.add(prop);
+		//jPanelProperties.add(prop);
 	}
 
 
