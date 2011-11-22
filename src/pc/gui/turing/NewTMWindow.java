@@ -8,11 +8,11 @@ import java.awt.event.*;
 
 public class NewTMWindow extends JFrame implements ActionListener{
 
-	JPanel panelName, panelTapes, panelButtons, panelGap0, panelGap1, panelGap2, panelGap3, panelButtonGap ;
-	JLabel name, tapes;
-	JTextField fieldName;
-	JSpinner numberOfTapes;
-	JButton buttonCancel, buttonCreate;
+	private JPanel panelName, panelTapes, panelButtons, panelGap0, panelGap1, panelGap2, panelGap3, panelButtonGap ;
+	private JLabel name, tapes;
+	private	JTextField fieldName;
+	private JSpinner numberOfTapes;
+	private JButton buttonCancel, buttonCreate;
 
 	public NewTMWindow(){
 		setTitle("New TuringMachine");
@@ -77,9 +77,18 @@ public class NewTMWindow extends JFrame implements ActionListener{
 		}
 
 		else if(e.getSource().equals(buttonCreate)){
+			System.out.println(getNumberOfTapes());
 
 		}
 
+	}
+	
+	public String getMachinesName(){
+		return fieldName.getText();
+	}
+	
+	public Integer getNumberOfTapes(){
+		return (Integer)numberOfTapes.getValue();
 	}
 
 	public static void main(String args[]){
