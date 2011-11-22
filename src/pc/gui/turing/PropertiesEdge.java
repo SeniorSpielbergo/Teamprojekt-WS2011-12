@@ -2,6 +2,7 @@ package gui.turing;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -66,10 +67,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 			}
 		});
 		
-		// initialize table
-		// TODO
-		String[] tempData = {"*", "#", "N"};
-		model.addRow(tempData);
+		// TODO initialize table
 		
 		// scroll panel
 		tablePane = new JScrollPane(table);
@@ -99,9 +97,27 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	
 	private void editTable(int row) {
 		PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes);
-		String[] tempData = editWindow.showEdit();
+		ArrayList<ArrayList<String>> tempData = editWindow.showEdit();
 		editWindow.setLocationRelativeTo(null);
-		model.updateRow(tempData, row);
+		if (tempData != null) {
+			String[] rowData = new String[tempData.get(0).size()];
+			for (int i = 0; i < numberTapes; i++) {
+				for (int j = 0; j < tempData.get(i).size(); j++) {
+					rowData[j] = "";
+				}
+			}
+			for (int i = 0; i < numberTapes; i++) {
+				for (int j = 0; j < tempData.get(i).size(); j++) {
+					if (i < numberTapes-1) {
+						rowData[j] += tempData.get(i).get(j) + ", ";
+					}
+					else {
+						rowData[j] += tempData.get(i).get(j);
+					}
+				}
+			}
+			model.updateRow(rowData, row);
+		}
 	}
 
 	/**
@@ -113,9 +129,25 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 		if (e.getSource() == addButton) {
 			PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes);
 			editWindow.setLocationRelativeTo(null);
-			String[] tempData = editWindow.showEdit();
+			ArrayList<ArrayList<String>> tempData = editWindow.showEdit();
 			if (tempData != null) {
-				model.addRow(tempData);
+				String[] rowData = new String[tempData.get(0).size()];
+				for (int i = 0; i < numberTapes; i++) {
+					for (int j = 0; j < tempData.get(i).size(); j++) {
+						rowData[j] = "";
+					}
+				}
+				for (int i = 0; i < numberTapes; i++) {
+					for (int j = 0; j < tempData.get(i).size(); j++) {
+						if (i < numberTapes-1) {
+							rowData[j] += tempData.get(i).get(j) + ", ";
+						}
+						else {
+							rowData[j] += tempData.get(i).get(j);
+						}
+					}
+				}
+				model.addRow(rowData);
 			}
 		}
 		else if (e.getSource() == deleteButton) {
@@ -152,11 +184,13 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		int row = table.getSelectedRow();
-		if (row == -1) {
-			row = table.getRowCount() - 1;
+		if (table.getRowCount() != 0) {
+			int row = table.getSelectedRow();
+			if (row == -1) {
+				row = table.getRowCount() - 1;
+			}
+			table.setColumnSelectionInterval(0, 2);
+			table.setRowSelectionInterval(row, row);
 		}
-		table.setColumnSelectionInterval(0, 2);
-		table.setRowSelectionInterval(row, row);
 	}
 }

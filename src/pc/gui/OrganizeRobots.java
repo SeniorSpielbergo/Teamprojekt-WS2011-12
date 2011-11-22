@@ -312,11 +312,13 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		int row = table.getSelectedRow();
-		if (row == -1) {
-			row = table.getRowCount() - 1;
+		if (table.getRowCount() != 0) {
+			int row = table.getSelectedRow();
+			if (row == -1) {
+				row = table.getRowCount() - 1;
+			}
+			table.setColumnSelectionInterval(0, 1);
+			table.setRowSelectionInterval(row, row);
 		}
-		table.setColumnSelectionInterval(0, 1);
-		table.setRowSelectionInterval(row, row);
 	}
 }

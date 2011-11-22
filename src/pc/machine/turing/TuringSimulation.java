@@ -16,6 +16,7 @@ public class TuringSimulation extends Simulation{
 
 	public TuringSimulation(TuringMachine machine) throws TapeException{
 		super(machine);
+		this.machine = machine;
 		this.tapes = machine.getTapes();
 		
 		for( int i=0; i < machine.getStates().size(); i++){
