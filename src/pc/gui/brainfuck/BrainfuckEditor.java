@@ -1,9 +1,8 @@
 package gui.brainfuck;
 
-import javax.swing.*;
-
 import gui.MachineEditor;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class BrainfuckEditor extends MachineEditor{
@@ -11,8 +10,6 @@ public class BrainfuckEditor extends MachineEditor{
 	
 	private JTextArea codeTextArea;
 	private JScrollPane codePane;
-	private JLabel outputLabel;
-	private JLabel outputTextLabel;
 	
 	public BrainfuckEditor() {
 		codeTextArea = new JTextArea("Type your brainfuck code here");
@@ -23,27 +20,8 @@ public class BrainfuckEditor extends MachineEditor{
 		codePane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		codePane.setPreferredSize(new Dimension(100,100));
 
-		outputTextLabel = new JLabel("Output: ", SwingConstants.LEFT);
-		outputLabel = new JLabel("", SwingConstants.LEFT);
-		
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		
-		c.gridx = 0;
-		c.gridy = 0;
-		c.weightx = 0.1;
-		c.gridwidth = 1;
-		c.insets = new Insets(5,5,5,5);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		add(outputTextLabel,c);
-		
-		c.gridx = 1;
-		c.gridy = 0;
-		c.weightx = 1.0;
-		c.gridwidth = 1;
-		c.insets = new Insets(5,5,5,5);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		add(outputLabel,c);
 		
 		c.gridx = 0;
 		c.gridy = 2;
@@ -59,25 +37,7 @@ public class BrainfuckEditor extends MachineEditor{
 		this.codeTextArea.setText(code);
 	}
 	
-	public void setOutput(String text) {
-		this.outputTextLabel.setText(text);
-	}
-	
-	public void appendTextToOutputText(String text) {
-		String currentText = this.outputLabel.getText();
-		this.outputLabel.setText(currentText + text);
-	}
-
 	public String getCode() {
 		return this.codeTextArea.getText();
-	}
-	
-	public JLabel getOutputLabel() {
-		return this.outputLabel;
-	}
-	
-	public void reset() {
-		setCode("Type your brainfuck code here");
-		setOutput("");
 	}
 }

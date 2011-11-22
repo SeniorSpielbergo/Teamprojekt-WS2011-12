@@ -11,8 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
 
-import javax.swing.JLabel;
-
 import tape.TapeException;
 import tape.ConsoleTape;
 
@@ -24,14 +22,16 @@ public class BrainfuckMachine extends Machine {
 
 	public BrainfuckMachine() {
 		super();
-		tapes.add(new ConsoleTape("Action"));
 		tapes.add(new ConsoleTape("Input"));
+		tapes.add(new ConsoleTape("Output"));
+		tapes.add(new ConsoleTape("Action"));		
 	}
 	
 	public BrainfuckMachine(String name) {
 		super(name);
-		tapes.add(new ConsoleTape());
-		tapes.add(new ConsoleTape());
+		tapes.add(new ConsoleTape("Input"));
+		tapes.add(new ConsoleTape("Output"));
+		tapes.add(new ConsoleTape("Action"));
 	}
 	
 	public void save(String filename) throws IOException {
@@ -64,10 +64,6 @@ public class BrainfuckMachine extends Machine {
 		return brainfuckEditor.getCode();
 	}
 	
-	public JLabel getOutputLabel() {
-		return brainfuckEditor.getOutputLabel();
-	}
-
 	@Override
 	public MachineType getType() {
 		return Machine.MachineType.BrainfuckMachine;
