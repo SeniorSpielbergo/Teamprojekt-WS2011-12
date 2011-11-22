@@ -7,5 +7,8 @@
 	<classpathentry kind="var" path="NXJ_HOME/lib/classes.jar"/>
 	<classpathentry kind="var" path="NXJ_HOME/lib/jtools.jar"/>
 	<classpathentry kind="var" path="JGRAPH_HOME/lib/jgraphx.jar"/>
+	<classpathentry kind="var" path="NXJ_HOME/3rdparty/lib/bluecove.jar"/>
+	<classpathentry kind="var" path="NXJ_HOME/3rdparty/lib/bluecove-gpl.jar"/>
+	<classpathentry kind="var" path="NXJ_HOME/3rdparty/lib/bcel.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
