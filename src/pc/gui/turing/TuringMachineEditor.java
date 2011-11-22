@@ -2,7 +2,7 @@ package gui.turing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
+import machine.turing.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -11,6 +11,7 @@ import com.mxgraph.swing.mxGraphComponent;
 
 import com.mxgraph.view.mxGraphSelectionModel;
 import com.mxgraph.view.mxGraph;
+import com.mxgraph.model.*;
 
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventSource;
@@ -53,15 +54,18 @@ public class TuringMachineEditor extends MachineEditor {
 		mxGraph graph = new mxGraph();
 
 		Object parent = graph.getDefaultParent();
-
+		Object v1;
+		Object v2;
 		graph.getModel().beginUpdate();
 		try
 		{
-			Object v1 = graph.insertVertex(parent, null, "Hello", 20, 20, 80,
+			State s1 = new State("1", "abc", State.Type.START);
+			State s2 = new State("2", "def", State.Type.FINAL);
+			v1 = graph.insertVertex(parent, null, s1, 20, 20, 80,
 					30);
-			Object v2 = graph.insertVertex(parent, null, "World!", 240, 150,
+			v2 = graph.insertVertex(parent, null, s2, 240, 150,
 					80, 30);
-			graph.insertEdge(parent, null, "Edge", v1, v2);
+			graph.insertEdge(parent, null, new Edge(s1,s2,null), v1, v2);
 		}
 		finally
 		{
@@ -71,8 +75,9 @@ public class TuringMachineEditor extends MachineEditor {
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
 		
-		
-
+		mxCell c = (mxCell) v1;
+		State s = (State) c.getValue();
+		System.out.println(s.getName());
 	}
 	
 	private void displayProperties(PropertiesEdge prop){
