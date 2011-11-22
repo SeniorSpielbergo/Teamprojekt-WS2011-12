@@ -10,9 +10,9 @@ public class TestFramePropertiesEdge extends JFrame {
 	public TestFramePropertiesEdge() {
 		setTitle("Test");
 		setSize(300, 500);
-		PropertiesEdge test = new PropertiesEdge(3);
+//		PropertiesEdge test = new PropertiesEdge(3);
 		
-		this.getContentPane().add(test);
+//		this.getContentPane().add(test);
 	}
 	
 	public static void main(String[] args) {

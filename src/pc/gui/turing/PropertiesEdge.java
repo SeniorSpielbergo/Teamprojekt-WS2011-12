@@ -10,6 +10,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import machine.turing.Edge;
+
 import gui.*;
 
 public class PropertiesEdge extends JPanel implements ActionListener, TableModelListener, ListSelectionListener {
@@ -23,6 +25,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	private JButton deleteButton;
 	private int numberTapes;
 	private ListSelectionModel listSelectionModel;
+	private Edge currentEdge;
 	/**
 	 * Stores whether the table is initialized
 	 */
@@ -40,8 +43,9 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	 * Constructs a panel showing all transitions of the current edge
 	 * @param numberTapes Number of tapes in the current machine
 	 */
-	public PropertiesEdge(int numberTapes) {
+	public PropertiesEdge(int numberTapes, Edge edge) {
 		this.numberTapes = numberTapes;
+		this.currentEdge = edge;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		// content panel
