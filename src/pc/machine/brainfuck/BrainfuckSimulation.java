@@ -1,9 +1,6 @@
 package machine.brainfuck;
 import tape.*;
-
 import machine.*;
-
-import javax.swing.JLabel;
 
 /**
  * Interpreter for brainfuck-Code using a Tape of 2-bit symbols. 
@@ -11,12 +8,10 @@ import javax.swing.JLabel;
  *
  */
 public class BrainfuckSimulation extends Simulation {
-	Tape actionTape;
-	Tape inputTape;
-	String code;
-	String outputString = "";
-	char toWrite;
-	JLabel outputLabel;
+	private Tape actionTape;
+	private Tape inputTape;
+	private Tape outputTape;
+	private String code;
 
 	/**
 	 * Creates new Simulator with given Tape and Input-String.
@@ -26,23 +21,10 @@ public class BrainfuckSimulation extends Simulation {
 	 */
 	public BrainfuckSimulation(BrainfuckMachine machine){
 		super(machine);
-		this.actionTape = machine.getTapes().get(0);
-		this.inputTape = machine.getTapes().get(1);
+		this.inputTape = machine.getTapes().get(0);
+		this.outputTape = machine.getTapes().get(1);
+		this.actionTape = machine.getTapes().get(2);
 		this.code = machine.getCode();
-		this.outputLabel = machine.getOutputLabel();
-	}
-
-	/**
-	 * Returns the Output of the simulated brainfuck-Application.
-	 * @return String output
-	 */
-	public String getOutput() {
-		return this.outputString;
-	}
-
-	// Prints the output into the outputLabel if existing, else prints output to console.
-	private void output() {
-		this.outputLabel.setText(outputString);
 	}
 
 	// Checks syntax of brainfuck-Application (just checks the loops)
@@ -171,8 +153,8 @@ public class BrainfuckSimulation extends Simulation {
 				case ']': 
 					break;
 				case '.': 
-					outputString += actionTape.read();
-					output();
+					outputTape.write(actionTape.read());
+					outputTape.moveRight();
 					break;
 				case ',':
 					char input = inputTape.read();
