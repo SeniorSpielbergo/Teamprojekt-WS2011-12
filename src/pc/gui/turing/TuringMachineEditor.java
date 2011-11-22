@@ -39,9 +39,13 @@ public class TuringMachineEditor extends MachineEditor {
 	public TuringMachineEditor(TuringMachine machine) {
 		super();
 		this.machine = machine;
-
 		//create left panel
 		this.jPanelLeft = new JPanel();
+		this.jPanelLeft.setLayout(new BorderLayout());
+		this.jPanelToolBox = new JPanel();
+		this.jPanelProperties = new JPanel();
+		this.jPanelLeft.add(this.jPanelToolBox, BorderLayout.PAGE_START);
+		this.jPanelLeft.add(this.jPanelProperties, BorderLayout.CENTER);
 
 		//create main graph panel
 		this.jPanelGraph = new JPanel();
@@ -83,23 +87,23 @@ public class TuringMachineEditor extends MachineEditor {
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
 		
-
 		mxCell c = (mxCell) v1;
 		State s = (State) c.getValue();
 		System.out.println(s.getName());
 
 		
-		System.out.println("TEST: " + this.machine);
-		//this.displayProperties(this.machine.getEdges().get(0));
+		if (this.machine != null && this.machine.getEdges().size() > 0) {
+			this.displayProperties(this.machine.getEdges().get(0));
+		}
 	}
 	
-	private void displayProperties(Edge edge){
+	private void displayProperties(Edge edge) {
 		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge); //TODO: fix
 		jPanelProperties.removeAll();
 		jPanelProperties.add(propertiesEdge);
 	}
 	
-	private void displayProperties(State prop){
+	private void displayProperties(State prop) {
 		jPanelProperties.removeAll();
 		//jPanelProperties.add(prop);
 	}

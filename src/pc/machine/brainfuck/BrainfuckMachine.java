@@ -19,6 +19,7 @@ import machine.Simulation;
 
 public class BrainfuckMachine extends Machine {
 	private BrainfuckEditor brainfuckEditor;
+	private String code = "Type your brainfuck code here";
 
 	public BrainfuckMachine() {
 		super();
@@ -26,28 +27,33 @@ public class BrainfuckMachine extends Machine {
 		tapes.add(new ConsoleTape("Output"));
 		tapes.add(new ConsoleTape("Action"));		
 	}
-	
+
 	public BrainfuckMachine(String name) {
 		super(name);
 		tapes.add(new ConsoleTape("Input"));
 		tapes.add(new ConsoleTape("Output"));
 		tapes.add(new ConsoleTape("Action"));
 	}
-	
+
 	public void save(String filename) throws IOException {
+		if (brainfuckEditor != null) {
+			this.code = brainfuckEditor.getCode();
+		}
 		FileWriter fstream = new FileWriter(filename);
 		BufferedWriter out = new BufferedWriter(fstream);
-		out.write(brainfuckEditor.getCode());
+		out.write(code);
 		out.close();
 	}
-	
+
 	public void load(String fileName) throws FileNotFoundException, IOException {
 		File file = new File(fileName);
 		byte[] buffer = new byte[(int) file.length()];
 		BufferedInputStream f = new BufferedInputStream(new FileInputStream(file));
 		f.read(buffer);
-		String code = new String(buffer);
-		brainfuckEditor.setCode(code);
+		code = new String(buffer);
+		if (brainfuckEditor != null) {
+			brainfuckEditor.setCode(code);
+		}
 	}
 
 	public Simulation createSimulation() throws TapeException {
@@ -57,13 +63,18 @@ public class BrainfuckMachine extends Machine {
 
 	protected MachineEditor createEditor() {
 		brainfuckEditor = new BrainfuckEditor();
+		brainfuckEditor.setCode(code);
 		return brainfuckEditor;
 	}
-	
+
 	public String getCode() {
-		return brainfuckEditor.getCode();
+		if (brainfuckEditor != null) {
+			this.code = brainfuckEditor.getCode();
+		}
+
+		return this.code;
 	}
-	
+
 	@Override
 	public MachineType getType() {
 		return Machine.MachineType.BrainfuckMachine;
