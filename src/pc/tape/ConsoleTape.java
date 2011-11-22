@@ -214,4 +214,5 @@ public class ConsoleTape extends Tape {
 
 		return text;
 	}
+	
 }

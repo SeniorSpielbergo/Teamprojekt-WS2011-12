@@ -6,17 +6,23 @@ import java.awt.*;
 
 import java.awt.event.*;
 
-public class NewTMWindow extends JFrame implements ActionListener{
+public class NewTMDialogue extends JDialog implements ActionListener{
+	
+	public enum ReturnValue {
+		CANCEL, CREATE
+	}
 
 	private JPanel panelName, panelTapes, panelButtons, panelGap0, panelGap1, panelGap2, panelGap3, panelButtonGap ;
 	private JLabel name, tapes;
 	private	JTextField fieldName;
 	private JSpinner numberOfTapes;
 	private JButton buttonCancel, buttonCreate;
+	private  ReturnValue returnValue;
 
-	public NewTMWindow(){
+	public NewTMDialogue(){
 		setTitle("New TuringMachine");
-		this.setBounds(500,250,390,200);
+		this.setModal(true);
+		this.setBounds(500,250,400,250);
 
 
 		name = new JLabel();
@@ -65,20 +71,21 @@ public class NewTMWindow extends JFrame implements ActionListener{
 
 		this.add(panelGap1);
 		this.add(panelButtons);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 
 	public void actionPerformed(ActionEvent e){
 		if (e.getSource().equals(buttonCancel)){
+			returnValue = ReturnValue.CANCEL;
 			this.setVisible(false);
 			dispose();
 
 		}
 
 		else if(e.getSource().equals(buttonCreate)){
-			System.out.println(getNumberOfTapes());
-
+			returnValue = ReturnValue.CREATE;
+			this.setVisible(false);
+			dispose();
 		}
 
 	}
@@ -90,9 +97,14 @@ public class NewTMWindow extends JFrame implements ActionListener{
 	public Integer getNumberOfTapes(){
 		return (Integer)numberOfTapes.getValue();
 	}
+	
+	public ReturnValue showDialogue(){
+		this.setVisible(true);
+		return returnValue;
+	}
 
 	public static void main(String args[]){
-		NewTMWindow newTm = new NewTMWindow();
+		NewTMDialogue newTm = new NewTMDialogue();
 		newTm.setVisible(true);
 
 	}

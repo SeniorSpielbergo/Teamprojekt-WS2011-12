@@ -97,7 +97,7 @@ public abstract class Robot {
 			throw new IOException("Received error from robot '" + this.name + ": Writing failed.");
 		} else {
 			System.out.println(this.name + ": Common Fail, read from Robot: " + received);
-			throw new IOException("Received unexpected symbol from robot '" + this.name + ".");
+			throw new IOException("Received unexpected symbol from robot '" + this.name + "'.");
 		}
 	}
 

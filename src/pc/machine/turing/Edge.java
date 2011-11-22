@@ -19,6 +19,7 @@ public class Edge {
 	 * Contains all transitions of this edge
 	 */
 	protected ArrayList<Transition> transitions;
+
 	
 	/**
 	 * Constructs an edge from a state to another with it's transitions
