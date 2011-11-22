@@ -215,7 +215,7 @@ public class Editor extends JFrame implements ActionListener {
 			gui.turing.NewTMDialogue.ReturnValue returnValue = newTMDialogue.showDialogue();
 			switch(returnValue){
 			case CREATE:
-				this.currentMachine = new TuringMachine(newTMDialogue.getName(),newTMDialogue.getNumberOfTapes());
+				this.currentMachine = new TuringMachine(newTMDialogue.getMachinesName(),newTMDialogue.getNumberOfTapes());
 				this.loadEditor();
 				break;
 
