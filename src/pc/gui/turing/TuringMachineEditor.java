@@ -84,8 +84,8 @@ public class TuringMachineEditor extends MachineEditor {
 		//this.displayProperties(this.machine.getEdges().get(0));
 	}
 	
-	private void displayProperties(Edge prop){
-		PropertiesEdge propertiesEdge = new PropertiesEdge(3); //TODO: fix
+	private void displayProperties(Edge edge){
+		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge); //TODO: fix
 		jPanelProperties.removeAll();
 		jPanelProperties.add(propertiesEdge);
 	}
