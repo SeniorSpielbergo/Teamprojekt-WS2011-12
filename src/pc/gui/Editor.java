@@ -211,8 +211,17 @@ public class Editor extends JFrame implements ActionListener {
 		this.closeCurrentFile();
 		switch(type) {
 		case TuringMachine:
-			this.currentMachine = new TuringMachine();
-			this.loadEditor();
+			gui.turing.NewTMDialogue newTMDialogue = new gui.turing.NewTMDialogue();
+			gui.turing.NewTMDialogue.ReturnValue returnValue = newTMDialogue.showDialogue();
+			switch(returnValue){
+			case CREATE:
+				this.currentMachine = new TuringMachine(newTMDialogue.getName(),newTMDialogue.getNumberOfTapes());
+				this.loadEditor();
+				break;
+
+			case CANCEL:
+				break;
+			}
 			break;
 		case BrainfuckMachine:
 			this.currentMachine = new BrainfuckMachine();

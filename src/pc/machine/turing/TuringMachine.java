@@ -66,6 +66,18 @@ public class TuringMachine extends Machine{
 	public TuringMachine(String name) {
 		this(name, new ArrayList<State>(), new ArrayList<Edge>(), new ArrayList<Tape>());
 	}
+	
+	/**
+	 * Constructs an empty Turing machine with a name and its tapes
+	 * @param name Name for the Turing machine
+	 * @param numberOfTapes Number of tapes
+	 */
+	public TuringMachine(String name, int numberOfTapes) {
+		this(name, new ArrayList<State>(), new ArrayList<Edge>(), new ArrayList<Tape>());
+		for(int i = 0; i < numberOfTapes; i++){
+			this.tapes.add(new ConsoleTape());
+		}
+	}
 
 	/**
 	 * Constructs a new Turing machine with edges, states and transitions
