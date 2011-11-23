@@ -37,7 +37,7 @@ public class State {
 	/**
 	 * The state type
 	 */
-	protected Type type;
+	protected Type type; // FIXME: States can be start and final at the same time 
 	/**
 	 * Contains all edges starting at this state //TODO: review if it is better to search the edges dynamically
 	 */

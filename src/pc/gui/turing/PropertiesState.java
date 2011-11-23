@@ -2,8 +2,9 @@ package gui.turing;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
+
+import machine.turing.State;
 
 public class PropertiesState extends JPanel implements ItemListener, TextListener {
 	
@@ -14,13 +15,17 @@ public class PropertiesState extends JPanel implements ItemListener, TextListene
 	private JCheckBox startState;
 	private JCheckBox finalState;
 	private JPanel propertiesPanel;
+	private State state;
 	
-	public PropertiesState() {
+	public PropertiesState(State state) {
+		this.state = state;
 		name = new JLabel("Name");
-		inputName = new JTextField(10);
+		inputName = new JTextField(this.state.getName(),10);
 		startState = new JCheckBox("Start");
+		startState.setSelected(this.state.getType() == State.Type.START);
 		startState.addItemListener(this);
 		finalState = new JCheckBox("Final");
+		startState.setSelected(this.state.getType() == State.Type.FINAL);
 		finalState.addItemListener(this);
 		propertiesPanel = new JPanel();
 		propertiesPanel.setLayout(new GridBagLayout());
@@ -68,11 +73,11 @@ public class PropertiesState extends JPanel implements ItemListener, TextListene
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		// TODO stateProperties (final, start) have to change
+		// TODO stateType has to change
 	}
 
 	@Override
 	public void textValueChanged(TextEvent e) {
-		// TODO stateName has to change
+		this.state.setName(inputName.getText());
 	}
 }
