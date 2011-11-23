@@ -17,10 +17,18 @@ import tape.ConsoleTape;
 import machine.Machine;
 import machine.Simulation;
 
+/**
+ * Represents a brainfuck machine and provides methods to handle it.
+ * @author Sven Schuster
+ * 
+ */
 public class BrainfuckMachine extends Machine {
 	private BrainfuckEditor brainfuckEditor;
 	private String code = "Type your brainfuck code here";
 
+	/**
+	 * Creates a new brainfuck machine with input-, output- and actiontape.
+	 */
 	public BrainfuckMachine() {
 		super();
 		tapes.add(new ConsoleTape("Input"));
@@ -28,6 +36,10 @@ public class BrainfuckMachine extends Machine {
 		tapes.add(new ConsoleTape("Action"));		
 	}
 
+	/**
+	 * Creates a new brainfuck machine with input-, output- and actiontape.
+	 * @param name Name of machine
+	 */
 	public BrainfuckMachine(String name) {
 		super(name);
 		tapes.add(new ConsoleTape("Input"));
@@ -35,6 +47,10 @@ public class BrainfuckMachine extends Machine {
 		tapes.add(new ConsoleTape("Action"));
 	}
 
+	/**
+	 * Saves the brainfuck code to given filename.
+	 * @param filename Filename
+	 */
 	public void save(String filename) throws IOException {
 		if (brainfuckEditor != null) {
 			this.code = brainfuckEditor.getCode();
@@ -45,6 +61,12 @@ public class BrainfuckMachine extends Machine {
 		out.close();
 	}
 
+	/**
+	 * Loads brainfuck code out of given filename.
+	 * @param filename Filename to load code from.
+	 * @throws FileNotFoundException If the file does not exist.
+	 * @throws IOException If file could not be read.
+	 */
 	public void load(String fileName) throws FileNotFoundException, IOException {
 		File file = new File(fileName);
 		byte[] buffer = new byte[(int) file.length()];
@@ -56,17 +78,30 @@ public class BrainfuckMachine extends Machine {
 		}
 	}
 
+	/**
+	 * Creates a new brainfuck simulation.
+	 * @return BrainfuckSimulation
+	 * @throws TapeException If the tape failed to initialize.
+	 */
 	public Simulation createSimulation() throws TapeException {
 		BrainfuckSimulation brainfuckSimulation = new BrainfuckSimulation(this);
 		return brainfuckSimulation;
 	}
 
+	/**
+	 * Creates a new brainfuck editor.
+	 * @return BrainfuckEditor
+	 */
 	protected MachineEditor createEditor() {
 		brainfuckEditor = new BrainfuckEditor();
 		brainfuckEditor.setCode(code);
 		return brainfuckEditor;
 	}
 
+	/**
+	 * Returns the Code of the brainfuck editor.
+	 * @return Code
+	 */
 	public String getCode() {
 		if (brainfuckEditor != null) {
 			this.code = brainfuckEditor.getCode();
