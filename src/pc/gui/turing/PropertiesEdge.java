@@ -10,7 +10,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-import machine.turing.Edge;
+import machine.turing.*;
 
 import gui.*;
 
@@ -25,7 +25,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	private JButton deleteButton;
 	private int numberTapes;
 	private ListSelectionModel listSelectionModel;
-	private Edge currentEdge;
+	private ArrayList<ArrayList<ArrayList<String>>> currentTransitions = new ArrayList<ArrayList<ArrayList<String>>>();
 	/**
 	 * Stores whether the table is initialized
 	 */
@@ -42,11 +42,13 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	/**
 	 * Constructs a panel showing all transitions of the current edge
 	 * @param numberTapes Number of tapes in the current machine
+	 * @param edge The edge that should be edited
 	 */
 	public PropertiesEdge(int numberTapes, Edge edge) {
 		this.numberTapes = numberTapes;
-		this.currentEdge = edge;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setMaximumSize(new Dimension(250, 300));
+		this.setPreferredSize(new Dimension(250, 300));
 		
 		// content panel
 		this.setBorder(BorderFactory.createTitledBorder("Properties"));
@@ -72,6 +74,45 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 		});
 		
 		// TODO initialize table
+		ArrayList<Transition> transitions = edge.getTransitions();
+		
+		for (int i = 0; i < transitions.size(); i++) {
+			// get character lists
+			ArrayList<Character> action = transitions.get(i).getAction();
+			ArrayList<Character> read = transitions.get(i).getRead();
+			ArrayList<Character> write = transitions.get(i).getWrite();
+			// add string lists for editing
+			ArrayList<ArrayList<String>> transition = new ArrayList<ArrayList<String>>(); 
+			ArrayList<String> readList = new ArrayList<String>();
+			ArrayList<String> writeList = new ArrayList<String>();
+			ArrayList<String> actionList = new ArrayList<String>();
+			// add array for row
+			String[] transitionString = new String[3];
+			for (int j = 0; j < action.size(); j++) {
+				transitionString[0] = "";
+				transitionString[1] = "";
+				transitionString[2] = "";
+			}
+			for (int j = 0; j < action.size(); j++) {
+				transitionString[0] += read.get(j);
+				transitionString[1] += write.get(j);
+				transitionString[2] += action.get(j);
+				readList.add("" + read.get(j));
+				writeList.add("" + write.get(j));
+				actionList.add("" + action.get(j));
+				if (j < action.size()-1) {
+					transitionString[0] += ", ";
+					transitionString[1] += ", ";
+					transitionString[2] += ", ";
+				}
+			}
+			// store mapped data
+			transition.add(readList);
+			transition.add(writeList);
+			transition.add(actionList);
+			currentTransitions.add(transition);
+			model.addRow(transitionString);
+		}
 		
 		// scroll panel
 		tablePane = new JScrollPane(table);
@@ -100,23 +141,23 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	}
 	
 	private void editTable(int row) {
-		PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes);
-		ArrayList<ArrayList<String>> tempData = editWindow.showEdit();
+		PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes, currentTransitions.get(row));
+		ArrayList<ArrayList<String>> editData = editWindow.showEdit();
 		editWindow.setLocationRelativeTo(null);
-		if (tempData != null) {
-			String[] rowData = new String[tempData.get(0).size()];
+		if (editData != null) {
+			String[] rowData = new String[editData.get(0).size()];
 			for (int i = 0; i < numberTapes; i++) {
-				for (int j = 0; j < tempData.get(i).size(); j++) {
+				for (int j = 0; j < editData.get(i).size(); j++) {
 					rowData[j] = "";
 				}
 			}
 			for (int i = 0; i < numberTapes; i++) {
-				for (int j = 0; j < tempData.get(i).size(); j++) {
+				for (int j = 0; j < editData.get(i).size(); j++) {
 					if (i < numberTapes-1) {
-						rowData[j] += tempData.get(i).get(j) + ", ";
+						rowData[j] += editData.get(i).get(j) + ", ";
 					}
 					else {
-						rowData[j] += tempData.get(i).get(j);
+						rowData[j] += editData.get(i).get(j);
 					}
 				}
 			}
@@ -131,23 +172,23 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addButton) {
-			PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes);
+			PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes, null);
 			editWindow.setLocationRelativeTo(null);
-			ArrayList<ArrayList<String>> tempData = editWindow.showEdit();
-			if (tempData != null) {
-				String[] rowData = new String[tempData.get(0).size()];
+			ArrayList<ArrayList<String>> editData = editWindow.showEdit();
+			if (editData != null) {
+				String[] rowData = new String[editData.get(0).size()];
 				for (int i = 0; i < numberTapes; i++) {
-					for (int j = 0; j < tempData.get(i).size(); j++) {
+					for (int j = 0; j < editData.get(i).size(); j++) {
 						rowData[j] = "";
 					}
 				}
 				for (int i = 0; i < numberTapes; i++) {
-					for (int j = 0; j < tempData.get(i).size(); j++) {
+					for (int j = 0; j < editData.get(i).size(); j++) {
 						if (i < numberTapes-1) {
-							rowData[j] += tempData.get(i).get(j) + ", ";
+							rowData[j] += editData.get(i).get(j) + ", ";
 						}
 						else {
-							rowData[j] += tempData.get(i).get(j);
+							rowData[j] += editData.get(i).get(j);
 						}
 					}
 				}

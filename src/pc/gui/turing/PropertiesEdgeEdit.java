@@ -48,7 +48,7 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 	 * Constructs a dialog to edit the properties of a transition
 	 * @param numberTapes Number of tapes in the current machine
 	 */
-	public PropertiesEdgeEdit(int numberTapes) {
+	public PropertiesEdgeEdit(int numberTapes, ArrayList<ArrayList<String>> transition) {
 		this.setModal(true);
 		this.numberTapes = numberTapes;
 		Container contentPane = this.getContentPane();
@@ -85,7 +85,7 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 		listSelectionModel = table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(this);
 		
-		// initialize table // TODO
+		// TODO initialize table
 		for (int i = 0; i < numberTapes; i++) {
 			String[] tempData = {"" + i, "*", "#", "N"};
 			model.addRow(tempData);
