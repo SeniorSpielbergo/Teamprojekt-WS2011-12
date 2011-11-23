@@ -120,6 +120,10 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 		this.add(addDeleteContainer, BorderLayout.AFTER_LAST_LINE);
 	}
 	
+	/**
+	 * Opens the edit window and stores the edited data
+	 * @param row The row that should be edited
+	 */
 	private void editTable(int row) {
 		PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes, edge.getTransitions().get(row));
 		Transition editData = editWindow.showEdit();
