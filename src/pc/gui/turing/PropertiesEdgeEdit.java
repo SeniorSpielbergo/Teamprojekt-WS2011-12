@@ -13,6 +13,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import machine.turing.*;
+
 public class PropertiesEdgeEdit extends JDialog implements ActionListener, TableModelListener, ListSelectionListener {
 	
 	static final long serialVersionUID = -3667258249137827980L;
@@ -34,7 +36,7 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 	/**
 	 * Stores the data returned by the dialog
 	 */
-	private ArrayList<ArrayList<String>> returnData = new ArrayList<ArrayList<String>>();
+	private Transition transition;
 	/**
 	 * Stores the columns names
 	 */
@@ -47,11 +49,16 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 	/**
 	 * Constructs a dialog to edit the properties of a transition
 	 * @param numberTapes Number of tapes in the current machine
+	 * @param transition Transition that should be edited
 	 */
-	public PropertiesEdgeEdit(int numberTapes, ArrayList<ArrayList<String>> transition) {
+	public PropertiesEdgeEdit(int numberTapes, Transition transition) {
 		this.setModal(true);
 		this.numberTapes = numberTapes;
 		Container contentPane = this.getContentPane();
+		
+		if (transition != null) {
+			this.transition = transition;
+		}
 		
 		// window title and size
 		this.setTitle("Edit transition properties");
@@ -85,16 +92,32 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 		listSelectionModel = table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(this);
 		
-		// TODO initialize table
+		ArrayList<Character> read = new ArrayList<Character>();
+		ArrayList<Character> write = new ArrayList<Character>();
+		ArrayList<Character> action = new ArrayList<Character>();
+		
 		for (int i = 0; i < numberTapes; i++) {
-			String[] tempData = {"" + i, "*", "#", "N"};
-			model.addRow(tempData);
-			table.setEditingColumn(i);
-			ArrayList<String> initial = new ArrayList<String>();
-			initial.add("*");
-			initial.add("#");
-			initial.add("N");
-			returnData.add(initial);
+			String[] initialData = new String[4];
+			initialData[0] = "" + i;
+			if (transition != null) {
+				initialData[1] = transition.getRead().get(i).toString();
+				initialData[2] = transition.getWrite().get(i).toString();
+				initialData[3] = transition.getAction().get(i).toString();
+			}
+			else {
+				initialData[1] = "*";
+				initialData[2] = "#";
+				initialData[3] = "N";
+				table.setEditingColumn(i);
+				read.add('*');
+				write.add('#');
+				action.add('N');
+			}
+			model.addRow(initialData);
+		}
+		
+		if (transition == null) {
+			this.transition = new Transition("temp", read, write, action);
 		}
 		
 		tablePane = new JScrollPane(table);
@@ -108,10 +131,10 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 	 * Shows the Dialog
 	 * @return The data edited by the user
 	 */
-	public ArrayList<ArrayList<String>> showEdit() {
+	public Transition showEdit() {
 		this.setVisible(true);
 		
-		return returnData;
+		return transition;
 	}
 	
 	/**
@@ -125,7 +148,7 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 			dispose();
 		}
 		else if (e.getSource() == cancelButton) {
-			returnData = null;
+			transition = null;
 			this.setVisible(false);
 			dispose();
 		}
@@ -142,7 +165,19 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 			int col = e.getColumn();
 			if (e.getType() == TableModelEvent.UPDATE) {
 				String newData = (String) this.table.getModel().getValueAt(row, col);
-				returnData.get(row).set(col, newData);
+				switch(col) {
+					case 1:
+						transition.getRead().set(row, newData.charAt(0));
+						break;
+					case 2:
+						transition.getWrite().set(row, newData.charAt(0));
+						break;
+					case 3:
+						transition.getAction().set(row, newData.charAt(0));
+						break;
+					default:
+						break;
+				}
 			}
 		}
 	}
