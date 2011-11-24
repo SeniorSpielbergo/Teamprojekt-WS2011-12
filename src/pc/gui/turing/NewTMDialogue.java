@@ -23,7 +23,7 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 		setTitle("New TuringMachine");
 		this.setModal(true);
 		this.setBounds(500,250,400,250);
-
+		this.setResizable(false);
 
 		name = new JLabel();
 		panelName = new JPanel();
