@@ -113,8 +113,8 @@ public class TuringMachine extends Machine{
 	 * @throws IOException If an I/O error occurs while reading the file, or the file content is corrupt.
 	 */
 	public void load(String filename) throws IOException {
-		if (!filename.endsWith(".xml")) {
-			throw new IOException("Wrong file extension of file '" + filename + "'. Must be '.xml'");
+		if (!filename.endsWith(".tm")) {
+			throw new IOException("Wrong file extension of file '" + filename + "'. Must be '.tm'");
 		}
 		//clear data
 		this.edges.clear();
@@ -142,7 +142,7 @@ public class TuringMachine extends Machine{
 		this.name = machineName;
 		String machineXMLVersion = doc.getDocumentElement().getAttribute("xml-version");
 
-		if (!machineXMLVersion.equals(TuringMachine.XML_VERSION)) {
+		if (!machineXMLVersion.equals(String.valueOf(TuringMachine.XML_VERSION))) {
 			throw new IOException("The file format version of the file '" + filename 
 					+ "' is not supported by this program. Please convert the file before opening.");
 		}
@@ -252,30 +252,47 @@ public class TuringMachine extends Machine{
 				if (this.getStateById(id) != null) {
 					throw new IOException("State ID '" + id + "' already exists! Please check your xml file!");
 				}
-//
-//				String startString = currentElement.getAttribute("start");
-//				String startString = currentElement.getAttribute("start");
-//				String startString = currentElement.getAttribute("start");
-//				String startString = currentElement.getAttribute("start");
-//				String startString = currentElement.getAttribute("start");
-//				String startString = currentElement.getAttribute("start");
+				
+				//read start and final attribute
+				boolean startState = false;
+				String startString = currentElement.getAttribute("start");
+				if (startString.equals("yes")) {
+					startState = true;
+				}
+				else if (startString.equals("no")) {
+					startState = false;
+				}
+				else {
+					throw new IOException("Expected 'yes' or 'no' in attribute 'start' for State ID '" + id + "' but found '" + startString + "'.");
+				}
+				
+				boolean finalState = false;
+				String finalString = currentElement.getAttribute("final");
+				if (finalString.equals("yes")) {
+					finalState = true;
+				}
+				else if (finalString.equals("no")) {
+					finalState = false;
+				}
+				else {
+					throw new IOException("Expected 'yes' or 'no' in attribute 'start' for State ID '" + id + "' but found '" + startString + "'.");
+				}
 
-//				State.Type type = null;
-//				String typeString = currentElement.getAttribute("type");
-//				if (typeString.equals("start")) {
-//					type = State.Type.START;
-//				}
-//				else if (typeString.equals("normal")) {
-//					type = State.Type.NORMAL;
-//				}
-//				else if (typeString.equals("final")) {
-//					type = State.Type.FINAL;
-//				}
-//				else {
-//					throw new IOException("Unsupported state type '" + typeString + "' for the state with id " + id + ".  Expected 'start', 'final' or 'normal'.");
-//				}
+				//get position
+				int x = InOut.getAttributeValueInt("x", currentElement);
+				int y = InOut.getAttributeValueInt("y", currentElement);
+				
+				//get size
+				int width = InOut.getAttributeValueInt("width", currentElement);
+				int height = InOut.getAttributeValueInt("height", currentElement);
+				
 				String name = InOut.getTagValue("name", currentElement);
-				State state = new State(id, name, false, false);//TODO: fix
+				State state = new State(id, name, startState, finalState);
+				state.setXcoord(x);
+				state.setYcoord(y);
+				state.setWidth(width);
+				state.setHeight(height);
+				
 				states.add(state);
 				System.out.println(" " + state); //TODO: remove debug output
 			}
@@ -405,7 +422,7 @@ public class TuringMachine extends Machine{
 		System.out.println("Saving file '" + filename + "'...");
 
 		if (!filename.endsWith(".tm")) {
-			throw new IOException("Wrong file extension of file '" + filename + "'. Must be '.xml'");
+			throw new IOException("Wrong file extension of file '" + filename + "'. Must be '.tm'");
 		}
 
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
