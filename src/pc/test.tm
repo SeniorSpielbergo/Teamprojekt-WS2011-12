@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<machine name="test" tapes="3" xml-version="2">
-	<tape type="LEGO">
+<machine name="test" tapes="3" xml-version="3">
+	<tape type="graphic">
 		<name>input tape</name>
 		<master mac-address="00:16:53:13:53:BB">IPS_03</master>
 		<slave mac-address="00:16:53:0F:DB:8E">NXT_03</slave>
@@ -12,7 +12,7 @@
 			<symbol>2</symbol>
 		</input>
 	</tape>
-	<tape type="console">
+	<tape type="graphic">
 		<name>second tape</name>
 		<input>
 			<symbol>#</symbol>
@@ -23,7 +23,7 @@
 			<symbol>#</symbol>
 		</input>
 	</tape>
-	<tape type="console">
+	<tape type="graphic">
 		<name>third tape</name>
 		<input>
 			<symbol>#</symbol>
@@ -34,10 +34,10 @@
 			<symbol>#</symbol>
 		</input>
 	</tape>
-	<state id="0" type="start">
+	<state id="0" start="yes" final="no">
 		<name>q0</name>
 	</state>
-	<state id="1" type="final">
+	<state id="1" start="no" final="yes">
 		<name>q2</name>
 	</state>
 	<edge from="0" to="1">

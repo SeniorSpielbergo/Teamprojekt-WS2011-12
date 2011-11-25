@@ -28,6 +28,7 @@ import org.w3c.dom.NodeList;
 
 import tape.ConsoleTape;
 import tape.LEGOTape;
+import tape.GraphicTape;
 import tape.MasterRobot;
 import tape.SlaveRobot;
 import tape.Tape;
@@ -212,8 +213,8 @@ public class TuringMachine extends Machine{
 			else if (tapeType.equals("console")) {
 				tape = new ConsoleTape();
 			}
-			else if (tapeType.equals("gui")) {
-				throw new IOException("GUI tape not implemented yet.");
+			else if (tapeType.equals("graphic")) {
+				tape = new GraphicTape();
 			}
 			else {
 				throw new IOException("Unsupported tape type '" + tapeType + "' for tape ' " + tapeName + "'.");

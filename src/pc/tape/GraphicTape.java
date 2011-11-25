@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class GraphicTape extends Tape {
 
 	JPanel tapePanel;
-	JLabel labelTape;
+	JLabel labelTape, textlabel;
 	/**
 	 * Stores the current tape content
 	 */
@@ -59,6 +59,10 @@ public class GraphicTape extends Tape {
 		System.out.println(this.name + ": Tape ready.");
 		tapePanel = new JPanel();
 		labelTape = new JLabel();
+		textlabel = new JLabel("GraphicTape");
+		tapePanel.add(labelTape);
+		tapePanel.add(textlabel);
+		
 		//set ready
 		this.ready = true;
 	}
@@ -132,6 +136,7 @@ public class GraphicTape extends Tape {
 		for (int i = 0; i < this.inputWord.length(); i++) {
 			this.moveLeft();
 		}
+		printTape();
 	}
 
 	public void printTape() {

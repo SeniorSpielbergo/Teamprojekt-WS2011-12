@@ -22,7 +22,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	public enum ReturnValue {
 		CANCEL, RUN
 	}
-	
+
 	static final long serialVersionUID = -3667258249137827980L;
 	private JPanel inputContainer;
 	private JPanel tapeSettingsContainer;
@@ -60,7 +60,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 * Stores the value returned by the dialog
 	 */
 	private ReturnValue returnValue;
-	
+
 	/**
 	 * Constructs the run window
 	 * @param currentMachine Turing machine needed to show the run settings
@@ -69,28 +69,28 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	public RunWindow(Machine currentMachine) {
 		this.setModal(true);
 		this.machine = currentMachine;
-		
+
 		// window title and size
 		this.setTitle("Run");
 		this.setSize(700, 250);
 		this.setResizable(false);
-		
+
 		// initialize
 		initRunWindow(currentMachine.getNumberOfTapes());
-		
+
 		// set enter and escape button listener
 		InputMap inputMap = runButton.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
 		KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
 		inputMap.put(enter, "ENTER");
 		runButton.getActionMap().put("ENTER", new ClickAction(runButton));
-		
+
 		KeyStroke cancel = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
 		inputMap.put(cancel, "ESC");
 		runButton.getActionMap().put("ESC", new ClickAction(cancelButton));
 		cancelButton.addActionListener(this);
 		runButton.addActionListener(this);
 		this.getRootPane().setDefaultButton(runButton);
-		
+
 		// layout for run and cancel button
 		Container contentPane = this.getContentPane();
 		BoxLayout runCancel = new BoxLayout(runCancelContainer, BoxLayout.X_AXIS);
@@ -98,12 +98,12 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		runCancelContainer.add(cancelButton);
 		runCancelContainer.add(Box.createHorizontalGlue());
 		runCancelContainer.add(runButton);
-		
+
 		// show window content
 		for (int i = 0; i < tapeCombo.length; i++) {
 			Tape.Type tapeType = this.machine.getTapes().get(i).getType();
 			GridBagConstraints c = new GridBagConstraints();
-			
+
 			// initialize the fields to display the content
 			tapeCombo[i] = new JComboBox();
 			robotCombo1[i] = new JComboBox();
@@ -118,7 +118,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 
 			robotCombo1[i].addActionListener(createItemListener(i));
 			robotCombo2[i].addActionListener(createItemListener(i));
-			
+
 			// initialize the combo boxes
 			for (int j = 0; j < description.length; j++) {
 				tapeCombo[i].addItem(description[j]);
@@ -135,7 +135,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			}
 			// set input word for tape i
 			tapeInput[i].setText(currentMachine.getTapes().get(i).getInputWord()); 
-			
+
 			// layout for tape settings tab
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.gridx = 0;
@@ -194,20 +194,20 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		inputPane = new JScrollPane(inputContainer);
 		tapeSettingsPane = new JScrollPane(tapeSettingsContainer);
 		robotSettingsPane = new JScrollPane(robotSettingsContainer);
-		
+
 		// add run and cancel button at the end
 		contentPane.add(runCancelContainer, BorderLayout.AFTER_LAST_LINE);
-		
+
 		// add tabs
 		tabbedPane.addTab("Input", inputPane);
 		tabbedPane.addTab("Tape settings", tapeSettingsPane);
 		tabbedPane.addTab("Robot settings", robotSettingsPane);
-		
+
 		// add to window
 		contentPane.add(tabbedPane);
 		refreshRobotSettings();
 	}
-	
+
 	/**
 	 * Refreshes the tape to a certain type
 	 * @param tape Tape number
@@ -230,7 +230,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		}
 		else if (type == Tape.Type.CONSOLE) {
 			Tape tape_console = new ConsoleTape(machine.getTapes().get(tape).getName(), machine.getTapes().get(tape).isInputAllowed());
-			
+
 			try {
 				tape_console.setInputWord(machine.getTapes().get(tape).getInputWord());
 			} catch (TapeException e1) {
@@ -240,10 +240,18 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			machine.getTapes().add(tape, tape_console);
 		}
 		else if (type == Tape.Type.GRAPHIC) {
-			// TODO refresh graphic tape
+			Tape tape_graphic = new GraphicTape(machine.getTapes().get(tape).getName(),
+					machine.getTapes().get(tape).isInputAllowed());
+			try {
+				tape_graphic.setInputWord(machine.getTapes().get(tape).getInputWord());
+			} catch (TapeException e1) {
+				ErrorDialog.showError("Error changing Tapetype", e1);
+			}						
+			machine.getTapes().remove(tape);						
+			machine.getTapes().add(tape, tape_graphic);
 		}
 	}
-	
+
 	/**
 	 * Refreshes the robot settings tab on change
 	 */
@@ -273,7 +281,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			tabbedPane.setEnabledAt(2, true);
 		}
 	}
-	
+
 	/**
 	 * Initializes the window
 	 * @param tapes Number of tapes
@@ -301,17 +309,17 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		runButton = new JButton("Run");
 		cancelButton = new JButton("Cancel");
 	}
-	
+
 	/**
 	 * Shows the window
 	 * @return RUN/CANCEL depending on the user decision
 	 */
 	public ReturnValue showDialog() {
 		this.setVisible(true);
-		
+
 		return returnValue;
 	}
-	
+
 	/**
 	 * Updates the input words for the tapes
 	 */
@@ -326,7 +334,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			}
 		}
 	}
-	
+
 	/**
 	 * Checks if robots are assigned to more than one tape
 	 * @return true/false accordingly
@@ -353,7 +361,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Creates an ItemListener listening to changes in the combo boxes
 	 * @param index Number of the combo box
@@ -384,7 +392,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			}
 		};
 	}
-	
+
 	/**
 	 * Responds to a clicked button
 	 * @param e ActionEvent that indicates changes
@@ -409,7 +417,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			}
 		}
 	}
-	
+
 	/**
 	 * Responds to a released key
 	 * @param e KeyEvent that indicates changes
@@ -421,32 +429,32 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			this.machine.getTapes().get(i).setName(tapeName[i].getText());
 		}
 	}
-	
+
 	/**
 	 * Responds to a pressed key
 	 * @param e KeyEvent that indicates changes
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
+
 	}
-	
+
 	/**
 	 * Responds to a typed key
 	 * @param e KeyEvent that indicates changes
 	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
-		
+
 	}
-	
+
 	/**
 	 * Used for the window focused actions
 	 */
 	public class ClickAction extends AbstractAction {
 		static final long serialVersionUID = -3667258249137827980L;
 		private JButton button;
-		
+
 		/**
 		 * Constructs a new ClickAction
 		 * @param button Button that should get a new ClickAction
@@ -454,7 +462,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		public ClickAction(JButton button) {
 			this.button = button;
 		}
-		
+
 		/**
 		 * Responds to a clicked button
 		 * @param e ActionEvent that indicates changes

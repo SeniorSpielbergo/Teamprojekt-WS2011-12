@@ -346,11 +346,11 @@ public class Editor extends JFrame implements ActionListener {
 	 * Simulates the Turing machine
 	 */
 	public void simulate() {
-		TapeWindow tapeWindow = new TapeWindow();
-		tapeWindow.init();
 		//create tapes and write input
 		try {
 			this.currentMachine.initTapes();
+			TapeWindow tapeWindow = new TapeWindow(this.currentMachine.getTapes());
+			tapeWindow.init();
 		}
 		catch (TapeException e){
 			try {
