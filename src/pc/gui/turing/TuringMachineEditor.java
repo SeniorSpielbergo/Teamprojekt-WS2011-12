@@ -86,7 +86,7 @@ public class TuringMachineEditor extends MachineEditor {
 		this.jSplitPaneHorizontal = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				this.jPanelLeft, this.jPanelGraph);
 		this.jSplitPaneHorizontal.setOneTouchExpandable(true);
-		this.jSplitPaneHorizontal.setDividerLocation(150);
+		this.jSplitPaneHorizontal.setDividerLocation(250);
 		Dimension minimumSize = new Dimension(100, 50);
 		this.jPanelLeft.setMinimumSize(minimumSize);
 		this.jPanelGraph.setMinimumSize(minimumSize);
