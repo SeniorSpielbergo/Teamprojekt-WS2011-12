@@ -129,7 +129,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 				else if (tapeType == Tape.Type.CONSOLE) {
 					tapeCombo[i].setSelectedItem(description[1]);
 				}
-				else if (tapeType == Tape.Type.GUI) {
+				else if (tapeType == Tape.Type.GRAPHIC) {
 					tapeCombo[i].setSelectedItem(description[2]);
 				}
 			}
@@ -239,7 +239,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			machine.getTapes().remove(tape);						
 			machine.getTapes().add(tape, tape_console);
 		}
-		else if (type == Tape.Type.GUI) {
+		else if (type == Tape.Type.GRAPHIC) {
 			// TODO refresh graphic tape
 		}
 	}
@@ -259,7 +259,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 				robotCombo2[i].setVisible(true);
 				counter++;
 			}
-			else if (tapes.get(i).getType() == Tape.Type.CONSOLE || tapes.get(i).getType() == Tape.Type.GUI) {
+			else if (tapes.get(i).getType() == Tape.Type.CONSOLE || tapes.get(i).getType() == Tape.Type.GRAPHIC) {
 				robotTapeLabel[i].setVisible(false);
 				robotCombo1[i].setVisible(false);
 				robotCombo2[i].setVisible(false);
@@ -373,7 +373,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 							refreshRobotSettings();
 						}
 						else if (tapeCombo[index].getSelectedItem().toString() == description[2]) {
-							refreshTapes(index, Tape.Type.GUI);
+							refreshTapes(index, Tape.Type.GRAPHIC);
 							refreshRobotSettings();
 						}
 					}
