@@ -358,11 +358,10 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 */
 	private ActionListener createItemListener(final int index) {
 		return new ActionListener() {
-			public void actionPerformed(ActionEvent e) { //TODO check if it works
+			public void actionPerformed(ActionEvent e) {
 				if (tabbedPane.getTabCount() == 3) {
 					if (e.getSource().equals(tapeCombo[index])) {
 						if (tapeCombo[index].getSelectedItem().toString() == description[0]) {
-							System.out.println("lego");	//TODO delete
 							refreshTapes(index, Tape.Type.LEGO);
 							refreshRobotSettings();
 						}
