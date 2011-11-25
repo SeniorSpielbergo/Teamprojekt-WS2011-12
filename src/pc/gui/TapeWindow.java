@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
 
-import tape.Tape.Type;
-
 public class TapeWindow extends JFrame {
 
 	JScrollPane scrollpaneRight;
@@ -14,7 +12,7 @@ public class TapeWindow extends JFrame {
 
 	public TapeWindow(ArrayList<tape.Tape> tapes){
 		for(int i = 0; i< tapes.size(); i++){
-			if(tapes.get(i).getType() == Type.GRAPHIC){
+			if(tapes.get(i).getType() == tape.Tape.Type.GRAPHIC){
 				graphicTapes.add((tape.GraphicTape)tapes.get(i)); 
 			}
 		}
