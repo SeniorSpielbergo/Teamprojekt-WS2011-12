@@ -252,13 +252,34 @@ public class TuringMachine extends Machine{
 				if (this.getStateById(id) != null) {
 					throw new IOException("State ID '" + id + "' already exists! Please check your xml file!");
 				}
-//
-//				String startString = currentElement.getAttribute("start");
-//				String startString = currentElement.getAttribute("start");
-//				String startString = currentElement.getAttribute("start");
-//				String startString = currentElement.getAttribute("start");
-//				String startString = currentElement.getAttribute("start");
-//				String startString = currentElement.getAttribute("start");
+				
+				//read start and final attribute
+				boolean startState = false;
+				String startString = currentElement.getAttribute("start");
+				if (startString.equals("yes")) {
+					startState = true;
+				}
+				else if (startString.equals("no")) {
+					startState = false;
+				}
+				else {
+					throw new IOException("Expected 'yes' or 'no' in attribute 'start' for State ID '" + id + "' but found '" + startString + "'.");
+				}
+				
+				boolean finalState = false;
+				String finalString = currentElement.getAttribute("final");
+				if (finalString.equals("yes")) {
+					finalState = true;
+				}
+				else if (finalString.equals("no")) {
+					finalState = false;
+				}
+				else {
+					throw new IOException("Expected 'yes' or 'no' in attribute 'start' for State ID '" + id + "' but found '" + startString + "'.");
+				}
+				
+				//read state p
+
 
 //				State.Type type = null;
 //				String typeString = currentElement.getAttribute("type");
