@@ -11,20 +11,20 @@ public class State {
 	/**
 	 * Represents the different types of states
 	 */
-	public enum Type {
-		/**
-		 * A Start state
-		 */
-		START, 
-		/**
-		 * A normal state
-		 */
-		NORMAL, 
-		/**
-		 * A final state
-		 */
-		FINAL
-	}
+//	public enum Type {
+//		/**
+//		 * A Start state
+//		 */
+//		START, 
+//		/**
+//		 * A normal state
+//		 */
+//		NORMAL, 
+//		/**
+//		 * A final state
+//		 */
+//		FINAL
+//	}
 
 	/**
 	 * The state id string for internal use
@@ -37,7 +37,9 @@ public class State {
 	/**
 	 * The state type
 	 */
-	protected Type type; // FIXME: States can be start and final at the same time 
+	protected boolean startState; // FIXME: States can be start and final at the same time 
+	
+	protected boolean finalState;
 	/**
 	 * Contains all edges starting at this state //TODO: review if it is better to search the edges dynamically
 	 */
@@ -53,10 +55,11 @@ public class State {
 	protected double xcoord, ycoord, height, width;
 	
 	
-	public State(String id, String name, Type type) {
+	public State(String id, String name, boolean startState, boolean finalState) {
 		this.id = id;
 		this.name = name;
-		this.type = type;
+		this.startState = startState;
+		this.finalState = finalState;
 		this.edge = new ArrayList<Edge>();
 	}
 	
@@ -99,26 +102,38 @@ public class State {
 	public void setEdge(ArrayList<Edge> edge) {
 		this.edge = edge;
 	}
-	
-	/**
-	 * Returns the state type
-	 * @return State type
-	 */
-	public Type getType() {
-		return this.type;
-	}
-	
-	/**
-	 * Sets the state type
-	 * @param type State type
-	 */
-	public void setType(Type type) {
-		this.type = type;
-	}
-	
+		
 	
 	public double getxcoord() {
 		return xcoord;
+	}
+	/**
+	 * Returns if this state is startstate
+	 * @return  true if this state is startstate
+	 */
+	public boolean isStartState() {
+		return startState;
+	}
+	/**
+	 * Sets the startstate 
+	 * @param true true if state is startState 
+	 */
+	public void setStartState(boolean startState) {
+		this.startState = startState;
+	}
+	/**
+	 * Returns if this state is finalstate
+	 * @return  true if this state is finalstate
+	 */
+	public boolean isFinalState() {
+		return finalState;
+	}
+	/**
+	 * Sets the finalstate
+	 * @param true true if state is finalState 
+	 */
+	public void setFinalState(boolean finalState) {
+		this.finalState = finalState;
 	}
 
 	public void setxcoord(double xcoord) {
@@ -154,6 +169,6 @@ public class State {
 	 */
 	@Override
 	public String toString() {
-		return "State [id=" + id + ", name=" + name + ", type=" + type + "]";
+		return "State [id=" + id + ", name=" + name + ", start: " + isStartState() + ", final: "+ isFinalState()+ "]";
 	}
 }
