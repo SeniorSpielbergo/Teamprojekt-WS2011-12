@@ -112,6 +112,9 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			tapeName[i] = new JTextField(this.machine.getTapes().get(i).getName(), 20);
 			tapeName[i].addKeyListener(this);
 			tapeInput[i] = new JTextField(20);
+			if (!this.machine.getTapes().get(i).isInputAllowed()) {
+				tapeInput[i].setEditable(false);
+			}
 
 			robotCombo1[i].addActionListener(createItemListener(i));
 			robotCombo2[i].addActionListener(createItemListener(i));
