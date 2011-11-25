@@ -60,7 +60,7 @@ public class TuringMachineEditor extends MachineEditor {
 			Object v1 = graph.insertVertex(parent, null, "Hello", 20, 20, 80,
 					30);
 			Object v2 = graph.insertVertex(parent, null, "World!", 240, 150,
-					80, 30);
+					80, 30,"ROUNDED");
 			graph.insertEdge(parent, null, "Edge", v1, v2);
 		}
 		finally
