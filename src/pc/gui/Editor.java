@@ -39,15 +39,11 @@ public class Editor extends JFrame implements ActionListener {
 	private JMenuItem saveAsAction;
 	private JMenuItem exportLatexAction;
 	private JMenuItem exitAction;
-	private JMenuItem copyAction;
-	private JMenuItem cutAction;
-	private JMenuItem pasteAction;
 	private JMenuItem runAction;
 	private JMenuItem organizeRobotsAction;
 	private JMenuItem aboutAction;
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
-	private JMenu editMenu;
 	private JMenu simulationMenu;
 	private JMenu helpMenu;
 	private final JFileChooser fc = new JFileChooser();
@@ -96,7 +92,6 @@ public class Editor extends JFrame implements ActionListener {
 		});
 
 		menuBar.add(fileMenu);
-		menuBar.add(editMenu);
 		menuBar.add(simulationMenu);
 		menuBar.add(helpMenu);
 
@@ -117,9 +112,6 @@ public class Editor extends JFrame implements ActionListener {
 		fileMenu.add(exitAction);
 		simulationMenu.add(runAction);
 		simulationMenu.add(organizeRobotsAction);
-		editMenu.add(copyAction);
-		editMenu.add(cutAction);
-		editMenu.add(pasteAction);
 		helpMenu.add(aboutAction);
 
 		// menu shortcuts
@@ -128,9 +120,6 @@ public class Editor extends JFrame implements ActionListener {
 		openAction.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		copyAction.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		cutAction.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		pasteAction.setAccelerator(KeyStroke.getKeyStroke('V', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		runAction.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 	}
 
@@ -183,15 +172,12 @@ public class Editor extends JFrame implements ActionListener {
 		exportLatexAction = new JMenuItem("Export as LaTeX");
 		exitAction = new JMenuItem("Exit");
 		runAction = new JMenuItem("Run...");
-		copyAction = new JMenuItem("Copy");
-		cutAction = new JMenuItem("Cut");
-		pasteAction = new JMenuItem("Paste");
+
 		organizeRobotsAction = new JMenuItem("Organize robots...");
 		aboutAction = new JMenuItem("About...");
 
 		// create menu items
 		fileMenu = new JMenu("File");
-		editMenu = new JMenu("Edit");
 		simulationMenu = new JMenu("Simulation");
 		helpMenu = new JMenu("Help");
 
@@ -204,9 +190,6 @@ public class Editor extends JFrame implements ActionListener {
 		exportLatexAction.addActionListener(this);
 		exitAction.addActionListener(this);
 		runAction.addActionListener(this);
-		copyAction.addActionListener(this);
-		cutAction.addActionListener(this);
-		pasteAction.addActionListener(this);
 		organizeRobotsAction.addActionListener(this);
 		aboutAction.addActionListener(this);
 	}
@@ -424,15 +407,6 @@ public class Editor extends JFrame implements ActionListener {
 		}
 		else if (e.getSource() == organizeRobotsAction) {
 			organizeRobots();
-		}
-		else if (e.getSource() == copyAction) {
-			JOptionPane.showMessageDialog(null, "Not implemented yet!");
-		}
-		else if (e.getSource() == cutAction) {
-			JOptionPane.showMessageDialog(null, "Not implemented yet!");
-		}
-		else if (e.getSource() == pasteAction) {
-			JOptionPane.showMessageDialog(null, "Not implemented yet!");
 		}
 		else if (e.getSource() == aboutAction) {
 			JOptionPane.showMessageDialog(null, "Not implemented yet!");

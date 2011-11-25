@@ -4,10 +4,18 @@ import java.util.ArrayList;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import machine.turing.*;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.KeyStroke;
 
 import machine.turing.Edge;
 import machine.turing.State;
@@ -27,7 +35,7 @@ import com.mxgraph.util.mxEventObject;
 
 import gui.MachineEditor;
 
-public class TuringMachineEditor extends MachineEditor {
+public class TuringMachineEditor extends MachineEditor implements ActionListener{
 	private TuringMachine machine = null;
 	private Object selectedObject = null;
 	private StateList graphicalStates = null;
@@ -40,6 +48,12 @@ public class TuringMachineEditor extends MachineEditor {
 	protected JPanel jPanelToolBox = null;
 	protected JPanel jPanelProperties = null;
 	protected ToolBox toolBox = new ToolBox();
+	
+	private JMenu editMenu;
+	private JMenuItem copyAction;
+	private JMenuItem cutAction;
+	private JMenuItem pasteAction;
+
 	/**
 	 * 
 	 * @author Philipp
@@ -67,6 +81,9 @@ public class TuringMachineEditor extends MachineEditor {
 	public TuringMachineEditor(TuringMachine machine) {
 		super();
 		this.machine = machine;
+		
+		this.initEditor();
+		
 		this.graphicalStates = new StateList(machine.getStates().size());
 		this.graphicalEdges = new ArrayList<mxCell>(machine.getEdges().size());
 
@@ -130,6 +147,30 @@ public class TuringMachineEditor extends MachineEditor {
 //			this.displayProperties(this.machine.getEdges().get(0));
 //		}
 	}
+	
+	/**
+	 * Initializes the editor
+	 */
+	public void initEditor() {
+		editMenu = new JMenu("Edit");
+		copyAction = new JMenuItem("Copy");
+		cutAction = new JMenuItem("Cut");
+		pasteAction = new JMenuItem("Paste");
+		
+		editMenu.add(copyAction);
+		editMenu.add(cutAction);
+		editMenu.add(pasteAction);
+		this.getMenus().add(editMenu);
+		
+		copyAction.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		cutAction.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		pasteAction.setAccelerator(KeyStroke.getKeyStroke('V', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	
+		copyAction.addActionListener(this);
+		cutAction.addActionListener(this);
+		pasteAction.addActionListener(this);
+	}
+
 
 	private void displayProperties(Edge edge) {
 		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge);
@@ -171,4 +212,20 @@ public class TuringMachineEditor extends MachineEditor {
 		}
 	}
 
+	/**
+	 * Responds to a clicked button
+	 * @param e ActionEvent that indicates changes
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == copyAction) {
+			JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		}
+		else if (e.getSource() == cutAction) {
+			JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		}
+		else if (e.getSource() == pasteAction) {
+			JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		}
+	}
 }

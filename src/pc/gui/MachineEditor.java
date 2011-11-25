@@ -12,7 +12,7 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public abstract class MachineEditor extends JPanel {
-	private ArrayList<JMenu> menus;
+	private ArrayList<JMenu> menus = new ArrayList<JMenu>();
 
 	public ArrayList<JMenu> getMenus() {
 		return menus;
