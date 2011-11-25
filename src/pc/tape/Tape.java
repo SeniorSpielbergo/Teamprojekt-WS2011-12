@@ -26,6 +26,10 @@ public abstract class Tape {
 	 * The initial input word for the tape
 	 */
 	protected String inputWord = "";
+	/**
+	 * Allow input on the tape (default true)
+	 */
+	protected boolean allowInput = true;
 
 	/**
 	 * Enum representing the tape types
@@ -53,11 +57,30 @@ public abstract class Tape {
 	}
 
 	/**
+	 * Creates a new tape
+	 * @param allowInput true/false if allowed
+	 */
+	public Tape(boolean allowInput) {
+		this.name = "Default tape";
+		this.allowInput = allowInput;
+	}
+
+	/**
 	 * Creates a new tape with a specific name
 	 * @param name The tape name
 	 */
 	public Tape(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Creates a new tape with a specific name
+	 * @param name The tape name
+	 * @param allowInput true/false if allowed
+	 */
+	public Tape(String name, boolean allowInput) {
+		this.name = name;
+		this.allowInput = allowInput;
 	}
 
 	/**
@@ -169,7 +192,11 @@ public abstract class Tape {
 		this.inputWord = inputWord;
 	}
 
-
-
+	/**
+	 * Returns if input allowed
+	 */
+	public boolean isInputAllowed() {
+		return this.allowInput;
+	}
 
 }
