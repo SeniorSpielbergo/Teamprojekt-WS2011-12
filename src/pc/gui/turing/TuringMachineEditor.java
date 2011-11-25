@@ -78,6 +78,7 @@ public class TuringMachineEditor extends MachineEditor {
 			v2 = graph.insertVertex(parent, null, s2, 240, 150,
 					80, 30);
 			graph.insertEdge(parent, null, new Edge(s1,s2,null), v1, v2);
+
 		}
 		finally
 		{
