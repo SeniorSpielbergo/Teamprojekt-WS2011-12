@@ -30,8 +30,8 @@ import gui.MachineEditor;
 public class TuringMachineEditor extends MachineEditor {
 	private TuringMachine machine = null;
 	private Object selectedObject = null;
-	private ArrayList<Object> graphicalStates = null;
-	private ArrayList<Object> graphicalEdges = null;
+	private StateList graphicalStates = null;
+	private ArrayList<mxCell> graphicalEdges = null;
 	
 	protected JPanel jPanelLeft = null;
 	protected JPanel jPanelGraph = null;
@@ -40,11 +40,26 @@ public class TuringMachineEditor extends MachineEditor {
 	protected JPanel jPanelToolBox = null;
 	protected JPanel jPanelProperties = null;
 	
+	class StateList extends ArrayList<mxCell>{
+		public StateList(int size){
+			super(size);
+		}
+		
+		mxCell getMxCell(State state){							
+			for (int i = 0; i < this.size(); i++) {
+				if(this.get(i).getValue().equals((Object) state)){
+					return this.get(i);
+				}
+			}
+			return null;
+		}
+	}
+	
 	public TuringMachineEditor(TuringMachine machine) {
 		super();
 		this.machine = machine;
-		this.graphicalStates = new ArrayList<Object>(machine.getStates().size());
-		this.graphicalEdges = new ArrayList<Object>(machine.getEdges().size());
+		this.graphicalStates = new StateList(machine.getStates().size());
+		this.graphicalEdges = new ArrayList<mxCell>(machine.getEdges().size());
 		
 		//create left panel
 		this.jPanelLeft = new JPanel();
@@ -121,7 +136,18 @@ public class TuringMachineEditor extends MachineEditor {
 		ArrayList<Edge> edges = this.machine.getEdges();
 		
 		for (int i = 0;  i < states.size(); i++){
-			graphicalStates[i] = graph.insertVertex(graph.getDefaultParent(), null, states.get(i), states.get(i).getXcoord(), states.get(i).getYcoord(), states.get(i).getWidth(), states.get(i).getHeight());
+			graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
+					states.get(i), states.get(i).getXcoord(), states.get(i).getYcoord(), 
+					states.get(i).getWidth(), states.get(i).getHeight()));
+		}
+		
+		Edge currentEdge = null;
+		mxCell v1 = null;
+		Object v2 = null;
+		for (int i = 0; i < edges.size(); i++){
+			currentEdge = edges.get(i);
+			v1 =  graphicalStates.getMxCell(currentEdge.getFrom());
+			
 		}
 	}
 
