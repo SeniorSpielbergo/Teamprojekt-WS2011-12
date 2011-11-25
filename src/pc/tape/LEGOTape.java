@@ -42,6 +42,20 @@ public class LEGOTape extends Tape {
 		this.slave = slave;
 		this.name = "Default LEGO tape";
 	}
+	
+	/**
+	 * Constructs a new LEGO tape based on two NXT robots with the name "Default LEGO tape"
+	 * @param master The robot that can move the tape, read and write symbols
+	 * @param slave The robot that can only write
+	 * @param allowInput true/false if allowed
+	 * @see #LEGOTape(String, MasterRobot, SlaveRobot)
+	 */
+	public LEGOTape(MasterRobot master, SlaveRobot slave, boolean allowInput) {
+		this.master = master;
+		this.slave = slave;
+		this.name = "Default LEGO tape";
+		this.allowInput = allowInput;
+	}
 
 	/**
 	 * Constructs a new LEGO tape based on two NXT robots with a specific name
@@ -53,6 +67,20 @@ public class LEGOTape extends Tape {
 		this.master = master;
 		this.slave = slave;
 		this.name = name;
+	}
+	
+	/**
+	 * Constructs a new LEGO tape based on two NXT robots with a specific name
+	 * @param name Tape name string
+	 * @param master The robot that can move the tape, read and write symbols
+	 * @param slave The robot that can only write
+	 * @param allowInput true/false if allowed
+	 */
+	public LEGOTape(String name, MasterRobot master, SlaveRobot slave, boolean allowInput) {
+		this.master = master;
+		this.slave = slave;
+		this.name = name;
+		this.allowInput = allowInput;
 	}
 
 	/**

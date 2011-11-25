@@ -20,6 +20,14 @@ public class ConsoleTape extends Tape {
 	public ConsoleTape() {
 		super("Default console tape");
 	}
+	
+	/**
+	 * Creates a new console tape
+	 * @param allowInput true/false if allowed
+	 */
+	public ConsoleTape(boolean allowInput) {
+		super("Default console tape", allowInput);
+	}
 
 	/**
 	 * Creates a new console tape with a specific name
@@ -29,6 +37,15 @@ public class ConsoleTape extends Tape {
 		super(name);
 	}
 
+	/**
+	 * Creates a new console tape with a specific name
+	 * @param name The tape name
+	 * @param allowInput true/false if allowed
+	 */
+	public ConsoleTape(String name, boolean allowInput) {
+		super(name, allowInput);
+	}
+	
 	/** 
 	 * This method initializes the tape
 	 * @throws TapeException If the tape has already been initialized
