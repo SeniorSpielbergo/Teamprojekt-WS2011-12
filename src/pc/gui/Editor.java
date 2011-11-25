@@ -72,7 +72,7 @@ public class Editor extends JFrame implements ActionListener {
 		// set xml filter for file chooser
 		fc.setFileFilter (new FileFilter() {
 			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith( ".bf" );
+				return f.isDirectory() || f.getName().toLowerCase().endsWith(".bf");
 			}
 			public String getDescription() {
 				return "*.bf";
@@ -80,10 +80,18 @@ public class Editor extends JFrame implements ActionListener {
 		});
 		fc.setFileFilter (new FileFilter() {
 			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith( ".xml" );
+				return f.isDirectory() || f.getName().toLowerCase().endsWith(".tm");
 			}
 			public String getDescription() {
-				return "*.xml";
+				return "*.tm";
+			}
+		});
+		fc.setFileFilter (new FileFilter() {
+			public boolean accept(File f) {
+				return f.isDirectory() || f.getName().toLowerCase().endsWith(".tm") || f.getName().toLowerCase().endsWith(".bf");
+			}
+			public String getDescription() {
+				return "*.bf, *.tm";
 			}
 		});
 
