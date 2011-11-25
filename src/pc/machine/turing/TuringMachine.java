@@ -252,22 +252,22 @@ public class TuringMachine extends Machine{
 					throw new IOException("State ID '" + id + "' already exists! Please check your xml file!");
 				}
 
-				State.Type type = null;
-				String typeString = currentElement.getAttribute("type");
-				if (typeString.equals("start")) {
-					type = State.Type.START;
-				}
-				else if (typeString.equals("normal")) {
-					type = State.Type.NORMAL;
-				}
-				else if (typeString.equals("final")) {
-					type = State.Type.FINAL;
-				}
-				else {
-					throw new IOException("Unsupported state type '" + typeString + "' for the state with id " + id + ".  Expected 'start', 'final' or 'normal'.");
-				}
+//				State.Type type = null;
+//				String typeString = currentElement.getAttribute("type");
+//				if (typeString.equals("start")) {
+//					type = State.Type.START;
+//				}
+//				else if (typeString.equals("normal")) {
+//					type = State.Type.NORMAL;
+//				}
+//				else if (typeString.equals("final")) {
+//					type = State.Type.FINAL;
+//				}
+//				else {
+//					throw new IOException("Unsupported state type '" + typeString + "' for the state with id " + id + ".  Expected 'start', 'final' or 'normal'.");
+//				}
 				String name = InOut.getTagValue("name", currentElement);
-				State state = new State(id, name, type);
+				State state = new State(id, name, false, false);//TODO: fix
 				states.add(state);
 				System.out.println(" " + state); //TODO: remove debug output
 			}
@@ -396,7 +396,7 @@ public class TuringMachine extends Machine{
 	public void save(String filename) throws IOException {
 		System.out.println("Saving file '" + filename + "'...");
 
-		if (!filename.endsWith(".xml")) {
+		if (!filename.endsWith(".tm")) {
 			throw new IOException("Wrong file extension of file '" + filename + "'. Must be '.xml'");
 		}
 
@@ -438,7 +438,7 @@ public class TuringMachine extends Machine{
 		
 		// save xml version number
 		Attr attrXMLVersion = doc.createAttribute("xml-version");
-		attrXMLVersion.setValue("2");
+		attrXMLVersion.setValue("3");
 		rootElement.setAttributeNode(attrXMLVersion);
 		
 		//save the rest
@@ -530,25 +530,43 @@ public class TuringMachine extends Machine{
 			attrStateId.setValue(state.getId());
 			stateElement.setAttributeNode(attrStateId);
 
-			// save type of state
-			Attr attrType = doc.createAttribute("type");
-			String type;
-			switch(state.getType()) {
-			case START:
-				type = "start";
-				break;
-			case NORMAL:
-				type = "normal";
-				break;
-			case FINAL:
-				type = "final";
-				break;
-			default:
-				type = "normal";
-				break;
-			}
-			attrType.setValue(type);
-			stateElement.setAttributeNode(attrType);
+//			// save type of state
+//			Attr attrStart = doc.createAttribute("start");
+//			if (state.isStartState()) {
+//				attrStart.setValue("yes");
+//			}
+//			else {
+//				attrStart.setValue("no");
+//			}
+//			stateElement.setAttributeNode(attrStart);
+//
+//			Attr attrFinal = doc.createAttribute("final");
+//			if (state.isFinalState()) {
+//				attrFinal.setValue("yes");
+//			}
+//			else {
+//				attrFinal.setValue("no");
+//			}
+//			stateElement.setAttributeNode(attrFinal);
+//			
+//			// save the state position
+//			Attr attrStart = doc.createAttribute("start");
+//			if (state.isStartState()) {
+//				attrStart.setValue("yes");
+//			}
+//			else {
+//				attrStart.setValue("no");
+//			}
+//			stateElement.setAttributeNode(attrStart);
+//
+//			Attr attrFinal = doc.createAttribute("final");
+//			if (state.isFinalState()) {
+//				attrFinal.setValue("yes");
+//			}
+//			else {
+//				attrFinal.setValue("no");
+//			}
+//			stateElement.setAttributeNode(attrFinal);
 
 			// state name element
 			Element nameElement = doc.createElement("name");

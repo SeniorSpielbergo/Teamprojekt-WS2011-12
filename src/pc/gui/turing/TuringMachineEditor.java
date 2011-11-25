@@ -71,8 +71,8 @@ public class TuringMachineEditor extends MachineEditor {
 		graph.getModel().beginUpdate();
 		try
 		{
-			State s1 = new State("1", "abc", State.Type.START);
-			State s2 = new State("2", "def", State.Type.FINAL);
+			State s1 = new State("1", "abc", false, false);
+			State s2 = new State("2", "def", false, false);
 			v1 = graph.insertVertex(parent, null, s1, 20, 20, 80,
 					30);
 			v2 = graph.insertVertex(parent, null, s2, 240, 150,

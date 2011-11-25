@@ -88,18 +88,18 @@ public class InOut {
 			String type = "";
 			String name = currentState.getName();
 			// check type of node
-			switch (currentState.getType()) {
-			case START:
-				type = ", initial";
-				break;
-			case NORMAL:
-				break;
-			case FINAL:
-				type = ", accepting";
-				break;
-			default:
-				break;
-			}
+//			switch (currentState.getType()) { //TODO: change to new booleans
+//			case START:
+//				type = ", initial";
+//				break;
+//			case NORMAL:
+//				break;
+//			case FINAL:
+//				type = ", accepting";
+//				break;
+//			default:
+//				break;
+//			}
 
 			if (i % 3 == 0) {
 				if (i == 0) {
