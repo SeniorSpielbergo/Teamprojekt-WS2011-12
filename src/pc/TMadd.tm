@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<machine name="test" tapes="1" xml-version="2">
+<machine name="test" tapes="1" xml-version="3">
 	<tape type="console">
 		<name>Primary tape</name>
 		<input>
@@ -12,28 +12,28 @@
 	        <symbol>#</symbol>
 		</input>
 	</tape>
-	<state id="0" type="start">
+	<state id="0" start="yes" final="no">
         <name>qS</name>
     </state>
-    <state id="1" type="normal">
+    <state id="1" start="no" final="no">
         <name>q0</name>
     </state>
-    <state id="2" type="normal">
+    <state id="2" start="no" final="no">
         <name>q1</name>
     </state>
-    <state id="3" type="normal">
+    <state id="3" start="no" final="no">
         <name>q2</name>
     </state>
-    <state id="4" type="normal">
+    <state id="4" start="no" final="no">
         <name>q3</name>
     </state>
-    <state id="5" type="normal">
+    <state id="5" start="no" final="no">
         <name>q4</name>
     </state>
-    <state id="6" type="normal">
+    <state id="6" start="no" final="no">
         <name>q5</name>
     </state>
-    <state id="7" type="final">
+    <state id="7" start="no" final="yes">
         <name>qF</name>
     </state>
     <edge from="0" to="1">
