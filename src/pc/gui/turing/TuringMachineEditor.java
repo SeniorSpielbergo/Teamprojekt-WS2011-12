@@ -32,14 +32,14 @@ public class TuringMachineEditor extends MachineEditor {
 	private Object selectedObject = null;
 	private StateList graphicalStates = null;
 	private ArrayList<mxCell> graphicalEdges = null;
-	
+
 	protected JPanel jPanelLeft = null;
 	protected JPanel jPanelGraph = null;
 	protected mxGraph graph = null;
 	protected JSplitPane jSplitPaneHorizontal = null;
 	protected JPanel jPanelToolBox = null;
 	protected JPanel jPanelProperties = null;
-	
+	protected ToolBox toolBox = new ToolBox();
 	/**
 	 * 
 	 * @author Philipp
@@ -63,13 +63,13 @@ public class TuringMachineEditor extends MachineEditor {
 			return null;
 		}
 	}
-	
+
 	public TuringMachineEditor(TuringMachine machine) {
 		super();
 		this.machine = machine;
 		this.graphicalStates = new StateList(machine.getStates().size());
 		this.graphicalEdges = new ArrayList<mxCell>(machine.getEdges().size());
-		
+
 		//create left panel
 		this.jPanelLeft = new JPanel();
 		this.jPanelLeft.setLayout(new BorderLayout());
@@ -81,7 +81,7 @@ public class TuringMachineEditor extends MachineEditor {
 		//create main graph panel
 		this.jPanelGraph = new JPanel();
 		this.jPanelGraph.setLayout(new BorderLayout());
-		
+
 		//create split pane
 		this.jSplitPaneHorizontal = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				this.jPanelLeft, this.jPanelGraph);
@@ -92,49 +92,51 @@ public class TuringMachineEditor extends MachineEditor {
 		this.jPanelGraph.setMinimumSize(minimumSize);
 		this.setLayout(new BorderLayout());
 		this.add(this.jSplitPaneHorizontal, BorderLayout.CENTER);
+		jPanelToolBox.add(toolBox);
 
 		//create the graph
-		mxGraph graph = new mxGraph();
-
-		Object parent = graph.getDefaultParent();
-		Object v1;
-		Object v2;
-		graph.getModel().beginUpdate();
-		try
-		{
-			State s1 = new State("1", "abc", false, false);
-			State s2 = new State("2", "def", false, false);
-			v1 = graph.insertVertex(parent, null, s1, 20, 20, 80,
-					30);
-			v2 = graph.insertVertex(parent, null, s2, 240, 150,
-					80, 30);
-			graph.insertEdge(parent, null, new Edge(s1,s2,null), v1, v2);
-
-		}
-		finally
-		{
-			graph.getModel().endUpdate();
-		}
-
+		this.graph = new mxGraph();
+		/*
+		State s1 = new State("1", "s1", true, false);
+		State s2 = new State("2", "s2", false, true);
+		s1.setHeight(5);
+		s1.setWidth(5);
+		s1.setXcoord(10);
+		s1.setYcoord(10);
+		s2.setHeight(5);
+		s2.setWidth(5);
+		s2.setXcoord(40);
+		s2.setYcoord(40);
+		ArrayList<Transition> tl = new ArrayList<Transition>();
+		ArrayList<Character> c1 = new ArrayList<Character>();
+		ArrayList<Character> c2 = new ArrayList<Character>();
+		ArrayList<Character> c3 = new ArrayList<Character>();
+		c1.add('0');
+		c2.add('0');
+		c3.add('N');
+		tl.add(new Transition("1",c1,c2,c3));
+		Edge e1 = new Edge(s1, s2, tl);
+		machine.getStates().add(s1);
+		machine.getStates().add(s2);
+		machine.getEdges().add(e1); */
+		this.drawGraph();
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
-		
-		mxCell c = (mxCell) v1;
-		State s = (State) c.getValue();
-		System.out.println(s.getName());
 
 		
-		if (this.machine != null && this.machine.getEdges().size() > 0) {
-			this.displayProperties(this.machine.getEdges().get(0));
-		}
+
+
+//		if (this.machine != null && this.machine.getEdges().size() > 0) {
+//			this.displayProperties(this.machine.getEdges().get(0));
+//		}
 	}
-	
+
 	private void displayProperties(Edge edge) {
 		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge);
 		jPanelProperties.removeAll();
 		jPanelProperties.add(propertiesEdge);
 	}
-	
+
 	private void displayProperties(State state) {
 		jPanelProperties.removeAll();
 		//jPanelProperties.add(prop); //TODO: implement
@@ -143,24 +145,29 @@ public class TuringMachineEditor extends MachineEditor {
 	private void drawGraph(){
 		ArrayList<State> states = this.machine.getStates();
 		ArrayList<Edge> edges = this.machine.getEdges();
-		
+
 		//load graphical states
-		for (int i = 0;  i < states.size(); i++){
-			graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
-					states.get(i), states.get(i).getXcoord(), states.get(i).getYcoord(), 
-					states.get(i).getWidth(), states.get(i).getHeight()));
-		}
-		
-		//insert graphical Edges
-		Edge currentEdge = null;
-		Object v1 = null;
-		Object v2 = null;
-		for (int i = 0; i < edges.size(); i++){
-			currentEdge = edges.get(i);
-			v1 = graphicalStates.getMxCell(currentEdge.getFrom());
-			v2 = graphicalStates.getMxCell(currentEdge.getTo());
-			graphicalEdges.add(i,(mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2));
-			
+		graph.getModel().beginUpdate();
+		try	{
+			for (int i = 0;  i < states.size(); i++){
+				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
+						states.get(i), states.get(i).getXcoord(), states.get(i).getYcoord(), 
+						states.get(i).getWidth(), states.get(i).getHeight()));
+			}
+
+			//insert graphical Edges
+			Edge currentEdge = null;
+			Object v1 = null;
+			Object v2 = null;
+			for (int i = 0; i < edges.size(); i++){
+				currentEdge = edges.get(i);
+				v1 = graphicalStates.getMxCell(currentEdge.getFrom());
+				v2 = graphicalStates.getMxCell(currentEdge.getTo());
+				graphicalEdges.add(i,(mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2));
+
+			}
+		} finally {
+			graph.getModel().endUpdate();
 		}
 	}
 
