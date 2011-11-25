@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
+
+import machine.turing.*;
 
 import gui.*;
 
-public class PropertiesEdge extends JPanel implements ActionListener, TableModelListener, ListSelectionListener {
+public class PropertiesEdge extends JPanel implements ActionListener, ListSelectionListener {
 	
 	static final long serialVersionUID = -3667258249137827980L;
 	private JTable table;
@@ -24,10 +24,6 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	private int numberTapes;
 	private ListSelectionModel listSelectionModel;
 	/**
-	 * Stores whether the table is initialized
-	 */
-	private boolean tableInitialized = false;
-	/**
 	 * Stores the columns names
 	 */
 	private String[] head = {"Input", "Output", "Action"};
@@ -35,14 +31,22 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	 * Stores which columns are editable
 	 */
 	private boolean[] editable = {false, false, false};
+	/**
+	 * Stores the edited edge
+	 */
+	private Edge edge;
 	
 	/**
 	 * Constructs a panel showing all transitions of the current edge
 	 * @param numberTapes Number of tapes in the current machine
+	 * @param edge The edge that should be edited
 	 */
-	public PropertiesEdge(int numberTapes) {
+	public PropertiesEdge(int numberTapes, Edge edge) {
+		this.edge = edge;
 		this.numberTapes = numberTapes;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setMaximumSize(new Dimension(250, 300));
+		this.setPreferredSize(new Dimension(250, 300));
 		
 		// content panel
 		this.setBorder(BorderFactory.createTitledBorder("Properties"));
@@ -67,7 +71,30 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 			}
 		});
 		
-		// TODO initialize table
+		ArrayList<Transition> transitions = edge.getTransitions();
+		
+		for (int i = 0; i < transitions.size(); i++) {
+			// get character lists
+			ArrayList<Character> action = transitions.get(i).getAction();
+			ArrayList<Character> read = transitions.get(i).getRead();
+			ArrayList<Character> write = transitions.get(i).getWrite();
+			// add array for row
+			String[] transitionString = new String[3];
+			for (int j = 0; j < 3; j++) {
+				transitionString[j] = "";
+			}
+			for (int j = 0; j < action.size(); j++) {
+				transitionString[0] += read.get(j);
+				transitionString[1] += write.get(j);
+				transitionString[2] += action.get(j);
+				if (j < action.size()-1) {
+					transitionString[0] += ", ";
+					transitionString[1] += ", ";
+					transitionString[2] += ", ";
+				}
+			}
+			model.addRow(transitionString);
+		}
 		
 		// scroll panel
 		tablePane = new JScrollPane(table);
@@ -91,32 +118,33 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 		c.insets = new Insets(5,20,5,5);
 		addDeleteContainer.add(addButton, c);
 		this.add(addDeleteContainer, BorderLayout.AFTER_LAST_LINE);
-		
-		tableInitialized = true;
 	}
 	
+	/**
+	 * Opens the edit window and stores the edited data
+	 * @param row The row that should be edited
+	 */
 	private void editTable(int row) {
-		PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes);
-		ArrayList<ArrayList<String>> tempData = editWindow.showEdit();
+		PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes, edge.getTransitions().get(row));
+		Transition editData = editWindow.showEdit();
 		editWindow.setLocationRelativeTo(null);
-		if (tempData != null) {
-			String[] rowData = new String[tempData.get(0).size()];
-			for (int i = 0; i < numberTapes; i++) {
-				for (int j = 0; j < tempData.get(i).size(); j++) {
-					rowData[j] = "";
-				}
+		if (editData != null) {
+			String[] rowData = new String[3];
+			for (int i = 0; i < 3; i++) {
+				rowData[i] = "";
 			}
 			for (int i = 0; i < numberTapes; i++) {
-				for (int j = 0; j < tempData.get(i).size(); j++) {
-					if (i < numberTapes-1) {
-						rowData[j] += tempData.get(i).get(j) + ", ";
-					}
-					else {
-						rowData[j] += tempData.get(i).get(j);
-					}
+				rowData[0] += editData.getRead().get(i).toString();
+				rowData[1] += editData.getWrite().get(i).toString();
+				rowData[2] += editData.getAction().get(i).toString();
+				if (i < numberTapes-1) {
+					rowData[0] += ", ";
+					rowData[1] += ", ";
+					rowData[2] += ", ";
 				}
 			}
 			model.updateRow(rowData, row);
+			edge.getTransitions().set(row, editData);
 		}
 	}
 
@@ -127,54 +155,32 @@ public class PropertiesEdge extends JPanel implements ActionListener, TableModel
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addButton) {
-			PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes);
+			PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes, null);
 			editWindow.setLocationRelativeTo(null);
-			ArrayList<ArrayList<String>> tempData = editWindow.showEdit();
-			if (tempData != null) {
-				String[] rowData = new String[tempData.get(0).size()];
-				for (int i = 0; i < numberTapes; i++) {
-					for (int j = 0; j < tempData.get(i).size(); j++) {
-						rowData[j] = "";
-					}
+			Transition editData = editWindow.showEdit();
+			if (editData != null) {
+				String[] newRow = new String[3];
+				for (int i = 0; i < 3; i++) {
+					newRow[i] = "";
 				}
 				for (int i = 0; i < numberTapes; i++) {
-					for (int j = 0; j < tempData.get(i).size(); j++) {
-						if (i < numberTapes-1) {
-							rowData[j] += tempData.get(i).get(j) + ", ";
-						}
-						else {
-							rowData[j] += tempData.get(i).get(j);
-						}
+					newRow[0] += editData.getRead().get(i).toString();
+					newRow[1] += editData.getWrite().get(i).toString();
+					newRow[2] += editData.getAction().get(i).toString();
+					if (i < numberTapes-1) {
+						newRow[0] += ", ";
+						newRow[1] += ", ";
+						newRow[2] += ", ";
 					}
 				}
-				model.addRow(rowData);
+				model.addRow(newRow);
+				edge.getTransitions().add(editData);
 			}
 		}
 		else if (e.getSource() == deleteButton) {
-			if (table.getSelectedRow() != -1) {
-				model.deleteRow(table.getSelectedRow());
-			}
-		}
-	}
-	
-	/**
-	 * Responds to data changes in the table
-	 * @param e TableModelEvent that indicates changes
-	 */
-	@Override
-	public void tableChanged(TableModelEvent e) {
-		if (tableInitialized) {
-			int row = e.getFirstRow();
-			int col = e.getColumn();
-			if (e.getType() == TableModelEvent.UPDATE) {
-				// TODO update
-			}
-			else if (e.getType() == TableModelEvent.INSERT) {
-				// TODO insert
-			}
-			else if (e.getType() == TableModelEvent.DELETE) {
-				// TODO delete
-			}
+			int row = table.getSelectedRow();
+			edge.getTransitions().remove(row);
+			model.deleteRow(row);
 		}
 	}
 

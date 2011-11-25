@@ -3,9 +3,9 @@ import tape.*;
 import machine.*;
 
 /**
- * Interpreter for brainfuck-Code using a Tape of 2-bit symbols. 
+ * Interpreter for brainfuck code using a tape of 2-bit symbols. 
  * @author Sven Schuster
- *
+ * 
  */
 public class BrainfuckSimulation extends Simulation {
 	private Tape actionTape;
@@ -14,10 +14,8 @@ public class BrainfuckSimulation extends Simulation {
 	private String code;
 
 	/**
-	 * Creates new Simulator with given Tape and Input-String.
-	 * @param tape Tape to run the simulation on.
-	 * @param inputString Optional String for the brainfuck-Application to read.
-	 * @param outputLabel Label to write the output in. 
+	 * Creates new simulation with given tape and inputstring.
+	 * @param machine brainfuck machine to run.
 	 */
 	public BrainfuckSimulation(BrainfuckMachine machine){
 		super(machine);
@@ -44,9 +42,9 @@ public class BrainfuckSimulation extends Simulation {
 	}
 	
 	/**
-	 * Executing the brainfuckMachine.
-	 * @throws TapeException If something on the tape went wrong.
-	 * @throws IllegalArgumentException If the syntax of the brainfuck-Code is not correct. 
+	 * Executing the brainfuck machine.
+	 * @throws TapeException If an operation on the tape could not be executed correctly.
+	 * @throws IllegalArgumentException If the syntax of the brainfuck code is not correct. 
 	 */
 	public void runMachine() throws TapeException, IllegalArgumentException {
 		runMachine(code);
@@ -166,6 +164,6 @@ public class BrainfuckSimulation extends Simulation {
 			}
 		}
 		else
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Syntaxcheck failed");
 	}
 }

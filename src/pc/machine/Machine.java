@@ -38,7 +38,7 @@ public abstract class Machine {
 	/**
 	 * The graphical editor for the machine
 	 */
-	protected MachineEditor editor;
+	protected MachineEditor editor = null;
 	/**
 	 * Constructs an untitled Turing machine
 	 */
@@ -53,8 +53,6 @@ public abstract class Machine {
 	public Machine(String name) {
 		this.name = name;
 		this.tapes = new ArrayList<Tape>();
-		this.editor = this.createEditor();
-
 	}
 
 	/**
@@ -138,6 +136,9 @@ public abstract class Machine {
 	 * @return The MachineEditor
 	 */
 	public MachineEditor getEditor() {
+		if (this.editor == null) {
+			this.editor = this.createEditor();
+		}
 		return this.editor;
 	}
 	

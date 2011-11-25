@@ -37,7 +37,7 @@ public class State {
 	/**
 	 * The state type
 	 */
-	protected Type type;
+	protected Type type; // FIXME: States can be start and final at the same time 
 	/**
 	 * Contains all edges starting at this state //TODO: review if it is better to search the edges dynamically
 	 */
@@ -49,6 +49,10 @@ public class State {
 	 * @param name State name
 	 * @param type Type of state
 	 */
+	
+	protected double xcoord, ycoord, height, width;
+	
+	
 	public State(String id, String name, Type type) {
 		this.id = id;
 		this.name = name;
@@ -112,6 +116,39 @@ public class State {
 		this.type = type;
 	}
 	
+	
+	public double getxcoord() {
+		return xcoord;
+	}
+
+	public void setxcoord(double xcoord) {
+		this.xcoord = xcoord;
+	}
+
+	public double getYcoord() {
+		return ycoord;
+	}
+
+	public void setYcoord(double ycoord) {
+		this.ycoord = ycoord;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+
+	public double getWidth() {
+		return width;
+	}
+
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
 	/**
 	 * Gives a string representation of the State
 	 */

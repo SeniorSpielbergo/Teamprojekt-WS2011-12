@@ -5,12 +5,20 @@ import gui.MachineEditor;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Represents an editor for brainfuck files.
+ * @author Sven Schuster
+ * 
+ */
 public class BrainfuckEditor extends MachineEditor{
 	private static final long serialVersionUID = -6379014025769077968L;
 	
 	private JTextArea codeTextArea;
 	private JScrollPane codePane;
-	
+
+	/**
+	 * Creates a new BrainfuckEditor.
+	 */
 	public BrainfuckEditor() {
 		codeTextArea = new JTextArea("Type your brainfuck code here");
 		codeTextArea.setFont(new Font("Courier", Font.PLAIN, 14));
@@ -33,10 +41,18 @@ public class BrainfuckEditor extends MachineEditor{
 		add(codePane,c);
 	}
 	
+	/**
+	 * Set code of editor's textarea.
+	 * @param code Code
+	 */
 	public void setCode(String code) {
 		this.codeTextArea.setText(code);
 	}
 	
+	/**
+	 * Returns code of editor's textarea.
+	 * @return code
+	 */
 	public String getCode() {
 		return this.codeTextArea.getText();
 	}
