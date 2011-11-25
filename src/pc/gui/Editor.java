@@ -451,6 +451,9 @@ public class Editor extends JFrame implements ActionListener {
 	public void loadEditor() {
 		System.out.println("Loading editor...");
 		this.add(this.currentMachine.getEditor());
+		for (JMenu menu : this.currentMachine.getEditor().getMenus()) {
+			this.menuBar.add(menu);
+		}
 
 		saveAction.setEnabled(true);
 		saveAsAction.setEnabled(true);
@@ -476,7 +479,10 @@ public class Editor extends JFrame implements ActionListener {
 			saveAsAction.setEnabled(false);
 			runAction.setEnabled(false);
 			exportLatexAction.setEnabled(false);
-
+			
+			for (JMenu menu : this.currentMachine.getEditor().getMenus()) {
+				this.menuBar.remove(menu);
+			}
 			this.remove(this.currentMachine.getEditor());
 			this.currentMachine = null;
 		}

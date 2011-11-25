@@ -1,5 +1,8 @@
 package gui;
 
+import java.util.ArrayList;
+
+import javax.swing.JMenu;
 import javax.swing.JPanel;
 
 /**
@@ -9,5 +12,11 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public abstract class MachineEditor extends JPanel {
-	//TODO: add methods for menu handling
+	private ArrayList<JMenu> menus;
+
+	public ArrayList<JMenu> getMenus() {
+		return menus;
+	}
+	
+	
 }
