@@ -142,7 +142,7 @@ public class TuringMachine extends Machine{
 		this.name = machineName;
 		String machineXMLVersion = doc.getDocumentElement().getAttribute("xml-version");
 
-		if (!machineXMLVersion.equals(TuringMachine.XML_VERSION)) {
+		if (!machineXMLVersion.equals(String.valueOf(TuringMachine.XML_VERSION))) {
 			throw new IOException("The file format version of the file '" + filename 
 					+ "' is not supported by this program. Please convert the file before opening.");
 		}
