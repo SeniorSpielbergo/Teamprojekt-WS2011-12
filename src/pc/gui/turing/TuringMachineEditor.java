@@ -1,5 +1,7 @@
 package gui.turing;
 
+import java.util.ArrayList;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import machine.turing.*;
@@ -28,6 +30,8 @@ import gui.MachineEditor;
 public class TuringMachineEditor extends MachineEditor {
 	private TuringMachine machine = null;
 	private Object selectedObject = null;
+	private StateList graphicalStates = null;
+	private ArrayList<mxCell> graphicalEdges = null;
 	
 	protected JPanel jPanelLeft = null;
 	protected JPanel jPanelGraph = null;
@@ -36,9 +40,36 @@ public class TuringMachineEditor extends MachineEditor {
 	protected JPanel jPanelToolBox = null;
 	protected JPanel jPanelProperties = null;
 	
+	/**
+	 * 
+	 * @author Philipp
+	 * Nested class to extend ArrayList<mxCell> to find mxCells with specified State Object
+	 */
+	class StateList extends ArrayList<mxCell>{
+		public StateList(int size){
+			super(size);
+		}
+		/**
+		 * Method to find mxCell with specified value of type State
+		 * @param state
+		 * @return mxCell
+		 */
+		mxCell getMxCell(State state){							
+			for (int i = 0; i < this.size(); i++) {
+				if(this.get(i).getValue().equals((Object) state)){
+					return this.get(i);
+				}
+			}
+			return null;
+		}
+	}
+	
 	public TuringMachineEditor(TuringMachine machine) {
 		super();
 		this.machine = machine;
+		this.graphicalStates = new StateList(machine.getStates().size());
+		this.graphicalEdges = new ArrayList<mxCell>(machine.getEdges().size());
+		
 		//create left panel
 		this.jPanelLeft = new JPanel();
 		this.jPanelLeft.setLayout(new BorderLayout());
@@ -109,6 +140,28 @@ public class TuringMachineEditor extends MachineEditor {
 		//jPanelProperties.add(prop); //TODO: implement
 	}
 
-
+	private void drawGraph(){
+		ArrayList<State> states = this.machine.getStates();
+		ArrayList<Edge> edges = this.machine.getEdges();
+		
+		//load graphical states
+		for (int i = 0;  i < states.size(); i++){
+			graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
+					states.get(i), states.get(i).getXcoord(), states.get(i).getYcoord(), 
+					states.get(i).getWidth(), states.get(i).getHeight()));
+		}
+		
+		//insert graphical Edges
+		Edge currentEdge = null;
+		Object v1 = null;
+		Object v2 = null;
+		for (int i = 0; i < edges.size(); i++){
+			currentEdge = edges.get(i);
+			v1 = graphicalStates.getMxCell(currentEdge.getFrom());
+			v2 = graphicalStates.getMxCell(currentEdge.getTo());
+			graphicalEdges.add(i,(mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2));
+			
+		}
+	}
 
 }
