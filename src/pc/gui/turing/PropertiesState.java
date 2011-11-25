@@ -22,10 +22,10 @@ public class PropertiesState extends JPanel implements ItemListener, TextListene
 		name = new JLabel("Name");
 		inputName = new JTextField(this.state.getName(),10);
 		startState = new JCheckBox("Start");
-		startState.setSelected(this.state.getType() == State.Type.START);
+		startState.setSelected(this.state.isStartState());
 		startState.addItemListener(this);
 		finalState = new JCheckBox("Final");
-		startState.setSelected(this.state.getType() == State.Type.FINAL);
+		startState.setSelected(this.state.isFinalState());
 		finalState.addItemListener(this);
 		propertiesPanel = new JPanel();
 		propertiesPanel.setLayout(new GridBagLayout());

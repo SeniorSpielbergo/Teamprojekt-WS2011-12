@@ -20,7 +20,7 @@ public class TuringSimulation extends Simulation{
 		this.tapes = machine.getTapes();
 		
 		for( int i=0; i < machine.getStates().size(); i++){
-			if(machine.getStates().get(i).getType() == State.Type.START){
+			if(machine.getStates().get(i).isStartState()){
 				startState = machine.getStates().get(i);
 				actualState = startState;
 			}
@@ -31,7 +31,7 @@ public class TuringSimulation extends Simulation{
 	}
 
 	public void runMachine() throws TapeException{
-		if(actualState.getType() != State.Type.FINAL){
+		if(!actualState.isFinalState()){
 			currentSymbols.clear();
 			for(int i = 0; i < machine.getNumberOfTapes(); i++)
 				currentSymbols.add(i,this.tapes.get(i).read());
@@ -58,7 +58,7 @@ public class TuringSimulation extends Simulation{
 			actualState = nextState;
 			System.out.println("aktueller Zustand: " +actualState.getId());
 
-			if(!(actualState.getType() == State.Type.FINAL)){
+			if(!(actualState.isFinalState())){
 				runMachine();
 			}
 

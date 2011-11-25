@@ -31,9 +31,9 @@ public class BrainfuckMachine extends Machine {
 	 */
 	public BrainfuckMachine() {
 		super();
-		tapes.add(new ConsoleTape("Input"));
-		tapes.add(new ConsoleTape("Output"));
-		tapes.add(new ConsoleTape("Action"));		
+		tapes.add(new ConsoleTape("Input", true));
+		tapes.add(new ConsoleTape("Output", false));
+		tapes.add(new ConsoleTape("Action", false));		
 	}
 
 	/**
