@@ -252,22 +252,22 @@ public class TuringMachine extends Machine{
 					throw new IOException("State ID '" + id + "' already exists! Please check your xml file!");
 				}
 
-				State.Type type = null;
-				String typeString = currentElement.getAttribute("type");
-				if (typeString.equals("start")) {
-					type = State.Type.START;
-				}
-				else if (typeString.equals("normal")) {
-					type = State.Type.NORMAL;
-				}
-				else if (typeString.equals("final")) {
-					type = State.Type.FINAL;
-				}
-				else {
-					throw new IOException("Unsupported state type '" + typeString + "' for the state with id " + id + ".  Expected 'start', 'final' or 'normal'.");
-				}
+//				State.Type type = null;
+//				String typeString = currentElement.getAttribute("type");
+//				if (typeString.equals("start")) {
+//					type = State.Type.START;
+//				}
+//				else if (typeString.equals("normal")) {
+//					type = State.Type.NORMAL;
+//				}
+//				else if (typeString.equals("final")) {
+//					type = State.Type.FINAL;
+//				}
+//				else {
+//					throw new IOException("Unsupported state type '" + typeString + "' for the state with id " + id + ".  Expected 'start', 'final' or 'normal'.");
+//				}
 				String name = InOut.getTagValue("name", currentElement);
-				State state = new State(id, name, type);
+				State state = new State(id, name, false, false);//TODO: fix
 				states.add(state);
 				System.out.println(" " + state); //TODO: remove debug output
 			}
