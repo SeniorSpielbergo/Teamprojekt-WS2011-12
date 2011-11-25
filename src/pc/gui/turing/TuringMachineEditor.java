@@ -39,6 +39,7 @@ public class TuringMachineEditor extends MachineEditor {
 	protected JSplitPane jSplitPaneHorizontal = null;
 	protected JPanel jPanelToolBox = null;
 	protected JPanel jPanelProperties = null;
+	protected ToolBox toolBox = new ToolBox();
 	
 	/**
 	 * 
@@ -92,6 +93,7 @@ public class TuringMachineEditor extends MachineEditor {
 		this.jPanelGraph.setMinimumSize(minimumSize);
 		this.setLayout(new BorderLayout());
 		this.add(this.jSplitPaneHorizontal, BorderLayout.CENTER);
+		jPanelToolBox.add(toolBox);
 
 		//create the graph
 		mxGraph graph = new mxGraph();

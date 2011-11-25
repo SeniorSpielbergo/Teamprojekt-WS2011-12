@@ -2,6 +2,7 @@ package gui.turing;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -27,8 +28,9 @@ public class Palette extends JPanel implements MouseListener {
 		icons[3].setName("Text");
 		for (int i = 0; i < 4; i++) {
 			c.fill = GridBagConstraints.BOTH;
-			c.gridx = 0;
-			c.gridy = i;
+			c.gridx = i % 2;
+			c.gridy = (i < 2) ? 0 : 1;
+			c.insets = new Insets(5,5,5,5);
 			icons[i].addMouseListener(this);
 			this.add(icons[i], c);
 		}
