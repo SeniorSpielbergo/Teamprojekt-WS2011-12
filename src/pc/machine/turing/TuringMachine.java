@@ -476,7 +476,7 @@ public class TuringMachine extends Machine{
 			else if (tape.getType() == Tape.Type.CONSOLE) {
 				tapeType = "console";
 			}
-			else if (tape.getType() == Tape.Type.GUI) {
+			else if (tape.getType() == Tape.Type.GRAPHIC) {
 				tapeType = "gui";
 			}
 			attrType.setValue(tapeType);

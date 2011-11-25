@@ -46,7 +46,7 @@ public abstract class Tape {
 		/**
 		 * Virtual tape in the tapes window
 		 */
-		GUI
+		GRAPHIC
 	}
 
 	/**
