@@ -251,5 +251,22 @@ public class InOut {
 		Element element = (Element) node;
 		return element;
 	}
+	
+	/**
+	 * Gets an attribute integer value of an attribute with a specific name that is child of the currentElement
+	 * @param attribute_name The name of the attribute to search
+	 * @param currentElement The parent element of the child to search
+	 * @return The attribute integer value
+	 * @throws IOException Thrown if the child if the specified attribute is not existent or is not an integer value
+	 */
+	public static int getAttributeValueInt(String attribute_name, Element currentElement) throws IOException {
+		String attrString = currentElement.getAttribute("start");
+		try {
+			return Integer.parseInt(attrString);
+		}
+		catch (NumberFormatException e){
+			throw new IOException("Expected integer value in attribute '" + attribute_name + "' for element '" + currentElement.getNodeName() + "' but found '" + attrString + "'.");
+		}
+	}
 
 }

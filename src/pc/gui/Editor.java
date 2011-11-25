@@ -247,7 +247,7 @@ public class Editor extends JFrame implements ActionListener {
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
 			Machine machine = null;
-			if(selectedFile.getName().toLowerCase().endsWith( ".xml" )) {
+			if(selectedFile.getName().toLowerCase().endsWith( ".tm" )) {
 				machine = new TuringMachine();
 			}
 			else if(selectedFile.getName().toLowerCase().endsWith( ".bf" )) {
