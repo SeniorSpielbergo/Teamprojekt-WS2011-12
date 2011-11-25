@@ -1,5 +1,7 @@
 package gui.turing;
 
+import java.util.ArrayList;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import machine.turing.*;
@@ -28,6 +30,8 @@ import gui.MachineEditor;
 public class TuringMachineEditor extends MachineEditor {
 	private TuringMachine machine = null;
 	private Object selectedObject = null;
+	private ArrayList<Object> graphicalStates = null;
+	private ArrayList<Object> graphicalEdges = null;
 	
 	protected JPanel jPanelLeft = null;
 	protected JPanel jPanelGraph = null;
@@ -39,6 +43,9 @@ public class TuringMachineEditor extends MachineEditor {
 	public TuringMachineEditor(TuringMachine machine) {
 		super();
 		this.machine = machine;
+		this.graphicalStates = new ArrayList<Object>(machine.getStates().size());
+		this.graphicalEdges = new ArrayList<Object>(machine.getEdges().size());
+		
 		//create left panel
 		this.jPanelLeft = new JPanel();
 		this.jPanelLeft.setLayout(new BorderLayout());
@@ -109,6 +116,13 @@ public class TuringMachineEditor extends MachineEditor {
 		//jPanelProperties.add(prop); //TODO: implement
 	}
 
-
+	private void drawGraph(){
+		ArrayList<State> states = this.machine.getStates();
+		ArrayList<Edge> edges = this.machine.getEdges();
+		
+		for (int i = 0;  i < states.size(); i++){
+			graphicalStates[i] = graph.insertVertex(graph.getDefaultParent(), null, states.get(i), states.get(i).getXcoord(), states.get(i).getYcoord(), states.get(i).getWidth(), states.get(i).getHeight());
+		}
+	}
 
 }
