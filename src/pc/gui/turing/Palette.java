@@ -8,12 +8,12 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 
 public class Palette extends JPanel implements MouseListener {
-	
+
 	private static final long serialVersionUID = 2826433120960614428L;
 	private JLabel[] icons = new JLabel[4];
-	
+
 	private String clicked = null; 
-	
+
 	public Palette() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -33,34 +33,41 @@ public class Palette extends JPanel implements MouseListener {
 			this.add(icons[i], c);
 		}
 	}
+	
+	public String getClicked() {
+		return clicked;
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(clicked == null)
+		if(clicked != null && clicked.equals(e.getComponent().getName()))
+			clicked = null;
+		else
 			clicked = e.getComponent().getName();
+		System.out.println(clicked);
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
