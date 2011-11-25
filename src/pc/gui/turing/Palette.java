@@ -11,7 +11,9 @@ public class Palette extends JPanel implements MouseListener {
 	
 	private static final long serialVersionUID = 2826433120960614428L;
 	private JLabel[] icons = new JLabel[4];
-
+	
+	private String clicked = null; 
+	
 	public Palette() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -29,9 +31,9 @@ public class Palette extends JPanel implements MouseListener {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseClicked(MouseEvent e) {
+		if(clicked == null)
+			clicked = e.getComponent().getName();
 	}
 
 	@Override
