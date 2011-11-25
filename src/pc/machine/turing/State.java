@@ -104,9 +104,6 @@ public class State {
 	}
 		
 	
-	public double getxcoord() {
-		return xcoord;
-	}
 	/**
 	 * Returns if this state is startstate
 	 * @return  true if this state is startstate
@@ -135,8 +132,11 @@ public class State {
 	public void setFinalState(boolean finalState) {
 		this.finalState = finalState;
 	}
-
-	public void setxcoord(double xcoord) {
+	
+	public double getXcoord() {
+		return xcoord;
+	}
+	public void setXcoord(double xcoord) {
 		this.xcoord = xcoord;
 	}
 

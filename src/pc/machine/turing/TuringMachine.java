@@ -39,6 +39,7 @@ import tape.TapeException;
  * 
  */
 public class TuringMachine extends Machine{
+	static final int XML_VERSION = 3;
 	/**
 	 * Contains all states of this machine
 	 */
@@ -141,7 +142,7 @@ public class TuringMachine extends Machine{
 		this.name = machineName;
 		String machineXMLVersion = doc.getDocumentElement().getAttribute("xml-version");
 
-		if (!machineXMLVersion.equals("2")) {
+		if (!machineXMLVersion.equals(TuringMachine.XML_VERSION)) {
 			throw new IOException("The file format version of the file '" + filename 
 					+ "' is not supported by this program. Please convert the file before opening.");
 		}
@@ -251,6 +252,13 @@ public class TuringMachine extends Machine{
 				if (this.getStateById(id) != null) {
 					throw new IOException("State ID '" + id + "' already exists! Please check your xml file!");
 				}
+//
+//				String startString = currentElement.getAttribute("start");
+//				String startString = currentElement.getAttribute("start");
+//				String startString = currentElement.getAttribute("start");
+//				String startString = currentElement.getAttribute("start");
+//				String startString = currentElement.getAttribute("start");
+//				String startString = currentElement.getAttribute("start");
 
 //				State.Type type = null;
 //				String typeString = currentElement.getAttribute("type");
@@ -438,7 +446,7 @@ public class TuringMachine extends Machine{
 		
 		// save xml version number
 		Attr attrXMLVersion = doc.createAttribute("xml-version");
-		attrXMLVersion.setValue("3");
+		attrXMLVersion.setValue(String.valueOf(TuringMachine.XML_VERSION));
 		rootElement.setAttributeNode(attrXMLVersion);
 		
 		//save the rest
@@ -530,43 +538,42 @@ public class TuringMachine extends Machine{
 			attrStateId.setValue(state.getId());
 			stateElement.setAttributeNode(attrStateId);
 
-//			// save type of state
-//			Attr attrStart = doc.createAttribute("start");
-//			if (state.isStartState()) {
-//				attrStart.setValue("yes");
-//			}
-//			else {
-//				attrStart.setValue("no");
-//			}
-//			stateElement.setAttributeNode(attrStart);
-//
-//			Attr attrFinal = doc.createAttribute("final");
-//			if (state.isFinalState()) {
-//				attrFinal.setValue("yes");
-//			}
-//			else {
-//				attrFinal.setValue("no");
-//			}
-//			stateElement.setAttributeNode(attrFinal);
-//			
-//			// save the state position
-//			Attr attrStart = doc.createAttribute("start");
-//			if (state.isStartState()) {
-//				attrStart.setValue("yes");
-//			}
-//			else {
-//				attrStart.setValue("no");
-//			}
-//			stateElement.setAttributeNode(attrStart);
-//
-//			Attr attrFinal = doc.createAttribute("final");
-//			if (state.isFinalState()) {
-//				attrFinal.setValue("yes");
-//			}
-//			else {
-//				attrFinal.setValue("no");
-//			}
-//			stateElement.setAttributeNode(attrFinal);
+			// save type of state
+			Attr attrStart = doc.createAttribute("start");
+			if (state.isStartState()) {
+				attrStart.setValue("yes");
+			}
+			else {
+				attrStart.setValue("no");
+			}
+			stateElement.setAttributeNode(attrStart);
+
+			Attr attrFinal = doc.createAttribute("final");
+			if (state.isFinalState()) {
+				attrFinal.setValue("yes");
+			}
+			else {
+				attrFinal.setValue("no");
+			}
+			stateElement.setAttributeNode(attrFinal);
+			
+			// save the state position
+			Attr attrX = doc.createAttribute("x");
+			attrX.setValue(String.valueOf(state.getXcoord()));
+			stateElement.setAttributeNode(attrX);
+
+			Attr attrY = doc.createAttribute("y");
+			attrY.setValue(String.valueOf(state.getYcoord()));
+			stateElement.setAttributeNode(attrY);
+			
+			// save the state size
+			Attr attrWidth = doc.createAttribute("width");
+			attrWidth.setValue(String.valueOf(state.getWidth()));
+			stateElement.setAttributeNode(attrWidth);
+			
+			Attr attrHeight = doc.createAttribute("height");
+			attrHeight.setValue(String.valueOf(state.getHeight()));
+			stateElement.setAttributeNode(attrHeight);
 
 			// state name element
 			Element nameElement = doc.createElement("name");
