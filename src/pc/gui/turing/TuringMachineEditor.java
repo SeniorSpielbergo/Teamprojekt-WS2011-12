@@ -40,6 +40,7 @@ import gui.MachineEditor;
 
 public class TuringMachineEditor extends MachineEditor implements ActionListener, MouseListener {
 	private static final long serialVersionUID = 7647012826073382156L;
+	private final int GRID_SIZE = 100;
 	private TuringMachine machine = null;
 	private Object selectedObject = null;
 	private StateList graphicalStates = null;
@@ -235,7 +236,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		try	{
 			for (int i = 0;  i < states.size(); i++){
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
-						states.get(i), states.get(i).getXcoord(), states.get(i).getYcoord(), 
+						states.get(i), states.get(i).getXcoord() * GRID_SIZE, states.get(i).getYcoord() * GRID_SIZE, 
 						states.get(i).getWidth(), states.get(i).getHeight()));
 			}
 
