@@ -124,6 +124,32 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 //		this.graph.setAutoSizeCells(true);
 //		this.graph.setCellsResizable(false);
 //		this.graph.setDefaultLoopStyle(arg0);
+		this.graph.getModel().addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
+			
+			@Override
+			public void invoke(Object obj, mxEventObject e) {
+				if(((mxCell) obj).isVertex()){
+					//TODO write back in machnine.turing.graph
+				}
+				
+			}
+		});
+		this.graph.getSelectionModel().addListener(mxEvent.CHANGE, new mxIEventListener() {
+			
+			@Override
+			public void invoke(Object obj, mxEventObject e) {
+				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
+				for(Object cellObj: model.getCells()){
+				mxCell cell = (mxCell) cellObj;
+				if(cell.isVertex()){
+					displayProperties((State) cell.getValue());
+				} else if (cell.isEdge()) {
+					displayProperties((Edge) cell.getValue());
+				}
+				}
+				
+			}
+		});
 		
 		/*
 		State s1 = new State("1", "s1", true, false);
@@ -185,13 +211,19 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 	private void displayProperties(Edge edge) {
 		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge);
 		jPanelProperties.removeAll();
+		jPanelProperties.validate();
+		jPanelProperties.repaint();
 		jPanelProperties.add(propertiesEdge);
+		jPanelProperties.validate();
 	}
 
 	private void displayProperties(State state) {
 		PropertiesState propertiesState = new PropertiesState(state);
 		this.jPanelProperties.removeAll();
+		jPanelProperties.validate();
+		jPanelProperties.repaint();
 		this.jPanelProperties.add(propertiesState);
+		jPanelProperties.validate();
 	}
 
 	private void drawGraph(){
