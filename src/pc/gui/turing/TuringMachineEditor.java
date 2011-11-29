@@ -1,12 +1,15 @@
 package gui.turing;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import machine.turing.*;
 import javax.swing.JFrame;
@@ -35,7 +38,8 @@ import com.mxgraph.util.mxEventObject;
 
 import gui.MachineEditor;
 
-public class TuringMachineEditor extends MachineEditor implements ActionListener{
+public class TuringMachineEditor extends MachineEditor implements ActionListener, MouseListener {
+	private static final long serialVersionUID = 7647012826073382156L;
 	private TuringMachine machine = null;
 	private Object selectedObject = null;
 	private StateList graphicalStates = null;
@@ -165,10 +169,8 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		machine.getEdges().add(e1); */
 		this.drawGraph();
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
+		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
-
-		
-
 
 //		if (this.machine != null && this.machine.getEdges().size() > 0) {
 //			this.displayProperties(this.machine.getEdges().get(0));
@@ -203,12 +205,14 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge);
 		jPanelProperties.removeAll();
 		jPanelProperties.add(propertiesEdge);
+		jPanelProperties.validate();
 	}
 
 	private void displayProperties(State state) {
 		PropertiesState propertiesState = new PropertiesState(state);
 		this.jPanelProperties.removeAll();
 		this.jPanelProperties.add(propertiesState);
+		jPanelProperties.validate();
 	}
 
 	private void drawGraph(){
@@ -255,5 +259,50 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		else if (e.getSource() == pasteAction) {
 			JOptionPane.showMessageDialog(null, "Not implemented yet!");
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (toolBox.getClicked() != null) {
+			int x = e.getX();
+			int y = e.getY();
+			graph.getModel().beginUpdate();
+			try	{
+				if (toolBox.getClicked().equals("State")) {
+					State state = new State(UUID.randomUUID().toString(), "New state...", false, false);
+					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, x, y, 20, 10));
+					toolBox.setClicked(null);
+				}
+				else if (toolBox.getClicked().equals("System")) {
+					
+				}
+				else if (toolBox.getClicked().equals("Edge")) {
+//					Object v1 = graphicalStates.getMxCell(currentEdge.getFrom());
+//					Object v2 = graphicalStates.getMxCell(currentEdge.getTo());
+//					graphicalEdges.add(i,(mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2));
+				}
+				else if (toolBox.getClicked().equals("Text")) {
+					
+				}
+			} finally {
+				graph.getModel().endUpdate();
+			}
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
 	}
 }

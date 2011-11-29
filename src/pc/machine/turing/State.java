@@ -9,24 +9,6 @@ import java.util.ArrayList;
  */
 public class State {
 	/**
-	 * Represents the different types of states
-	 */
-//	public enum Type {
-//		/**
-//		 * A Start state
-//		 */
-//		START, 
-//		/**
-//		 * A normal state
-//		 */
-//		NORMAL, 
-//		/**
-//		 * A final state
-//		 */
-//		FINAL
-//	}
-
-	/**
 	 * The state id string for internal use
 	 */
 	protected String id;
