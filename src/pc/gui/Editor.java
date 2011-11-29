@@ -425,8 +425,11 @@ public class Editor extends JFrame implements ActionListener {
 	public void loadEditor() {
 		System.out.println("Loading editor...");
 		this.add(this.currentMachine.getEditor());
+		
+		int menupos = 1;
 		for (JMenu menu : this.currentMachine.getEditor().getMenus()) {
-			this.menuBar.add(menu);
+			this.menuBar.add(menu, menupos);
+			menupos++;
 		}
 
 		saveAction.setEnabled(true);
