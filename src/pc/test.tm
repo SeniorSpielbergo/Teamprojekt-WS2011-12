@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<machine name="test" tapes="3" xml-version="3">
+<machine name="test" tapes="3" xml-version="2">
 	<tape type="graphic">
 		<name>input tape</name>
 		<master mac-address="00:16:53:13:53:BB">IPS_03</master>
