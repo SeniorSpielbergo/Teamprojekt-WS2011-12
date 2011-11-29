@@ -120,10 +120,8 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		this.graph = new mxGraph();
 		this.graph.setAllowDanglingEdges(false);
 		this.graph.setAllowLoops(true);
-//		this.graph.setGridEnabled(true);
-//		this.graph.setGridSize(50);
-//		this.graph.setAutoSizeCells(true);
-//		this.graph.setCellsResizable(false);
+		this.graph.setAutoSizeCells(true);
+		this.graph.setCellsResizable(false);
 //		this.graph.setDefaultLoopStyle(arg0);
 		this.graph.getModel().addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 			
@@ -140,6 +138,15 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
 				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
+				mxCell c = (mxCell) model.getCell();
+				if (c != null && c.isVertex()) {
+					int x = (int) c.getGeometry().getX();
+					int y = (int) c.getGeometry().getY();
+					x = (int) Math.ceil(x / GRID_SIZE);
+					y = (int) Math.ceil(y / GRID_SIZE);
+					c.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, c.getGeometry().getWidth(), c.getGeometry().getHeight()));
+				}
+					
 				for(Object cellObj: model.getCells()){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
@@ -278,15 +285,15 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		if (toolBox.getClicked() != null) {
 			int x = e.getX();
 			int y = e.getY();
-			x = (int) Math.ceil(x / GRID_SIZE);
-			y = (int) Math.ceil(y / GRID_SIZE);
+			int xGrid = (int) Math.ceil(x / GRID_SIZE);
+			int yGrid = (int) Math.ceil(y / GRID_SIZE);
 			graph.getModel().beginUpdate();
 			try	{
 				if (toolBox.getClicked().equals("State")) {
 					State state = new State(UUID.randomUUID().toString(), "New state...", false, false);
 					state.setXcoord(x);
 					state.setXcoord(y);
-					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, x * GRID_SIZE, y * GRID_SIZE, 20, 10));
+					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, 20, 10));
 					toolBox.setClicked(null);
 				}
 				else if (toolBox.getClicked().equals("System")) {

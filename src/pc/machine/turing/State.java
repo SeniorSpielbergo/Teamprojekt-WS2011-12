@@ -1,4 +1,5 @@
 package machine.turing;
+import java.io.Serializable;
 import java.lang.String;
 import java.util.ArrayList;
 
@@ -7,7 +8,8 @@ import java.util.ArrayList;
  * @author David Wille
  * 
  */
-public class State {
+public class State implements Serializable {
+	private static final long serialVersionUID = -677700196207258408L;
 	/**
 	 * The state id string for internal use
 	 */
