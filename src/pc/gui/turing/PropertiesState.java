@@ -73,7 +73,12 @@ public class PropertiesState extends JPanel implements ItemListener, TextListene
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		// TODO stateType has to change
+		if(e.getSource().equals(finalState)) {
+			this.state.setFinalState(finalState.isSelected());		
+		}
+		else if(e.getSource().equals(startState)) {
+			this.state.setFinalState(startState.isSelected());
+		}
 	}
 
 	@Override

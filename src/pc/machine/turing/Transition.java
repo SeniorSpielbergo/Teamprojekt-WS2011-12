@@ -75,8 +75,25 @@ public class Transition {
 	 */
 	@Override
 	public String toString() {
-		return "Transition [id=" + id + ", read=" + read + ", write=" + write
-				+ ", action=" + action + "]\n";
+		String actionString = "<";
+		String readString = "<";
+		String writeString = "<";
+		for (int i = 0; i < action.size(); i++) {
+			actionString += "" + action.get(i);
+			readString += "" + read.get(i);
+			writeString += "" + write.get(i);
+			if (i < action.size()-1) {
+				actionString += ", ";
+				readString += ", ";
+				writeString += ", ";
+			}
+			else if (i == action.size()-1) {
+				actionString += ">";
+				readString += ">";
+				writeString += ">";
+			}
+		}
+		return readString + " / " + writeString + " / " + actionString;
 	}
 	
 	

@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
 
-public class TapeWindow extends JFrame {
+public class TapeWindow extends JFrame{
 
 	JScrollPane scrollpaneRight;
 	ArrayList<tape.GraphicTape> graphicTapes = new ArrayList<tape.GraphicTape>();
+
 
 	public TapeWindow(ArrayList<tape.Tape> tapes){
 		for(int i = 0; i< tapes.size(); i++){
@@ -24,10 +25,14 @@ public class TapeWindow extends JFrame {
 	}
 
 	public void init(){
-			for(int i = 0; i< graphicTapes.size(); i++){
-				this.add(this.graphicTapes.get(i).getTapePanel());
-			}
-		
+		for(int i = 0; i< graphicTapes.size(); i++){
+			this.add(this.graphicTapes.get(i).getTapePanel());
+		}
+
 	}
 
+	public void paint(){
+		this.validate();
+
+	}
 }
