@@ -117,6 +117,14 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 
 		//create the graph
 		this.graph = new mxGraph();
+		this.graph.setAllowDanglingEdges(false);
+		this.graph.setAllowLoops(true);
+//		this.graph.setGridEnabled(true);
+//		this.graph.setGridSize(50);
+//		this.graph.setAutoSizeCells(true);
+//		this.graph.setCellsResizable(false);
+//		this.graph.setDefaultLoopStyle(arg0);
+		
 		/*
 		State s1 = new State("1", "s1", true, false);
 		State s2 = new State("2", "s2", false, true);
