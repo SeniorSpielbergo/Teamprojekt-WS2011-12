@@ -147,4 +147,6 @@ public abstract class Machine {
 	 * @return The type of this machine
 	 */
 	public abstract MachineType getType();
+	
+	public abstract String getFileExtension();
 }
