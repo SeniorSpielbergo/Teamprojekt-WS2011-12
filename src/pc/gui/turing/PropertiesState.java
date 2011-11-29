@@ -25,7 +25,7 @@ public class PropertiesState extends JPanel implements ItemListener, TextListene
 		startState.setSelected(this.state.isStartState());
 		startState.addItemListener(this);
 		finalState = new JCheckBox("Final");
-		startState.setSelected(this.state.isFinalState());
+		finalState.setSelected(this.state.isFinalState());
 		finalState.addItemListener(this);
 		propertiesPanel = new JPanel();
 		propertiesPanel.setLayout(new GridBagLayout());
@@ -77,7 +77,7 @@ public class PropertiesState extends JPanel implements ItemListener, TextListene
 			this.state.setFinalState(finalState.isSelected());		
 		}
 		else if(e.getSource().equals(startState)) {
-			this.state.setFinalState(startState.isSelected());
+			this.state.setStartState(startState.isSelected());
 		}
 	}
 
