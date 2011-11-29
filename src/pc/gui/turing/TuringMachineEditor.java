@@ -123,15 +123,18 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 				
 			}
 		});
-		this.graph.getModel().addListener(mxEvent.SELECT, new mxIEventListener() {
+		this.graph.getSelectionModel().addListener(mxEvent.CHANGE, new mxIEventListener() {
 			
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
-				mxCell cell = (mxCell) obj;
+				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
+				for(Object cellObj: model.getCells()){
+				mxCell cell = (mxCell) cellObj;
 				if(cell.isVertex()){
 					displayProperties((State) cell.getValue());
 				} else if (cell.isEdge()) {
 					displayProperties((Edge) cell.getValue());
+				}
 				}
 				
 			}
