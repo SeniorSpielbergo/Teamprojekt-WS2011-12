@@ -86,8 +86,14 @@ public class Edge {
 	 */
 	@Override
 	public String toString() {
-		return "Edge [from=" + from + ", to=" + to + ", transition="
-				+ transitions + "]\n";
+		String transitionsString = "";
+		for (int i = 0 ; i < transitions.size(); i++) {
+			transitionsString += transitions.get(i);
+			if (i < transitions.size()-1) {
+				transitionsString += "\n";
+			}
+		}
+		return transitionsString;
 	}
 	
 	
