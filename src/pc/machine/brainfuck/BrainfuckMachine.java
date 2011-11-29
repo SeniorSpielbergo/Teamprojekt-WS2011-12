@@ -24,7 +24,7 @@ import machine.turing.TuringMachine;
  * 
  */
 public class BrainfuckMachine extends Machine {
-	static final String FILE_EXTENSION = ".bf";
+	public static final String FILE_EXTENSION = ".bf";
 
 	private BrainfuckEditor brainfuckEditor;
 	private String code = "Type your brainfuck code here";
