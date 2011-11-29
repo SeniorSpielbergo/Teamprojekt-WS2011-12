@@ -12,7 +12,7 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 		CANCEL, CREATE
 	}
 
-	private JPanel panelName, panelTapes, panelButtons, panelGap0, panelGap1, panelGap2, panelGap3, panelButtonGap ;
+	private JPanel panelName, panelTapes, panelButtons;
 	private JLabel name, tapes;
 	private	JTextField fieldName;
 	private JSpinner numberOfTapes;
