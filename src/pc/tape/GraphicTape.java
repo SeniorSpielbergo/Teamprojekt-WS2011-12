@@ -8,6 +8,7 @@ public class GraphicTape extends Tape {
 
 	JPanel tapePanel;
 	JLabel labelTape, textlabel;
+	JTextArea jTextAreaTape;
 	/**
 	 * Stores the current tape content
 	 */
@@ -58,11 +59,14 @@ public class GraphicTape extends Tape {
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		System.out.println(this.name + ": Tape ready.");
 		tapePanel = new JPanel();
-		labelTape = new JLabel();
-		textlabel = new JLabel("GraphicTape");
-		tapePanel.add(labelTape);
-		tapePanel.add(textlabel);
+		this.jTextAreaTape = new JTextArea();
+		this.jTextAreaTape.setFont(new Font("Courier",Font.PLAIN, this.jTextAreaTape.getFont().getSize()));
+		this.jTextAreaTape.setEditable(false);
 		
+		textlabel = new JLabel("GraphicTape");
+		tapePanel.add(this.jTextAreaTape);
+		tapePanel.add(textlabel);
+
 		//set ready
 		this.ready = true;
 	}
@@ -94,6 +98,10 @@ public class GraphicTape extends Tape {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		this.memory.put(this.position, c);
 		this.printTape();
+		try{
+			Thread.sleep(500);
+		}
+		catch(InterruptedException e){}
 
 	}
 
@@ -103,6 +111,10 @@ public class GraphicTape extends Tape {
 
 		position--;
 		this.printTape();
+		try{
+			Thread.sleep(500);
+		}
+		catch(InterruptedException e){}
 
 	}
 
@@ -112,7 +124,10 @@ public class GraphicTape extends Tape {
 
 		position++;
 		this.printTape();
-
+		try{
+			Thread.sleep(500);
+		}
+		catch(InterruptedException e){}
 	}
 
 	@Override
@@ -140,7 +155,7 @@ public class GraphicTape extends Tape {
 	}
 
 	public void printTape() {
-		labelTape.setText(this.getMemoryAsFormattedString(-20,40));
+		jTextAreaTape.setText(this.getMemoryAsFormattedString(-20,40));
 	}
 
 	public JPanel getTapePanel() {

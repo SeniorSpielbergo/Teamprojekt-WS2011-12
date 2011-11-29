@@ -40,6 +40,7 @@ import gui.MachineEditor;
 
 public class TuringMachineEditor extends MachineEditor implements ActionListener, MouseListener {
 	private static final long serialVersionUID = 7647012826073382156L;
+	private final int GRID_SIZE = 100;
 	private TuringMachine machine = null;
 	private Object selectedObject = null;
 	private StateList graphicalStates = null;
@@ -152,7 +153,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 						((State)cell.getValue()).setXcoord(cell.getGeometry().getX());
 						((State)cell.getValue()).setYcoord(cell.getGeometry().getY());
 						System.out.println("Xcoord: " + ((State)cell.getValue()).getXcoord());
-					
+
 					} else if (cell.isEdge()) {
 						displayProperties((Edge) cell.getValue());
 					}
@@ -245,7 +246,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		try	{
 			for (int i = 0;  i < states.size(); i++){
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
-						states.get(i), states.get(i).getXcoord(), states.get(i).getYcoord(), 
+						states.get(i), states.get(i).getXcoord() * GRID_SIZE, states.get(i).getYcoord() * GRID_SIZE, 
 						states.get(i).getWidth(), states.get(i).getHeight()));
 			}
 
@@ -287,21 +288,21 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		if (toolBox.getClicked() != null) {
 			int x = e.getX();
 			int y = e.getY();
+			x = (int) Math.ceil(x / GRID_SIZE);
+			y = (int) Math.ceil(y / GRID_SIZE);
 			graph.getModel().beginUpdate();
 			try	{
 				if (toolBox.getClicked().equals("State")) {
 					State state = new State(UUID.randomUUID().toString(), "New state...", false, false);
-					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, x, y, 20, 10));
+					state.setXcoord(x);
+					state.setXcoord(y);
+					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, x * GRID_SIZE, y * GRID_SIZE, 20, 10));
 					toolBox.setClicked(null);
 				}
 				else if (toolBox.getClicked().equals("System")) {
 
 				}
-				else if (toolBox.getClicked().equals("Edge")) {
-					//					Object v1 = graphicalStates.getMxCell(currentEdge.getFrom());
-					//					Object v2 = graphicalStates.getMxCell(currentEdge.getTo());
-					//					graphicalEdges.add(i,(mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2));
-				}
+
 				else if (toolBox.getClicked().equals("Text")) {
 
 				}

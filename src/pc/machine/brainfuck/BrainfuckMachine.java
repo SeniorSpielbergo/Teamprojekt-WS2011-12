@@ -16,6 +16,7 @@ import tape.ConsoleTape;
 
 import machine.Machine;
 import machine.Simulation;
+import machine.turing.TuringMachine;
 
 /**
  * Represents a brainfuck machine and provides methods to handle it.
@@ -23,6 +24,8 @@ import machine.Simulation;
  * 
  */
 public class BrainfuckMachine extends Machine {
+	static final String FILE_EXTENSION = ".bf";
+
 	private BrainfuckEditor brainfuckEditor;
 	private String code = "Type your brainfuck code here";
 
@@ -113,5 +116,9 @@ public class BrainfuckMachine extends Machine {
 	@Override
 	public MachineType getType() {
 		return Machine.MachineType.BrainfuckMachine;
+	}
+	
+	public String getFileExtension() {
+		return BrainfuckMachine.FILE_EXTENSION;
 	}
 }
