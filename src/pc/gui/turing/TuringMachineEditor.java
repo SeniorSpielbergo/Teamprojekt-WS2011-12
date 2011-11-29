@@ -122,6 +122,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		this.graph.setAllowLoops(true);
 		this.graph.setAutoSizeCells(true);
 		this.graph.setCellsResizable(false);
+		this.graph.setCellsEditable(false);
 //		this.graph.setDefaultLoopStyle(arg0);
 		this.graph.getModel().addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 
@@ -279,7 +280,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 					State state = new State(UUID.randomUUID().toString(), "New state...", false, false);
 					state.setXcoord(x);
 					state.setXcoord(y);
-					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, 20, 10));
+					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, 50, 25));
 					toolBox.setClicked(null);
 				}
 				else if (toolBox.getClicked().equals("System")) {
