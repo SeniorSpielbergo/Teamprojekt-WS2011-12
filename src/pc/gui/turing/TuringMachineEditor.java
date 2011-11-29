@@ -117,6 +117,33 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 
 		//create the graph
 		this.graph = new mxGraph();
+		this.graph.getModel().addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
+			
+			@Override
+			public void invoke(Object obj, mxEventObject e) {
+				if(((mxCell) obj).isVertex()){
+					//TODO write back in machnine.turing.graph
+				}
+				
+			}
+		});
+		this.graph.getSelectionModel().addListener(mxEvent.CHANGE, new mxIEventListener() {
+			
+			@Override
+			public void invoke(Object obj, mxEventObject e) {
+				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
+				for(Object cellObj: model.getCells()){
+				mxCell cell = (mxCell) cellObj;
+				if(cell.isVertex()){
+					displayProperties((State) cell.getValue());
+				} else if (cell.isEdge()) {
+					displayProperties((Edge) cell.getValue());
+				}
+				}
+				
+			}
+		});
+		
 		/*
 		State s1 = new State("1", "s1", true, false);
 		State s2 = new State("2", "s2", false, true);
