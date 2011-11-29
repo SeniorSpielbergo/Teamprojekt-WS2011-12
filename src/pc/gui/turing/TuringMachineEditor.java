@@ -141,12 +141,12 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 			public void invoke(Object obj, mxEventObject e) {
 				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
 				for(Object cellObj: model.getCells()){
-				mxCell cell = (mxCell) cellObj;
-				if(cell.isVertex()){
-					displayProperties((State) cell.getValue());
-				} else if (cell.isEdge()) {
-					displayProperties((Edge) cell.getValue());
-				}
+					mxCell cell = (mxCell) cellObj;
+					if(cell.isVertex()){
+						displayProperties((State) cell.getValue());
+					} else if (cell.isEdge()) {
+						displayProperties((Edge) cell.getValue());
+					}
 				}
 				
 			}
@@ -278,20 +278,19 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		if (toolBox.getClicked() != null) {
 			int x = e.getX();
 			int y = e.getY();
+			x = (int) Math.ceil(x / GRID_SIZE);
+			y = (int) Math.ceil(y / GRID_SIZE);
 			graph.getModel().beginUpdate();
 			try	{
 				if (toolBox.getClicked().equals("State")) {
 					State state = new State(UUID.randomUUID().toString(), "New state...", false, false);
-					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, x, y, 20, 10));
+					state.setXcoord(x);
+					state.setXcoord(y);
+					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, x * GRID_SIZE, y * GRID_SIZE, 20, 10));
 					toolBox.setClicked(null);
 				}
 				else if (toolBox.getClicked().equals("System")) {
 					
-				}
-				else if (toolBox.getClicked().equals("Edge")) {
-//					Object v1 = graphicalStates.getMxCell(currentEdge.getFrom());
-//					Object v2 = graphicalStates.getMxCell(currentEdge.getTo());
-//					graphicalEdges.add(i,(mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2));
 				}
 				else if (toolBox.getClicked().equals("Text")) {
 					
