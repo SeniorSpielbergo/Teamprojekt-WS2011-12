@@ -142,7 +142,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		machine.getEdges().add(e1); */
 		this.drawGraph();
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
-		this.jPanelGraph.addMouseListener(this);
+		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
 
 //		if (this.machine != null && this.machine.getEdges().size() > 0) {
@@ -234,7 +234,6 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("wurstbrot");
 		if (toolBox.getClicked() != null) {
 			int x = e.getX();
 			int y = e.getY();
@@ -243,7 +242,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 				if (toolBox.getClicked().equals("State")) {
 					State state = new State(UUID.randomUUID().toString(), "New state...", false, false);
 					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, x, y, 20, 10));
-					System.out.println("wurst");
+					toolBox.setClicked(null);
 				}
 				else if (toolBox.getClicked().equals("System")) {
 					
@@ -264,21 +263,17 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		System.out.println("wurstbrot");
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		System.out.println("wurstbrot");
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		System.out.println("wurstbrot");
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		System.out.println("wurstbrot");
 	}
 }
