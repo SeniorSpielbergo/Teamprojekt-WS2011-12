@@ -39,6 +39,10 @@ public class Palette extends JPanel implements MouseListener {
 	public String getClicked() {
 		return clicked;
 	}
+	
+	public void setClicked(String value) {
+		this.clicked = value;
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {

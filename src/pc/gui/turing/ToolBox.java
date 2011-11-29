@@ -20,5 +20,9 @@ public class ToolBox extends JPanel {
 	public String getClicked() {
 		return this.palette.getClicked();
 	}
+	
+	public void setClicked(String value) {
+		this.palette.setClicked(value);
+	}
 
 }
