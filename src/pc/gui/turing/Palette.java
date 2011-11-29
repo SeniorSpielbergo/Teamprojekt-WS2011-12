@@ -20,13 +20,11 @@ public class Palette extends JPanel implements MouseListener {
 		GridBagConstraints c = new GridBagConstraints();
 		icons[0] = new JLabel("System", new ImageIcon("gui/images/system.png"), JLabel.LEFT);
 		icons[1] = new JLabel("State", new ImageIcon("gui/images/state.png"), JLabel.LEFT);
-		icons[2] = new JLabel("Edge", new ImageIcon("gui/images/edge.png"), JLabel.LEFT);
-		icons[3] = new JLabel("Text", new ImageIcon("gui/images/text.png"), JLabel.LEFT);
+		icons[2] = new JLabel("Text", new ImageIcon("gui/images/text.png"), JLabel.LEFT);
 		icons[0].setName("System");
 		icons[1].setName("State");
-		icons[2].setName("Edge");
-		icons[3].setName("Text");
-		for (int i = 0; i < 4; i++) {
+		icons[2].setName("Text");
+		for (int i = 0; i < 3; i++) {
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = i % 2;
 			c.gridy = (i < 2) ? 0 : 1;
@@ -38,6 +36,10 @@ public class Palette extends JPanel implements MouseListener {
 	
 	public String getClicked() {
 		return clicked;
+	}
+	
+	public void setClicked(String value) {
+		this.clicked = value;
 	}
 
 	@Override
