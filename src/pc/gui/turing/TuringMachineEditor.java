@@ -176,12 +176,14 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge);
 		jPanelProperties.removeAll();
 		jPanelProperties.add(propertiesEdge);
+		jPanelProperties.validate();
 	}
 
 	private void displayProperties(State state) {
 		PropertiesState propertiesState = new PropertiesState(state);
 		this.jPanelProperties.removeAll();
 		this.jPanelProperties.add(propertiesState);
+		jPanelProperties.validate();
 	}
 
 	private void drawGraph(){
