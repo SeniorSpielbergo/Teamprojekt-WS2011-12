@@ -1,4 +1,5 @@
 package machine.turing;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /** This class represents the transitions on all tapes for a specific edge
@@ -6,7 +7,8 @@ import java.util.ArrayList;
  * @author David Wille
  * 
  */
-public class Transition {
+public class Transition implements Serializable {
+	private static final long serialVersionUID = 2530568958006425276L;
 	/**
 	 * The unique id string of the transition
 	 */
