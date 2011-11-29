@@ -179,8 +179,9 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 	}
 
 	private void displayProperties(State state) {
-		jPanelProperties.removeAll();
-		//jPanelProperties.add(prop); //TODO: implement
+		PropertiesState propertiesState = new PropertiesState(state);
+		this.jPanelProperties.removeAll();
+		this.jPanelProperties.add(propertiesState);
 	}
 
 	private void drawGraph(){
