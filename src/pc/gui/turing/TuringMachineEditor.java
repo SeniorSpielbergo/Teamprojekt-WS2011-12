@@ -52,7 +52,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 	protected JPanel jPanelToolBox = null;
 	protected JPanel jPanelProperties = null;
 	protected ToolBox toolBox = new ToolBox();
-	
+
 	private JMenu editMenu;
 	private JMenuItem copyAction;
 	private JMenuItem cutAction;
@@ -85,9 +85,9 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 	public TuringMachineEditor(TuringMachine machine) {
 		super();
 		this.machine = machine;
-		
+
 		this.initEditor();
-		
+
 		this.graphicalStates = new StateList(machine.getStates().size());
 		this.graphicalEdges = new ArrayList<mxCell>(machine.getEdges().size());
 
@@ -119,38 +119,48 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		this.graph = new mxGraph();
 		this.graph.setAllowDanglingEdges(false);
 		this.graph.setAllowLoops(true);
-//		this.graph.setGridEnabled(true);
-//		this.graph.setGridSize(50);
-//		this.graph.setAutoSizeCells(true);
-//		this.graph.setCellsResizable(false);
-//		this.graph.setDefaultLoopStyle(arg0);
+		//		this.graph.setGridEnabled(true);
+		//		this.graph.setGridSize(50);
+		//		this.graph.setAutoSizeCells(true);
+		//		this.graph.setCellsResizable(false);
+		//		this.graph.setDefaultLoopStyle(arg0);
 		this.graph.getModel().addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
-			
-			@Override
-			public void invoke(Object obj, mxEventObject e) {
-				if(((mxCell) obj).isVertex()){
-					//TODO write back in machnine.turing.graph
-				}
-				
-			}
-		});
-		this.graph.getSelectionModel().addListener(mxEvent.CHANGE, new mxIEventListener() {
-			
+
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
 				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
 				for(Object cellObj: model.getCells()){
-				mxCell cell = (mxCell) cellObj;
-				if(cell.isVertex()){
-					displayProperties((State) cell.getValue());
-				} else if (cell.isEdge()) {
-					displayProperties((Edge) cell.getValue());
+					mxCell cell = (mxCell) cellObj;
+					if(cell.isVertex()){
+						((State)cell.getValue()).setXcoord(cell.getGeometry().getX());
+						((State)cell.getValue()).setYcoord(cell.getGeometry().getY());
+						System.out.println("Xcoord: " + ((State)cell.getValue()).getXcoord());
+					}
 				}
-				}
-				
+
 			}
 		});
-		
+		this.graph.getSelectionModel().addListener(mxEvent.CHANGE, new mxIEventListener() {
+
+			@Override
+			public void invoke(Object obj, mxEventObject e) {
+				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
+				for(Object cellObj: model.getCells()){
+					mxCell cell = (mxCell) cellObj;
+					if(cell.isVertex()){
+						displayProperties((State) cell.getValue());	
+						((State)cell.getValue()).setXcoord(cell.getGeometry().getX());
+						((State)cell.getValue()).setYcoord(cell.getGeometry().getY());
+						System.out.println("Xcoord: " + ((State)cell.getValue()).getXcoord());
+					
+					} else if (cell.isEdge()) {
+						displayProperties((Edge) cell.getValue());
+					}
+				}
+
+			}
+		});
+
 		/*
 		State s1 = new State("1", "s1", true, false);
 		State s2 = new State("2", "s2", false, true);
@@ -179,11 +189,11 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
 
-//		if (this.machine != null && this.machine.getEdges().size() > 0) {
-//			this.displayProperties(this.machine.getEdges().get(0));
-//		}
+		//		if (this.machine != null && this.machine.getEdges().size() > 0) {
+		//			this.displayProperties(this.machine.getEdges().get(0));
+		//		}
 	}
-	
+
 	/**
 	 * Initializes the editor
 	 */
@@ -192,16 +202,16 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		copyAction = new JMenuItem("Copy");
 		cutAction = new JMenuItem("Cut");
 		pasteAction = new JMenuItem("Paste");
-		
+
 		editMenu.add(copyAction);
 		editMenu.add(cutAction);
 		editMenu.add(pasteAction);
 		this.getMenus().add(editMenu);
-		
+
 		copyAction.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		cutAction.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		pasteAction.setAccelerator(KeyStroke.getKeyStroke('V', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-	
+
 		copyAction.addActionListener(this);
 		cutAction.addActionListener(this);
 		pasteAction.addActionListener(this);
@@ -285,15 +295,15 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 					toolBox.setClicked(null);
 				}
 				else if (toolBox.getClicked().equals("System")) {
-					
+
 				}
 				else if (toolBox.getClicked().equals("Edge")) {
-//					Object v1 = graphicalStates.getMxCell(currentEdge.getFrom());
-//					Object v2 = graphicalStates.getMxCell(currentEdge.getTo());
-//					graphicalEdges.add(i,(mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2));
+					//					Object v1 = graphicalStates.getMxCell(currentEdge.getFrom());
+					//					Object v2 = graphicalStates.getMxCell(currentEdge.getTo());
+					//					graphicalEdges.add(i,(mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2));
 				}
 				else if (toolBox.getClicked().equals("Text")) {
-					
+
 				}
 			} finally {
 				graph.getModel().endUpdate();
