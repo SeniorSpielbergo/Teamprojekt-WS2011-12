@@ -12,7 +12,7 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 		CANCEL, CREATE
 	}
 
-	private JPanel panelName, panelTapes, panelButtons, panelGap0, panelGap1, panelGap2, panelGap3, panelButtonGap ;
+	private JPanel panelName, panelTapes, panelButtons;
 	private JLabel name, tapes;
 	private	JTextField fieldName;
 	private JSpinner numberOfTapes;
@@ -22,13 +22,11 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 	public NewTMDialogue(){
 		setTitle("New TuringMachine");
 		this.setModal(true);
-		this.setBounds(500,250,400,250);
+		this.setBounds(500,250,300,150);
 		this.setResizable(false);
 
 		name = new JLabel();
 		panelName = new JPanel();
-		panelGap2 = new JPanel();
-		panelGap3 = new JPanel();
 		name.setText("Name");
 		panelName.add(name);
 
@@ -53,24 +51,18 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 		buttonCancel.addActionListener(this);
 
 		panelButtons = new JPanel();
-		panelButtonGap = new JPanel();
-		panelButtons.setLayout(new GridLayout(1,3));
+		panelButtons.setLayout(new BoxLayout(panelButtons, BoxLayout.LINE_AXIS));
+		panelButtons.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 		panelButtons.add(buttonCancel);
-		panelButtons.add(panelButtonGap);
+		panelButtons.add(Box.createHorizontalGlue());
+		panelButtons.add(Box.createRigidArea(new Dimension(10, 0)));
 		panelButtons.add(buttonCreate);
 
-		panelGap0 = new JPanel();
-		panelGap1 = new JPanel();
 
-
-		this.setLayout(new GridLayout(6,1));
-		this.add(panelGap0);
-		this.add(panelName);
-		this.add(panelGap2);
-		this.add(panelTapes);
-
-		this.add(panelGap1);
-		this.add(panelButtons);
+		this.setLayout(new BorderLayout());
+		this.add(panelName, BorderLayout.NORTH);
+		this.add(panelTapes, BorderLayout.CENTER);
+		this.add(panelButtons, BorderLayout.SOUTH);
 	}
 
 
