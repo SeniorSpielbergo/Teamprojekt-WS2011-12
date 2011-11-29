@@ -166,12 +166,13 @@ public class GraphicTape extends Tape {
 		this.tapePanel = tapePanel;
 	}
 
-	public JLabel getLabelTape() {
-		return labelTape;
+
+	public JTextArea getjTextAreaTape() {
+		return jTextAreaTape;
 	}
 
-	public void setLabelTape(JLabel labelTape) {
-		this.labelTape = labelTape;
+	public void setjTextAreaTape(JTextArea jTextAreaTape) {
+		this.jTextAreaTape = jTextAreaTape;
 	}
 
 	public String getMemoryAsFormattedString(int offset, int length) {

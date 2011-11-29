@@ -28,11 +28,5 @@ public class TapeWindow extends JFrame{
 		for(int i = 0; i< graphicTapes.size(); i++){
 			this.add(this.graphicTapes.get(i).getTapePanel());
 		}
-
-	}
-
-	public void paint(){
-		this.validate();
-
 	}
 }
