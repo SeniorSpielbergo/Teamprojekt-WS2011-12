@@ -361,7 +361,7 @@ public class Editor extends JFrame implements ActionListener {
 		//simulate
 		try {
 			Simulation sim = this.currentMachine.createSimulation();
-			sim.runMachine();
+			sim.start();
 		}
 		catch (TapeException e){
 			ErrorDialog.showError("The simulation failed because of a tape exception.", e);
@@ -369,13 +369,7 @@ public class Editor extends JFrame implements ActionListener {
 		catch (RuntimeException e){
 			ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
 		}
-		finally {
-			try {
-				this.currentMachine.shutdownTapes();
-			} catch (TapeException e) {
-				ErrorDialog.showError("Warning: The tapes could't be shutdown correctly.", e);
-			}
-		}
+
 	}
 
 	/**
@@ -425,7 +419,7 @@ public class Editor extends JFrame implements ActionListener {
 	public void loadEditor() {
 		System.out.println("Loading editor...");
 		this.add(this.currentMachine.getEditor());
-		
+
 		int menupos = 1;
 		for (JMenu menu : this.currentMachine.getEditor().getMenus()) {
 			this.menuBar.add(menu, menupos);
@@ -456,7 +450,7 @@ public class Editor extends JFrame implements ActionListener {
 			saveAsAction.setEnabled(false);
 			runAction.setEnabled(false);
 			exportLatexAction.setEnabled(false);
-			
+
 			for (JMenu menu : this.currentMachine.getEditor().getMenus()) {
 				this.menuBar.remove(menu);
 			}
