@@ -8,10 +8,14 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import machine.turing.*;
+
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -38,7 +42,7 @@ import com.mxgraph.util.mxEventObject;
 
 import gui.MachineEditor;
 
-public class TuringMachineEditor extends MachineEditor implements ActionListener, MouseListener {
+public class TuringMachineEditor extends MachineEditor implements ItemListener, ActionListener, MouseListener {
 	private static final long serialVersionUID = 7647012826073382156L;
 	private final int GRID_SIZE = 100;
 	private TuringMachine machine = null;
@@ -58,6 +62,9 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 	private JMenuItem copyAction;
 	private JMenuItem cutAction;
 	private JMenuItem pasteAction;
+	private JCheckBoxMenuItem gridToggleAction;
+	
+	private boolean gridEnabled = false;
 
 	/**
 	 * 
@@ -187,10 +194,12 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		copyAction = new JMenuItem("Copy");
 		cutAction = new JMenuItem("Cut");
 		pasteAction = new JMenuItem("Paste");
+		gridToggleAction = new JCheckBoxMenuItem("Grid enabled");
 
 		editMenu.add(copyAction);
 		editMenu.add(cutAction);
 		editMenu.add(pasteAction);
+		editMenu.add(gridToggleAction);
 		this.getMenus().add(editMenu);
 
 		copyAction.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -200,6 +209,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		copyAction.addActionListener(this);
 		cutAction.addActionListener(this);
 		pasteAction.addActionListener(this);
+		gridToggleAction.addItemListener(this);
 	}
 
 
@@ -247,6 +257,13 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 			}
 		} finally {
 			graph.getModel().endUpdate();
+		}
+	}
+	
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getSource() == gridToggleAction) {
+			gridEnabled = gridToggleAction.isSelected();
 		}
 	}
 
