@@ -62,6 +62,7 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 	protected ToolBox toolBox = new ToolBox();
 
 	private JMenu editMenu;
+	private JMenu viewMenu;
 	private JMenuItem copyAction;
 	private JMenuItem cutAction;
 	private JMenuItem pasteAction;
@@ -210,16 +211,19 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 	 */
 	public void initEditor() {
 		editMenu = new JMenu("Edit");
+		viewMenu = new JMenu("View");
 		copyAction = new JMenuItem("Copy");
 		cutAction = new JMenuItem("Cut");
 		pasteAction = new JMenuItem("Paste");
 		gridToggleAction = new JCheckBoxMenuItem("Grid enabled");
-
+		
 		editMenu.add(copyAction);
 		editMenu.add(cutAction);
 		editMenu.add(pasteAction);
-		editMenu.add(gridToggleAction);
+		viewMenu.add(gridToggleAction);
+		
 		this.getMenus().add(editMenu);
+		this.getMenus().add(viewMenu);
 
 		copyAction.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		cutAction.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
