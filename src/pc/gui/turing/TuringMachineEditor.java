@@ -1,6 +1,7 @@
 package gui.turing;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.UUID;
 
 import java.awt.BorderLayout;
@@ -32,8 +33,10 @@ import com.mxgraph.swing.mxGraphComponent;
 
 import com.mxgraph.view.mxGraphSelectionModel;
 import com.mxgraph.view.mxGraph;
+import com.mxgraph.view.mxStylesheet;
 import com.mxgraph.model.*;
 
+import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventSource;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
@@ -160,6 +163,11 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 					y = (int) Math.ceil(y / GRID_SIZE);
 					c.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, c.getGeometry().getWidth(), c.getGeometry().getHeight()));
 				}
+				else if (c == null) {
+					jPanelProperties.removeAll();
+					jPanelProperties.validate();
+					jPanelProperties.repaint();
+				}
 					
 				for(Object cellObj: model.getCells()){
 					mxCell cell = (mxCell) cellObj;
@@ -176,7 +184,18 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 
 			}
 		});
+		
+		// set style
+		mxStylesheet stylesheet = graph.getStylesheet();
+		Hashtable<String, Object> style = new Hashtable<String, Object>();
+		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
+		stylesheet.putCellStyle("CIRCLE", style);
+//		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
+//		stylesheet.putCellStyle("FINAL", style);
+//		stylesheet.setStyles();
+		
 		this.drawGraph();
+		
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
 		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
@@ -241,7 +260,7 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 			for (int i = 0;  i < states.size(); i++){
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
 						states.get(i), states.get(i).getXcoord() * GRID_SIZE, states.get(i).getYcoord() * GRID_SIZE, 
-						states.get(i).getWidth(), states.get(i).getHeight()));
+						states.get(i).getWidth(), states.get(i).getHeight(), "CIRCLE"));
 			}
 
 			//insert graphical Edges
@@ -297,7 +316,7 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 					State state = new State(UUID.randomUUID().toString(), "New state...", false, false);
 					state.setXcoord(x);
 					state.setXcoord(y);
-					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, 50, 25));
+					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, 50, 50, "CIRCLE"));
 					toolBox.setClicked(null);
 				}
 				else if (toolBox.getClicked().equals("System")) {
