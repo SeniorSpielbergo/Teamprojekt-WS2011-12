@@ -186,7 +186,11 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				for(Object cellObj: model.getCells()){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
-						displayProperties((State) cell.getValue(), graph.getView().getState(cell));	
+						System.out.println(graph.getView().getState(cell));
+						/* FIXME: graph.getView().getState(cell) returns null when displayPoperties is instantly
+						 * called after inserting a new state, so changing the state properties right after
+						 * adding it leads to nullpointer - but deselecting and selecting it again works */
+						displayProperties((State) cell.getValue(), graph.getView().getState(cell));
 
 					} else if (cell.isEdge()) {
 						displayProperties((Edge) cell.getValue(), cell);
