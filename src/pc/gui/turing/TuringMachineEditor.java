@@ -154,6 +154,7 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
+				System.out.println("brotwurst");
 				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
 				mxCell c = (mxCell) model.getCell();
 				if (c != null && c.isVertex()) {
@@ -259,8 +260,9 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 		try	{
 			for (int i = 0;  i < states.size(); i++){
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
-						states.get(i), states.get(i).getXcoord() * GRID_SIZE, states.get(i).getYcoord() * GRID_SIZE, 
+						states.get(i), states.get(i).getXcoord(), states.get(i).getYcoord(), 
 						states.get(i).getWidth(), states.get(i).getHeight(), "CIRCLE"));
+				System.out.println("x: " + states.get(i).getXcoord() + ", y: " + states.get(i).getYcoord());
 			}
 
 			//insert graphical Edges
@@ -316,6 +318,7 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 					State state = new State(UUID.randomUUID().toString(), "New state...", false, false);
 					state.setXcoord(x);
 					state.setXcoord(y);
+					this.machine.getStates().add(state);
 					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, 50, 50, "CIRCLE"));
 					toolBox.setClicked(null);
 				}
