@@ -308,15 +308,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			else {
 				this.GRID_SIZE = 1;
 			}
-			for (int i = 0; i < graphicalStates.size(); i++) {
-				mxCell cell = graphicalStates.get(i);
-				State currentState = (State) cell.getValue();
-				int x = (int) Math.ceil(currentState.getXcoord() / GRID_SIZE);
-				int y = (int) Math.ceil(currentState.getYcoord() / GRID_SIZE);
-				cell.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, WIDTH, HEIGHT));
-				System.out.println(x * GRID_SIZE + " " + y * GRID_SIZE);
-			}
-			this.graph.repaint();
 		}
 	}
 
