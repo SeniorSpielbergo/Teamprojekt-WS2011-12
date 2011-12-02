@@ -103,24 +103,26 @@ public class SimulationWindow extends JFrame{
 		}
 
 	}
+
+	//TODO shutdown tapes, if simwindow closed without finishing simulation
+	public void dispose(){
+		if(this.sim.isSimulationAlreadyStarted()){
+			this.sim.mystop();
+		}
+			try{
+				this.currentMachine.shutdownTapes();
+			}
+			catch (TapeException e) {
+				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+				e.printStackTrace();
+				ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
+
+				return;
+
+			}
+		}
 	
-//TODO shutdown tapes, if simwindow closed without finishing simulation
-//	public void dispose(){
-//		this.sim.getSimulationThread().stop();
-//		
-//		try{
-//			this.currentMachine.shutdownTapes();
-//		}
-//		catch (TapeException e) {
-//			System.out.println("Warning: The tapes couldn't be shutdown correctly.");
-//			e.printStackTrace();
-//			ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
-//
-//			return;
-//
-//		}
-//	}
-	
+
 	public class SimulationToolbar extends JPanel implements ActionListener {
 		JButton buttonPlay, buttonForward;
 		JToolBar toolbar;

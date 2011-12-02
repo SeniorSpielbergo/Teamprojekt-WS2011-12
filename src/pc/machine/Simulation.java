@@ -93,5 +93,8 @@ public abstract class Simulation implements Runnable{
 
 		}
 	}
+	public void mystop(){
+		this.simulationThread = null;
+	}
 
 }

@@ -34,7 +34,7 @@ import tape.SlaveRobot;
 import tape.Tape;
 import tape.TapeException;
 
-/** This class represents a Turing machine with it's states, edges and transitions
+/** This class represents a Turing machine with it's states, edges and transitions.
  * 
  * @author David Wille, Nils Breyer
  * 
