@@ -63,51 +63,57 @@ public class TuringSimulation extends Simulation{
 	 * @throws TapeException If something went wrong with the tapes.
 	 */
 	public void runMachine() throws TapeException{
-		if(!actualState.isFinalState()){
-			currentSymbols.clear();
+		if(!this.abortSimulation){
+			if(!actualState.isFinalState()){
+				currentSymbols.clear();
 
-			//read symbol(s)
-			for(int i = 0; i < machine.getNumberOfTapes(); i++)
-				currentSymbols.add(i,this.tapes.get(i).read());
+				//read symbol(s)
+				for(int i = 0; i < machine.getNumberOfTapes(); i++)
+					currentSymbols.add(i,this.tapes.get(i).read());
 
-			//searching for the right label
-			Transition rightLabel = getRightLabel();
+				//searching for the right label
+				Transition rightLabel = getRightLabel();
 
-			//go/do label
-			for(int i = 0; i < machine.getNumberOfTapes(); i++){
-				tapes.get(i).write(rightLabel.getWrite().get(i));
+				//go/do label
+				for(int i = 0; i < machine.getNumberOfTapes(); i++){
+					tapes.get(i).write(rightLabel.getWrite().get(i));
 
-				switch(rightLabel.getAction().get(i)){
+					switch(rightLabel.getAction().get(i)){
 
-				case 'R':
-					tapes.get(i).moveRight();
-					break;
-				case 'L':
-					tapes.get(i).moveLeft();
-					break;
-				default:
-					break;
+					case 'R':
+						tapes.get(i).moveRight();
+						break;
+					case 'L':
+						tapes.get(i).moveLeft();
+						break;
+					default:
+						break;
+					}
+				}
+
+				actualState = nextState;
+				if(!(actualState.isFinalState())){
+					while(this.simulationIsPaused){
+						try{
+							Thread.sleep(400);
+						}catch(InterruptedException e){}
+					}
+					//do the next step
+					runMachine();
+				}
+
+				else{
+					System.out.println("ich habe fertig");
 				}
 			}
-
-			actualState = nextState;
-			if(!(actualState.isFinalState())){
-				while(this.simulationIsPaused){
-					try{
-						Thread.sleep(400);
-					}catch(InterruptedException e){}
-				}
-				//do the next step
-				runMachine();
-			}
-
 			else{
-				System.out.println("ich habe fertig");
+				System.out.println("ich musste nie was tun");
 			}
 		}
 		else{
-			System.out.println("ich musste nie was tun");
+			this.simulationAborted = true;
 		}
+		
 	}
 
 	/**

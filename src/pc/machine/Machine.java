@@ -65,7 +65,7 @@ public abstract class Machine {
 			tape.init();
 		}
 	}
-	
+
 	/**
 	 * Initializes the tapes and writes the input words to the tape
 	 * @throws TapeException Exception if any problems occur while initializing
@@ -84,11 +84,13 @@ public abstract class Machine {
 	public void shutdownTapes() throws TapeException {
 		//init tapes
 		for (Tape tape : this.tapes) {
-			if(tape.isReady())
-			tape.shutdown();
+			if(tape.isReady()){
+				System.out.println(" i shut down the tapes...jetzt aber wirklich");
+				tape.shutdown();
+			}
 		}
 	}
-	
+
 	/**
 	 * Returns the Turing machine's name
 	 * @return The Turing machine's name
@@ -112,14 +114,14 @@ public abstract class Machine {
 	public int getNumberOfTapes() {
 		return this.tapes.size();
 	}
-	
+
 	/**
 	 * Saves the machine code to a file on the disk
 	 * @param filename File where to save the machine code
 	 * @throws IOException Thrown if an I/O error occurs while writing to disk
 	 */
 	public abstract void save(String filename) throws IOException;
-	
+
 	/**
 	 * Loads the machine code from a file
 	 * This operation replaces the current code in the machine object with the code from the file.
@@ -127,21 +129,21 @@ public abstract class Machine {
 	 * @throws IOException Thrown if an I/O error occours while reading the file or the file format is corrupt
 	 */
 	public abstract void load(String filename) throws IOException;
-	
+
 	/**
 	 * Returns a new Simulation object to simulate this machine
 	 * @return The simulation object
 	 * @throws TapeException Thrown if the simulation couldn't be created
 	 */
 	public abstract Simulation createSimulation() throws TapeException;
-	
+
 	/**
 	 * Returns a new graphical MachineEditor for this machine
 	 * Abstract method to be implemented by subclasses
 	 * @return The new MachineEditor
 	 */
 	protected abstract MachineEditor createEditor();
-	
+
 	/**
 	 * Returns the graphical MachineEditor for this machine
 	 * @return The MachineEditor
@@ -152,12 +154,12 @@ public abstract class Machine {
 		}
 		return this.editor;
 	}
-	
+
 	/**
 	 * Returns type of the machine
 	 * @return The type of this machine
 	 */
 	public abstract MachineType getType();
-	
+
 	public abstract String getFileExtension();
 }
