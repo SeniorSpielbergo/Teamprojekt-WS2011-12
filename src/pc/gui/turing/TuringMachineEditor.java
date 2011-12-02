@@ -198,13 +198,13 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.graph.addListener(mxEvent.CELL_CONNECTED, new mxIEventListener() {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
-				mxCell object =  (mxCell) e.getProperty("edge");
 				if(initialized){
-					mxICell source = ((mxCell) object).getSource();
-					mxICell target = ((mxCell) object).getTarget();
+					mxCell graphEdge = (mxCell) e.getProperty("edge");
+					mxICell source = ((mxCell) graphEdge).getSource();
+					mxICell target = ((mxCell) graphEdge).getTarget();
 					if(source != null && target != null) {
-						Edge edge = new Edge((State) (object.getSource().getValue()),(State)(object.getTarget().getValue()),new ArrayList<Transition>());
-						object.setValue(edge);
+						Edge edge = new Edge((State) (graphEdge.getSource().getValue()),(State)(graphEdge.getTarget().getValue()),new ArrayList<Transition>());
+						graphEdge.setValue(edge);
 						machine.getEdges().add(edge);
 					}
 				}
