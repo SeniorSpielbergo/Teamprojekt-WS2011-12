@@ -1,6 +1,7 @@
 package gui.turing;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.UUID;
 
 import java.awt.BorderLayout;
@@ -8,10 +9,14 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import machine.turing.*;
+
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -28,8 +33,10 @@ import com.mxgraph.swing.mxGraphComponent;
 
 import com.mxgraph.view.mxGraphSelectionModel;
 import com.mxgraph.view.mxGraph;
+import com.mxgraph.view.mxStylesheet;
 import com.mxgraph.model.*;
 
+import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventSource;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
@@ -38,7 +45,7 @@ import com.mxgraph.util.mxEventObject;
 
 import gui.MachineEditor;
 
-public class TuringMachineEditor extends MachineEditor implements ActionListener, MouseListener {
+public class TuringMachineEditor extends MachineEditor implements ItemListener, ActionListener, MouseListener {
 	private static final long serialVersionUID = 7647012826073382156L;
 	private final int GRID_SIZE = 100;
 	private TuringMachine machine = null;
@@ -55,9 +62,13 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 	protected ToolBox toolBox = new ToolBox();
 
 	private JMenu editMenu;
+	private JMenu viewMenu;
 	private JMenuItem copyAction;
 	private JMenuItem cutAction;
 	private JMenuItem pasteAction;
+	private JCheckBoxMenuItem gridToggleAction;
+	
+	private boolean gridEnabled = false;
 
 	/**
 	 * 
@@ -122,6 +133,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		this.graph.setAllowLoops(true);
 		this.graph.setAutoSizeCells(true);
 		this.graph.setCellsResizable(false);
+		this.graph.setCellsEditable(false);
 //		this.graph.setDefaultLoopStyle(arg0);
 		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 
@@ -152,6 +164,11 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 					y = (int) Math.ceil(y / GRID_SIZE);
 					c.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, c.getGeometry().getWidth(), c.getGeometry().getHeight()));
 				}
+				else if (c == null) {
+					jPanelProperties.removeAll();
+					jPanelProperties.validate();
+					jPanelProperties.repaint();
+				}
 					
 				for(Object cellObj: model.getCells()){
 					mxCell cell = (mxCell) cellObj;
@@ -168,7 +185,18 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 
 			}
 		});
+		
+		// set style
+		mxStylesheet stylesheet = graph.getStylesheet();
+		Hashtable<String, Object> style = new Hashtable<String, Object>();
+		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
+		stylesheet.putCellStyle("CIRCLE", style);
+//		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
+//		stylesheet.putCellStyle("FINAL", style);
+//		stylesheet.setStyles();
+		
 		this.drawGraph();
+		
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
 		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
@@ -183,14 +211,19 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 	 */
 	public void initEditor() {
 		editMenu = new JMenu("Edit");
+		viewMenu = new JMenu("View");
 		copyAction = new JMenuItem("Copy");
 		cutAction = new JMenuItem("Cut");
 		pasteAction = new JMenuItem("Paste");
-
+		gridToggleAction = new JCheckBoxMenuItem("Grid enabled");
+		
 		editMenu.add(copyAction);
 		editMenu.add(cutAction);
 		editMenu.add(pasteAction);
+		viewMenu.add(gridToggleAction);
+		
 		this.getMenus().add(editMenu);
+		this.getMenus().add(viewMenu);
 
 		copyAction.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		cutAction.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -199,6 +232,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		copyAction.addActionListener(this);
 		cutAction.addActionListener(this);
 		pasteAction.addActionListener(this);
+		gridToggleAction.addItemListener(this);
 	}
 
 
@@ -230,7 +264,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 			for (int i = 0;  i < states.size(); i++){
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
 						states.get(i), states.get(i).getXcoord() * GRID_SIZE, states.get(i).getYcoord() * GRID_SIZE, 
-						states.get(i).getWidth(), states.get(i).getHeight()));
+						states.get(i).getWidth(), states.get(i).getHeight(), "CIRCLE"));
 			}
 
 			//insert graphical Edges
@@ -246,6 +280,13 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 			}
 		} finally {
 			graph.getModel().endUpdate();
+		}
+	}
+	
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getSource() == gridToggleAction) {
+			gridEnabled = gridToggleAction.isSelected();
 		}
 	}
 
@@ -279,7 +320,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 					State state = new State(UUID.randomUUID().toString(), "New state...", false, false);
 					state.setXcoord(x);
 					state.setXcoord(y);
-					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, 20, 10));
+					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, 50, 50, "CIRCLE"));
 					toolBox.setClicked(null);
 				}
 				else if (toolBox.getClicked().equals("System")) {

@@ -1,12 +1,15 @@
 package gui.turing;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import machine.turing.State;
 
-public class PropertiesState extends JPanel implements ItemListener, TextListener {
+public class PropertiesState extends JPanel implements ItemListener, DocumentListener {
 	
 	private static final long serialVersionUID = -5483231033293338765L;
 
@@ -21,15 +24,18 @@ public class PropertiesState extends JPanel implements ItemListener, TextListene
 		this.state = state;
 		name = new JLabel("Name");
 		inputName = new JTextField(this.state.getName(),10);
+		inputName.getDocument().addDocumentListener(this);
 		startState = new JCheckBox("Start");
 		startState.setSelected(this.state.isStartState());
 		startState.addItemListener(this);
 		finalState = new JCheckBox("Final");
-		startState.setSelected(this.state.isFinalState());
+		finalState.setSelected(this.state.isFinalState());
 		finalState.addItemListener(this);
 		propertiesPanel = new JPanel();
 		propertiesPanel.setLayout(new GridBagLayout());
 		
+		this.setMaximumSize(new Dimension(250, 120));
+		this.setPreferredSize(new Dimension(250, 120));
 		this.setBorder(BorderFactory.createTitledBorder("Properties"));
 		this.setLayout(new BorderLayout());
 		
@@ -77,12 +83,20 @@ public class PropertiesState extends JPanel implements ItemListener, TextListene
 			this.state.setFinalState(finalState.isSelected());		
 		}
 		else if(e.getSource().equals(startState)) {
-			this.state.setFinalState(startState.isSelected());
+			this.state.setStartState(startState.isSelected());
 		}
 	}
 
 	@Override
-	public void textValueChanged(TextEvent e) {
-		this.state.setName(inputName.getText());
+	public void changedUpdate(DocumentEvent e) {}
+
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		this.state.setName(this.inputName.getText());
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent e) {
+		this.state.setName(this.inputName.getText());
 	}
 }

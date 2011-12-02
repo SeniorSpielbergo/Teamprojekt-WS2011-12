@@ -46,7 +46,6 @@ public class Editor extends JFrame implements ActionListener {
 	private JMenu fileMenu;
 	private JMenu simulationMenu;
 	private JMenu helpMenu;
-	private final JFileChooser fc = new JFileChooser();
 
 	/**
 	 * Constructs the Editor window with all actionListeners and a basic setup
@@ -57,39 +56,7 @@ public class Editor extends JFrame implements ActionListener {
 
 		initEditor();
 
-		// set current directory for file chooser
-		try {
-			File currentDirectory = new File(new File(".").getCanonicalPath());
-			fc.setCurrentDirectory(currentDirectory);
-		}
-		catch (IOException e) {
-		}
 
-		// set xml filter for file chooser
-		fc.setFileFilter (new FileFilter() {
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith(".bf");
-			}
-			public String getDescription() {
-				return "*.bf";
-			}
-		});
-		fc.setFileFilter (new FileFilter() {
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith(".tm");
-			}
-			public String getDescription() {
-				return "*.tm";
-			}
-		});
-		fc.setFileFilter (new FileFilter() {
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith(".tm") || f.getName().toLowerCase().endsWith(".bf");
-			}
-			public String getDescription() {
-				return "*.bf, *.tm";
-			}
-		});
 
 		menuBar.add(fileMenu);
 		menuBar.add(simulationMenu);
@@ -226,14 +193,50 @@ public class Editor extends JFrame implements ActionListener {
 	 */
 	public void openFile() {
 		this.closeCurrentFile();
+
+		final JFileChooser fc = new JFileChooser();
+		// set current directory for file chooser
+		try {
+			File currentDirectory = new File(new File(".").getCanonicalPath());
+			fc.setCurrentDirectory(currentDirectory);
+		}
+		catch (IOException e) {
+		}
+
+		// set xml filter for file chooser
+		fc.setFileFilter (new FileFilter() {
+			public boolean accept(File f) {
+				return f.isDirectory() || f.getName().toLowerCase().endsWith(BrainfuckMachine.FILE_EXTENSION);
+			}
+			public String getDescription() {
+				return "Brainfuck programs (" + BrainfuckMachine.FILE_EXTENSION + ")";
+			}
+		});
+		fc.setFileFilter (new FileFilter() {
+			public boolean accept(File f) {
+				return f.isDirectory() || f.getName().toLowerCase().endsWith(TuringMachine.FILE_EXTENSION);
+			}
+			public String getDescription() {
+				return "Turing machines (" + TuringMachine.FILE_EXTENSION + ")";
+			}
+		});
+		fc.setFileFilter (new FileFilter() {
+			public boolean accept(File f) {
+				return f.isDirectory() || f.getName().toLowerCase().endsWith(TuringMachine.FILE_EXTENSION) || f.getName().toLowerCase().endsWith(BrainfuckMachine.FILE_EXTENSION);
+			}
+			public String getDescription() {
+				return "All supported files (" + TuringMachine.FILE_EXTENSION + ", " + BrainfuckMachine.FILE_EXTENSION + ")";
+			}
+		});
+
 		int retVal = fc.showOpenDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
 			Machine machine = null;
-			if(selectedFile.getName().toLowerCase().endsWith( ".tm" )) {
+			if(selectedFile.getName().toLowerCase().endsWith(TuringMachine.FILE_EXTENSION)) {
 				machine = new TuringMachine();
 			}
-			else if(selectedFile.getName().toLowerCase().endsWith( ".bf" )) {
+			else if(selectedFile.getName().toLowerCase().endsWith(BrainfuckMachine.FILE_EXTENSION)) {
 				machine = new BrainfuckMachine();
 			}
 			else {
@@ -243,6 +246,7 @@ public class Editor extends JFrame implements ActionListener {
 			try {
 				machine.load(selectedFile.getName());
 				this.currentMachine = machine;
+				this.currentFilename = selectedFile.getAbsolutePath();
 				this.loadEditor();
 			}
 			catch(Exception e) {
@@ -274,6 +278,33 @@ public class Editor extends JFrame implements ActionListener {
 	 * Saves a file under a certain name
 	 */
 	public void saveAsFile() {
+		final JFileChooser fc = new JFileChooser();
+		// set current directory for file chooser
+		try {
+			File currentDirectory = new File(new File(".").getCanonicalPath());
+			fc.setCurrentDirectory(currentDirectory);
+		}
+		catch (IOException e) {
+		}
+
+		// set xml filter for file chooser
+		fc.setFileFilter (new FileFilter() {
+			public boolean accept(File f) {
+				return f.isDirectory() || f.getName().toLowerCase().endsWith(currentMachine.getFileExtension());
+			}
+			public String getDescription() {
+				return currentMachine.getFileExtension();
+			}
+		});
+		
+		File f = null;
+		if (this.currentFilename.equals("")) {
+			f = new File(this.currentMachine.getName() + this.currentMachine.getFileExtension());
+		}
+		else {
+			f = new File(this.currentFilename);
+		}
+		fc.setSelectedFile(f);
 		int retVal = fc.showSaveDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
