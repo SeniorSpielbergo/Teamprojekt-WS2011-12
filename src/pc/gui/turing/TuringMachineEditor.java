@@ -279,7 +279,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				x = (int) Math.ceil(x / GRID_SIZE);
 				y = (int) Math.ceil(y / GRID_SIZE);
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
-
 				states.get(i), x * GRID_SIZE, y * GRID_SIZE, 
 				states.get(i).getWidth(), states.get(i).getHeight(), (states.get(i).isFinalState() ? "FINAL" : "CIRCLE")));
 			}

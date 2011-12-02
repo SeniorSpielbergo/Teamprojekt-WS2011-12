@@ -88,7 +88,11 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if(e.getSource().equals(finalState)) {
-			this.state.setFinalState(finalState.isSelected());		
+			this.state.setFinalState(finalState.isSelected());
+			mxCell cell = (mxCell) vertex.getCell();
+			cell.setStyle((finalState.isSelected()) ? "FINAL" : "CIRCLE");
+			graph.refresh();			
+			graph.repaint();
 		}
 		else if(e.getSource().equals(startState)) {
 			this.state.setStartState(startState.isSelected());
