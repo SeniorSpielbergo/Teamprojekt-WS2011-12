@@ -176,6 +176,8 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 
 					} else if (cell.isEdge()) {
 						displayProperties((Edge) cell.getValue());
+					 
+						
 					}
 				}
 
@@ -185,11 +187,11 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 		// set style
 		mxStylesheet stylesheet = graph.getStylesheet();
 		Hashtable<String, Object> style = new Hashtable<String, Object>();
+		Hashtable<String, Object> style2 = new Hashtable<String, Object>();
 		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		stylesheet.putCellStyle("CIRCLE", style);
-//		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
-//		stylesheet.putCellStyle("FINAL", style);
-//		stylesheet.setStyles();
+		style2.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
+		stylesheet.putCellStyle("FINAL", style2);
 		
 		this.drawGraph();
 		
@@ -260,7 +262,8 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 			for (int i = 0;  i < states.size(); i++){
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
 						states.get(i), states.get(i).getXcoord() * GRID_SIZE, states.get(i).getYcoord() * GRID_SIZE, 
-						states.get(i).getWidth(), states.get(i).getHeight(), "CIRCLE"));
+						states.get(i).getWidth(), states.get(i).getHeight(), (states.get(i).isFinalState() ? "FINAL" : "CIRCLE")));
+				
 			}
 
 			//insert graphical Edges
