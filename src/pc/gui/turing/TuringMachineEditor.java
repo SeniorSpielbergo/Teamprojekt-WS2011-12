@@ -327,7 +327,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			graph.getModel().beginUpdate();
 			try	{
 				if (toolBox.getClicked().equals("State")) {
-					State state = new State(UUID.randomUUID().toString(), "New state...", false, false);
+					State state = new State(UUID.randomUUID().toString(), "New...", false, false);
 					state.setXcoord(x);
 					state.setXcoord(y);
 					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, 50, 50, "CIRCLE"));
