@@ -4,7 +4,7 @@ import gui.ErrorDialog;
 import tape.TapeException;
 
 /**
- * Abstract class that controls a simulation of a machine
+ * Abstract class that controls a simulation of a machine.
  * @author Vanessa Baier
  *
  */
@@ -87,6 +87,10 @@ public abstract class Simulation implements Runnable{
 			}
 
 		}
+	}
+
+	public void mystop(){
+		this.simulationThread = null;
 	}
 	
 	public void resume() {
