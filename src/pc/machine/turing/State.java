@@ -36,7 +36,7 @@ public class State implements Serializable {
 	 * @param type Type of state
 	 */
 	
-	protected double xcoord, ycoord, height, width;
+	protected int xcoord, ycoord, height, width;
 	
 	
 	public State(String id, String name, boolean startState, boolean finalState) {
@@ -117,34 +117,34 @@ public class State implements Serializable {
 		this.finalState = finalState;
 	}
 	
-	public double getXcoord() {
+	public int getXcoord() {
 		return xcoord;
 	}
-	public void setXcoord(double xcoord) {
+	public void setXcoord(int xcoord) {
 		this.xcoord = xcoord;
 	}
 
-	public double getYcoord() {
+	public int getYcoord() {
 		return ycoord;
 	}
 
-	public void setYcoord(double ycoord) {
+	public void setYcoord(int ycoord) {
 		this.ycoord = ycoord;
 	}
 
-	public double getHeight() {
+	public int getHeight() {
 		return height;
 	}
 
-	public void setHeight(double height) {
+	public void setHeight(int height) {
 		this.height = height;
 	}
 
-	public double getWidth() {
+	public int getWidth() {
 		return width;
 	}
 
-	public void setWidth(double width) {
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
