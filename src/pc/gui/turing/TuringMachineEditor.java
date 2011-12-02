@@ -123,7 +123,7 @@ public class TuringMachineEditor extends MachineEditor implements ActionListener
 		this.graph.setAutoSizeCells(true);
 		this.graph.setCellsResizable(false);
 //		this.graph.setDefaultLoopStyle(arg0);
-		this.graph.getModel().addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
+		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
