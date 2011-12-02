@@ -51,7 +51,9 @@ import gui.MachineEditor;
 
 public class TuringMachineEditor extends MachineEditor implements KeyListener, ItemListener, ActionListener, MouseListener {
 	private static final long serialVersionUID = 7647012826073382156L;
-	private final int GRID_SIZE = 100;
+	private int GRID_SIZE = 50;
+	private final int WIDTH = 50;
+	private final int HEIGHT = 50;
 	private TuringMachine machine = null;
 	private Object selectedObject = null;
 	private StateList graphicalStates = null;
@@ -72,7 +74,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	private JMenuItem pasteAction;
 	private JCheckBoxMenuItem gridToggleAction;
 	
-	private boolean gridEnabled = false;
+	private boolean gridEnabled = true;
 
 	/**
 	 * 
@@ -211,10 +213,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		graphComponent.addKeyListener(this);
 		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
-
-		//		if (this.machine != null && this.machine.getEdges().size() > 0) {
-		//			this.displayProperties(this.machine.getEdges().get(0));
-		//		}
 	}
 
 	/**
@@ -227,6 +225,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		cutAction = new JMenuItem("Cut");
 		pasteAction = new JMenuItem("Paste");
 		gridToggleAction = new JCheckBoxMenuItem("Grid enabled");
+		gridToggleAction.setSelected(true);
 		
 		editMenu.add(copyAction);
 		editMenu.add(cutAction);
@@ -302,6 +301,20 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getSource() == gridToggleAction) {
 			gridEnabled = gridToggleAction.isSelected();
+			if (gridEnabled) {
+				this.GRID_SIZE = 50;
+			}
+			else {
+				this.GRID_SIZE = 1;
+			}
+			for (int i = 0; i < graphicalStates.size(); i++) {
+				mxCell cell = graphicalStates.get(i);
+				State currentState = (State) cell.getValue();
+				int x = (int) Math.ceil(currentState.getXcoord() / GRID_SIZE);
+				int y = (int) Math.ceil(currentState.getYcoord() / GRID_SIZE);
+				cell.setGeometry(new mxGeometry(x, y, WIDTH, HEIGHT));
+			}
+			this.graph.repaint();
 		}
 	}
 
@@ -336,7 +349,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 					state.setXcoord(x);
 					state.setXcoord(y);
 					this.machine.getStates().add(state);
-					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, 50, 50, "CIRCLE"));
+					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, WIDTH, HEIGHT, "CIRCLE"));
 					toolBox.setClicked(null);
 				}
 				else if (toolBox.getClicked().equals("System")) {
