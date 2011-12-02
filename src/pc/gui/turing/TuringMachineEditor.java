@@ -116,6 +116,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.jPanelProperties = new JPanel();
 		this.jPanelLeft.add(this.jPanelToolBox, BorderLayout.NORTH);
 		this.jPanelLeft.add(this.jPanelProperties, BorderLayout.CENTER);
+        this.jPanelProperties.setLayout(new BorderLayout());
+        this.jPanelToolBox.setLayout(new BorderLayout());
 
 		//create main graph panel
 		this.jPanelGraph = new JPanel();
@@ -129,9 +131,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		Dimension minimumSize = new Dimension(100, 50);
 		this.jPanelLeft.setMinimumSize(minimumSize);
 
-		//TODO: remove layout test
-		this.jPanelLeft.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-        this.jPanelProperties.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
 
 		this.jPanelGraph.setMinimumSize(minimumSize);
 		this.setLayout(new BorderLayout());
@@ -192,8 +191,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 					} else if (cell.isEdge()) {
 						displayProperties((Edge) cell.getValue());
-					 
-						
 					}
 				}
 
@@ -203,11 +200,11 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		// set style
 		mxStylesheet stylesheet = graph.getStylesheet();
 		Hashtable<String, Object> style = new Hashtable<String, Object>();
-		Hashtable<String, Object> style2 = new Hashtable<String, Object>();
 		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		stylesheet.putCellStyle("CIRCLE", style);
-		style2.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
-		stylesheet.putCellStyle("FINAL", style2);
+//		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
+//		stylesheet.putCellStyle("FINAL", style);
+//		stylesheet.setStyles();
 		
 		this.drawGraph();
 		
@@ -253,7 +250,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
-		jPanelProperties.add(propertiesEdge);
+		jPanelProperties.add(propertiesEdge, BorderLayout.CENTER);
 		jPanelProperties.validate();
 	}
 
@@ -262,7 +259,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
-		this.jPanelProperties.add(propertiesState);
+		this.jPanelProperties.add(propertiesState, BorderLayout.CENTER);
 		jPanelProperties.validate();
 	}
 
@@ -274,8 +271,13 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		graph.getModel().beginUpdate();
 		try	{
 			for (int i = 0;  i < states.size(); i++){
+				int x = states.get(i).getXcoord();
+				int y = states.get(i).getYcoord();
+				x = (int) Math.ceil(x / GRID_SIZE);
+				y = (int) Math.ceil(y / GRID_SIZE);
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
-				states.get(i), states.get(i).getXcoord(), states.get(i).getYcoord(), 
+
+				states.get(i), x * GRID_SIZE, y * GRID_SIZE, 
 				states.get(i).getWidth(), states.get(i).getHeight(), (states.get(i).isFinalState() ? "FINAL" : "CIRCLE")));
 			}
 			//insert graphical Edges
@@ -389,20 +391,10 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			for (int i = 0; i < deletedCells.length; i++) {
 				mxCell currentCell = (mxCell) deletedCells[i];
 				if (currentCell.isEdge()) {
-					Edge edge = (Edge) currentCell.getValue();
-					for (int j = 0; j < this.machine.getEdges().size(); j++) {
-						if (this.machine.getEdges().get(j) == edge) {
-							this.machine.getEdges().remove(j);
-						}
-					}
+					System.out.println("I'm not deleting anything from the machine :P");
 				}
 				else if(currentCell.isVertex()) {
-					State state = (State) currentCell.getValue();
-					for (int j = 0; j < this.machine.getStates().size(); j++) {
-						if (this.machine.getStates().get(j) == state) {
-							this.machine.getStates().remove(j);
-						}
-					}
+					System.out.println("I'm not deleting anything from the machine :P");
 				}
 			}
 		}
