@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="test" tapes="1" xml-version="3">
-    <tape type="gui">
+    <tape type="graphic">
         <name>Primary tape</name>
         <input>
             <symbol>#</symbol>

@@ -508,7 +508,7 @@ public class TuringMachine extends Machine{
 				tapeType = "console";
 			}
 			else if (tape.getType() == Tape.Type.GRAPHIC) {
-				tapeType = "gui";
+				tapeType = "graphic";
 			}
 			attrType.setValue(tapeType);
 			tapeElement.setAttributeNode(attrType);
