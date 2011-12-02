@@ -34,7 +34,7 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 		propertiesPanel = new JPanel();
 		propertiesPanel.setLayout(new GridBagLayout());
 		
-		//this.setMaximumSize(new Dimension(250, 120));
+		this.setMaximumSize(new Dimension(1000, 120));
 		this.setPreferredSize(new Dimension(250, 120));
 		this.setBorder(BorderFactory.createTitledBorder("Properties"));
 		this.setLayout(new BorderLayout());

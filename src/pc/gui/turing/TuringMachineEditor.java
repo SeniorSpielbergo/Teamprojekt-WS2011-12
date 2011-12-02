@@ -260,7 +260,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
-		this.jPanelProperties.add(propertiesState, BorderLayout.CENTER);
+		this.jPanelProperties.add(propertiesState, BorderLayout.PAGE_START);
 		jPanelProperties.validate();
 	}
 
