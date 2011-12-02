@@ -55,7 +55,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	private int GRID_SIZE = 50;
 	private final int WIDTH = 50;
 	private final int HEIGHT = 50;
-	private TuringMachine machine = null;
+	private boolean initialized = false;
+	private final TuringMachine machine;
 	private Object selectedObject = null;
 	private StateList graphicalStates = null;
 	private ArrayList<mxCell> graphicalEdges = null;
@@ -102,7 +103,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		}
 	}
 
-	public TuringMachineEditor(TuringMachine machine) {
+	public TuringMachineEditor(final TuringMachine machine) {
 		super();
 		this.machine = machine;
 
@@ -198,6 +199,23 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 			}
 		});
+		this.graph.addListener(mxEvent.CELL_CONNECTED, new mxIEventListener() {
+			
+			@Override
+			public void invoke(Object obj, mxEventObject e) {
+				//System.out.println(e.getProperty("edge"));
+				
+				
+				Object objects =  e.getProperty("edge");
+				if(initialized){
+				System.out.println("Cells connected!");
+				System.out.println(((mxCell) objects).getSource().getValue());
+				System.out.println(((mxCell) objects).getTarget());
+				Edge edge = new Edge((State) ((mxCell) objects).getSource().getValue(),(State)((mxCell) objects).getTarget().getValue(),new ArrayList<Transition>());
+				machine.getEdges().add(edge);
+				}
+			}
+		});
 		
 		// set style
 		mxStylesheet stylesheet = graph.getStylesheet();
@@ -215,6 +233,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		graphComponent.addKeyListener(this);
 		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
+		initialized = true;
 	}
 
 	/**
