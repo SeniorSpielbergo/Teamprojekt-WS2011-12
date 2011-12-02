@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -45,7 +47,7 @@ import com.mxgraph.util.mxEventObject;
 
 import gui.MachineEditor;
 
-public class TuringMachineEditor extends MachineEditor implements ItemListener, ActionListener, MouseListener {
+public class TuringMachineEditor extends MachineEditor implements KeyListener, ItemListener, ActionListener, MouseListener {
 	private static final long serialVersionUID = 7647012826073382156L;
 	private final int GRID_SIZE = 100;
 	private TuringMachine machine = null;
@@ -134,6 +136,7 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 		this.graph.setAutoSizeCells(true);
 		this.graph.setCellsResizable(false);
 		this.graph.setCellsEditable(false);
+		this.graph.setAllowNegativeCoordinates(false);
 //		this.graph.setDefaultLoopStyle(arg0);
 		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 
@@ -143,8 +146,8 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
-						((State)cell.getValue()).setXcoord(cell.getGeometry().getX());
-						((State)cell.getValue()).setYcoord(cell.getGeometry().getY());
+						((State)cell.getValue()).setXcoord((int)cell.getGeometry().getX());
+						((State)cell.getValue()).setYcoord((int)cell.getGeometry().getY());
 					}
 				}
 
@@ -195,6 +198,7 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 		this.drawGraph();
 		
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
+		graphComponent.addKeyListener(this);
 		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
 
@@ -349,5 +353,29 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+			Object[] deletedCells = this.graph.removeCells();
+			for (int i = 0; i < deletedCells.length; i++) {
+				mxCell currentCell = (mxCell) deletedCells[i];
+				if (currentCell.isEdge()) {
+					System.out.println("I'm not deleting anything from the machine :P");
+				}
+				else if(currentCell.isVertex()) {
+					System.out.println("I'm not deleting anything from the machine :P");
+				}
+			}
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 	}
 }
