@@ -134,10 +134,10 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.graph.setAllowDanglingEdges(false);
 		this.graph.setAllowLoops(true);
 		this.graph.setAutoSizeCells(true);
-		this.graph.setCellsResizable(false);
+		this.graph.setCellsResizable(true);
 		this.graph.setCellsEditable(false);
 		this.graph.setAllowNegativeCoordinates(false);
-//		this.graph.setDefaultLoopStyle(arg0);
+//		this.graph.setDefaultLoopStyle(null);
 		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 
 			@Override
@@ -146,28 +146,31 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
+						int x = (int) cell.getGeometry().getX();
+						int y = (int) cell.getGeometry().getY();
 						((State)cell.getValue()).setXcoord((int)cell.getGeometry().getX());
 						((State)cell.getValue()).setYcoord((int)cell.getGeometry().getY());
+						x = (int) Math.ceil(x / GRID_SIZE);
+						y = (int) Math.ceil(y / GRID_SIZE);
+						graph.getModel().beginUpdate();
+						try {
+							cell.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, cell.getGeometry().getWidth(), cell.getGeometry().getHeight()));
+							graph.repaint();
+						}
+						finally {
+							graph.getModel().endUpdate();
+						}
 					}
 				}
-
 			}
 		});
 		this.graph.getSelectionModel().addListener(mxEvent.CHANGE, new mxIEventListener() {
 
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
-				System.out.println("brotwurst");
 				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
 				mxCell c = (mxCell) model.getCell();
-				if (c != null && c.isVertex()) {
-					int x = (int) c.getGeometry().getX();
-					int y = (int) c.getGeometry().getY();
-					x = (int) Math.ceil(x / GRID_SIZE);
-					y = (int) Math.ceil(y / GRID_SIZE);
-					c.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, c.getGeometry().getWidth(), c.getGeometry().getHeight()));
-				}
-				else if (c == null) {
+				if (c == null) {
 					jPanelProperties.removeAll();
 					jPanelProperties.validate();
 					jPanelProperties.repaint();
