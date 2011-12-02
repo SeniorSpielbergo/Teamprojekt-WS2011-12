@@ -138,17 +138,16 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.graph.setCellsEditable(false);
 		this.graph.setAllowNegativeCoordinates(false);
 //		this.graph.setDefaultLoopStyle(arg0);
-		this.graph.getModel().addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
+		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
-				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
-				for(Object cellObj: model.getCells()){
+				
+				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
 						((State)cell.getValue()).setXcoord(cell.getGeometry().getX());
 						((State)cell.getValue()).setYcoord(cell.getGeometry().getY());
-						System.out.println("Xcoord: " + ((State)cell.getValue()).getXcoord());
 					}
 				}
 
@@ -177,9 +176,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
 						displayProperties((State) cell.getValue());	
-						((State)cell.getValue()).setXcoord(cell.getGeometry().getX());
-						((State)cell.getValue()).setYcoord(cell.getGeometry().getY());
-						System.out.println("Xcoord: " + ((State)cell.getValue()).getXcoord());
 
 					} else if (cell.isEdge()) {
 						displayProperties((Edge) cell.getValue());
