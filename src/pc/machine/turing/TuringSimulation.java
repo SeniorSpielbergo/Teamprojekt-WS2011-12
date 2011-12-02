@@ -122,14 +122,4 @@ public class TuringSimulation extends Simulation{
 		}
 
 	}
-	public void resume(){
-		this.simulationIsPaused = false;
-
-	}
-
-	public void pause(){
-		this.simulationIsPaused = true;
-
-	}
-
 }
