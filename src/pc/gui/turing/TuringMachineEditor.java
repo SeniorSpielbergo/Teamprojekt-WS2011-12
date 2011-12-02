@@ -82,6 +82,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	 * Nested class to extend ArrayList<mxCell> to find mxCells with specified State Object
 	 */
 	class StateList extends ArrayList<mxCell>{
+		private static final long serialVersionUID = 4590100471318084729L;
 		public StateList(int size){
 			super(size);
 		}
@@ -145,21 +146,24 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.graph.setCellsResizable(true);
 		this.graph.setCellsEditable(false);
 		this.graph.setAllowNegativeCoordinates(false);
+		this.graph.setSplitEnabled(false);
 //		this.graph.setDefaultLoopStyle(null);
 		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
-				
+				System.out.println("wurst");
 				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
 						int x = (int) cell.getGeometry().getX();
 						int y = (int) cell.getGeometry().getY();
+						System.out.println("current: " + x + ", " + y);
 						((State)cell.getValue()).setXcoord((int)cell.getGeometry().getX());
 						((State)cell.getValue()).setYcoord((int)cell.getGeometry().getY());
 						x = (int) Math.ceil(x / GRID_SIZE);
 						y = (int) Math.ceil(y / GRID_SIZE);
+						System.out.println("grid: " + x*GRID_SIZE + ", " + y*GRID_SIZE);
 						graph.getModel().beginUpdate();
 						try {
 							cell.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, cell.getGeometry().getWidth(), cell.getGeometry().getHeight()));
@@ -307,14 +311,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			else {
 				this.GRID_SIZE = 1;
 			}
-			for (int i = 0; i < graphicalStates.size(); i++) {
-				mxCell cell = graphicalStates.get(i);
-				State currentState = (State) cell.getValue();
-				int x = (int) Math.ceil(currentState.getXcoord() / GRID_SIZE);
-				int y = (int) Math.ceil(currentState.getYcoord() / GRID_SIZE);
-				cell.setGeometry(new mxGeometry(x, y, WIDTH, HEIGHT));
-			}
-			this.graph.repaint();
 		}
 	}
 
@@ -392,10 +388,20 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			for (int i = 0; i < deletedCells.length; i++) {
 				mxCell currentCell = (mxCell) deletedCells[i];
 				if (currentCell.isEdge()) {
-					System.out.println("I'm not deleting anything from the machine :P");
+					Edge edge = (Edge) currentCell.getValue();
+					for (int j = 0; j < this.machine.getEdges().size(); j++) {
+						if (this.machine.getEdges().get(j) == edge) {
+							this.machine.getEdges().remove(j);
+						}
+					}
 				}
 				else if(currentCell.isVertex()) {
-					System.out.println("I'm not deleting anything from the machine :P");
+					State state = (State) currentCell.getValue();
+					for (int j = 0; j < this.machine.getStates().size(); j++) {
+						if (this.machine.getStates().get(j) == state) {
+							this.machine.getStates().remove(j);
+						}
+					}
 				}
 			}
 		}
