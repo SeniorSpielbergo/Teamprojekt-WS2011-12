@@ -35,6 +35,7 @@ import machine.turing.TuringMachine;
 
 import com.mxgraph.swing.mxGraphComponent;
 
+import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraphSelectionModel;
 import com.mxgraph.view.mxGraph;
 import com.mxgraph.view.mxStylesheet;
@@ -188,10 +189,10 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				for(Object cellObj: model.getCells()){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
-						displayProperties((State) cell.getValue());	
+						displayProperties((State) cell.getValue(), graph.getView().getState(cell));	
 
 					} else if (cell.isEdge()) {
-						displayProperties((Edge) cell.getValue());
+						displayProperties((Edge) cell.getValue(), cell);
 					}
 				}
 
@@ -247,8 +248,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	}
 
 
-	private void displayProperties(Edge edge) {
-		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge);
+	private void displayProperties(Edge edge, mxCell cell) {
+		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge, graph, cell);
 		jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
@@ -256,8 +257,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		jPanelProperties.validate();
 	}
 
-	private void displayProperties(State state) {
-		PropertiesState propertiesState = new PropertiesState(state);
+	private void displayProperties(State state, mxCellState mxState) {
+		PropertiesState propertiesState = new PropertiesState(state,graph, mxState);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
