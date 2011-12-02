@@ -448,7 +448,6 @@ public class Editor extends JFrame implements ActionListener {
 	 * Loads and prepares the editor for the current machine
 	 */
 	public void loadEditor() {
-		System.out.println("Loading editor...");
 		this.add(this.currentMachine.getEditor());
 
 		int menupos = 1;
