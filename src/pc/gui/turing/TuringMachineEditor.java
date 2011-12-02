@@ -196,19 +196,17 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			}
 		});
 		this.graph.addListener(mxEvent.CELL_CONNECTED, new mxIEventListener() {
-			
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
-				//System.out.println(e.getProperty("edge"));
-				
-				
-				Object objects =  e.getProperty("edge");
+				mxCell object =  (mxCell) e.getProperty("edge");
 				if(initialized){
-				System.out.println("Cells connected!");
-				System.out.println(((mxCell) objects).getSource().getValue());
-				System.out.println(((mxCell) objects).getTarget().getValue());
-				Edge edge = new Edge((State) ((mxCell) objects).getSource().getValue(),(State)((mxCell) objects).getTarget().getValue(),new ArrayList<Transition>());
-				machine.getEdges().add(edge);
+					mxICell source = ((mxCell) object).getSource();
+					mxICell target = ((mxCell) object).getTarget();
+					if(source != null && target != null) {
+						Edge edge = new Edge((State) (object.getSource().getValue()),(State)(object.getTarget().getValue()),new ArrayList<Transition>());
+						object.setValue(edge);
+						machine.getEdges().add(edge);
+					}
 				}
 			}
 		});
@@ -364,7 +362,9 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				if (toolBox.getClicked().equals("State")) {
 					State state = new State(UUID.randomUUID().toString(), "New...", false, false);
 					state.setXcoord(x);
-					state.setXcoord(y);
+					state.setYcoord(y);
+					state.setWidth(this.WIDTH);
+					state.setHeight(this.HEIGHT);
 					this.machine.getStates().add(state);
 					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, WIDTH, HEIGHT, "CIRCLE"));
 					toolBox.setClicked(null);
