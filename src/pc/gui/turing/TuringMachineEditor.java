@@ -5,17 +5,21 @@ import java.util.Hashtable;
 import java.util.UUID;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import machine.turing.*;
 
+import javax.swing.BorderFactory;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -31,6 +35,7 @@ import machine.turing.TuringMachine;
 
 import com.mxgraph.swing.mxGraphComponent;
 
+import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraphSelectionModel;
 import com.mxgraph.view.mxGraph;
 import com.mxgraph.view.mxStylesheet;
@@ -45,9 +50,11 @@ import com.mxgraph.util.mxEventObject;
 
 import gui.MachineEditor;
 
-public class TuringMachineEditor extends MachineEditor implements ItemListener, ActionListener, MouseListener {
+public class TuringMachineEditor extends MachineEditor implements KeyListener, ItemListener, ActionListener, MouseListener {
 	private static final long serialVersionUID = 7647012826073382156L;
-	private final int GRID_SIZE = 100;
+	private int GRID_SIZE = 50;
+	private final int WIDTH = 50;
+	private final int HEIGHT = 50;
 	private TuringMachine machine = null;
 	private Object selectedObject = null;
 	private StateList graphicalStates = null;
@@ -68,7 +75,7 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 	private JMenuItem pasteAction;
 	private JCheckBoxMenuItem gridToggleAction;
 	
-	private boolean gridEnabled = false;
+	private boolean gridEnabled = true;
 
 	/**
 	 * 
@@ -76,6 +83,7 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 	 * Nested class to extend ArrayList<mxCell> to find mxCells with specified State Object
 	 */
 	class StateList extends ArrayList<mxCell>{
+		private static final long serialVersionUID = 4590100471318084729L;
 		public StateList(int size){
 			super(size);
 		}
@@ -108,8 +116,10 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 		this.jPanelLeft.setLayout(new BorderLayout());
 		this.jPanelToolBox = new JPanel();
 		this.jPanelProperties = new JPanel();
-		this.jPanelLeft.add(this.jPanelToolBox, BorderLayout.PAGE_START);
+		this.jPanelLeft.add(this.jPanelToolBox, BorderLayout.NORTH);
 		this.jPanelLeft.add(this.jPanelProperties, BorderLayout.CENTER);
+        this.jPanelProperties.setLayout(new BorderLayout());
+        this.jPanelToolBox.setLayout(new BorderLayout());
 
 		//create main graph panel
 		this.jPanelGraph = new JPanel();
@@ -120,9 +130,8 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 				this.jPanelLeft, this.jPanelGraph);
 		this.jSplitPaneHorizontal.setOneTouchExpandable(true);
 		this.jSplitPaneHorizontal.setDividerLocation(250);
-		Dimension minimumSize = new Dimension(100, 50);
-		this.jPanelLeft.setMinimumSize(minimumSize);
-		this.jPanelGraph.setMinimumSize(minimumSize);
+		this.jPanelLeft.setMinimumSize(new Dimension(200, 100));
+		this.jPanelGraph.setMinimumSize(new Dimension(200, 100));
 		this.setLayout(new BorderLayout());
 		this.add(this.jSplitPaneHorizontal, BorderLayout.CENTER);
 		jPanelToolBox.add(toolBox);
@@ -132,23 +141,37 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 		this.graph.setAllowDanglingEdges(false);
 		this.graph.setAllowLoops(true);
 		this.graph.setAutoSizeCells(true);
-		this.graph.setCellsResizable(false);
+		this.graph.setCellsResizable(true);
 		this.graph.setCellsEditable(false);
-//		this.graph.setDefaultLoopStyle(arg0);
-		this.graph.getModel().addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
+		this.graph.setAllowNegativeCoordinates(false);
+		this.graph.setSplitEnabled(false);
+//		this.graph.setDefaultLoopStyle(null);
+		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
-				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
-				for(Object cellObj: model.getCells()){
+				System.out.println("wurst");
+				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
-						((State)cell.getValue()).setXcoord(cell.getGeometry().getX());
-						((State)cell.getValue()).setYcoord(cell.getGeometry().getY());
-						System.out.println("Xcoord: " + ((State)cell.getValue()).getXcoord());
+						int x = (int) cell.getGeometry().getX();
+						int y = (int) cell.getGeometry().getY();
+						System.out.println("current: " + x + ", " + y);
+						((State)cell.getValue()).setXcoord((int)cell.getGeometry().getX());
+						((State)cell.getValue()).setYcoord((int)cell.getGeometry().getY());
+						x = (int) Math.ceil(x / GRID_SIZE);
+						y = (int) Math.ceil(y / GRID_SIZE);
+						System.out.println("grid: " + x*GRID_SIZE + ", " + y*GRID_SIZE);
+						graph.getModel().beginUpdate();
+						try {
+							cell.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, cell.getGeometry().getWidth(), cell.getGeometry().getHeight()));
+							graph.repaint();
+						}
+						finally {
+							graph.getModel().endUpdate();
+						}
 					}
 				}
-
 			}
 		});
 		this.graph.getSelectionModel().addListener(mxEvent.CHANGE, new mxIEventListener() {
@@ -157,29 +180,17 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 			public void invoke(Object obj, mxEventObject e) {
 				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
 				mxCell c = (mxCell) model.getCell();
-				if (c != null && c.isVertex()) {
-					int x = (int) c.getGeometry().getX();
-					int y = (int) c.getGeometry().getY();
-					x = (int) Math.ceil(x / GRID_SIZE);
-					y = (int) Math.ceil(y / GRID_SIZE);
-					c.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, c.getGeometry().getWidth(), c.getGeometry().getHeight()));
-				}
-				else if (c == null) {
-					jPanelProperties.removeAll();
-					jPanelProperties.validate();
-					jPanelProperties.repaint();
+				if (c == null) {
+					displayProperties();
 				}
 					
 				for(Object cellObj: model.getCells()){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
-						displayProperties((State) cell.getValue());	
-						((State)cell.getValue()).setXcoord(cell.getGeometry().getX());
-						((State)cell.getValue()).setYcoord(cell.getGeometry().getY());
-						System.out.println("Xcoord: " + ((State)cell.getValue()).getXcoord());
+						displayProperties((State) cell.getValue(), graph.getView().getState(cell));	
 
 					} else if (cell.isEdge()) {
-						displayProperties((Edge) cell.getValue());
+						displayProperties((Edge) cell.getValue(), cell);
 					}
 				}
 
@@ -189,21 +200,19 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 		// set style
 		mxStylesheet stylesheet = graph.getStylesheet();
 		Hashtable<String, Object> style = new Hashtable<String, Object>();
+		Hashtable<String, Object> style2 = new Hashtable<String, Object>();
 		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		stylesheet.putCellStyle("CIRCLE", style);
-//		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
-//		stylesheet.putCellStyle("FINAL", style);
-//		stylesheet.setStyles();
-		
+		style2.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
+		stylesheet.putCellStyle("FINAL", style2);
+
 		this.drawGraph();
 		
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
+		graphComponent.addKeyListener(this);
 		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
-
-		//		if (this.machine != null && this.machine.getEdges().size() > 0) {
-		//			this.displayProperties(this.machine.getEdges().get(0));
-		//		}
+		displayProperties();
 	}
 
 	/**
@@ -216,6 +225,7 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 		cutAction = new JMenuItem("Cut");
 		pasteAction = new JMenuItem("Paste");
 		gridToggleAction = new JCheckBoxMenuItem("Grid enabled");
+		gridToggleAction.setSelected(true);
 		
 		editMenu.add(copyAction);
 		editMenu.add(cutAction);
@@ -235,22 +245,30 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 		gridToggleAction.addItemListener(this);
 	}
 
-
-	private void displayProperties(Edge edge) {
-		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge);
+	private void displayProperties() {
+		PropertiesTuringMachine propertiesMachine = new PropertiesTuringMachine(machine);
 		jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
-		jPanelProperties.add(propertiesEdge);
+		jPanelProperties.add(propertiesMachine, BorderLayout.PAGE_START);
 		jPanelProperties.validate();
 	}
 
-	private void displayProperties(State state) {
-		PropertiesState propertiesState = new PropertiesState(state);
+	private void displayProperties(Edge edge, mxCell cell) {
+		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge, graph, cell);
+		jPanelProperties.removeAll();
+		jPanelProperties.validate();
+		jPanelProperties.repaint();
+		jPanelProperties.add(propertiesEdge, BorderLayout.CENTER);
+		jPanelProperties.validate();
+	}
+
+	private void displayProperties(State state, mxCellState mxState) {
+		PropertiesState propertiesState = new PropertiesState(state,graph, mxState);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
-		this.jPanelProperties.add(propertiesState);
+		jPanelProperties.add(propertiesState, BorderLayout.PAGE_START);
 		jPanelProperties.validate();
 	}
 
@@ -262,11 +280,14 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 		graph.getModel().beginUpdate();
 		try	{
 			for (int i = 0;  i < states.size(); i++){
+				int x = states.get(i).getXcoord();
+				int y = states.get(i).getYcoord();
+				x = (int) Math.ceil(x / GRID_SIZE);
+				y = (int) Math.ceil(y / GRID_SIZE);
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
-						states.get(i), states.get(i).getXcoord() * GRID_SIZE, states.get(i).getYcoord() * GRID_SIZE, 
-						states.get(i).getWidth(), states.get(i).getHeight(), "CIRCLE"));
+				states.get(i), x * GRID_SIZE, y * GRID_SIZE, 
+				states.get(i).getWidth(), states.get(i).getHeight(), (states.get(i).isFinalState() ? "FINAL" : "CIRCLE")));
 			}
-
 			//insert graphical Edges
 			Edge currentEdge = null;
 			Object v1 = null;
@@ -287,6 +308,12 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getSource() == gridToggleAction) {
 			gridEnabled = gridToggleAction.isSelected();
+			if (gridEnabled) {
+				this.GRID_SIZE = 50;
+			}
+			else {
+				this.GRID_SIZE = 1;
+			}
 		}
 	}
 
@@ -317,11 +344,13 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 			graph.getModel().beginUpdate();
 			try	{
 				if (toolBox.getClicked().equals("State")) {
-					State state = new State(UUID.randomUUID().toString(), "New state...", false, false);
+					State state = new State(UUID.randomUUID().toString(), "New...", false, false);
 					state.setXcoord(x);
 					state.setXcoord(y);
-					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, 50, 50, "CIRCLE"));
+					this.machine.getStates().add(state);
+					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, WIDTH, HEIGHT, "CIRCLE"));
 					toolBox.setClicked(null);
+					this.graph.setSelectionCell(graphicalStates.get(graphicalStates.size()-1));
 				}
 				else if (toolBox.getClicked().equals("System")) {
 
@@ -350,5 +379,40 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+			Object[] deletedCells = this.graph.removeCells();
+			for (int i = 0; i < deletedCells.length; i++) {
+				mxCell currentCell = (mxCell) deletedCells[i];
+				if (currentCell.isEdge()) {
+					Edge edge = (Edge) currentCell.getValue();
+					for (int j = 0; j < this.machine.getEdges().size(); j++) {
+						if (this.machine.getEdges().get(j) == edge) {
+							this.machine.getEdges().remove(j);
+						}
+					}
+				}
+				else if(currentCell.isVertex()) {
+					State state = (State) currentCell.getValue();
+					for (int j = 0; j < this.machine.getStates().size(); j++) {
+						if (this.machine.getStates().get(j) == state) {
+							this.machine.getStates().remove(j);
+						}
+					}
+				}
+			}
+			displayProperties();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 	}
 }

@@ -7,6 +7,10 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.mxgraph.model.mxCell;
+import com.mxgraph.view.mxCellState;
+import com.mxgraph.view.mxGraph;
+
 import machine.turing.State;
 
 public class PropertiesState extends JPanel implements ItemListener, DocumentListener {
@@ -19,8 +23,12 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 	private JCheckBox finalState;
 	private JPanel propertiesPanel;
 	private State state;
+	private mxGraph graph;
+	private mxCellState vertex;
 	
-	public PropertiesState(State state) {
+	public PropertiesState(State state, mxGraph graph, mxCellState vertex) {
+		this.graph = graph;
+		this.vertex = vertex;
 		this.state = state;
 		name = new JLabel("Name");
 		inputName = new JTextField(this.state.getName(),10);
@@ -34,7 +42,7 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 		propertiesPanel = new JPanel();
 		propertiesPanel.setLayout(new GridBagLayout());
 		
-		this.setMaximumSize(new Dimension(250, 120));
+		this.setMaximumSize(new Dimension(1000, 120));
 		this.setPreferredSize(new Dimension(250, 120));
 		this.setBorder(BorderFactory.createTitledBorder("Properties"));
 		this.setLayout(new BorderLayout());
@@ -74,13 +82,18 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 		c.insets = new Insets(5,5,5,5);
 		propertiesPanel.add(finalState, c);
 		
-		this.add(propertiesPanel, BorderLayout.PAGE_START);
+		this.add(propertiesPanel, BorderLayout.CENTER);
 	}
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if(e.getSource().equals(finalState)) {
-			this.state.setFinalState(finalState.isSelected());		
+			this.state.setFinalState(finalState.isSelected());
+			mxCell cell = (mxCell) vertex.getCell();
+			cell.setStyle((finalState.isSelected()) ? "FINAL" : "CIRCLE");
+			graph.refresh();			
+			graph.repaint();
+			this.vertex = graph.getView().getState(cell);
 		}
 		else if(e.getSource().equals(startState)) {
 			this.state.setStartState(startState.isSelected());
@@ -93,10 +106,27 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 	@Override
 	public void insertUpdate(DocumentEvent e) {
 		this.state.setName(this.inputName.getText());
+		graph.getModel().beginUpdate();
+		try {
+			this.vertex.setLabel(state.getName());
+			graph.repaint();
+			
+		} finally {
+			graph.getModel().endUpdate();
+		}
+		
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
 		this.state.setName(this.inputName.getText());
+		graph.getModel().beginUpdate();
+		try {
+			this.vertex.setLabel(state.getName());
+			graph.repaint();
+			
+		} finally {
+			graph.getModel().endUpdate();
+		}
 	}
 }

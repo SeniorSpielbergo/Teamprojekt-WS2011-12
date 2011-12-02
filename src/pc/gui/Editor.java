@@ -10,6 +10,7 @@ import machine.turing.*;
 import tape.*;
 import gui.RunWindow.*;
 
+import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.Toolkit;
 import java.awt.event.*;
@@ -53,10 +54,9 @@ public class Editor extends JFrame implements ActionListener {
 	public Editor() {
 		setTitle(appName);
 		setSize(800, 800);
+		setMinimumSize(new Dimension(600, 400));
 
 		initEditor();
-
-
 
 		menuBar.add(fileMenu);
 		menuBar.add(simulationMenu);
@@ -244,7 +244,7 @@ public class Editor extends JFrame implements ActionListener {
 				return;
 			}
 			try {
-				machine.load(selectedFile.getName());
+				machine.load(selectedFile.getAbsolutePath());
 				this.currentMachine = machine;
 				this.currentFilename = selectedFile.getAbsolutePath();
 				this.loadEditor();
@@ -254,7 +254,7 @@ public class Editor extends JFrame implements ActionListener {
 			}
 		}
 	}
-
+	
 	/**
 	 * Saves a file
 	 */
@@ -308,6 +308,14 @@ public class Editor extends JFrame implements ActionListener {
 		int retVal = fc.showSaveDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
+			if (selectedFile.exists()){
+				int result = JOptionPane.showConfirmDialog(null, "Do you want to override the file?", "Override", JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.NO_OPTION) {
+					saveAsFile();
+					return;
+				} 
+				
+			}
 			try { //TODO: check if the file already exists and prompt if to save anyway
 				this.currentMachine.save(selectedFile.getPath());
 			} catch (IOException e) {
@@ -414,7 +422,6 @@ public class Editor extends JFrame implements ActionListener {
 	 * Loads and prepares the editor for the current machine
 	 */
 	public void loadEditor() {
-		System.out.println("Loading editor...");
 		this.add(this.currentMachine.getEditor());
 
 		int menupos = 1;
