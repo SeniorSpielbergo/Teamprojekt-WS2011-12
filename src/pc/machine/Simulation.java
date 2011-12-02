@@ -15,6 +15,7 @@ public abstract class Simulation implements Runnable{
 	Machine machine;
 	Thread simulationThread;
 	boolean simulationAlreadyStarted;
+	protected boolean simulationIsPaused;
 
 
 	/**
@@ -25,6 +26,7 @@ public abstract class Simulation implements Runnable{
 		this.machine = machine;
 		this.simulationThread = new Thread(this);
 		this.simulationAlreadyStarted = false;
+		this.simulationIsPaused = false;
 	}
 
 	/**
@@ -62,11 +64,17 @@ public abstract class Simulation implements Runnable{
 	public void setSimulationAlreadyStarted(boolean simulationAlreadyStarted) {
 		this.simulationAlreadyStarted = simulationAlreadyStarted;
 	}
+	
+	
+	public abstract void resume();
+	
+	public abstract void pause();
 
 	/**
 	 * Runs the thread
 	 * */
 	public void run(){
+		this.simulationAlreadyStarted = true;
 		try{
 			this.runMachine();
 		}

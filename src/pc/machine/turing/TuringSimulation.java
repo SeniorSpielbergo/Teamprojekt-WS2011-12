@@ -18,7 +18,7 @@ public class TuringSimulation extends Simulation{
 		super(machine);
 		this.machine = machine;
 		this.tapes = machine.getTapes();
-		
+
 		for( int i=0; i < machine.getStates().size(); i++){
 			if(machine.getStates().get(i).isStartState()){
 				startState = machine.getStates().get(i);
@@ -59,6 +59,17 @@ public class TuringSimulation extends Simulation{
 			System.out.println("aktueller Zustand: " +actualState.getId());
 
 			if(!(actualState.isFinalState())){
+
+				while(this.simulationIsPaused){
+
+					try{
+						Thread.sleep(400);
+					}
+					catch(InterruptedException e){}
+
+				}
+
+
 				runMachine();
 			}
 
@@ -109,6 +120,15 @@ public class TuringSimulation extends Simulation{
 					s.getEdge().add(e);
 			}
 		}
+
+	}
+	public void resume(){
+		this.simulationIsPaused = false;
+
+	}
+
+	public void pause(){
+		this.simulationIsPaused = true;
 
 	}
 

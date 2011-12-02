@@ -123,17 +123,31 @@ public class SimulationWindow extends JFrame{
 		}
 
 		public void actionPerformed( ActionEvent event){
-			if(event.getSource().equals(buttonForward)){
-
-			}
-			else if(event.getSource().equals(buttonPlay)){
+			if(event.getSource().equals(buttonForward)){} //not implemented yet
+			
+			else if(event.getSource().equals(buttonPlay)&& !sim.isSimulationAlreadyStarted()){
 				try {
+					System.out.println("Starting simulation; simulationPaused1: "+ simulationPaused);
+					simulationPaused = false;
 					sim.start();
 				}
 				catch (RuntimeException e){
 					ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
 				}
+			}
+			
+			else if(event.getSource().equals(buttonPlay)&& sim.isSimulationAlreadyStarted()){
 
+				if(simulationPaused){
+					System.out.println("simulationPaused1: "+ simulationPaused);
+					sim.resume();
+				}
+				else{
+					System.out.println("simulationPaused2: "+ simulationPaused);
+					sim.pause();
+				}
+				simulationPaused = !simulationPaused;
+				System.out.println("simulationPaused3: "+ simulationPaused);
 			}
 		}
 	}
