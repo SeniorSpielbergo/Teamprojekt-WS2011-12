@@ -139,13 +139,12 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
-				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
-				for(Object cellObj: model.getCells()){
+				
+				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
 						((State)cell.getValue()).setXcoord(cell.getGeometry().getX());
 						((State)cell.getValue()).setYcoord(cell.getGeometry().getY());
-						System.out.println("Xcoord: " + ((State)cell.getValue()).getXcoord());
 					}
 				}
 
@@ -174,9 +173,6 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
 						displayProperties((State) cell.getValue());	
-						((State)cell.getValue()).setXcoord(cell.getGeometry().getX());
-						((State)cell.getValue()).setYcoord(cell.getGeometry().getY());
-						System.out.println("Xcoord: " + ((State)cell.getValue()).getXcoord());
 
 					} else if (cell.isEdge()) {
 						displayProperties((Edge) cell.getValue());
