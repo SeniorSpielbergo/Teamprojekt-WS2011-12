@@ -7,6 +7,10 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.mxgraph.model.mxCell;
+import com.mxgraph.view.mxCellState;
+import com.mxgraph.view.mxGraph;
+
 import machine.turing.State;
 
 public class PropertiesState extends JPanel implements ItemListener, DocumentListener {
@@ -19,8 +23,12 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 	private JCheckBox finalState;
 	private JPanel propertiesPanel;
 	private State state;
+	private mxGraph graph;
+	private mxCellState vertex;
 	
-	public PropertiesState(State state) {
+	public PropertiesState(State state, mxGraph graph, mxCellState vertex) {
+		this.graph = graph;
+		this.vertex = vertex;
 		this.state = state;
 		name = new JLabel("Name");
 		inputName = new JTextField(this.state.getName(),10);
@@ -93,10 +101,27 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 	@Override
 	public void insertUpdate(DocumentEvent e) {
 		this.state.setName(this.inputName.getText());
+		graph.getModel().beginUpdate();
+		try {
+			this.vertex.setLabel(state.getName());
+			graph.repaint();
+			
+		} finally {
+			graph.getModel().endUpdate();
+		}
+		
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
 		this.state.setName(this.inputName.getText());
+		graph.getModel().beginUpdate();
+		try {
+			this.vertex.setLabel(state.getName());
+			graph.repaint();
+			
+		} finally {
+			graph.getModel().endUpdate();
+		}
 	}
 }
