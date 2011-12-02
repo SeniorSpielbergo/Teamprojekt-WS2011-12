@@ -12,28 +12,28 @@
 	        <symbol>#</symbol>
 		</input>
 	</tape>
-	<state id="0" start="yes" final="no" width="50" height="50" x="1" y="1">
+	<state id="0" start="yes" final="no" width="50" height="50" x="50" y="50">
         <name>qS</name>
     </state>
-    <state id="1" start="no" final="no" width="50" height="50" x="1" y="3">
+    <state id="1" start="no" final="no" width="50" height="50" x="50" y="150">
         <name>q0</name>
     </state>
-    <state id="2" start="no" final="no" width="50" height="50" x="1" y="5">
+    <state id="2" start="no" final="no" width="50" height="50" x="50" y="250">
         <name>q1</name>
     </state>
-    <state id="3" start="no" final="no" width="50" height="50" x="3" y="5">
+    <state id="3" start="no" final="no" width="50" height="50" x="50" y="250">
         <name>q2</name>
     </state>
-    <state id="4" start="no" final="no" width="50" height="50" x="3" y="3">
+    <state id="4" start="no" final="no" width="50" height="50" x="150" y="150">
         <name>q3</name>
     </state>
-    <state id="5" start="no" final="no" width="50" height="50" x="3" y="1">
+    <state id="5" start="no" final="no" width="50" height="50" x="150" y="50">
         <name>q4</name>
     </state>
-    <state id="6" start="no" final="no" width="50" height="50" x="5" y="1">
+    <state id="6" start="no" final="no" width="50" height="50" x="250" y="50">
         <name>q5</name>
     </state>
-    <state id="7" start="no" final="yes" width="50" height="50" x="5" y="3">
+    <state id="7" start="no" final="yes" width="50" height="50" x="250" y="150">
         <name>qF</name>
     </state>
     <edge from="0" to="1">
