@@ -363,10 +363,20 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			for (int i = 0; i < deletedCells.length; i++) {
 				mxCell currentCell = (mxCell) deletedCells[i];
 				if (currentCell.isEdge()) {
-					System.out.println("I'm not deleting anything from the machine :P");
+					Edge edge = (Edge) currentCell.getValue();
+					for (int j = 0; j < this.machine.getEdges().size(); j++) {
+						if (this.machine.getEdges().get(j) == edge) {
+							this.machine.getEdges().remove(j);
+						}
+					}
 				}
 				else if(currentCell.isVertex()) {
-					System.out.println("I'm not deleting anything from the machine :P");
+					State state = (State) currentCell.getValue();
+					for (int j = 0; j < this.machine.getStates().size(); j++) {
+						if (this.machine.getStates().get(j) == state) {
+							this.machine.getStates().remove(j);
+						}
+					}
 				}
 			}
 		}
