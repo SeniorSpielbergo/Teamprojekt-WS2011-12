@@ -63,7 +63,17 @@ public abstract class Machine {
 		//init tapes
 		for (Tape tape : this.tapes) {
 			tape.init();
-			tape.writeInputWord();
+		}
+	}
+	
+	/**
+	 * Initializes the tapes and writes the input words to the tape
+	 * @throws TapeException Exception if any problems occur while initializing
+	 */
+	public void writeInputWords() throws TapeException {
+		//init tapes
+		for (Tape tape : this.tapes) {
+			tape.getWriteInputWordThread().start();
 		}
 	}
 

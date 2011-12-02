@@ -26,7 +26,7 @@ public class Editor extends JFrame implements ActionListener {
 	/**
 	 * The name of the application
 	 */
-	public static final String appName = "TuringBrain IDE";
+	public static final String APP_NAME = "TuringBrain IDE";
 	/**
 	 * The machine currently open in the editor
 	 */
@@ -52,7 +52,7 @@ public class Editor extends JFrame implements ActionListener {
 	 * Constructs the Editor window with all actionListeners and a basic setup
 	 */
 	public Editor() {
-		setTitle(appName);
+		setTitle(APP_NAME);
 		setSize(800, 800);
 		setMinimumSize(new Dimension(600, 400));
 
@@ -101,7 +101,7 @@ public class Editor extends JFrame implements ActionListener {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 			}
 			else if (System.getProperties().getProperty("os.name").equals("Mac OS X")) {
-				System.setProperty("com.apple.mrj.application.apple.menu.about.name", Editor.appName);
+				System.setProperty("com.apple.mrj.application.apple.menu.about.name", APP_NAME);
 				System.setProperty("apple.laf.useScreenMenuBar", "true");
 			}
 		} 
@@ -247,6 +247,7 @@ public class Editor extends JFrame implements ActionListener {
 				machine.load(selectedFile.getAbsolutePath());
 				this.currentMachine = machine;
 				this.currentFilename = selectedFile.getAbsolutePath();
+				this.setTitle(selectedFile.getName() + " Ñ " + APP_NAME);
 				this.loadEditor();
 			}
 			catch(Exception e) {
@@ -254,7 +255,7 @@ public class Editor extends JFrame implements ActionListener {
 			}
 		}
 	}
-
+	
 	/**
 	 * Saves a file
 	 */
@@ -368,46 +369,12 @@ public class Editor extends JFrame implements ActionListener {
 	 * Simulates the Turing machine
 	 */
 	public void simulate() {
+		SimulationWindow simulationWindow = new SimulationWindow(this.currentMachine);
 		//create tapes and write input
-		try {
-			this.currentMachine.initTapes();
-			TapeWindow tapeWindow = new TapeWindow(this.currentMachine.getTapes());
-			tapeWindow.init();
-		}
-		catch (TapeException e){
-			try {
-				this.currentMachine.shutdownTapes();
-			} catch (TapeException e1) {
-				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
-				e1.printStackTrace();
-			}
-			ErrorDialog.showError("The initialization of the tapes failed because of a tape exception.", e);
-
-			return;
-		}
-		catch (RuntimeException e){
-			try {
-				this.currentMachine.shutdownTapes();
-			} catch (TapeException e1) {
-				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
-				e1.printStackTrace();
-			}
-			ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
-
-			return;
-		}
+			// --> moved to simulation window
 
 		//simulate
-		try {
-			Simulation sim = this.currentMachine.createSimulation();
-			sim.start();
-		}
-		catch (TapeException e){
-			ErrorDialog.showError("The simulation failed because of a tape exception.", e);
-		}
-		catch (RuntimeException e){
-			ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
-		}
+
 
 	}
 

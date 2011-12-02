@@ -14,6 +14,8 @@ public abstract class Simulation implements Runnable{
 	 */
 	Machine machine;
 	Thread simulationThread;
+	boolean simulationAlreadyStarted;
+	protected boolean simulationIsPaused;
 
 
 	/**
@@ -22,7 +24,9 @@ public abstract class Simulation implements Runnable{
 	 */
 	public Simulation(Machine machine){
 		this.machine = machine;
-		simulationThread = new Thread(this);
+		this.simulationThread = new Thread(this);
+		this.simulationAlreadyStarted = false;
+		this.simulationIsPaused = false;
 	}
 
 	/**
@@ -32,13 +36,45 @@ public abstract class Simulation implements Runnable{
 	protected abstract void runMachine() throws TapeException;
 	
 	public void start(){
+		this.simulationAlreadyStarted = true;
 		this.simulationThread.start();
+		
 	}
+
+	public Machine getMachine() {
+		return machine;
+	}
+
+	public void setMachine(Machine machine) {
+		this.machine = machine;
+	}
+
+	public Thread getSimulationThread() {
+		return simulationThread;
+	}
+
+	public void setSimulationThread(Thread simulationThread) {
+		this.simulationThread = simulationThread;
+	}
+
+	public boolean isSimulationAlreadyStarted() {
+		return simulationAlreadyStarted;
+	}
+
+	public void setSimulationAlreadyStarted(boolean simulationAlreadyStarted) {
+		this.simulationAlreadyStarted = simulationAlreadyStarted;
+	}
+	
+	
+	public abstract void resume();
+	
+	public abstract void pause();
 
 	/**
 	 * Runs the thread
 	 * */
 	public void run(){
+		this.simulationAlreadyStarted = true;
 		try{
 			this.runMachine();
 		}

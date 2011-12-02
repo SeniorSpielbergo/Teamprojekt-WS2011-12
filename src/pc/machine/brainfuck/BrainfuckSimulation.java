@@ -166,4 +166,16 @@ public class BrainfuckSimulation extends Simulation {
 		else
 			throw new IllegalArgumentException("Syntaxcheck failed");
 	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
 }

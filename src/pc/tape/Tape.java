@@ -1,5 +1,7 @@
 package tape;
 
+import gui.ErrorDialog;
+
 import java.lang.String;
 
 /**
@@ -9,7 +11,7 @@ import java.lang.String;
  * @author Nils Breyer
  */
 
-public abstract class Tape {
+public abstract class Tape implements Runnable{
 	/**
 	 * True if the tape has been initialized
 	 */
@@ -30,6 +32,8 @@ public abstract class Tape {
 	 * Allow input on the tape (default true)
 	 */
 	protected boolean allowInput = true;
+	
+	protected Thread writeInputWordThread;
 
 	/**
 	 * Enum representing the tape types
@@ -54,6 +58,7 @@ public abstract class Tape {
 	 */
 	public Tape() {
 		this.name = "Default tape";
+		this.writeInputWordThread = new Thread(this);
 	}
 
 	/**
@@ -63,6 +68,7 @@ public abstract class Tape {
 	public Tape(boolean allowInput) {
 		this.name = "Default tape";
 		this.allowInput = allowInput;
+		this.writeInputWordThread = new Thread(this);
 	}
 
 	/**
@@ -71,6 +77,7 @@ public abstract class Tape {
 	 */
 	public Tape(String name) {
 		this.name = name;
+		this.writeInputWordThread = new Thread(this);
 	}
 
 	/**
@@ -81,6 +88,7 @@ public abstract class Tape {
 	public Tape(String name, boolean allowInput) {
 		this.name = name;
 		this.allowInput = allowInput;
+		this.writeInputWordThread = new Thread(this);
 	}
 
 	/**
@@ -135,6 +143,28 @@ public abstract class Tape {
 	 * @throws TapeException Thrown if writing the input word fails
 	 */
 	public abstract void writeInputWord() throws TapeException;
+	
+	public void run(){
+		try{
+			this.writeInputWord();
+		}
+		catch(TapeException e){
+			ErrorDialog.showError("Writing the input word failed.", e);
+		}
+		
+	}
+	
+	public void start(){
+		this.writeInputWordThread.start();
+	}
+
+	public Thread getWriteInputWordThread() {
+		return writeInputWordThread;
+	}
+
+	public void setWriteInputWordThread(Thread writeInputWordThread) {
+		this.writeInputWordThread = writeInputWordThread;
+	}
 
 	/**
 	 * This method returns the tape type

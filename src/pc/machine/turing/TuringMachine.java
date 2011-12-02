@@ -508,7 +508,7 @@ public class TuringMachine extends Machine{
 				tapeType = "console";
 			}
 			else if (tape.getType() == Tape.Type.GRAPHIC) {
-				tapeType = "gui";
+				tapeType = "graphic";
 			}
 			attrType.setValue(tapeType);
 			tapeElement.setAttributeNode(attrType);
@@ -696,6 +696,14 @@ public class TuringMachine extends Machine{
 		}
 		return null;
 	}
+	
+	/**
+	 * Sets the machine name
+	 * @param name The name to be set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	/**
 	 * Gives a string representation of the Turing Machine
@@ -725,11 +733,4 @@ public class TuringMachine extends Machine{
 	public MachineType getType() {
 		return Machine.MachineType.TuringMachine;
 	}
-	
-	
-	
-	
-	
-	
-
 }

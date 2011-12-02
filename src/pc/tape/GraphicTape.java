@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class GraphicTape extends Tape {
 
 	JPanel tapePanel;
-	JLabel labelTape, textlabel;
+	JLabel labelActualLabel, textlabel;
 	JTextArea jTextAreaTape;
 	/**
 	 * Stores the current tape content
@@ -58,14 +58,16 @@ public class GraphicTape extends Tape {
 	public void init() throws TapeException {
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		System.out.println(this.name + ": Tape ready.");
-		tapePanel = new JPanel();
+		this.tapePanel = new JPanel(new BorderLayout());
 		this.jTextAreaTape = new JTextArea();
 		this.jTextAreaTape.setFont(new Font("Courier",Font.PLAIN, this.jTextAreaTape.getFont().getSize()));
 		this.jTextAreaTape.setEditable(false);
 		
-		textlabel = new JLabel("GraphicTape");
-		tapePanel.add(this.jTextAreaTape);
-		tapePanel.add(textlabel);
+		this.labelActualLabel= new JLabel();
+		this.textlabel = new JLabel(this.name);
+		
+		this.tapePanel.add(textlabel,BorderLayout.NORTH);
+		this.tapePanel.add(this.jTextAreaTape, BorderLayout.CENTER);
 
 		//set ready
 		this.ready = true;
@@ -146,9 +148,11 @@ public class GraphicTape extends Tape {
 		//write input word to tape
 		for (int i = 0; i < this.inputWord.length(); i++) {
 			this.write(this.inputWord.charAt(i));
+			printTape();
 			this.moveRight();
 		}
 		for (int i = 0; i < this.inputWord.length(); i++) {
+			printTape();
 			this.moveLeft();
 		}
 		printTape();
