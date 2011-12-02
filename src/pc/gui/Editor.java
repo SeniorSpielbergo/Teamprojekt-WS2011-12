@@ -360,46 +360,12 @@ public class Editor extends JFrame implements ActionListener {
 	 * Simulates the Turing machine
 	 */
 	public void simulate() {
+		SimulationWindow simulationWindow = new SimulationWindow(this.currentMachine);
 		//create tapes and write input
-		try {
-			this.currentMachine.initTapes();
-			TapeWindow tapeWindow = new TapeWindow(this.currentMachine.getTapes());
-			tapeWindow.init();
-		}
-		catch (TapeException e){
-			try {
-				this.currentMachine.shutdownTapes();
-			} catch (TapeException e1) {
-				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
-				e1.printStackTrace();
-			}
-			ErrorDialog.showError("The initialization of the tapes failed because of a tape exception.", e);
-
-			return;
-		}
-		catch (RuntimeException e){
-			try {
-				this.currentMachine.shutdownTapes();
-			} catch (TapeException e1) {
-				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
-				e1.printStackTrace();
-			}
-			ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
-
-			return;
-		}
+			// --> moved to simulation window
 
 		//simulate
-		try {
-			Simulation sim = this.currentMachine.createSimulation();
-			sim.start();
-		}
-		catch (TapeException e){
-			ErrorDialog.showError("The simulation failed because of a tape exception.", e);
-		}
-		catch (RuntimeException e){
-			ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
-		}
+
 
 	}
 
