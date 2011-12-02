@@ -208,7 +208,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				if(initialized){
 				System.out.println("Cells connected!");
 				System.out.println(((mxCell) objects).getSource().getValue());
-				System.out.println(((mxCell) objects).getTarget());
+				System.out.println(((mxCell) objects).getTarget().getValue());
 				Edge edge = new Edge((State) ((mxCell) objects).getSource().getValue(),(State)((mxCell) objects).getTarget().getValue(),new ArrayList<Transition>());
 				machine.getEdges().add(edge);
 				}
