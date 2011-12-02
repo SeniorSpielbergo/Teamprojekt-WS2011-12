@@ -147,8 +147,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.graph.setAllowNegativeCoordinates(false);
 		this.graph.setSplitEnabled(false);
 //		this.graph.setDefaultLoopStyle(null);
+		
 		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
-
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
 				for(Object cellObj: (Object[]) e.getProperty("cells")){
@@ -173,32 +173,28 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				}
 			}
 		});
+		
 		this.graph.getSelectionModel().addListener(mxEvent.CHANGE, new mxIEventListener() {
-
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
 				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
-				mxCell c = (mxCell) model.getCell();
-				if (c == null) {
+				mxCell cell = (mxCell) model.getCell();
+				if (cell == null) {
 					displayProperties();
 				}
-					
-				for(Object cellObj: model.getCells()){
-					mxCell cell = (mxCell) cellObj;
-					if(cell.isVertex()){
-						System.out.println(graph.getView().getState(cell));
-						/* FIXME: graph.getView().getState(cell) returns null when displayPoperties is instantly
-						 * called after inserting a new state, so changing the state properties right after
-						 * adding it leads to nullpointer - but deselecting and selecting it again works */
-						displayProperties((State) cell.getValue(), graph.getView().getState(cell));
-
-					} else if (cell.isEdge()) {
-						displayProperties((Edge) cell.getValue(), cell);
-					}
+				else if(cell.isVertex()){
+					System.out.println(graph.getView().getState(cell));
+					/* FIXME: graph.getView().getState(cell) returns null when displayPoperties is instantly
+					 * called after inserting a new state, so changing the state properties right after
+					 * adding it leads to nullpointer */
+					displayProperties((State) cell.getValue(), graph.getView().getState(cell));
+				} 
+				else if (cell.isEdge()) {
+					displayProperties((Edge) cell.getValue(), cell);
 				}
-
 			}
 		});
+		
 		this.graph.addListener(mxEvent.CELL_CONNECTED, new mxIEventListener() {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {

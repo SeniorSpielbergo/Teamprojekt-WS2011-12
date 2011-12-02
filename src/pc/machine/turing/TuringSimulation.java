@@ -142,11 +142,9 @@ public class TuringSimulation extends Simulation{
 	 * This method adds the edge to its state.
 	 */
 	private void findEdge(){
-		for( State s : machine.getStates()){
-			for( Edge e : machine.getEdges()){
-				if(e.getFrom().equals(s.getId()))
+		for( State s : machine.getStates())
+			for( Edge e : machine.getEdges())
+				if(e.getFrom().getId().equals(s.getId()))
 					s.getEdge().add(e);
-			}
-		}
 	}
 }
