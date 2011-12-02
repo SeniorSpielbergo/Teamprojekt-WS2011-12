@@ -56,8 +56,6 @@ public class Editor extends JFrame implements ActionListener {
 
 		initEditor();
 
-
-
 		menuBar.add(fileMenu);
 		menuBar.add(simulationMenu);
 		menuBar.add(helpMenu);
@@ -254,7 +252,7 @@ public class Editor extends JFrame implements ActionListener {
 			}
 		}
 	}
-
+	
 	/**
 	 * Saves a file
 	 */

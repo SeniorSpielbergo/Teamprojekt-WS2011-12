@@ -180,9 +180,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
 				mxCell c = (mxCell) model.getCell();
 				if (c == null) {
-					jPanelProperties.removeAll();
-					jPanelProperties.validate();
-					jPanelProperties.repaint();
+					displayProperties();
 				}
 					
 				for(Object cellObj: model.getCells()){
@@ -207,13 +205,13 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		style2.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
 		stylesheet.putCellStyle("FINAL", style2);
 
-		
 		this.drawGraph();
 		
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
 		graphComponent.addKeyListener(this);
 		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
+		displayProperties();
 	}
 
 	/**
@@ -246,6 +244,14 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		gridToggleAction.addItemListener(this);
 	}
 
+	private void displayProperties() {
+		PropertiesTuringMachine propertiesMachine = new PropertiesTuringMachine(machine);
+		jPanelProperties.removeAll();
+		jPanelProperties.validate();
+		jPanelProperties.repaint();
+		jPanelProperties.add(propertiesMachine, BorderLayout.PAGE_START);
+		jPanelProperties.validate();
+	}
 
 	private void displayProperties(Edge edge) {
 		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge);
@@ -258,10 +264,10 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 	private void displayProperties(State state) {
 		PropertiesState propertiesState = new PropertiesState(state);
-		this.jPanelProperties.removeAll();
+		jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
-		this.jPanelProperties.add(propertiesState, BorderLayout.PAGE_START);
+		jPanelProperties.add(propertiesState, BorderLayout.PAGE_START);
 		jPanelProperties.validate();
 	}
 
@@ -344,6 +350,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 					this.machine.getStates().add(state);
 					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, WIDTH, HEIGHT, "CIRCLE"));
 					toolBox.setClicked(null);
+					this.graph.setSelectionCell(graphicalStates.get(graphicalStates.size()-1));
 				}
 				else if (toolBox.getClicked().equals("System")) {
 
@@ -401,6 +408,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 					}
 				}
 			}
+			displayProperties();
 		}
 	}
 
