@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import java.util.UUID;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import java.awt.event.MouseListener;
 
 import machine.turing.*;
 
+import javax.swing.BorderFactory;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -110,7 +112,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.jPanelLeft.setLayout(new BorderLayout());
 		this.jPanelToolBox = new JPanel();
 		this.jPanelProperties = new JPanel();
-		this.jPanelLeft.add(this.jPanelToolBox, BorderLayout.PAGE_START);
+		this.jPanelLeft.add(this.jPanelToolBox, BorderLayout.NORTH);
 		this.jPanelLeft.add(this.jPanelProperties, BorderLayout.CENTER);
 
 		//create main graph panel
@@ -124,6 +126,11 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.jSplitPaneHorizontal.setDividerLocation(250);
 		Dimension minimumSize = new Dimension(100, 50);
 		this.jPanelLeft.setMinimumSize(minimumSize);
+
+		//TODO: remove layout test
+		this.jPanelLeft.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        this.jPanelProperties.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+
 		this.jPanelGraph.setMinimumSize(minimumSize);
 		this.setLayout(new BorderLayout());
 		this.add(this.jSplitPaneHorizontal, BorderLayout.CENTER);
