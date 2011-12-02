@@ -103,7 +103,24 @@ public class SimulationWindow extends JFrame{
 		}
 
 	}
-
+	
+//TODO shutdown tapes, if simwindow closed without finishing simulation
+//	public void dispose(){
+//		this.sim.getSimulationThread().stop();
+//		
+//		try{
+//			this.currentMachine.shutdownTapes();
+//		}
+//		catch (TapeException e) {
+//			System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+//			e.printStackTrace();
+//			ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
+//
+//			return;
+//
+//		}
+//	}
+	
 	public class SimulationToolbar extends JPanel implements ActionListener {
 		JButton buttonPlay, buttonForward;
 		JToolBar toolbar;
@@ -117,17 +134,23 @@ public class SimulationWindow extends JFrame{
 			buttonForward.addActionListener(this);
 			toolbar.add(buttonPlay);
 			toolbar.add(buttonForward);
-			setPreferredSize(new Dimension(450, 130));
+			setPreferredSize(new Dimension(600, 130));
 			this.add(toolbar, BorderLayout.NORTH);
 
 		}
 
 		public void actionPerformed( ActionEvent event){
-			if(event.getSource().equals(buttonForward)){} //not implemented yet
-			
+			if(event.getSource().equals(buttonForward)){
+				sim.resume();
+				try{
+					Thread.sleep(500);
+				}
+				catch(InterruptedException e){}
+				sim.pause();
+			} //not implemented yet
+
 			else if(event.getSource().equals(buttonPlay)&& !sim.isSimulationAlreadyStarted()){
 				try {
-					System.out.println("Starting simulation; simulationPaused1: "+ simulationPaused);
 					simulationPaused = false;
 					sim.start();
 				}
@@ -135,19 +158,16 @@ public class SimulationWindow extends JFrame{
 					ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
 				}
 			}
-			
+
 			else if(event.getSource().equals(buttonPlay)&& sim.isSimulationAlreadyStarted()){
 
 				if(simulationPaused){
-					System.out.println("simulationPaused1: "+ simulationPaused);
 					sim.resume();
 				}
 				else{
-					System.out.println("simulationPaused2: "+ simulationPaused);
 					sim.pause();
 				}
 				simulationPaused = !simulationPaused;
-				System.out.println("simulationPaused3: "+ simulationPaused);
 			}
 		}
 	}

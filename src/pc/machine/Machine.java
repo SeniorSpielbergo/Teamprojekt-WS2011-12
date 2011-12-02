@@ -84,6 +84,7 @@ public abstract class Machine {
 	public void shutdownTapes() throws TapeException {
 		//init tapes
 		for (Tape tape : this.tapes) {
+			if(tape.isReady())
 			tape.shutdown();
 		}
 	}
