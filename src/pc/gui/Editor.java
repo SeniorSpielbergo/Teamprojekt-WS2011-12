@@ -16,7 +16,7 @@ import java.awt.Toolkit;
 import java.awt.event.*;
 import java.io.*;
 
-/** This class represents an editor for Turing machines
+/** This class represents an editor for Turing machines.
  * 
  * @author Vanessa Baier, Nils Breyer, Sven Schuster, Philipp Neumann, David Wille
  * 
@@ -24,11 +24,11 @@ import java.io.*;
 @SuppressWarnings("serial")
 public class Editor extends JFrame implements ActionListener {
 	/**
-	 * The name of the application
+	 * The name of the application.
 	 */
 	public static final String APP_NAME = "TuringBrain IDE";
 	/**
-	 * The machine currently open in the editor
+	 * The machine currently open in the editor.
 	 */
 	protected Machine currentMachine;
 	private File currentFile = null;
@@ -49,7 +49,7 @@ public class Editor extends JFrame implements ActionListener {
 	private JMenu helpMenu;
 
 	/**
-	 * Constructs the Editor window with all actionListeners and a basic setup
+	 * Constructs the Editor window with all actionListeners and a basic setup.
 	 */
 	public Editor() {
 		setTitle(APP_NAME);
@@ -91,7 +91,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * The editor main, which initializes a new editor window
+	 * The editor main, which initializes a new editor window.
 	 * @param args Command line arguments
 	 */
 	public static void main(String[] args) {
@@ -116,7 +116,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Initializes the editor
+	 * Initializes the editor.
 	 */
 	public void initEditor() {
 		// create menu bar
@@ -162,7 +162,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Creates a new file
+	 * Creates a new file.
 	 * @param type The machine type to be created
 	 */
 	public void newFile(Machine.MachineType type) {
@@ -189,7 +189,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Opens a file
+	 * Opens a file.
 	 */
 	public void openFile() {
 		this.closeCurrentFile();
@@ -256,7 +256,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Saves a file
+	 * Saves a file.
 	 */
 	public void saveFile() {
 		if (!(this.currentFile == null)) {
@@ -275,7 +275,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Saves a file under a certain name
+	 * Saves a file under a certain name.
 	 */
 	public void saveAsFile() {
 		final JFileChooser fc = new JFileChooser();
@@ -328,14 +328,14 @@ public class Editor extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Exports the Turing machine to LaTeX
+	 * Exports the Turing machine to LaTeX.
 	 */
 	public void exportLatex() {
 		JOptionPane.showMessageDialog(null, "Not implemented yet!");
 	}
 
 	/**
-	 * Closes the editor
+	 * Closes the editor.
 	 */
 	public void exitEditor() {
 		this.closeCurrentFile();
@@ -343,7 +343,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Opens the run window
+	 * Opens the run window.
 	 */
 	public void runSimulation() {
 		RunWindow runWindow = new RunWindow(currentMachine);
@@ -356,7 +356,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Shows the window to add and remove robots
+	 * Shows the window to add and remove robots.
 	 */
 	public void organizeRobots() {
 		OrganizeRobots organizeRobotsWindow = new OrganizeRobots();
@@ -365,7 +365,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Simulates the Turing machine
+	 * Simulates the Turing machine.
 	 */
 	public void simulate() {
 		SimulationWindow simulationWindow = new SimulationWindow(this.currentMachine);
@@ -377,7 +377,7 @@ public class Editor extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * Responds to a clicked button
+	 * Responds to a clicked button.
 	 * @param e ActionEvent that indicates changes
 	 */
 	@Override

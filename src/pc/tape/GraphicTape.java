@@ -4,10 +4,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
+/**
+ * 
+ * @author Nessa Baier, Nils Breyer
+ *
+ */
 public class GraphicTape extends Tape {
 
+	/**
+	 * Panel for the tape.
+	 */
 	JPanel tapePanel;
-	JLabel labelActualLabel, textlabel;
+	/**
+	 * Label for the tape's name
+	 */
+	JLabel textlabel;
+	/**
+	 * TextArea for displaying the tapes content.
+	 */
 	JTextArea jTextAreaTape;
 	/**
 	 * Stores the current tape content
@@ -38,7 +52,7 @@ public class GraphicTape extends Tape {
 	}
 
 	/**
-	 * Creates a new graphic tape with a specific name
+	 * Creates a new graphic tape with a specific name.
 	 * @param name The tape name
 	 * @param allowInput true/false if allowed
 	 */
@@ -46,33 +60,39 @@ public class GraphicTape extends Tape {
 		super(name, allowInput);
 	}
 
+	/**
+	 * Returns the tape's type.
+	 */
 	public Type getType() {
 
 		return Type.GRAPHIC;
 	}
 
 	/** 
-	 * This method initializes the tape
-	 * @throws TapeException If the tape has already been initialized
+	 * This method initializes the tape.
+	 * @throws TapeException If the tape has already been initialized.
 	 */
 	public void init() throws TapeException {
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
+		
 		System.out.println(this.name + ": Tape ready.");
+		//add graphic stuff
 		this.tapePanel = new JPanel(new BorderLayout());
 		this.jTextAreaTape = new JTextArea();
 		this.jTextAreaTape.setFont(new Font("Courier",Font.PLAIN, this.jTextAreaTape.getFont().getSize()));
 		this.jTextAreaTape.setEditable(false);
-		
-		this.labelActualLabel= new JLabel();
 		this.textlabel = new JLabel(this.name);
-		
 		this.tapePanel.add(textlabel,BorderLayout.NORTH);
 		this.tapePanel.add(this.jTextAreaTape, BorderLayout.CENTER);
 
 		//set ready
 		this.ready = true;
 	}
-
+	
+	/**
+	 * This method shuts the tape down.
+	 * @throws TapeException If the tape has not been initialized
+	 */
 	@Override
 	public void shutdown() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
@@ -83,6 +103,12 @@ public class GraphicTape extends Tape {
 		this.memory.clear();
 	}
 
+	/** 
+	 * This method returns the char at the current tape position
+	 * @return Character at the current position
+	 * @throws TapeException If the tape has not been initialized
+	 * @see #write(char)
+	 */
 	@Override
 	public char read() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
@@ -96,6 +122,12 @@ public class GraphicTape extends Tape {
 	}
 
 	@Override
+	/** 
+	 * This method writes a symbol at the current tape position
+	 * @param c Character to write (allowed characters are #, 0, 1, 2)
+	 * @throws TapeException If the tape has not been initialized
+	 * @see #read()
+	 */
 	public void write(char c) throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		this.memory.put(this.position, c);
@@ -108,6 +140,11 @@ public class GraphicTape extends Tape {
 	}
 
 	@Override
+	/** 
+	 * This method moves the tape one field to the left
+	 * @throws TapeException If the tape has not been initialized
+	 * @see #moveRight()
+	 */
 	public void moveLeft() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
@@ -121,6 +158,11 @@ public class GraphicTape extends Tape {
 	}
 
 	@Override
+	/** 
+	 * This method moves the tape one field to the right
+	 * @throws TapeException If the tape has not been initialized
+	 * @see #moveLeft()
+	 */
 	public void moveRight() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
@@ -133,6 +175,10 @@ public class GraphicTape extends Tape {
 	}
 
 	@Override
+	/**
+	 * This method runs a test on the tape. It is not specified what this method actually does.
+	 * @throws TapeException If the tape has not been initialized
+	 */
 	public void test() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
@@ -141,6 +187,10 @@ public class GraphicTape extends Tape {
 	}
 
 	@Override
+	/**
+	 * Writes the input word on the tape.
+	 * @throws TapeException If something went wrong with the tapes.
+	 */
 	public void writeInputWord() throws TapeException {
 		if (this.position != 0) {
 			throw new TapeException(this, "Input word can only be written when at position 0");
@@ -158,27 +208,36 @@ public class GraphicTape extends Tape {
 		printTape();
 	}
 
+	/**
+	 * This method writes the tapestring into the textarea
+	 */
 	public void printTape() {
 		jTextAreaTape.setText(this.getMemoryAsFormattedString(-20,40));
 	}
-
+	
+	/**
+	 * Returns the tapePanel.
+	 * @return tapePanel
+	 */
 	public JPanel getTapePanel() {
 		return tapePanel;
 	}
 
-	public void setTapePanel(JPanel tapePanel) {
-		this.tapePanel = tapePanel;
-	}
-
-
+	/**
+	 * Returns the textArea of the taoe.
+	 * @return textAreaTape
+	 */
 	public JTextArea getjTextAreaTape() {
 		return jTextAreaTape;
 	}
 
-	public void setjTextAreaTape(JTextArea jTextAreaTape) {
-		this.jTextAreaTape = jTextAreaTape;
-	}
-
+	/**
+	 * Returns a formatted string representing the current memory state.
+	 * It includes specified part of the memory and the head position.
+	 * @param offset First memory position to be included
+	 * @param length Number of memory fields to be included
+	 * @return The formatted string with the memory content
+	 */
 	public String getMemoryAsFormattedString(int offset, int length) {
 		if (length < 1) return "";	
 		//print top horizontal line

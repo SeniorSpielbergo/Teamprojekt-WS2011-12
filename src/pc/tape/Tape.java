@@ -8,7 +8,7 @@ import java.lang.String;
  * This abstract class is the common base class for LEGO and Console/PC tapes.
  * It contains only few concrete methods.
  *
- * @author Nils Breyer
+ * @author Nils Breyer, Nessa Baier
  */
 
 public abstract class Tape implements Runnable{

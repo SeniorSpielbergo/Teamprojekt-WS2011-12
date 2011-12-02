@@ -5,40 +5,75 @@ import java.util.ArrayList;
 import machine.Simulation;
 import tape.*;
 
-
+/**
+ * This class simulates the turingmachine.
+ * @author Nessa Baier
+ *
+ */
 public class TuringSimulation extends Simulation{
 
+	/**
+	 * The current machine object.
+	 */
 	TuringMachine machine;
+
+	/**
+	 * Specific states
+	 */
 	State actualState, startState, nextState;
+
+	/** 
+	 * The tapes of the current turingmachine.
+	 */
 	ArrayList<Tape> tapes = null;
+
+	/**
+	 * The currently read symbols.
+	 */
 	ArrayList<Character> currentSymbols = new ArrayList<Character>();
 
 
+	/**
+	 * Constructs a new turingmachine.
+	 * @param machine The current machine object.
+	 * @throws TapeException If something went wrong with the tapes.
+	 */
 	public TuringSimulation(TuringMachine machine) throws TapeException{
 		super(machine);
 		this.machine = machine;
 		this.tapes = machine.getTapes();
+		this.init();
+	}
 
+	/**
+	 * Intializes the simulation.
+	 */
+	private void init(){
 		for( int i=0; i < machine.getStates().size(); i++){
 			if(machine.getStates().get(i).isStartState()){
 				startState = machine.getStates().get(i);
 				actualState = startState;
 			}
 		}
-		System.out.println("Start: "+startState.getId());
-		System.out.println("aktueller Zustand: " +actualState.getId());
 		this.findEdge();
 	}
 
+	/**
+	 * This method runs the simulation.
+	 * @throws TapeException If something went wrong with the tapes.
+	 */
 	public void runMachine() throws TapeException{
 		if(!actualState.isFinalState()){
 			currentSymbols.clear();
+
+			//read symbol(s)
 			for(int i = 0; i < machine.getNumberOfTapes(); i++)
 				currentSymbols.add(i,this.tapes.get(i).read());
 
+			//searching for the right label
 			Transition rightLabel = getRightLabel();
-			System.out.println("rightLabel: "+rightLabel);
 
+			//go/do label
 			for(int i = 0; i < machine.getNumberOfTapes(); i++){
 				tapes.get(i).write(rightLabel.getWrite().get(i));
 
@@ -56,46 +91,37 @@ public class TuringSimulation extends Simulation{
 			}
 
 			actualState = nextState;
-			System.out.println("aktueller Zustand: " +actualState.getId());
-
 			if(!(actualState.isFinalState())){
-
 				while(this.simulationIsPaused){
-
 					try{
 						Thread.sleep(400);
-					}
-					catch(InterruptedException e){}
-
+					}catch(InterruptedException e){}
 				}
-
-
+				//do the next step
 				runMachine();
 			}
 
 			else{
 				System.out.println("ich habe fertig");
 			}
-
 		}
 		else{
 			System.out.println("ich musste nie was tun");
 		}
 	}
 
+	/**
+	 * This method returns the right label.
+	 * @return rightLabel
+	 */
 	private Transition getRightLabel(){
 		Transition label= null;
 		for(Edge e : actualState.getEdge()){
 			System.out.println("Transition: "+e.getTransitions().size());
 			for(int j = 0; j < e.getTransitions().size(); j++){
-				System.out.println(e.getTransitions().get(j).getId() +" ");
-				System.out.println("Groeße read: "+e.getTransitions().get(j).getRead().size());
 				for(int i = 0; i < machine.getNumberOfTapes(); i++){
-					System.out.println("Transition-Symbol: " + e.getTransitions().get(j).getRead().get(i));
-					System.out.println("Tape symbol: " + currentSymbols.get(i));
 					if( e.getTransitions().get(j).getRead().get(i) == currentSymbols.get(i)){
 						label = e.getTransitions().get(j);
-						System.out.println(label);
 						nextState = e.getTo();
 					}
 					else{
@@ -105,7 +131,6 @@ public class TuringSimulation extends Simulation{
 					}
 				}
 				if(label != null){
-					System.out.println("Edge: " + e);
 					return label;
 				}
 			}
@@ -113,6 +138,9 @@ public class TuringSimulation extends Simulation{
 		return label;
 	}
 
+	/**
+	 * This method adds the edge to its state.
+	 */
 	private void findEdge(){
 		for( State s : machine.getStates()){
 			for( Edge e : machine.getEdges()){
@@ -120,6 +148,5 @@ public class TuringSimulation extends Simulation{
 					s.getEdge().add(e);
 			}
 		}
-
 	}
 }
