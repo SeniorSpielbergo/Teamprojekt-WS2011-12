@@ -15,7 +15,7 @@ public abstract class Simulation implements Runnable{
 	protected Machine machine;
 	protected Thread simulationThread;
 	boolean simulationAlreadyStarted;
-	protected boolean simulationIsPaused;
+	protected boolean simulationIsPaused,abortSimulation,simulationAborted;
 
 
 	/**
@@ -27,6 +27,36 @@ public abstract class Simulation implements Runnable{
 		this.simulationThread = new Thread(this);
 		this.simulationAlreadyStarted = false;
 		this.simulationIsPaused = false;
+		this.abortSimulation = false;
+		this.simulationAborted = false;
+	}
+
+	/**
+	 * @return the abortSimulation
+	 */
+	public boolean isAbortSimulation() {
+		return abortSimulation;
+	}
+
+	/**
+	 * @param abortSimulation the abortSimulation to set
+	 */
+	public void setAbortSimulation() {
+		this.abortSimulation = true;
+	}
+
+	/**
+	 * @return the simulationAborted
+	 */
+	public boolean isSimulationAborted() {
+		return simulationAborted;
+	}
+
+	/**
+	 * @param simulationAborted the simulationAborted to set
+	 */
+	public void setSimulationAborted(boolean simulationAborted) {
+		this.simulationAborted = simulationAborted;
 	}
 
 	/**
