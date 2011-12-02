@@ -12,8 +12,8 @@ public abstract class Simulation implements Runnable{
 	/**
 	 * The machine to simulate
 	 */
-	Machine machine;
-	Thread simulationThread;
+	protected Machine machine;
+	protected Thread simulationThread;
 	boolean simulationAlreadyStarted;
 	protected boolean simulationIsPaused;
 
@@ -34,42 +34,64 @@ public abstract class Simulation implements Runnable{
 	 * @throws TapeException Thrown, if a tape action fails during the simulation
 	 */
 	protected abstract void runMachine() throws TapeException;
-	
+
+	/**
+	 * The method that invokes that the thread get started.
+	 */
 	public void start(){
 		this.simulationAlreadyStarted = true;
 		this.simulationThread.start();
-		
+
 	}
 
+	/**
+	 * Returns the current machine.
+	 * @return machine
+	 */
 	public Machine getMachine() {
 		return machine;
 	}
 
+	/**
+	 * Sets the currentmachine.
+	 * @param machine
+	 */
 	public void setMachine(Machine machine) {
 		this.machine = machine;
 	}
 
+	/**
+	 * Returns the simulation's thread.
+	 * @return simulationThread
+	 */
 	public Thread getSimulationThread() {
 		return simulationThread;
 	}
 
-	public void setSimulationThread(Thread simulationThread) {
-		this.simulationThread = simulationThread;
-	}
-
+	/**
+	 * Returns if the simulation has already started.
+	 * @return simulationIsStarted True if the simulation has started <br>
+	 * 								False if the simulation hasn't started yet.
+	 */
 	public boolean isSimulationAlreadyStarted() {
 		return simulationAlreadyStarted;
 	}
 
-	public void setSimulationAlreadyStarted(boolean simulationAlreadyStarted) {
-		this.simulationAlreadyStarted = simulationAlreadyStarted;
+	/**
+	 * Sets that the simulation has started.
+	 * 
+	 */
+	public void setSimulationAlreadyStarted() {
+		this.simulationAlreadyStarted = true; //TODO is needed?
 	}
-	
+
 	/**
 	 * Runs the thread
 	 * */
 	public void run(){
+
 		this.simulationAlreadyStarted = true;
+
 		try{
 			this.runMachine();
 		}
@@ -85,18 +107,19 @@ public abstract class Simulation implements Runnable{
 			} catch (TapeException e) {
 				ErrorDialog.showError("Warning: The tapes could't be shutdown correctly.", e);
 			}
-
 		}
 	}
 
-	public void mystop(){
-		this.simulationThread = null;
-	}
-	
+	/**
+	 * Resumes the simulation.
+	 */
 	public void resume() {
 		this.simulationIsPaused = false;
 	}
 
+	/**
+	 * Pauses the simulation.
+	 */
 	public void pause() {
 		this.simulationIsPaused = true;
 	}
