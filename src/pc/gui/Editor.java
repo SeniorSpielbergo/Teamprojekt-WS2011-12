@@ -10,6 +10,7 @@ import machine.turing.*;
 import tape.*;
 import gui.RunWindow.*;
 
+import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.Toolkit;
 import java.awt.event.*;
@@ -53,6 +54,8 @@ public class Editor extends JFrame implements ActionListener {
 	public Editor() {
 		setTitle(appName);
 		setSize(800, 800);
+		setMinimumSize(new Dimension(600, 400));
+
 
 		initEditor();
 

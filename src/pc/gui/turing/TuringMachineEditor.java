@@ -130,11 +130,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				this.jPanelLeft, this.jPanelGraph);
 		this.jSplitPaneHorizontal.setOneTouchExpandable(true);
 		this.jSplitPaneHorizontal.setDividerLocation(250);
-		Dimension minimumSize = new Dimension(100, 50);
-		this.jPanelLeft.setMinimumSize(minimumSize);
-
-
-		this.jPanelGraph.setMinimumSize(minimumSize);
+		this.jPanelLeft.setMinimumSize(new Dimension(200, 100));
+		this.jPanelGraph.setMinimumSize(new Dimension(200, 100));
 		this.setLayout(new BorderLayout());
 		this.add(this.jSplitPaneHorizontal, BorderLayout.CENTER);
 		jPanelToolBox.add(toolBox);

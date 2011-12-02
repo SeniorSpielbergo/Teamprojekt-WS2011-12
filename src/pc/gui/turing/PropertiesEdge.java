@@ -107,23 +107,22 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 		tablePane = new JScrollPane(table);
 		this.add(tablePane, BorderLayout.CENTER);
 		
-		// add / delete container
-		GridBagConstraints c = new GridBagConstraints();
-		addDeleteContainer = new JPanel(new GridLayout());
+		
+		//add / remove buttons
 		addButton = new JButton("Add");
 		deleteButton = new JButton("Remove");
 		addButton.addActionListener(this);
 		deleteButton.addActionListener(this);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.insets = new Insets(5,5,5,20);
-		addDeleteContainer.add(deleteButton, c);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 0;
-		c.insets = new Insets(5,20,5,5);
-		addDeleteContainer.add(addButton, c);
+		
+		// add / delete container
+		addDeleteContainer = new JPanel();
+		addDeleteContainer.setLayout(new BoxLayout(addDeleteContainer, BoxLayout.LINE_AXIS));
+		addDeleteContainer.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		addDeleteContainer.add(Box.createHorizontalGlue());
+		addDeleteContainer.add(deleteButton);
+		addDeleteContainer.add(Box.createRigidArea(new Dimension(5, 0)));
+		addDeleteContainer.add(addButton);
+
 		this.add(addDeleteContainer, BorderLayout.AFTER_LAST_LINE);
 	}
 	
