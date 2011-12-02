@@ -97,6 +97,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		addButton.addActionListener(this);
 		deleteButton = new JButton("Remove");
 		deleteButton.addActionListener(this);
+		deleteButton.setEnabled(false);
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
@@ -312,6 +313,12 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
+		if (table.getSelectedRow() == -1 ) {
+			this.deleteButton.setEnabled(false);
+		}
+		else {
+			this.deleteButton.setEnabled(true);
+		}
 		if (table.getRowCount() != 0) {
 			int row = table.getSelectedRow();
 			if (row == -1) {

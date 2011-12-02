@@ -112,6 +112,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 		deleteButton = new JButton("Remove");
 		addButton.addActionListener(this);
 		deleteButton.addActionListener(this);
+		this.deleteButton.setEnabled(false);
 		
 		// add / delete container
 		addDeleteContainer = new JPanel();
@@ -203,6 +204,12 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
+		if (table.getSelectedRow() == -1 ) {
+			this.deleteButton.setEnabled(false);
+		}
+		else {
+			this.deleteButton.setEnabled(true);
+		}
 		if (table.getRowCount() != 0) {
 			int row = table.getSelectedRow();
 			if (row == -1) {
