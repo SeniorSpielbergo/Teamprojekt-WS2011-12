@@ -151,7 +151,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
-				System.out.println("wurst");
 				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
@@ -162,7 +161,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 						((State)cell.getValue()).setYcoord((int)cell.getGeometry().getY());
 						x = (int) Math.ceil(x / GRID_SIZE);
 						y = (int) Math.ceil(y / GRID_SIZE);
-						System.out.println("grid: " + x*GRID_SIZE + ", " + y*GRID_SIZE);
 						graph.getModel().beginUpdate();
 						try {
 							cell.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, cell.getGeometry().getWidth(), cell.getGeometry().getHeight()));
@@ -208,7 +206,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				if(initialized){
 				System.out.println("Cells connected!");
 				System.out.println(((mxCell) objects).getSource().getValue());
-				System.out.println(((mxCell) objects).getTarget());
+				System.out.println(((mxCell) objects).getTarget().getValue());
 				Edge edge = new Edge((State) ((mxCell) objects).getSource().getValue(),(State)((mxCell) objects).getTarget().getValue(),new ArrayList<Transition>());
 				machine.getEdges().add(edge);
 				}

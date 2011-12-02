@@ -31,7 +31,7 @@ public class Editor extends JFrame implements ActionListener {
 	 * The machine currently open in the editor
 	 */
 	protected Machine currentMachine;
-	private String currentFilename = "";
+	private File currentFile = null;
 	private JMenu newSubmenu;
 	private JMenuItem newBFAction;
 	private JMenuItem newTMAction;
@@ -246,8 +246,7 @@ public class Editor extends JFrame implements ActionListener {
 			try {
 				machine.load(selectedFile.getAbsolutePath());
 				this.currentMachine = machine;
-				this.currentFilename = selectedFile.getAbsolutePath();
-				this.setTitle(selectedFile.getName() + " � " + APP_NAME);
+				this.currentFile = new File(selectedFile.getAbsolutePath());
 				this.loadEditor();
 			}
 			catch(Exception e) {
@@ -260,14 +259,14 @@ public class Editor extends JFrame implements ActionListener {
 	 * Saves a file
 	 */
 	public void saveFile() {
-		if (!this.currentFilename.equals("")) {
+		if (!(this.currentFile == null)) {
 			try {
-				this.currentMachine.save(this.currentFilename);
+				this.currentMachine.save(this.currentFile.getAbsolutePath());
 			} catch (IOException e) {
-				ErrorDialog.showError("Saving the file '" + this.currentFilename + "' failed because of an I/O error.", e);
+				ErrorDialog.showError("Saving the file '" + this.currentFile.getName() + "' failed because of an I/O error.", e);
 			}
 			catch (RuntimeException e){
-				ErrorDialog.showError("Saving the file '" + this.currentFilename + "' failed because of an unkown error.", e);
+				ErrorDialog.showError("Saving the file '" + this.currentFile.getName() + "' failed because of an unkown error.", e);
 			}
 		}
 		else {
@@ -299,11 +298,11 @@ public class Editor extends JFrame implements ActionListener {
 		});
 		
 		File f = null;
-		if (this.currentFilename.equals("")) {
+		if (this.currentFile == null) {
 			f = new File(this.currentMachine.getName() + this.currentMachine.getFileExtension());
 		}
 		else {
-			f = new File(this.currentFilename);
+			f = this.currentFile;
 		}
 		fc.setSelectedFile(f);
 		int retVal = fc.showSaveDialog(null);
@@ -422,6 +421,13 @@ public class Editor extends JFrame implements ActionListener {
 	 * Loads and prepares the editor for the current machine
 	 */
 	public void loadEditor() {
+		if (!(this.currentFile == null)) {
+			this.setTitle(this.currentFile.getName() + " - " + APP_NAME);
+		}
+		else {
+			this.setTitle(APP_NAME);
+		}
+
 		this.add(this.currentMachine.getEditor());
 
 		int menupos = 1;
@@ -448,7 +454,7 @@ public class Editor extends JFrame implements ActionListener {
 				this.saveFile();
 			}
 
-			this.currentFilename = "";
+			this.currentFile = null;
 
 			saveAction.setEnabled(false);
 			saveAsAction.setEnabled(false);

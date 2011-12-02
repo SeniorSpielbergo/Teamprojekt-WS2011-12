@@ -161,21 +161,16 @@ public class BrainfuckSimulation extends Simulation {
 					break;
 				}
 				instructionPointer++;
+				while(this.simulationIsPaused) {
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 		else
 			throw new IllegalArgumentException("Syntaxcheck failed");
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -65,11 +65,6 @@ public abstract class Simulation implements Runnable{
 		this.simulationAlreadyStarted = simulationAlreadyStarted;
 	}
 	
-	
-	public abstract void resume();
-	
-	public abstract void pause();
-
 	/**
 	 * Runs the thread
 	 * */
@@ -93,8 +88,16 @@ public abstract class Simulation implements Runnable{
 
 		}
 	}
+
 	public void mystop(){
 		this.simulationThread = null;
 	}
+	
+	public void resume() {
+		this.simulationIsPaused = false;
+	}
 
+	public void pause() {
+		this.simulationIsPaused = true;
+	}
 }
