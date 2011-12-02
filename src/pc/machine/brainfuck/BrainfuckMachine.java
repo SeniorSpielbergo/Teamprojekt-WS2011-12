@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.File;
 
 import tape.TapeException;
-import tape.ConsoleTape;
+import tape.GraphicTape;
 
 import machine.Machine;
 import machine.Simulation;
@@ -34,9 +34,9 @@ public class BrainfuckMachine extends Machine {
 	 */
 	public BrainfuckMachine() {
 		super();
-		tapes.add(new ConsoleTape("Input", true));
-		tapes.add(new ConsoleTape("Output", false));
-		tapes.add(new ConsoleTape("Action", false));		
+		tapes.add(new GraphicTape("Input", true));
+		tapes.add(new GraphicTape("Output", false));
+		tapes.add(new GraphicTape("Action", false));		
 	}
 
 	/**
@@ -45,9 +45,9 @@ public class BrainfuckMachine extends Machine {
 	 */
 	public BrainfuckMachine(String name) {
 		super(name);
-		tapes.add(new ConsoleTape("Input"));
-		tapes.add(new ConsoleTape("Output"));
-		tapes.add(new ConsoleTape("Action"));
+		tapes.add(new GraphicTape("Input"));
+		tapes.add(new GraphicTape("Output"));
+		tapes.add(new GraphicTape("Action"));
 	}
 
 	/**
