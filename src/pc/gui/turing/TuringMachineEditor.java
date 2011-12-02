@@ -82,6 +82,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	 * Nested class to extend ArrayList<mxCell> to find mxCells with specified State Object
 	 */
 	class StateList extends ArrayList<mxCell>{
+		private static final long serialVersionUID = 4590100471318084729L;
 		public StateList(int size){
 			super(size);
 		}
@@ -263,7 +264,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
-		this.jPanelProperties.add(propertiesState, BorderLayout.CENTER);
+		this.jPanelProperties.add(propertiesState, BorderLayout.PAGE_START);
 		jPanelProperties.validate();
 	}
 
@@ -310,14 +311,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			else {
 				this.GRID_SIZE = 1;
 			}
-			for (int i = 0; i < graphicalStates.size(); i++) {
-				mxCell cell = graphicalStates.get(i);
-				State currentState = (State) cell.getValue();
-				int x = (int) Math.ceil(currentState.getXcoord() / GRID_SIZE);
-				int y = (int) Math.ceil(currentState.getYcoord() / GRID_SIZE);
-				cell.setGeometry(new mxGeometry(x, y, WIDTH, HEIGHT));
-			}
-			this.graph.repaint();
 		}
 	}
 
@@ -395,10 +388,20 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			for (int i = 0; i < deletedCells.length; i++) {
 				mxCell currentCell = (mxCell) deletedCells[i];
 				if (currentCell.isEdge()) {
-					System.out.println("I'm not deleting anything from the machine :P");
+					Edge edge = (Edge) currentCell.getValue();
+					for (int j = 0; j < this.machine.getEdges().size(); j++) {
+						if (this.machine.getEdges().get(j) == edge) {
+							this.machine.getEdges().remove(j);
+						}
+					}
 				}
 				else if(currentCell.isVertex()) {
-					System.out.println("I'm not deleting anything from the machine :P");
+					State state = (State) currentCell.getValue();
+					for (int j = 0; j < this.machine.getStates().size(); j++) {
+						if (this.machine.getStates().get(j) == state) {
+							this.machine.getStates().remove(j);
+						}
+					}
 				}
 			}
 		}
