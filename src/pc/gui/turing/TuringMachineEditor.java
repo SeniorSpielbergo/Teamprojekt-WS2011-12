@@ -140,10 +140,10 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.graph.setAllowDanglingEdges(false);
 		this.graph.setAllowLoops(true);
 		this.graph.setAutoSizeCells(true);
-		this.graph.setCellsResizable(false);
+		this.graph.setCellsResizable(true);
 		this.graph.setCellsEditable(false);
 		this.graph.setAllowNegativeCoordinates(false);
-//		this.graph.setDefaultLoopStyle(arg0);
+//		this.graph.setDefaultLoopStyle(null);
 		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 
 			@Override
@@ -152,11 +152,22 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
+						int x = (int) cell.getGeometry().getX();
+						int y = (int) cell.getGeometry().getY();
 						((State)cell.getValue()).setXcoord((int)cell.getGeometry().getX());
 						((State)cell.getValue()).setYcoord((int)cell.getGeometry().getY());
+						x = (int) Math.ceil(x / GRID_SIZE);
+						y = (int) Math.ceil(y / GRID_SIZE);
+						graph.getModel().beginUpdate();
+						try {
+							cell.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, cell.getGeometry().getWidth(), cell.getGeometry().getHeight()));
+							graph.repaint();
+						}
+						finally {
+							graph.getModel().endUpdate();
+						}
 					}
 				}
-
 			}
 		});
 		this.graph.getSelectionModel().addListener(mxEvent.CHANGE, new mxIEventListener() {
@@ -165,14 +176,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			public void invoke(Object obj, mxEventObject e) {
 				mxGraphSelectionModel model = (mxGraphSelectionModel) obj;
 				mxCell c = (mxCell) model.getCell();
-				if (c != null && c.isVertex()) {
-					int x = (int) c.getGeometry().getX();
-					int y = (int) c.getGeometry().getY();
-					x = (int) Math.ceil(x / GRID_SIZE);
-					y = (int) Math.ceil(y / GRID_SIZE);
-					c.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, c.getGeometry().getWidth(), c.getGeometry().getHeight()));
-				}
-				else if (c == null) {
+				if (c == null) {
 					jPanelProperties.removeAll();
 					jPanelProperties.validate();
 					jPanelProperties.repaint();
@@ -268,11 +272,15 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		graph.getModel().beginUpdate();
 		try	{
 			for (int i = 0;  i < states.size(); i++){
+				int x = states.get(i).getXcoord();
+				int y = states.get(i).getYcoord();
+				x = (int) Math.ceil(x / GRID_SIZE);
+				y = (int) Math.ceil(y / GRID_SIZE);
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
-						states.get(i), states.get(i).getXcoord() * GRID_SIZE, states.get(i).getYcoord() * GRID_SIZE, 
-						states.get(i).getWidth(), states.get(i).getHeight(), "CIRCLE"));
-			}
 
+				states.get(i), x * GRID_SIZE, y * GRID_SIZE, 
+				states.get(i).getWidth(), states.get(i).getHeight(), (states.get(i).isFinalState() ? "FINAL" : "CIRCLE")));
+			}
 			//insert graphical Edges
 			Edge currentEdge = null;
 			Object v1 = null;
@@ -323,9 +331,10 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			graph.getModel().beginUpdate();
 			try	{
 				if (toolBox.getClicked().equals("State")) {
-					State state = new State(UUID.randomUUID().toString(), "New state...", false, false);
+					State state = new State(UUID.randomUUID().toString(), "New...", false, false);
 					state.setXcoord(x);
 					state.setXcoord(y);
+					this.machine.getStates().add(state);
 					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, 50, 50, "CIRCLE"));
 					toolBox.setClicked(null);
 				}
