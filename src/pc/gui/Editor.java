@@ -56,10 +56,7 @@ public class Editor extends JFrame implements ActionListener {
 		setSize(800, 800);
 		setMinimumSize(new Dimension(600, 400));
 
-
 		initEditor();
-
-
 
 		menuBar.add(fileMenu);
 		menuBar.add(simulationMenu);

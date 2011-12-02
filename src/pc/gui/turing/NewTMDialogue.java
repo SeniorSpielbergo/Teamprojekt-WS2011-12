@@ -57,6 +57,8 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 		panelButtons.add(Box.createHorizontalGlue());
 		panelButtons.add(Box.createRigidArea(new Dimension(10, 0)));
 		panelButtons.add(buttonCreate);
+		
+		getRootPane().setDefaultButton(buttonCreate);
 
 
 		this.setLayout(new BorderLayout());
