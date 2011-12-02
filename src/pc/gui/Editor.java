@@ -244,7 +244,7 @@ public class Editor extends JFrame implements ActionListener {
 				return;
 			}
 			try {
-				machine.load(selectedFile.getName());
+				machine.load(selectedFile.getAbsolutePath());
 				this.currentMachine = machine;
 				this.currentFilename = selectedFile.getAbsolutePath();
 				this.loadEditor();
