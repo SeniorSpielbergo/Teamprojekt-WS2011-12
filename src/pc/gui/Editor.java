@@ -463,4 +463,8 @@ public class Editor extends JFrame implements ActionListener {
 			this.currentMachine = null;
 		}
 	}
+	
+	public void dispose() {
+		this.closeCurrentFile();
+	}
 }
