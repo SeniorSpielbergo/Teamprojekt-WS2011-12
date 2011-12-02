@@ -96,12 +96,5 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 		this.setVisible(true);
 		return returnValue;
 	}
-
-	public static void main(String args[]){
-		NewTMDialogue newTm = new NewTMDialogue();
-		newTm.setVisible(true);
-
-	}
-
 }
 
