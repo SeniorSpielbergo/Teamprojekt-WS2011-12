@@ -93,6 +93,7 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 			cell.setStyle((finalState.isSelected()) ? "FINAL" : "CIRCLE");
 			graph.refresh();			
 			graph.repaint();
+			this.vertex = graph.getView().getState(cell);
 		}
 		else if(e.getSource().equals(startState)) {
 			this.state.setStartState(startState.isSelected());
