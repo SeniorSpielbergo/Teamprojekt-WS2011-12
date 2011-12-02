@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import java.util.UUID;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import java.awt.event.MouseListener;
 
 import machine.turing.*;
 
+import javax.swing.BorderFactory;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -110,7 +112,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.jPanelLeft.setLayout(new BorderLayout());
 		this.jPanelToolBox = new JPanel();
 		this.jPanelProperties = new JPanel();
-		this.jPanelLeft.add(this.jPanelToolBox, BorderLayout.PAGE_START);
+		this.jPanelLeft.add(this.jPanelToolBox, BorderLayout.NORTH);
 		this.jPanelLeft.add(this.jPanelProperties, BorderLayout.CENTER);
 
 		//create main graph panel
@@ -124,6 +126,11 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.jSplitPaneHorizontal.setDividerLocation(250);
 		Dimension minimumSize = new Dimension(100, 50);
 		this.jPanelLeft.setMinimumSize(minimumSize);
+
+		//TODO: remove layout test
+		this.jPanelLeft.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        this.jPanelProperties.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+
 		this.jPanelGraph.setMinimumSize(minimumSize);
 		this.setLayout(new BorderLayout());
 		this.add(this.jSplitPaneHorizontal, BorderLayout.CENTER);
@@ -183,6 +190,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 					} else if (cell.isEdge()) {
 						displayProperties((Edge) cell.getValue());
+					 
+						
 					}
 				}
 
@@ -192,11 +201,11 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		// set style
 		mxStylesheet stylesheet = graph.getStylesheet();
 		Hashtable<String, Object> style = new Hashtable<String, Object>();
+		Hashtable<String, Object> style2 = new Hashtable<String, Object>();
 		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		stylesheet.putCellStyle("CIRCLE", style);
-//		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
-//		stylesheet.putCellStyle("FINAL", style);
-//		stylesheet.setStyles();
+		style2.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
+		stylesheet.putCellStyle("FINAL", style2);
 		
 		this.drawGraph();
 		
@@ -267,11 +276,9 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		try	{
 			for (int i = 0;  i < states.size(); i++){
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
-						states.get(i), states.get(i).getXcoord(), states.get(i).getYcoord(), 
-						states.get(i).getWidth(), states.get(i).getHeight(), "CIRCLE"));
-				System.out.println("x: " + states.get(i).getXcoord() + ", y: " + states.get(i).getYcoord());
+				states.get(i), states.get(i).getXcoord(), states.get(i).getYcoord(), 
+				states.get(i).getWidth(), states.get(i).getHeight(), (states.get(i).isFinalState() ? "FINAL" : "CIRCLE")));
 			}
-
 			//insert graphical Edges
 			Edge currentEdge = null;
 			Object v1 = null;
@@ -369,10 +376,20 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			for (int i = 0; i < deletedCells.length; i++) {
 				mxCell currentCell = (mxCell) deletedCells[i];
 				if (currentCell.isEdge()) {
-					System.out.println("I'm not deleting anything from the machine :P");
+					Edge edge = (Edge) currentCell.getValue();
+					for (int j = 0; j < this.machine.getEdges().size(); j++) {
+						if (this.machine.getEdges().get(j) == edge) {
+							this.machine.getEdges().remove(j);
+						}
+					}
 				}
 				else if(currentCell.isVertex()) {
-					System.out.println("I'm not deleting anything from the machine :P");
+					State state = (State) currentCell.getValue();
+					for (int j = 0; j < this.machine.getStates().size(); j++) {
+						if (this.machine.getStates().get(j) == state) {
+							this.machine.getStates().remove(j);
+						}
+					}
 				}
 			}
 		}
