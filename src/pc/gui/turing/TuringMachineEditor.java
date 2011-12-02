@@ -143,8 +143,8 @@ public class TuringMachineEditor extends MachineEditor implements ItemListener, 
 				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
-						((State)cell.getValue()).setXcoord(cell.getGeometry().getX());
-						((State)cell.getValue()).setYcoord(cell.getGeometry().getY());
+						((State)cell.getValue()).setXcoord((int)cell.getGeometry().getX());
+						((State)cell.getValue()).setYcoord((int)cell.getGeometry().getY());
 					}
 				}
 

@@ -34,7 +34,7 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 		propertiesPanel = new JPanel();
 		propertiesPanel.setLayout(new GridBagLayout());
 		
-		this.setMaximumSize(new Dimension(250, 120));
+		//this.setMaximumSize(new Dimension(250, 120));
 		this.setPreferredSize(new Dimension(250, 120));
 		this.setBorder(BorderFactory.createTitledBorder("Properties"));
 		this.setLayout(new BorderLayout());
@@ -74,7 +74,7 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 		c.insets = new Insets(5,5,5,5);
 		propertiesPanel.add(finalState, c);
 		
-		this.add(propertiesPanel, BorderLayout.PAGE_START);
+		this.add(propertiesPanel, BorderLayout.CENTER);
 	}
 
 	@Override
