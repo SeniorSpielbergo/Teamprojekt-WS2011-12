@@ -8,12 +8,15 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.mxgraph.model.mxCell;
+import com.mxgraph.view.mxGraph;
+
 import machine.turing.*;
 
 import gui.*;
 
 public class PropertiesEdge extends JPanel implements ActionListener, ListSelectionListener {
-	
+
 	static final long serialVersionUID = -3667258249137827980L;
 	private JTable table;
 	private JPanel addDeleteContainer;
@@ -23,6 +26,8 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 	private JButton deleteButton;
 	private int numberTapes;
 	private ListSelectionModel listSelectionModel;
+	private mxCell mxEdge;
+	private mxGraph graph;
 	/**
 	 * Stores the columns names
 	 */
@@ -35,22 +40,24 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 	 * Stores the edited edge
 	 */
 	private Edge edge;
-	
+
 	/**
 	 * Constructs a panel showing all transitions of the current edge
 	 * @param numberTapes Number of tapes in the current machine
 	 * @param edge The edge that should be edited
 	 */
-	public PropertiesEdge(int numberTapes, Edge edge) {
+	public PropertiesEdge(int numberTapes, Edge edge,mxGraph graph, mxCell mxEdge) {
+		this.graph = graph;
+		this.mxEdge = mxEdge;
 		this.edge = edge;
 		this.numberTapes = numberTapes;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setMaximumSize(new Dimension(250, 300));
 		this.setPreferredSize(new Dimension(250, 300));
-		
+
 		// content panel
 		this.setBorder(BorderFactory.createTitledBorder("Properties"));
-		
+
 		// table
 		model = new CustomTable(head, editable);
 		table = new JTable(model);
@@ -61,7 +68,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 		table.setFocusable(false);
 		listSelectionModel = table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(this);
-		
+
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -70,9 +77,9 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 				}
 			}
 		});
-		
+
 		ArrayList<Transition> transitions = edge.getTransitions();
-		
+
 		for (int i = 0; i < transitions.size(); i++) {
 			// get character lists
 			ArrayList<Character> action = transitions.get(i).getAction();
@@ -95,31 +102,29 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 			}
 			model.addRow(transitionString);
 		}
-		
+
 		// scroll panel
 		tablePane = new JScrollPane(table);
 		this.add(tablePane, BorderLayout.CENTER);
-		
-		// add / delete container
-		GridBagConstraints c = new GridBagConstraints();
-		addDeleteContainer = new JPanel(new GridLayout());
+
+		//add / remove buttons
 		addButton = new JButton("Add");
 		deleteButton = new JButton("Remove");
 		addButton.addActionListener(this);
 		deleteButton.addActionListener(this);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.insets = new Insets(5,5,5,20);
-		addDeleteContainer.add(deleteButton, c);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 0;
-		c.insets = new Insets(5,20,5,5);
-		addDeleteContainer.add(addButton, c);
+		
+		// add / delete container
+		addDeleteContainer = new JPanel();
+		addDeleteContainer.setLayout(new BoxLayout(addDeleteContainer, BoxLayout.LINE_AXIS));
+		addDeleteContainer.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		addDeleteContainer.add(Box.createHorizontalGlue());
+		addDeleteContainer.add(deleteButton);
+		addDeleteContainer.add(Box.createRigidArea(new Dimension(5, 0)));
+		addDeleteContainer.add(addButton);
+
 		this.add(addDeleteContainer, BorderLayout.AFTER_LAST_LINE);
 	}
-	
+
 	/**
 	 * Opens the edit window and stores the edited data
 	 * @param row The row that should be edited
@@ -175,12 +180,20 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 				}
 				model.addRow(newRow);
 				edge.getTransitions().add(editData);
+				mxEdge.setValue(edge);
+				graph.refresh();
+				graph.repaint();
 			}
 		}
 		else if (e.getSource() == deleteButton) {
-			int row = table.getSelectedRow();
-			edge.getTransitions().remove(row);
-			model.deleteRow(row);
+			if (table.getSelectedRow() != -1) {
+				int row = table.getSelectedRow();
+				edge.getTransitions().remove(row);
+				model.deleteRow(row);
+				mxEdge.setValue(edge);
+				graph.refresh();
+				graph.repaint();
+			}
 		}
 	}
 

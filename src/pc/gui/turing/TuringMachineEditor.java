@@ -35,6 +35,7 @@ import machine.turing.TuringMachine;
 
 import com.mxgraph.swing.mxGraphComponent;
 
+import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraphSelectionModel;
 import com.mxgraph.view.mxGraph;
 import com.mxgraph.view.mxStylesheet;
@@ -129,11 +130,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				this.jPanelLeft, this.jPanelGraph);
 		this.jSplitPaneHorizontal.setOneTouchExpandable(true);
 		this.jSplitPaneHorizontal.setDividerLocation(250);
-		Dimension minimumSize = new Dimension(100, 50);
-		this.jPanelLeft.setMinimumSize(minimumSize);
-
-
-		this.jPanelGraph.setMinimumSize(minimumSize);
+		this.jPanelLeft.setMinimumSize(new Dimension(200, 100));
+		this.jPanelGraph.setMinimumSize(new Dimension(200, 100));
 		this.setLayout(new BorderLayout());
 		this.add(this.jSplitPaneHorizontal, BorderLayout.CENTER);
 		jPanelToolBox.add(toolBox);
@@ -146,21 +144,24 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.graph.setCellsResizable(true);
 		this.graph.setCellsEditable(false);
 		this.graph.setAllowNegativeCoordinates(false);
+		this.graph.setSplitEnabled(false);
 //		this.graph.setDefaultLoopStyle(null);
 		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
-				
+				System.out.println("wurst");
 				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
 						int x = (int) cell.getGeometry().getX();
 						int y = (int) cell.getGeometry().getY();
+						System.out.println("current: " + x + ", " + y);
 						((State)cell.getValue()).setXcoord((int)cell.getGeometry().getX());
 						((State)cell.getValue()).setYcoord((int)cell.getGeometry().getY());
 						x = (int) Math.ceil(x / GRID_SIZE);
 						y = (int) Math.ceil(y / GRID_SIZE);
+						System.out.println("grid: " + x*GRID_SIZE + ", " + y*GRID_SIZE);
 						graph.getModel().beginUpdate();
 						try {
 							cell.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, cell.getGeometry().getWidth(), cell.getGeometry().getHeight()));
@@ -186,10 +187,10 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				for(Object cellObj: model.getCells()){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
-						displayProperties((State) cell.getValue());	
+						displayProperties((State) cell.getValue(), graph.getView().getState(cell));	
 
 					} else if (cell.isEdge()) {
-						displayProperties((Edge) cell.getValue());
+						displayProperties((Edge) cell.getValue(), cell);
 					}
 				}
 
@@ -253,8 +254,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		jPanelProperties.validate();
 	}
 
-	private void displayProperties(Edge edge) {
-		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge);
+	private void displayProperties(Edge edge, mxCell cell) {
+		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge, graph, cell);
 		jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
@@ -262,9 +263,9 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		jPanelProperties.validate();
 	}
 
-	private void displayProperties(State state) {
-		PropertiesState propertiesState = new PropertiesState(state);
-		jPanelProperties.removeAll();
+	private void displayProperties(State state, mxCellState mxState) {
+		PropertiesState propertiesState = new PropertiesState(state,graph, mxState);
+		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
 		jPanelProperties.add(propertiesState, BorderLayout.PAGE_START);
@@ -284,7 +285,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				x = (int) Math.ceil(x / GRID_SIZE);
 				y = (int) Math.ceil(y / GRID_SIZE);
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
-
 				states.get(i), x * GRID_SIZE, y * GRID_SIZE, 
 				states.get(i).getWidth(), states.get(i).getHeight(), (states.get(i).isFinalState() ? "FINAL" : "CIRCLE")));
 			}
