@@ -247,7 +247,7 @@ public class Editor extends JFrame implements ActionListener {
 				machine.load(selectedFile.getAbsolutePath());
 				this.currentMachine = machine;
 				this.currentFilename = selectedFile.getAbsolutePath();
-				this.setTitle(selectedFile.getName() + " Ñ " + APP_NAME);
+				this.setTitle(selectedFile.getName() + " ï¿½ " + APP_NAME);
 				this.loadEditor();
 			}
 			catch(Exception e) {
@@ -371,9 +371,8 @@ public class Editor extends JFrame implements ActionListener {
 	public void simulate() {
 		SimulationWindow simulationWindow = new SimulationWindow(this.currentMachine);
 		//create tapes and write input
-			// --> moved to simulation window
-
 		//simulate
+			// --> moved to simulation window
 
 
 	}
