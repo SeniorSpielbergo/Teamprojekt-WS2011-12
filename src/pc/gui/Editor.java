@@ -308,6 +308,14 @@ public class Editor extends JFrame implements ActionListener {
 		int retVal = fc.showSaveDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
+			if (selectedFile.exists()){
+				int result = JOptionPane.showConfirmDialog(null, "Do you want to override the file?", "Override", JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.NO_OPTION) {
+					saveAsFile();
+					return;
+				} 
+				
+			}
 			try { //TODO: check if the file already exists and prompt if to save anyway
 				this.currentMachine.save(selectedFile.getPath());
 			} catch (IOException e) {
