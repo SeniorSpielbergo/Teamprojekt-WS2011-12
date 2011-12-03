@@ -151,6 +151,8 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 			}
 			model.updateRow(rowData, row);
 			edge.getTransitions().set(row, editData);
+			graph.refresh();
+			graph.repaint();
 		}
 	}
 
@@ -177,7 +179,6 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 				}
 				model.addRow(newRow);
 				edge.getTransitions().add(editData);
-				mxEdge.setValue(edge);
 				graph.refresh();
 				graph.repaint();
 			}
@@ -187,7 +188,6 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 				int row = table.getSelectedRow();
 				edge.getTransitions().remove(row);
 				model.deleteRow(row);
-				mxEdge.setValue(edge);
 				graph.refresh();
 				graph.repaint();
 			}

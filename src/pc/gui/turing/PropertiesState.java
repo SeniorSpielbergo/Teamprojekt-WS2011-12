@@ -109,6 +109,7 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 		graph.getModel().beginUpdate();
 		try {
 			this.vertex.setLabel(state.getName());
+			graph.refresh();
 			graph.repaint();
 			
 		} finally {
@@ -123,6 +124,7 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 		graph.getModel().beginUpdate();
 		try {
 			this.vertex.setLabel(state.getName());
+			graph.refresh();
 			graph.repaint();
 			
 		} finally {
