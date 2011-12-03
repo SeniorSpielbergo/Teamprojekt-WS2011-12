@@ -366,8 +366,7 @@ public class Editor extends JFrame implements ActionListener {
 	 * Simulates the Turing machine.
 	 */
 	public void simulate() {
-		@SuppressWarnings("unused")		// is displayed, so it is used
-		SimulationWindow simulationWindow = new SimulationWindow(this.currentMachine);
+		new SimulationWindow(this.currentMachine);
 		//create tapes and write input
 		//simulate
 		// --> moved to simulation window
