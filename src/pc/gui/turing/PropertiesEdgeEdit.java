@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import gui.CustomTable;
 
@@ -118,7 +119,7 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 		}
 		
 		if (transition == null) {
-			this.transition = new Transition("temp", read, write, action);
+			this.transition = new Transition(UUID.randomUUID().toString(), read, write, action);
 		}
 		
 		tablePane = new JScrollPane(table);
