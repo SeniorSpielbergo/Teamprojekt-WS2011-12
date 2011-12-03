@@ -393,10 +393,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		};
 	}
 
-	/**
-	 * Responds to a clicked button
-	 * @param e ActionEvent that indicates changes
-	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == cancelButton) {
@@ -418,10 +414,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		}
 	}
 
-	/**
-	 * Responds to a released key
-	 * @param e KeyEvent that indicates changes
-	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		for (int i = 0; i < tapeName.length; i++) {
@@ -430,19 +422,11 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		}
 	}
 
-	/**
-	 * Responds to a pressed key
-	 * @param e KeyEvent that indicates changes
-	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 
 	}
 
-	/**
-	 * Responds to a typed key
-	 * @param e KeyEvent that indicates changes
-	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 
@@ -463,10 +447,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			this.button = button;
 		}
 
-		/**
-		 * Responds to a clicked button
-		 * @param e ActionEvent that indicates changes
-		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			button.doClick();

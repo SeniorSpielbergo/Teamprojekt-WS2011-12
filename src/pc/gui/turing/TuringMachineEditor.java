@@ -328,11 +328,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			}
 		}
 	}
-
-	/**
-	 * Responds to a clicked button
-	 * @param e ActionEvent that indicates changes
-	 */
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == copyAction) {

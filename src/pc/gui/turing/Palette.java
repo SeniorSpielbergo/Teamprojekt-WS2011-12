@@ -15,6 +15,9 @@ public class Palette extends JPanel implements MouseListener {
 
 	private String clicked = null; 
 
+	/**
+	 * Constructs a palette
+	 */
 	public Palette() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -34,10 +37,18 @@ public class Palette extends JPanel implements MouseListener {
 		}
 	}
 	
+	/**
+	 * Returns the clicked item
+	 * @return The clicked item
+	 */
 	public String getClicked() {
 		return clicked;
 	}
 	
+	/**
+	 * Sets the clicked item
+	 * @param value The name of the clicked item
+	 */
 	public void setClicked(String value) {
 		this.clicked = value;
 	}

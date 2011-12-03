@@ -23,6 +23,10 @@ public class PropertiesTuringMachine extends JPanel implements DocumentListener 
 	private JLabel numberEdges;
 	private JTextField turingMachineName;
 
+	/**
+	 * Constructs a panel, that shows the information about a Turing Machine
+	 * @param machine The Turing Machine whose information should be displayed
+	 */
 	public PropertiesTuringMachine(TuringMachine machine) {
 		this.machine = machine;
 		

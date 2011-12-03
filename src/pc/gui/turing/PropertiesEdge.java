@@ -154,10 +154,6 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 		}
 	}
 
-	/**
-	 * Responds to a clicked button
-	 * @param e ActionEvent that indicates changes
-	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == addButton) {
@@ -198,10 +194,6 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 		}
 	}
 
-	/**
-	 * Responds to selection changes
-	 * @param e ListSelectionEvent that indicates changes
-	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (table.getSelectedRow() == -1 ) {

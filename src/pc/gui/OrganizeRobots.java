@@ -256,10 +256,6 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		}
 	}
 	
-	/**
-	 * Responds to a clicked button
-	 * @param e ActionEvent that indicates changes
-	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == saveButton) {
@@ -282,10 +278,6 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		}
 	}
 
-	/**
-	 * Responds to data changes in the table
-	 * @param e TableModelEvent that indicates changes
-	 */
 	@Override
 	public void tableChanged(TableModelEvent e) {
 		if (tableInitialized) {
@@ -307,10 +299,6 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		}
 	}
 
-	/**
-	 * Responds to selection changes
-	 * @param e ListSelectionEvent that indicates changes
-	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (table.getSelectedRow() == -1 ) {

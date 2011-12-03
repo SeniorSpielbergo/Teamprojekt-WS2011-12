@@ -32,6 +32,7 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 	/**
 	 * Stores the number of tapes
 	 */
+	@SuppressWarnings("unused")		// is used in for loops
 	private int numberTapes;
 	/**
 	 * Stores the data returned by the dialog
@@ -137,10 +138,6 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 		return transition;
 	}
 	
-	/**
-	 * Responds to a clicked button
-	 * @param e ActionEvent that indicates changes
-	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == saveButton) {
@@ -154,10 +151,6 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 		}
 	}
 
-	/**
-	 * Responds to data changes in the table
-	 * @param e TableModelEvent that indicates changes
-	 */
 	@Override
 	public void tableChanged(TableModelEvent e) {
 		if (tableInitialized) {
@@ -182,10 +175,6 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 		}
 	}
 
-	/**
-	 * Responds to selection changes
-	 * @param e ListSelectionEvent that indicates changes
-	 */
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		int row = table.getSelectedRow();
