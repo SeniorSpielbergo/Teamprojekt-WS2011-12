@@ -8,7 +8,6 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.mxgraph.model.mxCell;
 import com.mxgraph.view.mxGraph;
 
 import machine.turing.*;
@@ -26,7 +25,6 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 	private JButton deleteButton;
 	private int numberTapes;
 	private ListSelectionModel listSelectionModel;
-	private mxCell mxEdge;
 	private mxGraph graph;
 	/**
 	 * Stores the columns names
@@ -46,9 +44,8 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 	 * @param numberTapes Number of tapes in the current machine
 	 * @param edge The edge that should be edited
 	 */
-	public PropertiesEdge(int numberTapes, Edge edge,mxGraph graph, mxCell mxEdge) {
+	public PropertiesEdge(int numberTapes, Edge edge,mxGraph graph) {
 		this.graph = graph;
-		this.mxEdge = mxEdge;
 		this.edge = edge;
 		this.numberTapes = numberTapes;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

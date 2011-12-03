@@ -182,7 +182,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 					displayProperties((State) cell.getValue(), graph.getView().getState(cell));
 				} 
 				else if (cell.isEdge()) {
-					displayProperties((Edge) cell.getValue(), cell);
+					displayProperties((Edge) cell.getValue());
 				}
 			}
 		});
@@ -262,8 +262,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		jPanelProperties.validate();
 	}
 
-	private void displayProperties(Edge edge, mxCell cell) {
-		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge, graph, cell);
+	private void displayProperties(Edge edge) {
+		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge, graph);
 		jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
