@@ -16,7 +16,6 @@ import tape.GraphicTape;
 
 import machine.Machine;
 import machine.Simulation;
-import machine.turing.TuringMachine;
 
 /**
  * Represents a brainfuck machine and provides methods to handle it.

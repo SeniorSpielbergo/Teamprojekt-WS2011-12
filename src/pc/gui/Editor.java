@@ -4,10 +4,8 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
 import machine.Machine;
-import machine.Simulation;
 import machine.brainfuck.BrainfuckMachine;
 import machine.turing.*;
-import tape.*;
 import gui.RunWindow.*;
 
 import java.awt.Dimension;
@@ -372,8 +370,6 @@ public class Editor extends JFrame implements ActionListener {
 		//create tapes and write input
 		//simulate
 			// --> moved to simulation window
-
-
 	}
 
 	/**

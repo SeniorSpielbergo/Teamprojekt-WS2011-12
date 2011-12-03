@@ -5,7 +5,6 @@ import java.util.Hashtable;
 import java.util.UUID;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -19,9 +18,7 @@ import java.awt.event.MouseListener;
 
 import machine.turing.*;
 
-import javax.swing.BorderFactory;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -43,7 +40,6 @@ import com.mxgraph.model.*;
 
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxEvent;
-import com.mxgraph.util.mxEventSource;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.util.mxEventObject;
 
@@ -57,7 +53,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	private final int HEIGHT = 50;
 	private boolean initialized = false;
 	private final TuringMachine machine;
-	private Object selectedObject = null;
+//	private Object selectedObject = null;
 	private StateList graphicalStates = null;
 	private ArrayList<mxCell> graphicalEdges = null;
 
