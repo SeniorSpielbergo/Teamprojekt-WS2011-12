@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.microedition.lcdui.TextBox;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -15,13 +16,13 @@ import machine.turing.TuringMachine;
 public class PropertiesTextbox extends JPanel implements DocumentListener {
 
 	private static final long serialVersionUID = -4793677956080787446L;
-	private TuringMachine machine;
+	private Textbox textbox;
 	private JPanel content;
 	private JLabel textLabel = new JLabel("Text:");
 	private JTextField textField;
 
-	public PropertiesTextbox(TuringMachine machine) {
-		this.machine = machine;
+	public PropertiesTextbox(TextBox textbox) {
+		this.textbox = textbox;
 		
 		this.setMaximumSize(new Dimension(1000, 120));
 		this.setPreferredSize(new Dimension(250, 180));
@@ -32,7 +33,7 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 		content = new JPanel(new GridBagLayout());
 		textField = new JTextField(10);
 		textField.getDocument().addDocumentListener(this);
-		textField.setText(""); //TODO
+		textField.setText(textbox.getText());
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0.2;
@@ -51,12 +52,12 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 
 	@Override
 	public void insertUpdate(DocumentEvent e) {
-		 //TODO
+		this.textbox.setText(textfield.getText());
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
-		 //TODO
+		this.textbox.setText(textfield.getText());
 	}
 
 	@Override
