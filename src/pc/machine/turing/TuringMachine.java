@@ -52,6 +52,10 @@ public class TuringMachine extends Machine{
 	protected ArrayList<Edge> edges;
 
 	/**
+	 * Contains all textboxes of this machine
+	 */
+	protected ArrayList<Textbox> textboxes;
+	/**
 	 * Constructs an untitled Turing machine
 	 */
 	public TuringMachine() {
@@ -111,7 +115,15 @@ public class TuringMachine extends Machine{
 	public ArrayList<Edge> getEdges() {
 		return this.edges;
 	}
-
+	
+	/**
+	 * Returns the Turing machine's Textboxes.
+	 * @return Turing Machine's Textboxes.
+	 */
+	public ArrayList<Textbox> getTextboxes() {
+		return this.textboxes;
+	}
+	
 	/**
 	 * Reads a Turing machine from a XML file.
 	 * The data (states, edges...) of the current TuringMachine object will be overwritten with the data from the file. 

@@ -55,6 +55,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	private final TuringMachine machine;
 //	private Object selectedObject = null;
 	private StateList graphicalStates = null;
+	private StateList graphicalTexts = null;
 	private ArrayList<mxCell> graphicalEdges = null;
 
 	protected JPanel jPanelLeft = null;
@@ -81,6 +82,10 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	 */
 	class StateList extends ArrayList<mxCell>{
 		private static final long serialVersionUID = 4590100471318084729L;
+		public StateList(){
+			super();
+		}
+		
 		public StateList(int size){
 			super(size);
 		}
@@ -106,6 +111,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.initEditor();
 
 		this.graphicalStates = new StateList(machine.getStates().size());
+		this.graphicalTexts = new StateList();
 		this.graphicalEdges = new ArrayList<mxCell>(machine.getEdges().size());
 
 		//create left panel
@@ -178,7 +184,10 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 					displayProperties();
 				}
 				else if(cell.isVertex()){
-					displayProperties((State) cell.getValue(), graph.getView().getState(cell));
+					if(cell.getValue() instanceof State)
+						displayProperties((State) cell.getValue(), graph.getView().getState(cell));
+					else if(cell.getValue() instanceof Textbox)
+						displayProperties((Textbox) cell.getValue());
 				} 
 				else if (cell.isEdge()) {
 					displayProperties((Edge) cell.getValue());
@@ -291,6 +300,15 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		jPanelProperties.validate();
 	}
 
+	private void displayProperties(Textbox text) {
+		PropertiesState propertiesState = new PropertiesTextbox(text);
+		this.jPanelProperties.removeAll();
+		jPanelProperties.validate();
+		jPanelProperties.repaint();
+		jPanelProperties.add(propertiesState, BorderLayout.PAGE_START);
+		jPanelProperties.validate();
+	}
+	
 	private void drawGraph(){
 		ArrayList<State> states = this.machine.getStates();
 		ArrayList<Edge> edges = this.machine.getEdges();
@@ -376,9 +394,17 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				else if (toolBox.getClicked().equals("System")) {
 
 				}
-
 				else if (toolBox.getClicked().equals("Text")) {
-
+					Textbox text = new Textbox();
+					text.setX(x);
+					text.setY(y);
+					text.setWidth(this.WIDTH);
+					text.setHeight(this.HEIGHT);
+					this.machine.getTextboxes().add(text);
+					graphicalTexts.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, text, x, y, WIDTH, HEIGHT, "RECTANGLE"));
+					this.graph.refresh();
+					toolBox.setClicked(null);
+					this.graph.setSelectionCell(graphicalTexts.get(graphicalTexts.size()-1));
 				}
 			} finally {
 				graph.getModel().endUpdate();
