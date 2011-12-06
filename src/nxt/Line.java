@@ -48,7 +48,7 @@ public class Line extends Thread {
 	 */
 	public void run() {
 		while(true) {
-			if ((counterSensor.getColorNumber() >= 5 && counterSensor.getColorNumber() <= 12) || counterSensor.getColorNumber() == 2 ) {
+			if ((counterSensor.getColorNumber() >= 5 && counterSensor.getColorNumber() <= 11) || counterSensor.getColorNumber() == 2 ){// <=12
 				if (grey && !color) {
 					grey = false;
 					color = true;
@@ -66,7 +66,7 @@ public class Line extends Thread {
 					}
 				}
 			}
-			else if (counterSensor.getColorNumber() == 3)
+			else if (counterSensor.getColorNumber() == 12) //3
 				grey = true;
 		}
 	}
@@ -85,9 +85,12 @@ public class Line extends Thread {
 			Motor.A.forward();
 			timer.start();
 			while(!Motor.A.isStopped()){}
-			if(failed)
+			if(failed) {
+				LCD.drawString("Security warning: Timer elapsed!", 0, 2);
 				return false;
+			}
 			timer.stop();
+			LCD.clear();
 			return true;
 		}
 	}
@@ -106,9 +109,12 @@ public class Line extends Thread {
 			Motor.A.backward();
 			timer.start();
 			while(!Motor.A.isStopped()){}
-			if(failed)
+			if(failed) {
+				LCD.drawString("Security warning: Timer elapsed!", 0, 2);
 				return false;
+			}
 			timer.stop();
+			LCD.clear();
 			return true;
 		}
 	}

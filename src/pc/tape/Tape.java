@@ -154,17 +154,18 @@ public abstract class Tape implements Runnable{
 		
 	}
 	
-	public void start(){
+	public void startWritingInputWord(){
+		this.writeInputWordThread = new Thread(this);
 		this.writeInputWordThread.start();
 	}
 
-	public Thread getWriteInputWordThread() {
-		return writeInputWordThread;
-	}
-
-	public void setWriteInputWordThread(Thread writeInputWordThread) {
-		this.writeInputWordThread = writeInputWordThread;
-	}
+//	public Thread getWriteInputWordThread() {
+//		return writeInputWordThread;
+//	}
+//
+//	public void setWriteInputWordThread(Thread writeInputWordThread) {
+//		this.writeInputWordThread = writeInputWordThread;
+//	}
 
 	/**
 	 * This method returns the tape type

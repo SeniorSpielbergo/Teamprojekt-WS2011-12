@@ -321,6 +321,8 @@ public class TuringMachine extends Machine{
 				// get from and to
 				String fromId = edgeElement.getAttribute("from");
 				String toId = edgeElement.getAttribute("to");
+				int labelX = Integer.valueOf(edgeElement.getAttribute("labelx"));
+				int labelY = Integer.valueOf(edgeElement.getAttribute("labely"));
 				State from = this.getStateById(fromId);
 				State to = this.getStateById(toId);
 
@@ -344,6 +346,8 @@ public class TuringMachine extends Machine{
 				}
 
 				Edge edge = new Edge(from, to, transitions);
+				edge.setPosLabelX(labelX);
+				edge.setPosLabelY(labelY);
 				edges.add(edge);
 				System.out.println(" " + edge); //TODO: remove debug output
 
@@ -619,6 +623,16 @@ public class TuringMachine extends Machine{
 			Attr attrEdgeTo = doc.createAttribute("to");
 			attrEdgeTo.setValue(edge.getTo().getId());
 			edgeElement.setAttributeNode(attrEdgeTo);
+			
+			// save to of edge
+			Attr attrEdgeLabelX = doc.createAttribute("labelx");
+			attrEdgeLabelX.setValue("" + edge.getPosLabelX());
+			edgeElement.setAttributeNode(attrEdgeLabelX);
+			
+			// save to of edge
+			Attr attrEdgeLabelY = doc.createAttribute("labely");
+			attrEdgeLabelY.setValue("" + edge.getPosLabelY());
+			edgeElement.setAttributeNode(attrEdgeLabelY);
 			
 			for (Transition transition : edge.getTransitions()) {
 				this.saveTransition(transition, doc, edgeElement);
