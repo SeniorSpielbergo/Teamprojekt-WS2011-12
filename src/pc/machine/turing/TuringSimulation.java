@@ -56,7 +56,9 @@ public class TuringSimulation extends Simulation{
 			if(machine.getStates().get(i).isStartState()){
 				startState = machine.getStates().get(i);
 				actualState = startState;
-				notifyObservers((Object)actualState);
+				super.setChanged();
+				super.notifyObservers((Object)actualState);
+				
 			}
 		}
 		this.findEdge();
@@ -99,7 +101,8 @@ public class TuringSimulation extends Simulation{
 				}
 
 				actualState = nextState;
-				notifyObservers((Object)actualState);
+				super.setChanged();
+				super.notifyObservers((Object)actualState);
 				if(!(actualState.isFinalState())){
 					while(this.simulationIsPaused){
 						try{
