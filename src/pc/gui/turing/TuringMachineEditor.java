@@ -152,7 +152,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 					if(cell.isVertex()){
 						int x = (int) cell.getGeometry().getX();
 						int y = (int) cell.getGeometry().getY();
-						System.out.println("current: " + x + ", " + y);
 						((State)cell.getValue()).setXcoord((int)cell.getGeometry().getX());
 						((State)cell.getValue()).setYcoord((int)cell.getGeometry().getY());
 						x = (int) Math.ceil(x / GRID_SIZE);
@@ -198,6 +197,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 						Edge edge = new Edge((State) (graphEdge.getSource().getValue()),(State)(graphEdge.getTarget().getValue()),new ArrayList<Transition>());
 						graphEdge.setValue(edge);
 						machine.getEdges().add(edge);
+						graph.refresh();
+						graph.repaint();
 					}
 				}
 			}
@@ -305,7 +306,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				v1 = graphicalStates.getMxCell(currentEdge.getFrom());
 				v2 = graphicalStates.getMxCell(currentEdge.getTo());
 				graphicalEdges.add(i,(mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2));
-
 			}
 		} finally {
 			graph.getModel().endUpdate();
@@ -378,6 +378,14 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		mxCell mxEdge = (mxCell) graph.getSelectionCell();
+		if(mxEdge != null && mxEdge.isEdge()) {
+			mxGeometry g = mxEdge.getGeometry();
+			Edge edge = (Edge) mxEdge.getValue();
+			edge.setPosLabelX((int) g.getX());
+			edge.setPosLabelY((int) g.getY());
+			System.out.println(edge.getPosLabelX() + ", " + edge.getPosLabelY());
+		}
 	}
 
 	@Override
