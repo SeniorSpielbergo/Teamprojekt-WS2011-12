@@ -54,7 +54,7 @@ public class TuringMachine extends Machine{
 	/**
 	 * Contains all textboxes of this machine
 	 */
-	protected ArrayList<Textbox> textboxes;
+	protected ArrayList<Textbox> textboxes = new ArrayList<Textbox>();
 	/**
 	 * Constructs an untitled Turing machine
 	 */

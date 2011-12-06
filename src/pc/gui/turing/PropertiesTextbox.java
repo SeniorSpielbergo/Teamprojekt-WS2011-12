@@ -6,12 +6,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.microedition.lcdui.TextBox;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import machine.turing.TuringMachine;
+import com.mxgraph.view.mxGraph;
+
+import machine.turing.Textbox;
 
 public class PropertiesTextbox extends JPanel implements DocumentListener {
 
@@ -20,8 +21,10 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 	private JPanel content;
 	private JLabel textLabel = new JLabel("Text:");
 	private JTextField textField;
+	private mxGraph graph;
 
-	public PropertiesTextbox(TextBox textbox) {
+	public PropertiesTextbox(Textbox textbox, mxGraph graph) {
+		this.graph = graph;
 		this.textbox = textbox;
 		
 		this.setMaximumSize(new Dimension(1000, 120));
@@ -52,12 +55,16 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 
 	@Override
 	public void insertUpdate(DocumentEvent e) {
-		this.textbox.setText(textfield.getText());
+		this.textbox.setText(textField.getText());
+		this.graph.refresh();
+		this.graph.repaint();
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
-		this.textbox.setText(textfield.getText());
+		this.textbox.setText(textField.getText());
+		this.graph.refresh();
+		this.graph.repaint();
 	}
 
 	@Override

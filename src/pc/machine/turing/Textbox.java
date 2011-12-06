@@ -1,6 +1,10 @@
 package machine.turing;
 
-public class Textbox {
+import java.io.Serializable;
+
+public class Textbox implements Serializable {
+	private static final long serialVersionUID = 6069216510208599325L;
+	
 	protected String text;
 	protected int x;
 	protected int y;
@@ -53,4 +57,7 @@ public class Textbox {
 		this.height = height;
 	}
 	
+	public String toString() {
+		return this.text;
+	}
 }

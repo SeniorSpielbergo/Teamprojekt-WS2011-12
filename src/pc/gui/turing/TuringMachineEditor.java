@@ -156,19 +156,25 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
-						int x = (int) cell.getGeometry().getX();
-						int y = (int) cell.getGeometry().getY();
-						((State)cell.getValue()).setXcoord((int)cell.getGeometry().getX());
-						((State)cell.getValue()).setYcoord((int)cell.getGeometry().getY());
-						x = (int) Math.ceil(x / GRID_SIZE);
-						y = (int) Math.ceil(y / GRID_SIZE);
-						graph.getModel().beginUpdate();
-						try {
-							cell.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, cell.getGeometry().getWidth(), cell.getGeometry().getHeight()));
-							graph.repaint();
+						if(cell.getValue() instanceof State) {
+							int x = (int) cell.getGeometry().getX();
+							int y = (int) cell.getGeometry().getY();
+							((State)cell.getValue()).setXcoord((int)cell.getGeometry().getX());
+							((State)cell.getValue()).setYcoord((int)cell.getGeometry().getY());
+							x = (int) Math.ceil(x / GRID_SIZE);
+							y = (int) Math.ceil(y / GRID_SIZE);
+							graph.getModel().beginUpdate();
+							try {
+								cell.setGeometry(new mxGeometry(x * GRID_SIZE, y * GRID_SIZE, cell.getGeometry().getWidth(), cell.getGeometry().getHeight()));
+								graph.repaint();
+							}
+							finally {
+								graph.getModel().endUpdate();
+							}
 						}
-						finally {
-							graph.getModel().endUpdate();
+						else if(cell.getValue() instanceof Textbox) {
+							((Textbox)cell.getValue()).setX((int)cell.getGeometry().getX());
+							((Textbox)cell.getValue()).setY((int)cell.getGeometry().getY());
 						}
 					}
 				}
@@ -304,11 +310,11 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	}
 
 	private void displayProperties(Textbox textbox) {
-		PropertiesState propertiesState = new PropertiesTextbox(textbox);
+		PropertiesTextbox propertiesTextbox = new PropertiesTextbox(textbox, graph);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
-		jPanelProperties.add(propertiesState, BorderLayout.PAGE_START);
+		jPanelProperties.add(propertiesTextbox, BorderLayout.PAGE_START);
 		jPanelProperties.validate();
 	}
 	
@@ -342,6 +348,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				edge.getGeometry().setY(currentEdge.getPosLabelY());
 				graphicalEdges.add(i,edge);
 			}
+			/*
 			for (int i = 0;  i < textboxes.size(); i++){
 				int x = textboxes.get(i).getX();
 				int y = textboxes.get(i).getY();
@@ -352,7 +359,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 						textboxes.get(i).getWidth(), textboxes.get(i).getHeight(),null);
 				mxTextbox.setConnectable(false);
 				graphicalTextboxes.add(i,mxTextbox);
-			}
+			}*/
 		} finally {
 			graph.getModel().endUpdate();
 			graph.refresh();
@@ -410,11 +417,12 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 				}
 				else if (toolBox.getClicked().equals("Text")) {
-					Textbox textbox = new Textbox();
+					Textbox textbox = new Textbox("");
 					textbox.setX(x);
 					textbox.setY(y);
 					textbox.setWidth(this.WIDTH);
 					textbox.setHeight(this.HEIGHT);
+					System.out.println(textbox);
 					this.machine.getTextboxes().add(textbox);
 					mxCell mxTextbox = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, textbox, x, y, WIDTH, HEIGHT, "RECTANGLE");
 					mxTextbox.setConnectable(false);
