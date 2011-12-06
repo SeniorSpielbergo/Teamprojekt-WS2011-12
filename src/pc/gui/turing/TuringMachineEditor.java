@@ -55,7 +55,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	private final TuringMachine machine;
 //	private Object selectedObject = null;
 	private StateList graphicalStates = null;
-	private StateList graphicalTexts = null;
+	private StateList graphicalTextboxes = null;
 	private ArrayList<mxCell> graphicalEdges = null;
 
 	protected JPanel jPanelLeft = null;
@@ -111,7 +111,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.initEditor();
 
 		this.graphicalStates = new StateList(machine.getStates().size());
-		this.graphicalTexts = new StateList();
+		this.graphicalTextboxes = new StateList();
 		this.graphicalEdges = new ArrayList<mxCell>(machine.getEdges().size());
 
 		//create left panel
@@ -303,8 +303,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		jPanelProperties.validate();
 	}
 
-	private void displayProperties(Textbox text) {
-		PropertiesState propertiesState = new PropertiesTextbox(text);
+	private void displayProperties(Textbox textbox) {
+		PropertiesState propertiesState = new PropertiesTextbox(textbox);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
@@ -315,6 +315,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	private void drawGraph(){
 		ArrayList<State> states = this.machine.getStates();
 		ArrayList<Edge> edges = this.machine.getEdges();
+		ArrayList<Textbox> textboxes = this.machine.getTextboxes();
 
 		//load graphical states
 		graph.getModel().beginUpdate();
@@ -340,6 +341,17 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				edge.getGeometry().setX(currentEdge.getPosLabelX());
 				edge.getGeometry().setY(currentEdge.getPosLabelY());
 				graphicalEdges.add(i,edge);
+			}
+			for (int i = 0;  i < textboxes.size(); i++){
+				int x = textboxes.get(i).getX();
+				int y = textboxes.get(i).getY();
+				x = (int) Math.ceil(x / GRID_SIZE);
+				y = (int) Math.ceil(y / GRID_SIZE);
+				mxCell mxTextbox = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
+						textboxes.get(i), x, y, 
+						textboxes.get(i).getWidth(), textboxes.get(i).getHeight(),null);
+				mxTextbox.setConnectable(false);
+				graphicalTextboxes.add(i,mxTextbox);
 			}
 		} finally {
 			graph.getModel().endUpdate();
@@ -398,16 +410,18 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 				}
 				else if (toolBox.getClicked().equals("Text")) {
-					Textbox text = new Textbox();
-					text.setX(x);
-					text.setY(y);
-					text.setWidth(this.WIDTH);
-					text.setHeight(this.HEIGHT);
-					this.machine.getTextboxes().add(text);
-					graphicalTexts.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, text, x, y, WIDTH, HEIGHT, "RECTANGLE"));
+					Textbox textbox = new Textbox();
+					textbox.setX(x);
+					textbox.setY(y);
+					textbox.setWidth(this.WIDTH);
+					textbox.setHeight(this.HEIGHT);
+					this.machine.getTextboxes().add(textbox);
+					mxCell mxTextbox = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, textbox, x, y, WIDTH, HEIGHT, "RECTANGLE");
+					mxTextbox.setConnectable(false);
+					graphicalTextboxes.add(mxTextbox);
 					this.graph.refresh();
 					toolBox.setClicked(null);
-					this.graph.setSelectionCell(graphicalTexts.get(graphicalTexts.size()-1));
+					this.graph.setSelectionCell(graphicalTextboxes.get(graphicalTextboxes.size()-1));
 				}
 			} finally {
 				graph.getModel().endUpdate();
