@@ -208,10 +208,20 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		mxStylesheet stylesheet = graph.getStylesheet();
 		Hashtable<String, Object> style = new Hashtable<String, Object>();
 		Hashtable<String, Object> style2 = new Hashtable<String, Object>();
+		
+		Hashtable<String, Object> styleSelected = new Hashtable<String, Object>();
+		Hashtable<String, Object> styleSelected2 = new Hashtable<String, Object>();
 		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		stylesheet.putCellStyle("CIRCLE", style);
-		style2.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
+		style2.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);		
 		stylesheet.putCellStyle("FINAL", style2);
+		styleSelected.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
+		styleSelected.put(mxConstants.STYLE_FILLCOLOR, "yellow");
+		stylesheet.putCellStyle("CIRCLE_SELECTED", styleSelected);
+		styleSelected2.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
+		styleSelected2.put(mxConstants.STYLE_FILLCOLOR, "yellow");
+		stylesheet.putCellStyle("FINAL_SELECTED", styleSelected2);
+		
 
 		this.drawGraph();
 		

@@ -142,6 +142,9 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == saveButton) {
+			if (this.table.isEditing()) {
+				table.getCellEditor().stopCellEditing();
+			}
 			this.setVisible(false);
 			dispose();
 		}
