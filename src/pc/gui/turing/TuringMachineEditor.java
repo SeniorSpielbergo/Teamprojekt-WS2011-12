@@ -316,11 +316,13 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				v1 = graphicalStates.getMxCell(currentEdge.getFrom());
 				v2 = graphicalStates.getMxCell(currentEdge.getTo());
 				mxCell edge = (mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2);
-				edge.setGeometry(new mxGeometry(currentEdge.getPosLabelX(), currentEdge.getPosLabelY(),0,0));
+				edge.getGeometry().setX(currentEdge.getPosLabelX());
+				edge.getGeometry().setY(currentEdge.getPosLabelY());
 				graphicalEdges.add(i,edge);
 			}
 		} finally {
 			graph.getModel().endUpdate();
+			graph.refresh();
 		}
 	}
 	
@@ -396,7 +398,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			Edge edge = (Edge) mxEdge.getValue();
 			edge.setPosLabelX((int) g.getX());
 			edge.setPosLabelY((int) g.getY());
-			System.out.println(edge.getPosLabelX() + ", " + edge.getPosLabelY());
+			graph.refresh();
 		}
 	}
 
