@@ -425,7 +425,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 					textbox.setY(y);
 					textbox.setWidth(this.WIDTH);
 					textbox.setHeight(this.HEIGHT);
-					System.out.println(textbox);
 					this.machine.getTextboxes().add(textbox);
 					mxCell mxTextbox = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, textbox, x, y, WIDTH, HEIGHT, "RECTANGLE");
 					mxTextbox.setConnectable(false);
