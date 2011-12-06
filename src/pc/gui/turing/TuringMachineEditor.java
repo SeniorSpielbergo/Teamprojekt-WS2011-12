@@ -483,10 +483,19 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 					}
 				}
 				else if(currentCell.isVertex()) {
-					State state = (State) currentCell.getValue();
-					for (int j = 0; j < this.machine.getStates().size(); j++) {
-						if (this.machine.getStates().get(j) == state) {
-							this.machine.getStates().remove(j);
+					if(currentCell.getValue() instanceof State) {
+						State state = (State) currentCell.getValue();
+						for (int j = 0; j < this.machine.getStates().size(); j++) {
+							if (this.machine.getStates().get(j) == state) {
+								this.machine.getStates().remove(j);
+							}
+						}
+					}
+					else if(currentCell.getValue() instanceof Textbox) {
+						Textbox textbox = (Textbox) currentCell.getValue();
+						for(int k = 0; k < this.machine.getTextboxes().size(); k++) {
+							if(this.machine.getTextboxes().get(k) == textbox)
+								this.machine.getTextboxes().remove(k);
 						}
 					}
 				}
