@@ -133,7 +133,9 @@ public abstract class Simulation implements Runnable{
 		}
 		finally {
 			try {
+				System.out.println("shutdown tapes");
 				this.machine.shutdownTapes();
+				System.out.println("shutdown tapes ok");
 			} catch (TapeException e) {
 				ErrorDialog.showError("Warning: The tapes could't be shutdown correctly.", e);
 			}

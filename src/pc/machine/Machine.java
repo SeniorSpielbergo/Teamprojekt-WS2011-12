@@ -73,7 +73,7 @@ public abstract class Machine {
 	public void writeInputWords() throws TapeException {
 		//init tapes
 		for (Tape tape : this.tapes) {
-			tape.getWriteInputWordThread().start();
+			tape.startWritingInputWord();
 		}
 	}
 

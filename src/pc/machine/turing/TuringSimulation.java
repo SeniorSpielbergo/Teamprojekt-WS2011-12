@@ -73,6 +73,9 @@ public class TuringSimulation extends Simulation{
 
 				//searching for the right label
 				Transition rightLabel = getRightLabel();
+				System.out.println("State: "+ this.actualState);
+				System.out.println("Transition: "+ rightLabel);
+
 
 				//go/do label
 				for(int i = 0; i < machine.getNumberOfTapes(); i++){
@@ -123,7 +126,6 @@ public class TuringSimulation extends Simulation{
 	private Transition getRightLabel(){
 		Transition label= null;
 		for(Edge e : actualState.getEdge()){
-			System.out.println("Transition: "+e.getTransitions().size());
 			for(int j = 0; j < e.getTransitions().size(); j++){
 				for(int i = 0; i < machine.getNumberOfTapes(); i++){
 					if( e.getTransitions().get(j).getRead().get(i) == currentSymbols.get(i)){
