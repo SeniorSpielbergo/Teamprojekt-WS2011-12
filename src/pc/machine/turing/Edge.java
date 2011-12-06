@@ -22,7 +22,8 @@ public class Edge implements Serializable {
 	 */
 	protected ArrayList<Transition> transitions;
 
-	
+	protected int posLabelX = 0;
+	protected int posLabelY = 0;
 	/**
 	 * Constructs an edge from a state to another with it's transitions
 	 * @param from Start state
@@ -98,6 +99,21 @@ public class Edge implements Serializable {
 		return transitionsString;
 	}
 	
+	public void setPosLabelX(int x) {
+		this.posLabelX = x;
+	}
+	
+	public void setPosLabelY(int y) {
+		this.posLabelY = y;
+	}
+	
+	public int getPosLabelX() {
+		return this.posLabelX;
+	}
+	
+	public int getPosLabelY() {
+		return this.posLabelY;
+	}
 	
 
 }

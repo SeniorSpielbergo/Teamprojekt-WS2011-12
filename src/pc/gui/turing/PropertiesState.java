@@ -106,29 +106,14 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 	@Override
 	public void insertUpdate(DocumentEvent e) {
 		this.state.setName(this.inputName.getText());
-		graph.getModel().beginUpdate();
-		try {
-			this.vertex.setLabel(state.getName());
-			graph.refresh();
-			graph.repaint();
-			
-		} finally {
-			graph.getModel().endUpdate();
-		}
-		
+		graph.refresh();
+		graph.repaint();
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
 		this.state.setName(this.inputName.getText());
-		graph.getModel().beginUpdate();
-		try {
-			this.vertex.setLabel(state.getName());
-			graph.refresh();
-			graph.repaint();
-			
-		} finally {
-			graph.getModel().endUpdate();
-		}
+		graph.refresh();
+		graph.repaint();
 	}
 }
