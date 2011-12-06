@@ -206,21 +206,24 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		
 		// set style
 		mxStylesheet stylesheet = graph.getStylesheet();
-		Hashtable<String, Object> style = new Hashtable<String, Object>();
-		Hashtable<String, Object> style2 = new Hashtable<String, Object>();
+		Hashtable<String, Object> styleCircle = new Hashtable<String, Object>();
+		Hashtable<String, Object> styleFinal = new Hashtable<String, Object>();
+		Hashtable<String, Object> styleTextbox = new Hashtable<String, Object>();
 		
-		Hashtable<String, Object> styleSelected = new Hashtable<String, Object>();
-		Hashtable<String, Object> styleSelected2 = new Hashtable<String, Object>();
-		style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
-		stylesheet.putCellStyle("CIRCLE", style);
-		style2.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);		
-		stylesheet.putCellStyle("FINAL", style2);
-		styleSelected.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
-		styleSelected.put(mxConstants.STYLE_FILLCOLOR, "yellow");
-		stylesheet.putCellStyle("CIRCLE_SELECTED", styleSelected);
-		styleSelected2.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
-		styleSelected2.put(mxConstants.STYLE_FILLCOLOR, "yellow");
-		stylesheet.putCellStyle("FINAL_SELECTED", styleSelected2);
+		Hashtable<String, Object> styleSelectedCircle = new Hashtable<String, Object>();
+		Hashtable<String, Object> styleSelectedFinal = new Hashtable<String, Object>();
+		styleCircle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
+		stylesheet.putCellStyle("CIRCLE", styleCircle);
+		styleFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);		
+		stylesheet.putCellStyle("FINAL", styleFinal);
+		styleTextbox.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);		
+		stylesheet.putCellStyle("TEXTBOX", styleTextbox);
+		styleSelectedCircle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
+		styleSelectedCircle.put(mxConstants.STYLE_FILLCOLOR, "yellow");
+		stylesheet.putCellStyle("CIRCLE_SELECTED", styleSelectedCircle);
+		styleSelectedFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
+		styleSelectedFinal.put(mxConstants.STYLE_FILLCOLOR, "yellow");
+		stylesheet.putCellStyle("FINAL_SELECTED", styleSelectedFinal);
 		
 
 		this.drawGraph();
