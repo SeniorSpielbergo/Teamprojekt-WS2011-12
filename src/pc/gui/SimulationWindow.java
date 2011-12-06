@@ -164,12 +164,12 @@ public class SimulationWindow extends JFrame{
 
 	//TODO shutdown tapes, if simwindow closed without finishing simulation
 	public void dispose(){
-		if(this.sim.isSimulationAlreadyStarted()){
+		//if(this.sim.isSimulationAlreadyStarted()){ 
 			this.sim.setAbortSimulation();
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {}
-		}
+		//}
 		try{
 			System.out.println(" i shut down the tapes");
 			this.currentMachine.shutdownTapes();

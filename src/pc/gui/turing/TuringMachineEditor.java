@@ -56,7 +56,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	private final int HEIGHT = 50;
 	private boolean initialized = false;
 	private final TuringMachine machine;
-//	private Object selectedObject = null;
+	private mxCell selectedState = null;
 	private StateList graphicalStates = null;
 	private StateList graphicalTextboxes = null;
 	private ArrayList<mxCell> graphicalEdges = null;
@@ -75,7 +75,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	private JMenuItem cutAction;
 	private JMenuItem pasteAction;
 	private JCheckBoxMenuItem gridToggleAction;
-	
+
 	private boolean gridEnabled = true;
 
 	/**
@@ -88,7 +88,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		public StateList(){
 			super();
 		}
-		
+
 		public StateList(int size){
 			super(size);
 		}
@@ -124,8 +124,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.jPanelProperties = new JPanel();
 		this.jPanelLeft.add(this.jPanelToolBox, BorderLayout.NORTH);
 		this.jPanelLeft.add(this.jPanelProperties, BorderLayout.CENTER);
-        this.jPanelProperties.setLayout(new BorderLayout());
-        this.jPanelToolBox.setLayout(new BorderLayout());
+		this.jPanelProperties.setLayout(new BorderLayout());
+		this.jPanelToolBox.setLayout(new BorderLayout());
 
 		//create main graph panel
 		this.jPanelGraph = new JPanel();
@@ -151,8 +151,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.graph.setCellsEditable(false);
 		this.graph.setAllowNegativeCoordinates(false);
 		this.graph.setSplitEnabled(false);
-//		this.graph.setDefaultLoopStyle(null);
-		
+		//		this.graph.setDefaultLoopStyle(null);
+
 		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
@@ -183,7 +183,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				}
 			}
 		});
-		
+
 		this.graph.getSelectionModel().addListener(mxEvent.CHANGE, new mxIEventListener() {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
@@ -203,7 +203,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				}
 			}
 		});
-		
+
 		this.graph.addListener(mxEvent.CELL_CONNECTED, new mxIEventListener() {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
@@ -221,13 +221,13 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				}
 			}
 		});
-		
+
 		// set style
 		mxStylesheet stylesheet = graph.getStylesheet();
 		Hashtable<String, Object> styleCircle = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleFinal = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleTextbox = new Hashtable<String, Object>();
-		
+
 		Hashtable<String, Object> styleSelectedCircle = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleSelectedFinal = new Hashtable<String, Object>();
 		styleCircle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
@@ -242,10 +242,10 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		styleSelectedFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
 		styleSelectedFinal.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		stylesheet.putCellStyle("FINAL_SELECTED", styleSelectedFinal);
-		
+
 
 		this.drawGraph();
-		
+
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
 		graphComponent.addKeyListener(this);
 		graphComponent.getGraphControl().addMouseListener(this);
@@ -266,12 +266,12 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		pasteAction = new JMenuItem("Paste");
 		gridToggleAction = new JCheckBoxMenuItem("Grid enabled");
 		gridToggleAction.setSelected(true);
-		
+
 		editMenu.add(copyAction);
 		editMenu.add(cutAction);
 		editMenu.add(pasteAction);
 		viewMenu.add(gridToggleAction);
-		
+
 		this.getMenus().add(editMenu);
 		this.getMenus().add(viewMenu);
 
@@ -320,7 +320,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		jPanelProperties.add(propertiesTextbox, BorderLayout.PAGE_START);
 		jPanelProperties.validate();
 	}
-	
+
 	private void drawGraph(){
 		ArrayList<State> states = this.machine.getStates();
 		ArrayList<Edge> edges = this.machine.getEdges();
@@ -335,8 +335,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				x = (int) Math.ceil(x / GRID_SIZE);
 				y = (int) Math.ceil(y / GRID_SIZE);
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
-				states.get(i), x * GRID_SIZE, y * GRID_SIZE, 
-				states.get(i).getWidth(), states.get(i).getHeight(), (states.get(i).isFinalState() ? "FINAL" : "CIRCLE")));
+						states.get(i), x * GRID_SIZE, y * GRID_SIZE, 
+						states.get(i).getWidth(), states.get(i).getHeight(), (states.get(i).isFinalState() ? "FINAL" : "CIRCLE")));
 			}
 			//insert graphical Edges
 			Edge currentEdge = null;
@@ -368,7 +368,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			graph.refresh();
 		}
 	}
-	
+
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getSource() == gridToggleAction) {
@@ -381,7 +381,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			}
 		}
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == copyAction) {
@@ -509,17 +509,37 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 	@Override
 	public void update(Observable observerable, Object obj) {
-		// TODO Auto-generated method stub
+		System.out.println("Notified");
 		
-		mxCell currentSimCell = graphicalStates.getMxCell((State)obj);
-		if (((State)obj).isFinalState()) {
-			currentSimCell.setStyle("FINAL_SELECTED");
-		} else {
-			currentSimCell.setStyle("CIRCLE_SELECTED");
+		if(obj instanceof State){
+			System.out.println("is State");
+			if (selectedState != null){
+				if(selectedState.getStyle()=="FINAL_SELECTED"){
+					selectedState.setStyle("FINAL");
+				} else {
+					selectedState.setStyle("CIRCLE");
+				}
+			}
+			selectedState = graphicalStates.getMxCell((State)obj);
+
+			if (((State)obj).isFinalState()) {
+				selectedState.setStyle("FINAL_SELECTED");
+			} else {
+				selectedState.setStyle("CIRCLE_SELECTED");
+			}
 		}
-		System.out.println("Update from Observable");
+		if(obj instanceof Boolean){
+			System.out.println("is Boolean");
+			if (((Boolean)obj)==true){
+				if(selectedState.getStyle()=="FINAL_SELECTED"){
+					selectedState.setStyle("FINAL");
+				} else {
+					selectedState.setStyle("CIRCLE");
+				}
+			}
+		}
 		graph.refresh();			
 		graph.repaint();
-		
+
 	}
 }

@@ -44,6 +44,9 @@ public abstract class Simulation extends Observable implements Runnable{
 	 */
 	public void setAbortSimulation() {
 		this.abortSimulation = true;
+		super.setChanged();
+		super.notifyObservers((Object)true);
+		System.out.println("Notify");
 	}
 
 	/**
