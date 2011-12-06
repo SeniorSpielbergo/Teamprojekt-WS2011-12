@@ -315,7 +315,9 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				currentEdge = edges.get(i);
 				v1 = graphicalStates.getMxCell(currentEdge.getFrom());
 				v2 = graphicalStates.getMxCell(currentEdge.getTo());
-				graphicalEdges.add(i,(mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2));
+				mxCell edge = (mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2);
+				edge.setGeometry(new mxGeometry(currentEdge.getPosLabelX(), currentEdge.getPosLabelY(),0,0));
+				graphicalEdges.add(i,edge);
 			}
 		} finally {
 			graph.getModel().endUpdate();
