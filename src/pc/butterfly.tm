@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="0^n 1^n 2^n" tapes="1" xml-version="3">
     <tape type="graphic">
-        <name>Default console tape</name>
+        <name>Action</name>
         <input>
             <symbol>0</symbol>
             <symbol>0</symbol>
