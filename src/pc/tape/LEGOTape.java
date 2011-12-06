@@ -158,6 +158,7 @@ public class LEGOTape extends Tape {
 		for (int i = LEGOTape.MAX_POSITION; i > 0; i--) {
 			this.moveLeft();
 		}
+		this.moveRight();
 	}
 
 	/**

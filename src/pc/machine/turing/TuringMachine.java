@@ -753,6 +753,7 @@ public class TuringMachine extends Machine{
 	@Override
 	protected MachineEditor createEditor() {
 		return new TuringMachineEditor(this); //TODO: review
+		
 	}
 
 	@Override

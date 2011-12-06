@@ -2,7 +2,9 @@ package gui.turing;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Observable;
 import java.util.UUID;
+import java.util.Observer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -44,9 +46,10 @@ import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.util.mxEventObject;
 
 
+
 import gui.MachineEditor;
 
-public class TuringMachineEditor extends MachineEditor implements KeyListener, ItemListener, ActionListener, MouseListener {
+public class TuringMachineEditor extends MachineEditor implements KeyListener, ItemListener, ActionListener, MouseListener, Observer{
 	private static final long serialVersionUID = 7647012826073382156L;
 	private int GRID_SIZE = 50;
 	private final int WIDTH = 50;
@@ -494,5 +497,21 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+	}
+
+	@Override
+	public void update(Observable observerable, Object obj) {
+		// TODO Auto-generated method stub
+		
+		mxCell currentSimCell = graphicalStates.getMxCell((State)obj);
+		if (((State)obj).isFinalState()) {
+			currentSimCell.setStyle("FINAL_SELECTED");
+		} else {
+			currentSimCell.setStyle("CIRCLE_SELECTED");
+		}
+		System.out.println("Update from Observable");
+		graph.refresh();			
+		graph.repaint();
+		
 	}
 }
