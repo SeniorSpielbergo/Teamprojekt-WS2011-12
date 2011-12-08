@@ -21,7 +21,7 @@ public class Palette extends JPanel implements MouseListener {
 	public Palette() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		icons[0] = new JLabel("System", new ImageIcon("gui/images/system.png"), JLabel.LEFT);
+		icons[0] = new JLabel("Frame", new ImageIcon("gui/images/system.png"), JLabel.LEFT);
 		icons[1] = new JLabel("State", new ImageIcon("gui/images/state.png"), JLabel.LEFT);
 		icons[2] = new JLabel("Text", new ImageIcon("gui/images/text.png"), JLabel.LEFT);
 		icons[0].setName("System");
