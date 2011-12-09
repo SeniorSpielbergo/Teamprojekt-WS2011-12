@@ -4,6 +4,7 @@ import gui.turing.TuringMachineEditor;
 
 import java.util.*;
 import javax.swing.*;
+import javax.swing.plaf.IconUIResource;
 
 import tape.Tape;
 import tape.TapeException;
@@ -11,12 +12,12 @@ import java.awt.*;
 import java.awt.event.*;
 import machine.*;
 
+@SuppressWarnings("serial")
 /**
  * This class is the window in which runs the simulation with the tapes.
  * @author Nessa Baier
  *
  */
-@SuppressWarnings("serial")
 public class SimulationWindow extends JFrame implements Observer, ActionListener{
 	/**
 	 * ScrollPane
@@ -49,6 +50,11 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	 * current simulation
 	 */
 	Simulation sim;
+	
+	ImageIcon iconPlay = new ImageIcon(SimulationWindow.class.getResource("images/play.png"));
+	ImageIcon iconPause = new ImageIcon(SimulationWindow.class.getResource("images/pause.png"));
+	ImageIcon iconStepForward = new ImageIcon(SimulationWindow.class.getResource("images/forward.png"));
+
 
 	/**
 	 * Creates a new window for the simulation.
@@ -76,9 +82,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		this.scrollpaneRight = new JScrollPane(panelall);
 
 		toolbar = new JToolBar("Functions");
-		buttonPlay = new JButton("play");
+		buttonPlay = new JButton(this.iconPlay);
 		buttonPlay.setEnabled(false);
-		buttonForward = new JButton("forward");
+		buttonForward = new JButton(this.iconStepForward);
 		buttonForward.setEnabled(false);
 		buttonPlay.addActionListener(this);
 		buttonForward.addActionListener(this);
@@ -179,6 +185,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		windowConstraints.weighty = 0.95;
 		windowConstraints.fill = GridBagConstraints.BOTH;
 		this.add(scrollpaneRight, windowConstraints);
+		
+		this.validate();
+		this.repaint();
 	}
 
 	//TODO shutdown tapes, if simwindow closed without finishing simulation
@@ -267,6 +276,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			try {
 				simulationPaused = false;
 				sim.start();
+				this.buttonPlay.setIcon(this.iconPause);
 			}
 			catch (RuntimeException e){
 				ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
@@ -277,10 +287,12 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			if(simulationPaused){
 				sim.resume();
 				buttonForward.setEnabled(false);
+				this.buttonPlay.setIcon(this.iconPause);
 			}
 			else{
 				sim.pause();
 				buttonForward.setEnabled(true);
+				this.buttonPlay.setIcon(this.iconPlay);
 			}
 			simulationPaused = !simulationPaused;
 		}

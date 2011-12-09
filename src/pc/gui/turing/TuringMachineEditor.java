@@ -290,6 +290,9 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
 		initialized = true;
+		
+		this.graph.setSplitEnabled(true);
+		this.graph.setResetEdgesOnMove(true);
 
 		displayProperties();
 	}
