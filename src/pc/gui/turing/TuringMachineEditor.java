@@ -327,7 +327,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		styleSelectedFinal.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		stylesheet.putCellStyle("FINAL_SELECTED", styleSelectedFinal);
 		
-		styleSelectedStart.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
+		styleSelectedStart.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		styleSelectedStart.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		styleSelectedStart.put(mxConstants.STYLE_STROKEWIDTH, 2);
 		stylesheet.putCellStyle("FINAL_SELECTED", styleSelectedStart);
@@ -340,8 +340,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		styleSelectedEdge.put(mxConstants.STYLE_STROKECOLOR, "yellow");
 		stylesheet.putCellStyle("EDGE_SELECTED", styleSelectedEdge);
 		
-		
-
 		this.drawGraph();
 
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
@@ -680,7 +678,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 					selectedEdge.setStyle("EDGE");
 				}
 			}
-			System.out.println(graphicalEdges);
 			selectedEdge = graphicalEdges.getMxCell(((Edge)obj).getFrom(), ((Edge)obj).getTo());
 			selectedEdge.setStyle("EDGE_SELECTED");
 		}
