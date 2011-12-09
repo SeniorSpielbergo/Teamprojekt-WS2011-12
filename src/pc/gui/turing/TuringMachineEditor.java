@@ -59,6 +59,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	private mxCell selectedState = null;
 	private StateList graphicalStates = null;
 	private StateList graphicalTextboxes = null;
+	private StateList graphicalFrames = null;
 	private ArrayList<mxCell> graphicalEdges = null;
 
 	protected JPanel jPanelLeft = null;
@@ -115,6 +116,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 		this.graphicalStates = new StateList(machine.getStates().size());
 		this.graphicalTextboxes = new StateList();
+		this.graphicalFrames = new StateList();
 		this.graphicalEdges = new ArrayList<mxCell>(machine.getEdges().size());
 
 		//create left panel
@@ -179,6 +181,10 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 							((Textbox)cell.getValue()).setX((int)cell.getGeometry().getX());
 							((Textbox)cell.getValue()).setY((int)cell.getGeometry().getY());
 						}
+						else if(cell.getValue() instanceof Frame) {
+							((Frame)cell.getValue()).setX((int)cell.getGeometry().getX());
+							((Frame)cell.getValue()).setY((int)cell.getGeometry().getY());
+						}
 					}
 				}
 			}
@@ -197,6 +203,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 						displayProperties((State) cell.getValue(), graph.getView().getState(cell));
 					else if(cell.getValue() instanceof Textbox)
 						displayProperties((Textbox) cell.getValue());
+					else if(cell.getValue() instanceof Frame)
+						displayProperties();					
 				} 
 				else if (cell.isEdge()) {
 					displayProperties((Edge) cell.getValue());
@@ -221,12 +229,36 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				}
 			}
 		});
-
+		
+		this.graph.addListener(mxEvent.CELLS_RESIZED, new mxIEventListener() {
+			@Override
+			public void invoke(Object obj, mxEventObject e) {
+				mxGraphSelectionModel model = ((mxGraph) obj).getSelectionModel();
+				mxCell cell = (mxCell) model.getCell();
+				
+				if(cell.isVertex()) {
+					if(cell.getValue() instanceof Textbox) {
+						Textbox textbox  = (Textbox) cell.getValue();
+						mxGeometry g = cell.getGeometry();
+						textbox.setWidth((int) g.getWidth());
+						textbox.setHeight((int) g.getHeight());
+					}
+					else if(cell.getValue() instanceof Frame) {
+						Frame frame = (Frame ) cell.getValue();
+						mxGeometry g = cell.getGeometry();
+						frame.setWidth((int) g.getWidth());
+						frame.setHeight((int) g.getHeight());
+					}
+				}
+			}
+		});
+		
 		// set style
 		mxStylesheet stylesheet = graph.getStylesheet();
 		Hashtable<String, Object> styleCircle = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleFinal = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleTextbox = new Hashtable<String, Object>();
+		Hashtable<String, Object> styleFrame = new Hashtable<String, Object>();
 
 		Hashtable<String, Object> styleSelectedCircle = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleSelectedFinal = new Hashtable<String, Object>();
@@ -236,13 +268,15 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		stylesheet.putCellStyle("FINAL", styleFinal);
 		styleTextbox.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);		
 		stylesheet.putCellStyle("TEXTBOX", styleTextbox);
+		styleFrame.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);
+		styleFrame.put(mxConstants.STYLE_FILLCOLOR, "none");
+		stylesheet.putCellStyle("FRAME", styleFrame);
 		styleSelectedCircle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		styleSelectedCircle.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		stylesheet.putCellStyle("CIRCLE_SELECTED", styleSelectedCircle);
 		styleSelectedFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
 		styleSelectedFinal.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		stylesheet.putCellStyle("FINAL_SELECTED", styleSelectedFinal);
-
 
 		this.drawGraph();
 
@@ -325,6 +359,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		ArrayList<State> states = this.machine.getStates();
 		ArrayList<Edge> edges = this.machine.getEdges();
 		ArrayList<Textbox> textboxes = this.machine.getTextboxes();
+		ArrayList<Frame> frames = this.machine.getFrames();
 
 		//load graphical states
 		graph.getModel().beginUpdate();
@@ -351,7 +386,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				edge.getGeometry().setY(currentEdge.getPosLabelY());
 				graphicalEdges.add(i,edge);
 			}
-			/*
+			
 			for (int i = 0;  i < textboxes.size(); i++){
 				int x = textboxes.get(i).getX();
 				int y = textboxes.get(i).getY();
@@ -359,10 +394,22 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				y = (int) Math.ceil(y / GRID_SIZE);
 				mxCell mxTextbox = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
 						textboxes.get(i), x, y, 
-						textboxes.get(i).getWidth(), textboxes.get(i).getHeight(),null);
+						textboxes.get(i).getWidth(), textboxes.get(i).getHeight(),"TEXTBOX");
 				mxTextbox.setConnectable(false);
 				graphicalTextboxes.add(i,mxTextbox);
-			}*/
+			}
+			
+			for (int i = 0;  i < frames.size(); i++){
+				int x = frames.get(i).getX();
+				int y = frames.get(i).getY();
+				x = (int) Math.ceil(x / GRID_SIZE);
+				y = (int) Math.ceil(y / GRID_SIZE);
+				mxCell mxFrame= (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
+						frames.get(i), x, y, 
+						frames.get(i).getWidth(), frames.get(i).getHeight(),"FRAME");
+				mxFrame.setConnectable(false);
+				graphicalTextboxes.add(i,mxFrame);
+			}
 		} finally {
 			graph.getModel().endUpdate();
 			graph.refresh();
@@ -416,8 +463,15 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 					toolBox.setClicked(null);
 					this.graph.setSelectionCell(graphicalStates.get(graphicalStates.size()-1));
 				}
-				else if (toolBox.getClicked().equals("System")) {
-
+				else if (toolBox.getClicked().equals("Frame")) {
+					Frame frame = new Frame(x, y, this.WIDTH, this.HEIGHT);
+					this.machine.getFrames().add(frame);
+					mxCell mxFrame = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, frame, x, y, WIDTH, HEIGHT, "FRAME");
+					mxFrame.setConnectable(false);
+					graphicalFrames.add(mxFrame);
+					this.graph.refresh();
+					toolBox.setClicked(null);
+					this.graph.setSelectionCell(graphicalFrames.get(graphicalFrames.size()-1));
 				}
 				else if (toolBox.getClicked().equals("Text")) {
 					Textbox textbox = new Textbox("");
@@ -426,7 +480,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 					textbox.setWidth(this.WIDTH);
 					textbox.setHeight(this.HEIGHT);
 					this.machine.getTextboxes().add(textbox);
-					mxCell mxTextbox = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, textbox, x, y, WIDTH, HEIGHT, "RECTANGLE");
+					mxCell mxTextbox = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, textbox, x, y, WIDTH, HEIGHT, "TEXTBOX");
 					mxTextbox.setConnectable(false);
 					graphicalTextboxes.add(mxTextbox);
 					this.graph.refresh();
@@ -495,6 +549,13 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 						for(int k = 0; k < this.machine.getTextboxes().size(); k++) {
 							if(this.machine.getTextboxes().get(k) == textbox)
 								this.machine.getTextboxes().remove(k);
+						}
+					}
+					else if(currentCell.getValue() instanceof Frame) {
+						Frame frame = (Frame) currentCell.getValue();
+						for(int l = 0; l < this.machine.getFrames().size(); l++) {
+							if(this.machine.getFrames().get(l) == frame)
+								this.machine.getFrames().remove(l);
 						}
 					}
 				}
