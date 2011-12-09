@@ -255,13 +255,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			}
 		});
 		
-		this.graph.addListener(mxEvent.LAYOUT_CELLS, new mxIEventListener() {
-			@Override
-			public void invoke(Object obj, mxEventObject e) {
-				System.out.println("fired");
-			}
-		});
-		
 		this.graph.addListener(mxEvent.CELLS_RESIZED, new mxIEventListener() {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
@@ -531,6 +524,11 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			Edge edge = (Edge) mxEdge.getValue();
 			edge.setPosLabelX((int) g.getX());
 			edge.setPosLabelY((int) g.getY());
+			
+			edge.getVia().clear();
+			for (mxPoint p : mxEdge.getGeometry().getPoints()) {
+				edge.getVia().add(new Point((int)p.getX(), (int)p.getY()));
+			}
 			graph.refresh();
 		}
 	}

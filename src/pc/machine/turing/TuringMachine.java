@@ -382,8 +382,8 @@ public class TuringMachine extends Machine{
 				
 				// get via points
 				NodeList viaList = edgeElement.getElementsByTagName("via");
-				for (int j = 0; i < viaList.getLength(); i++) {
-					Node viaNode = viaList.item(i);
+				for (int j = 0; j < viaList.getLength(); j++) {
+					Node viaNode = viaList.item(j);
 					if (viaNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element viaElement = (Element) viaNode;
 						int viaX = InOut.getAttributeValueInt("x", viaElement);
