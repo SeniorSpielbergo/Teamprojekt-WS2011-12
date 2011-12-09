@@ -66,7 +66,6 @@
         <name>r_3</name>
     </state>
     <edge from="c0534004-d95e-4d1f-8ecb-f83c1d8bec94" labelx="0" labely="65" to="06990be0-bf90-4205-b8c2-6381cf03d2e5">
-        <via x="10" y="10"/>
         <transition id="b505bfcc-e69f-44c2-8848-1c6aab63ac1a">
             <read>
                 <symbol>#</symbol>
@@ -76,6 +75,19 @@
             </write>
             <action>
                 <direction>N</direction>
+            </action>
+        </transition>
+    </edge>
+    <edge from="09d7fc8c-fff3-4977-9c87-72f968ad6ef0" labelx="-1" labely="-46" to="c0534004-d95e-4d1f-8ecb-f83c1d8bec94">
+        <transition id="54f0a860-dbfe-4d97-be00-185578f5e8e8">
+            <read>
+                <symbol>#</symbol>
+            </read>
+            <write>
+                <symbol>#</symbol>
+            </write>
+            <action>
+                <direction>R</direction>
             </action>
         </transition>
     </edge>
