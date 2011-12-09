@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
+import javax.swing.ScrollPaneConstants;
 
 import machine.turing.Edge;
 import machine.turing.State;
@@ -176,7 +177,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.graph.setAutoSizeCells(true);
 		this.graph.setCellsResizable(true);
 		this.graph.setCellsEditable(false);
-		this.graph.setAllowNegativeCoordinates(false);
+		this.graph.setAllowNegativeCoordinates(true);
 		this.graph.setSplitEnabled(false);
 		//		this.graph.setDefaultLoopStyle(null);
 
@@ -286,7 +287,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 		// set style
 		mxStylesheet stylesheet = graph.getStylesheet();
-
 		initStyles(stylesheet);
 		
 		this.drawGraph();
