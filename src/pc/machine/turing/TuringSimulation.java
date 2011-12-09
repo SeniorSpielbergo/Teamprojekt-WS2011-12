@@ -115,6 +115,8 @@ public class TuringSimulation extends Simulation{
 
 				else{
 					System.out.println("ich habe fertig");
+					super.setChanged();
+					super.notifyObservers((Object)Simulation.simulationState.FINISHED);
 				}
 			}
 			else{
@@ -137,6 +139,8 @@ public class TuringSimulation extends Simulation{
 			for(int j = 0; j < e.getTransitions().size(); j++){
 				for(int i = 0; i < machine.getNumberOfTapes(); i++){
 					if( e.getTransitions().get(j).getRead().get(i) == currentSymbols.get(i)){
+						super.setChanged();
+						super.notifyObservers((Object)e);
 						label = e.getTransitions().get(j);
 						nextState = e.getTo();
 					}

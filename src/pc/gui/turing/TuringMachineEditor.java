@@ -18,6 +18,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import machine.Simulation;
 import machine.turing.*;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -57,9 +58,10 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	private boolean initialized = false;
 	private final TuringMachine machine;
 	private mxCell selectedState = null;
+	private mxCell selectedEdge = null;
 	private StateList graphicalStates = null;
 	private StateList graphicalTextboxes = null;
-	private ArrayList<mxCell> graphicalEdges = null;
+	private EdgeList graphicalEdges = null;
 
 	protected JPanel jPanelLeft = null;
 	protected JPanel jPanelGraph = null;
@@ -106,7 +108,26 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			return null;
 		}
 	}
-
+	
+	class EdgeList extends ArrayList<mxCell>{
+		private static final long serialVersionUID = -6540044275767431408L;
+		public EdgeList(){
+			super();
+		}
+		public EdgeList(int size){
+			super(size);
+		}
+		
+		mxCell getMxCell(State source, State target){
+			for (int i = 0; i < this.size(); i++) {
+				if((this.get(i).getSource().getValue().equals((Object) source)) && (this.get(i).getTarget().getValue().equals((Object) target))){
+					return this.get(i);
+				}
+			}
+			return null;
+		}
+		
+	}
 	public TuringMachineEditor(final TuringMachine machine) {
 		super();
 		this.machine = machine;
@@ -115,7 +136,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 		this.graphicalStates = new StateList(machine.getStates().size());
 		this.graphicalTextboxes = new StateList();
-		this.graphicalEdges = new ArrayList<mxCell>(machine.getEdges().size());
+		this.graphicalEdges = new EdgeList(machine.getEdges().size());
 
 		//create left panel
 		this.jPanelLeft = new JPanel();
@@ -227,21 +248,29 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		Hashtable<String, Object> styleCircle = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleFinal = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleTextbox = new Hashtable<String, Object>();
-
+		Hashtable<String, Object> styleEdge = new Hashtable<String, Object>();
+		
 		Hashtable<String, Object> styleSelectedCircle = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleSelectedFinal = new Hashtable<String, Object>();
+		Hashtable<String, Object> styleSelectedEdge = new Hashtable<String, Object>();
+		
 		styleCircle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		stylesheet.putCellStyle("CIRCLE", styleCircle);
 		styleFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);		
 		stylesheet.putCellStyle("FINAL", styleFinal);
 		styleTextbox.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);		
 		stylesheet.putCellStyle("TEXTBOX", styleTextbox);
+		stylesheet.putCellStyle("EDGE", styleEdge);
 		styleSelectedCircle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		styleSelectedCircle.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		stylesheet.putCellStyle("CIRCLE_SELECTED", styleSelectedCircle);
 		styleSelectedFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
 		styleSelectedFinal.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		stylesheet.putCellStyle("FINAL_SELECTED", styleSelectedFinal);
+		styleSelectedEdge.put(mxConstants.STYLE_STROKECOLOR, "yellow");
+		stylesheet.putCellStyle("EDGE_SELECTED", styleSelectedEdge);
+		
+		
 
 
 		this.drawGraph();
@@ -528,14 +557,26 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				selectedState.setStyle("CIRCLE_SELECTED");
 			}
 		}
-		if(obj instanceof Boolean){
-			System.out.println("is Boolean");
-			if (((Boolean)obj)==true){
+		if(obj instanceof Edge){
+			System.out.println("is Edge");
+			if (selectedEdge != null){
+				if(selectedEdge.getStyle()=="EDGE_SELECTED"){
+					selectedEdge.setStyle("EDGE");
+				}
+			}
+			selectedEdge = graphicalEdges.getMxCell(((Edge)obj).getFrom(), ((Edge)obj).getTo());
+			selectedEdge.setStyle("EDGE_SELECTED");
+		}
+		if(obj instanceof Simulation.simulationState){
+			System.out.println("is simulation State");
+			if (((Simulation.simulationState)obj)==Simulation.simulationState.ABORTED){
 				if(selectedState.getStyle()=="FINAL_SELECTED"){
 					selectedState.setStyle("FINAL");
 				} else {
 					selectedState.setStyle("CIRCLE");
 				}
+			} else if (((Simulation.simulationState)obj)==Simulation.simulationState.FINISHED){
+				selectedEdge.setStyle("EDGE");
 			}
 		}
 		graph.refresh();			
