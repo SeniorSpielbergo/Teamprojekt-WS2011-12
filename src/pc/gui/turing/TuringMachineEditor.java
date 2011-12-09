@@ -46,8 +46,8 @@ import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.util.mxEventObject;
-import com.mxgraph.swing.handler.mxRubberband;
 import com.mxgraph.util.mxPoint;
+
 
 
 import gui.MachineEditor;
@@ -183,7 +183,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
-				System.out.println("fired");
 				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
@@ -249,14 +248,20 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 						Edge edge = new Edge((State) (graphEdge.getSource().getValue()),(State)(graphEdge.getTarget().getValue()),new ArrayList<Transition>());
 						graphEdge.setValue(edge);
 						machine.getEdges().add(edge);
-						graphicalEdges.add(graphEdge);
 						graph.refresh();
 						graph.repaint();
 					}
 				}
 			}
 		});
-
+		
+		this.graph.addListener(mxEvent.LAYOUT_CELLS, new mxIEventListener() {
+			@Override
+			public void invoke(Object obj, mxEventObject e) {
+				System.out.println("fired");
+			}
+		});
+		
 		this.graph.addListener(mxEvent.CELLS_RESIZED, new mxIEventListener() {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
@@ -291,8 +296,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
 		initialized = true;
-		
-		new mxRubberband(graphComponent);
 
 		displayProperties();
 	}
@@ -615,28 +618,15 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			if (selectedState != null){
 				if(selectedState.getStyle()=="FINAL_SELECTED"){
 					selectedState.setStyle("FINAL");
-				} else if(selectedState.getStyle()=="FINALSTART_SELECTED") {
-					selectedState.setStyle("FINALSTART");
-				}
-				else if(selectedState.getStyle() == "START") {
-					selectedState.setStyle("START");
-				}
-				else {
+				} else {
 					selectedState.setStyle("CIRCLE");
 				}
 			}
 			selectedState = graphicalStates.getMxCell((State)obj);
 
-			if (((State)obj).isFinalState() && ((State)obj).isStartState()) {
-				selectedState.setStyle("FINALSTART_SELECTED");
-			} 
-			else if(((State)obj).isFinalState()) {
+			if (((State)obj).isFinalState()) {
 				selectedState.setStyle("FINAL_SELECTED");
-			}
-			else if(((State)obj).isStartState()) {
-				selectedState.setStyle("START_SELECTED");
-			}
-			else {
+			} else {
 				selectedState.setStyle("CIRCLE_SELECTED");
 			}
 		}
@@ -655,14 +645,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			if (((Simulation.simulationState)obj)==Simulation.simulationState.ABORTED){
 				if(selectedState.getStyle()=="FINAL_SELECTED"){
 					selectedState.setStyle("FINAL");
-				}
-				else if(selectedState.getStyle()=="FINALSTART_SELECTED") {
-					selectedState.setStyle("FINALSTART");
-				}
-				else if(selectedState.getStyle()=="START_SELECTED") {
-					selectedState.setStyle("START");
-				}
-				else {
+				} else {
 					selectedState.setStyle("CIRCLE");
 				}
 			} else if (((Simulation.simulationState)obj)==Simulation.simulationState.FINISHED){
@@ -671,6 +654,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		}
 		graph.refresh();			
 		graph.repaint();
+
 	}
 	
 	public void initStyles(mxStylesheet stylesheet) {
