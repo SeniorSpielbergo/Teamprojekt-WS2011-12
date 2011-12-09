@@ -45,7 +45,7 @@ import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.util.mxEventObject;
-
+import com.mxgraph.swing.handler.mxRubberband;
 
 
 import gui.MachineEditor;
@@ -338,6 +338,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
 		initialized = true;
+		
+		new mxRubberband(graphComponent);
 
 		displayProperties();
 	}
