@@ -54,7 +54,7 @@ public class TuringMachine extends Machine{
 	/**
 	 * Contains all textboxes of this machine
 	 */
-	protected ArrayList<Textbox> textboxes = new ArrayList<Textbox>();
+	protected ArrayList<Textbox> textboxes;
 	
 	/**
 	 * Contains all frames of this machine
@@ -101,6 +101,7 @@ public class TuringMachine extends Machine{
 		this.edges = edges;
 		this.tapes = tapes;
 		this.frames = new ArrayList<Frame>();
+		this.textboxes = new ArrayList<Textbox>();
 	}
 	
 	public String getFileExtension() {
@@ -153,6 +154,7 @@ public class TuringMachine extends Machine{
 		this.edges.clear();
 		this.states.clear();
 		this.tapes.clear();
+		this.textboxes.clear();
 
 		//parse document
 		System.out.println("Loading file '" + filename + "'...");
@@ -187,6 +189,8 @@ public class TuringMachine extends Machine{
 		this.loadStates(doc);
 		System.out.println("Loading edges and transitions...");
 		this.loadEdges(doc);
+		System.out.println("Loading textboxes...");
+		this.loadTextboxes(doc);
 		System.out.println("File '" + filename + "' successfully loaded.");
 	}
 
@@ -450,6 +454,28 @@ public class TuringMachine extends Machine{
 		}
 		return symbols;
 	}
+	
+	private void loadTextboxes(Document doc) throws IOException {
+		NodeList textboxList = doc.getElementsByTagName("textbox");
+		for (int i = 0; i < textboxList.getLength(); i++) {
+			Node textboxNode = textboxList.item(i);
+	
+			if (textboxNode.getNodeType() != Node.ELEMENT_NODE) {
+				break; //ignore attributes etc.
+			}
+			Element textboxElement = (Element) textboxNode;
+	
+			//Get tape type and name
+			int height = Integer.parseInt(textboxElement.getAttribute("height"));
+			int width = Integer.parseInt(textboxElement.getAttribute("width"));
+			int x = Integer.parseInt(textboxElement.getAttribute("x"));
+			int y = Integer.parseInt(textboxElement.getAttribute("y"));
+			String text = InOut.getTagValue("text", textboxElement);
+	
+			Textbox textbox = new Textbox(text, x, y, width, height);
+			this.textboxes.add(textbox);
+		}
+	}
 
 	/**
 	 * Writes the Turing machine to a XML file with a given name
@@ -509,6 +535,8 @@ public class TuringMachine extends Machine{
 		System.out.println("Saving states...");
 		this.saveStates(doc, rootElement);
 		System.out.println("Saving edges and transitions...");
+		this.saveTextboxes(doc, rootElement);
+		System.out.println("Saving textboxes...");
 		this.saveEdges(doc, rootElement);
 		System.out.println("Saving to file...");
 		StreamResult result = new StreamResult(new File(filename));
@@ -705,6 +733,38 @@ public class TuringMachine extends Machine{
 			Element symbolElement = doc.createElement("direction");
 			symbolElement.appendChild(doc.createTextNode("" + action.get(k)));
 			actionElement.appendChild(symbolElement);
+		}
+	}
+	
+	private void saveTextboxes(Document doc, Element rootElement) {
+		for (Textbox textbox : this.getTextboxes()) {
+			Element textboxElement = doc.createElement("textbox");
+			rootElement.appendChild(textboxElement);
+			
+			// save x textbox
+			Attr attrX = doc.createAttribute("x");
+			attrX.setValue("" + textbox.getX());
+			textboxElement.setAttributeNode(attrX);
+			
+			// save y textbox
+			Attr attrY = doc.createAttribute("y");
+			attrY.setValue("" + textbox.getY());
+			textboxElement.setAttributeNode(attrY);
+			
+			// save x textbox
+			Attr attrWidth = doc.createAttribute("width");
+			attrWidth.setValue("" + textbox.getWidth());
+			textboxElement.setAttributeNode(attrWidth);
+			
+			// save x textbox
+			Attr attrHeight = doc.createAttribute("height");
+			attrHeight.setValue("" + textbox.getHeight());
+			textboxElement.setAttributeNode(attrHeight);
+			
+			// state name element
+			Element textElement = doc.createElement("text");
+			textElement.appendChild(doc.createTextNode(textbox.getText()));
+			textboxElement.appendChild(textElement);
 		}
 	}
 
