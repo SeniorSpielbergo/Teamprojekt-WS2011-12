@@ -633,6 +633,9 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			}
 			displayProperties();
 		}
+		else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A) {
+			graph.selectAll();
+		}
 	}
 
 	@Override
