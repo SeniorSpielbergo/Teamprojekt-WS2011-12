@@ -174,7 +174,6 @@ public class Editor extends JFrame implements ActionListener {
 				this.currentMachine = new TuringMachine(newTMDialogue.getMachinesName(),newTMDialogue.getNumberOfTapes());
 				this.loadEditor();
 				break;
-
 			case CANCEL:
 				break;
 			}
@@ -447,6 +446,7 @@ public class Editor extends JFrame implements ActionListener {
 			}
 
 			this.currentFile = null;
+			this.setTitle(APP_NAME);
 
 			saveAction.setEnabled(false);
 			saveAsAction.setEnabled(false);
@@ -457,6 +457,7 @@ public class Editor extends JFrame implements ActionListener {
 				this.menuBar.remove(menu);
 			}
 			this.remove(this.currentMachine.getEditor());
+			this.repaint();
 			this.currentMachine = null;
 		}
 	}
