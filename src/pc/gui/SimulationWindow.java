@@ -212,9 +212,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	}
 
 	public void update(Observable observable, Object obj) {
-		if (this.sim.isSimulationAlreadyStarted()
-				&&observable instanceof tape.Tape 
-				&& obj instanceof Boolean ){
+		if (observable instanceof tape.Tape 
+				&& obj instanceof tape.Tape.Event
+				&& (tape.Tape.Event)obj == tape.Tape.Event.INPUTFINISHED){
 
 			this.buttonPlay.setEnabled(true);
 			System.out.println("Writing input word finished: notified");
@@ -232,7 +232,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		else if(!this.sim.isSimulationAlreadyStarted()
 				&& observable instanceof tape.Tape
 				&& obj instanceof tape.Tape.Event
-				&& (tape.Tape.Event)obj ==tape.Tape.Event.ABORTWRITINGINPUTWORD){
+				&& (tape.Tape.Event)obj ==tape.Tape.Event.INPUTABORTED){
 
 			try{
 				System.out.println(" i shut down the tapes");

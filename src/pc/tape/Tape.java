@@ -57,7 +57,8 @@ public abstract class Tape extends Observable implements Runnable{
 	}
 	
 	public enum Event{
-		ABORTWRITINGINPUTWORD
+		INPUTFINISHED,
+		INPUTABORTED
 	}
 
 	/**
@@ -174,7 +175,7 @@ public abstract class Tape extends Observable implements Runnable{
 		try{
 			this.writeInputWord();
 			super.setChanged();
-			super.notifyObservers(Event.ABORTWRITINGINPUTWORD);
+			super.notifyObservers(Event.INPUTFINISHED);
 			System.out.println("Writing input word finished; fire event");
 			
 		}
