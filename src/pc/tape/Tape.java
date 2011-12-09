@@ -34,6 +34,8 @@ public abstract class Tape extends Observable implements Runnable{
 	 */
 	protected boolean allowInput = true;
 	
+	protected boolean iWishToInterruptThisThread;
+	
 	protected Thread writeInputWordThread;
 
 	/**
@@ -53,6 +55,10 @@ public abstract class Tape extends Observable implements Runnable{
 		 */
 		GRAPHIC
 	}
+	
+	public enum Event{
+		ABORTWRITINGINPUTWORD
+	}
 
 	/**
 	 * Creates a new tape
@@ -60,6 +66,7 @@ public abstract class Tape extends Observable implements Runnable{
 	public Tape() {
 		this.name = "Default tape";
 		this.writeInputWordThread = new Thread(this);
+		this.iWishToInterruptThisThread = false;
 		
 	}
 
@@ -70,6 +77,7 @@ public abstract class Tape extends Observable implements Runnable{
 	public Tape(boolean allowInput) {
 		this.name = "Default tape";
 		this.allowInput = allowInput;
+		this.iWishToInterruptThisThread = false;
 		this.writeInputWordThread = new Thread(this);
 	}
 
@@ -79,6 +87,7 @@ public abstract class Tape extends Observable implements Runnable{
 	 */
 	public Tape(String name) {
 		this.name = name;
+		this.iWishToInterruptThisThread = false;
 		this.writeInputWordThread = new Thread(this);
 	}
 
@@ -90,7 +99,22 @@ public abstract class Tape extends Observable implements Runnable{
 	public Tape(String name, boolean allowInput) {
 		this.name = name;
 		this.allowInput = allowInput;
+		this.iWishToInterruptThisThread = false;
 		this.writeInputWordThread = new Thread(this);
+	}
+
+	/**
+	 * @return the iWishToInterruptThisThread
+	 */
+	public boolean isiWishToInterruptThisThread() {
+		return iWishToInterruptThisThread;
+	}
+
+	/**
+	 * @param iWishToInterruptThisThread the iWishToInterruptThisThread to set
+	 */
+	public void setiWishToInterruptThisThread(boolean iWishToInterruptThisThread) {
+		this.iWishToInterruptThisThread = iWishToInterruptThisThread;
 	}
 
 	/**
@@ -150,7 +174,7 @@ public abstract class Tape extends Observable implements Runnable{
 		try{
 			this.writeInputWord();
 			super.setChanged();
-			super.notifyObservers((Boolean) true);
+			super.notifyObservers(Event.ABORTWRITINGINPUTWORD);
 			System.out.println("Writing input word finished; fire event");
 			
 		}
@@ -165,9 +189,9 @@ public abstract class Tape extends Observable implements Runnable{
 		this.writeInputWordThread.start();
 	}
 
-//	public Thread getWriteInputWordThread() {
-//		return writeInputWordThread;
-//	}
+	public Thread getWriteInputWordThread() {
+		return writeInputWordThread;
+	}
 //
 //	public void setWriteInputWordThread(Thread writeInputWordThread) {
 //		this.writeInputWordThread = writeInputWordThread;

@@ -1,16 +1,14 @@
 package gui;
 
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+import gui.turing.TuringMachineEditor;
 
+import java.util.*;
 import javax.swing.*;
 
+import tape.Tape;
 import tape.TapeException;
-
 import java.awt.*;
 import java.awt.event.*;
-
 import machine.*;
 
 /**
@@ -32,8 +30,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	 * toolbar
 	 */
 	JToolBar toolbar;
-	
-	
+
+
 	JButton buttonPlay, buttonForward;
 	/**
 	 * the simulation's graphic tapes
@@ -63,6 +61,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			if(currentMachine.getTapes().get(i).getType() == tape.Tape.Type.GRAPHIC){
 				graphicTapes.add((tape.GraphicTape)machine.getTapes().get(i));
 				graphicTapes.get(i).addObserver(this);
+				if(this.currentMachine.getType() == Machine.MachineType.TuringMachine){
+					graphicTapes.get(i).addObserver((TuringMachineEditor)(currentMachine.getEditor()));
+				}
 			}
 		}
 
@@ -73,7 +74,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 		this.panelall = new JPanel(new GridBagLayout());
 		this.scrollpaneRight = new JScrollPane(panelall);
-		
+
 		toolbar = new JToolBar("Functions");
 		buttonPlay = new JButton("play");
 		buttonPlay.setEnabled(false);
@@ -127,7 +128,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		windowConstraints.weightx = 1.0;
 		windowConstraints.weighty = 0.05;
 		this.add(panelToolbar, windowConstraints);
-		
+
 		//adding tapes to panel
 		GridBagConstraints panelallConstraints = new GridBagConstraints();
 		for(int i = 0; i< graphicTapes.size(); i++){
@@ -148,6 +149,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		try {
 			this.currentMachine.writeInputWords();
 			sim = this.currentMachine.createSimulation();
+			sim.addObserver(this);
 		}
 		catch (TapeException e){
 			try {
@@ -169,7 +171,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
 			return;
 		}
-		
+
 		//adding scrollpane to window
 		windowConstraints.gridx = 0;
 		windowConstraints.gridy = 1;
@@ -181,88 +183,106 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 	//TODO shutdown tapes, if simwindow closed without finishing simulation
 	public void dispose(){
-		//if(this.sim.isSimulationAlreadyStarted()){ 
+		if(!this.sim.isSimulationAlreadyStarted()){
+			for (Tape t : this.graphicTapes){
+				System.out.println("thread wird interrupted");
+				t.setiWishToInterruptThisThread(true);
+
+			}
+		}
+		else if(this.sim.isSimulationAlreadyStarted()){ 
 			this.sim.setAbortSimulation();
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {}
-		//}
-		try{
-			System.out.println(" i shut down the tapes");
-			this.currentMachine.shutdownTapes();
-		}
-		catch (TapeException e) {
-			System.out.println("Warning: The tapes couldn't be shutdown correctly.");
-			e.printStackTrace();
-			ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
-			return;
+
+
+			try{
+				System.out.println(" i shut down the tapes");
+				this.currentMachine.shutdownTapes();
+			}
+			catch (TapeException e) {
+				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+				e.printStackTrace();
+				ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
+				return;
+			}
 		}
 		this.setVisible(false);
 	}
-	
+
 	public void update(Observable observable, Object obj) {
-		if (observable instanceof tape.Tape && obj instanceof Boolean ){
+		if (this.sim.isSimulationAlreadyStarted()
+				&&observable instanceof tape.Tape 
+				&& obj instanceof Boolean ){
+
 			this.buttonPlay.setEnabled(true);
 			System.out.println("Writing input word finished: notified");
-			
+		}
+
+		else if(this.sim.isSimulationAlreadyStarted()
+				&& observable instanceof Simulation 
+				&& obj instanceof Simulation.simulationState 
+				&&((Simulation.simulationState)obj)==Simulation.simulationState.FINISHED){
+
+			this.buttonForward.setEnabled(false);
+			this.buttonPlay.setEnabled(false);
+		}
+
+		else if(!this.sim.isSimulationAlreadyStarted()
+				&& observable instanceof tape.Tape
+				&& obj instanceof tape.Tape.Event
+				&& (tape.Tape.Event)obj ==tape.Tape.Event.ABORTWRITINGINPUTWORD){
+
+			try{
+				System.out.println(" i shut down the tapes");
+				this.currentMachine.shutdownTapes();
+			}
+			catch (TapeException e) {
+				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+				e.printStackTrace();
+				ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
+				return;
+			}
+
 		}
 	}
 
 
 	/**
-	 * This class is the toolbar panel.
-	 * @author Nessa Baier
-	 *
+	 * This method handles button events.
 	 */
-
-		/**
-		 * Buttons.
-		 */
-
-		/**
-		 * Toolbar.
-		 *
-		/**
-		 * Creates a new toolbar. 
-		 */
-
-
-				
-		
-		/**
-		 * This method handles button events.
-		 */
-		public void actionPerformed( ActionEvent event){ //TODO inactivate buttons while writing input word
-			//forward button
-			if(event.getSource().equals(buttonForward)){
-				sim.resume();
-				try{
-					Thread.sleep(500);
-				}
-				catch(InterruptedException e){}
-				sim.pause();
+	public void actionPerformed( ActionEvent event){ //TODO inactivate buttons while writing input word
+		//forward button
+		if(event.getSource().equals(buttonForward)){
+			sim.resume();
+			try{
+				Thread.sleep(500);
 			}
-			//play/pause/resume button
-			else if(event.getSource().equals(buttonPlay)&& !sim.isSimulationAlreadyStarted()){
-				try {
-					simulationPaused = false;
-					sim.start();
-				}
-				catch (RuntimeException e){
-					ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
-				}
+			catch(InterruptedException e){}
+			sim.pause();
+		}
+		//play/pause/resume button
+		else if(event.getSource().equals(buttonPlay)&& !sim.isSimulationAlreadyStarted()){
+			try {
+				simulationPaused = false;
+				sim.start();
 			}
-
-			else if(event.getSource().equals(buttonPlay)&& sim.isSimulationAlreadyStarted()){
-				if(simulationPaused){
-					sim.resume();
-					buttonForward.setEnabled(false);
-				}
-				else{
-					sim.pause();
-					buttonForward.setEnabled(true);
-				}
-				simulationPaused = !simulationPaused;
+			catch (RuntimeException e){
+				ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
 			}
 		}
+
+		else if(event.getSource().equals(buttonPlay)&& sim.isSimulationAlreadyStarted()){
+			if(simulationPaused){
+				sim.resume();
+				buttonForward.setEnabled(false);
+			}
+			else{
+				sim.pause();
+				buttonForward.setEnabled(true);
+			}
+			simulationPaused = !simulationPaused;
+		}
 	}
+}

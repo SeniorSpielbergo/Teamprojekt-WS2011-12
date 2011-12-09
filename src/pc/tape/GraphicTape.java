@@ -99,6 +99,7 @@ public class GraphicTape extends Tape {
 
 		//reset tape
 		this.ready = false;
+		this.iWishToInterruptThisThread = false;
 		this.position = 0;
 		this.memory.clear();
 	}
@@ -197,11 +198,20 @@ public class GraphicTape extends Tape {
 		}
 		//write input word to tape
 		for (int i = 0; i < this.inputWord.length(); i++) {
+			if(this.iWishToInterruptThisThread){
+				System.out.println("thread wird gestoppt");
+				break;
+			}
+			
 			this.write(this.inputWord.charAt(i));
 			printTape();
 			this.moveRight();
 		}
 		for (int i = 0; i < this.inputWord.length(); i++) {
+			if(this.iWishToInterruptThisThread){
+				System.out.println("thread wird gestoppt");
+				break;
+			}
 			printTape();
 			this.moveLeft();
 		}
