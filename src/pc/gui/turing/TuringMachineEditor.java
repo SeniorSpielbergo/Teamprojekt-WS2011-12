@@ -508,7 +508,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	}
 
 	@Override
-	public void update(Observable observerable, Object obj) {
+	public void update(Observable observable, Object obj) {
 		System.out.println("Notified");
 		
 		if(obj instanceof State){
