@@ -44,6 +44,7 @@ import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.util.mxEventObject;
+import com.mxgraph.util.mxPoint;
 
 
 
@@ -349,6 +350,14 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				mxCell edge = (mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2);
 				edge.getGeometry().setX(currentEdge.getPosLabelX());
 				edge.getGeometry().setY(currentEdge.getPosLabelY());
+				
+				//set via control points
+				ArrayList<mxPoint> points = new ArrayList<mxPoint>();
+				for (Point p : currentEdge.getVia()) {
+					points.add(new mxPoint(p.getX(),p.getY()));
+				}
+				edge.getGeometry().setPoints(points);
+				
 				graphicalEdges.add(i,edge);
 			}
 			/*

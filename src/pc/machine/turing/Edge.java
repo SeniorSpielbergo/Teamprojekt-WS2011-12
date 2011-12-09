@@ -17,10 +17,13 @@ public class Edge implements Serializable {
 	 * The state where the edge ends
 	 */
 	protected State to;
+	
+	protected ArrayList<Point> via;
 	/**
 	 * Contains all transitions of this edge
 	 */
 	protected ArrayList<Transition> transitions;
+	
 
 	protected int posLabelX = 0;
 	protected int posLabelY = 0;
@@ -34,6 +37,7 @@ public class Edge implements Serializable {
 		this.from = from;
 		this.to = to;
 		this.transitions = transitions;
+		this.via = new ArrayList<Point>();
 	}
 	
 	/**
@@ -114,6 +118,8 @@ public class Edge implements Serializable {
 	public int getPosLabelY() {
 		return this.posLabelY;
 	}
-	
 
+	public ArrayList<Point> getVia() {
+		return via;
+	}
 }

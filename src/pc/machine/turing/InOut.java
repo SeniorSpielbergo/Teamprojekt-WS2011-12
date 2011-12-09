@@ -265,8 +265,9 @@ public class InOut {
 			return Integer.parseInt(attrString);
 		}
 		catch (NumberFormatException e){
+			System.out.println("WARNING: Expected integer value in attribute '" + attribute_name + "' for element '" + currentElement.getNodeName() + "' but found '" + attrString + "'. Treating as zero.");
+
 			return 0;
-			//throw new IOException("Expected integer value in attribute '" + attribute_name + "' for element '" + currentElement.getNodeName() + "' but found '" + attrString + "'.");
 		}
 	}
 
