@@ -393,8 +393,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				int y = textboxes.get(i).getY();
 				int width = textboxes.get(i).getWidth();
 				int height = textboxes.get(i).getHeight();
-				x = (int) Math.ceil(x / GRID_SIZE);
-				y = (int) Math.ceil(y / GRID_SIZE);
 				mxCell mxTextbox = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
 						textboxes.get(i), x, y, width, height,"TEXTBOX");
 				mxTextbox.setConnectable(false);
@@ -406,8 +404,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				int y = frames.get(i).getY();
 				int width = frames.get(i).getWidth();
 				int height = frames.get(i).getHeight();
-				x = (int) Math.ceil(x / GRID_SIZE);
-				y = (int) Math.ceil(y / GRID_SIZE);
 				mxCell mxFrame= (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
 						frames.get(i), x, y, width, height,"FRAME");
 				mxFrame.setConnectable(false);
