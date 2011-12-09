@@ -476,7 +476,6 @@ public class TuringMachine extends Machine{
 	
 			Textbox textbox = new Textbox(text, x, y, width, height);
 			this.textboxes.add(textbox);
-			System.out.println(this.textboxes.get(0));
 		}
 	}
 	
@@ -498,7 +497,6 @@ public class TuringMachine extends Machine{
 	
 			Frame frame = new Frame(x, y, width, height);
 			this.frames.add(frame);
-			System.out.println(this.frames.get(0));
 		}
 	}
 
