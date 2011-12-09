@@ -10,6 +10,11 @@ import java.util.Observable;
  *
  */
 public abstract class Simulation extends Observable implements Runnable{
+	public enum simulationState {
+		ABORTED,
+		FINISHED
+	};
+	
 	/**
 	 * The machine to simulate
 	 */
@@ -17,6 +22,7 @@ public abstract class Simulation extends Observable implements Runnable{
 	protected Thread simulationThread;
 	boolean simulationAlreadyStarted;
 	protected boolean simulationIsPaused,abortSimulation,simulationAborted;
+	
 
 
 	/**
@@ -44,8 +50,9 @@ public abstract class Simulation extends Observable implements Runnable{
 	 */
 	public void setAbortSimulation() {
 		this.abortSimulation = true;
+		
 		super.setChanged();
-		super.notifyObservers((Object)true);
+		super.notifyObservers((Object)simulationState.ABORTED);
 		System.out.println("Notify");
 	}
 
