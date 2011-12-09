@@ -55,6 +55,12 @@ public class TuringMachine extends Machine{
 	 * Contains all textboxes of this machine
 	 */
 	protected ArrayList<Textbox> textboxes;
+	
+	/**
+	 * Contains all frames of this machine
+	 */
+	protected ArrayList<Frame> frames;
+	
 	/**
 	 * Constructs an untitled Turing machine
 	 */
@@ -94,6 +100,7 @@ public class TuringMachine extends Machine{
 		this.states = states;
 		this.edges = edges;
 		this.tapes = tapes;
+		this.frames = new ArrayList<Frame>();
 		this.textboxes = new ArrayList<Textbox>();
 	}
 	
@@ -123,6 +130,14 @@ public class TuringMachine extends Machine{
 	 */
 	public ArrayList<Textbox> getTextboxes() {
 		return this.textboxes;
+	}
+	
+	/**
+	 * Returns the Turing machine's Frames.
+	 * @return Turing Machine's Frames.
+	 */
+	public ArrayList<Frame> getFrames() {
+		return this.frames;
 	}
 	
 	/**
