@@ -277,7 +277,9 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		// set style
 		mxStylesheet stylesheet = graph.getStylesheet();
 		Hashtable<String, Object> styleCircle = new Hashtable<String, Object>();
+		Hashtable<String, Object> styleStart = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleFinal = new Hashtable<String, Object>();
+		Hashtable<String, Object> styleFinalStart = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleTextbox = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleEdge = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleFrame = new Hashtable<String, Object>();
@@ -286,21 +288,41 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		Hashtable<String, Object> styleSelectedFinal = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleSelectedEdge = new Hashtable<String, Object>();
 		
+		styleStart.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
+		styleStart.put(mxConstants.STYLE_STROKEWIDTH, 2);
+//		styleStart.put(mxConstants.STYLE_SHADOW, true);
+		stylesheet.putCellStyle("START", styleStart);
+		
 		styleCircle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
+//		styleCircle.put(mxConstants.STYLE_SHADOW, true);
 		stylesheet.putCellStyle("CIRCLE", styleCircle);
-		styleFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);		
+		
+		styleFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
+//		styleFinal.put(mxConstants.STYLE_SHADOW, true);
 		stylesheet.putCellStyle("FINAL", styleFinal);
+		
+		styleFinalStart.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
+//		styleFinalStart.put(mxConstants.STYLE_SHADOW, true);
+		styleFinalStart.put(mxConstants.STYLE_STROKEWIDTH, 2);
+		stylesheet.putCellStyle("FINALSTART", styleFinalStart);
+		
 		styleTextbox.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);
 		styleTextbox.put(mxConstants.STYLE_FILLCOLOR, "#FBFF8B");
 		styleTextbox.put(mxConstants.STYLE_STROKECOLOR, "#FBFF8B");
+		styleTextbox.put(mxConstants.STYLE_SHADOW, true);
 		stylesheet.putCellStyle("TEXTBOX", styleTextbox);
 		stylesheet.putCellStyle("EDGE", styleEdge);
+
 		styleFrame.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);
 		styleFrame.put(mxConstants.STYLE_FILLCOLOR, "none");
+		styleFrame.put(mxConstants.STYLE_STROKECOLOR, "black");
+		styleFrame.put(mxConstants.STYLE_DASHED, true);
 		stylesheet.putCellStyle("FRAME", styleFrame);
+		
 		styleSelectedCircle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		styleSelectedCircle.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		stylesheet.putCellStyle("CIRCLE_SELECTED", styleSelectedCircle);
+		
 		styleSelectedFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
 		styleSelectedFinal.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		stylesheet.putCellStyle("FINAL_SELECTED", styleSelectedFinal);
@@ -402,7 +424,11 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				y = (int) Math.ceil(y / GRID_SIZE);
 				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
 						states.get(i), x * GRID_SIZE, y * GRID_SIZE, 
-						states.get(i).getWidth(), states.get(i).getHeight(), (states.get(i).isFinalState() ? "FINAL" : "CIRCLE")));
+						states.get(i).getWidth(), states.get(i).getHeight(),
+						(states.get(i).isFinalState() && states.get(i).isStartState() ? "FINALSTART" :
+							(states.get(i).isFinalState() ? "FINAL" : 
+								((states.get(i).isStartState() ? "START" : 
+									"CIRCLE"))))));
 			}
 			//insert graphical Edges
 			Edge currentEdge = null;
@@ -487,7 +513,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 					state.setWidth(this.WIDTH);
 					state.setHeight(this.HEIGHT);
 					this.machine.getStates().add(state);
-					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, xGrid * GRID_SIZE, yGrid * GRID_SIZE, WIDTH, HEIGHT, "CIRCLE"));
+					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, 
+							xGrid * GRID_SIZE, yGrid * GRID_SIZE, WIDTH, HEIGHT, "CIRCLE"));
 					this.graph.refresh();
 					toolBox.setClicked(null);
 					this.graph.setSelectionCell(graphicalStates.get(graphicalStates.size()-1));
