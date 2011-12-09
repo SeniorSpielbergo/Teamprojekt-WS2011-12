@@ -354,8 +354,8 @@ public class TuringMachine extends Machine{
 				// get from and to
 				String fromId = edgeElement.getAttribute("from");
 				String toId = edgeElement.getAttribute("to");
-				int labelX = Integer.valueOf(edgeElement.getAttribute("labelx"));
-				int labelY = Integer.valueOf(edgeElement.getAttribute("labely"));
+				int labelX = InOut.getAttributeValueInt("labelx", edgeElement);
+				int labelY = InOut.getAttributeValueInt("labely", edgeElement);
 				State from = this.getStateById(fromId);
 				State to = this.getStateById(toId);
 
@@ -365,7 +365,7 @@ public class TuringMachine extends Machine{
 				if (to == null) {
 					throw new IOException("Invalid edge end point: No such state with ID '" + fromId + "'.");
 				}
-
+				
 				// get transitions
 				NodeList transitionList = edgeElement.getElementsByTagName("transition");
 				ArrayList<Transition> transitions = new ArrayList<Transition>();
@@ -379,11 +379,24 @@ public class TuringMachine extends Machine{
 				}
 
 				Edge edge = new Edge(from, to, transitions);
+				
+				// get via points
+				NodeList viaList = edgeElement.getElementsByTagName("via");
+				for (int j = 0; i < viaList.getLength(); i++) {
+					Node viaNode = viaList.item(i);
+					if (viaNode.getNodeType() == Node.ELEMENT_NODE) {
+						Element viaElement = (Element) viaNode;
+						int viaX = InOut.getAttributeValueInt("x", viaElement);
+						int viaY = InOut.getAttributeValueInt("y", viaElement);
+						edge.getVia().add(new Point(viaX,viaY));
+					}
+				}
+
 				edge.setPosLabelX(labelX);
 				edge.setPosLabelY(labelY);
 				edges.add(edge);
-				System.out.println(" " + edge); //TODO: remove debug output
-
+				System.out.println(" " + edge); 
+				
 				// write edges that start at a state
 				for (int j = 0; j < states.size(); j++) { //TODO: review
 					ArrayList<Edge> tempStartEdges = new ArrayList<Edge>();
@@ -704,16 +717,27 @@ public class TuringMachine extends Machine{
 			attrEdgeTo.setValue(edge.getTo().getId());
 			edgeElement.setAttributeNode(attrEdgeTo);
 			
-			// save to of edge
+			// save label position
 			Attr attrEdgeLabelX = doc.createAttribute("labelx");
 			attrEdgeLabelX.setValue("" + edge.getPosLabelX());
 			edgeElement.setAttributeNode(attrEdgeLabelX);
-			
-			// save to of edge
 			Attr attrEdgeLabelY = doc.createAttribute("labely");
 			attrEdgeLabelY.setValue("" + edge.getPosLabelY());
 			edgeElement.setAttributeNode(attrEdgeLabelY);
 			
+			//save via points
+			for (Point p : edge.getVia()) {
+				Element viaElement = doc.createElement("via");
+				viaElement.appendChild(viaElement);
+				Attr attrX = doc.createAttribute("x");
+				attrX.setValue("" + p.getX());
+				viaElement.setAttributeNode(attrX);
+				Attr attrY = doc.createAttribute("y");
+				attrY.setValue("" + p.getY());
+				viaElement.setAttributeNode(attrY);
+			}
+			
+			//save transition
 			for (Transition transition : edge.getTransitions()) {
 				this.saveTransition(transition, doc, edgeElement);
 			}
