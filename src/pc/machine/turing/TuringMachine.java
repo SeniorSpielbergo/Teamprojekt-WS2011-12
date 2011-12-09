@@ -496,7 +496,7 @@ public class TuringMachine extends Machine{
 			int y = Integer.parseInt(frameElement.getAttribute("y"));
 	
 			Frame frame = new Frame(x, y, width, height);
-			this.textboxes.add(frame);
+			this.frames.add(frame);
 		}
 	}
 
