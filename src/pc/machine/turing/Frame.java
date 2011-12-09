@@ -2,35 +2,21 @@ package machine.turing;
 
 import java.io.Serializable;
 
-public class Textbox implements Serializable {
-	private static final long serialVersionUID = 6069216510208599325L;
+public class Frame implements Serializable {
+	private static final long serialVersionUID = 3300792709541871175L;
 	
-	protected String text;
 	protected int x;
 	protected int y;
 	protected int width;
 	protected int height;
 	
-	public Textbox() {}
+	public Frame() {}
 	
-	public Textbox(String text) {
-		this.text = text;
-	}
-	
-	public Textbox(String text, int x, int y, int width, int height) {
-		this.text = text;
+	public Frame(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-	}
-	
-	public void setText(String text) {
-		this.text = text;
-	}
-	
-	public String getText() {
-		return this.text;
 	}
 	
 	public int getX() {
@@ -66,6 +52,6 @@ public class Textbox implements Serializable {
 	}
 	
 	public String toString() {
-		return this.text;
+		return "";
 	}
 }
