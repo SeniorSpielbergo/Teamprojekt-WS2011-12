@@ -19,6 +19,10 @@ public class Textbox implements Serializable {
 	
 	public Textbox(String text, int x, int y, int width, int height) {
 		this.text = text;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 	
 	public void setText(String text) {
