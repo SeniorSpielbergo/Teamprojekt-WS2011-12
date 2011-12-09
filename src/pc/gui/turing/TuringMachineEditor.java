@@ -26,6 +26,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 
@@ -76,6 +77,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 
 	private JMenu editMenu;
 	private JMenu viewMenu;
+	private JMenuItem selectAllAction;
 	private JMenuItem copyAction;
 	private JMenuItem cutAction;
 	private JMenuItem pasteAction;
@@ -301,6 +303,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	public void initEditor() {
 		editMenu = new JMenu("Edit");
 		viewMenu = new JMenu("View");
+		selectAllAction = new JMenuItem("Select all");
 		copyAction = new JMenuItem("Copy");
 		cutAction = new JMenuItem("Cut");
 		pasteAction = new JMenuItem("Paste");
@@ -310,6 +313,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		editMenu.add(copyAction);
 		editMenu.add(cutAction);
 		editMenu.add(pasteAction);
+		editMenu.add(new JSeparator());
+		editMenu.add(selectAllAction);
 		viewMenu.add(gridToggleAction);
 
 		this.getMenus().add(editMenu);
@@ -318,10 +323,12 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		copyAction.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		cutAction.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		pasteAction.setAccelerator(KeyStroke.getKeyStroke('V', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		selectAllAction.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
 		copyAction.addActionListener(this);
 		cutAction.addActionListener(this);
 		pasteAction.addActionListener(this);
+		selectAllAction.addActionListener(this);
 		gridToggleAction.addItemListener(this);
 	}
 
@@ -456,6 +463,9 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		else if (e.getSource() == pasteAction) {
 			JOptionPane.showMessageDialog(null, "Not implemented yet!");
 		}
+		else if (e.getSource() == selectAllAction) {
+			graph.selectAll();
+		}
 	}
 
 	@Override
@@ -589,10 +599,6 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				
 			graph.moveCells(graph.getSelectionCells(), dx, dy);
 			
-		}
-
-		else if ((e.isControlDown() || e.isMetaDown()) && e.getKeyCode() == KeyEvent.VK_A) {
-			graph.selectAll();
 		}
 	}
 
