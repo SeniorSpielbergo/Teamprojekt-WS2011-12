@@ -728,7 +728,7 @@ public class TuringMachine extends Machine{
 			//save via points
 			for (Point p : edge.getVia()) {
 				Element viaElement = doc.createElement("via");
-				viaElement.appendChild(viaElement);
+				edgeElement.appendChild(viaElement);
 				Attr attrX = doc.createAttribute("x");
 				attrX.setValue("" + p.getX());
 				viaElement.setAttributeNode(attrX);

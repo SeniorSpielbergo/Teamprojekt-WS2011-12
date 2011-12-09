@@ -181,6 +181,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
+				System.out.println("fired");
 				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if(cell.isVertex()){
@@ -590,6 +591,9 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			
 		}
 
+		else if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_A) {
+			graph.selectAll();
+		}
 	}
 
 	@Override
