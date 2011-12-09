@@ -617,15 +617,29 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			if (selectedState != null){
 				if(selectedState.getStyle()=="FINAL_SELECTED"){
 					selectedState.setStyle("FINAL");
-				} else {
+				} 
+				else if(selectedState.getStyle()=="START_SELECTED"){
+					selectedState.setStyle("START");
+				}
+				else if(selectedState.getStyle()=="FINALSTART_SELECTED") {
+					selectedState.setStyle("FINALSTART");
+				}
+				else {
 					selectedState.setStyle("CIRCLE");
 				}
 			}
 			selectedState = graphicalStates.getMxCell((State)obj);
 
-			if (((State)obj).isFinalState()) {
+			if (((State)obj).isFinalState() & ((State)obj).isStartState()) {
+				selectedState.setStyle("FINALSTART_SELECTED");
+			} 
+			else if(((State)obj).isFinalState()) {
 				selectedState.setStyle("FINAL_SELECTED");
-			} else {
+			}
+			else if(((State)obj).isStartState()) {
+				selectedState.setStyle("START_SELECTED");
+			}
+			else {
 				selectedState.setStyle("CIRCLE_SELECTED");
 			}
 		}
@@ -644,7 +658,14 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			if (((Simulation.simulationState)obj)==Simulation.simulationState.ABORTED){
 				if(selectedState.getStyle()=="FINAL_SELECTED"){
 					selectedState.setStyle("FINAL");
-				} else {
+				} 
+				else if(selectedState.getStyle()=="START_SELECTED") {
+					selectedState.setStyle("START");
+				}
+				else if(selectedState.getStyle()=="FINALSTART_SELECTED") {
+					selectedState.setStyle("FINALSTART");
+				}
+				else {
 					selectedState.setStyle("CIRCLE");
 				}
 			} else if (((Simulation.simulationState)obj)==Simulation.simulationState.FINISHED){
@@ -709,12 +730,12 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		styleSelectedStart.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		styleSelectedStart.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		styleSelectedStart.put(mxConstants.STYLE_STROKEWIDTH, 2);
-		stylesheet.putCellStyle("FINAL_SELECTED", styleSelectedStart);
+		stylesheet.putCellStyle("START_SELECTED", styleSelectedStart);
 		
 		styleSelectedFinalStart.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
 		styleSelectedFinalStart.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		styleSelectedFinalStart.put(mxConstants.STYLE_STROKEWIDTH, 2);
-		stylesheet.putCellStyle("FINAL_SELECTED", styleSelectedFinalStart);
+		stylesheet.putCellStyle("FINALSTART_SELECTED", styleSelectedFinalStart);
 		
 		styleSelectedEdge.put(mxConstants.STYLE_STROKECOLOR, "yellow");
 		stylesheet.putCellStyle("EDGE_SELECTED", styleSelectedEdge);
