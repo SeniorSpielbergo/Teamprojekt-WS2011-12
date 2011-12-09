@@ -21,7 +21,7 @@ public class TuringSimulation extends Simulation{
 	/**
 	 * Specific states
 	 */
-	State actualState, startState, nextState;
+	State currentState, startState, nextState;
 
 	/** 
 	 * The tapes of the current turingmachine.
@@ -55,9 +55,9 @@ public class TuringSimulation extends Simulation{
 		for( int i=0; i < machine.getStates().size(); i++){
 			if(machine.getStates().get(i).isStartState()){
 				startState = machine.getStates().get(i);
-				actualState = startState;
+				currentState = startState;
 				super.setChanged();
-				super.notifyObservers((Object)actualState);
+				super.notifyObservers((Object)currentState);
 				
 			}
 		}
@@ -70,7 +70,7 @@ public class TuringSimulation extends Simulation{
 	 */
 	public void runMachine() throws TapeException{
 		if(!this.abortSimulation){
-			if(!actualState.isFinalState()){
+			if(!currentState.isFinalState()){
 				currentSymbols.clear();
 
 				//read symbol(s)
@@ -79,7 +79,7 @@ public class TuringSimulation extends Simulation{
 
 				//searching for the right label
 				Transition rightLabel = getRightLabel();
-				System.out.println("State: "+ this.actualState);
+				System.out.println("State: "+ this.currentState);
 				System.out.println("Transition: "+ rightLabel);
 
 
@@ -100,10 +100,10 @@ public class TuringSimulation extends Simulation{
 					}
 				}
 
-				actualState = nextState;
+				currentState = nextState;
 				super.setChanged();
-				super.notifyObservers((Object)actualState);
-				if(!(actualState.isFinalState())){
+				super.notifyObservers((Object)currentState);
+				if(!(currentState.isFinalState())){
 					while(this.simulationIsPaused){
 						try{
 							Thread.sleep(400);
@@ -135,7 +135,7 @@ public class TuringSimulation extends Simulation{
 	 */
 	private Transition getRightLabel(){
 		Transition label= null;
-		for(Edge e : actualState.getEdge()){
+		for(Edge e : currentState.getEdge()){
 			for(int j = 0; j < e.getTransitions().size(); j++){
 				for(int i = 0; i < machine.getNumberOfTapes(); i++){
 					if( e.getTransitions().get(j).getRead().get(i) == currentSymbols.get(i)){

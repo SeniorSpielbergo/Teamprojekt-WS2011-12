@@ -1,6 +1,8 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.*;
 
@@ -17,7 +19,7 @@ import machine.*;
  *
  */
 @SuppressWarnings("serial")
-public class SimulationWindow extends JFrame{
+public class SimulationWindow extends JFrame implements Observer, ActionListener{
 	/**
 	 * ScrollPane
 	 */
@@ -29,7 +31,10 @@ public class SimulationWindow extends JFrame{
 	/**
 	 * toolbar
 	 */
-	SimulationToolbar toolbar;
+	JToolBar toolbar;
+	
+	
+	JButton buttonPlay, buttonForward;
 	/**
 	 * the simulation's graphic tapes
 	 */
@@ -56,7 +61,8 @@ public class SimulationWindow extends JFrame{
 		this.currentMachine = machine;
 		for(int i = 0; i< currentMachine.getTapes().size(); i++){
 			if(currentMachine.getTapes().get(i).getType() == tape.Tape.Type.GRAPHIC){
-				graphicTapes.add((tape.GraphicTape)machine.getTapes().get(i)); 
+				graphicTapes.add((tape.GraphicTape)machine.getTapes().get(i));
+				graphicTapes.get(i).addObserver(this);
 			}
 		}
 
@@ -67,7 +73,18 @@ public class SimulationWindow extends JFrame{
 
 		this.panelall = new JPanel(new GridBagLayout());
 		this.scrollpaneRight = new JScrollPane(panelall);
-		this.panelToolbar = new SimulationToolbar();
+		
+		toolbar = new JToolBar("Functions");
+		buttonPlay = new JButton("play");
+		buttonPlay.setEnabled(false);
+		buttonForward = new JButton("forward");
+		buttonForward.setEnabled(false);
+		buttonPlay.addActionListener(this);
+		buttonForward.addActionListener(this);
+		toolbar.add(buttonPlay);
+		toolbar.add(buttonForward);
+		this.panelToolbar = new JPanel();
+		this.panelToolbar.add(toolbar);
 
 		//initialize tapes
 		try {
@@ -182,6 +199,14 @@ public class SimulationWindow extends JFrame{
 		}
 		this.setVisible(false);
 	}
+	
+	public void update(Observable observable, Object obj) {
+		if (observable instanceof tape.Tape && obj instanceof Boolean ){
+			this.buttonPlay.setEnabled(true);
+			System.out.println("Writing input word finished: notified");
+			
+		}
+	}
 
 
 	/**
@@ -189,32 +214,21 @@ public class SimulationWindow extends JFrame{
 	 * @author Nessa Baier
 	 *
 	 */
-	public class SimulationToolbar extends JPanel implements ActionListener {
+
 		/**
 		 * Buttons.
 		 */
-		JButton buttonPlay, buttonForward;
+
 		/**
 		 * Toolbar.
-		 */
-		JToolBar toolbar;
+		 *
 		/**
 		 * Creates a new toolbar. 
 		 */
-		public SimulationToolbar() {
-			super(new BorderLayout());
 
-			toolbar = new JToolBar("Functions");
-			buttonPlay = new JButton("play");
-			buttonForward = new JButton("forward");
-			buttonPlay.addActionListener(this);
-			buttonForward.addActionListener(this);
-			toolbar.add(buttonPlay);
-			toolbar.add(buttonForward);
-			setPreferredSize(new Dimension(600, 130));
-			this.add(toolbar, BorderLayout.NORTH);
-		}
 
+				
+		
 		/**
 		 * This method handles button events.
 		 */
@@ -242,12 +256,13 @@ public class SimulationWindow extends JFrame{
 			else if(event.getSource().equals(buttonPlay)&& sim.isSimulationAlreadyStarted()){
 				if(simulationPaused){
 					sim.resume();
+					buttonForward.setEnabled(false);
 				}
 				else{
 					sim.pause();
+					buttonForward.setEnabled(true);
 				}
 				simulationPaused = !simulationPaused;
 			}
 		}
 	}
-}
