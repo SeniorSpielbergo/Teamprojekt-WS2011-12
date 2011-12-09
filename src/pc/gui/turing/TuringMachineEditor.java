@@ -249,6 +249,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 						Edge edge = new Edge((State) (graphEdge.getSource().getValue()),(State)(graphEdge.getTarget().getValue()),new ArrayList<Transition>());
 						graphEdge.setValue(edge);
 						machine.getEdges().add(edge);
+						graphicalEdges.add(graphEdge);
 						graph.refresh();
 						graph.repaint();
 					}
