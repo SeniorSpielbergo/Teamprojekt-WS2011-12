@@ -3,6 +3,7 @@ package tape;
 import gui.ErrorDialog;
 
 import java.lang.String;
+import java.util.Observable;
 
 /**
  * This abstract class is the common base class for LEGO and Console/PC tapes.
@@ -11,7 +12,7 @@ import java.lang.String;
  * @author Nils Breyer, Nessa Baier
  */
 
-public abstract class Tape implements Runnable{
+public abstract class Tape extends Observable implements Runnable{
 	/**
 	 * True if the tape has been initialized
 	 */
@@ -59,6 +60,7 @@ public abstract class Tape implements Runnable{
 	public Tape() {
 		this.name = "Default tape";
 		this.writeInputWordThread = new Thread(this);
+		
 	}
 
 	/**
@@ -147,6 +149,10 @@ public abstract class Tape implements Runnable{
 	public void run(){
 		try{
 			this.writeInputWord();
+			super.setChanged();
+			super.notifyObservers((Boolean) true);
+			System.out.println("Writing input word finished; fire event");
+			
 		}
 		catch(TapeException e){
 			ErrorDialog.showError("Writing the input word failed.", e);
