@@ -169,14 +169,19 @@ public abstract class Tape extends Observable implements Runnable{
 	/**
 	 * @throws TapeException Thrown if writing the input word fails
 	 */
-	public abstract void writeInputWord() throws TapeException;
+	public abstract boolean writeInputWord() throws TapeException;
 	
 	public void run(){
 		try{
-			this.writeInputWord();
-			super.setChanged();
-			super.notifyObservers(Event.INPUTFINISHED);
-			System.out.println("Writing input word finished; fire event");
+			if(!this.writeInputWord()){
+				super.setChanged();
+				super.notifyObservers(Event.INPUTABORTED);
+			}
+			else{
+				super.setChanged();
+				super.notifyObservers(Event.INPUTFINISHED);
+			}
+			
 			
 		}
 		catch(TapeException e){

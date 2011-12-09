@@ -138,7 +138,7 @@ public class LEGOTape extends Tape {
 		ready = false;
 	}
 
-	public void writeInputWord() throws TapeException {
+	public boolean writeInputWord() throws TapeException {
 		if (this.position != 0) {
 			throw new TapeException(this, "Input word can only be written when at position 0");
 		}
@@ -159,6 +159,7 @@ public class LEGOTape extends Tape {
 			this.moveLeft();
 		}
 		this.moveRight();
+		return true;
 	}
 
 	/**

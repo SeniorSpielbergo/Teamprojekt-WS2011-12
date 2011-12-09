@@ -194,7 +194,7 @@ public class GraphicTape extends Tape {
 	 * Writes the input word on the tape.
 	 * @throws TapeException If something went wrong with the tapes.
 	 */
-	public void writeInputWord() throws TapeException {
+	public boolean writeInputWord() throws TapeException {
 		if (this.position != 0) {
 			throw new TapeException(this, "Input word can only be written when at position 0");
 		}
@@ -202,8 +202,6 @@ public class GraphicTape extends Tape {
 		for (int i = 0; i < this.inputWord.length(); i++) {
 			if(this.iWishToInterruptThisThread){
 				System.out.println("thread wird gestoppt");
-				super.setChanged();
-				super.notifyObservers(Event.INPUTABORTED);
 				break;
 			}
 			
@@ -222,6 +220,9 @@ public class GraphicTape extends Tape {
 			this.moveLeft();
 		}
 		printTape();
+		if(this.iWishToInterruptThisThread)
+			return false;
+		return true;
 	}
 
 	/**
