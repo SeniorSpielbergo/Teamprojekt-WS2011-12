@@ -1,6 +1,7 @@
 package gui.turing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -36,6 +37,7 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 		
 		content = new JPanel(new GridBagLayout());
 		textArea = new JTextArea(10,5);
+		textArea.setBorder(BorderFactory.createLoweredBevelBorder());
 		textArea.getDocument().addDocumentListener(this);
 		textArea.setText(textbox.getText());
 		c.gridx = 0;
