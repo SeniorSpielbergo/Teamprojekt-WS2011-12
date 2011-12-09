@@ -176,6 +176,8 @@ public class TuringMachine extends Machine{
 		this.loadEdges(doc);
 		System.out.println("Loading textboxes...");
 		this.loadTextboxes(doc);
+		System.out.println("Loading frames...");
+		this.loadTextboxes(doc);
 		System.out.println("File '" + filename + "' successfully loaded.");
 	}
 
@@ -461,6 +463,27 @@ public class TuringMachine extends Machine{
 			this.textboxes.add(textbox);
 		}
 	}
+	
+	private void loadFrames(Document doc) throws IOException {
+		NodeList frameList = doc.getElementsByTagName("frame");
+		for (int i = 0; i < frameList.getLength(); i++) {
+			Node frameNode = frameList.item(i);
+	
+			if (frameNode.getNodeType() != Node.ELEMENT_NODE) {
+				break; //ignore attributes etc.
+			}
+			Element frameElement = (Element) frameNode;
+	
+			//Get tape type and name
+			int height = Integer.parseInt(frameElement.getAttribute("height"));
+			int width = Integer.parseInt(frameElement.getAttribute("width"));
+			int x = Integer.parseInt(frameElement.getAttribute("x"));
+			int y = Integer.parseInt(frameElement.getAttribute("y"));
+	
+			Frame frame = new Frame(x, y, width, height);
+			this.textboxes.add(frame);
+		}
+	}
 
 	/**
 	 * Writes the Turing machine to a XML file with a given name
@@ -520,9 +543,11 @@ public class TuringMachine extends Machine{
 		System.out.println("Saving states...");
 		this.saveStates(doc, rootElement);
 		System.out.println("Saving edges and transitions...");
-		this.saveTextboxes(doc, rootElement);
-		System.out.println("Saving textboxes...");
 		this.saveEdges(doc, rootElement);
+		System.out.println("Saving textboxes...");
+		this.saveTextboxes(doc, rootElement);
+		System.out.println("Saving frames...");
+		this.saveFrames(doc, rootElement);
 		System.out.println("Saving to file...");
 		StreamResult result = new StreamResult(new File(filename));
 		DOMSource source = new DOMSource(doc);
@@ -736,20 +761,47 @@ public class TuringMachine extends Machine{
 			attrY.setValue("" + textbox.getY());
 			textboxElement.setAttributeNode(attrY);
 			
-			// save x textbox
+			// save width textbox
 			Attr attrWidth = doc.createAttribute("width");
 			attrWidth.setValue("" + textbox.getWidth());
 			textboxElement.setAttributeNode(attrWidth);
 			
-			// save x textbox
+			// save height textbox
 			Attr attrHeight = doc.createAttribute("height");
 			attrHeight.setValue("" + textbox.getHeight());
 			textboxElement.setAttributeNode(attrHeight);
 			
-			// state name element
+			// textbox text element
 			Element textElement = doc.createElement("text");
 			textElement.appendChild(doc.createTextNode(textbox.getText()));
 			textboxElement.appendChild(textElement);
+		}
+	}
+	
+	private void saveFrames(Document doc, Element rootElement) {
+		for (Frame frame : this.getFrames()) {
+			Element frameElement = doc.createElement("frame");
+			rootElement.appendChild(frameElement);
+			
+			// save x textbox
+			Attr attrX = doc.createAttribute("x");
+			attrX.setValue("" + frame.getX());
+			frameElement.setAttributeNode(attrX);
+			
+			// save y textbox
+			Attr attrY = doc.createAttribute("y");
+			attrY.setValue("" + frame.getY());
+			frameElement.setAttributeNode(attrY);
+			
+			// save width textbox
+			Attr attrWidth = doc.createAttribute("width");
+			attrWidth.setValue("" + frame.getWidth());
+			frameElement.setAttributeNode(attrWidth);
+			
+			// save height textbox
+			Attr attrHeight = doc.createAttribute("height");
+			attrHeight.setValue("" + frame.getHeight());
+			frameElement.setAttributeNode(attrHeight);
 		}
 	}
 
