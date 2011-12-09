@@ -237,15 +237,14 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				mxCell cell = (mxCell) model.getCell();
 				
 				if(cell.isVertex()) {
+					mxGeometry g = cell.getGeometry();
 					if(cell.getValue() instanceof Textbox) {
 						Textbox textbox  = (Textbox) cell.getValue();
-						mxGeometry g = cell.getGeometry();
 						textbox.setWidth((int) g.getWidth());
 						textbox.setHeight((int) g.getHeight());
 					}
 					else if(cell.getValue() instanceof Frame) {
-						Frame frame = (Frame ) cell.getValue();
-						mxGeometry g = cell.getGeometry();
+						Frame frame = (Frame) cell.getValue();
 						frame.setWidth((int) g.getWidth());
 						frame.setHeight((int) g.getHeight());
 					}
@@ -266,7 +265,9 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		stylesheet.putCellStyle("CIRCLE", styleCircle);
 		styleFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);		
 		stylesheet.putCellStyle("FINAL", styleFinal);
-		styleTextbox.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);		
+		styleTextbox.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);
+		styleTextbox.put(mxConstants.STYLE_FILLCOLOR, "#FBFF8B");
+		styleTextbox.put(mxConstants.STYLE_STROKECOLOR, "#FBFF8B");
 		stylesheet.putCellStyle("TEXTBOX", styleTextbox);
 		styleFrame.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);
 		styleFrame.put(mxConstants.STYLE_FILLCOLOR, "none");
@@ -390,11 +391,12 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			for (int i = 0;  i < textboxes.size(); i++){
 				int x = textboxes.get(i).getX();
 				int y = textboxes.get(i).getY();
+				int width = textboxes.get(i).getWidth();
+				int height = textboxes.get(i).getHeight();
 				x = (int) Math.ceil(x / GRID_SIZE);
 				y = (int) Math.ceil(y / GRID_SIZE);
 				mxCell mxTextbox = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
-						textboxes.get(i), x, y, 
-						textboxes.get(i).getWidth(), textboxes.get(i).getHeight(),"TEXTBOX");
+						textboxes.get(i), x, y, width, height,"TEXTBOX");
 				mxTextbox.setConnectable(false);
 				graphicalTextboxes.add(i,mxTextbox);
 			}
@@ -402,11 +404,12 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			for (int i = 0;  i < frames.size(); i++){
 				int x = frames.get(i).getX();
 				int y = frames.get(i).getY();
+				int width = frames.get(i).getWidth();
+				int height = frames.get(i).getHeight();
 				x = (int) Math.ceil(x / GRID_SIZE);
 				y = (int) Math.ceil(y / GRID_SIZE);
 				mxCell mxFrame= (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
-						frames.get(i), x, y, 
-						frames.get(i).getWidth(), frames.get(i).getHeight(),"FRAME");
+						frames.get(i), x, y, width, height,"FRAME");
 				mxFrame.setConnectable(false);
 				graphicalTextboxes.add(i,mxFrame);
 			}
