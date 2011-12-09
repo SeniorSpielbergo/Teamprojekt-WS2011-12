@@ -111,7 +111,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			return null;
 		}
 	}
-	
+
 	class EdgeList extends ArrayList<mxCell>{
 		private static final long serialVersionUID = -6540044275767431408L;
 		public EdgeList(){
@@ -120,7 +120,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		public EdgeList(int size){
 			super(size);
 		}
-		
+
 		mxCell getMxCell(State source, State target){
 			for (int i = 0; i < this.size(); i++) {
 				if((this.get(i).getSource().getValue().equals((Object) source)) && (this.get(i).getTarget().getValue().equals((Object) target))){
@@ -129,7 +129,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			}
 			return null;
 		}
-		
+
 	}
 	public TuringMachineEditor(final TuringMachine machine) {
 		super();
@@ -265,7 +265,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			public void invoke(Object obj, mxEventObject e) {
 				mxGraphSelectionModel model = ((mxGraph) obj).getSelectionModel();
 				mxCell cell = (mxCell) model.getCell();
-				
+
 				if(cell.isVertex()) {
 					mxGeometry g = cell.getGeometry();
 					if(cell.getValue() instanceof Textbox) {
@@ -281,55 +281,11 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				}
 			}
 		});
-		
+
 		// set style
 		mxStylesheet stylesheet = graph.getStylesheet();
-		Hashtable<String, Object> styleCircle = new Hashtable<String, Object>();
-		Hashtable<String, Object> styleStart = new Hashtable<String, Object>();
-		Hashtable<String, Object> styleFinal = new Hashtable<String, Object>();
-		Hashtable<String, Object> styleFinalStart = new Hashtable<String, Object>();
-		Hashtable<String, Object> styleTextbox = new Hashtable<String, Object>();
-		Hashtable<String, Object> styleEdge = new Hashtable<String, Object>();
-		Hashtable<String, Object> styleFrame = new Hashtable<String, Object>();
 
-		Hashtable<String, Object> styleSelectedCircle = new Hashtable<String, Object>();
-		Hashtable<String, Object> styleSelectedFinal = new Hashtable<String, Object>();
-		Hashtable<String, Object> styleSelectedEdge = new Hashtable<String, Object>();
-		
-		styleStart.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
-		styleStart.put(mxConstants.STYLE_STROKEWIDTH, 2);
-//		styleStart.put(mxConstants.STYLE_SHADOW, true);
-		stylesheet.putCellStyle("START", styleStart);
-		
-		styleCircle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
-//		styleCircle.put(mxConstants.STYLE_SHADOW, true);
-		stylesheet.putCellStyle("CIRCLE", styleCircle);
-		
-		styleFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
-//		styleFinal.put(mxConstants.STYLE_SHADOW, true);
-		stylesheet.putCellStyle("FINAL", styleFinal);
-		
-		styleFinalStart.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
-//		styleFinalStart.put(mxConstants.STYLE_SHADOW, true);
-		styleFinalStart.put(mxConstants.STYLE_STROKEWIDTH, 2);
-		stylesheet.putCellStyle("FINALSTART", styleFinalStart);
-		
-		styleTextbox.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);
-		styleTextbox.put(mxConstants.STYLE_FILLCOLOR, "#FBFF8B");
-		styleTextbox.put(mxConstants.STYLE_STROKECOLOR, "#FBFF8B");
-		styleTextbox.put(mxConstants.STYLE_SHADOW, true);
-		stylesheet.putCellStyle("TEXTBOX", styleTextbox);
-		stylesheet.putCellStyle("EDGE", styleEdge);
-
-		styleFrame.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);
-		styleFrame.put(mxConstants.STYLE_FILLCOLOR, "none");
-		styleFrame.put(mxConstants.STYLE_STROKECOLOR, "black");
-		styleFrame.put(mxConstants.STYLE_DASHED, true);
-		stylesheet.putCellStyle("FRAME", styleFrame);
-		
-		styleSelectedCircle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
-		styleSelectedCircle.put(mxConstants.STYLE_FILLCOLOR, "yellow");
-		stylesheet.putCellStyle("CIRCLE_SELECTED", styleSelectedCircle);
+		initStyles(stylesheet);
 		
 		styleSelectedFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
 		styleSelectedFinal.put(mxConstants.STYLE_FILLCOLOR, "yellow");
@@ -436,7 +392,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 						(states.get(i).isFinalState() && states.get(i).isStartState() ? "FINALSTART" :
 							(states.get(i).isFinalState() ? "FINAL" : 
 								((states.get(i).isStartState() ? "START" : 
-									"CIRCLE"))))));
+										"CIRCLE"))))));
 			}
 			//insert graphical Edges
 			Edge currentEdge = null;
@@ -459,7 +415,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				
 				graphicalEdges.add(i,edge);
 			}
-			
+
 			for (int i = 0;  i < textboxes.size(); i++){
 				int x = textboxes.get(i).getX();
 				int y = textboxes.get(i).getY();
@@ -470,7 +426,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				mxTextbox.setConnectable(false);
 				graphicalTextboxes.add(i,mxTextbox);
 			}
-			
+
 			for (int i = 0;  i < frames.size(); i++){
 				int x = frames.get(i).getX();
 				int y = frames.get(i).getY();
@@ -629,6 +585,25 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				}
 			}
 			displayProperties();
+		} else if (!graph.isSelectionEmpty()){
+			int dx = 0, 
+				dy = 0;
+			if (e.getKeyCode() == KeyEvent.VK_KP_DOWN || e.getKeyCode() == KeyEvent.VK_DOWN){
+				dy = GRID_SIZE;
+			} else if (e.getKeyCode() == KeyEvent.VK_KP_UP || e.getKeyCode() == KeyEvent.VK_UP)	{
+				dy = -GRID_SIZE;
+			} else if (e.getKeyCode() == KeyEvent.VK_KP_LEFT || e.getKeyCode() == KeyEvent.VK_LEFT) {
+				dx = -GRID_SIZE;
+			} else if (e.getKeyCode() == KeyEvent.VK_KP_RIGHT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				dx = GRID_SIZE;
+			}
+				
+			graph.moveCells(graph.getSelectionCells(), dx, dy);
+			
+		}
+
+		else if ((e.isControlDown() || e.isMetaDown()) && e.getKeyCode() == KeyEvent.VK_A) {
+			graph.selectAll();
 		}
 	}
 
@@ -639,7 +614,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	@Override
 	public void update(Observable observable, Object obj) {
 		System.out.println("Notified");
-		
+
 		if(obj instanceof State){
 			System.out.println("is State");
 			if (selectedState != null){
