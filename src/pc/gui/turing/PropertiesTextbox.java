@@ -16,8 +16,6 @@ import com.mxgraph.view.mxGraph;
 import machine.turing.Textbox;
 
 public class PropertiesTextbox extends JPanel implements DocumentListener {
-//	TODO: scrollpane
-//  TODO: xml
 	private static final long serialVersionUID = -4793677956080787446L;
 	private Textbox textbox;
 	private JPanel content;
