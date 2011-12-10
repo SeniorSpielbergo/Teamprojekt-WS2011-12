@@ -29,7 +29,6 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
-import javax.swing.ScrollPaneConstants;
 
 import machine.turing.Edge;
 import machine.turing.State;

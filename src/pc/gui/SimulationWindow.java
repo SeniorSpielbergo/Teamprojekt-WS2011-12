@@ -4,7 +4,6 @@ import gui.turing.TuringMachineEditor;
 
 import java.util.*;
 import javax.swing.*;
-import javax.swing.plaf.IconUIResource;
 
 import tape.Tape;
 import tape.TapeException;
