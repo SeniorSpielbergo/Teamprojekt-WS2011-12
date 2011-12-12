@@ -3,21 +3,9 @@ package machine.brainfuck;
 import gui.MachineEditor;
 import gui.brainfuck.BrainfuckEditor;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.File;
-
-import javax.swing.text.DefaultStyledDocument;
-
-import tape.TapeException;
-import tape.GraphicTape;
-
-import machine.Machine;
-import machine.Simulation;
+import java.io.*;
+import tape.*;
+import machine.*;
 
 /**
  * Represents a brainfuck machine and provides methods to handle it.
@@ -29,7 +17,6 @@ public class BrainfuckMachine extends Machine {
 
 	private BrainfuckEditor brainfuckEditor;
 	private String code = "Type your brainfuck code here";
-	private DefaultStyledDocument doc;
 
 	/**
 	 * Creates a new brainfuck machine with input-, output- and actiontape.
@@ -42,24 +29,24 @@ public class BrainfuckMachine extends Machine {
 	}
 
 	/**
-	 * Creates a new brainfuck machine with input-, output- and actiontape.
+	 * Creates a new brainfuck machine with given name, input-, output- and actiontape.
 	 * @param name Name of machine
 	 */
 	public BrainfuckMachine(String name) {
 		super(name);
-		tapes.add(new GraphicTape("Input"));
-		tapes.add(new GraphicTape("Output"));
-		tapes.add(new GraphicTape("Action"));
+		tapes.add(new GraphicTape("Input", true));
+		tapes.add(new GraphicTape("Output", false));
+		tapes.add(new GraphicTape("Action", false));
 	}
 
 	/**
 	 * Saves the brainfuck code to given filename.
 	 * @param filename Filename
 	 */
+	@Override
 	public void save(String filename) throws IOException {
 		if (brainfuckEditor != null) {
 			this.code = brainfuckEditor.getCode();
-			this.doc = brainfuckEditor.getDocument();
 		}
 		FileWriter fstream = new FileWriter(filename);
 		BufferedWriter out = new BufferedWriter(fstream);
@@ -73,6 +60,7 @@ public class BrainfuckMachine extends Machine {
 	 * @throws FileNotFoundException If the file does not exist.
 	 * @throws IOException If file could not be read.
 	 */
+	@Override
 	public void load(String fileName) throws FileNotFoundException, IOException {
 		File file = new File(fileName);
 		byte[] buffer = new byte[(int) file.length()];
@@ -81,7 +69,6 @@ public class BrainfuckMachine extends Machine {
 		code = new String(buffer);
 		if (brainfuckEditor != null) {
 			brainfuckEditor.setCode(code);
-			this.doc = brainfuckEditor.getDocument();
 		}
 	}
 
@@ -90,6 +77,7 @@ public class BrainfuckMachine extends Machine {
 	 * @return BrainfuckSimulation
 	 * @throws TapeException If the tape failed to initialize.
 	 */
+	@Override
 	public Simulation createSimulation() throws TapeException {
 		BrainfuckSimulation brainfuckSimulation = new BrainfuckSimulation(this);
 		return brainfuckSimulation;
@@ -99,24 +87,11 @@ public class BrainfuckMachine extends Machine {
 	 * Creates a new brainfuck editor.
 	 * @return BrainfuckEditor
 	 */
+	@Override
 	protected MachineEditor createEditor() {
 		brainfuckEditor = new BrainfuckEditor();
 		brainfuckEditor.setCode(code);
-		this.doc = brainfuckEditor.getDocument();
 		return brainfuckEditor;
-	}
-
-	/**
-	 * Returns the Code of the brainfuck editor.
-	 * @return Code
-	 */
-	public String getCode() {
-		if (brainfuckEditor != null) {
-			this.code = brainfuckEditor.getCode();
-			this.doc = brainfuckEditor.getDocument();
-		}
-
-		return this.code;
 	}
 
 	@Override
@@ -124,11 +99,8 @@ public class BrainfuckMachine extends Machine {
 		return Machine.MachineType.BrainfuckMachine;
 	}
 	
+	@Override
 	public String getFileExtension() {
 		return BrainfuckMachine.FILE_EXTENSION;
-	}
-	
-	public DefaultStyledDocument getDocument() {
-		return this.doc;
 	}
 }
