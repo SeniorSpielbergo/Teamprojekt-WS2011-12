@@ -26,6 +26,15 @@ public class Editor extends JFrame implements ActionListener {
 	 */
 	public static final String APP_NAME = "TuringBrain IDE";
 	/**
+	 * The version of the application.
+	 */
+	public static final String APP_VERSION = "0.8.0";
+	/**
+	 * The version of the application.
+	 */
+	public static final String APP_AUTHORS = "Hans Wurst,\nBla Blubb";
+	
+	/**
 	 * The machine currently open in the editor.
 	 */
 	protected Machine currentMachine;
