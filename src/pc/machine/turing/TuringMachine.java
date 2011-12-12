@@ -261,7 +261,7 @@ public class TuringMachine extends Machine{
 			tape.setName(tapeName);
 			tape.setInputWord(inputWord);
 			this.tapes.add(tape);
-			System.out.println(tape); //TODO: remove debug output
+			System.out.println(tape);
 		} //end for (next tape)
 
 		//Check if tape count attribute matches the number of tapes
@@ -333,7 +333,7 @@ public class TuringMachine extends Machine{
 				state.setHeight(height);
 				
 				states.add(state);
-				System.out.println(" " + state); //TODO: remove debug output
+				System.out.println(" " + state);
 			}
 		} //end for (next state)
 	}
@@ -903,7 +903,7 @@ public class TuringMachine extends Machine{
 
 	@Override
 	protected MachineEditor createEditor() {
-		return new TuringMachineEditor(this); //TODO: review
+		return new TuringMachineEditor(this);
 		
 	}
 

@@ -87,14 +87,6 @@ public class Edge implements Serializable {
 	public void setTo(State to) {
 		this.to = to;
 	}
-	
-	/**
-	 * Sets the transitions for this edge
-	 * @param transitions Transitions for this edge
-	 */ //FIXME: is this method necessary?
-	public void setTransitions(ArrayList<Transition> transitions) {
-		this.transitions = transitions;
-	}
 
 	/**
 	 * Gives a string representation of the edge

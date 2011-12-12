@@ -313,7 +313,7 @@ public class Editor extends JFrame implements ActionListener {
 				} 
 				
 			}
-			try { //TODO: check if the file already exists and prompt if to save anyway
+			try { 
 				this.currentMachine.save(selectedFile.getPath());
 			} catch (IOException e) {
 				ErrorDialog.showError("Saving the file '" + selectedFile.getName() + "' failed because of an I/O error.", e);
