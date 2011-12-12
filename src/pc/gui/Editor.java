@@ -32,7 +32,7 @@ public class Editor extends JFrame implements ActionListener {
 	/**
 	 * The version of the application.
 	 */
-	public static final String APP_AUTHORS = "Hans Wurst,\nBla Blubb";
+	public static final String APP_AUTHORS = "Vanessa Baier,\n Nils Breyer,\n Phillipp Neumann,\n Sven Schuster,\n David Wille";
 	
 	/**
 	 * The machine currently open in the editor.
