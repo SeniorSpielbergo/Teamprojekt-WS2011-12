@@ -78,7 +78,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 	public void update(Observable obs, Object obj) {
 		if(obs instanceof BrainfuckSimulation && obj instanceof Integer) {
 			document.resetHighlights();
-			document.setHighlight((int) obj);
+			document.setHighlight((Integer) obj);
 		}
 		else if(obj instanceof Simulation.simulationState) {
 			document.resetHighlights();
