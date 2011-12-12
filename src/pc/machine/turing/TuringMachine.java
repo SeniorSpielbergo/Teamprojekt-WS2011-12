@@ -719,10 +719,10 @@ public class TuringMachine extends Machine{
 			
 			// save label position
 			Attr attrEdgeLabelX = doc.createAttribute("labelx");
-			attrEdgeLabelX.setValue("" + edge.getPosLabelX());
+			attrEdgeLabelX.setValue("" + edge.getPosLabel().getX());
 			edgeElement.setAttributeNode(attrEdgeLabelX);
 			Attr attrEdgeLabelY = doc.createAttribute("labely");
-			attrEdgeLabelY.setValue("" + edge.getPosLabelY());
+			attrEdgeLabelY.setValue("" + edge.getPosLabel().getY());
 			edgeElement.setAttributeNode(attrEdgeLabelY);
 			
 			//save via points

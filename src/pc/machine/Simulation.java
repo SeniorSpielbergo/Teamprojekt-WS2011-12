@@ -94,8 +94,8 @@ public abstract class Simulation extends Observable implements Runnable{
 	}
 
 	/**
-	 * Sets the currentmachine.
-	 * @param machine
+	 * Sets the current machine.
+	 * @param machine The machine
 	 */
 	public void setMachine(Machine machine) {
 		this.machine = machine;

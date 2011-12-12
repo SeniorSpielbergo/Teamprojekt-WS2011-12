@@ -18,14 +18,22 @@ public class Edge implements Serializable {
 	 */
 	protected State to;
 	
+	/**
+	 * The list of via points
+	 */
 	protected ArrayList<Point> via;
 	/**
 	 * Contains all transitions of this edge
 	 */
 	protected ArrayList<Transition> transitions;
 	
-
+	/**
+	 * The label x position
+	 */
 	protected int posLabelX = 0;
+	/**
+	 * The label y position
+	 */
 	protected int posLabelY = 0;
 	/**
 	 * Constructs an edge from a state to another with it's transitions
@@ -103,22 +111,34 @@ public class Edge implements Serializable {
 		return transitionsString;
 	}
 	
+	/**
+	 * Sets the label x position
+	 * @param x
+	 */
 	public void setPosLabelX(int x) {
 		this.posLabelX = x;
 	}
 	
+	/**
+	 * Sets the label y position
+	 * @param y
+	 */
 	public void setPosLabelY(int y) {
 		this.posLabelY = y;
 	}
 	
-	public int getPosLabelX() {
-		return this.posLabelX;
-	}
-	
-	public int getPosLabelY() {
-		return this.posLabelY;
+	/**
+	 * Returns the current label position
+	 * @return The point where the label is positioned
+	 */
+	public Point getPosLabel() {
+		return new Point(this.posLabelX, this.posLabelY);
 	}
 
+	/**
+	 * Returns the list of via points for this edge
+	 * @return List of vias
+	 */
 	public ArrayList<Point> getVia() {
 		return via;
 	}

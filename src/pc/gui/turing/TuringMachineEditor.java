@@ -92,10 +92,17 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	 */
 	class StateList extends ArrayList<mxCell>{
 		private static final long serialVersionUID = 4590100471318084729L;
+		/**
+		 * Constructs a new StateList
+		 */
 		public StateList(){
 			super();
 		}
 
+		/**
+		 * Constructs a new StateList with a given size
+		 * @param size The size
+		 */
 		public StateList(int size){
 			super(size);
 		}
@@ -395,8 +402,8 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				v1 = graphicalStates.getMxCell(currentEdge.getFrom());
 				v2 = graphicalStates.getMxCell(currentEdge.getTo());
 				mxCell edge = (mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2);
-				edge.getGeometry().setX(currentEdge.getPosLabelX());
-				edge.getGeometry().setY(currentEdge.getPosLabelY());
+				edge.getGeometry().setX(currentEdge.getPosLabel().getX());
+				edge.getGeometry().setY(currentEdge.getPosLabel().getY());
 				
 				//set via control points
 				ArrayList<mxPoint> points = new ArrayList<mxPoint>();

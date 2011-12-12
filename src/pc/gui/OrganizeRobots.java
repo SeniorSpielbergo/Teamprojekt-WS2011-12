@@ -33,7 +33,9 @@ import machine.turing.*;
  */
 
 public class OrganizeRobots extends JDialog implements ActionListener, TableModelListener, ListSelectionListener {
-
+	/**
+	 * serial version id
+	 */
 	static final long serialVersionUID = -3667258249137827980L;
 	private JTable table;
 	private JScrollPane tablePane;

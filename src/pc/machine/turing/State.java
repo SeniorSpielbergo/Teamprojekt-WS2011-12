@@ -21,8 +21,10 @@ public class State implements Serializable {
 	/**
 	 * The state type
 	 */
-	protected boolean startState; // FIXME: States can be start and final at the same time 
-	
+	protected boolean startState;
+	/**
+	 * True if the state is final
+	 */
 	protected boolean finalState;
 	/**
 	 * Contains all edges starting at this state //TODO: review if it is better to search the edges dynamically
@@ -36,6 +38,9 @@ public class State implements Serializable {
 	 * @param type Type of state
 	 */
 	
+	/**
+	 * State geometry
+	 */
 	protected int xcoord, ycoord, height, width;
 	
 	
@@ -97,7 +102,7 @@ public class State implements Serializable {
 	}
 	/**
 	 * Sets the startstate 
-	 * @param true true if state is startState 
+	 * @param startState true if state is startState 
 	 */
 	public void setStartState(boolean startState) {
 		this.startState = startState;
