@@ -1,7 +1,7 @@
 package machine.brainfuck;
 
 import gui.MachineEditor;
-import gui.brainfuck.*;
+import gui.brainfuck.BrainfuckEditor;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
+
+import javax.swing.text.DefaultStyledDocument;
 
 import tape.TapeException;
 import tape.GraphicTape;
@@ -27,6 +29,7 @@ public class BrainfuckMachine extends Machine {
 
 	private BrainfuckEditor brainfuckEditor;
 	private String code = "Type your brainfuck code here";
+	private DefaultStyledDocument doc;
 
 	/**
 	 * Creates a new brainfuck machine with input-, output- and actiontape.
@@ -56,6 +59,7 @@ public class BrainfuckMachine extends Machine {
 	public void save(String filename) throws IOException {
 		if (brainfuckEditor != null) {
 			this.code = brainfuckEditor.getCode();
+			this.doc = brainfuckEditor.getDocument();
 		}
 		FileWriter fstream = new FileWriter(filename);
 		BufferedWriter out = new BufferedWriter(fstream);
@@ -77,6 +81,7 @@ public class BrainfuckMachine extends Machine {
 		code = new String(buffer);
 		if (brainfuckEditor != null) {
 			brainfuckEditor.setCode(code);
+			this.doc = brainfuckEditor.getDocument();
 		}
 	}
 
@@ -97,6 +102,7 @@ public class BrainfuckMachine extends Machine {
 	protected MachineEditor createEditor() {
 		brainfuckEditor = new BrainfuckEditor();
 		brainfuckEditor.setCode(code);
+		this.doc = brainfuckEditor.getDocument();
 		return brainfuckEditor;
 	}
 
@@ -107,6 +113,7 @@ public class BrainfuckMachine extends Machine {
 	public String getCode() {
 		if (brainfuckEditor != null) {
 			this.code = brainfuckEditor.getCode();
+			this.doc = brainfuckEditor.getDocument();
 		}
 
 		return this.code;
@@ -119,5 +126,9 @@ public class BrainfuckMachine extends Machine {
 	
 	public String getFileExtension() {
 		return BrainfuckMachine.FILE_EXTENSION;
+	}
+	
+	public DefaultStyledDocument getDocument() {
+		return this.doc;
 	}
 }

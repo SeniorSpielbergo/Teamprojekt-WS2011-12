@@ -223,7 +223,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		if (observable instanceof tape.Tape 
 				&& obj instanceof tape.Tape.Event
 				&& (tape.Tape.Event)obj == tape.Tape.Event.INPUTFINISHED){
-
+			// FIXME: das passiert leider sofort, wenn eins der x tapes fertig ist
 			this.buttonPlay.setEnabled(true);
 			System.out.println("Writing input word finished: notified");
 		}
