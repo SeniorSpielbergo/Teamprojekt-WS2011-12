@@ -80,7 +80,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer {
 	public void update(Observable obs, Object obj) {
 		if(obs instanceof BrainfuckSimulation && obj instanceof Integer) {
 			resetHighlight();
-			setHighlight((int) obj);
+			setHighlight((Integer) obj);
 		}
 		else if(obj instanceof Simulation.simulationState) {
 			resetHighlight();
