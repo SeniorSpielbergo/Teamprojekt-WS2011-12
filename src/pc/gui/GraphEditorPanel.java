@@ -1,3 +1,6 @@
+//TODO: check, if this file is still necessary
+
+
 package gui;
 
 import javax.swing.*;

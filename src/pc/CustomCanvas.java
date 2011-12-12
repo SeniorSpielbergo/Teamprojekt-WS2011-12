@@ -1,4 +1,4 @@
-
+//TODO: check, if this file is still necessary
 
 import javax.swing.BorderFactory;
 import javax.swing.CellRendererPane;
