@@ -1,4 +1,12 @@
 package machine.brainfuck;
+
+import java.util.ArrayList;
+
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+
+import gui.ErrorDialog;
+import gui.brainfuck.BrainfuckEditor;
 import tape.*;
 import machine.*;
 
@@ -11,7 +19,8 @@ public class BrainfuckSimulation extends Simulation {
 	private Tape actionTape;
 	private Tape inputTape;
 	private Tape outputTape;
-	private String code;
+	ArrayList<Integer> loopBegin;
+	private DefaultStyledDocument doc;
 
 	/**
 	 * Creates new simulation with given tape and inputstring.
@@ -22,7 +31,10 @@ public class BrainfuckSimulation extends Simulation {
 		this.inputTape = machine.getTapes().get(0);
 		this.outputTape = machine.getTapes().get(1);
 		this.actionTape = machine.getTapes().get(2);
-		this.code = machine.getCode();
+		this.addObserver((BrainfuckEditor) machine.getEditor());
+		this.loopBegin = new ArrayList<Integer>();
+		this.loopBegin.add(0);
+		this.doc = machine.getDocument();
 	}
 
 	// Checks syntax of brainfuck-Application (just checks the loops)
@@ -41,27 +53,54 @@ public class BrainfuckSimulation extends Simulation {
 		return x == 0;
 	}
 	
+	public void sleep() {
+		try {
+			Thread.sleep(400);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Executing the brainfuck machine.
 	 * @throws TapeException If an operation on the tape could not be executed correctly.
 	 * @throws IllegalArgumentException If the syntax of the brainfuck code is not correct. 
 	 */
 	public void runMachine() throws TapeException, IllegalArgumentException {
-		runMachine(code);
+		try {
+			runMachine(doc.getText(0, doc.getLength()));
+		} catch (BadLocationException e) {
+			ErrorDialog.showError("Fehler beim Starten der Simulation.", e); // TODO: vll woanders den fehler ausgeben
+		}
+		if(this.abortSimulation) {
+			this.simulationAborted = true;
+			super.setChanged();
+			super.notifyObservers((Object) Simulation.simulationState.ABORTED);
+		}
+		else {
+			super.setChanged();
+			super.notifyObservers((Object) Simulation.simulationState.FINISHED);
+		}
 	}
 
 	private void runMachine(String code) throws TapeException, IllegalArgumentException {
 		int instructionPointer = 0;
 		if(checkSyntax(code)){
-			while(instructionPointer < code.length()){
+			while(!this.abortSimulation && instructionPointer < code.length()){
 				switch(code.charAt(instructionPointer)) {
 				case '<': 
+					super.setChanged();
+					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
 					actionTape.moveLeft();
 					break;
-				case '>': 
+				case '>':
+					super.setChanged();
+					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
 					actionTape.moveRight();
 					break;
 				case '+': 
+					super.setChanged();
+					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
 					switch(actionTape.read()) {
 					case '#':
 						actionTape.write('0'); break;
@@ -76,6 +115,8 @@ public class BrainfuckSimulation extends Simulation {
 					}
 					break;
 				case '-':
+					super.setChanged();
+					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
 					switch(actionTape.read()) {
 					case '#':
 						break;
@@ -88,10 +129,13 @@ public class BrainfuckSimulation extends Simulation {
 					default: 
 						break;
 					}
-
 					break;
 				case '[': 
+					super.setChanged();
+					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
 					int currentValue;
+					loopBegin.add(loopBegin.get(loopBegin.size()-1) + instructionPointer + 1);
+					this.sleep();
 					while(true) {
 						switch(actionTape.read()) {
 						case '#':
@@ -120,7 +164,7 @@ public class BrainfuckSimulation extends Simulation {
 								if(code.charAt(i) == ']' && y == 0)
 									break;
 							}
-							instructionPointer += x;
+							instructionPointer += x-1;
 							break;
 						}
 						else{
@@ -149,12 +193,20 @@ public class BrainfuckSimulation extends Simulation {
 					}
 					break;
 				case ']': 
+					loopBegin.remove(loopBegin.size()-1);
+					super.setChanged();
+					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
+					this.sleep();
 					break;
-				case '.': 
+				case '.':
+					super.setChanged();
+					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
 					outputTape.write(actionTape.read());
 					outputTape.moveRight();
 					break;
 				case ',':
+					super.setChanged();
+					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
 					char input = inputTape.read();
 					inputTape.moveRight();
 					actionTape.write(input);
@@ -162,11 +214,7 @@ public class BrainfuckSimulation extends Simulation {
 				}
 				instructionPointer++;
 				while(this.simulationIsPaused) {
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					this.sleep();
 				}
 			}
 		}

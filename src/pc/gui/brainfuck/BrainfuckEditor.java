@@ -1,59 +1,89 @@
 package gui.brainfuck;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.util.Observable;
+import java.util.Observer;
+
 import gui.MachineEditor;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JTextPane;
+import javax.swing.JScrollPane;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+
+import machine.Simulation;
+import machine.brainfuck.BrainfuckSimulation;
 
 /**
  * Represents an editor for brainfuck files.
  * @author Sven Schuster
  * 
  */
-public class BrainfuckEditor extends MachineEditor{
+public class BrainfuckEditor extends MachineEditor implements Observer {
 	private static final long serialVersionUID = -6379014025769077968L;
 	
-	private JTextArea codeTextArea;
+	private JTextPane codeArea;
 	private JScrollPane codePane;
+	private DefaultStyledDocument doc;
 
 	/**
 	 * Creates a new BrainfuckEditor.
 	 */
 	public BrainfuckEditor() {
-		codeTextArea = new JTextArea("Type your brainfuck code here");
-		codeTextArea.setFont(new Font("Courier", Font.PLAIN, 14));
-		codeTextArea.setLineWrap(true);
-		codeTextArea.setWrapStyleWord(true);
-		codePane = new JScrollPane(codeTextArea);
-		codePane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		codePane.setPreferredSize(new Dimension(100,100));
+		doc = new DefaultStyledDocument();
+		codeArea = new JTextPane(doc);
+		codeArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
 
-		setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		
-		c.gridx = 0;
-		c.gridy = 2;
-		c.weightx = 1.0;
-		c.weighty = 1.0;
-		c.gridwidth = 2;
-		c.insets = new Insets(5,5,5,5);
-		c.fill = GridBagConstraints.BOTH;
-		add(codePane,c);
+		codePane = new JScrollPane(codeArea);
+		codePane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+		setLayout(new BorderLayout());
+		add(codePane, BorderLayout.CENTER);
 	}
 	
 	/**
-	 * Set code of editor's textarea.
+	 * Set code of editor's editorpane.
 	 * @param code Code
 	 */
 	public void setCode(String code) {
-		this.codeTextArea.setText(code);
+		this.codeArea.setText(code);
 	}
 	
 	/**
-	 * Returns code of editor's textarea.
+	 * Returns code of editor's editorpane.
 	 * @return code
 	 */
 	public String getCode() {
-		return this.codeTextArea.getText();
+		return this.codeArea.getText();
+	}
+	
+	public DefaultStyledDocument getDocument() {
+		return this.doc;
+	}
+	
+	public void setHighlight(int position) {
+		SimpleAttributeSet attributes = new SimpleAttributeSet();
+		StyleConstants.setForeground(attributes, Color.RED);
+		doc.setCharacterAttributes(position, 1, attributes, false);
+	}
+	
+	public void resetHighlight() {
+		SimpleAttributeSet attributes = new SimpleAttributeSet();
+		StyleConstants.setForeground(attributes, Color.BLACK);
+		doc.setCharacterAttributes(0, doc.getLength()-1, attributes, false);
+	}
+	
+	@Override
+	public void update(Observable obs, Object obj) {
+		if(obs instanceof BrainfuckSimulation && obj instanceof Integer) {
+			resetHighlight();
+			setHighlight((int) obj);
+		}
+		else if(obj instanceof Simulation.simulationState) {
+			resetHighlight();
+		}
 	}
 }
