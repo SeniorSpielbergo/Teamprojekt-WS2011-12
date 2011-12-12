@@ -398,7 +398,8 @@ public class Editor extends JFrame implements ActionListener {
 			organizeRobots();
 		}
 		else if (e.getSource() == aboutAction) {
-			JOptionPane.showMessageDialog(null, "Not implemented yet!");
+			AboutDialog about = new AboutDialog();
+			about.setVisible(true);
 		}
 		else if (e.getSource() == openAction) {
 			openFile();
