@@ -41,16 +41,22 @@ public class BrainfuckSimulation extends Simulation {
 	 */
 	@Override
 	public void runMachine() throws TapeException, IllegalArgumentException {
+		super.setChanged();
+		super.notifyObservers((Object) false);
 		runMachine(code);
 		
 		if(this.abortSimulation) {
 			this.simulationAborted = true;
 			super.setChanged();
 			super.notifyObservers((Object) Simulation.simulationState.ABORTED);
+			super.setChanged();
+			super.notifyObservers((Object) true);
 		}
 		else {
 			super.setChanged();
 			super.notifyObservers((Object) Simulation.simulationState.FINISHED);
+			super.setChanged();
+			super.notifyObservers((Object) true);
 		}
 	}
 

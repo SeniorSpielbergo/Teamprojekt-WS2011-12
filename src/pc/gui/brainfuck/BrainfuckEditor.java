@@ -1,10 +1,10 @@
 package gui.brainfuck;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
 
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
@@ -57,7 +57,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 	}
 	
 	/**
-	 * Set code of editor's editorpane.
+	 * Set code of the editor.
 	 * @param code Code
 	 */
 	public void setCode(String code) {
@@ -65,71 +65,39 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 	}
 	
 	/**
-	 * Get code of editor's editorpane.
+	 * Returns code of the editor.
 	 * @return code
 	 */
 	public String getCode() {
 		return this.document.getText();
 	}
 	
-	/**
-	 * Observes.
+	/** 
+	 * Enable or disable the Editor. This method is to be used when the simulation is started, finished or aborted.
+	 * @param editable Whether the Editor should be editable or not.
 	 */
+	public void setEditable(boolean editable) {
+		if(!editable)
+			this.codeArea.setBackground(Color.LIGHT_GRAY);
+		else
+			this.codeArea.setBackground(Color.WHITE);
+		this.codeArea.setEditable(editable);
+	}
+
+	/**
+	 * Observes whether there is a character to highlight.
+	 */
+	@Override
 	public void update(Observable obs, Object obj) {
 		if(obs instanceof BrainfuckSimulation && obj instanceof Integer) {
 			document.resetHighlights();
 			document.setHighlight((Integer) obj);
 		}
-		else if(obj instanceof Simulation.simulationState) {
+		else if(obs instanceof BrainfuckSimulation && obj instanceof Simulation.simulationState) {
 			document.resetHighlights();
 		}
-	}
-	
-	/**
-	 * Represents a highlightable document for brainfuck code.
-	 * @author Sven Schuster
-	 */
-	public class BrainfuckDocument extends DefaultStyledDocument {
-		private static final long serialVersionUID = 3162006872505645953L;
-
-		/**
-		 * Creates a new BrainfuckDocument.
-		 */
-		public BrainfuckDocument() {
-			super();
-		}
-		
-		/**
-		 * Highlight the character at the specified position. The highlighted character will be shown in red.
-		 * @param position Position of character to be highlighted.
-		 */
-		public void setHighlight(int position) {
-			SimpleAttributeSet attributes = new SimpleAttributeSet();
-			StyleConstants.setForeground(attributes, Color.RED);
-			document.setCharacterAttributes(position, 1, attributes, false);
-		}
-		
-		/**
-		 * Reset all highlights. The whole document will then have a black foreground color.
-		 */
-		private void resetHighlights() {
-			SimpleAttributeSet attributes = new SimpleAttributeSet();
-			StyleConstants.setForeground(attributes, Color.BLACK);
-			document.setCharacterAttributes(0, document.getLength(), attributes, false);
-		}
-		
-		/**
-		 * Returns the whole text held by the document. 
-		 * @return text
-		 */
-		public String getText() {
-			try {
-				return super.getText(0, this.getLength());
-			} 
-			catch (BadLocationException e) {
-				ErrorDialog.showError("Something went terribly wrong.", e);
-			}
-			return "";
+		else if(obs instanceof BrainfuckSimulation && obj instanceof Boolean) {
+			this.setEditable((Boolean) obj);
 		}
 	}
 
@@ -212,5 +180,53 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		editMenu.add(selectAction);
 		
 		this.getMenus().add(editMenu);
+	}
+	
+	/**
+	 * Represents a highlightable document for brainfuck code.
+	 * @author Sven Schuster
+	 */
+	public class BrainfuckDocument extends DefaultStyledDocument {
+		private static final long serialVersionUID = 3162006872505645953L;
+
+		/**
+		 * Creates a new BrainfuckDocument.
+		 */
+		public BrainfuckDocument() {
+			super();
+		}
+		
+		/**
+		 * Highlight the character at the specified position. The highlighted character will be shown in red.
+		 * @param position Position of character to be highlighted.
+		 */
+		public void setHighlight(int position) {
+			SimpleAttributeSet attributes = new SimpleAttributeSet();
+			StyleConstants.setForeground(attributes, Color.RED);
+			document.setCharacterAttributes(position, 1, attributes, false);
+		}
+		
+		/**
+		 * Reset all highlights. The whole document will then have a black foreground color.
+		 */
+		private void resetHighlights() {
+			SimpleAttributeSet attributes = new SimpleAttributeSet();
+			StyleConstants.setForeground(attributes, Color.BLACK);
+			document.setCharacterAttributes(0, document.getLength(), attributes, false);
+		}
+		
+		/**
+		 * Returns the whole text held by the document. 
+		 * @return text
+		 */
+		public String getText() {
+			try {
+				return super.getText(0, this.getLength());
+			} 
+			catch (BadLocationException e) {
+				ErrorDialog.showError("Something went terribly wrong.", e);
+			}
+			return "";
+		}
 	}
 }
