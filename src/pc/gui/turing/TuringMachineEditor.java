@@ -35,6 +35,7 @@ import machine.turing.State;
 import machine.turing.TuringMachine;
 
 import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.swing.handler.mxRubberband;
 
 import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraphSelectionModel;
@@ -296,6 +297,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		graphComponent.getGraphControl().addMouseListener(this);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
 		initialized = true;
+		new mxRubberband(graphComponent);
 
 		displayProperties();
 	}
