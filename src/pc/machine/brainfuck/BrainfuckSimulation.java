@@ -2,10 +2,6 @@ package machine.brainfuck;
 
 import java.util.ArrayList;
 
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultStyledDocument;
-
-import gui.ErrorDialog;
 import gui.brainfuck.BrainfuckEditor;
 import tape.*;
 import machine.*;
@@ -13,52 +9,29 @@ import machine.*;
 /**
  * Interpreter for brainfuck code using a tape of 2-bit symbols. 
  * @author Sven Schuster
- * 
  */
 public class BrainfuckSimulation extends Simulation {
 	private Tape actionTape;
 	private Tape inputTape;
 	private Tape outputTape;
-	ArrayList<Integer> loopBegin;
-	private DefaultStyledDocument doc;
+	private String code;
+	private ArrayList<Integer> loopBegin;
 
 	/**
-	 * Creates new simulation with given tape and inputstring.
+	 * Creates new simulation with given BrainfuckMachine.
 	 * @param machine brainfuck machine to run.
 	 */
 	public BrainfuckSimulation(BrainfuckMachine machine){
 		super(machine);
+		
 		this.inputTape = machine.getTapes().get(0);
 		this.outputTape = machine.getTapes().get(1);
 		this.actionTape = machine.getTapes().get(2);
-		this.addObserver((BrainfuckEditor) machine.getEditor());
+		this.code = ((BrainfuckEditor) machine.getEditor()).getCode();
 		this.loopBegin = new ArrayList<Integer>();
 		this.loopBegin.add(0);
-		this.doc = machine.getDocument();
-	}
-
-	// Checks syntax of brainfuck-Application (just checks the loops)
-	private boolean checkSyntax(String code) {
-		int i = 0,
-				x = 0;
-		while(i < code.length()) {
-			if(code.charAt(i) == '[')
-				x++;
-			else if(code.charAt(i) == ']')
-				x--;
-			if(x == -1)
-				return false;
-			i++;
-		}
-		return x == 0;
-	}
-	
-	public void sleep() {
-		try {
-			Thread.sleep(400);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		
+		this.addObserver((BrainfuckEditor) machine.getEditor());
 	}
 	
 	/**
@@ -66,12 +39,10 @@ public class BrainfuckSimulation extends Simulation {
 	 * @throws TapeException If an operation on the tape could not be executed correctly.
 	 * @throws IllegalArgumentException If the syntax of the brainfuck code is not correct. 
 	 */
+	@Override
 	public void runMachine() throws TapeException, IllegalArgumentException {
-		try {
-			runMachine(doc.getText(0, doc.getLength()));
-		} catch (BadLocationException e) {
-			ErrorDialog.showError("Fehler beim Starten der Simulation.", e); // TODO: vll woanders den fehler ausgeben
-		}
+		runMachine(code);
+		
 		if(this.abortSimulation) {
 			this.simulationAborted = true;
 			super.setChanged();
@@ -83,6 +54,7 @@ public class BrainfuckSimulation extends Simulation {
 		}
 	}
 
+	// Recursive function to simulate brainfuck code
 	private void runMachine(String code) throws TapeException, IllegalArgumentException {
 		int instructionPointer = 0;
 		if(checkSyntax(code)){
@@ -220,5 +192,31 @@ public class BrainfuckSimulation extends Simulation {
 		}
 		else
 			throw new IllegalArgumentException("Syntaxcheck failed");
+	}
+	
+
+	// Checks syntax of brainfuck-Application (just checks the loops)
+	private boolean checkSyntax(String code) {
+		int i = 0,
+			x = 0;
+		while(i < code.length()) {
+			if(code.charAt(i) == '[')
+				x++;
+			else if(code.charAt(i) == ']')
+				x--;
+			if(x == -1)
+				return false;
+			i++;
+		}
+		return x == 0;
+	}
+	
+	// Sleeps 400ms
+	private void sleep() {
+		try {
+			Thread.sleep(400);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
