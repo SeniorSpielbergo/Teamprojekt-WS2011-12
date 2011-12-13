@@ -7,10 +7,10 @@ public class TuringMachineState {
 	protected TuringMachine machine;
 	protected mxGraphSelectionModel selection; 
 	
-	public TuringMachineState(String name, TuringMachine machine, mxGraphSelectionModel selection) {
+	public TuringMachineState(String name, TuringMachine machine) {
 		this.name = name;
 		this.machine = machine;
-		this.selection = selection;
+//		this.selection = selection;
 	}
 	
 	public TuringMachine getMachine() {
@@ -23,5 +23,9 @@ public class TuringMachineState {
 	
 	public String getName() {
 		return this.name;
+	}
+	
+	public String toString() {
+		return this.name + "\n";
 	}
 }

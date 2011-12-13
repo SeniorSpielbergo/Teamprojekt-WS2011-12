@@ -71,6 +71,7 @@ public class TuringMachineEditor extends MachineEditor
 	private StateList graphicalFrames = null;
 	protected ArrayList<TuringMachineState> turingMachineStates = null;
 	protected int currentStateIndex = 0;
+	protected boolean undoing = false; 
 
 	protected JPanel jPanelLeft = null;
 	protected JPanel jPanelGraph = null;
@@ -216,7 +217,6 @@ public class TuringMachineEditor extends MachineEditor
 							finally {
 								graph.getModel().endUpdate();
 							}
-							turingMachineStates.add(new TuringMachineState("State moved: " + ((State)cell.getValue()).getName(), (TuringMachine) machine.clone(), graph.getSelectionModel()));
 							addUndoableEdit("State moved: " + ((State)cell.getValue()).getName());
 						}
 						else if(cell.getValue() instanceof Textbox) {
@@ -512,6 +512,12 @@ public class TuringMachineEditor extends MachineEditor
 		}
 		else if (e.getSource() == addViaAction) {
 			this.addVia();
+		}
+		else if(e.getSource() == redoAction) {
+			redo();
+		}
+		else if(e.getSource() == undoAction) {
+			undo();
 		}
 	}
 	
@@ -813,18 +819,39 @@ public class TuringMachineEditor extends MachineEditor
 	}
 	
 	public void addUndoableEdit(String name) {
-		while(turingMachineStates.size()-1 > this.currentStateIndex)
-			turingMachineStates.remove(turingMachineStates.size()-1);
-		turingMachineStates.add(new TuringMachineState(name, (TuringMachine) machine.clone(), graph.getSelectionModel()));
-		this.currentStateIndex++;
+		if(!undoing) {
+			System.out.println(name);
+			while(turingMachineStates.size()-1 >= this.currentStateIndex)
+				turingMachineStates.remove(turingMachineStates.size()-1);
+			turingMachineStates.add(new TuringMachineState(name, (TuringMachine) machine.clone()));
+			this.currentStateIndex++;
+			System.out.println(currentStateIndex);
+			System.out.println(turingMachineStates.size());
+			System.out.println(turingMachineStates);
+		}
 	}
 	
 	public void undo() {
 		if(canUndo()) {
-			graph.removeCells();
+			this.undoing = true;
+			System.out.println("undoing");
+			graph.selectAll();
+			graph.removeCells(graph.getSelectionCells());
+			this.graphicalEdges.clear();
+			this.graphicalStates.clear();
+			this.graphicalFrames.clear();
+			this.graphicalTextboxes.clear();
 			this.currentStateIndex--;
-			this.machine = this.turingMachineStates.get(this.currentStateIndex).getMachine();
+			this.machine = null;
+			this.machine = this.turingMachineStates.get(this.currentStateIndex-1).getMachine();
+			graph.refresh();
 			this.drawGraph();
+			graph.refresh();
+			graph.repaint();
+			this.undoing = false;
+			System.out.println(this.currentStateIndex);
+			System.out.println(turingMachineStates);
+			System.out.println("undoing done");
 		}
 	}
 	
