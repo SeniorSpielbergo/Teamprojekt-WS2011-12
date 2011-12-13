@@ -98,6 +98,11 @@ public class Transition implements Serializable {
 		return readString + " / " + writeString + " / " + actionString;
 	}
 	
-	
+	public Object clone() {
+		return new Transition(new String(this.id), 
+				(ArrayList<Character>) this.read.clone(),
+				(ArrayList<Character>) this.write.clone(),
+				(ArrayList<Character>) this.action.clone());
+	}
 
 }

@@ -134,4 +134,9 @@ public class Edge implements Serializable {
 	public ArrayList<Point> getVia() {
 		return via;
 	}
+	
+	@Override
+	public Object clone() {
+		return new Edge((State) this.from.clone(), (State) this.to.clone(), (ArrayList<Transition>) this.transitions.clone());
+	}
 }

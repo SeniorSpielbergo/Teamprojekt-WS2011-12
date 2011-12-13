@@ -104,6 +104,24 @@ public class TuringMachine extends Machine{
 		this.textboxes = new ArrayList<Textbox>();
 	}
 	
+	/**
+	 * Constructs a new Turing machine with edges, states and transitions
+	 * @param states All states of the Turing machine
+	 * @param edges All edges of the Turing machine
+	 * @param name The name of the Turing machine
+	 * @param tapes The number of tapes used in the Turing machine
+	 * @param textboxes Textboxes
+	 * @param frames Frames
+	 */
+	public TuringMachine(String name, ArrayList<State> states, ArrayList<Edge> edges, ArrayList<Tape> tapes, ArrayList<Textbox> textboxes, ArrayList<Frame> frames) {
+		super(name);
+		this.states = states;
+		this.edges = edges;
+		this.tapes = tapes;
+		this.frames = frames;
+		this.textboxes = textboxes;
+	}
+	
 	public String getFileExtension() {
 		return TuringMachine.FILE_EXTENSION;
 	}
@@ -910,5 +928,15 @@ public class TuringMachine extends Machine{
 	@Override
 	public MachineType getType() {
 		return Machine.MachineType.TuringMachine;
+	}
+	
+	@Override
+	public Object clone() {
+		return new TuringMachine(new String(name), 
+				(ArrayList<State>) this.states.clone(), 
+				(ArrayList<Edge>) this.edges.clone(), 
+				(ArrayList<Tape>) this.tapes.clone(), 
+				(ArrayList<Textbox>) this.textboxes.clone(), 
+				(ArrayList<Frame>) this.frames.clone());
 	}
 }
