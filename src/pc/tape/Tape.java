@@ -37,6 +37,8 @@ public abstract class Tape extends Observable implements Runnable{
 	protected boolean iWishToInterruptThisThread;
 	
 	protected Thread writeInputWordThread;
+	
+	private boolean delay = true;
 
 	/**
 	 * Enum representing the tape types
@@ -265,5 +267,12 @@ public abstract class Tape extends Observable implements Runnable{
 	public boolean isInputAllowed() {
 		return this.allowInput;
 	}
-
+	
+	public void setDelay(boolean b){
+		this.delay = b;
+	}
+	
+	public boolean isDelayEnabled(){
+		return this.delay;
+	}
 }

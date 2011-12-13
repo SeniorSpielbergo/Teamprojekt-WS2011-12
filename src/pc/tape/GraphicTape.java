@@ -76,7 +76,7 @@ public class GraphicTape extends Tape {
 	 */
 	public void init() throws TapeException {
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
-		
+
 		System.out.println(this.name + ": Tape ready.");
 		//add graphic stuff
 		this.tapePanel = new JPanel(new BorderLayout());
@@ -90,7 +90,7 @@ public class GraphicTape extends Tape {
 		//set ready
 		this.ready = true;
 	}
-	
+
 	/**
 	 * This method shuts the tape down.
 	 * @throws TapeException If the tape has not been initialized
@@ -135,10 +135,12 @@ public class GraphicTape extends Tape {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		this.memory.put(this.position, c);
 		this.printTape();
-		try{
-			Thread.sleep(500);
+		if(this.isDelayEnabled()){
+			try{
+				Thread.sleep(500);
+			}
+			catch(InterruptedException e){}
 		}
-		catch(InterruptedException e){}
 
 	}
 
@@ -153,11 +155,12 @@ public class GraphicTape extends Tape {
 
 		position--;
 		this.printTape();
-		try{
-			Thread.sleep(500);
+		if(this.isDelayEnabled()){
+			try{
+				Thread.sleep(500);
+			}
+			catch(InterruptedException e){}
 		}
-		catch(InterruptedException e){}
-
 	}
 
 	@Override
@@ -171,10 +174,12 @@ public class GraphicTape extends Tape {
 
 		position++;
 		this.printTape();
-		try{
-			Thread.sleep(500);
+		if(this.isDelayEnabled()){
+			try{
+				Thread.sleep(500);
+			}
+			catch(InterruptedException e){}
 		}
-		catch(InterruptedException e){}
 	}
 
 	@Override
@@ -204,7 +209,7 @@ public class GraphicTape extends Tape {
 				System.out.println("thread wird gestoppt");
 				break;
 			}
-			
+
 			this.write(this.inputWord.charAt(i));
 			printTape();
 			this.moveRight();
@@ -231,7 +236,7 @@ public class GraphicTape extends Tape {
 	public void printTape() {
 		jTextAreaTape.setText(this.getMemoryAsFormattedString(-20,40));
 	}
-	
+
 	/**
 	 * Returns the tapePanel.
 	 * @return tapePanel
