@@ -173,8 +173,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.jSplitPaneHorizontal = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				this.jPanelLeft, this.jPanelGraph);
 		this.jSplitPaneHorizontal.setOneTouchExpandable(true);
-		this.jSplitPaneHorizontal.setDividerLocation(250);
-		this.jPanelLeft.setMinimumSize(new Dimension(200, 100));
+		this.hideLeftSplitPane(false);
 		this.jPanelGraph.setMinimumSize(new Dimension(200, 100));
 		this.setLayout(new BorderLayout());
 		this.add(this.jSplitPaneHorizontal, BorderLayout.CENTER);
@@ -718,6 +717,20 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.graph.setCellsDeletable(editable);
 		this.graph.setCellsSelectable(editable);
 		this.graph.clearSelection();
+		this.hideLeftSplitPane(!editable);
+	}
+	
+	public void hideLeftSplitPane(boolean hide) {
+		if (hide) {
+			this.jSplitPaneHorizontal.setDividerLocation(0);
+			this.jSplitPaneHorizontal.setEnabled(false);
+			this.jPanelLeft.setMinimumSize(new Dimension(0, 0));
+		}
+		else {
+			this.jSplitPaneHorizontal.setDividerLocation(250);
+			this.jSplitPaneHorizontal.setEnabled(true);
+			this.jPanelLeft.setMinimumSize(new Dimension(200, 100));
+		}
 	}
 	
 	public void initStyles(mxStylesheet stylesheet) {
