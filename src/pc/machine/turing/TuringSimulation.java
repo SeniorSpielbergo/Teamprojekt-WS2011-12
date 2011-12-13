@@ -58,7 +58,7 @@ public class TuringSimulation extends Simulation{
 				currentState = startState;
 				super.setChanged();
 				super.notifyObservers((Object)currentState);
-				
+
 			}
 		}
 		this.findEdge();
@@ -70,17 +70,25 @@ public class TuringSimulation extends Simulation{
 	 */
 	public void runMachine() throws TapeException{
 		if(!this.abortSimulation){
-			if(!currentState.isFinalState()){
-				currentSymbols.clear();
+			currentSymbols.clear();
 
-				//read symbol(s)
-				for(int i = 0; i < machine.getNumberOfTapes(); i++)
-					currentSymbols.add(i,this.tapes.get(i).read());
+			//read symbol(s)
+			for(int i = 0; i < machine.getNumberOfTapes(); i++)
+				currentSymbols.add(i,this.tapes.get(i).read());
 
-				//searching for the right label
-				Transition rightLabel = getRightLabel();
+			//searching for the right label
+			Transition rightLabel = getRightLabel();
+			if(currentState.isFinalState() && rightLabel == null){
+				System.out.println("ich habe fertig");
+				super.setChanged();
+				super.notifyObservers((Object)Simulation.simulationState.FINISHED);
+
+			}
+
+			else{
 				System.out.println("State: "+ this.currentState);
 				System.out.println("Transition: "+ rightLabel);
+				System.out.println("Next State: "+ this.nextState);
 
 
 				//go/do label
@@ -103,30 +111,19 @@ public class TuringSimulation extends Simulation{
 				currentState = nextState;
 				super.setChanged();
 				super.notifyObservers((Object)currentState);
-				if(!(currentState.isFinalState())){
-					while(this.simulationIsPaused){
-						try{
-							Thread.sleep(400);
-						}catch(InterruptedException e){}
-					}
-					//do the next step
-					runMachine();
+				while(this.simulationIsPaused){
+					try{
+						Thread.sleep(400);
+					}catch(InterruptedException e){}
 				}
-
-				else{
-					System.out.println("ich habe fertig");
-					super.setChanged();
-					super.notifyObservers((Object)Simulation.simulationState.FINISHED);
-				}
-			}
-			else{
-				System.out.println("ich musste nie was tun");
+				//do the next step
+				runMachine();
 			}
 		}
 		else{
 			this.simulationAborted = true;
 		}
-		
+
 	}
 
 	/**
