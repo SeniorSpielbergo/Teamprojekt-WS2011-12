@@ -683,9 +683,11 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				}
 				selectedEdge.setStyle("EDGE");
 				inputWordWritten = false;
+				this.setEditable(true);
 			} else if (((Simulation.simulationState)obj)==Simulation.simulationState.FINISHED){
 				selectedEdge.setStyle("EDGE");
 				inputWordWritten = false;
+				this.setEditable(true);
 			}
 		}
 		else if (obj instanceof Tape.Event){
@@ -708,7 +710,16 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		graph.repaint();
 
 	}
-
+	
+	@Override
+	public void setEditable(boolean editable) {
+		this.graph.setCellsMovable(editable);
+		this.graph.setCellsResizable(editable);
+		this.graph.setCellsDeletable(editable);
+		this.graph.setCellsSelectable(editable);
+		this.graph.clearSelection();
+	}
+	
 	public void initStyles(mxStylesheet stylesheet) {
 		Hashtable<String, Object> styleCircle = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleStart = new Hashtable<String, Object>();
