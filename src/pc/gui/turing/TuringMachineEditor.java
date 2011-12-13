@@ -491,19 +491,22 @@ public class TuringMachineEditor extends MachineEditor
 		if (this.graph.getSelectionCell() != null && ((mxCell)this.graph.getSelectionCell()).isEdge()) {
 			mxCell edge = (mxCell)this.graph.getSelectionCell();
 			List<mxPoint> points = edge.getGeometry().getPoints();
+
+			Point lastPoint;
+			if (points.size() > 0) {
+				lastPoint = new Point((int)points.get(points.size()-1).getX(), (int)points.get(points.size()-1).getY());
+			}
+			else {
+				lastPoint = new Point((int)edge.getSource().getGeometry().getX(), (int)edge.getSource().getGeometry().getY());
+			}
+			int x = (int)lastPoint.getX();
+			x += ((edge.getTarget().getGeometry().getX() - lastPoint.getX())/2);
+			int y = (int)lastPoint.getY();
+			y += ((edge.getTarget().getGeometry().getY() - lastPoint.getY())/2);
+			points.add(new mxPoint(x,y));
 			
-//			mxPoint lastVia;
-//			if (points.size() > 0) {
-//				lastVia = points.get(points.size()-1);
-//			}
-//			else {
-//				lastVia = edge.getSource().getGeometry().;
-//			}
-//			int x = (int)lastVia.getX();
-//			x += ((edge.getTarget().getGeometry().getX() - lastVia.getX())/2);
-//			int y = (int)lastVia.getY();
-//			y += ((edge.getTarget().getGeometry().getY() - lastVia.getY())/2);
-//			points.add(new mxPoint(x,y));
+			this.graph.refresh();
+			this.graph.repaint();
 		}
 	}
 
