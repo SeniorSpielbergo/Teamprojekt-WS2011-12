@@ -676,13 +676,23 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				else {
 					selectedState.setStyle("CIRCLE");
 				}
+				this.setEditable(true);
 			} else if (((Simulation.simulationState)obj)==Simulation.simulationState.FINISHED){
 				selectedEdge.setStyle("EDGE");
+				this.setEditable(true);
 			}
 		}
 		graph.refresh();			
 		graph.repaint();
 
+	}
+	
+	@Override
+	public void setEditable(boolean editable) {
+		this.graph.setCellsMovable(editable);
+		this.graph.setCellsResizable(editable);
+		this.graph.setCellsDeletable(editable);
+		this.graph.setCellsSelectable(editable);
 	}
 	
 	public void initStyles(mxStylesheet stylesheet) {

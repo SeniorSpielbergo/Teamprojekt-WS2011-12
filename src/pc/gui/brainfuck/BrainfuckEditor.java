@@ -72,10 +72,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		return this.document.getText();
 	}
 	
-	/** 
-	 * Enable or disable the Editor. This method is to be used when the simulation is started, finished or aborted.
-	 * @param editable Whether the Editor should be editable or not.
-	 */
+	@Override
 	public void setEditable(boolean editable) {
 		if(!editable)
 			this.codeArea.setBackground(Color.LIGHT_GRAY);
