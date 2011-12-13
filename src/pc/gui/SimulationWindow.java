@@ -49,9 +49,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	 * current simulation
 	 */
 	Simulation sim;
-	
+
 	int counter = 0; 
-	
+
 	ImageIcon iconPlay = new ImageIcon(SimulationWindow.class.getResource("images/play.png"));
 	ImageIcon iconPause = new ImageIcon(SimulationWindow.class.getResource("images/pause.png"));
 	ImageIcon iconStepForward = new ImageIcon(SimulationWindow.class.getResource("images/forward.png"));
@@ -186,7 +186,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		windowConstraints.weighty = 0.95;
 		windowConstraints.fill = GridBagConstraints.BOTH;
 		this.add(scrollpaneRight, windowConstraints);
-		
+
 		this.validate();
 		this.repaint();
 	}
@@ -225,11 +225,12 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		if (observable instanceof tape.Tape 
 				&& obj instanceof tape.Tape.Event
 				&& (tape.Tape.Event)obj == tape.Tape.Event.INPUTFINISHED){
-			
+
 			counter++;
 			if(counter == this.currentMachine.getNumberOfTapes()){
-			this.buttonPlay.setEnabled(true);
-			System.out.println("Writing input word finished: notified");
+				this.buttonPlay.setEnabled(true);
+				this.buttonForward.setEnabled(true);
+				System.out.println("Writing input word finished: notified");
 			}
 		}
 
@@ -267,7 +268,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	 */
 	public void actionPerformed( ActionEvent event){ //TODO inactivate buttons while writing input word
 		//forward button
-		if(event.getSource().equals(buttonForward)){
+		if(event.getSource().equals(buttonForward) && sim.isSimulationAlreadyStarted()){
 			sim.resume();
 			try{
 				Thread.sleep(500);
@@ -275,6 +276,19 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			catch(InterruptedException e){}
 			sim.pause();
 		}
+		else if(event.getSource().equals(buttonForward)&& !sim.isSimulationAlreadyStarted()){
+			try {
+				simulationPaused = false;
+				sim.start();
+				this.buttonPlay.setEnabled(false);
+				sim.pause();
+			}
+
+			catch (RuntimeException e){
+				ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
+			}
+		}
+
 		//play/pause/resume button
 		else if(event.getSource().equals(buttonPlay)&& !sim.isSimulationAlreadyStarted()){
 			try {

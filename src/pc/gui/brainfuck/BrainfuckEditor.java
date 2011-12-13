@@ -92,9 +92,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		}
 		else if(obs instanceof BrainfuckSimulation && obj instanceof Simulation.simulationState) {
 			document.resetHighlights();
-		}
-		else if(obs instanceof BrainfuckSimulation && obj instanceof Boolean) {
-			this.setEditable((Boolean) obj);
+			this.setEditable(true);
 		}
 	}
 
