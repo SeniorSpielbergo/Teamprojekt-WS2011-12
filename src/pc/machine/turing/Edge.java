@@ -137,6 +137,8 @@ public class Edge implements Serializable {
 	
 	@Override
 	public Object clone() {
-		return new Edge((State) this.from.clone(), (State) this.to.clone(), (ArrayList<Transition>) this.transitions.clone());
+		return new Edge((State) this.from.clone(), 
+				(State) this.to.clone(), 
+				(ArrayList<Transition>) this.transitions.clone());
 	}
 }

@@ -61,7 +61,7 @@ public class TuringMachineEditor extends MachineEditor
 	private final int WIDTH = 50;
 	private final int HEIGHT = 50;
 	private boolean initialized = false;
-	private final TuringMachine machine;
+	private TuringMachine machine;
 	private boolean inputWordWritten = false;
 	private mxCell selectedState = null;
 	private mxCell selectedEdge = null;
@@ -69,7 +69,8 @@ public class TuringMachineEditor extends MachineEditor
 	private StateList graphicalTextboxes = null;
 	private EdgeList graphicalEdges = null;
 	private StateList graphicalFrames = null;
-
+	protected ArrayList<TuringMachineState> turingMachineStates = null;
+	protected int currentStateIndex = 0;
 
 	protected JPanel jPanelLeft = null;
 	protected JPanel jPanelGraph = null;
@@ -154,6 +155,7 @@ public class TuringMachineEditor extends MachineEditor
 		this.graphicalTextboxes = new StateList();
 		this.graphicalEdges = new EdgeList(machine.getEdges().size());
 		this.graphicalFrames = new StateList();
+		this.turingMachineStates = new ArrayList<TuringMachineState>();
 
 		//create left panel
 		this.jPanelLeft = new JPanel();
@@ -211,14 +213,18 @@ public class TuringMachineEditor extends MachineEditor
 							finally {
 								graph.getModel().endUpdate();
 							}
+							turingMachineStates.add(new TuringMachineState("State moved: " + ((State)cell.getValue()).getName(), (TuringMachine) machine.clone(), graph.getSelectionModel()));
+							addUndoableEdit("State moved: " + ((State)cell.getValue()).getName());
 						}
 						else if(cell.getValue() instanceof Textbox) {
 							((Textbox)cell.getValue()).setX((int)cell.getGeometry().getX());
 							((Textbox)cell.getValue()).setY((int)cell.getGeometry().getY());
+							addUndoableEdit("Textbox moved");
 						}
 						else if(cell.getValue() instanceof Frame) {
 							((Frame)cell.getValue()).setX((int)cell.getGeometry().getX());
 							((Frame)cell.getValue()).setY((int)cell.getGeometry().getY());
+							addUndoableEdit("Frame moved");
 						}
 					}
 				}
@@ -234,15 +240,22 @@ public class TuringMachineEditor extends MachineEditor
 					displayProperties();
 				}
 				else if(cell.isVertex()){
-					if(cell.getValue() instanceof State)
+					if(cell.getValue() instanceof State) {
 						displayProperties((State) cell.getValue(), graph.getView().getState(cell));
-					else if(cell.getValue() instanceof Textbox)
+						addUndoableEdit("State selected: " + ((State)cell.getValue()).getName());
+					}
+					else if(cell.getValue() instanceof Textbox) {
 						displayProperties((Textbox) cell.getValue());
-					else if(cell.getValue() instanceof Frame)
-						displayProperties();					
+						addUndoableEdit("Textbox selected");
+					}
+					else if(cell.getValue() instanceof Frame) {
+						displayProperties();
+						addUndoableEdit("Frame selected");
+					}
 				} 
 				else if (cell.isEdge()) {
 					displayProperties((Edge) cell.getValue());
+					addUndoableEdit("Edge selected");
 				}
 			}
 		});
@@ -262,6 +275,7 @@ public class TuringMachineEditor extends MachineEditor
 						graph.refresh();
 						graph.repaint();
 					}
+					addUndoableEdit("Edge inserted");
 				}
 			}
 		});
@@ -278,11 +292,13 @@ public class TuringMachineEditor extends MachineEditor
 						Textbox textbox  = (Textbox) cell.getValue();
 						textbox.setWidth((int) g.getWidth());
 						textbox.setHeight((int) g.getHeight());
+						addUndoableEdit("Textbox resized");
 					}
 					else if(cell.getValue() instanceof Frame) {
 						Frame frame = (Frame) cell.getValue();
 						frame.setWidth((int) g.getWidth());
 						frame.setHeight((int) g.getHeight());
+						addUndoableEdit("Frame resized");
 					}
 				}
 			}
@@ -441,6 +457,8 @@ public class TuringMachineEditor extends MachineEditor
 				graphicalTextboxes.add(i,mxFrame);
 			}
 		} finally {
+			if(!initialized)
+				this.addUndoableEdit("Machine loaded");
 			graph.getModel().endUpdate();
 			graph.refresh();
 		}
@@ -496,6 +514,7 @@ public class TuringMachineEditor extends MachineEditor
 					this.graph.refresh();
 					toolBox.setClicked(null);
 					this.graph.setSelectionCell(graphicalStates.get(graphicalStates.size()-1));
+					this.addUndoableEdit("State inserted");
 				}
 				else if (toolBox.getClicked().equals("Frame")) {
 					Frame frame = new Frame(x, y, this.WIDTH, this.HEIGHT);
@@ -506,6 +525,7 @@ public class TuringMachineEditor extends MachineEditor
 					this.graph.refresh();
 					toolBox.setClicked(null);
 					this.graph.setSelectionCell(graphicalFrames.get(graphicalFrames.size()-1));
+					this.addUndoableEdit("Frame inserted");
 				}
 				else if (toolBox.getClicked().equals("Text")) {
 					Textbox textbox = new Textbox("", x, y, this.WIDTH, this.HEIGHT);
@@ -516,6 +536,7 @@ public class TuringMachineEditor extends MachineEditor
 					this.graph.refresh();
 					toolBox.setClicked(null);
 					this.graph.setSelectionCell(graphicalTextboxes.get(graphicalTextboxes.size()-1));
+					this.addUndoableEdit("Textbox inserted");
 				}
 			} finally {
 				graph.getModel().endUpdate();
@@ -541,6 +562,7 @@ public class TuringMachineEditor extends MachineEditor
 				edge.getVia().add(new Point((int)p.getX(), (int)p.getY()));
 			}
 			graph.refresh();
+			this.addUndoableEdit("Label moved");
 		}
 	}
 
@@ -567,6 +589,7 @@ public class TuringMachineEditor extends MachineEditor
 					for (int j = 0; j < this.machine.getEdges().size(); j++) {
 						if (this.machine.getEdges().get(j) == edge) {
 							this.machine.getEdges().remove(j);
+							this.addUndoableEdit("Edge removed");
 						}
 					}
 				}
@@ -576,21 +599,26 @@ public class TuringMachineEditor extends MachineEditor
 						for (int j = 0; j < this.machine.getStates().size(); j++) {
 							if (this.machine.getStates().get(j) == state) {
 								this.machine.getStates().remove(j);
+								this.addUndoableEdit("State removed");
 							}
 						}
 					}
 					else if(currentCell.getValue() instanceof Textbox) {
 						Textbox textbox = (Textbox) currentCell.getValue();
 						for(int k = 0; k < this.machine.getTextboxes().size(); k++) {
-							if(this.machine.getTextboxes().get(k) == textbox)
+							if(this.machine.getTextboxes().get(k) == textbox) {
 								this.machine.getTextboxes().remove(k);
+								this.addUndoableEdit("Textbox removed");
+							}
 						}
 					}
 					else if(currentCell.getValue() instanceof Frame) {
 						Frame frame = (Frame) currentCell.getValue();
 						for(int l = 0; l < this.machine.getFrames().size(); l++) {
-							if(this.machine.getFrames().get(l) == frame)
+							if(this.machine.getFrames().get(l) == frame) {
 								this.machine.getFrames().remove(l);
+								this.addUndoableEdit("Frame removed");
+							}
 						}
 					}
 				}
@@ -608,9 +636,8 @@ public class TuringMachineEditor extends MachineEditor
 			} else if (e.getKeyCode() == KeyEvent.VK_KP_RIGHT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				dx = GRID_SIZE;
 			}
-
 			graph.moveCells(graph.getSelectionCells(), dx, dy);
-
+			this.addUndoableEdit("Cells removed");
 		}
 	}
 
@@ -707,7 +734,6 @@ public class TuringMachineEditor extends MachineEditor
 		}
 		graph.refresh();			
 		graph.repaint();
-
 	}
 	
 	@Override
@@ -730,6 +756,39 @@ public class TuringMachineEditor extends MachineEditor
 			this.jSplitPaneHorizontal.setDividerLocation(250);
 			this.jSplitPaneHorizontal.setEnabled(true);
 			this.jPanelLeft.setMinimumSize(new Dimension(200, 100));
+		}
+	}
+	
+	public boolean canUndo() {
+		return this.currentStateIndex > 0;
+	}
+	
+	public boolean canRedo() {
+		return this.currentStateIndex < this.turingMachineStates.size()-1;
+	}
+	
+	public void addUndoableEdit(String name) {
+		while(turingMachineStates.size()-1 > this.currentStateIndex)
+			turingMachineStates.remove(turingMachineStates.size()-1);
+		turingMachineStates.add(new TuringMachineState(name, (TuringMachine) machine.clone(), graph.getSelectionModel()));
+		this.currentStateIndex++;
+	}
+	
+	public void undo() {
+		if(canUndo()) {
+			graph.removeCells();
+			this.currentStateIndex--;
+			this.machine = this.turingMachineStates.get(this.currentStateIndex).getMachine();
+			this.drawGraph();
+		}
+	}
+	
+	public void redo() {
+		if(canRedo()) {
+			graph.removeCells();
+			this.currentStateIndex++;
+			this.machine = this.turingMachineStates.get(this.currentStateIndex).getMachine();
+			this.drawGraph();
 		}
 	}
 	

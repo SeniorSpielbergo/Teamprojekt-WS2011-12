@@ -161,8 +161,8 @@ public class State implements Serializable {
 		return name;
 	}
 	@Override
-	public State clone(){
-		State tmp = new State(this.getId(),this.getName(),this.isStartState(),this.isFinalState());
+	public Object clone(){
+		State tmp = new State(new String(this.getId()), new String(this.getName()),this.isStartState(),this.isFinalState());
 		tmp.setHeight(this.getHeight());
 		tmp.setWidth(this.getWidth());
 		tmp.setXcoord(this.getXcoord());
