@@ -27,7 +27,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 
@@ -86,6 +85,8 @@ public class TuringMachineEditor extends MachineEditor
 	private JMenuItem copyAction;
 	private JMenuItem cutAction;
 	private JMenuItem pasteAction;
+	private JMenuItem undoAction;
+	private JMenuItem redoAction;
 	private JMenuItem addViaAction;
 	private JMenuItem removeViaAction;
 	private JCheckBoxMenuItem gridToggleAction;
@@ -316,6 +317,8 @@ public class TuringMachineEditor extends MachineEditor
 		selectAllAction = new JMenuItem("Select all");
 		copyAction = new JMenuItem("Copy");
 		cutAction = new JMenuItem("Cut");
+		undoAction = new JMenuItem("Undo");
+		redoAction = new JMenuItem("Redo");
 		pasteAction = new JMenuItem("Paste");
 		addViaAction = new JMenuItem("Add control point");
 		removeViaAction = new JMenuItem("Remove control point");
@@ -323,12 +326,15 @@ public class TuringMachineEditor extends MachineEditor
 		gridToggleAction = new JCheckBoxMenuItem("Grid enabled");
 		gridToggleAction.setSelected(true);
 
+		editMenu.add(undoAction);
+		editMenu.add(redoAction);
+		editMenu.addSeparator();
 		editMenu.add(copyAction);
 		editMenu.add(cutAction);
 		editMenu.add(pasteAction);
-		editMenu.add(new JSeparator());
+		editMenu.addSeparator();
 		editMenu.add(selectAllAction);
-		editMenu.add(new JSeparator());
+		editMenu.addSeparator();
 		editMenu.add(addViaAction);
 		editMenu.add(removeViaAction);
 
@@ -337,6 +343,8 @@ public class TuringMachineEditor extends MachineEditor
 		this.getMenus().add(editMenu);
 		this.getMenus().add(viewMenu);
 
+		undoAction.setAccelerator(KeyStroke.getKeyStroke('Z', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		redoAction.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		copyAction.setAccelerator(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		cutAction.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		pasteAction.setAccelerator(KeyStroke.getKeyStroke('V', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -344,6 +352,8 @@ public class TuringMachineEditor extends MachineEditor
 		addViaAction.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		removeViaAction.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | KeyEvent.SHIFT_MASK));
 
+		undoAction.addActionListener(this);
+		redoAction.addActionListener(this);
 		copyAction.addActionListener(this);
 		cutAction.addActionListener(this);
 		pasteAction.addActionListener(this);
