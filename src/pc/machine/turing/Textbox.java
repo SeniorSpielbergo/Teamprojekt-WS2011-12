@@ -68,4 +68,9 @@ public class Textbox implements Serializable {
 	public String toString() {
 		return this.text;
 	}
+	
+	@Override
+	public Object clone() {
+		return new Textbox(new String(this.text), this.x, this.y, this.width, this.height);
+	}
 }

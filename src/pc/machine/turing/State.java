@@ -160,4 +160,13 @@ public class State implements Serializable {
 	public String toString() {
 		return name;
 	}
+	@Override
+	public State clone(){
+		State tmp = new State(this.getId(),this.getName(),this.isStartState(),this.isFinalState());
+		tmp.setHeight(this.getHeight());
+		tmp.setWidth(this.getWidth());
+		tmp.setXcoord(this.getXcoord());
+		tmp.setYcoord(this.getYcoord());
+		return tmp;
+	}
 }
