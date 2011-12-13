@@ -50,6 +50,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	 */
 	Simulation sim;
 	
+	int counter = 0; 
+	
 	ImageIcon iconPlay = new ImageIcon(SimulationWindow.class.getResource("images/play.png"));
 	ImageIcon iconPause = new ImageIcon(SimulationWindow.class.getResource("images/pause.png"));
 	ImageIcon iconStepForward = new ImageIcon(SimulationWindow.class.getResource("images/forward.png"));
@@ -223,9 +225,12 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		if (observable instanceof tape.Tape 
 				&& obj instanceof tape.Tape.Event
 				&& (tape.Tape.Event)obj == tape.Tape.Event.INPUTFINISHED){
-			// FIXME: das passiert leider sofort, wenn eins der x tapes fertig ist
+			
+			counter++;
+			if(counter == this.currentMachine.getNumberOfTapes()){
 			this.buttonPlay.setEnabled(true);
 			System.out.println("Writing input word finished: notified");
+			}
 		}
 
 		else if(this.sim.isSimulationAlreadyStarted()
