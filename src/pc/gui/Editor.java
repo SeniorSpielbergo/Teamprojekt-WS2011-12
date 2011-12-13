@@ -3,6 +3,8 @@ package gui;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
+import tape.Tape;
+
 import machine.Machine;
 import machine.brainfuck.BrainfuckMachine;
 import machine.turing.*;
@@ -20,7 +22,7 @@ import java.io.*;
  * 
  */
 @SuppressWarnings("serial")
-public class Editor extends JFrame implements ActionListener {
+public class Editor extends JFrame implements ActionListener, ItemListener{
 	/**
 	 * The name of the application.
 	 */
@@ -50,6 +52,7 @@ public class Editor extends JFrame implements ActionListener {
 	private JMenuItem runAction;
 	private JMenuItem organizeRobotsAction;
 	private JMenuItem aboutAction;
+	private JCheckBoxMenuItem toggleDelayAction;
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
 	private JMenu simulationMenu;
@@ -73,7 +76,10 @@ public class Editor extends JFrame implements ActionListener {
 		saveAction.setEnabled(false);
 		saveAsAction.setEnabled(false);
 		exportLatexAction.setEnabled(false);
-		runAction.setEnabled(false);
+		runAction.setEnabled(false);		
+		toggleDelayAction = new JCheckBoxMenuItem("Simulation delay enabled");
+		toggleDelayAction.setSelected(true);
+		toggleDelayAction.addItemListener(this);
 
 		// add menu subitems
 		fileMenu.add(newSubmenu);
@@ -86,6 +92,7 @@ public class Editor extends JFrame implements ActionListener {
 		fileMenu.add(exitAction);
 		simulationMenu.add(runAction);
 		simulationMenu.add(organizeRobotsAction);
+		simulationMenu.add(toggleDelayAction);
 		helpMenu.add(aboutAction);
 
 		// menu shortcuts
@@ -470,6 +477,15 @@ public class Editor extends JFrame implements ActionListener {
 			this.remove(this.currentMachine.getEditor());
 			this.repaint();
 			this.currentMachine = null;
+		}
+	}
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getSource() == toggleDelayAction) {
+			for (Tape t : this.currentMachine.getTapes()){
+				t.setDelay(toggleDelayAction.getState());
+			}
+			
 		}
 	}
 }
