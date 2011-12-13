@@ -320,11 +320,14 @@ public class TuringMachineEditor extends MachineEditor
 		undoAction = new JMenuItem("Undo");
 		redoAction = new JMenuItem("Redo");
 		pasteAction = new JMenuItem("Paste");
-		addViaAction = new JMenuItem("Add control point");
-		removeViaAction = new JMenuItem("Remove control point");
+		addViaAction = new JMenuItem("Add via point");
+		removeViaAction = new JMenuItem("Remove via point");
 
 		gridToggleAction = new JCheckBoxMenuItem("Grid enabled");
 		gridToggleAction.setSelected(true);
+		
+		addViaAction.setEnabled(false);
+		removeViaAction.setEnabled(false);
 
 		editMenu.add(undoAction);
 		editMenu.add(redoAction);
@@ -365,6 +368,9 @@ public class TuringMachineEditor extends MachineEditor
 	}
 
 	private void displayProperties() {
+		addViaAction.setEnabled(false);
+		removeViaAction.setEnabled(false);
+		
 		PropertiesTuringMachine propertiesMachine = new PropertiesTuringMachine(machine);
 		jPanelProperties.removeAll();
 		jPanelProperties.validate();
@@ -374,6 +380,9 @@ public class TuringMachineEditor extends MachineEditor
 	}
 
 	private void displayProperties(Edge edge) {
+		addViaAction.setEnabled(true);
+		removeViaAction.setEnabled(true);
+		
 		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge, graph);
 		jPanelProperties.removeAll();
 		jPanelProperties.validate();
@@ -383,6 +392,9 @@ public class TuringMachineEditor extends MachineEditor
 	}
 
 	private void displayProperties(State state, mxCellState mxState) {
+		addViaAction.setEnabled(false);
+		removeViaAction.setEnabled(false);
+		
 		PropertiesState propertiesState = new PropertiesState(state,graph, mxState);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
@@ -392,6 +404,9 @@ public class TuringMachineEditor extends MachineEditor
 	}
 
 	private void displayProperties(Textbox textbox) {
+		addViaAction.setEnabled(false);
+		removeViaAction.setEnabled(false);
+		
 		PropertiesTextbox propertiesTextbox = new PropertiesTextbox(textbox, graph);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
