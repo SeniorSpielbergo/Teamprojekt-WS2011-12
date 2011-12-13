@@ -87,6 +87,7 @@ public class TuringMachineEditor extends MachineEditor
 	private JMenuItem cutAction;
 	private JMenuItem pasteAction;
 	private JMenuItem addViaAction;
+	private JMenuItem removeViaAction;
 	private JCheckBoxMenuItem gridToggleAction;
 
 	private boolean gridEnabled = true;
@@ -317,6 +318,7 @@ public class TuringMachineEditor extends MachineEditor
 		cutAction = new JMenuItem("Cut");
 		pasteAction = new JMenuItem("Paste");
 		addViaAction = new JMenuItem("Add control point");
+		removeViaAction = new JMenuItem("Remove control point");
 
 		gridToggleAction = new JCheckBoxMenuItem("Grid enabled");
 		gridToggleAction.setSelected(true);
@@ -328,6 +330,7 @@ public class TuringMachineEditor extends MachineEditor
 		editMenu.add(selectAllAction);
 		editMenu.add(new JSeparator());
 		editMenu.add(addViaAction);
+		editMenu.add(removeViaAction);
 
 		viewMenu.add(gridToggleAction);
 
@@ -338,12 +341,15 @@ public class TuringMachineEditor extends MachineEditor
 		cutAction.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		pasteAction.setAccelerator(KeyStroke.getKeyStroke('V', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		selectAllAction.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		addViaAction.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		removeViaAction.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | KeyEvent.SHIFT_MASK));
 
 		copyAction.addActionListener(this);
 		cutAction.addActionListener(this);
 		pasteAction.addActionListener(this);
 		selectAllAction.addActionListener(this);
 		addViaAction.addActionListener(this);
+		removeViaAction.addActionListener(this);
 		
 		gridToggleAction.addItemListener(this);
 	}
@@ -485,6 +491,9 @@ public class TuringMachineEditor extends MachineEditor
 		else if (e.getSource() == addViaAction) {
 			this.addVia();
 		}
+		else if (e.getSource() == removeViaAction) {
+			this.removeVia();
+		}
 	}
 	
 	private void addVia() {
@@ -499,12 +508,31 @@ public class TuringMachineEditor extends MachineEditor
 			else {
 				lastPoint = new Point((int)edge.getSource().getGeometry().getX(), (int)edge.getSource().getGeometry().getY());
 			}
+			System.out.println("Last point: " + lastPoint.getX() + "," + lastPoint.getY());
+			System.out.println("Target point: " + edge.getTarget().getGeometry().getX() + "," + edge.getTarget().getGeometry().getY());
+
 			int x = (int)lastPoint.getX();
 			x += ((edge.getTarget().getGeometry().getX() - lastPoint.getX())/2);
 			int y = (int)lastPoint.getY();
 			y += ((edge.getTarget().getGeometry().getY() - lastPoint.getY())/2);
+			System.out.println("Mid point: " + x + "," + y);
+
 			points.add(new mxPoint(x,y));
 			
+			this.graph.refresh();
+			this.graph.repaint();
+		}
+	}
+	
+	private void removeVia() {
+		if (this.graph.getSelectionCell() != null && ((mxCell)this.graph.getSelectionCell()).isEdge()) {
+			mxCell edge = (mxCell)this.graph.getSelectionCell();
+			List<mxPoint> points = edge.getGeometry().getPoints();
+
+			if (points.size() > 0) {
+				points.remove(points.size()-1);
+			}
+
 			this.graph.refresh();
 			this.graph.repaint();
 		}
