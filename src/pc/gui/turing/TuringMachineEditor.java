@@ -90,6 +90,7 @@ public class TuringMachineEditor extends MachineEditor
 	private JMenuItem undoAction;
 	private JMenuItem redoAction;
 	private JMenuItem addViaAction;
+	private JMenuItem removeViaAction;
 	private JCheckBoxMenuItem gridToggleAction;
 
 	private boolean gridEnabled = true;
@@ -335,10 +336,14 @@ public class TuringMachineEditor extends MachineEditor
 		undoAction = new JMenuItem("Undo");
 		redoAction = new JMenuItem("Redo");
 		pasteAction = new JMenuItem("Paste");
-		addViaAction = new JMenuItem("Add control point");
+		addViaAction = new JMenuItem("Add via point");
+		removeViaAction = new JMenuItem("Remove via point");
 
 		gridToggleAction = new JCheckBoxMenuItem("Grid enabled");
 		gridToggleAction.setSelected(true);
+		
+		addViaAction.setEnabled(false);
+		removeViaAction.setEnabled(false);
 
 		editMenu.add(undoAction);
 		editMenu.add(redoAction);
@@ -350,6 +355,7 @@ public class TuringMachineEditor extends MachineEditor
 		editMenu.add(selectAllAction);
 		editMenu.addSeparator();
 		editMenu.add(addViaAction);
+		editMenu.add(removeViaAction);
 
 		viewMenu.add(gridToggleAction);
 
@@ -362,6 +368,8 @@ public class TuringMachineEditor extends MachineEditor
 		cutAction.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		pasteAction.setAccelerator(KeyStroke.getKeyStroke('V', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		selectAllAction.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		addViaAction.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		removeViaAction.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | KeyEvent.SHIFT_MASK));
 
 		undoAction.addActionListener(this);
 		redoAction.addActionListener(this);
@@ -370,11 +378,15 @@ public class TuringMachineEditor extends MachineEditor
 		pasteAction.addActionListener(this);
 		selectAllAction.addActionListener(this);
 		addViaAction.addActionListener(this);
+		removeViaAction.addActionListener(this);
 		
 		gridToggleAction.addItemListener(this);
 	}
 
 	private void displayProperties() {
+		addViaAction.setEnabled(false);
+		removeViaAction.setEnabled(false);
+		
 		PropertiesTuringMachine propertiesMachine = new PropertiesTuringMachine(machine);
 		jPanelProperties.removeAll();
 		jPanelProperties.validate();
@@ -384,6 +396,9 @@ public class TuringMachineEditor extends MachineEditor
 	}
 
 	private void displayProperties(Edge edge) {
+		addViaAction.setEnabled(true);
+		removeViaAction.setEnabled(true);
+		
 		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge, graph);
 		jPanelProperties.removeAll();
 		jPanelProperties.validate();
@@ -393,6 +408,9 @@ public class TuringMachineEditor extends MachineEditor
 	}
 
 	private void displayProperties(State state, mxCellState mxState) {
+		addViaAction.setEnabled(false);
+		removeViaAction.setEnabled(false);
+		
 		PropertiesState propertiesState = new PropertiesState(state,graph, mxState);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
@@ -402,6 +420,9 @@ public class TuringMachineEditor extends MachineEditor
 	}
 
 	private void displayProperties(Textbox textbox) {
+		addViaAction.setEnabled(false);
+		removeViaAction.setEnabled(false);
+		
 		PropertiesTextbox propertiesTextbox = new PropertiesTextbox(textbox, graph);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
@@ -519,6 +540,9 @@ public class TuringMachineEditor extends MachineEditor
 		else if(e.getSource() == undoAction) {
 			undo();
 		}
+		else if (e.getSource() == removeViaAction) {
+			this.removeVia();
+		}
 	}
 	
 	private void addVia() {
@@ -533,12 +557,41 @@ public class TuringMachineEditor extends MachineEditor
 			else {
 				lastPoint = new Point((int)edge.getSource().getGeometry().getX(), (int)edge.getSource().getGeometry().getY());
 			}
+			System.out.println("Last point: " + lastPoint.getX() + "," + lastPoint.getY());
+			System.out.println("Target point: " + edge.getTarget().getGeometry().getX() + "," + edge.getTarget().getGeometry().getY());
+
 			int x = (int)lastPoint.getX();
 			x += ((edge.getTarget().getGeometry().getX() - lastPoint.getX())/2);
 			int y = (int)lastPoint.getY();
 			y += ((edge.getTarget().getGeometry().getY() - lastPoint.getY())/2);
+			System.out.println("Mid point: " + x + "," + y);
+
 			points.add(new mxPoint(x,y));
 			
+			Object[] selection = this.graph.getSelectionCells();
+			this.graph.setSelectionCells(new Object[0]);
+			this.graph.refresh();
+			this.graph.repaint();
+			this.graph.setSelectionCells(selection);
+			this.graph.refresh();
+			this.graph.repaint();
+		}
+	}
+	
+	private void removeVia() {
+		if (this.graph.getSelectionCell() != null && ((mxCell)this.graph.getSelectionCell()).isEdge()) {
+			mxCell edge = (mxCell)this.graph.getSelectionCell();
+			List<mxPoint> points = edge.getGeometry().getPoints();
+
+			if (points.size() > 0) {
+				points.remove(points.size()-1);
+			}
+
+			Object[] selection = this.graph.getSelectionCells();
+			this.graph.setSelectionCells(new Object[0]);
+			this.graph.refresh();
+			this.graph.repaint();
+			this.graph.setSelectionCells(selection);
 			this.graph.refresh();
 			this.graph.repaint();
 		}
