@@ -51,11 +51,11 @@ import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.util.mxEventObject;
 import com.mxgraph.util.mxPoint;
 
-
-
 import gui.MachineEditor;
 
-public class TuringMachineEditor extends MachineEditor implements KeyListener, ItemListener, ActionListener, MouseListener, Observer{
+public class TuringMachineEditor extends MachineEditor 
+	implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
+	
 	private static final long serialVersionUID = 7647012826073382156L;
 	private int GRID_SIZE = 50;
 	private final int WIDTH = 50;

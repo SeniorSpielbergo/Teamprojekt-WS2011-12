@@ -54,4 +54,9 @@ public class Frame implements Serializable {
 	public String toString() {
 		return "";
 	}
+	
+	@Override
+	public Object clone() {
+		return new Frame(this.x, this.y, this.width, this.height);
+	}
 }
