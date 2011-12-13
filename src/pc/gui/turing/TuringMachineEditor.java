@@ -2,6 +2,7 @@ package gui.turing;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Observable;
 import java.util.UUID;
 import java.util.Observer;
@@ -85,6 +86,7 @@ public class TuringMachineEditor extends MachineEditor
 	private JMenuItem copyAction;
 	private JMenuItem cutAction;
 	private JMenuItem pasteAction;
+	private JMenuItem addViaAction;
 	private JCheckBoxMenuItem gridToggleAction;
 
 	private boolean gridEnabled = true;
@@ -127,14 +129,14 @@ public class TuringMachineEditor extends MachineEditor
 
 	class EdgeList extends ArrayList<mxCell>{
 		private static final long serialVersionUID = -6540044275767431408L;
-		public EdgeList(){
+		public EdgeList() {
 			super();
 		}
-		public EdgeList(int size){
+		public EdgeList(int size) {
 			super(size);
 		}
 
-		mxCell getMxCell(State source, State target){
+		mxCell getMxCell(State source, State target) {
 			for (int i = 0; i < this.size(); i++) {
 				if((this.get(i).getSource().getValue().equals((Object) source)) && (this.get(i).getTarget().getValue().equals((Object) target))){
 					return this.get(i);
@@ -314,6 +316,8 @@ public class TuringMachineEditor extends MachineEditor
 		copyAction = new JMenuItem("Copy");
 		cutAction = new JMenuItem("Cut");
 		pasteAction = new JMenuItem("Paste");
+		addViaAction = new JMenuItem("Add control point");
+
 		gridToggleAction = new JCheckBoxMenuItem("Grid enabled");
 		gridToggleAction.setSelected(true);
 
@@ -322,6 +326,9 @@ public class TuringMachineEditor extends MachineEditor
 		editMenu.add(pasteAction);
 		editMenu.add(new JSeparator());
 		editMenu.add(selectAllAction);
+		editMenu.add(new JSeparator());
+		editMenu.add(addViaAction);
+
 		viewMenu.add(gridToggleAction);
 
 		this.getMenus().add(editMenu);
@@ -336,6 +343,8 @@ public class TuringMachineEditor extends MachineEditor
 		cutAction.addActionListener(this);
 		pasteAction.addActionListener(this);
 		selectAllAction.addActionListener(this);
+		addViaAction.addActionListener(this);
+		
 		gridToggleAction.addItemListener(this);
 	}
 
@@ -472,6 +481,32 @@ public class TuringMachineEditor extends MachineEditor
 		}
 		else if (e.getSource() == selectAllAction) {
 			graph.selectAll();
+		}
+		else if (e.getSource() == addViaAction) {
+			this.addVia();
+		}
+	}
+	
+	private void addVia() {
+		if (this.graph.getSelectionCell() != null && ((mxCell)this.graph.getSelectionCell()).isEdge()) {
+			mxCell edge = (mxCell)this.graph.getSelectionCell();
+			List<mxPoint> points = edge.getGeometry().getPoints();
+
+			Point lastPoint;
+			if (points.size() > 0) {
+				lastPoint = new Point((int)points.get(points.size()-1).getX(), (int)points.get(points.size()-1).getY());
+			}
+			else {
+				lastPoint = new Point((int)edge.getSource().getGeometry().getX(), (int)edge.getSource().getGeometry().getY());
+			}
+			int x = (int)lastPoint.getX();
+			x += ((edge.getTarget().getGeometry().getX() - lastPoint.getX())/2);
+			int y = (int)lastPoint.getY();
+			y += ((edge.getTarget().getGeometry().getY() - lastPoint.getY())/2);
+			points.add(new mxPoint(x,y));
+			
+			this.graph.refresh();
+			this.graph.repaint();
 		}
 	}
 
