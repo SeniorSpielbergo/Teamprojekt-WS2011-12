@@ -717,6 +717,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		this.graph.setCellsResizable(editable);
 		this.graph.setCellsDeletable(editable);
 		this.graph.setCellsSelectable(editable);
+		this.graph.clearSelection();
 	}
 	
 	public void initStyles(mxStylesheet stylesheet) {
