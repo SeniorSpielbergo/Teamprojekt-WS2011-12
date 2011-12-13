@@ -529,6 +529,11 @@ public class TuringMachineEditor extends MachineEditor
 
 			points.add(new mxPoint(x,y));
 			
+			Object[] selection = this.graph.getSelectionCells();
+			this.graph.setSelectionCells(new Object[0]);
+			this.graph.refresh();
+			this.graph.repaint();
+			this.graph.setSelectionCells(selection);
 			this.graph.refresh();
 			this.graph.repaint();
 		}
@@ -543,6 +548,11 @@ public class TuringMachineEditor extends MachineEditor
 				points.remove(points.size()-1);
 			}
 
+			Object[] selection = this.graph.getSelectionCells();
+			this.graph.setSelectionCells(new Object[0]);
+			this.graph.refresh();
+			this.graph.repaint();
+			this.graph.setSelectionCells(selection);
 			this.graph.refresh();
 			this.graph.repaint();
 		}

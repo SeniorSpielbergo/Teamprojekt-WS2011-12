@@ -77,7 +77,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener{
 		saveAsAction.setEnabled(false);
 		exportLatexAction.setEnabled(false);
 		runAction.setEnabled(false);		
-		toggleDelayAction = new JCheckBoxMenuItem("Simulation delay enabled");
+		toggleDelayAction = new JCheckBoxMenuItem("Delay");
 		toggleDelayAction.setSelected(true);
 		toggleDelayAction.addItemListener(this);
 
@@ -91,8 +91,9 @@ public class Editor extends JFrame implements ActionListener, ItemListener{
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exitAction);
 		simulationMenu.add(runAction);
-		simulationMenu.add(organizeRobotsAction);
 		simulationMenu.add(toggleDelayAction);
+		simulationMenu.add(new JSeparator());
+		simulationMenu.add(organizeRobotsAction);
 		helpMenu.add(aboutAction);
 
 		// menu shortcuts
