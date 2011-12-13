@@ -30,6 +30,8 @@ import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 
+import tape.Tape;
+
 import machine.turing.Edge;
 import machine.turing.State;
 import machine.turing.TuringMachine;
@@ -60,6 +62,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 	private final int HEIGHT = 50;
 	private boolean initialized = false;
 	private final TuringMachine machine;
+	private boolean inputWordWritten = false;
 	private mxCell selectedState = null;
 	private mxCell selectedEdge = null;
 	private StateList graphicalStates = null;
@@ -263,7 +266,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				}
 			}
 		});
-		
+
 		this.graph.addListener(mxEvent.CELLS_RESIZED, new mxIEventListener() {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
@@ -289,7 +292,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		// set style
 		mxStylesheet stylesheet = graph.getStylesheet();
 		initStyles(stylesheet);
-		
+
 		this.drawGraph();
 
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
@@ -406,14 +409,14 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				mxCell edge = (mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2);
 				edge.getGeometry().setX(currentEdge.getPosLabel().getX());
 				edge.getGeometry().setY(currentEdge.getPosLabel().getY());
-				
+
 				//set via control points
 				ArrayList<mxPoint> points = new ArrayList<mxPoint>();
 				for (Point p : currentEdge.getVia()) {
 					points.add(new mxPoint(p.getX(),p.getY()));
 				}
 				edge.getGeometry().setPoints(points);
-				
+
 				graphicalEdges.add(i,edge);
 			}
 
@@ -533,7 +536,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			Edge edge = (Edge) mxEdge.getValue();
 			edge.setPosLabelX((int) g.getX());
 			edge.setPosLabelY((int) g.getY());
-			
+
 			edge.getVia().clear();
 			for (mxPoint p : mxEdge.getGeometry().getPoints()) {
 				edge.getVia().add(new Point((int)p.getX(), (int)p.getY()));
@@ -596,7 +599,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			displayProperties();
 		} else if (!graph.isSelectionEmpty()){
 			int dx = 0, 
-				dy = 0;
+					dy = 0;
 			if (e.getKeyCode() == KeyEvent.VK_KP_DOWN || e.getKeyCode() == KeyEvent.VK_DOWN){
 				dy = GRID_SIZE;
 			} else if (e.getKeyCode() == KeyEvent.VK_KP_UP || e.getKeyCode() == KeyEvent.VK_UP)	{
@@ -606,9 +609,9 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			} else if (e.getKeyCode() == KeyEvent.VK_KP_RIGHT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				dx = GRID_SIZE;
 			}
-				
+
 			graph.moveCells(graph.getSelectionCells(), dx, dy);
-			
+
 		}
 	}
 
@@ -638,20 +641,22 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			}
 			selectedState = graphicalStates.getMxCell((State)obj);
 
-			if (((State)obj).isFinalState() & ((State)obj).isStartState()) {
-				selectedState.setStyle("FINALSTART_SELECTED");
-			} 
-			else if(((State)obj).isFinalState()) {
-				selectedState.setStyle("FINAL_SELECTED");
-			}
-			else if(((State)obj).isStartState()) {
-				selectedState.setStyle("START_SELECTED");
-			}
-			else {
-				selectedState.setStyle("CIRCLE_SELECTED");
+			if(inputWordWritten){
+				if (((State)obj).isFinalState() & ((State)obj).isStartState()) {
+					selectedState.setStyle("FINALSTART_SELECTED");
+				} 
+				else if(((State)obj).isFinalState()) {
+					selectedState.setStyle("FINAL_SELECTED");
+				}
+				else if(((State)obj).isStartState()) {
+					selectedState.setStyle("START_SELECTED");
+				}
+				else {
+					selectedState.setStyle("CIRCLE_SELECTED");
+				}
 			}
 		}
-		if(obj instanceof Edge){
+		else if(obj instanceof Edge){
 			System.out.println("is Edge");
 			if (selectedEdge != null){
 				if(selectedEdge.getStyle()=="EDGE_SELECTED"){
@@ -661,7 +666,7 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 			selectedEdge = graphicalEdges.getMxCell(((Edge)obj).getFrom(), ((Edge)obj).getTo());
 			selectedEdge.setStyle("EDGE_SELECTED");
 		}
-		if(obj instanceof Simulation.simulationState){
+		else if(obj instanceof Simulation.simulationState){
 			System.out.println("is simulation State");
 			if (((Simulation.simulationState)obj)==Simulation.simulationState.ABORTED){
 				if(selectedState.getStyle()=="FINAL_SELECTED"){
@@ -676,15 +681,34 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 				else {
 					selectedState.setStyle("CIRCLE");
 				}
+				selectedEdge.setStyle("EDGE");
+				inputWordWritten = false;
 			} else if (((Simulation.simulationState)obj)==Simulation.simulationState.FINISHED){
 				selectedEdge.setStyle("EDGE");
+				inputWordWritten = false;
+			}
+		}
+		else if (obj instanceof Tape.Event){
+			if((Tape.Event)obj==Tape.Event.INPUTFINISHED){
+				inputWordWritten = true;
+				if (selectedState != null){
+					if(selectedState.getStyle()=="FINAL"){
+						selectedState.setStyle("FINAL_SELECTED");
+					} 
+					else if(selectedState.getStyle()=="START"){
+						selectedState.setStyle("START_SELECTED");
+					}
+					else if(selectedState.getStyle()=="FINALSTART") {
+						selectedState.setStyle("FINALSTART_SELECTED");
+					}
+				}
 			}
 		}
 		graph.refresh();			
 		graph.repaint();
 
 	}
-	
+
 	public void initStyles(mxStylesheet stylesheet) {
 		Hashtable<String, Object> styleCircle = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleStart = new Hashtable<String, Object>();
@@ -699,21 +723,21 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		Hashtable<String, Object> styleSelectedStart = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleSelectedFinalStart = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleSelectedEdge = new Hashtable<String, Object>();
-		
+
 		styleStart.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		styleStart.put(mxConstants.STYLE_STROKEWIDTH, 2);
 		stylesheet.putCellStyle("START", styleStart);
-		
+
 		styleCircle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		stylesheet.putCellStyle("CIRCLE", styleCircle);
-		
+
 		styleFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
 		stylesheet.putCellStyle("FINAL", styleFinal);
-		
+
 		styleFinalStart.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
 		styleFinalStart.put(mxConstants.STYLE_STROKEWIDTH, 2);
 		stylesheet.putCellStyle("FINALSTART", styleFinalStart);
-		
+
 		styleTextbox.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_RECTANGLE);
 		styleTextbox.put(mxConstants.STYLE_FILLCOLOR, "#FBFF8B");
 		styleTextbox.put(mxConstants.STYLE_STROKECOLOR, "#FBFF8B");
@@ -726,25 +750,25 @@ public class TuringMachineEditor extends MachineEditor implements KeyListener, I
 		styleFrame.put(mxConstants.STYLE_STROKECOLOR, "black");
 		styleFrame.put(mxConstants.STYLE_DASHED, true);
 		stylesheet.putCellStyle("FRAME", styleFrame);
-		
+
 		styleSelectedCircle.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		styleSelectedCircle.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		stylesheet.putCellStyle("CIRCLE_SELECTED", styleSelectedCircle);
-		
+
 		styleSelectedFinal.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
 		styleSelectedFinal.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		stylesheet.putCellStyle("FINAL_SELECTED", styleSelectedFinal);
-		
+
 		styleSelectedStart.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
 		styleSelectedStart.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		styleSelectedStart.put(mxConstants.STYLE_STROKEWIDTH, 2);
 		stylesheet.putCellStyle("START_SELECTED", styleSelectedStart);
-		
+
 		styleSelectedFinalStart.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_DOUBLE_ELLIPSE);
 		styleSelectedFinalStart.put(mxConstants.STYLE_FILLCOLOR, "yellow");
 		styleSelectedFinalStart.put(mxConstants.STYLE_STROKEWIDTH, 2);
 		stylesheet.putCellStyle("FINALSTART_SELECTED", styleSelectedFinalStart);
-		
+
 		styleSelectedEdge.put(mxConstants.STYLE_STROKECOLOR, "yellow");
 		stylesheet.putCellStyle("EDGE_SELECTED", styleSelectedEdge);
 	}
