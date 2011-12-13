@@ -75,7 +75,7 @@ public class AboutDialog extends JDialog {
 		this.jPanelDetails.add(Box.createRigidArea(new Dimension(0, 20)));
 	
 		
-		this.setSize(new Dimension(300,400));
+		this.setSize(new Dimension(400,500));
 		this.setResizable(false);
 		this.centerDialogOnTheScreen();
 	}
