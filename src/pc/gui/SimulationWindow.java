@@ -202,10 +202,12 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		}
 		else if(this.sim.isSimulationAlreadyStarted()){ 
 			this.sim.setAbortSimulation();
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {}
+			while(!this.sim.isSimulationAborted()){
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {}
 
+			}
 
 			try{
 				System.out.println(" i shut down the tapes");
