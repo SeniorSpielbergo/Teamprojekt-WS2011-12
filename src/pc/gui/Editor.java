@@ -354,10 +354,14 @@ public class Editor extends JFrame implements ActionListener {
 	public void runSimulation() {
 		RunWindow runWindow = new RunWindow(currentMachine);
 		runWindow.setLocationRelativeTo(null);
+		this.currentMachine.getEditor().setEditable(false);
 
 		ReturnValue returnValue = runWindow.showDialog();
 		if (returnValue == ReturnValue.RUN) {
 			simulate();
+		}
+		else {
+			this.currentMachine.getEditor().setEditable(true);
 		}
 	}
 
@@ -375,9 +379,6 @@ public class Editor extends JFrame implements ActionListener {
 	 */
 	public void simulate() {
 		new SimulationWindow(this.currentMachine);
-		//create tapes and write input
-		//simulate
-		// --> moved to simulation window
 	}
 	
 	@Override
