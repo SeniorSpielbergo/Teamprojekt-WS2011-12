@@ -33,11 +33,11 @@ public class Palette extends JPanel implements MouseListener {
 	public Palette() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		mxCell frameCell = new mxCell(null, new mxGeometry(0, 0, 50, 50), "FRAME");//debug
+		mxCell frameCell = new mxCell(null, new mxGeometry(0, 0, 50, 50), "FRAME");
 		frameCell.setVertex(true);
-		mxCell stateCell = new mxCell(null, new mxGeometry(0, 0, 50, 50), "CIRCLE");//debug
+		mxCell stateCell = new mxCell(null, new mxGeometry(0, 0, 50, 50), "CIRCLE");
 		stateCell.setVertex(true);
-		mxCell textCell = new mxCell(null, new mxGeometry(0, 0, 50, 50), "TEXTBOX");//debug
+		mxCell textCell = new mxCell(null, new mxGeometry(0, 0, 50, 50), "TEXTBOX");
 		textCell.setVertex(true);
 		icons[0] = this.addIcon("Frame", "gui/images/frame.png", frameCell);
 		icons[1] = this.addIcon("State", "gui/images/state.png", stateCell);
