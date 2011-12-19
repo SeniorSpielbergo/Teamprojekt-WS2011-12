@@ -339,7 +339,7 @@ public class TuringMachineEditor extends MachineEditor
 		addViaAction = new JMenuItem("Add via point");
 		removeViaAction = new JMenuItem("Remove via point");
 
-		gridToggleAction = new JCheckBoxMenuItem("Grid enabled");
+		gridToggleAction = new JCheckBoxMenuItem("Snap to grid");
 		gridToggleAction.setSelected(true);
 		
 		addViaAction.setEnabled(false);

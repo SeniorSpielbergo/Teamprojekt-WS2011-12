@@ -65,16 +65,28 @@ public class MainMaster {
 			}
 		});
 		
-		// setup connection
-		LCD.drawString("Waiting...", 0, 0);
-		NXTConnection connection = Bluetooth.waitForConnection();           
-		LCD.clearDisplay();
-		LCD.drawString("Connecting...", 0, 0);
-		in = connection.openDataInputStream();
-		out = connection.openDataOutputStream();           
-		LCD.clearDisplay();
-		LCD.drawString("Connected", 0, 0);
 		
+		while (true) {
+			// setup connection
+			LCD.drawString("Waiting...", 0, 0);
+			NXTConnection connection = Bluetooth.waitForConnection();           
+			LCD.clearDisplay();
+			LCD.drawString("Connecting...", 0, 0);
+			in = connection.openDataInputStream();
+			out = connection.openDataOutputStream();           
+			LCD.clearDisplay();
+			LCD.drawString("Connected", 0, 0);
+			
+			//listen to commands
+			this.serve(); 
+			
+			//close connection
+			LCD.drawString("Disconnecting...", 0, 0);
+			connection.close();
+		}
+	}
+	
+	private void serve() {
 		char ch = ' ';
 
 		while (true) {
@@ -88,9 +100,7 @@ public class MainMaster {
 			LCD.clearDisplay();
 			switch (ch) {
 				case 'q':
-					connection.close();
-					System.exit(0);
-					break;
+					return; //end serving
 				case 't':
 					LCD.drawString("Pushing...", 0, 0);
 					Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
