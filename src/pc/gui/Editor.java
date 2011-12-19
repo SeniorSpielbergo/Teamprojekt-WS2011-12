@@ -41,6 +41,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener{
 	 */
 	protected Machine currentMachine;
 	private File currentFile = null;
+	private String lastDir = "";
 	private JMenu newSubmenu;
 	private JMenuItem newBFAction;
 	private JMenuItem newTMAction;
@@ -211,10 +212,10 @@ public class Editor extends JFrame implements ActionListener, ItemListener{
 		final JFileChooser fc = new JFileChooser();
 		// set current directory for file chooser
 		try {
-			File currentDirectory = new File(new File(".").getCanonicalPath());
+			File currentDirectory = new File(this.lastDir);
 			fc.setCurrentDirectory(currentDirectory);
 		}
-		catch (IOException e) {
+		catch (Throwable e) {
 		}
 
 		// set xml filter for file chooser
@@ -246,6 +247,11 @@ public class Editor extends JFrame implements ActionListener, ItemListener{
 		int retVal = fc.showOpenDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
+			try {
+				this.lastDir = selectedFile.getCanonicalPath();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			Machine machine = null;
 			if(selectedFile.getName().toLowerCase().endsWith(TuringMachine.FILE_EXTENSION)) {
 				machine = new TuringMachine();
@@ -295,10 +301,10 @@ public class Editor extends JFrame implements ActionListener, ItemListener{
 		final JFileChooser fc = new JFileChooser();
 		// set current directory for file chooser
 		try {
-			File currentDirectory = new File(new File(".").getCanonicalPath());
+			File currentDirectory = new File(this.lastDir);
 			fc.setCurrentDirectory(currentDirectory);
 		}
-		catch (IOException e) {
+		catch (Throwable e) {
 		}
 
 		// set xml filter for file chooser
@@ -322,13 +328,17 @@ public class Editor extends JFrame implements ActionListener, ItemListener{
 		int retVal = fc.showSaveDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
+			try {
+				this.lastDir = selectedFile.getCanonicalPath();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			if (selectedFile.exists()){
 				int result = JOptionPane.showConfirmDialog(null, "Do you want to override the file?", "Override", JOptionPane.YES_NO_OPTION);
 				if (result == JOptionPane.NO_OPTION) {
 					saveAsFile();
 					return;
 				} 
-				
 			}
 			try { 
 				this.currentMachine.save(selectedFile.getPath());
