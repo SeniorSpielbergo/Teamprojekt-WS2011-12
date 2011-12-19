@@ -650,21 +650,21 @@ public class TuringMachineEditor extends MachineEditor
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		mxCell mxEdge = (mxCell) graph.getSelectionCell();
+		mxCell cell = (mxCell) graph.getSelectionCell();
 		// set cells unresizable if state selected
-		if (mxEdge != null && mxEdge.getValue() instanceof State) {
+		if (cell != null && cell.getValue() instanceof State) {
 			this.graph.setCellsResizable(false);
 			this.graph.refresh();
 			this.graph.repaint();
 			this.graph.clearSelection();
-			this.graph.setSelectionCell(mxEdge);
+			this.graph.setSelectionCell(cell);
 		}
 		else {
 			this.graph.setCellsResizable(true);
 			this.graph.refresh();
 			this.graph.repaint();
 			this.graph.clearSelection();
-			this.graph.setSelectionCell(mxEdge);
+			this.graph.setSelectionCell(cell);
 		}
 	}
 
