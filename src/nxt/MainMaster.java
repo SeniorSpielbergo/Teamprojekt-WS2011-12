@@ -131,15 +131,19 @@ public class MainMaster {
 					try {
 						if (!cs1Active && !cs2Active) {
 							out.writeChar('#');
+							Common.playTune("C",200); //testing
 						}
 						else if (!cs1Active && cs2Active) {
 							out.writeChar('0');
+							Common.playTune("E",200); //testing
 						}
 						else if (cs1Active && !cs2Active) {
 							out.writeChar('1');
+							Common.playTune("G",200); //testing
 						}
 						else if (cs1Active && cs2Active) {
 							out.writeChar('2');
+							Common.playTune("H",200); //testing
 						}
 						out.flush();
 					}
