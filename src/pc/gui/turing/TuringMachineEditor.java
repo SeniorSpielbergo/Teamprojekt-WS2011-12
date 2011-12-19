@@ -54,8 +54,8 @@ import com.mxgraph.util.mxPoint;
 import gui.MachineEditor;
 
 public class TuringMachineEditor extends MachineEditor 
-	implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
-	
+implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
+
 	private static final long serialVersionUID = 7647012826073382156L;
 	private int GRID_SIZE = 50;
 	private final int WIDTH = 50;
@@ -196,6 +196,29 @@ public class TuringMachineEditor extends MachineEditor
 		this.graph.setAllowNegativeCoordinates(true);
 		this.graph.setSplitEnabled(false);
 		//		this.graph.setDefaultLoopStyle(null);
+
+		this.graph.addListener(mxEvent.CELLS_ADDED, new mxIEventListener() {
+			@Override
+			public void invoke(Object obj, mxEventObject e) {
+				for(Object cellObj: (Object[]) e.getProperty("cells")){
+					mxCell cell = (mxCell) cellObj;
+					if (cell.getValue() == null) {
+						if (cell.getStyle().equals("CIRCLE")) {
+							System.out.println("drop"); //TODO: add state to data model
+
+						}
+						if (cell.getStyle().equals("FRAME")) {
+							System.out.println("drop"); //TODO: add frame to data model
+
+						}
+						if (cell.getStyle().equals("TEXTBOX")) {
+							System.out.println("drop"); //TODO: add text to data model
+
+						}
+					}
+				}
+			}
+		});
 
 		this.graph.addListener(mxEvent.MOVE_CELLS, new mxIEventListener() {
 			@Override
@@ -341,7 +364,7 @@ public class TuringMachineEditor extends MachineEditor
 
 		gridToggleAction = new JCheckBoxMenuItem("Snap to grid");
 		gridToggleAction.setSelected(true);
-		
+
 		addViaAction.setEnabled(false);
 		removeViaAction.setEnabled(false);
 
@@ -379,14 +402,14 @@ public class TuringMachineEditor extends MachineEditor
 		selectAllAction.addActionListener(this);
 		addViaAction.addActionListener(this);
 		removeViaAction.addActionListener(this);
-		
+
 		gridToggleAction.addItemListener(this);
 	}
 
 	private void displayProperties() {
 		addViaAction.setEnabled(false);
 		removeViaAction.setEnabled(false);
-		
+
 		PropertiesTuringMachine propertiesMachine = new PropertiesTuringMachine(machine);
 		jPanelProperties.removeAll();
 		jPanelProperties.validate();
@@ -398,7 +421,7 @@ public class TuringMachineEditor extends MachineEditor
 	private void displayProperties(Edge edge) {
 		addViaAction.setEnabled(true);
 		removeViaAction.setEnabled(true);
-		
+
 		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge, graph);
 		jPanelProperties.removeAll();
 		jPanelProperties.validate();
@@ -410,7 +433,7 @@ public class TuringMachineEditor extends MachineEditor
 	private void displayProperties(State state, mxCellState mxState) {
 		addViaAction.setEnabled(false);
 		removeViaAction.setEnabled(false);
-		
+
 		PropertiesState propertiesState = new PropertiesState(state,graph, mxState);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
@@ -422,7 +445,7 @@ public class TuringMachineEditor extends MachineEditor
 	private void displayProperties(Textbox textbox) {
 		addViaAction.setEnabled(false);
 		removeViaAction.setEnabled(false);
-		
+
 		PropertiesTextbox propertiesTextbox = new PropertiesTextbox(textbox, graph);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
@@ -544,7 +567,7 @@ public class TuringMachineEditor extends MachineEditor
 			this.removeVia();
 		}
 	}
-	
+
 	private void addVia() {
 		if (this.graph.getSelectionCell() != null && ((mxCell)this.graph.getSelectionCell()).isEdge()) {
 			mxCell edge = (mxCell)this.graph.getSelectionCell();
@@ -567,7 +590,7 @@ public class TuringMachineEditor extends MachineEditor
 			System.out.println("Mid point: " + x + "," + y);
 
 			points.add(new mxPoint(x,y));
-			
+
 			Object[] selection = this.graph.getSelectionCells();
 			this.graph.setSelectionCells(new Object[0]);
 			this.graph.refresh();
@@ -577,7 +600,7 @@ public class TuringMachineEditor extends MachineEditor
 			this.graph.repaint();
 		}
 	}
-	
+
 	private void removeVia() {
 		if (this.graph.getSelectionCell() != null && ((mxCell)this.graph.getSelectionCell()).isEdge()) {
 			mxCell edge = (mxCell)this.graph.getSelectionCell();
@@ -855,7 +878,7 @@ public class TuringMachineEditor extends MachineEditor
 		graph.refresh();			
 		graph.repaint();
 	}
-	
+
 	@Override
 	public void setEditable(boolean editable) {
 		this.graph.setCellsMovable(editable);
@@ -865,7 +888,7 @@ public class TuringMachineEditor extends MachineEditor
 		this.graph.clearSelection();
 		this.hideLeftSplitPane(!editable);
 	}
-	
+
 	public void hideLeftSplitPane(boolean hide) {
 		if (hide) {
 			this.jSplitPaneHorizontal.setDividerLocation(0);
@@ -878,15 +901,15 @@ public class TuringMachineEditor extends MachineEditor
 			this.jPanelLeft.setMinimumSize(new Dimension(200, 100));
 		}
 	}
-	
+
 	public boolean canUndo() {
 		return this.currentStateIndex > 0;
 	}
-	
+
 	public boolean canRedo() {
 		return this.currentStateIndex < this.turingMachineStates.size()-1;
 	}
-	
+
 	public void addUndoableEdit(String name) {
 		if(!undoing) {
 			System.out.println(name);
@@ -899,7 +922,7 @@ public class TuringMachineEditor extends MachineEditor
 			System.out.println(turingMachineStates);
 		}
 	}
-	
+
 	public void undo() {
 		if(canUndo()) {
 			this.undoing = true;
@@ -923,7 +946,7 @@ public class TuringMachineEditor extends MachineEditor
 			System.out.println("undoing done");
 		}
 	}
-	
+
 	public void redo() {
 		if(canRedo()) {
 			graph.removeCells();
@@ -932,7 +955,7 @@ public class TuringMachineEditor extends MachineEditor
 			this.drawGraph();
 		}
 	}
-	
+
 	public void initStyles(mxStylesheet stylesheet) {
 		Hashtable<String, Object> styleCircle = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleStart = new Hashtable<String, Object>();

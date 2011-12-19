@@ -33,15 +33,15 @@ public class Palette extends JPanel implements MouseListener {
 	public Palette() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		mxCell cell = new mxCell(null, new mxGeometry(0, 0, 50, 50), null);//debug
-		cell.setVertex(true);
-		icons[0] = this.addIcon("Frame", "gui/images/frame.png", cell);
-		icons[1] = this.addIcon("State", "gui/images/state.png", cell);
-		icons[2] = this.addIcon("Text", "gui/images/text.png", cell);
-
-//		icons[0] = new JLabel("Frame", new ImageIcon("gui/images/frame.png"), JLabel.LEFT);
-//		icons[1] = new JLabel("State", new ImageIcon("gui/images/state.png"), JLabel.LEFT);
-//		icons[2] = new JLabel("Text", new ImageIcon("gui/images/text.png"), JLabel.LEFT);
+		mxCell frameCell = new mxCell(null, new mxGeometry(0, 0, 50, 50), "FRAME");//debug
+		frameCell.setVertex(true);
+		mxCell stateCell = new mxCell(null, new mxGeometry(0, 0, 50, 50), "CIRCLE");//debug
+		stateCell.setVertex(true);
+		mxCell textCell = new mxCell(null, new mxGeometry(0, 0, 50, 50), "TEXTBOX");//debug
+		textCell.setVertex(true);
+		icons[0] = this.addIcon("Frame", "gui/images/frame.png", frameCell);
+		icons[1] = this.addIcon("State", "gui/images/state.png", stateCell);
+		icons[2] = this.addIcon("Text", "gui/images/text.png", textCell);
 
 		for (int i = 0; i < 3; i++) {
 			c.fill = GridBagConstraints.BOTH;
@@ -68,8 +68,7 @@ public class Palette extends JPanel implements MouseListener {
 			 */
 			public void dragGestureRecognized(DragGestureEvent e)
 			{
-				e
-						.startDrag(null, mxConstants.EMPTY_IMAGE, new Point(),
+				e.startDrag(null, mxConstants.EMPTY_IMAGE, new Point(),
 								t, null);
 			}
 
