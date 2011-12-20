@@ -637,24 +637,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				graph.getModel().endUpdate();
 			}
 		}
-		else {
-			mxCell cell = (mxCell) graph.getSelectionCell();
-			// set cells unresizable if state selected
-			if (cell != null && cell.getValue() instanceof State) {
-				this.graph.setCellsResizable(false);
-				this.graph.refresh();
-				this.graph.repaint();
-				this.graph.clearSelection();
-				this.graph.setSelectionCell(cell);
-			}
-			else {
-				this.graph.setCellsResizable(true);
-				this.graph.refresh();
-				this.graph.repaint();
-				this.graph.clearSelection();
-				this.graph.setSelectionCell(cell);
-			}
-		}
+		setResizable();
 	}
 
 	@Override
@@ -1032,5 +1015,24 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 
 		styleSelectedEdge.put(mxConstants.STYLE_STROKECOLOR, "yellow");
 		stylesheet.putCellStyle("EDGE_SELECTED", styleSelectedEdge);
+	}
+	
+	public void setResizable() {
+		mxCell cell = (mxCell) graph.getSelectionCell();
+		// set cells unresizable if state selected
+		if (cell != null && cell.getValue() instanceof State) {
+			this.graph.setCellsResizable(false);
+			this.graph.refresh();
+			this.graph.repaint();
+			this.graph.clearSelection();
+			this.graph.setSelectionCell(cell);
+		}
+		else {
+			this.graph.setCellsResizable(true);
+			this.graph.refresh();
+			this.graph.repaint();
+			this.graph.clearSelection();
+			this.graph.setSelectionCell(cell);
+		}
 	}
 }
