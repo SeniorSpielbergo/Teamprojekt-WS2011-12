@@ -95,61 +95,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 
 	private boolean gridEnabled = true;
 
-	/**
-	 * 
-	 * @author Philipp
-	 * Nested class to extend ArrayList<mxCell> to find mxCells with specified State Object
-	 */
-	class StateList extends ArrayList<mxCell>{
-		private static final long serialVersionUID = 4590100471318084729L;
-		/**
-		 * Constructs a new StateList
-		 */
-		public StateList(){
-			super();
-		}
-
-		/**
-		 * Constructs a new StateList with a given size
-		 * @param size The size
-		 */
-		public StateList(int size){
-			super(size);
-		}
-		/**
-		 * Method to find mxCell with specified value of type State
-		 * @param state
-		 * @return mxCell
-		 */
-		mxCell getMxCell(State state){							
-			for (int i = 0; i < this.size(); i++) {
-				if(this.get(i).getValue().equals((Object) state)){
-					return this.get(i);
-				}
-			}
-			return null;
-		}
-	}
-
-	class EdgeList extends ArrayList<mxCell>{
-		private static final long serialVersionUID = -6540044275767431408L;
-		public EdgeList() {
-			super();
-		}
-		public EdgeList(int size) {
-			super(size);
-		}
-
-		mxCell getMxCell(State source, State target) {
-			for (int i = 0; i < this.size(); i++) {
-				if((this.get(i).getSource().getValue().equals((Object) source)) && (this.get(i).getTarget().getValue().equals((Object) target))){
-					return this.get(i);
-				}
-			}
-			return null;
-		}
-
-	}
 	public TuringMachineEditor(final TuringMachine machine) {
 		super();
 		this.machine = machine;
