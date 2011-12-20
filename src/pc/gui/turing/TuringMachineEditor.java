@@ -760,7 +760,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				dx = GRID_SIZE;
 			}
 			graph.moveCells(graph.getSelectionCells(), dx, dy);
-			this.addUndoableEdit("Cells removed");
 		}
 	}
 
