@@ -26,6 +26,6 @@ public class TuringMachineState {
 	}
 	
 	public String toString() {
-		return this.name + "\n";
+		return this.name +";"+ this.machine + "\n";
 	}
 }

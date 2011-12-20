@@ -71,10 +71,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	private boolean inputWordWritten = false;
 	private mxCell selectedState = null;
 	private mxCell selectedEdge = null;
-	private StateList graphicalStates = null;
-	private StateList graphicalTextboxes = null;
-	private EdgeList graphicalEdges = null;
-	private StateList graphicalFrames = null;
 	protected ArrayList<TuringMachineState> turingMachineStates = null;
 	protected int currentStateIndex = -1;
 	protected boolean undoing = false; 
@@ -107,10 +103,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 
 		this.initEditor();
 
-		this.graphicalStates = new StateList(machine.getStates().size());
-		this.graphicalTextboxes = new StateList();
-		this.graphicalEdges = new EdgeList(machine.getEdges().size());
-		this.graphicalFrames = new StateList();
 		this.turingMachineStates = new ArrayList<TuringMachineState>();
 
 		//create left panel
@@ -161,10 +153,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 							state.setHeight(HEIGHT);
 							cell.setValue(state);
 							machine.getStates().add(state);
-							graphicalStates.add(cell);
 							graph.refresh();
 							toolBox.setClicked(null);
-							graph.setSelectionCell(graphicalStates.get(graphicalStates.size()-1));
+							graph.setSelectionCell(cell);
 							addUndoableEdit("State inserted");
 						}
 						if (cell.getStyle().equals("FRAME")) {
@@ -172,10 +163,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 							machine.getFrames().add(frame);
 							cell.setValue(frame);
 							cell.setConnectable(false);
-							graphicalFrames.add(cell);
 							graph.refresh();
 							toolBox.setClicked(null);
-							graph.setSelectionCell(graphicalFrames.get(graphicalFrames.size()-1));
+							graph.setSelectionCell(cell);
 							addUndoableEdit("Frame inserted");
 						}
 						if (cell.getStyle().equals("TEXTBOX")) {
@@ -183,10 +173,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 							machine.getTextboxes().add(textbox);
 							cell.setValue(textbox);
 							cell.setConnectable(false);
-							graphicalTextboxes.add(cell);
 							graph.refresh();
 							toolBox.setClicked(null);
-							graph.setSelectionCell(graphicalTextboxes.get(graphicalTextboxes.size()-1));
+							graph.setSelectionCell(cell);
 							addUndoableEdit("Textbox inserted");
 						}
 					}
@@ -268,7 +257,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 						Edge edge = new Edge((State) (graphEdge.getSource().getValue()),(State)(graphEdge.getTarget().getValue()),new ArrayList<Transition>());
 						graphEdge.setValue(edge);
 						machine.getEdges().add(edge);
-						graphicalEdges.add(graphEdge);
 						graph.refresh();
 						graph.repaint();
 					}
@@ -457,13 +445,13 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				int y = states.get(i).getYcoord();
 				x = (int) Math.ceil(x / GRID_SIZE);
 				y = (int) Math.ceil(y / GRID_SIZE);
-				graphicalStates.add(i, (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
+				graph.insertVertex(graph.getDefaultParent(), null, 
 						states.get(i), x * GRID_SIZE, y * GRID_SIZE, 
 						states.get(i).getWidth(), states.get(i).getHeight(),
 						(states.get(i).isFinalState() && states.get(i).isStartState() ? "FINALSTART" :
 							(states.get(i).isFinalState() ? "FINAL" : 
 								((states.get(i).isStartState() ? "START" : 
-										"CIRCLE"))))));
+										"CIRCLE")))));
 			}
 			//insert graphical Edges
 			Edge currentEdge = null;
@@ -471,8 +459,8 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			Object v2 = null;
 			for (int i = 0; i < edges.size(); i++){
 				currentEdge = edges.get(i);
-				v1 = graphicalStates.getMxCell(currentEdge.getFrom());
-				v2 = graphicalStates.getMxCell(currentEdge.getTo());
+				v1 = this.getMxCell(currentEdge.getFrom());
+				v2 = this.getMxCell(currentEdge.getTo());
 				mxCell edge = (mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2);
 				edge.getGeometry().setX(currentEdge.getPosLabel().getX());
 				edge.getGeometry().setY(currentEdge.getPosLabel().getY());
@@ -483,8 +471,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 					points.add(new mxPoint(p.getX(),p.getY()));
 				}
 				edge.getGeometry().setPoints(points);
-
-				graphicalEdges.add(i,edge);
 			}
 
 			for (int i = 0;  i < textboxes.size(); i++){
@@ -495,7 +481,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				mxCell mxTextbox = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
 						textboxes.get(i), x, y, width, height,"TEXTBOX");
 				mxTextbox.setConnectable(false);
-				graphicalTextboxes.add(i,mxTextbox);
 			}
 
 			for (int i = 0;  i < frames.size(); i++){
@@ -506,7 +491,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				mxCell mxFrame= (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
 						frames.get(i), x, y, width, height,"FRAME");
 				mxFrame.setConnectable(false);
-				graphicalTextboxes.add(i,mxFrame);
 			}
 		} finally {
 			if(!initialized)
@@ -626,20 +610,18 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			graph.getModel().beginUpdate();
 			try	{
 				if (toolBox.getClicked().equals("State")) {
-					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, null, 
-							xGrid * GRID_SIZE, yGrid * GRID_SIZE, WIDTH, HEIGHT, "CIRCLE"));
+					graph.insertVertex(graph.getDefaultParent(), null, null, 
+							xGrid * GRID_SIZE, yGrid * GRID_SIZE, WIDTH, HEIGHT, "CIRCLE");
 					this.graph.refresh();
 					toolBox.setClicked(null);
 				}
 				else if (toolBox.getClicked().equals("Frame")) {
-					mxCell mxFrame = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, null, x, y, WIDTH, HEIGHT, "FRAME");
-					graphicalFrames.add(mxFrame);
+					graph.insertVertex(graph.getDefaultParent(), null, null, x, y, WIDTH, HEIGHT, "FRAME");
 					this.graph.refresh();
 					toolBox.setClicked(null);
 				}
 				else if (toolBox.getClicked().equals("Text")) {
-					mxCell mxTextbox = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, null, x, y, WIDTH, HEIGHT, "TEXTBOX");
-					graphicalTextboxes.add(mxTextbox);
+					graph.insertVertex(graph.getDefaultParent(), null, null, x, y, WIDTH, HEIGHT, "TEXTBOX");
 					this.graph.refresh();
 					toolBox.setClicked(null);
 				}
@@ -787,7 +769,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 					selectedState.setStyle("CIRCLE");
 				}
 			}
-			selectedState = graphicalStates.getMxCell((State)obj);
+			selectedState = this.getMxCell((State)obj);
 
 			if(inputWordWritten){
 				if (((State)obj).isFinalState() & ((State)obj).isStartState()) {
@@ -811,7 +793,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 					selectedEdge.setStyle("EDGE");
 				}
 			}
-			selectedEdge = graphicalEdges.getMxCell(((Edge)obj).getFrom(), ((Edge)obj).getTo());
+			selectedEdge = this.getMxCell(((Edge)obj).getFrom(), ((Edge)obj).getTo());
 			selectedEdge.setStyle("EDGE_SELECTED");
 		}
 		else if(obj instanceof Simulation.simulationState){
@@ -955,7 +937,27 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		}
 		this.updateUndoRedoMenu();
 	}
+	
+	mxCell getMxCell(State state){							
+		for (Object cell : this.graph.getChildVertices(graph.getDefaultParent())) {
+			mxCell mxCell = (mxCell) cell;
+			if(mxCell.getValue().equals((Object) state)){
+				return mxCell;
+			}
+		}
+		return null;
+	}
 
+	mxCell getMxCell(State from, State to){							
+		for (Object cell : this.graph.getChildEdges(graph.getDefaultParent())) {
+			mxCell mxCell = (mxCell) cell;
+			if(mxCell.getSource().getValue() == from && mxCell.getSource().getValue() == to){
+				return mxCell;
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Initializes the styles
 	 * @param stylesheet Stylesheet that should be edited
