@@ -178,6 +178,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 							graph.setSelectionCell(cell);
 							addUndoableEdit("Textbox inserted");
 						}
+						setResizable();
 					}
 				}
 			}
