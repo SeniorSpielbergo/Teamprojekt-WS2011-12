@@ -370,6 +370,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		gridToggleAction.addItemListener(this);
 	}
 
+	/**
+	 * Displays the information about the Turing machine
+	 */
 	private void displayProperties() {
 		addViaAction.setEnabled(false);
 		removeViaAction.setEnabled(false);
@@ -382,6 +385,10 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		jPanelProperties.validate();
 	}
 
+	/**
+	 * Displays the information of an edge
+	 * @param edge Selected edge
+	 */
 	private void displayProperties(Edge edge) {
 		addViaAction.setEnabled(true);
 		removeViaAction.setEnabled(true);
@@ -394,6 +401,11 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		jPanelProperties.validate();
 	}
 
+	/**
+	 * Displays the information of a state
+	 * @param state Selected state
+	 * @param mxState mxState of the selected state
+	 */
 	private void displayProperties(State state, mxCellState mxState) {
 		addViaAction.setEnabled(false);
 		removeViaAction.setEnabled(false);
@@ -406,6 +418,10 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		jPanelProperties.validate();
 	}
 
+	/**
+	 * Displays the information of a textbox
+	 * @param textbox Selected textbox
+	 */
 	private void displayProperties(Textbox textbox) {
 		addViaAction.setEnabled(false);
 		removeViaAction.setEnabled(false);
@@ -418,6 +434,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		jPanelProperties.validate();
 	}
 
+	/**
+	 * Draws the graph
+	 */
 	private void drawGraph(){
 		ArrayList<State> states = this.machine.getStates();
 		ArrayList<Edge> edges = this.machine.getEdges();
@@ -531,6 +550,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		}
 	}
 
+	/**
+	 * Adds a via point to an edge
+	 */
 	private void addVia() {
 		if (this.graph.getSelectionCell() != null && ((mxCell)this.graph.getSelectionCell()).isEdge()) {
 			mxCell edge = (mxCell)this.graph.getSelectionCell();
@@ -564,6 +586,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		}
 	}
 
+	/**
+	 * Removes a via point from an edge
+	 */
 	private void removeVia() {
 		if (this.graph.getSelectionCell() != null && ((mxCell)this.graph.getSelectionCell()).isEdge()) {
 			mxCell edge = (mxCell)this.graph.getSelectionCell();
@@ -836,6 +861,10 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		this.hideLeftSplitPane(!editable);
 	}
 
+	/**
+	 * Hides the toolbar
+	 * @param hide true / false
+	 */
 	public void hideLeftSplitPane(boolean hide) {
 		if (hide) {
 			this.jSplitPaneHorizontal.setDividerLocation(0);
