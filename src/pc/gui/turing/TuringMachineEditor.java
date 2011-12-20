@@ -954,6 +954,10 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		this.updateUndoRedoMenu();
 	}
 
+	/**
+	 * Initializes the styles
+	 * @param stylesheet 
+	 */
 	public void initStyles(mxStylesheet stylesheet) {
 		Hashtable<String, Object> styleCircle = new Hashtable<String, Object>();
 		Hashtable<String, Object> styleStart = new Hashtable<String, Object>();
