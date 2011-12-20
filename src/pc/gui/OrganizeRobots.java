@@ -261,6 +261,9 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == saveButton) {
+			if (this.table.isEditing()) {
+				table.getCellEditor().stopCellEditing();
+			}
 			saveRobotsToXML(data);
 			this.setVisible(false);
 			dispose();
