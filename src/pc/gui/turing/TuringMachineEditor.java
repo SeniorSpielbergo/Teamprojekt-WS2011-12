@@ -601,15 +601,15 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				lastPoint = new Point((int)points.get(points.size()-1).getX(), (int)points.get(points.size()-1).getY());
 			}
 			else {
-				lastPoint = new Point((int)edge.getSource().getGeometry().getX(), (int)edge.getSource().getGeometry().getY());
+				lastPoint = new Point((int)edge.getSource().getGeometry().getCenterX(), (int)edge.getSource().getGeometry().getCenterY());
 			}
 			System.out.println("Last point: " + lastPoint.getX() + "," + lastPoint.getY());
-			System.out.println("Target point: " + edge.getTarget().getGeometry().getX() + "," + edge.getTarget().getGeometry().getY());
+			System.out.println("Target point: " + edge.getTarget().getGeometry().getCenterX() + "," + edge.getTarget().getGeometry().getCenterY());
 
 			int x = (int)lastPoint.getX();
-			x += ((edge.getTarget().getGeometry().getX() - lastPoint.getX())/2);
+			x += ((edge.getTarget().getGeometry().getCenterX() - lastPoint.getX())/2);
 			int y = (int)lastPoint.getY();
-			y += ((edge.getTarget().getGeometry().getY() - lastPoint.getY())/2);
+			y += ((edge.getTarget().getGeometry().getCenterY() - lastPoint.getY())/2);
 			System.out.println("Mid point: " + x + "," + y);
 
 			points.add(new mxPoint(x,y));
