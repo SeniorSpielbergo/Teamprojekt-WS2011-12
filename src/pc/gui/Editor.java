@@ -41,7 +41,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener{
 	 */
 	protected Machine currentMachine;
 	private File currentFile = null;
-	private String lastDir = "";
+	private String lastDir = ".";
 	private JMenu newSubmenu;
 	private JMenuItem newBFAction;
 	private JMenuItem newTMAction;

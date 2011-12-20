@@ -293,20 +293,16 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				else if(cell.isVertex()){
 					if(cell.getValue() instanceof State) {
 						displayProperties((State) cell.getValue(), graph.getView().getState(cell));
-						addUndoableEdit("State selected: " + ((State)cell.getValue()).getName());
 					}
 					else if(cell.getValue() instanceof Textbox) {
 						displayProperties((Textbox) cell.getValue());
-						addUndoableEdit("Textbox selected");
 					}
 					else if(cell.getValue() instanceof Frame) {
 						displayProperties();
-						addUndoableEdit("Frame selected");
 					}
 				} 
 				else if (cell.isEdge()) {
 					displayProperties((Edge) cell.getValue());
-					addUndoableEdit("Edge selected");
 				}
 			}
 		});
