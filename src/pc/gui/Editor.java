@@ -21,8 +21,9 @@ import java.io.*;
  * @author Vanessa Baier, Nils Breyer, Sven Schuster, Philipp Neumann, David Wille
  * 
  */
-@SuppressWarnings("serial")
-public class Editor extends JFrame implements ActionListener, ItemListener{
+
+public class Editor extends JFrame implements ActionListener, ItemListener {
+	private static final long serialVersionUID = -2288629542566838685L;
 	/**
 	 * The name of the application.
 	 */
