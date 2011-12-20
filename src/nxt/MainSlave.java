@@ -37,11 +37,7 @@ public class MainSlave {
 		}
 	}
 	
-	/**
-	 * Establishes connection to the controlling PC and waits for commands.
-	 * @param args
-	 */
-	public static void main(String[] args) {
+	public void run() {
 		Common.playTune("HAHA",200);
 		TouchSensor ts1 = new TouchSensor(SensorPort.S4);
 		// initialize speeds
@@ -91,9 +87,7 @@ public class MainSlave {
 			LCD.clearDisplay();
 			switch (ch) {
 				case 'q':
-					connection.close();
-					System.exit(0);
-					break;
+					return;
 				case 't':
 					LCD.drawString("Pushing...", 0, 0);
 					Motor.B.rotate(Common.PUSH_ANGLE_SLAVE);
@@ -135,5 +129,15 @@ public class MainSlave {
 					break;
 			}
 		}
+	}
+	
+	
+	/**
+	 * Establishes connection to the controlling PC and waits for commands.
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		MainMaster master = new MainMaster();
+		master.run();
 	}
 }
