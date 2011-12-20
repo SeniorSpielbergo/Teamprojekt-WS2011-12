@@ -204,16 +204,40 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 					mxCell cell = (mxCell) cellObj;
 					if (cell.getValue() == null) {
 						if (cell.getStyle().equals("CIRCLE")) {
-							System.out.println("drop"); //TODO: add state to data model
-
+							State state = new State(UUID.randomUUID().toString(), "New...", false, false);
+							state.setXcoord((int)cell.getGeometry().getX());
+							state.setYcoord((int)cell.getGeometry().getY());
+							state.setWidth(WIDTH);
+							state.setHeight(HEIGHT);
+							cell.setValue(state);
+							machine.getStates().add(state);
+							graphicalStates.add(cell);
+							graph.refresh();
+							toolBox.setClicked(null);
+							graph.setSelectionCell(graphicalStates.get(graphicalStates.size()-1));
+							addUndoableEdit("State inserted");
 						}
 						if (cell.getStyle().equals("FRAME")) {
-							System.out.println("drop"); //TODO: add frame to data model
-
+							Frame frame = new Frame((int)cell.getGeometry().getX(), (int)cell.getGeometry().getY(), WIDTH, HEIGHT);
+							machine.getFrames().add(frame);
+							cell.setValue(frame);
+							cell.setConnectable(false);
+							graphicalFrames.add(cell);
+							graph.refresh();
+							toolBox.setClicked(null);
+							graph.setSelectionCell(graphicalFrames.get(graphicalFrames.size()-1));
+							addUndoableEdit("Frame inserted");
 						}
 						if (cell.getStyle().equals("TEXTBOX")) {
-							System.out.println("drop"); //TODO: add text to data model
-
+							Textbox textbox = new Textbox("", (int)cell.getGeometry().getX(), (int)cell.getGeometry().getY(), WIDTH, HEIGHT);
+							machine.getTextboxes().add(textbox);
+							cell.setValue(textbox);
+							cell.setConnectable(false);
+							graphicalTextboxes.add(cell);
+							graph.refresh();
+							toolBox.setClicked(null);
+							graph.setSelectionCell(graphicalTextboxes.get(graphicalTextboxes.size()-1));
+							addUndoableEdit("Textbox inserted");
 						}
 					}
 				}
@@ -520,8 +544,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				graphicalTextboxes.add(i,mxFrame);
 			}
 		} finally {
-			if(!initialized)
-				this.addUndoableEdit("Machine loaded");
+			this.updateUndoRedoMenu();
 			graph.getModel().endUpdate();
 			graph.refresh();
 		}
@@ -630,40 +653,22 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			graph.getModel().beginUpdate();
 			try	{
 				if (toolBox.getClicked().equals("State")) {
-					State state = new State(UUID.randomUUID().toString(), "New...", false, false);
-					state.setXcoord(x);
-					state.setYcoord(y);
-					state.setWidth(this.WIDTH);
-					state.setHeight(this.HEIGHT);
-					this.machine.getStates().add(state);
-					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, state, 
+					graphicalStates.add((mxCell) graph.insertVertex(graph.getDefaultParent(), null, null, 
 							xGrid * GRID_SIZE, yGrid * GRID_SIZE, WIDTH, HEIGHT, "CIRCLE"));
 					this.graph.refresh();
 					toolBox.setClicked(null);
-					this.graph.setSelectionCell(graphicalStates.get(graphicalStates.size()-1));
-					this.addUndoableEdit("State inserted");
 				}
 				else if (toolBox.getClicked().equals("Frame")) {
-					Frame frame = new Frame(x, y, this.WIDTH, this.HEIGHT);
-					this.machine.getFrames().add(frame);
-					mxCell mxFrame = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, frame, x, y, WIDTH, HEIGHT, "FRAME");
-					mxFrame.setConnectable(false);
+					mxCell mxFrame = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, null, x, y, WIDTH, HEIGHT, "FRAME");
 					graphicalFrames.add(mxFrame);
 					this.graph.refresh();
 					toolBox.setClicked(null);
-					this.graph.setSelectionCell(graphicalFrames.get(graphicalFrames.size()-1));
-					this.addUndoableEdit("Frame inserted");
 				}
 				else if (toolBox.getClicked().equals("Text")) {
-					Textbox textbox = new Textbox("", x, y, this.WIDTH, this.HEIGHT);
-					this.machine.getTextboxes().add(textbox);
-					mxCell mxTextbox = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, textbox, x, y, WIDTH, HEIGHT, "TEXTBOX");
-					mxTextbox.setConnectable(false);
+					mxCell mxTextbox = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, null, x, y, WIDTH, HEIGHT, "TEXTBOX");
 					graphicalTextboxes.add(mxTextbox);
 					this.graph.refresh();
 					toolBox.setClicked(null);
-					this.graph.setSelectionCell(graphicalTextboxes.get(graphicalTextboxes.size()-1));
-					this.addUndoableEdit("Textbox inserted");
 				}
 			} finally {
 				graph.getModel().endUpdate();
@@ -924,7 +929,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			this.redoAction.setEnabled(true);
 		}
 		else {
-			this.redoAction.setText("Undo");
+			this.redoAction.setText("Redo");
 			this.redoAction.setEnabled(false);
 		}
 	}

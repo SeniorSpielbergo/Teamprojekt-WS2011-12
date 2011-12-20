@@ -30,7 +30,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener{
 	/**
 	 * The version of the application.
 	 */
-	public static final String APP_VERSION = "0.8.0";
+	public static final String APP_VERSION = "0.8.1";
 	/**
 	 * The version of the application.
 	 */
