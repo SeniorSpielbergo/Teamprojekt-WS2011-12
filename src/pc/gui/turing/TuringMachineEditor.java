@@ -140,7 +140,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		this.graph.setCellsEditable(false);
 		this.graph.setAllowNegativeCoordinates(true);
 		this.graph.setSplitEnabled(false);
-		//		this.graph.setDefaultLoopStyle(null);
 
 		this.graph.addListener(mxEvent.CELLS_ADDED, new mxIEventListener() {
 			@Override
