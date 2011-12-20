@@ -910,7 +910,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		return this.currentStateIndex < this.turingMachineStates.size()-1;
 	}
 	
-	public void updateUndoRedoButtons() {
+	public void updateUndoRedoMenu() {
 		if (canUndo()) {
 			this.undoAction.setText("Undo " + this.turingMachineStates.get(this.currentStateIndex-1).getName());
 			this.undoAction.setEnabled(true);
@@ -940,7 +940,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			System.out.println(turingMachineStates.size());
 			System.out.println(turingMachineStates);
 		}
-		this.updateUndoRedoButtons();
+		this.updateUndoRedoMenu();
 	}
 
 	public void undo() {
@@ -965,7 +965,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			System.out.println(turingMachineStates);
 			System.out.println("undoing done");
 		}
-		this.updateUndoRedoButtons();
+		this.updateUndoRedoMenu();
 	}
 
 	public void redo() {
@@ -975,7 +975,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			this.machine = this.turingMachineStates.get(this.currentStateIndex).getMachine();
 			this.drawGraph();
 		}
-		this.updateUndoRedoButtons();
+		this.updateUndoRedoMenu();
 	}
 
 	public void initStyles(mxStylesheet stylesheet) {
