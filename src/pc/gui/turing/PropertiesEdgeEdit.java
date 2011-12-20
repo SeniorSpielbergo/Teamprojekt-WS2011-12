@@ -16,6 +16,12 @@ import javax.swing.event.TableModelListener;
 
 import machine.turing.*;
 
+/**
+ * This class implements the transition edit dialog
+ * @author David Wille
+ *
+ */
+
 public class PropertiesEdgeEdit extends JDialog implements ActionListener, TableModelListener, ListSelectionListener {
 	
 	static final long serialVersionUID = -3667258249137827980L;

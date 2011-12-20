@@ -7,9 +7,8 @@ import machine.turing.State;
 import com.mxgraph.model.mxCell;
 
 	/**
-	 * 
-	 * @author Philipp
-	 * Nested class to extend ArrayList<mxCell> to find mxCells with specified State Object
+	 * This class extends ArrayList<mxCell> to find mxCells with a specified State Object
+	 * @author Philipp Neumann
 	 */
 	class StateList extends ArrayList<mxCell>{
 		private static final long serialVersionUID = 4590100471318084729L;

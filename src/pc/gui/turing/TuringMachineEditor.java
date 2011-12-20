@@ -53,6 +53,12 @@ import com.mxgraph.util.mxPoint;
 
 import gui.MachineEditor;
 
+/**
+ * This class implements the TuringMachineEditor
+ * @author Nils Breyer, Nessa Baier, Philipp Neumann, Sven Schuster, David Wille
+ *
+ */
+
 public class TuringMachineEditor extends MachineEditor 
 implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 
@@ -952,7 +958,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 
 	/**
 	 * Initializes the styles
-	 * @param stylesheet 
+	 * @param stylesheet Stylesheet that should be edited
 	 */
 	public void initStyles(mxStylesheet stylesheet) {
 		Hashtable<String, Object> styleCircle = new Hashtable<String, Object>();

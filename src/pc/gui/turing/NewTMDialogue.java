@@ -15,7 +15,6 @@ import java.awt.event.*;
 public class NewTMDialogue extends JDialog implements ActionListener{
 	/**
 	 * Enum for the buttonevents.
-	 * @author Nessa Baier
 	 *
 	 */
 	public enum ReturnValue {
@@ -101,9 +100,7 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 	}
 
 
-	/**
-	 * Handles the buttonevents.
-	 */
+	@Override
 	public void actionPerformed(ActionEvent e){
 		if (e.getSource().equals(buttonCancel)){
 			returnValue = ReturnValue.CANCEL;
@@ -122,7 +119,7 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 	
 	/**
 	 * Returns the typed name for the new machine.
-	 * @return name
+	 * @return name Name of the machine
 	 */
 	public String getMachinesName(){
 		return fieldName.getText();
@@ -130,7 +127,7 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 	
 	/**
 	 * Returns the chosen number of tapes.
-	 * @return numberOfTapes
+	 * @return numberOfTapes Number of tapes
 	 */
 	public Integer getNumberOfTapes(){
 		return (Integer)numberOfTapes.getValue();
@@ -138,7 +135,7 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 	
 	/**
 	 * Returns which button was pressed, cancel or create.
-	 * @return returnValue
+	 * @return returnValue Returns the user decision (cancel / create)
 	 */
 	public ReturnValue showDialogue(){
 		this.setVisible(true);

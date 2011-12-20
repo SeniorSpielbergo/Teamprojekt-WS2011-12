@@ -19,6 +19,12 @@ import com.mxgraph.swing.util.mxGraphTransferable;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxRectangle;
 
+/**
+ * This class implements the palette
+ * @author Sven Schuster, David Wille
+ *
+ */
+
 public class Palette extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 2826433120960614428L;
@@ -52,6 +58,13 @@ public class Palette extends JPanel implements MouseListener {
 		}
 	}
 	
+	/**
+	 * Adds a label to the palette
+	 * @param name Name for the palette
+	 * @param icon Icon for the palette
+	 * @param cell Cell that should be displayed
+	 * @return Label to be added
+	 */
 	public JLabel addIcon(String name, String icon, mxCell cell) {
 		JLabel label = new JLabel(name, new ImageIcon(icon), JLabel.LEFT);
 		label.setName(name);
@@ -63,7 +76,8 @@ public class Palette extends JPanel implements MouseListener {
 		DragGestureListener dragGestureListener = new DragGestureListener()
 		{
 			/**
-			 * 
+			 * Recognizes DragGestureEvents
+			 * @param e DragGestureEvent
 			 */
 			public void dragGestureRecognized(DragGestureEvent e)
 			{
