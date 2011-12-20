@@ -282,6 +282,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				sim.start();
 				this.buttonPlay.setEnabled(false);
 				sim.pause();
+				this.buttonPlay.setEnabled(true);
 			}
 
 			catch (RuntimeException e){
