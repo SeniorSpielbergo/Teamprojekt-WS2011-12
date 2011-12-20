@@ -233,4 +233,9 @@ public class ConsoleTape extends Tape {
 		return text;
 	}
 	
+	
+	@Override
+	public Object clone() {
+		return this;
+	}
 }

@@ -302,5 +302,8 @@ public class GraphicTape extends Tape {
 
 	}
 
-
+	@Override
+	public Object clone() {
+		return this;
+	}
 }

@@ -70,7 +70,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	private EdgeList graphicalEdges = null;
 	private StateList graphicalFrames = null;
 	protected ArrayList<TuringMachineState> turingMachineStates = null;
-	protected int currentStateIndex = 0;
+	protected int currentStateIndex = -1;
 	protected boolean undoing = false; 
 
 	protected JPanel jPanelLeft = null;
@@ -485,6 +485,8 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				graphicalTextboxes.add(i,mxFrame);
 			}
 		} finally {
+			if(!initialized)
+				this.addUndoableEdit("Machine loaded");
 			this.updateUndoRedoMenu();
 			graph.getModel().endUpdate();
 			graph.refresh();
@@ -860,7 +862,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	
 	public void updateUndoRedoMenu() {
 		if (canUndo()) {
-			this.undoAction.setText("Undo " + this.turingMachineStates.get(this.currentStateIndex-1).getName());
+			this.undoAction.setText("Undo " + this.turingMachineStates.get(this.currentStateIndex).getName());
 			this.undoAction.setEnabled(true);
 		}
 		else {
@@ -880,7 +882,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	public void addUndoableEdit(String name) {
 		if(!undoing) {
 			System.out.println(name);
-			while(turingMachineStates.size()-1 >= this.currentStateIndex)
+			while(turingMachineStates.size()-1 > this.currentStateIndex)
 				turingMachineStates.remove(turingMachineStates.size()-1);
 			turingMachineStates.add(new TuringMachineState(name, (TuringMachine) machine.clone()));
 			this.currentStateIndex++;
@@ -894,34 +896,29 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	public void undo() {
 		if(canUndo()) {
 			this.undoing = true;
-			System.out.println("undoing");
 			graph.selectAll();
 			graph.removeCells(graph.getSelectionCells());
-			this.graphicalEdges.clear();
-			this.graphicalStates.clear();
-			this.graphicalFrames.clear();
-			this.graphicalTextboxes.clear();
 			this.currentStateIndex--;
-			this.machine = null;
-			this.machine = this.turingMachineStates.get(this.currentStateIndex-1).getMachine();
-			graph.refresh();
+			this.machine = this.turingMachineStates.get(this.currentStateIndex).getMachine();
 			this.drawGraph();
 			graph.refresh();
 			graph.repaint();
-			this.undoing = false;
 			System.out.println(this.currentStateIndex);
 			System.out.println(turingMachineStates);
-			System.out.println("undoing done");
+			this.undoing = false;
 		}
 		this.updateUndoRedoMenu();
 	}
 
 	public void redo() {
 		if(canRedo()) {
-			graph.removeCells();
+			this.undoing = true;
+			graph.selectAll();
+			graph.removeCells(graph.getSelectionCells());
 			this.currentStateIndex++;
 			this.machine = this.turingMachineStates.get(this.currentStateIndex).getMachine();
 			this.drawGraph();
+			this.undoing = false;
 		}
 		this.updateUndoRedoMenu();
 	}

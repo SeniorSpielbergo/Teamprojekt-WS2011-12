@@ -291,4 +291,9 @@ public class LEGOTape extends Tape {
 		}
 		return text;
 	}
+	
+	@Override
+	public Object clone() {
+		return this;
+	}
 }
