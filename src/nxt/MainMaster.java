@@ -28,6 +28,12 @@ public class MainMaster {
 	static ColorSensor counterSensor;
 	static DataInputStream in;
 	static DataOutputStream out;
+	
+	ColorSensor cs1 = null;
+	ColorSensor cs2 = null;
+	TouchSensor ts1 = null;
+	
+	Line line = null;
 
 	// Pushes one bit with given motor 
 	private static void pushBit(int bit, int newBit, Motor motor) {
@@ -37,22 +43,18 @@ public class MainMaster {
 		}
 	}
 	
-	/**
-	 * Establishes connection to the controlling PC and waits for commands.
-	 * @param args
-	 */
-	public static void main(String[] args) {
+	public void run() {
 		Common.playTune("HAHA",200);
 		String sensor1, sensor2, sensor3, counterString;
-		ColorSensor cs1 = new ColorSensor(SensorPort.S1);
-		ColorSensor cs2 = new ColorSensor(SensorPort.S2);
-		TouchSensor ts1 = new TouchSensor(SensorPort.S4);
+		this.cs1 = new ColorSensor(SensorPort.S1);
+		this.cs2 = new ColorSensor(SensorPort.S2);
+		this.ts1 = new TouchSensor(SensorPort.S4);
 		// initialize speeds
 		Motor.A.setSpeed(Common.LINE_SPEED);
 		Motor.B.setSpeed(Common.PUSH_SPEED);
 		Motor.C.setSpeed(Common.PUSH_SPEED);
 		
-		Line line = new Line(8); // laenge uebergeben
+		line = new Line(8); // laenge uebergeben
 		line.start();
 		//initialize counter
 		counterSensor = line.getCounterSensor();
@@ -219,5 +221,14 @@ public class MainMaster {
 					break;
 			}
 		}
+	}
+	
+	/**
+	 * Establishes connection to the controlling PC and waits for commands.
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		MainMaster master = new MainMaster();
+		master.run();
 	}
 }
