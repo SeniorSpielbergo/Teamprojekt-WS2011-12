@@ -549,6 +549,10 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		if (this.graph.getSelectionCell() != null && ((mxCell)this.graph.getSelectionCell()).isEdge()) {
 			mxCell edge = (mxCell)this.graph.getSelectionCell();
 			List<mxPoint> points = edge.getGeometry().getPoints();
+			if (points == null) {
+				points = new ArrayList<mxPoint>();
+				edge.getGeometry().setPoints(points);
+			}
 
 			Point lastPoint;
 			if (points.size() > 0) {
@@ -585,6 +589,10 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		if (this.graph.getSelectionCell() != null && ((mxCell)this.graph.getSelectionCell()).isEdge()) {
 			mxCell edge = (mxCell)this.graph.getSelectionCell();
 			List<mxPoint> points = edge.getGeometry().getPoints();
+			if (points == null) {
+				points = new ArrayList<mxPoint>();
+				edge.getGeometry().setPoints(points);
+			}
 
 			if (points.size() > 0) {
 				points.remove(points.size()-1);
