@@ -674,26 +674,28 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				graph.getModel().endUpdate();
 			}
 		}
+		else {
+			mxCell cell = (mxCell) graph.getSelectionCell();
+			// set cells unresizable if state selected
+			if (cell != null && cell.getValue() instanceof State) {
+				this.graph.setCellsResizable(false);
+				this.graph.refresh();
+				this.graph.repaint();
+				this.graph.clearSelection();
+				this.graph.setSelectionCell(cell);
+			}
+			else {
+				this.graph.setCellsResizable(true);
+				this.graph.refresh();
+				this.graph.repaint();
+				this.graph.clearSelection();
+				this.graph.setSelectionCell(cell);
+			}
+		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		mxCell cell = (mxCell) graph.getSelectionCell();
-		// set cells unresizable if state selected
-		if (cell != null && cell.getValue() instanceof State) {
-			this.graph.setCellsResizable(false);
-			this.graph.refresh();
-			this.graph.repaint();
-			this.graph.clearSelection();
-			this.graph.setSelectionCell(cell);
-		}
-		else {
-			this.graph.setCellsResizable(true);
-			this.graph.refresh();
-			this.graph.repaint();
-			this.graph.clearSelection();
-			this.graph.setSelectionCell(cell);
-		}
 	}
 
 	@Override
@@ -936,14 +938,14 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 
 	public void addUndoableEdit(String name) {
 		if(!undoing) {
-			System.out.println(name);
+//			System.out.println(name);
 			while(turingMachineStates.size()-1 >= this.currentStateIndex)
 				turingMachineStates.remove(turingMachineStates.size()-1);
 			turingMachineStates.add(new TuringMachineState(name, (TuringMachine) machine.clone()));
 			this.currentStateIndex++;
-			System.out.println(currentStateIndex);
-			System.out.println(turingMachineStates.size());
-			System.out.println(turingMachineStates);
+//			System.out.println(currentStateIndex);
+//			System.out.println(turingMachineStates.size());
+//			System.out.println(turingMachineStates);
 		}
 		this.updateUndoRedoMenu();
 	}
@@ -951,7 +953,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	public void undo() {
 		if(canUndo()) {
 			this.undoing = true;
-			System.out.println("undoing");
+//			System.out.println("undoing");
 			graph.selectAll();
 			graph.removeCells(graph.getSelectionCells());
 			this.graphicalEdges.clear();
@@ -966,9 +968,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			graph.refresh();
 			graph.repaint();
 			this.undoing = false;
-			System.out.println(this.currentStateIndex);
-			System.out.println(turingMachineStates);
-			System.out.println("undoing done");
+//			System.out.println(this.currentStateIndex);
+//			System.out.println(turingMachineStates);
+//			System.out.println("undoing done");
 		}
 		this.updateUndoRedoMenu();
 	}
