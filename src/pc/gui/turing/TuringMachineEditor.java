@@ -95,61 +95,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 
 	private boolean gridEnabled = true;
 
-	/**
-	 * 
-	 * @author Philipp
-	 * Nested class to extend ArrayList<mxCell> to find mxCells with specified State Object
-	 */
-	class StateList extends ArrayList<mxCell>{
-		private static final long serialVersionUID = 4590100471318084729L;
-		/**
-		 * Constructs a new StateList
-		 */
-		public StateList(){
-			super();
-		}
-
-		/**
-		 * Constructs a new StateList with a given size
-		 * @param size The size
-		 */
-		public StateList(int size){
-			super(size);
-		}
-		/**
-		 * Method to find mxCell with specified value of type State
-		 * @param state
-		 * @return mxCell
-		 */
-		mxCell getMxCell(State state){							
-			for (int i = 0; i < this.size(); i++) {
-				if(this.get(i).getValue().equals((Object) state)){
-					return this.get(i);
-				}
-			}
-			return null;
-		}
-	}
-
-	class EdgeList extends ArrayList<mxCell>{
-		private static final long serialVersionUID = -6540044275767431408L;
-		public EdgeList() {
-			super();
-		}
-		public EdgeList(int size) {
-			super(size);
-		}
-
-		mxCell getMxCell(State source, State target) {
-			for (int i = 0; i < this.size(); i++) {
-				if((this.get(i).getSource().getValue().equals((Object) source)) && (this.get(i).getTarget().getValue().equals((Object) target))){
-					return this.get(i);
-				}
-			}
-			return null;
-		}
-
-	}
 	public TuringMachineEditor(final TuringMachine machine) {
 		super();
 		this.machine = machine;
@@ -195,7 +140,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		this.graph.setCellsEditable(false);
 		this.graph.setAllowNegativeCoordinates(true);
 		this.graph.setSplitEnabled(false);
-		//		this.graph.setDefaultLoopStyle(null);
 
 		this.graph.addListener(mxEvent.CELLS_ADDED, new mxIEventListener() {
 			@Override
@@ -293,20 +237,16 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				else if(cell.isVertex()){
 					if(cell.getValue() instanceof State) {
 						displayProperties((State) cell.getValue(), graph.getView().getState(cell));
-						addUndoableEdit("State selected: " + ((State)cell.getValue()).getName());
 					}
 					else if(cell.getValue() instanceof Textbox) {
 						displayProperties((Textbox) cell.getValue());
-						addUndoableEdit("Textbox selected");
 					}
 					else if(cell.getValue() instanceof Frame) {
 						displayProperties();
-						addUndoableEdit("Frame selected");
 					}
 				} 
 				else if (cell.isEdge()) {
 					displayProperties((Edge) cell.getValue());
-					addUndoableEdit("Edge selected");
 				}
 			}
 		});
@@ -674,26 +614,28 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				graph.getModel().endUpdate();
 			}
 		}
+		else {
+			mxCell cell = (mxCell) graph.getSelectionCell();
+			// set cells unresizable if state selected
+			if (cell != null && cell.getValue() instanceof State) {
+				this.graph.setCellsResizable(false);
+				this.graph.refresh();
+				this.graph.repaint();
+				this.graph.clearSelection();
+				this.graph.setSelectionCell(cell);
+			}
+			else {
+				this.graph.setCellsResizable(true);
+				this.graph.refresh();
+				this.graph.repaint();
+				this.graph.clearSelection();
+				this.graph.setSelectionCell(cell);
+			}
+		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		mxCell cell = (mxCell) graph.getSelectionCell();
-		// set cells unresizable if state selected
-		if (cell != null && cell.getValue() instanceof State) {
-			this.graph.setCellsResizable(false);
-			this.graph.refresh();
-			this.graph.repaint();
-			this.graph.clearSelection();
-			this.graph.setSelectionCell(cell);
-		}
-		else {
-			this.graph.setCellsResizable(true);
-			this.graph.refresh();
-			this.graph.repaint();
-			this.graph.clearSelection();
-			this.graph.setSelectionCell(cell);
-		}
 	}
 
 	@Override
