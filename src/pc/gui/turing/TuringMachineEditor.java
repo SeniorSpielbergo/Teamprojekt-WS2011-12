@@ -909,6 +909,25 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	public boolean canRedo() {
 		return this.currentStateIndex < this.turingMachineStates.size()-1;
 	}
+	
+	public void updateUndoRedoButtons() {
+		if (canUndo()) {
+			this.undoAction.setText("Undo " + this.turingMachineStates.get(this.currentStateIndex-1).getName());
+			this.undoAction.setEnabled(true);
+		}
+		else {
+			this.undoAction.setText("Undo");
+			this.undoAction.setEnabled(false);
+		}
+		if (canRedo()) {
+			this.redoAction.setText("Redo " + this.turingMachineStates.get(this.currentStateIndex+1).getName());
+			this.redoAction.setEnabled(true);
+		}
+		else {
+			this.redoAction.setText("Undo");
+			this.redoAction.setEnabled(false);
+		}
+	}
 
 	public void addUndoableEdit(String name) {
 		if(!undoing) {
@@ -921,6 +940,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			System.out.println(turingMachineStates.size());
 			System.out.println(turingMachineStates);
 		}
+		this.updateUndoRedoButtons();
 	}
 
 	public void undo() {
@@ -945,6 +965,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			System.out.println(turingMachineStates);
 			System.out.println("undoing done");
 		}
+		this.updateUndoRedoButtons();
 	}
 
 	public void redo() {
@@ -954,6 +975,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			this.machine = this.turingMachineStates.get(this.currentStateIndex).getMachine();
 			this.drawGraph();
 		}
+		this.updateUndoRedoButtons();
 	}
 
 	public void initStyles(mxStylesheet stylesheet) {
