@@ -860,7 +860,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	
 	public void updateUndoRedoMenu() {
 		if (canUndo()) {
-			this.undoAction.setText("Undo " + this.turingMachineStates.get(this.currentStateIndex-1).getName());
+			this.undoAction.setText("Undo " + this.turingMachineStates.get(this.currentStateIndex).getName());
 			this.undoAction.setEnabled(true);
 		}
 		else {
