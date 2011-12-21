@@ -25,7 +25,6 @@ import java.io.*;
  */
 public class MainMaster {
 	static int counter = 0;
-	static ColorSensor counterSensor;
 	static DataInputStream in;
 	static DataOutputStream out;
 	
@@ -53,11 +52,6 @@ public class MainMaster {
 		Motor.A.setSpeed(Common.LINE_SPEED);
 		Motor.B.setSpeed(Common.PUSH_SPEED);
 		Motor.C.setSpeed(Common.PUSH_SPEED);
-		
-		line = new Line(8); // laenge uebergeben
-		line.start();
-		//initialize counter
-		counterSensor = line.getCounterSensor();
 				
 		// sensor listener for emergency stop
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
@@ -67,15 +61,18 @@ public class MainMaster {
 			}
 		});
 		
-		
 		while (true) {
+			LCD.drawString("Moving to begin...", 0, 0);
+			line = new Line(8); // laenge uebergeben
+			line.start();
 			// setup connection
+			LCD.clearDisplay();
 			LCD.drawString("Waiting...", 0, 0);
 			NXTConnection connection = Bluetooth.waitForConnection();           
 			LCD.clearDisplay();
 			LCD.drawString("Connecting...", 0, 0);
 			in = connection.openDataInputStream();
-			out = connection.openDataOutputStream();           
+			out = connection.openDataOutputStream();          
 			LCD.clearDisplay();
 			LCD.drawString("Connected", 0, 0);
 			
@@ -83,7 +80,9 @@ public class MainMaster {
 			this.serve(); 
 			
 			//close connection
+			LCD.clearDisplay();
 			LCD.drawString("Disconnecting...", 0, 0);
+			line = null;
 			connection.close();
 		}
 	}

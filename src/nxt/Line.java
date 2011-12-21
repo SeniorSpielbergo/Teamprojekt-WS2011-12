@@ -8,7 +8,10 @@ import lejos.util.TimerListener;
  *
  */
 public class Line extends Thread {
-	private final int TIMER_LENGTH = 800;
+	private static final int TIMER_LENGTH = 800;
+	private static final int LEFT_END_MARKER_COLOR = 2;
+	private static final int MARKER_COLOR_MIN = 3;
+	private static final int MARKER_COLOR_MAX = 10;
 	
 	private int counter = 0;
 	private int length = 0;
@@ -37,9 +40,9 @@ public class Line extends Thread {
 	
 	// Initializing the Line to the mostleft position.
 	private void initialize() {
-		if(counterSensor.getColorNumber() != 2)
+		if(counterSensor.getColorNumber() != Line.LEFT_END_MARKER_COLOR)
 			Motor.A.forward();
-		while(counterSensor.getColorNumber() != 2) {}
+		while(counterSensor.getColorNumber() != Line.LEFT_END_MARKER_COLOR) {}
 		Motor.A.stop();
 	}
 	
@@ -48,7 +51,7 @@ public class Line extends Thread {
 	 */
 	public void run() {
 		while(true) {
-			if ((counterSensor.getColorNumber() >= 5 && counterSensor.getColorNumber() <= 11) || counterSensor.getColorNumber() == 2 ){// <=12
+			if ((counterSensor.getColorNumber() >= Line.MARKER_COLOR_MIN && counterSensor.getColorNumber() <= Line.MARKER_COLOR_MAX) || counterSensor.getColorNumber() == Line.LEFT_END_MARKER_COLOR){
 				if (grey && !color) {
 					grey = false;
 					color = true;
@@ -66,7 +69,7 @@ public class Line extends Thread {
 					}
 				}
 			}
-			else if (counterSensor.getColorNumber() == 12) //3
+			else
 				grey = true;
 		}
 	}

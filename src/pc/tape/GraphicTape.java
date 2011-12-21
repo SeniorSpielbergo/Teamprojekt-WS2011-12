@@ -207,6 +207,8 @@ public class GraphicTape extends Tape {
 		for (int i = 0; i < this.inputWord.length(); i++) {
 			if(this.iWishToInterruptThisThread){
 				System.out.println("thread wird gestoppt");
+				super.setChanged();
+				super.notifyObservers(Event.INPUTABORTED);
 				break;
 			}
 

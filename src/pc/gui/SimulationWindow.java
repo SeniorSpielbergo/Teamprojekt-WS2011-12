@@ -197,7 +197,6 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			for (Tape t : this.graphicTapes){
 				System.out.println("thread wird interrupted");
 				t.setiWishToInterruptThisThread(true);
-
 			}
 		}
 		else if(this.sim.isSimulationAlreadyStarted()){ 
@@ -205,18 +204,18 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {}
+		}
+		
 
-
-			try{
-				System.out.println(" i shut down the tapes");
-				this.currentMachine.shutdownTapes();
-			}
-			catch (TapeException e) {
-				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
-				e.printStackTrace();
-				ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
-				return;
-			}
+		try{
+			System.out.println(" i shut down the tapes");
+			this.currentMachine.shutdownTapes();
+		}
+		catch (TapeException e) {
+			System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+			e.printStackTrace();
+			ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
+			return;
 		}
 		this.setVisible(false);
 	}

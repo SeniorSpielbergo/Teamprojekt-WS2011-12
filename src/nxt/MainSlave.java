@@ -56,6 +56,7 @@ public class MainSlave {
 
 		while (true) {
 			// setup connection
+			LCD.clearDisplay();
 			LCD.drawString("Waiting...", 0, 0);
 			NXTConnection connection = Bluetooth.waitForConnection();           
 			LCD.clearDisplay();
@@ -69,6 +70,7 @@ public class MainSlave {
 			this.serve(); 
 			
 			//close connection
+			LCD.clearDisplay();
 			LCD.drawString("Disconnecting...", 0, 0);
 			connection.close();
 		}
@@ -137,7 +139,7 @@ public class MainSlave {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		MainMaster master = new MainMaster();
-		master.run();
+		MainSlave slave = new MainSlave();
+		slave.run();
 	}
 }

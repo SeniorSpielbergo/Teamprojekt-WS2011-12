@@ -3,6 +3,8 @@ package tape;
 import java.io.*;
 import java.lang.String;
 
+import tape.Tape.Event;
+
 /** Represents a physical Turing machine tape and provides methods to interact with the tape
  * 
  * @author Nils Breyer
@@ -144,6 +146,13 @@ public class LEGOTape extends Tape {
 		}
 		//write input word to tape
 		for (int i = 0; i <= LEGOTape.MAX_POSITION; i++) {
+			if(this.iWishToInterruptThisThread){
+				System.out.println("thread wird gestoppt");
+				super.setChanged();
+				super.notifyObservers(Event.INPUTABORTED);
+				return false;
+			}
+
 			if (i < this.inputWord.length()) {
 				this.write(this.inputWord.charAt(i));
 			}
@@ -156,6 +165,12 @@ public class LEGOTape extends Tape {
 		}
 
 		for (int i = LEGOTape.MAX_POSITION; i > 0; i--) {
+			if(this.iWishToInterruptThisThread){
+				System.out.println("thread wird gestoppt");
+				super.setChanged();
+				super.notifyObservers(Event.INPUTABORTED);
+				return false;
+			}
 			this.moveLeft();
 		}
 		this.moveRight();

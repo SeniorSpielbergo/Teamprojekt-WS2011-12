@@ -183,8 +183,6 @@ public abstract class Tape extends Observable implements Runnable{
 				super.setChanged();
 				super.notifyObservers(Event.INPUTFINISHED);
 			}
-			
-			
 		}
 		catch(TapeException e){
 			ErrorDialog.showError("Writing the input word failed.", e);

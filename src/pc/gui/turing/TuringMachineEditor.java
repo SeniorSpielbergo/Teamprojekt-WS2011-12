@@ -153,6 +153,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 							state.setHeight(HEIGHT);
 							cell.setValue(state);
 							machine.getStates().add(state);
+							System.out.println("blubb:" + machine);
 							graph.refresh();
 							toolBox.setClicked(null);
 							graph.setSelectionCell(cell);
