@@ -461,8 +461,8 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			Object v2 = null;
 			for (int i = 0; i < edges.size(); i++){
 				currentEdge = edges.get(i);
-				v1 = this.getMxCell(currentEdge.getFrom());
-				v2 = this.getMxCell(currentEdge.getTo());
+				v1 = this.getStateCell(currentEdge.getFrom());
+				v2 = this.getStateCell(currentEdge.getTo());
 				mxCell edge = (mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2);
 				edge.getGeometry().setX(currentEdge.getPosLabel().getX());
 				edge.getGeometry().setY(currentEdge.getPosLabel().getY());
@@ -762,7 +762,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 					selectedState.setStyle("CIRCLE");
 				}
 			}
-			selectedState = this.getMxCell((State)obj);
+			selectedState = this.getStateCell(((State)obj));
 
 			if(inputWordWritten){
 				if (((State)obj).isFinalState() & ((State)obj).isStartState()) {
@@ -786,7 +786,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 					selectedEdge.setStyle("EDGE");
 				}
 			}
-			selectedEdge = this.getMxCell(((Edge)obj).getFrom(), ((Edge)obj).getTo());
+			selectedEdge = this.getEdgeCell(((Edge)obj).getFrom(), ((Edge)obj).getTo());
 			selectedEdge.setStyle("EDGE_SELECTED");
 		}
 		else if(obj instanceof Simulation.simulationState){
@@ -931,7 +931,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		this.updateUndoRedoMenu();
 	}
 	
-	mxCell getMxCell(State state){							
+	mxCell getStateCell(State state){							
 		for (Object cell : this.graph.getChildVertices(graph.getDefaultParent())) {
 			mxCell mxCell = (mxCell) cell;
 			if(mxCell.getValue().equals((Object) state)){
@@ -941,7 +941,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		return null;
 	}
 
-	mxCell getMxCell(State from, State to){							
+	mxCell getEdgeCell(State from, State to){							
 		for (Object cell : this.graph.getChildEdges(graph.getDefaultParent())) {
 			mxCell mxCell = (mxCell) cell;
 			if(mxCell.getSource().getValue() == from && mxCell.getTarget().getValue() == to){
