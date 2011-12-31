@@ -21,6 +21,7 @@ public class TuringSimulation extends Simulation{
 	/**
 	 * Specific states
 	 */
+	@SuppressWarnings("javadoc")
 	State currentState, startState, nextState;
 
 	/** 

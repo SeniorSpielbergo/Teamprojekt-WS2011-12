@@ -198,10 +198,6 @@ public abstract class Tape extends Observable implements Runnable{
 	public Thread getWriteInputWordThread() {
 		return writeInputWordThread;
 	}
-//
-//	public void setWriteInputWordThread(Thread writeInputWordThread) {
-//		this.writeInputWordThread = writeInputWordThread;
-//	}
 
 	/**
 	 * This method returns the tape type

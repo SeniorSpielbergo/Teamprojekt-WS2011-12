@@ -40,8 +40,15 @@ import tape.TapeException;
  * 
  */
 public class TuringMachine extends Machine{
+	/**
+	 * The supported file format version
+	 */
 	public static final int XML_VERSION = 3;
+	/**
+	 * The file extension for turing machine files
+	 */
 	public static final String FILE_EXTENSION = ".tm";
+	
 	/**
 	 * Contains all states of this machine
 	 */

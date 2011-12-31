@@ -105,7 +105,7 @@ public class Edge implements Serializable {
 	
 	/**
 	 * Sets the label x position
-	 * @param x
+	 * @param x The x position
 	 */
 	public void setPosLabelX(int x) {
 		this.posLabelX = x;
@@ -113,7 +113,7 @@ public class Edge implements Serializable {
 	
 	/**
 	 * Sets the label y position
-	 * @param y
+	 * @param y The y position
 	 */
 	public void setPosLabelY(int y) {
 		this.posLabelY = y;
