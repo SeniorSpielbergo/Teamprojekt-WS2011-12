@@ -116,7 +116,7 @@ public class State implements Serializable {
 	}
 	/**
 	 * Sets the finalstate
-	 * @param true true if state is finalState 
+	 * @param finalState true if state is finalState 
 	 */
 	public void setFinalState(boolean finalState) {
 		this.finalState = finalState;

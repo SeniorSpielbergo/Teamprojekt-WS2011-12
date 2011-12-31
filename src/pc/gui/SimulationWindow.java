@@ -59,7 +59,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 	/**
 	 * Creates a new window for the simulation.
-	 * @param machine
+	 * @param machine The machine to simulate
 	 */
 	public SimulationWindow(Machine machine){
 		this.simulationPaused = true;
