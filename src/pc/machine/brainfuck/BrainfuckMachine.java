@@ -56,7 +56,7 @@ public class BrainfuckMachine extends Machine {
 
 	/**
 	 * Loads brainfuck code out of given filename.
-	 * @param filename Filename to load code from.
+	 * @param fileName Filename to load code from.
 	 * @throws FileNotFoundException If the file does not exist.
 	 * @throws IOException If file could not be read.
 	 */

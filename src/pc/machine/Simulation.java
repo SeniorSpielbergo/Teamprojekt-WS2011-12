@@ -46,7 +46,7 @@ public abstract class Simulation extends Observable implements Runnable{
 	}
 
 	/**
-	 * @param abortSimulation the abortSimulation to set
+	 * Starts aborting the abortSimulation
 	 */
 	public void setAbortSimulation() {
 		this.abortSimulation = true;
