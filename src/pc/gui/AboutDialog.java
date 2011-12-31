@@ -17,18 +17,26 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+/**
+ * A simple about dialog showing information about the program
+ * @author nils
+ *
+ */
 public class AboutDialog extends JDialog {
 	private static final long serialVersionUID = 3500094512119662325L;
-	JLabel jLabelIcon =  null;
-	JPanel jPanelDetails = null;
-	JLabel jLabelAppName = null;
-	JPanel jPanelAppName = null;
-	JLabel jLabelVersion = null;
-	JPanel jPanelVersion = null;
-	JTextPane jTextPaneText = null;
-	JPanel jPanelText = null;
+	private JLabel jLabelIcon =  null;
+	private JPanel jPanelDetails = null;
+	private JLabel jLabelAppName = null;
+	private JPanel jPanelAppName = null;
+	private JLabel jLabelVersion = null;
+	private JPanel jPanelVersion = null;
+	private JTextPane jTextPaneText = null;
+	private JPanel jPanelText = null;
 
 
+	/**
+	 * Constructs a new about dialog
+	 */
 	public AboutDialog() {
 		super();
 		
