@@ -34,11 +34,16 @@ public class GraphicTapeCanvas extends Canvas {
 	}
 	
 	public void move(int old_position) {
-		for (int i = 0; i < 50; i++) {
-			animation_offset = i;
+		for (int i = 0; i < (Math.abs(this.tape.position - old_position))*28; i++) {
+			if (this.tape.position > old_position) {
+				animation_offset++;
+			}
+			else {
+				animation_offset--;
+			}
 			repaint();
 			try {
-				Thread.sleep(50);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
