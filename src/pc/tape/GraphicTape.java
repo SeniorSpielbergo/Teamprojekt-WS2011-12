@@ -153,6 +153,7 @@ public class GraphicTape extends Tape {
 
 		position--;
 		this.printTape();
+		this.canvas.move(position + 1);
 		if(this.isDelayEnabled()){
 			try{
 				Thread.sleep(500);
@@ -172,6 +173,8 @@ public class GraphicTape extends Tape {
 		
 		position++;
 		this.printTape();
+		this.canvas.move(position - 1);
+
 		if(this.isDelayEnabled()){
 			try{
 				Thread.sleep(500);

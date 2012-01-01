@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 public class GraphicTapeCanvas extends Canvas {
 	private Tape tape;
+	private int animation_offset = 0;
 
 	public GraphicTapeCanvas(GraphicTape tape) {
 		super();
@@ -29,7 +30,20 @@ public class GraphicTapeCanvas extends Canvas {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		g.drawImage(img, 0, 0, null);
+		g.drawImage(img, animation_offset, 0, null);
+	}
+	
+	public void move(int old_position) {
+		for (int i = 0; i < 50; i++) {
+			animation_offset = i;
+			repaint();
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 
