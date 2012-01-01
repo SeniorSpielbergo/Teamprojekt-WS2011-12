@@ -275,12 +275,7 @@ public class GraphicTape extends Tape {
 		//print memory
 		text += "|";
 		for (int i=offset; i<=offset+length; i++) {
-			if (this.memory.get(i) != null) {
-				text += this.memory.get(i);
-			}
-			else {
-				text += "#";
-			}
+			text += this.get(i);
 			text += "|";
 		}
 		text += "\n";
@@ -303,6 +298,15 @@ public class GraphicTape extends Tape {
 
 		return text;
 
+	}
+	
+	public char get(int position) {
+		if (this.memory.get(position) != null) {
+			return this.memory.get(position);
+		}
+		else {
+			return '#';
+		}
 	}
 
 	@Override

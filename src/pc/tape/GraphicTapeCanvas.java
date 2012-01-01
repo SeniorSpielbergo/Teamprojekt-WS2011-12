@@ -2,6 +2,7 @@ package tape;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,36 +11,54 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class GraphicTapeCanvas extends Canvas {
-	private Tape tape;
-	private int animation_offset = 0;
+	private GraphicTape tape;
+	private int animationOffset = 0;
+	private BufferedImage fieldImage = null;
+	private int fieldWidth = 28;
+	private int fieldHeight = 32;
 
 	public GraphicTapeCanvas(GraphicTape tape) {
 		super();
 		this.tape = tape;
-		this.setPreferredSize(new Dimension(50,50));
+		try {
+			fieldImage = ImageIO.read(new File("tape/images/tape_field.png"));
+			fieldWidth = fieldImage.getWidth();
+			fieldHeight = fieldImage.getHeight();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		this.setMinimumSize(new Dimension(2 * fieldWidth,fieldHeight)); //at least show 2 fields
+		this.setPreferredSize(new Dimension(10 * fieldWidth,fieldHeight));
 		repaint();
 	}
 
 	@Override
 	public void paint(Graphics g) {
-		System.out.println("Test");
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(new File("tape/images/tape_field.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (int i = this.tape.getPosition()-this.getNumberOfFields()/2; i <= this.tape.getPosition() + this.getNumberOfFields()/2; i++) {
+			g.drawImage(fieldImage, this.getFieldPositionX(i), 0, null);
+			Font f = new Font("Courier",Font.PLAIN, 18);
+			g.setFont(f);
+			g.drawString(((Character)this.tape.get(i)).toString(), this.getFieldPositionX(i), this.fieldHeight);
 		}
-		g.drawImage(img, animation_offset, 0, null);
+	}
+	
+	private int getNumberOfFields() {
+		return (int) (this.getSize().getWidth()/this.fieldWidth + 2);
+	}
+	
+	private int getFieldPositionX(int field) {
+		int currentFieldPositionX = (int) (this.getSize().getWidth()/2 - this.fieldWidth/2) - this.tape.getPosition() * this.fieldWidth + animationOffset;
+		return currentFieldPositionX + field*this.fieldWidth;
 	}
 	
 	public void move(int old_position) {
-		for (int i = 0; i < (Math.abs(this.tape.position - old_position))*28; i++) {
-			if (this.tape.position > old_position) {
-				animation_offset++;
+		this.animationOffset = (this.tape.position - old_position)*this.fieldWidth;
+		while (animationOffset != 0) {
+			if (animationOffset > 0) {
+				animationOffset--;
 			}
-			else {
-				animation_offset--;
+			else if (animationOffset < 0) {
+				animationOffset++;
 			}
 			repaint();
 			try {
