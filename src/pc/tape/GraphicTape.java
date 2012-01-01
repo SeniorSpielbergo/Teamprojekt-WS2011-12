@@ -22,9 +22,9 @@ public class GraphicTape extends Tape {
 	 */
 	JLabel textlabel;
 	/**
-	 * TextArea for displaying the tapes content.
+	 * Canvas for displaying the tapes content.
 	 */
-	JTextArea jTextAreaTape;
+	GraphicTapeCanvas canvas;
 	/**
 	 * Stores the current tape content
 	 */
@@ -80,12 +80,10 @@ public class GraphicTape extends Tape {
 		System.out.println(this.name + ": Tape ready.");
 		//add graphic stuff
 		this.tapePanel = new JPanel(new BorderLayout());
-		this.jTextAreaTape = new JTextArea();
-		this.jTextAreaTape.setFont(new Font("Courier",Font.PLAIN, this.jTextAreaTape.getFont().getSize()));
-		this.jTextAreaTape.setEditable(false);
 		this.textlabel = new JLabel(this.name);
+		this.canvas = new GraphicTapeCanvas(this);
 		this.tapePanel.add(textlabel,BorderLayout.NORTH);
-		this.tapePanel.add(this.jTextAreaTape, BorderLayout.CENTER);
+		this.tapePanel.add(this.canvas, BorderLayout.CENTER);
 
 		//set ready
 		this.ready = true;
@@ -171,7 +169,7 @@ public class GraphicTape extends Tape {
 	 */
 	public void moveRight() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
-
+		
 		position++;
 		this.printTape();
 		if(this.isDelayEnabled()){
@@ -236,7 +234,7 @@ public class GraphicTape extends Tape {
 	 * This method writes the tapestring into the textarea
 	 */
 	public void printTape() {
-		jTextAreaTape.setText(this.getMemoryAsFormattedString(-20,40));
+		//jTextAreaTape.setText(this.getMemoryAsFormattedString(-20,40));
 	}
 
 	/**
@@ -251,9 +249,9 @@ public class GraphicTape extends Tape {
 	 * Returns the textArea of the taoe.
 	 * @return textAreaTape
 	 */
-	public JTextArea getjTextAreaTape() {
-		return jTextAreaTape;
-	}
+//	public JTextArea getjTextAreaTape() {
+//		return jTextAreaTape;
+//	}
 
 	/**
 	 * Returns a formatted string representing the current memory state.
