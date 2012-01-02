@@ -134,7 +134,6 @@ public class GraphicTape extends Tape {
 		char oldChar = this.get(this.getPosition());
 		this.memory.put(this.position, c);
 		this.canvas.write(oldChar);
-		this.printTape();
 		if(this.isDelayEnabled()){
 			try{
 				Thread.sleep(500);
@@ -154,7 +153,6 @@ public class GraphicTape extends Tape {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
 		position--;
-		this.printTape();
 		this.canvas.move(position + 1);
 		if(this.isDelayEnabled()){
 			try{
@@ -174,7 +172,6 @@ public class GraphicTape extends Tape {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		
 		position++;
-		this.printTape();
 		this.canvas.move(position - 1);
 
 		if(this.isDelayEnabled()){
@@ -216,7 +213,6 @@ public class GraphicTape extends Tape {
 			}
 
 			this.write(this.inputWord.charAt(i));
-			printTape();
 			this.moveRight();
 		}
 		for (int i = 0; i < this.inputWord.length(); i++) {
@@ -226,20 +222,11 @@ public class GraphicTape extends Tape {
 				super.notifyObservers(Event.INPUTABORTED);
 				break;
 			}
-			printTape();
 			this.moveLeft();
 		}
-		printTape();
 		if(this.iWishToInterruptThisThread)
 			return false;
 		return true;
-	}
-
-	/**
-	 * This method writes the tapestring into the textarea
-	 */
-	public void printTape() {
-		//jTextAreaTape.setText(this.getMemoryAsFormattedString(-20,40));
 	}
 
 	/**
@@ -248,58 +235,6 @@ public class GraphicTape extends Tape {
 	 */
 	public JPanel getTapePanel() {
 		return tapePanel;
-	}
-
-	/**
-	 * Returns the textArea of the taoe.
-	 * @return textAreaTape
-	 */
-//	public JTextArea getjTextAreaTape() {
-//		return jTextAreaTape;
-//	}
-
-	/**
-	 * Returns a formatted string representing the current memory state.
-	 * It includes specified part of the memory and the head position.
-	 * @param offset First memory position to be included
-	 * @param length Number of memory fields to be included
-	 * @return The formatted string with the memory content
-	 */
-	public String getMemoryAsFormattedString(int offset, int length) {
-		if (length < 1) return "";	
-		//print top horizontal line
-		String text = "-";
-		for (int i=offset; i<=offset+length; i++) {
-			text += "--";
-		}
-		text += "\n";
-
-		//print memory
-		text += "|";
-		for (int i=offset; i<=offset+length; i++) {
-			text += this.get(i);
-			text += "|";
-		}
-		text += "\n";
-
-		//print head position
-		if (this.position >= offset && this.position <= offset+length) {
-			for (int i=offset; i<this.position; i++) {
-				text += "  ";
-			}
-			text += " ^";
-		}
-		text += "\n";
-
-		//print bottom horizontal line
-		text += "-";
-		for (int i=offset; i<=offset+length; i++) {
-			text += "--";
-		}
-		text += "\n";
-
-		return text;
-
 	}
 	
 	public char get(int position) {
