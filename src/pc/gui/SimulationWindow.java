@@ -76,7 +76,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 		this.setTitle("Simulation of " +this.currentMachine.getName());
 		this.setLayout(new GridBagLayout());
-		this.setBounds(200,200,600,700);
+		this.setMinimumSize(new Dimension(300,75));
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		this.panelall = new JPanel(new GridBagLayout());
@@ -119,6 +119,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 			return;
 		}
+		System.out.println(75 + this.graphicTapes.size() * (int)this.graphicTapes.get(0).getTapePanel().getSize().getHeight());
+		this.setBounds(200,200,600,85 + this.graphicTapes.size() * ((int)this.graphicTapes.get(0).getTapePanel().getPreferredSize().getHeight()+5));
 
 		setVisible(true);
 		this.init();
