@@ -14,6 +14,7 @@ public class GraphicTapeCanvas extends Canvas {
 	private GraphicTape tape;
 	private int animationOffset = 0;
 	private BufferedImage fieldImage = null;
+	private BufferedImage headImage = null;
 	private int fieldWidth = 28;
 	private int fieldHeight = 32;
 
@@ -24,6 +25,11 @@ public class GraphicTapeCanvas extends Canvas {
 			fieldImage = ImageIO.read(new File("tape/images/tape_field.png"));
 			fieldWidth = fieldImage.getWidth();
 			fieldHeight = fieldImage.getHeight();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			headImage = ImageIO.read(new File("tape/images/head.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -40,6 +46,7 @@ public class GraphicTapeCanvas extends Canvas {
 			g.setFont(f);
 			g.drawString(((Character)this.tape.get(i)).toString(), this.getFieldPositionX(i), this.fieldHeight);
 		}
+		g.drawImage(headImage, (int) (this.getSize().getWidth()/2 - this.fieldWidth/2), 0, null);	
 	}
 	
 	private int getNumberOfFields() {
@@ -51,8 +58,8 @@ public class GraphicTapeCanvas extends Canvas {
 		return currentFieldPositionX + field*this.fieldWidth;
 	}
 	
-	public void move(int old_position) {
-		this.animationOffset = (this.tape.position - old_position)*this.fieldWidth;
+	public void move(int oldPosition) {
+		this.animationOffset = (this.tape.position - oldPosition)*this.fieldWidth;
 		while (animationOffset != 0) {
 			if (animationOffset > 0) {
 				animationOffset--;
@@ -68,6 +75,10 @@ public class GraphicTapeCanvas extends Canvas {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void write(char oldChar) {
+		
 	}
 
 
