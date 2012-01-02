@@ -1,6 +1,7 @@
 package tape;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -47,6 +48,20 @@ public class GraphicTapeCanvas extends Canvas {
 		g.setFont(f);
 		for (int i = this.tape.getPosition()-this.getNumberOfFields()/2; i <= this.tape.getPosition() + this.getNumberOfFields()/2; i++) {
 			g.drawImage(fieldImage, this.getFieldPositionX(i), 0, null);
+			
+			String symbol = "";
+			if (i == this.tape.getPosition()) {
+				if (this.writeAnimationFrameCount < 50) {
+					symbol = ((Character)this.oldChar).toString();
+				}
+				else {
+					symbol = ((Character)this.tape.get(i)).toString();
+				}
+			}
+			else {
+				symbol = ((Character)this.tape.get(i)).toString();
+				g.setColor(Color.BLACK);
+			}
 			this.drawCenteredString(((Character)this.tape.get(i)).toString(), this.getFieldPositionX(i), 0, this.fieldWidth, this.fieldHeight, g);
 		}
 		g.drawImage(headImage, (int) (this.getSize().getWidth()/2 - this.fieldWidth/2), 0, null);	
@@ -101,6 +116,4 @@ public class GraphicTapeCanvas extends Canvas {
 		}
 		this.writeAnimationFrameCount = 0;
 	}
-
-
 }
