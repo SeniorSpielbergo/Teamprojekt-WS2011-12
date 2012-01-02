@@ -1,7 +1,6 @@
 package tape;
 
 import java.awt.AlphaComposite;
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
@@ -14,8 +13,9 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JPanel;
 
-public class GraphicTapeCanvas extends Canvas {
+public class GraphicTapePanel extends JPanel {
 	private GraphicTape tape;
 	private BufferedImage fieldImage = null;
 	private BufferedImage headImage = null;
@@ -25,7 +25,7 @@ public class GraphicTapeCanvas extends Canvas {
 	private int moveAnimationOffset = 0;
 	private int writeAnimationFrameCount = 100;
 
-	public GraphicTapeCanvas(GraphicTape tape) {
+	public GraphicTapePanel(GraphicTape tape) {
 		super();
 		this.tape = tape;
 		try {
@@ -46,8 +46,9 @@ public class GraphicTapeCanvas extends Canvas {
 	}
 
 	@Override
-	public void paint(Graphics g2) {
+	public void paintComponent(Graphics g2) {
 		Graphics2D g = (Graphics2D) g2;
+		g.clearRect(0, 0, (int)this.getSize().getWidth(), (int)this.getSize().getHeight());
 		Font f = new Font("Courier",Font.PLAIN, this.fieldHeight/2);
 		g.setFont(f);
 		for (int i = this.tape.getPosition()-this.getNumberOfFields()/2; i <= this.tape.getPosition() + this.getNumberOfFields()/2; i++) {
@@ -72,8 +73,8 @@ public class GraphicTapeCanvas extends Canvas {
 					g.setComposite(c);
 				}
 				else if (this.writeAnimationFrameCount >= 66 && this.writeAnimationFrameCount < 99){
+					//fade from highlight color to normal black
 					symbol = ((Character)this.tape.get(i)).toString();
-					System.out.println(255-((this.writeAnimationFrameCount-66)));
 					g.setColor(new Color(255-((this.writeAnimationFrameCount-66) * (255/33)),0,0));
 				}
 				else {

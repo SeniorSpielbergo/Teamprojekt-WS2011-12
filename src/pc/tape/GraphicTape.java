@@ -24,7 +24,7 @@ public class GraphicTape extends Tape {
 	/**
 	 * Canvas for displaying the tapes content.
 	 */
-	GraphicTapeCanvas canvas;
+	GraphicTapePanel canvas;
 	/**
 	 * Stores the current tape content
 	 */
@@ -81,7 +81,7 @@ public class GraphicTape extends Tape {
 		//add graphic stuff
 		this.tapePanel = new JPanel(new BorderLayout());
 		this.textlabel = new JLabel(this.name);
-		this.canvas = new GraphicTapeCanvas(this);
+		this.canvas = new GraphicTapePanel(this);
 		this.tapePanel.add(textlabel,BorderLayout.NORTH);
 		this.tapePanel.add(this.canvas, BorderLayout.CENTER);
 
