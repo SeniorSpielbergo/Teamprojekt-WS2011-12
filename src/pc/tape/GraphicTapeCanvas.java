@@ -1,11 +1,14 @@
 package tape;
 
+import java.awt.AlphaComposite;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +23,7 @@ public class GraphicTapeCanvas extends Canvas {
 	private int fieldHeight = 32;
 	private char oldChar = '#';
 	private int moveAnimationOffset = 0;
-	private int writeAnimationFrameCount = 0;
+	private int writeAnimationFrameCount = 100;
 
 	public GraphicTapeCanvas(GraphicTape tape) {
 		super();
@@ -43,16 +46,35 @@ public class GraphicTapeCanvas extends Canvas {
 	}
 
 	@Override
-	public void paint(Graphics g) {
+	public void paint(Graphics g2) {
+		Graphics2D g = (Graphics2D) g2;
 		Font f = new Font("Courier",Font.PLAIN, this.fieldHeight/2);
 		g.setFont(f);
 		for (int i = this.tape.getPosition()-this.getNumberOfFields()/2; i <= this.tape.getPosition() + this.getNumberOfFields()/2; i++) {
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+			g.setColor(Color.BLACK);
+
 			g.drawImage(fieldImage, this.getFieldPositionX(i), 0, null);
-			
+
 			String symbol = "";
 			if (i == this.tape.getPosition()) {
-				if (this.writeAnimationFrameCount < 50) {
+				if (this.writeAnimationFrameCount < 33) {
+					//fade out old char
 					symbol = ((Character)this.oldChar).toString();
+					Composite c = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1 - (float)this.writeAnimationFrameCount * (1.0f/33.0f));
+					g.setComposite(c);
+				}
+				else if (this.writeAnimationFrameCount >= 33 && this.writeAnimationFrameCount < 66){
+					//fade in new char highlighted
+					symbol = ((Character)this.tape.get(i)).toString();
+					g.setColor(Color.RED);
+					Composite c = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)(this.writeAnimationFrameCount-33) * (1.0f/33.0f));
+					g.setComposite(c);
+				}
+				else if (this.writeAnimationFrameCount >= 66 && this.writeAnimationFrameCount < 99){
+					symbol = ((Character)this.tape.get(i)).toString();
+					System.out.println(255-((this.writeAnimationFrameCount-66)));
+					g.setColor(new Color(255-((this.writeAnimationFrameCount-66) * (255/33)),0,0));
 				}
 				else {
 					symbol = ((Character)this.tape.get(i)).toString();
@@ -60,10 +82,12 @@ public class GraphicTapeCanvas extends Canvas {
 			}
 			else {
 				symbol = ((Character)this.tape.get(i)).toString();
-				g.setColor(Color.BLACK);
 			}
-			this.drawCenteredString(((Character)this.tape.get(i)).toString(), this.getFieldPositionX(i), 0, this.fieldWidth, this.fieldHeight, g);
+			this.drawCenteredString(symbol, this.getFieldPositionX(i), 0, this.fieldWidth, this.fieldHeight, g);
 		}
+
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+		g.setColor(Color.BLACK);
 		g.drawImage(headImage, (int) (this.getSize().getWidth()/2 - this.fieldWidth/2), 0, null);	
 	}
 
@@ -110,10 +134,21 @@ public class GraphicTapeCanvas extends Canvas {
 
 	public void write(char oldChar) {
 		this.oldChar = oldChar;
-		for (int i = 0; i < 100; i++) {
-			this.writeAnimationFrameCount = i;
+		if (this.tape.getDelay() && this.tape.get(this.tape.getPosition()) != oldChar) {
+			for (int i = 0; i < 100; i++) {
+				this.writeAnimationFrameCount = i;
+				repaint();
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			this.writeAnimationFrameCount = 100;
+		}
+		else {
 			repaint();
 		}
-		this.writeAnimationFrameCount = 0;
 	}
 }
