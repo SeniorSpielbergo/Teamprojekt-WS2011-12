@@ -266,6 +266,10 @@ public abstract class Tape extends Observable implements Runnable{
 		this.delay = b;
 	}
 	
+	public boolean getDelay(){
+		return this.delay;
+	}
+	
 	public boolean isDelayEnabled(){
 		return this.delay;
 	}

@@ -41,7 +41,7 @@ public class GraphicTapeCanvas extends Canvas {
 
 	@Override
 	public void paint(Graphics g) {
-		Font f = new Font("Courier",Font.PLAIN, this.fieldWidth/2);
+		Font f = new Font("Courier",Font.PLAIN, this.fieldHeight/2);
 		g.setFont(f);
 		for (int i = this.tape.getPosition()-this.getNumberOfFields()/2; i <= this.tape.getPosition() + this.getNumberOfFields()/2; i++) {
 			g.drawImage(fieldImage, this.getFieldPositionX(i), 0, null);
@@ -59,29 +59,35 @@ public class GraphicTapeCanvas extends Canvas {
 		return currentFieldPositionX + field*this.fieldWidth;
 	}
 
-	public void drawCenteredString(String s, int x, int y, int w, int h, Graphics g) {
+	public void drawCenteredString(String s, int x, int y, int width, int height, Graphics g) {
 		FontMetrics fm = g.getFontMetrics();
-		int stringX = (w - fm.stringWidth(s)) / 2 + x;
-		int stringY = (fm.getAscent() + (h - (fm.getAscent() + fm.getDescent())) / 2) + y;
+		int stringX = (width - fm.stringWidth(s)) / 2 + x;
+		int stringY = (fm.getAscent() + (height - (fm.getAscent() + fm.getDescent())) / 2) + y;
 		g.drawString(s, stringX, stringY);
 	}
 
 	public void move(int oldPosition) {
-		this.animationOffset = (this.tape.position - oldPosition)*this.fieldWidth;
-		while (animationOffset != 0) {
-			if (animationOffset > 0) {
-				animationOffset--;
+		if (this.tape.getDelay()) {
+			this.animationOffset = (this.tape.position - oldPosition)*this.fieldWidth;
+			while (animationOffset != 0) {
+				if (animationOffset > 0) {
+					animationOffset--;
+				}
+				else if (animationOffset < 0) {
+					animationOffset++;
+				}
+				repaint();
+				try {
+					Thread.sleep(20);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			else if (animationOffset < 0) {
-				animationOffset++;
-			}
+		}
+		else {
+			this.animationOffset = 0;
 			repaint();
-			try {
-				Thread.sleep(20);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 	}
 
