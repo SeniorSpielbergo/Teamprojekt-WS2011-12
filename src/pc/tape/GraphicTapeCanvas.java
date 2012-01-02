@@ -3,6 +3,7 @@ package tape;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -40,24 +41,31 @@ public class GraphicTapeCanvas extends Canvas {
 
 	@Override
 	public void paint(Graphics g) {
+		Font f = new Font("Courier",Font.PLAIN, this.fieldWidth/2);
+		g.setFont(f);
 		for (int i = this.tape.getPosition()-this.getNumberOfFields()/2; i <= this.tape.getPosition() + this.getNumberOfFields()/2; i++) {
 			g.drawImage(fieldImage, this.getFieldPositionX(i), 0, null);
-			Font f = new Font("Courier",Font.PLAIN, 18);
-			g.setFont(f);
-			g.drawString(((Character)this.tape.get(i)).toString(), this.getFieldPositionX(i), this.fieldHeight);
+			this.drawCenteredString(((Character)this.tape.get(i)).toString(), this.getFieldPositionX(i), 0, this.fieldWidth, this.fieldHeight, g);
 		}
 		g.drawImage(headImage, (int) (this.getSize().getWidth()/2 - this.fieldWidth/2), 0, null);	
 	}
-	
+
 	private int getNumberOfFields() {
 		return (int) (this.getSize().getWidth()/this.fieldWidth + 2);
 	}
-	
+
 	private int getFieldPositionX(int field) {
 		int currentFieldPositionX = (int) (this.getSize().getWidth()/2 - this.fieldWidth/2) - this.tape.getPosition() * this.fieldWidth + animationOffset;
 		return currentFieldPositionX + field*this.fieldWidth;
 	}
-	
+
+	public void drawCenteredString(String s, int x, int y, int w, int h, Graphics g) {
+		FontMetrics fm = g.getFontMetrics();
+		int stringX = (w - fm.stringWidth(s)) / 2 + x;
+		int stringY = (fm.getAscent() + (h - (fm.getAscent() + fm.getDescent())) / 2) + y;
+		g.drawString(s, stringX, stringY);
+	}
+
 	public void move(int oldPosition) {
 		this.animationOffset = (this.tape.position - oldPosition)*this.fieldWidth;
 		while (animationOffset != 0) {
@@ -76,9 +84,9 @@ public class GraphicTapeCanvas extends Canvas {
 			}
 		}
 	}
-	
+
 	public void write(char oldChar) {
-		
+
 	}
 
 
