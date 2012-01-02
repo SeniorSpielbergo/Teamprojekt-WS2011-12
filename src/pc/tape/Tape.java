@@ -258,7 +258,7 @@ public abstract class Tape extends Observable implements Runnable{
 	/**
 	 * Returns if input allowed
 	 */
-	public boolean isInputAllowed() {
+	public boolean getInputAllowed() {
 		return this.allowInput;
 	}
 	

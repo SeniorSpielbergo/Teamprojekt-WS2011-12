@@ -13,11 +13,13 @@ import javax.imageio.ImageIO;
 
 public class GraphicTapeCanvas extends Canvas {
 	private GraphicTape tape;
-	private int animationOffset = 0;
 	private BufferedImage fieldImage = null;
 	private BufferedImage headImage = null;
 	private int fieldWidth = 28;
 	private int fieldHeight = 32;
+	private char oldChar = '#';
+	private int moveAnimationOffset = 0;
+	private int writeAnimationFrameCount = 0;
 
 	public GraphicTapeCanvas(GraphicTape tape) {
 		super();
@@ -55,7 +57,7 @@ public class GraphicTapeCanvas extends Canvas {
 	}
 
 	private int getFieldPositionX(int field) {
-		int currentFieldPositionX = (int) (this.getSize().getWidth()/2 - this.fieldWidth/2) - this.tape.getPosition() * this.fieldWidth + animationOffset;
+		int currentFieldPositionX = (int) (this.getSize().getWidth()/2 - this.fieldWidth/2) - this.tape.getPosition() * this.fieldWidth + moveAnimationOffset;
 		return currentFieldPositionX + field*this.fieldWidth;
 	}
 
@@ -68,13 +70,13 @@ public class GraphicTapeCanvas extends Canvas {
 
 	public void move(int oldPosition) {
 		if (this.tape.getDelay()) {
-			this.animationOffset = (this.tape.position - oldPosition)*this.fieldWidth;
-			while (animationOffset != 0) {
-				if (animationOffset > 0) {
-					animationOffset--;
+			this.moveAnimationOffset = (this.tape.position - oldPosition)*this.fieldWidth;
+			while (moveAnimationOffset != 0) {
+				if (moveAnimationOffset > 0) {
+					moveAnimationOffset--;
 				}
-				else if (animationOffset < 0) {
-					animationOffset++;
+				else if (moveAnimationOffset < 0) {
+					moveAnimationOffset++;
 				}
 				repaint();
 				try {
@@ -86,13 +88,18 @@ public class GraphicTapeCanvas extends Canvas {
 			}
 		}
 		else {
-			this.animationOffset = 0;
+			this.moveAnimationOffset = 0;
 			repaint();
 		}
 	}
 
 	public void write(char oldChar) {
-
+		this.oldChar = oldChar;
+		for (int i = 0; i < 100; i++) {
+			this.writeAnimationFrameCount = i;
+			repaint();
+		}
+		this.writeAnimationFrameCount = 0;
 	}
 
 

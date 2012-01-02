@@ -131,7 +131,9 @@ public class GraphicTape extends Tape {
 	 */
 	public void write(char c) throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
+		char oldChar = this.get(this.getPosition());
 		this.memory.put(this.position, c);
+		this.canvas.write(oldChar);
 		this.printTape();
 		if(this.isDelayEnabled()){
 			try{
