@@ -373,14 +373,10 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	public void runSimulation() {
 		RunWindow runWindow = new RunWindow(currentMachine);
 		runWindow.setLocationRelativeTo(null);
-		this.setMenuItemsSelectable(false);
 
 		ReturnValue returnValue = runWindow.showDialog();
 		if (returnValue == ReturnValue.RUN) {
-			new SimulationWindow(this.currentMachine);
-		}
-		else {
-			this.setMenuItemsSelectable(true);
+			new SimulationWindow(this.currentMachine, this);
 		}
 	}
 
@@ -393,16 +389,12 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		organizeRobotsWindow.showDialog();
 	}
 	
-	public void setMenuItemsSelectable(boolean selectable) {
-		this.currentMachine.getEditor().setEditMenuItemsSelectable(selectable);
-		this.runAction.setEnabled(selectable);
-		this.organizeRobotsAction.setEnabled(selectable);
-		this.saveAction.setEnabled(selectable);
-		this.saveAsAction.setEnabled(selectable);
-		this.openAction.setEnabled(selectable);
-		this.newBFAction.setEnabled(selectable);
-		this.newTMAction.setEnabled(selectable);
-		this.toggleDelayAction.setEnabled(selectable);
+	public void setEditable(boolean editable) {
+		this.currentMachine.getEditor().setEditable(editable);
+		this.runAction.setEnabled(editable);
+		this.openAction.setEnabled(editable);
+		this.newBFAction.setEnabled(editable);
+		this.newTMAction.setEnabled(editable);
 	}
 	
 	@Override

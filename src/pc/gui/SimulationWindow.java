@@ -49,6 +49,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	 * current simulation
 	 */
 	Simulation sim;
+	
+	Editor editor;
 
 	int counter = 0; 
 
@@ -56,14 +58,20 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	ImageIcon iconPause = new ImageIcon(SimulationWindow.class.getResource("images/pause.png"));
 	ImageIcon iconStepForward = new ImageIcon(SimulationWindow.class.getResource("images/forward.png"));
 
+	
+	public SimulationWindow(Machine machine) {
+		this(machine,null);
+	}
 
 	/**
 	 * Creates a new window for the simulation.
 	 * @param machine The machine to simulate
+	 * @param editor The editor window
 	 */
-	public SimulationWindow(Machine machine){
+	public SimulationWindow(Machine machine, Editor editor){
 		this.simulationPaused = true;
 		this.currentMachine = machine;
+		this.editor = editor;
 		for(int i = 0; i< currentMachine.getTapes().size(); i++){
 			if(currentMachine.getTapes().get(i).getType() == tape.Tape.Type.GRAPHIC){
 				graphicTapes.add((tape.GraphicTape)machine.getTapes().get(i));
@@ -74,7 +82,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			}
 		}
 		
-		this.currentMachine.getEditor().setEditable(false);
+		if (editor != null) {
+			this.editor.setEditable(false);
+		}
 
 		this.setTitle("Simulation of " +this.currentMachine.getName());
 		this.setLayout(new GridBagLayout());
@@ -227,7 +237,10 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			return;
 		}
 		this.setVisible(false);
-		this.currentMachine.getEditor().setEditable(true);
+		
+		if (editor != null) {
+			this.editor.setEditable(true);
+		}
 	}
 
 	public void update(Observable observable, Object obj) {

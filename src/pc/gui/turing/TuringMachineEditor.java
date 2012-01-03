@@ -840,10 +840,10 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		this.graph.setCellsDeletable(editable);
 		this.graph.setCellsSelectable(editable);
 		this.graph.clearSelection();
+		this.setEditMenuItemsSelectable(editable);
 		this.hideLeftSplitPane(!editable);
 	}
 	
-	@Override
 	public void setEditMenuItemsSelectable(boolean selectable) {
 		this.copyAction.setEnabled(selectable);
 		this.cutAction.setEnabled(selectable);
