@@ -73,6 +73,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				}
 			}
 		}
+		
+		this.currentMachine.getEditor().setEditable(false);
 
 		this.setTitle("Simulation of " +this.currentMachine.getName());
 		this.setLayout(new GridBagLayout());
@@ -225,6 +227,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			return;
 		}
 		this.setVisible(false);
+		this.currentMachine.getEditor().setEditable(true);
 	}
 
 	public void update(Observable observable, Object obj) {

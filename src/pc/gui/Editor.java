@@ -373,15 +373,13 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	public void runSimulation() {
 		RunWindow runWindow = new RunWindow(currentMachine);
 		runWindow.setLocationRelativeTo(null);
-		this.currentMachine.getEditor().setEditable(false);
 		this.setMenuItemsSelectable(false);
 
 		ReturnValue returnValue = runWindow.showDialog();
 		if (returnValue == ReturnValue.RUN) {
-			simulate();
+			new SimulationWindow(this.currentMachine);
 		}
 		else {
-			this.currentMachine.getEditor().setEditable(true);
 			this.setMenuItemsSelectable(true);
 		}
 	}
@@ -405,13 +403,6 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		this.newBFAction.setEnabled(selectable);
 		this.newTMAction.setEnabled(selectable);
 		this.toggleDelayAction.setEnabled(selectable);
-	}
-
-	/**
-	 * Simulates the Turing machine.
-	 */
-	public void simulate() {
-		new SimulationWindow(this.currentMachine);
 	}
 	
 	@Override
