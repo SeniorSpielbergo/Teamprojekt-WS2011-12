@@ -36,7 +36,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	 * The authors of the application.
 	 */
 	public static final String APP_AUTHORS = "Im Rahmen des Teamprojekts 2011 entstanden.\n\nInstitut für Programmierung\nund Reaktive Systeme\n\nBetreuer: Matthias Hagner\n\nVanessa Baier,\n Nils Breyer,\n Phillipp Neumann,\n Sven Schuster,\n David Wille";
-	
+
 	/**
 	 * The machine currently open in the editor.
 	 */
@@ -275,7 +275,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			}
 		}
 	}
-	
+
 	/**
 	 * Saves a file.
 	 */
@@ -317,7 +317,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 				return currentMachine.getFileExtension();
 			}
 		});
-		
+
 		File f = null;
 		if (this.currentFile == null) {
 			f = new File(this.currentMachine.getName() + this.currentMachine.getFileExtension());
@@ -388,7 +388,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		organizeRobotsWindow.setLocationRelativeTo(null);
 		organizeRobotsWindow.showDialog();
 	}
-	
+
 	public void setEditable(boolean editable) {
 		this.currentMachine.getEditor().setEditable(editable);
 		this.runAction.setEnabled(editable);
@@ -396,7 +396,6 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		this.newBFAction.setEnabled(editable);
 		this.newTMAction.setEnabled(editable);
 	}
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == newTMAction) {
@@ -494,7 +493,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			for (Tape t : this.currentMachine.getTapes()){
 				t.setDelay(toggleDelayAction.getState());
 			}
-			
+
 		}
 	}
 }

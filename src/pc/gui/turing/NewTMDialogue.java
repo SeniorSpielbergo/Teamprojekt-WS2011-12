@@ -1,6 +1,8 @@
 package gui.turing;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import java.awt.*;
 
@@ -12,7 +14,7 @@ import java.awt.event.*;
  * @author Nessa Baier
  *
  */
-public class NewTMDialogue extends JDialog implements ActionListener{
+public class NewTMDialogue extends JDialog implements ActionListener, ChangeListener, KeyListener {
 	/**
 	 * Enum for the buttonevents.
 	 *
@@ -37,7 +39,7 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 	/**
 	 * Spinner for the number of tapes.
 	 */
-	private JSpinner numberOfTapes;
+	private JSpinner spinnerNumberOfTapes;
 	/**
 	 * Buttons "create" and "cancel"
 	 */
@@ -46,6 +48,12 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 	 * Return value for the pressed button.
 	 */
 	private  ReturnValue returnValue;
+	/**
+	 * Stores the numberOfTapes
+	 */
+	private int numberOfTapes = 1;
+	
+	private JTextField spinnerTextField;
 
 	/**
 	 * Creates a new dialogue.
@@ -68,8 +76,11 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 		panelTapes.add(tapes);
 		
 		SpinnerModel tapemodel = new SpinnerNumberModel(1,1,10,1);
-		numberOfTapes = new JSpinner(tapemodel);
-		panelTapes.add(numberOfTapes);
+		spinnerNumberOfTapes = new JSpinner(tapemodel);
+		spinnerNumberOfTapes.addChangeListener(this);
+		spinnerTextField = ((JSpinner.DefaultEditor) spinnerNumberOfTapes.getEditor()).getTextField();
+		spinnerTextField.addKeyListener(this);
+		panelTapes.add(spinnerNumberOfTapes);
 
 		//Buttons
 		buttonCreate = new JButton("Create");
@@ -129,8 +140,8 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 	 * Returns the chosen number of tapes.
 	 * @return numberOfTapes Number of tapes
 	 */
-	public Integer getNumberOfTapes(){
-		return (Integer)numberOfTapes.getValue();
+	public int getNumberOfTapes(){
+		return numberOfTapes;
 	}
 	
 	/**
@@ -140,6 +151,42 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 	public ReturnValue showDialogue(){
 		this.setVisible(true);
 		return returnValue;
+	}
+
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		if (e.getSource() == spinnerNumberOfTapes) {
+			numberOfTapes = (Integer) this.spinnerNumberOfTapes.getValue();
+		}
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		if (!spinnerTextField.getText().equals("")) {
+			try {
+				numberOfTapes = Integer.parseInt(spinnerTextField.getText());
+			}
+			catch (Exception ex) {
+				numberOfTapes = 1;
+				spinnerNumberOfTapes.setValue(numberOfTapes);
+			}
+			if (numberOfTapes > 10) {
+				numberOfTapes = 10;
+				spinnerNumberOfTapes.setValue(numberOfTapes);
+			}
+		}
 	}
 }
 
