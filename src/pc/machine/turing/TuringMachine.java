@@ -91,7 +91,7 @@ public class TuringMachine extends Machine{
 	public TuringMachine(String name, int numberOfTapes) {
 		this(name, new ArrayList<State>(), new ArrayList<Edge>(), new ArrayList<Tape>());
 		for(int i = 0; i < numberOfTapes; i++){
-			this.tapes.add(new ConsoleTape());
+			this.tapes.add(new GraphicTape());
 		}
 	}
 
