@@ -374,6 +374,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		RunWindow runWindow = new RunWindow(currentMachine);
 		runWindow.setLocationRelativeTo(null);
 		this.currentMachine.getEditor().setEditable(false);
+		this.setMenuItemsSelectable(false);
 
 		ReturnValue returnValue = runWindow.showDialog();
 		if (returnValue == ReturnValue.RUN) {
@@ -381,6 +382,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		}
 		else {
 			this.currentMachine.getEditor().setEditable(true);
+			this.setMenuItemsSelectable(true);
 		}
 	}
 
@@ -391,6 +393,18 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		OrganizeRobots organizeRobotsWindow = new OrganizeRobots();
 		organizeRobotsWindow.setLocationRelativeTo(null);
 		organizeRobotsWindow.showDialog();
+	}
+	
+	public void setMenuItemsSelectable(boolean selectable) {
+		this.currentMachine.getEditor().setEditMenuItemsSelectable(selectable);
+		this.runAction.setEnabled(selectable);
+		this.organizeRobotsAction.setEnabled(selectable);
+		this.saveAction.setEnabled(selectable);
+		this.saveAsAction.setEnabled(selectable);
+		this.openAction.setEnabled(selectable);
+		this.newBFAction.setEnabled(selectable);
+		this.newTMAction.setEnabled(selectable);
+		this.toggleDelayAction.setEnabled(selectable);
 	}
 
 	/**

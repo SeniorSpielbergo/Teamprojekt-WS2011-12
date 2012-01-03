@@ -842,6 +842,19 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		this.graph.clearSelection();
 		this.hideLeftSplitPane(!editable);
 	}
+	
+	@Override
+	public void setEditMenuItemsSelectable(boolean selectable) {
+		this.copyAction.setEnabled(selectable);
+		this.cutAction.setEnabled(selectable);
+		this.pasteAction.setEnabled(selectable);
+		this.selectAllAction.setEnabled(selectable);
+		this.gridToggleAction.setEnabled(selectable);
+		this.undoAction.setEnabled(selectable);
+		this.redoAction.setEnabled(selectable);
+		this.addViaAction.setEnabled(selectable);
+		this.removeViaAction.setEnabled(selectable);
+	}
 
 	/**
 	 * Hides the toolbar
