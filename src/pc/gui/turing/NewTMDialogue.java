@@ -174,11 +174,19 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		numberOfTapes = Integer.parseInt(spinnerTextField.getText());
-		if (numberOfTapes > 10) {
-			numberOfTapes = 10;
+		if (!spinnerTextField.getText().equals("")) {
+			try {
+				numberOfTapes = Integer.parseInt(spinnerTextField.getText());
+			}
+			catch (Exception ex) {
+				numberOfTapes = 1;
+				spinnerNumberOfTapes.setValue(numberOfTapes);
+			}
+			if (numberOfTapes > 10) {
+				numberOfTapes = 10;
+				spinnerNumberOfTapes.setValue(numberOfTapes);
+			}
 		}
-		spinnerNumberOfTapes.setValue(numberOfTapes);
 	}
 }
 
