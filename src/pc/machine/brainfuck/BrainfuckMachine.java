@@ -22,7 +22,7 @@ public class BrainfuckMachine extends Machine {
 	 * Creates a new brainfuck machine with input-, output- and actiontape.
 	 */
 	public BrainfuckMachine() {
-		super();
+		super("Brainfuck machine");
 		tapes.add(new GraphicTape("Input", true));
 		tapes.add(new GraphicTape("Output", false));
 		tapes.add(new GraphicTape("Action", false));		
