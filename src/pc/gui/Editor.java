@@ -395,6 +395,10 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		organizeRobotsWindow.showDialog();
 	}
 	
+	/**
+	 * Enable or disable these menu items.
+	 * @param selectable Whether the items are selectable or not.
+	 */
 	public void setMenuItemsSelectable(boolean selectable) {
 		this.currentMachine.getEditor().setEditMenuItemsSelectable(selectable);
 		this.runAction.setEnabled(selectable);
