@@ -114,11 +114,11 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 			}
 			else {
 				initialData[1] = "*";
-				initialData[2] = "#";
+				initialData[2] = "*";
 				initialData[3] = "N";
 				table.setEditingColumn(i);
 				read.add('*');
-				write.add('#');
+				write.add('*');
 				action.add('N');
 			}
 			model.addRow(initialData);
