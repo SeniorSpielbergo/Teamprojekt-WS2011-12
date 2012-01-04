@@ -3,18 +3,16 @@
     <tape type="graphic">
         <name>Default graphic tape</name>
         <input>
-            <symbol>0</symbol>
-            <symbol>3</symbol>
+            <symbol>1</symbol>
             <symbol>#</symbol>
-            <symbol>1</symbol>
-            <symbol>1</symbol>
+            <symbol>2</symbol>
         </input>
     </tape>
     <tape type="graphic">
         <name>Default graphic tape</name>
         <input/>
     </tape>
-    <state final="yes" height="50" id="9da9938b-9096-4f47-a580-438b9b163ad4" start="yes" width="50" x="200" y="200">
+    <state final="no" height="50" id="9da9938b-9096-4f47-a580-438b9b163ad4" start="yes" width="50" x="200" y="200">
         <name>q0</name>
     </state>
     <state final="no" height="50" id="b77538f0-39dc-4b6c-ae3d-c9644028089e" start="no" width="50" x="450" y="200">
