@@ -409,7 +409,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 				returnValue = ReturnValue.RUN;
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "Each roboter can just be assigned to one tape at a time!");
+				ErrorDialog.showError("Each roboter can just be assigned to one tape at a time!");
 			}
 		}
 	}

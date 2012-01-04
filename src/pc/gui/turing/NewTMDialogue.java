@@ -29,7 +29,7 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 	 * Panels for the dialogue.
 	 */
 	private JPanel panelName, panelTapes, panelButtons;
-	
+
 	/**
 	 * Labels for the panels.
 	 */
@@ -54,7 +54,7 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 	 * Stores the numberOfTapes
 	 */
 	private int numberOfTapes = 1;
-	
+
 	/**
 	 * The underlying text field of the spinner
 	 */
@@ -79,7 +79,7 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 		panelTapes = new JPanel();
 		tapes.setText("Tapes");
 		panelTapes.add(tapes);
-		
+
 		SpinnerModel tapemodel = new SpinnerNumberModel(1,1,10,1);
 		spinnerNumberOfTapes = new JSpinner(tapemodel);
 		spinnerNumberOfTapes.addChangeListener(this);
@@ -101,7 +101,7 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 		panelButtons.add(Box.createHorizontalGlue());
 		panelButtons.add(Box.createRigidArea(new Dimension(10, 0)));
 		panelButtons.add(buttonCreate);
-		
+
 		getRootPane().setDefaultButton(buttonCreate);
 
 		//dialogue window
@@ -133,7 +133,7 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 			dispose();
 		}
 	}
-	
+
 	/**
 	 * Returns the typed name for the new machine.
 	 * @return name Name of the machine
@@ -141,7 +141,7 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 	public String getMachinesName(){
 		return fieldName.getText();
 	}
-	
+
 	/**
 	 * Returns the chosen number of tapes.
 	 * @return numberOfTapes Number of tapes
@@ -149,7 +149,7 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 	public int getNumberOfTapes(){
 		return numberOfTapes;
 	}
-	
+
 	/**
 	 * Returns which button was pressed, cancel or create.
 	 * @return returnValue Returns the user decision (cancel / create)
@@ -158,7 +158,7 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 		this.setVisible(true);
 		return returnValue;
 	}
-	
+
 	/**
 	 * Checks if the value in the spinner text field is valid
 	 * @return true/false Returns if valid or not
@@ -203,7 +203,7 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 	public void focusLost(FocusEvent e) {
 		if (e.getOppositeComponent() != buttonCancel) {
 			if (!checkSpinner()) {
-				ErrorDialog.showError("Only integer values from 1 to 10 are allowed!");
+				ErrorDialog.showError("Only integer values from 1 to 10 are allowed for the number of tapes. Treating as 1.");
 			}
 		}
 	}
