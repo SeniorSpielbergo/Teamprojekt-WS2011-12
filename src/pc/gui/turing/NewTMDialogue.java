@@ -1,5 +1,7 @@
 package gui.turing;
 
+import gui.ErrorDialog;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -14,7 +16,7 @@ import java.awt.event.*;
  * @author Nessa Baier
  *
  */
-public class NewTMDialogue extends JDialog implements ActionListener, ChangeListener, KeyListener {
+public class NewTMDialogue extends JDialog implements ActionListener, ChangeListener, FocusListener {
 	/**
 	 * Enum for the buttonevents.
 	 *
@@ -53,6 +55,9 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 	 */
 	private int numberOfTapes = 1;
 	
+	/**
+	 * The underlying text field of the spinner
+	 */
 	private JTextField spinnerTextField;
 
 	/**
@@ -79,7 +84,7 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 		spinnerNumberOfTapes = new JSpinner(tapemodel);
 		spinnerNumberOfTapes.addChangeListener(this);
 		spinnerTextField = ((JSpinner.DefaultEditor) spinnerNumberOfTapes.getEditor()).getTextField();
-		spinnerTextField.addKeyListener(this);
+		spinnerTextField.addFocusListener(this);
 		panelTapes.add(spinnerNumberOfTapes);
 
 		//Buttons
@@ -112,20 +117,21 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 
 
 	@Override
-	public void actionPerformed(ActionEvent e){
-		if (e.getSource().equals(buttonCancel)){
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(buttonCancel)) {
 			returnValue = ReturnValue.CANCEL;
 			this.setVisible(false);
 			dispose();
 
 		}
-
-		else if(e.getSource().equals(buttonCreate)){
+		else if (e.getSource().equals(buttonCreate)) {
+			if (!checkSpinner()) {
+				return;
+			}
 			returnValue = ReturnValue.CREATE;
 			this.setVisible(false);
 			dispose();
 		}
-
 	}
 	
 	/**
@@ -152,6 +158,32 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 		this.setVisible(true);
 		return returnValue;
 	}
+	
+	/**
+	 * Checks if the value in the spinner text field is valid
+	 * @return true/false Returns if valid or not
+	 */
+	public boolean checkSpinner() {
+		boolean isValid = true;
+		if (!spinnerTextField.getText().equals("")) {
+			try {
+				numberOfTapes = Integer.parseInt(spinnerTextField.getText());
+			}
+			catch (Exception ex) {
+				isValid = false;
+			}
+			if (numberOfTapes > 10) {
+				isValid = false;
+			}
+			else if (numberOfTapes < 1) {
+				isValid = false;
+			}
+		}
+		else {
+			isValid = false;
+		}
+		return isValid;
+	}
 
 
 	@Override
@@ -163,28 +195,15 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void focusGained(FocusEvent e) {
 	}
 
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-	}
-
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		if (!spinnerTextField.getText().equals("")) {
-			try {
-				numberOfTapes = Integer.parseInt(spinnerTextField.getText());
-			}
-			catch (Exception ex) {
-				numberOfTapes = 1;
-				spinnerNumberOfTapes.setValue(numberOfTapes);
-			}
-			if (numberOfTapes > 10) {
-				numberOfTapes = 10;
-				spinnerNumberOfTapes.setValue(numberOfTapes);
+	public void focusLost(FocusEvent e) {
+		if (e.getOppositeComponent() != buttonCancel) {
+			if (!checkSpinner()) {
+				ErrorDialog.showError("Only integer values from 1 to 10 are allowed!");
 			}
 		}
 	}
