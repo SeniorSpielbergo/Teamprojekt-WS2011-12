@@ -12,34 +12,34 @@
         <name>Default graphic tape</name>
         <input/>
     </tape>
-    <state final="no" height="50" id="9da9938b-9096-4f47-a580-438b9b163ad4" start="yes" width="50" x="200" y="200">
+    <state final="no" height="50" id="9da9938b-9096-4f47-a580-438b9b163ad4" start="yes" width="50" x="200" y="150">
         <name>q0</name>
     </state>
-    <state final="no" height="50" id="b77538f0-39dc-4b6c-ae3d-c9644028089e" start="no" width="50" x="450" y="200">
+    <state final="no" height="50" id="b77538f0-39dc-4b6c-ae3d-c9644028089e" start="no" width="50" x="450" y="150">
         <name>q1</name>
     </state>
-    <state final="no" height="50" id="0b2b09a3-dffa-493d-92b3-795bb7a80803" start="no" width="50" x="900" y="200">
+    <state final="no" height="50" id="0b2b09a3-dffa-493d-92b3-795bb7a80803" start="no" width="50" x="900" y="150">
         <name>q2</name>
     </state>
-    <state final="no" height="50" id="bdc22518-2d07-4d41-bb85-0f1676cf0402" start="no" width="50" x="300" y="400">
+    <state final="no" height="50" id="bdc22518-2d07-4d41-bb85-0f1676cf0402" start="no" width="50" x="400" y="350">
         <name>q3</name>
     </state>
-    <state final="no" height="50" id="7fadb63d-b423-4ec7-a0bc-e6475a412c58" start="no" width="50" x="900" y="600">
+    <state final="no" height="50" id="7fadb63d-b423-4ec7-a0bc-e6475a412c58" start="no" width="50" x="900" y="550">
         <name>q4</name>
     </state>
-    <state final="yes" height="50" id="0b22e2ef-b4ff-4c59-8230-543f042d44d1" start="no" width="50" x="150" y="400">
+    <state final="yes" height="50" id="0b22e2ef-b4ff-4c59-8230-543f042d44d1" start="no" width="50" x="150" y="350">
         <name>qF</name>
     </state>
-    <state final="no" height="50" id="2048b837-9ff2-4175-bfaf-6f21e45932ac" start="no" width="50" x="650" y="600">
+    <state final="no" height="50" id="2048b837-9ff2-4175-bfaf-6f21e45932ac" start="no" width="50" x="150" y="550">
         <name>q5</name>
     </state>
-    <state final="no" height="50" id="b916de36-0902-4dc0-862d-6ade6cd2e5ee" start="no" width="50" x="750" y="400">
+    <state final="no" height="50" id="b916de36-0902-4dc0-862d-6ade6cd2e5ee" start="no" width="50" x="750" y="350">
         <name>q7</name>
     </state>
-    <state final="no" height="50" id="2f53b2cb-6ce5-44ec-8689-7c6df7ea3ce0" start="no" width="50" x="50" y="750">
+    <state final="no" height="50" id="2f53b2cb-6ce5-44ec-8689-7c6df7ea3ce0" start="no" width="50" x="150" y="700">
         <name>q7</name>
     </state>
-    <state final="no" height="50" id="16739ab6-0000-4255-a5d5-3d70fd2cb380" start="no" width="50" x="250" y="750">
+    <state final="no" height="50" id="16739ab6-0000-4255-a5d5-3d70fd2cb380" start="no" width="50" x="750" y="700">
         <name>q8</name>
     </state>
     <edge from="9da9938b-9096-4f47-a580-438b9b163ad4" labelx="0" labely="-80" to="9da9938b-9096-4f47-a580-438b9b163ad4">
@@ -185,7 +185,7 @@
             </action>
         </transition>
     </edge>
-    <edge from="9da9938b-9096-4f47-a580-438b9b163ad4" labelx="0" labely="5" to="b77538f0-39dc-4b6c-ae3d-c9644028089e">
+    <edge from="9da9938b-9096-4f47-a580-438b9b163ad4" labelx="0" labely="15" to="b77538f0-39dc-4b6c-ae3d-c9644028089e">
         <transition id="6141238d-053b-490d-a604-55c07fb6c481">
             <read>
                 <symbol>#</symbol>
@@ -201,7 +201,7 @@
             </action>
         </transition>
     </edge>
-    <edge from="b77538f0-39dc-4b6c-ae3d-c9644028089e" labelx="0" labely="60" to="b77538f0-39dc-4b6c-ae3d-c9644028089e">
+    <edge from="b77538f0-39dc-4b6c-ae3d-c9644028089e" labelx="0" labely="40" to="b77538f0-39dc-4b6c-ae3d-c9644028089e">
         <via x="500" y="170"/>
         <transition id="30606637-55e5-4104-8f3c-81f56de9e089">
             <read>
@@ -344,7 +344,7 @@
             </action>
         </transition>
     </edge>
-    <edge from="b77538f0-39dc-4b6c-ae3d-c9644028089e" labelx="0" labely="0" to="0b2b09a3-dffa-493d-92b3-795bb7a80803">
+    <edge from="b77538f0-39dc-4b6c-ae3d-c9644028089e" labelx="0" labely="15" to="0b2b09a3-dffa-493d-92b3-795bb7a80803">
         <transition id="672b935c-e4a0-42b8-a53d-abf84a49458b">
             <read>
                 <symbol>*</symbol>
@@ -360,7 +360,8 @@
             </action>
         </transition>
     </edge>
-    <edge from="0b2b09a3-dffa-493d-92b3-795bb7a80803" labelx="0" labely="16" to="0b2b09a3-dffa-493d-92b3-795bb7a80803">
+    <edge from="0b2b09a3-dffa-493d-92b3-795bb7a80803" labelx="0" labely="60" to="0b2b09a3-dffa-493d-92b3-795bb7a80803">
+        <via x="970" y="200"/>
         <transition id="7c0a7855-406b-4cf9-be46-204768301508">
             <read>
                 <symbol>#</symbol>
@@ -376,7 +377,7 @@
             </action>
         </transition>
     </edge>
-    <edge from="0b2b09a3-dffa-493d-92b3-795bb7a80803" labelx="0" labely="0" to="bdc22518-2d07-4d41-bb85-0f1676cf0402">
+    <edge from="0b2b09a3-dffa-493d-92b3-795bb7a80803" labelx="0" labely="-32" to="bdc22518-2d07-4d41-bb85-0f1676cf0402">
         <transition id="3cc39544-9238-4e21-9b61-7b4100be353f">
             <read>
                 <symbol>*</symbol>
@@ -392,7 +393,7 @@
             </action>
         </transition>
     </edge>
-    <edge from="0b2b09a3-dffa-493d-92b3-795bb7a80803" labelx="0" labely="0" to="7fadb63d-b423-4ec7-a0bc-e6475a412c58">
+    <edge from="0b2b09a3-dffa-493d-92b3-795bb7a80803" labelx="0" labely="65" to="7fadb63d-b423-4ec7-a0bc-e6475a412c58">
         <transition id="d87083b7-2730-4525-81f2-fcd6fa05ffbf">
             <read>
                 <symbol>*</symbol>
@@ -520,7 +521,7 @@
             </action>
         </transition>
     </edge>
-    <edge from="bdc22518-2d07-4d41-bb85-0f1676cf0402" labelx="0" labely="0" to="0b22e2ef-b4ff-4c59-8230-543f042d44d1">
+    <edge from="bdc22518-2d07-4d41-bb85-0f1676cf0402" labelx="0" labely="-15" to="0b22e2ef-b4ff-4c59-8230-543f042d44d1">
         <transition id="18e33311-1db0-47b6-8e79-a7b9fad25023">
             <read>
                 <symbol>*</symbol>
@@ -536,7 +537,7 @@
             </action>
         </transition>
     </edge>
-    <edge from="7fadb63d-b423-4ec7-a0bc-e6475a412c58" labelx="0" labely="0" to="2048b837-9ff2-4175-bfaf-6f21e45932ac">
+    <edge from="7fadb63d-b423-4ec7-a0bc-e6475a412c58" labelx="0" labely="-35" to="2048b837-9ff2-4175-bfaf-6f21e45932ac">
         <transition id="aa89d62d-e99f-4c45-9367-c18d962b2168">
             <read>
                 <symbol>*</symbol>
@@ -664,7 +665,7 @@
             </action>
         </transition>
     </edge>
-    <edge from="7fadb63d-b423-4ec7-a0bc-e6475a412c58" labelx="0" labely="-20" to="7fadb63d-b423-4ec7-a0bc-e6475a412c58">
+    <edge from="7fadb63d-b423-4ec7-a0bc-e6475a412c58" labelx="0" labely="-4" to="7fadb63d-b423-4ec7-a0bc-e6475a412c58">
         <transition id="82fa005b-bde8-4947-bd83-8a1d7844ec78">
             <read>
                 <symbol>*</symbol>
@@ -680,8 +681,8 @@
             </action>
         </transition>
     </edge>
-    <edge from="2048b837-9ff2-4175-bfaf-6f21e45932ac" labelx="0" labely="-90" to="2048b837-9ff2-4175-bfaf-6f21e45932ac">
-        <via x="650" y="680"/>
+    <edge from="2048b837-9ff2-4175-bfaf-6f21e45932ac" labelx="0" labely="-60" to="2048b837-9ff2-4175-bfaf-6f21e45932ac">
+        <via x="130" y="650"/>
         <transition id="c99b6a49-f9f9-4c71-9a10-7230623a2230">
             <read>
                 <symbol>*</symbol>
@@ -823,8 +824,8 @@
             </action>
         </transition>
     </edge>
-    <edge from="bdc22518-2d07-4d41-bb85-0f1676cf0402" labelx="0" labely="-13" to="bdc22518-2d07-4d41-bb85-0f1676cf0402">
-        <via x="300" y="360"/>
+    <edge from="bdc22518-2d07-4d41-bb85-0f1676cf0402" labelx="0" labely="-22" to="bdc22518-2d07-4d41-bb85-0f1676cf0402">
+        <via x="450" y="370"/>
         <transition id="d6bf2d43-06b2-4fea-95e7-999c63235dc7">
             <read>
                 <symbol>*</symbol>
@@ -840,7 +841,7 @@
             </action>
         </transition>
     </edge>
-    <edge from="bdc22518-2d07-4d41-bb85-0f1676cf0402" labelx="0" labely="0" to="b916de36-0902-4dc0-862d-6ade6cd2e5ee">
+    <edge from="bdc22518-2d07-4d41-bb85-0f1676cf0402" labelx="0" labely="25" to="b916de36-0902-4dc0-862d-6ade6cd2e5ee">
         <transition id="ade08038-18c0-4176-8185-92bd61ab88ba">
             <read>
                 <symbol>*</symbol>
@@ -968,8 +969,8 @@
             </action>
         </transition>
     </edge>
-    <edge from="b916de36-0902-4dc0-862d-6ade6cd2e5ee" labelx="0" labely="0" to="b916de36-0902-4dc0-862d-6ade6cd2e5ee">
-        <via x="780" y="380"/>
+    <edge from="b916de36-0902-4dc0-862d-6ade6cd2e5ee" labelx="0" labely="30" to="b916de36-0902-4dc0-862d-6ade6cd2e5ee">
+        <via x="800" y="380"/>
         <transition id="65fcc74a-5062-4dd9-a625-b5248ec73046">
             <read>
                 <symbol>*</symbol>
@@ -1127,7 +1128,7 @@
             </action>
         </transition>
     </edge>
-    <edge from="2f53b2cb-6ce5-44ec-8689-7c6df7ea3ce0" labelx="0" labely="0" to="16739ab6-0000-4255-a5d5-3d70fd2cb380">
+    <edge from="2f53b2cb-6ce5-44ec-8689-7c6df7ea3ce0" labelx="0" labely="25" to="16739ab6-0000-4255-a5d5-3d70fd2cb380">
         <transition id="a2552611-2466-457c-84fd-3dae8fcffabb">
             <read>
                 <symbol>1</symbol>
@@ -1255,8 +1256,8 @@
             </action>
         </transition>
     </edge>
-    <edge from="2f53b2cb-6ce5-44ec-8689-7c6df7ea3ce0" labelx="0" labely="0" to="2f53b2cb-6ce5-44ec-8689-7c6df7ea3ce0">
-        <via x="80" y="810"/>
+    <edge from="2f53b2cb-6ce5-44ec-8689-7c6df7ea3ce0" labelx="0" labely="-60" to="2f53b2cb-6ce5-44ec-8689-7c6df7ea3ce0">
+        <via x="130" y="800"/>
         <transition id="f6c65ea7-f57f-4a07-8121-c11f035eb672">
             <read>
                 <symbol>9</symbol>
@@ -1272,8 +1273,8 @@
             </action>
         </transition>
     </edge>
-    <edge from="16739ab6-0000-4255-a5d5-3d70fd2cb380" labelx="0" labely="-70" to="16739ab6-0000-4255-a5d5-3d70fd2cb380">
-        <via x="290" y="820"/>
+    <edge from="16739ab6-0000-4255-a5d5-3d70fd2cb380" labelx="0" labely="30" to="16739ab6-0000-4255-a5d5-3d70fd2cb380">
+        <via x="800" y="730"/>
         <transition id="02b60ac8-5d31-465b-8982-003eb1e1dd77">
             <read>
                 <symbol>1</symbol>
@@ -1415,9 +1416,9 @@
             </action>
         </transition>
     </edge>
-    <edge from="16739ab6-0000-4255-a5d5-3d70fd2cb380" labelx="0" labely="0" to="0b2b09a3-dffa-493d-92b3-795bb7a80803">
-        <via x="1090" y="780"/>
-        <via x="1080" y="300"/>
+    <edge from="16739ab6-0000-4255-a5d5-3d70fd2cb380" labelx="-1" labely="29" to="0b2b09a3-dffa-493d-92b3-795bb7a80803">
+        <via x="1080" y="720"/>
+        <via x="1080" y="310"/>
         <transition id="f24ad2e8-3ee9-4de1-a034-ce231119e72d">
             <read>
                 <symbol>#</symbol>
@@ -1433,7 +1434,7 @@
             </action>
         </transition>
     </edge>
-    <edge from="2048b837-9ff2-4175-bfaf-6f21e45932ac" labelx="0" labely="0" to="2f53b2cb-6ce5-44ec-8689-7c6df7ea3ce0">
+    <edge from="2048b837-9ff2-4175-bfaf-6f21e45932ac" labelx="0" labely="-55" to="2f53b2cb-6ce5-44ec-8689-7c6df7ea3ce0">
         <transition id="b62f798b-833e-4bd6-b868-90409c55f8e0">
             <read>
                 <symbol>*</symbol>
@@ -1452,20 +1453,20 @@
     <textbox height="30" width="290" x="40" y="60">
         <text>Copy second argument to second tape</text>
     </textbox>
-    <textbox height="30" width="180" x="40" y="310">
+    <textbox height="30" width="180" x="40" y="260">
         <text>Check if zero</text>
     </textbox>
-    <textbox height="30" width="220" x="50" y="510">
+    <textbox height="30" width="220" x="40" y="460">
         <text>Second argument minus 1</text>
     </textbox>
-    <textbox height="90" width="210" x="720" y="10">
+    <textbox height="60" width="210" x="740" y="10">
         <text>Please don't simulate this machine 
 with the LEGO-Tape!</text>
     </textbox>
-    <textbox height="30" width="170" x="140" y="660">
+    <textbox height="30" width="170" x="200" y="620">
         <text>Add 1 to first arg</text>
     </textbox>
-    <textbox height="50" width="420" x="620" y="130">
+    <textbox height="50" width="420" x="620" y="80">
         <text>Input: n1#n2
 n1 has to be at least as long as n2 (add trailing zeros!)
 Output: n1+n2
