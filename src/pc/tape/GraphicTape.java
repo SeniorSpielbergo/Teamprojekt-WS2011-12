@@ -12,7 +12,6 @@ import java.util.HashMap;
  *
  */
 public class GraphicTape extends Tape {
-
 	/**
 	 * Panel for the tape.
 	 */
@@ -134,6 +133,7 @@ public class GraphicTape extends Tape {
 		char oldChar = this.get(this.getPosition());
 		this.memory.put(this.position, c);
 		this.canvas.write(oldChar);
+		System.out.println(this);
 		if(this.isDelayEnabled()){
 			try{
 				Thread.sleep(500);
@@ -154,6 +154,8 @@ public class GraphicTape extends Tape {
 
 		position--;
 		this.canvas.move(position + 1);
+		System.out.println(this);
+
 		if(this.isDelayEnabled()){
 			try{
 				Thread.sleep(500);
@@ -173,6 +175,7 @@ public class GraphicTape extends Tape {
 		
 		position++;
 		this.canvas.move(position - 1);
+		System.out.println(this);
 
 		if(this.isDelayEnabled()){
 			try{
@@ -249,5 +252,73 @@ public class GraphicTape extends Tape {
 	@Override
 	public Object clone() {
 		return this;
+	}
+	
+	/**
+	 * Returns a formatted string representing the current tape state.
+	 * It includes the tape name, relevant parts of the memory and the head position.
+	 */
+	@Override
+	public String toString() {
+		String text;
+		if (ready) {
+			text = " " + this.getName() + "@pos "  + this.getPosition() + ": \n";
+			int offset = this.getPosition() - (this.getPosition() % 10) - 20 ;
+			text += this.getMemoryAsFormattedString(offset, 40);
+		}
+		else {
+			text = " " + this.getName() + " (tape not initialized), input word: " + this.inputWord;
+		}
+
+		return text;
+	}
+	
+	/**
+	 * Returns a formatted string representing the current memory state.
+	 * It includes specified part of the memory and the head position.
+	 * @param offset First memory position to be included
+	 * @param length Number of memory fields to be included
+	 * @return The formatted string with the memory content
+	 */
+	public String getMemoryAsFormattedString(int offset, int length) {
+		if (length < 1) return "";
+
+		//print top horizontal line
+		String text = "-";
+		for (int i=offset; i<=offset+length; i++) {
+			text += "--";
+		}
+		text += "\n";
+
+		//print memory
+		text += "|";
+		for (int i=offset; i<=offset+length; i++) {
+			if (this.memory.get(i) != null) {
+				text += this.memory.get(i);
+			}
+			else {
+				text += "#";
+			}
+			text += "|";
+		}
+		text += "\n";
+
+		//print head position
+		if (this.position >= offset && this.position <= offset+length) {
+			for (int i=offset; i<this.position; i++) {
+				text += "  ";
+			}
+			text += " ^";
+		}
+		text += "\n";
+
+		//print bottom horizontal line
+		text += "-";
+		for (int i=offset; i<=offset+length; i++) {
+			text += "--";
+		}
+		text += "\n";
+
+		return text;
 	}
 }

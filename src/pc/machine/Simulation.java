@@ -142,15 +142,6 @@ public abstract class Simulation extends Observable implements Runnable{
 		catch (RuntimeException e){
 			ErrorDialog.showError("The simulation failed because of an undefined exception.", e);
 		}
-		finally {
-			try {
-				System.out.println("shutdown tapes");
-				this.machine.shutdownTapes();
-				System.out.println("shutdown tapes ok");
-			} catch (TapeException e) {
-				ErrorDialog.showError("Warning: The tapes could't be shutdown correctly.", e);
-			}
-		}
 	}
 
 	/**

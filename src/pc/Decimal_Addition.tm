@@ -43,7 +43,7 @@
         <name>q8</name>
     </state>
     <edge from="9da9938b-9096-4f47-a580-438b9b163ad4" labelx="0" labely="-80" to="9da9938b-9096-4f47-a580-438b9b163ad4">
-        <via x="170" y="150"/>
+        <via x="170" y="190"/>
         <transition id="d8e3fd24-ba95-4b5f-8e8a-dcafaf092e30">
             <read>
                 <symbol>0</symbol>
