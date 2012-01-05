@@ -814,7 +814,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			}
 		}
 		else if (obj instanceof Tape.Event){
-			if((Tape.Event)obj==Tape.Event.INPUTFINISHED){
+			if((Tape.Event)obj==Tape.Event.INPUTFINISHED){ //FIXME: is this ok? seems like it is executed if any tape has finished, not all
 				inputWordWritten = true;
 				if (selectedState != null){
 					if(selectedState.getStyle()=="FINAL"){

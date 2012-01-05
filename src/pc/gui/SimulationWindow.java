@@ -73,12 +73,12 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		this.currentMachine = machine;
 		this.editor = editor;
 		for(int i = 0; i< currentMachine.getTapes().size(); i++){
+			this.currentMachine.getTapes().get(i).addObserver(this);
+			if(this.currentMachine.getType() == Machine.MachineType.TuringMachine){
+				this.currentMachine.getTapes().get(i).addObserver((TuringMachineEditor)(currentMachine.getEditor()));
+			}
 			if(currentMachine.getTapes().get(i).getType() == tape.Tape.Type.GRAPHIC){
 				graphicTapes.add((tape.GraphicTape)machine.getTapes().get(i));
-				graphicTapes.get(i).addObserver(this);
-				if(this.currentMachine.getType() == Machine.MachineType.TuringMachine){
-					graphicTapes.get(i).addObserver((TuringMachineEditor)(currentMachine.getEditor()));
-				}
 			}
 		}
 		

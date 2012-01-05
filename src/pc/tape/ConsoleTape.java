@@ -3,6 +3,8 @@ package tape;
 import java.util.*;
 import java.lang.String;
 
+import tape.Tape.Event;
+
 /**
  * Implements a virtual tape and shows it on the console
  * @author Nils Breyer
@@ -85,12 +87,27 @@ public class ConsoleTape extends Tape {
 		}
 		//write input word to tape
 		for (int i = 0; i < this.inputWord.length(); i++) {
+			if(this.iWishToInterruptThisThread){
+				System.out.println("thread wird gestoppt");
+				super.setChanged();
+				super.notifyObservers(Event.INPUTABORTED);
+				break;
+			}
+
 			this.write(this.inputWord.charAt(i));
 			this.moveRight();
 		}
 		for (int i = 0; i < this.inputWord.length(); i++) {
+			if(this.iWishToInterruptThisThread){
+				System.out.println("thread wird gestoppt");
+				super.setChanged();
+				super.notifyObservers(Event.INPUTABORTED);
+				break;
+			}
 			this.moveLeft();
 		}
+		if(this.iWishToInterruptThisThread)
+			return false;
 		return true;
 	}
 
