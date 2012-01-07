@@ -202,7 +202,7 @@
         </transition>
     </edge>
     <edge from="b77538f0-39dc-4b6c-ae3d-c9644028089e" labelx="0" labely="40" to="b77538f0-39dc-4b6c-ae3d-c9644028089e">
-        <via x="500" y="170"/>
+        <via x="460" y="130"/>
         <transition id="30606637-55e5-4104-8f3c-81f56de9e089">
             <read>
                 <symbol>0</symbol>
@@ -665,7 +665,7 @@
             </action>
         </transition>
     </edge>
-    <edge from="7fadb63d-b423-4ec7-a0bc-e6475a412c58" labelx="0" labely="-4" to="7fadb63d-b423-4ec7-a0bc-e6475a412c58">
+    <edge from="7fadb63d-b423-4ec7-a0bc-e6475a412c58" labelx="0" labely="6" to="7fadb63d-b423-4ec7-a0bc-e6475a412c58">
         <transition id="82fa005b-bde8-4947-bd83-8a1d7844ec78">
             <read>
                 <symbol>*</symbol>
@@ -682,7 +682,7 @@
         </transition>
     </edge>
     <edge from="2048b837-9ff2-4175-bfaf-6f21e45932ac" labelx="0" labely="-60" to="2048b837-9ff2-4175-bfaf-6f21e45932ac">
-        <via x="130" y="650"/>
+        <via x="130" y="600"/>
         <transition id="c99b6a49-f9f9-4c71-9a10-7230623a2230">
             <read>
                 <symbol>*</symbol>
@@ -824,8 +824,8 @@
             </action>
         </transition>
     </edge>
-    <edge from="bdc22518-2d07-4d41-bb85-0f1676cf0402" labelx="0" labely="-22" to="bdc22518-2d07-4d41-bb85-0f1676cf0402">
-        <via x="450" y="370"/>
+    <edge from="bdc22518-2d07-4d41-bb85-0f1676cf0402" labelx="0" labely="20" to="bdc22518-2d07-4d41-bb85-0f1676cf0402">
+        <via x="440" y="330"/>
         <transition id="d6bf2d43-06b2-4fea-95e7-999c63235dc7">
             <read>
                 <symbol>*</symbol>
@@ -970,7 +970,7 @@
         </transition>
     </edge>
     <edge from="b916de36-0902-4dc0-862d-6ade6cd2e5ee" labelx="0" labely="30" to="b916de36-0902-4dc0-862d-6ade6cd2e5ee">
-        <via x="800" y="380"/>
+        <via x="790" y="330"/>
         <transition id="65fcc74a-5062-4dd9-a625-b5248ec73046">
             <read>
                 <symbol>*</symbol>
@@ -1257,7 +1257,7 @@
         </transition>
     </edge>
     <edge from="2f53b2cb-6ce5-44ec-8689-7c6df7ea3ce0" labelx="0" labely="-60" to="2f53b2cb-6ce5-44ec-8689-7c6df7ea3ce0">
-        <via x="130" y="800"/>
+        <via x="130" y="750"/>
         <transition id="f6c65ea7-f57f-4a07-8121-c11f035eb672">
             <read>
                 <symbol>9</symbol>
@@ -1274,7 +1274,7 @@
         </transition>
     </edge>
     <edge from="16739ab6-0000-4255-a5d5-3d70fd2cb380" labelx="0" labely="30" to="16739ab6-0000-4255-a5d5-3d70fd2cb380">
-        <via x="800" y="730"/>
+        <via x="750" y="680"/>
         <transition id="02b60ac8-5d31-465b-8982-003eb1e1dd77">
             <read>
                 <symbol>1</symbol>
@@ -1416,7 +1416,7 @@
             </action>
         </transition>
     </edge>
-    <edge from="16739ab6-0000-4255-a5d5-3d70fd2cb380" labelx="-1" labely="29" to="0b2b09a3-dffa-493d-92b3-795bb7a80803">
+    <edge from="16739ab6-0000-4255-a5d5-3d70fd2cb380" labelx="-1" labely="12" to="0b2b09a3-dffa-493d-92b3-795bb7a80803">
         <via x="1080" y="720"/>
         <via x="1080" y="310"/>
         <transition id="f24ad2e8-3ee9-4de1-a034-ce231119e72d">
