@@ -71,6 +71,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	private boolean inputWordWritten = false;
 	private mxCell selectedState = null;
 	private mxCell selectedEdge = null;
+	private mxCell lastSelectedEdge = null;
 	protected ArrayList<TuringMachineState> turingMachineStates = null;
 	protected int currentStateIndex = -1;
 	protected boolean undoing = false; 
@@ -252,11 +253,19 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
 				if(initialized){
+					Edge oldEdge = (Edge) lastSelectedEdge.getValue();
 					mxCell graphEdge = (mxCell) e.getProperty("edge");
 					mxICell source = ((mxCell) graphEdge).getSource();
 					mxICell target = ((mxCell) graphEdge).getTarget();
 					if(source != null && target != null) {
-						Edge edge = new Edge((State) (graphEdge.getSource().getValue()),(State)(graphEdge.getTarget().getValue()),new ArrayList<Transition>());
+						Edge edge = null;
+						if (oldEdge.getTransitions().size() != 0) {
+							edge = new Edge((State) (graphEdge.getSource().getValue()),(State)(graphEdge.getTarget().getValue()),oldEdge.getTransitions());
+							machine.getEdges().remove(oldEdge);
+						}
+						else {
+							edge = new Edge((State) (graphEdge.getSource().getValue()),(State)(graphEdge.getTarget().getValue()),new ArrayList<Transition>());
+						}
 						graphEdge.setValue(edge);
 						machine.getEdges().add(edge);
 						graph.refresh();
@@ -661,6 +670,10 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			}
 			graph.refresh();
 			this.addUndoableEdit("Label moved");
+			lastSelectedEdge = mxEdge;
+		}
+		else {
+			lastSelectedEdge = null;
 		}
 	}
 
