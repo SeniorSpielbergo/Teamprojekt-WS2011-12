@@ -358,9 +358,6 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		for (GraphicTape tape : this.graphicTapes) {
 			tape.setStyle(style);
 		}
-		this.scrollpaneRight.validate();
-		this.scrollpaneRight.repaint();
-		this.scrollpaneRight.validate();
 	}
 	
 	public String getTapeStyle() {
