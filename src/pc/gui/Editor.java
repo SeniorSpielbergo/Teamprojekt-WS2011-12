@@ -10,11 +10,13 @@ import machine.brainfuck.BrainfuckMachine;
 import machine.turing.*;
 import gui.RunWindow.*;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.Toolkit;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /** This class represents an editor for Turing machines.
  * 
@@ -55,6 +57,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	private JMenuItem organizeRobotsAction;
 	private JMenuItem aboutAction;
 	private JCheckBoxMenuItem toggleDelayAction;
+	private ArrayList<JRadioButtonMenuItem> tapeStyleMenuItems = new ArrayList<JRadioButtonMenuItem>();
 	private JMenu tapeStyleSubmenu;
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
@@ -117,8 +120,9 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	 */
 	public static boolean contains(Object[] array, Object object) {
 		for (Object o: array) {
-			if (o == object) 
+			if (o == object)  {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -179,7 +183,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			if (style.isDirectory() == true) {
 				JRadioButtonMenuItem styleMenuItem = new JRadioButtonMenuItem(style.getName());
 				styleMenuItem.setSelected(style.getName().equals("default"));
-				styleMenuItem.addActionListener(this);
+				styleMenuItem.addItemListener(this);
+				this.tapeStyleMenuItems.add(styleMenuItem);
 				tapeStyleSubmenu.add(styleMenuItem);
 			}
 		}
@@ -428,6 +433,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		this.newBFAction.setEnabled(editable);
 		this.newTMAction.setEnabled(editable);
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == newTMAction) {
@@ -463,9 +469,6 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		}
 		else if (e.getSource() == exitAction) {
 			exitEditor();
-		}
-		else if (contains(tapeStyleSubmenu.getComponents(), e.getSource())) {
-			//TODO: set tape style
 		}
 	}
 
@@ -528,7 +531,20 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			for (Tape t : this.currentMachine.getTapes()){
 				t.setDelay(toggleDelayAction.getState());
 			}
-
+		}
+		else if (contains(this.tapeStyleMenuItems.toArray(), e.getSource())) {
+			for (JRadioButtonMenuItem item : this.tapeStyleMenuItems) {
+				item.removeItemListener(this);
+			}
+			for (Component comp : this.tapeStyleMenuItems) {
+				JRadioButtonMenuItem menu = (JRadioButtonMenuItem) comp;
+				menu.setSelected(false);
+			}
+			JRadioButtonMenuItem style = (JRadioButtonMenuItem) e.getSource();
+			style.setSelected(true);
+			for (JRadioButtonMenuItem item : this.tapeStyleMenuItems) {
+				item.addItemListener(this);
+			}
 		}
 	}
 }
