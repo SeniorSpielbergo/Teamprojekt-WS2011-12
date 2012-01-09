@@ -253,13 +253,16 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
 				if(initialized){
-					Edge oldEdge = (Edge) lastSelectedEdge.getValue();
+					Edge oldEdge = null;
+					if (lastSelectedEdge != null) {
+						oldEdge = (Edge) lastSelectedEdge.getValue();
+					}
 					mxCell graphEdge = (mxCell) e.getProperty("edge");
 					mxICell source = ((mxCell) graphEdge).getSource();
 					mxICell target = ((mxCell) graphEdge).getTarget();
 					if(source != null && target != null) {
 						Edge edge = null;
-						if (oldEdge.getTransitions().size() != 0) {
+						if (oldEdge != null && oldEdge.getTransitions().size() != 0) {
 							edge = new Edge((State) (graphEdge.getSource().getValue()),(State)(graphEdge.getTarget().getValue()),oldEdge.getTransitions());
 							machine.getEdges().remove(oldEdge);
 						}
@@ -665,7 +668,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			edge.setPosLabelY((int) g.getY());
 
 			edge.getVia().clear();
-			for (mxPoint p : mxEdge.getGeometry().getPoints()) {
+			for (mxPoint p : mxEdge.getGeometry().getPoints()) {	// FIXME This is causing NullpointerExceptions on adding new Edges
 				edge.getVia().add(new Point((int)p.getX(), (int)p.getY()));
 			}
 			graph.refresh();
