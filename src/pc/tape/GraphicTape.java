@@ -133,7 +133,6 @@ public class GraphicTape extends Tape {
 		char oldChar = this.get(this.getPosition());
 		this.memory.put(this.position, c);
 		this.canvas.write(oldChar);
-		System.out.println(this);
 		if(this.isDelayEnabled()){
 			try{
 				Thread.sleep(500);
@@ -154,7 +153,6 @@ public class GraphicTape extends Tape {
 
 		position--;
 		this.canvas.move(position + 1);
-		System.out.println(this);
 
 		if(this.isDelayEnabled()){
 			try{
@@ -175,7 +173,6 @@ public class GraphicTape extends Tape {
 		
 		position++;
 		this.canvas.move(position - 1);
-		System.out.println(this);
 
 		if(this.isDelayEnabled()){
 			try{
@@ -280,7 +277,7 @@ public class GraphicTape extends Tape {
 	 * @param length Number of memory fields to be included
 	 * @return The formatted string with the memory content
 	 */
-	public String getMemoryAsFormattedString(int offset, int length) {
+	public String getMemoryAsFormattedString(int offset, int length) { //only used for debugging
 		if (length < 1) return "";
 
 		//print top horizontal line
@@ -320,5 +317,13 @@ public class GraphicTape extends Tape {
 		text += "\n";
 
 		return text;
+	}
+	
+	public String getStyle() {
+		return this.canvas.getStyle();
+	}
+	
+	public void setStyle(String style) {
+		this.canvas.setStyle(style);
 	}
 }

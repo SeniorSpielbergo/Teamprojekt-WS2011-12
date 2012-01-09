@@ -1,8 +1,11 @@
 package tape;
 
+import gui.ErrorDialog;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -24,21 +27,43 @@ public class GraphicTapePanel extends JPanel {
 	private char oldChar = '#';
 	private int moveAnimationOffset = 0;
 	private int writeAnimationFrameCount = 100;
+	private String style = "";
 
 	public GraphicTapePanel(GraphicTape tape) {
 		super();
 		this.tape = tape;
+		
+		this.setStyle("default");
+	}
+	
+	public GraphicTapePanel(GraphicTape tape, String style) {
+		super();
+		this.tape = tape;
+		
+		this.setStyle(style);
+	}
+	
+	public String getStyle() {
+		return style;
+	}
+
+	public void setStyle(String style) {
+		this.style = style;
+		this.loadStyle(style);
+	}
+
+	private void loadStyle(String style) {
 		try {
-			fieldImage = ImageIO.read(new File("tape/images/tape_field.png"));
+			fieldImage = ImageIO.read(new File("tape/images/styles/" + style + "/tape_field.png"));
 			fieldWidth = fieldImage.getWidth();
 			fieldHeight = fieldImage.getHeight();
 		} catch (IOException e) {
-			e.printStackTrace();
+			ErrorDialog.showError("The image 'tape/images/styles/" + style + "/tape_field.png' couldn't be opened.", e);
 		}
 		try {
-			headImage = ImageIO.read(new File("tape/images/head.png"));
+			headImage = ImageIO.read(new File("tape/images/styles/" + style + "/head.png"));
 		} catch (IOException e) {
-			e.printStackTrace();
+			ErrorDialog.showError("The image 'tape/images/styles/" + style + "/head.png' couldn't be opened.", e);
 		}
 		this.setMinimumSize(new Dimension(2 * fieldWidth,fieldHeight)); //at least show 2 fields
 		this.setPreferredSize(new Dimension(10 * fieldWidth,fieldHeight));

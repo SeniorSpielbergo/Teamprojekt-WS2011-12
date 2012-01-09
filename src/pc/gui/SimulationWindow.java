@@ -5,6 +5,7 @@ import gui.turing.TuringMachineEditor;
 import java.util.*;
 import javax.swing.*;
 
+import tape.GraphicTape;
 import tape.Tape;
 import tape.TapeException;
 import java.awt.*;
@@ -50,13 +51,14 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	 */
 	Simulation sim;
 	
-	Editor editor;
+	private boolean delay = true;
+	private String style = "default";
+	private Editor editor;
+	private int counter = 0; 
 
-	int counter = 0; 
-
-	ImageIcon iconPlay = new ImageIcon(SimulationWindow.class.getResource("images/play.png"));
-	ImageIcon iconPause = new ImageIcon(SimulationWindow.class.getResource("images/pause.png"));
-	ImageIcon iconStepForward = new ImageIcon(SimulationWindow.class.getResource("images/forward.png"));
+	private ImageIcon iconPlay = new ImageIcon(SimulationWindow.class.getResource("images/play.png"));
+	private ImageIcon iconPause = new ImageIcon(SimulationWindow.class.getResource("images/pause.png"));
+	private ImageIcon iconStepForward = new ImageIcon(SimulationWindow.class.getResource("images/forward.png"));
 
 	
 	public SimulationWindow(Machine machine) {
@@ -210,7 +212,6 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		this.repaint();
 	}
 
-	//TODO shutdown tapes, if simwindow closed without finishing simulation
 	public void dispose(){
 		if(!this.sim.isSimulationAlreadyStarted()){
 			for (Tape t : this.graphicTapes){
@@ -337,5 +338,29 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			}
 			simulationPaused = !simulationPaused;
 		}
+	}
+	
+	public void setDelay(boolean enabled) {
+		this.delay = enabled;
+		
+		for (GraphicTape tape : this.graphicTapes) {
+			tape.setDelay(enabled);
+		}
+	}
+	
+	public boolean getDelay() {
+		return this.delay;
+	}
+	
+	public void setTapeStyle(String style) {
+		this.style = style;
+		
+		for (GraphicTape tape : this.graphicTapes) {
+			tape.setStyle(style);
+		}
+	}
+	
+	public String getTapeStyle() {
+		return this.style;
 	}
 }

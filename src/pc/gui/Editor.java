@@ -45,6 +45,10 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	protected Machine currentMachine;
 	private File currentFile = null;
 	private String lastDir = ".";
+	private boolean delay = true;
+	private String tapeStyle = "default";
+	private SimulationWindow simulationWindow = null;
+	
 	private JMenu newSubmenu;
 	private JMenuItem newBFAction;
 	private JMenuItem newTMAction;
@@ -413,7 +417,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 
 		ReturnValue returnValue = runWindow.showDialog();
 		if (returnValue == ReturnValue.RUN) {
-			new SimulationWindow(this.currentMachine, this);
+			this.simulationWindow = new SimulationWindow(this.currentMachine, this);
+			this.applySimulationSettings();
 		}
 	}
 
@@ -510,6 +515,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			}
 
 			this.currentFile = null;
+			this.simulationWindow = null;
 			this.setTitle(APP_NAME);
 
 			saveAction.setEnabled(false);
@@ -528,23 +534,34 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getSource() == toggleDelayAction) {
-			for (Tape t : this.currentMachine.getTapes()){
-				t.setDelay(toggleDelayAction.getState());
-			}
+			this.delay = this.toggleDelayAction.getState();
 		}
 		else if (contains(this.tapeStyleMenuItems.toArray(), e.getSource())) {
 			for (JRadioButtonMenuItem item : this.tapeStyleMenuItems) {
 				item.removeItemListener(this);
 			}
+			
 			for (Component comp : this.tapeStyleMenuItems) {
 				JRadioButtonMenuItem menu = (JRadioButtonMenuItem) comp;
 				menu.setSelected(false);
 			}
 			JRadioButtonMenuItem style = (JRadioButtonMenuItem) e.getSource();
 			style.setSelected(true);
+			this.tapeStyle = style.getText();
+			
 			for (JRadioButtonMenuItem item : this.tapeStyleMenuItems) {
 				item.addItemListener(this);
 			}
 		}
+		
+		this.applySimulationSettings();
+	}
+	
+	private void applySimulationSettings() {
+		if (this.simulationWindow != null) {
+			this.simulationWindow.setDelay(this.delay);
+			this.simulationWindow.setTapeStyle(this.tapeStyle);
+		}
+
 	}
 }
