@@ -55,6 +55,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	private JMenuItem organizeRobotsAction;
 	private JMenuItem aboutAction;
 	private JCheckBoxMenuItem toggleDelayAction;
+	private JMenu tapeStyleSubmenu;
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
 	private JMenu simulationMenu;
@@ -94,6 +95,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		fileMenu.add(exitAction);
 		simulationMenu.add(runAction);
 		simulationMenu.add(toggleDelayAction);
+		simulationMenu.add(tapeStyleSubmenu);
 		simulationMenu.add(new JSeparator());
 		simulationMenu.add(organizeRobotsAction);
 		helpMenu.add(aboutAction);
@@ -105,6 +107,20 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		runAction.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	}
+	
+	/**
+	 * Checks if an object is contained in an array
+	 * @param array The array to search in
+	 * @param object The object to be searched
+	 * @return True if the object is contained in the array, false if not
+	 */
+	public static boolean contains(Object[] array, Object object) {
+		for (Object o: array) {
+			if (o == object) 
+				return true;
+		}
+		return false;
 	}
 
 	/**
@@ -142,21 +158,37 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		// set menu bar
 		setJMenuBar(menuBar);
 
-		// create submenu items
+		// create File->New menu items
 		newSubmenu = new JMenu("New");
 		newTMAction = new JMenuItem("Turing machine...");
 		newBFAction = new JMenuItem("Brainfuck program");
 		newSubmenu.add(newTMAction);
 		newSubmenu.add(newBFAction);
 
-		// create menu subitems
+		// create File menu items
 		openAction = new JMenuItem("Open...");
 		saveAction = new JMenuItem("Save");
 		saveAsAction = new JMenuItem("Save As...");
 		exportLatexAction = new JMenuItem("Export as LaTeX");
 		exitAction = new JMenuItem("Exit");
-		runAction = new JMenuItem("Run...");
+		
+		// create Simulation->Tape style submenu items
+		tapeStyleSubmenu = new JMenu("Tape style");
+		File stylesDir = new File("tape/images/styles");
+		for (File style : stylesDir.listFiles()) {
+			if (style.isDirectory() == true) {
+				JRadioButtonMenuItem styleMenuItem = new JRadioButtonMenuItem(style.getName());
+				styleMenuItem.setSelected(style.getName().equals("default"));
+				styleMenuItem.addActionListener(this);
+				tapeStyleSubmenu.add(styleMenuItem);
+			}
+		}
 
+		newSubmenu.add(newTMAction);
+		newSubmenu.add(newBFAction);
+		
+		// create Simulation menu items
+		runAction = new JMenuItem("Run...");
 		organizeRobotsAction = new JMenuItem("Organize robots...");
 		aboutAction = new JMenuItem("About...");
 
@@ -431,6 +463,9 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		}
 		else if (e.getSource() == exitAction) {
 			exitEditor();
+		}
+		else if (contains(tapeStyleSubmenu.getComponents(), e.getSource())) {
+			//TODO: set tape style
 		}
 	}
 
