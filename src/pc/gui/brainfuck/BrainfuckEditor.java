@@ -1,5 +1,6 @@
 package gui.brainfuck;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -97,11 +98,27 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 	@Override
 	public void update(Observable obs, Object obj) {
 		if(obs instanceof BrainfuckSimulation && obj instanceof Integer) {
-			document.resetHighlights();
+			try {
+				SwingUtilities.invokeAndWait(new Runnable() {
+					public void run() {
+						document.resetHighlights();
+					}
+				});
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+			}
 			document.setHighlight((Integer) obj);
 		}
 		else if(obs instanceof BrainfuckSimulation && obj instanceof Simulation.simulationState) {
-			document.resetHighlights();
+			try {
+				SwingUtilities.invokeAndWait(new Runnable() {
+					public void run() {
+						document.resetHighlights();
+					}
+				});
+			} catch (InvocationTargetException | InterruptedException e) {
+				e.printStackTrace();
+			}
 			this.setEditable(true);
 		}
 	}
@@ -208,7 +225,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		public void setHighlight(int position) {
 			SimpleAttributeSet attributes = new SimpleAttributeSet();
 			StyleConstants.setForeground(attributes, Color.RED);
-			document.setCharacterAttributes(position, 1, attributes, false);
+			this.setCharacterAttributes(position, 1, attributes, false);
 		}
 		
 		/**
@@ -217,7 +234,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		private void resetHighlights() {
 			SimpleAttributeSet attributes = new SimpleAttributeSet();
 			StyleConstants.setForeground(attributes, Color.BLACK);
-			document.setCharacterAttributes(0, document.getLength(), attributes, false);
+			this.setCharacterAttributes(0, this.getLength()-1, attributes, false);
 		}
 		
 		/**

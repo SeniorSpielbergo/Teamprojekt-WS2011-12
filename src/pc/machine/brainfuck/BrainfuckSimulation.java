@@ -42,7 +42,6 @@ public class BrainfuckSimulation extends Simulation {
 	@Override
 	public void runMachine() throws TapeException, IllegalArgumentException {
 		runMachine(code);
-		
 		if(this.abortSimulation) {
 			this.simulationAborted = true;
 			super.setChanged();
@@ -219,4 +218,4 @@ public class BrainfuckSimulation extends Simulation {
 			e.printStackTrace();
 		}
 	}
-}
+}	
