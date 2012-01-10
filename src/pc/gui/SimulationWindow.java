@@ -79,7 +79,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			if(this.currentMachine.getType() == Machine.MachineType.TuringMachine){
 				this.currentMachine.getTapes().get(i).addObserver((TuringMachineEditor)(currentMachine.getEditor()));
 			}
-			if(currentMachine.getTapes().get(i).getType() == tape.Tape.Type.GRAPHIC){
+			if(currentMachine.getTapes().get(i).getType() == tape.Tape.Type.GRAPHIC || currentMachine.getTapes().get(i).getType() == tape.Tape.Type.LEGO){
 				graphicTapes.add((tape.GraphicTape)machine.getTapes().get(i));
 			}
 		}
@@ -225,7 +225,6 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				Thread.sleep(500);
 			} catch (InterruptedException e) {}
 		}
-		
 
 		try{
 			System.out.println(" i shut down the tapes");

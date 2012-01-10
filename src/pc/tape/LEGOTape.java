@@ -151,7 +151,9 @@ public class LEGOTape extends GraphicTape {
 		super.writeInputWord();
 
 		//write input word to tape
-		for (int i = 0; i <= LEGOTape.MAX_POSITION; i++) {
+		this.write('#');
+		this.moveRight();
+		for (int i = 0; i <= LEGOTape.MAX_POSITION-1; i++) {
 			if(this.iWishToInterruptThisThread){
 				System.out.println("thread wird gestoppt");
 				super.setChanged();
@@ -165,12 +167,12 @@ public class LEGOTape extends GraphicTape {
 			else {
 				this.write('#'); //fill the rest of the tape with #
 			}
-			if (i < LEGOTape.MAX_POSITION) {
+			if (i < LEGOTape.MAX_POSITION-1) {
 				this.moveRight();
 			}
 		}
 
-		for (int i = LEGOTape.MAX_POSITION; i > 0; i--) {
+		for (int i = LEGOTape.MAX_POSITION-1; i > 0; i--) {
 			if(this.iWishToInterruptThisThread){
 				System.out.println("thread wird gestoppt");
 				super.setChanged();
@@ -179,7 +181,6 @@ public class LEGOTape extends GraphicTape {
 			}
 			this.moveLeft();
 		}
-		this.moveRight();
 		return true;
 	}
 
@@ -206,8 +207,9 @@ public class LEGOTape extends GraphicTape {
 	 * @see #write(char)
 	 */
 	public char read() throws TapeException{
-		super.read();
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
+
+		super.read();
 
 		try {
 			currentSymbol = this.master.read();
@@ -252,9 +254,9 @@ public class LEGOTape extends GraphicTape {
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 
 		super.moveLeft();
+		
 		try {
 			this.master.moveLeft();
-			this.position--;
 			System.out.println(this.name + "@pos " + this.position);
 			this.currentSymbol = 'n';
 		}
@@ -278,7 +280,6 @@ public class LEGOTape extends GraphicTape {
 		
 		try {
 			this.master.moveRight();
-			this.position++;
 			System.out.println(this.name + "@pos " + this.position);
 			this.currentSymbol = 'n';
 		}

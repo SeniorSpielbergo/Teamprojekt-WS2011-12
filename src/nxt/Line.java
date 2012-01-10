@@ -10,8 +10,8 @@ import lejos.util.TimerListener;
 public class Line extends Thread {
 	private static final int TIMER_LENGTH = 800;
 	private static final int LEFT_END_MARKER_COLOR = 2;
-	private static final int MARKER_COLOR_MIN = 3;
-	private static final int MARKER_COLOR_MAX = 10;
+	private static final int MARKER_COLOR_MIN = 5;
+	private static final int MARKER_COLOR_MAX = 9;
 	
 	private int counter = 0;
 	private int length = 0;
