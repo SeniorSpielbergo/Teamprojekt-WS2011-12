@@ -527,6 +527,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 				this.menuBar.remove(menu);
 			}
 			this.remove(this.currentMachine.getEditor());
+			this.validate();
 			this.repaint();
 			this.currentMachine = null;
 		}

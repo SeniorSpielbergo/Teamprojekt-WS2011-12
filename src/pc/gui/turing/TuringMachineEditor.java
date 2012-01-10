@@ -761,6 +761,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	@Override
 	public void update(Observable observable, Object obj) {
 		System.out.println("Notified");
+		
 
 		if(obj instanceof State){
 			System.out.println("is State");
@@ -820,7 +821,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				else {
 					selectedState.setStyle("CIRCLE");
 				}
+				if(selectedEdge!= null){
 				selectedEdge.setStyle("EDGE");
+				}
 				inputWordWritten = false;
 				this.setEditable(true);
 			} else if (((Simulation.simulationState)obj)==Simulation.simulationState.FINISHED){
