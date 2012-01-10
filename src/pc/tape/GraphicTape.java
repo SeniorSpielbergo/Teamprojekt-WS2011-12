@@ -170,7 +170,7 @@ public class GraphicTape extends Tape {
 	 */
 	public void moveRight() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
-		
+
 		position++;
 		this.canvas.move(position - 1);
 
@@ -206,7 +206,6 @@ public class GraphicTape extends Tape {
 		//write input word to tape
 		for (int i = 0; i < this.inputWord.length(); i++) {
 			if(this.iWishToInterruptThisThread){
-				System.out.println("thread wird gestoppt");
 				super.setChanged();
 				super.notifyObservers(Event.INPUTABORTED);
 				break;
@@ -217,7 +216,6 @@ public class GraphicTape extends Tape {
 		}
 		for (int i = 0; i < this.inputWord.length(); i++) {
 			if(this.iWishToInterruptThisThread){
-				System.out.println("thread wird gestoppt");
 				super.setChanged();
 				super.notifyObservers(Event.INPUTABORTED);
 				break;
@@ -236,7 +234,7 @@ public class GraphicTape extends Tape {
 	public JPanel getTapePanel() {
 		return tapePanel;
 	}
-	
+
 	public char get(int position) {
 		if (this.memory.get(position) != null) {
 			return this.memory.get(position);
@@ -250,7 +248,7 @@ public class GraphicTape extends Tape {
 	public Object clone() {
 		return this;
 	}
-	
+
 	/**
 	 * Returns a formatted string representing the current tape state.
 	 * It includes the tape name, relevant parts of the memory and the head position.
@@ -269,7 +267,7 @@ public class GraphicTape extends Tape {
 
 		return text;
 	}
-	
+
 	/**
 	 * Returns a formatted string representing the current memory state.
 	 * It includes specified part of the memory and the head position.
@@ -318,11 +316,11 @@ public class GraphicTape extends Tape {
 
 		return text;
 	}
-	
+
 	public String getStyle() {
 		return this.canvas.getStyle();
 	}
-	
+
 	public void setStyle(String style) {
 		this.canvas.setStyle(style);
 	}

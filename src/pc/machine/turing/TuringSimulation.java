@@ -85,6 +85,12 @@ public class TuringSimulation extends Simulation{
 				super.notifyObservers((Object)Simulation.simulationState.FINISHED);
 
 			}
+			else if(!currentState.isFinalState() && rightLabel == null){
+				System.out.println("abgekackt");
+				super.setChanged();
+				super.notifyObservers((Object)Simulation.simulationState.ABORTED);
+
+			}
 
 			else{
 				System.out.println("State: "+ this.currentState);
