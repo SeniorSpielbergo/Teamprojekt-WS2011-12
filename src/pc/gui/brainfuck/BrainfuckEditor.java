@@ -110,15 +110,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 			document.setHighlight((Integer) obj);
 		}
 		else if(obs instanceof BrainfuckSimulation && obj instanceof Simulation.simulationState) {
-			try {
-				SwingUtilities.invokeAndWait(new Runnable() {
-					public void run() {
-						document.resetHighlights();
-					}
-				});
-			} catch (InvocationTargetException | InterruptedException e) {
-				e.printStackTrace();
-			}
+			document.resetHighlights();
 			this.setEditable(true);
 		}
 	}
