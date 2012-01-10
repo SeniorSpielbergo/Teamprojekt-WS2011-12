@@ -112,7 +112,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			tapeName[i] = new JTextField(this.machine.getTapes().get(i).getName(), 20);
 			tapeName[i].addKeyListener(this);
 			tapeInput[i] = new JTextField(20);
-			if (!this.machine.getTapes().get(i).isInputAllowed()) {
+			if (!this.machine.getTapes().get(i).getInputAllowed()) {
 				tapeInput[i].setEditable(false);
 			}
 
@@ -219,7 +219,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			int robotNumber2 = robotCombo2[tape].getSelectedIndex();
 			MasterRobot master = new MasterRobot(robots.get(robotNumber1).get(0), robots.get(robotNumber1).get(1));
 			SlaveRobot slave = new SlaveRobot(robots.get(robotNumber2).get(0), robots.get(robotNumber2).get(1));
-			Tape tape_lego = new LEGOTape(machine.getTapes().get(tape).getName(), master, slave, machine.getTapes().get(tape).isInputAllowed());
+			Tape tape_lego = new LEGOTape(machine.getTapes().get(tape).getName(), master, slave, machine.getTapes().get(tape).getInputAllowed());
 			try {
 				tape_lego.setInputWord(machine.getTapes().get(tape).getInputWord());
 			} catch (TapeException e1) {
@@ -229,7 +229,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			machine.getTapes().add(tape, tape_lego);
 		}
 		else if (type == Tape.Type.CONSOLE) {
-			Tape tape_console = new ConsoleTape(machine.getTapes().get(tape).getName(), machine.getTapes().get(tape).isInputAllowed());
+			Tape tape_console = new ConsoleTape(machine.getTapes().get(tape).getName(), machine.getTapes().get(tape).getInputAllowed());
 
 			try {
 				tape_console.setInputWord(machine.getTapes().get(tape).getInputWord());
@@ -241,7 +241,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		}
 		else if (type == Tape.Type.GRAPHIC) {
 			Tape tape_graphic = new GraphicTape(machine.getTapes().get(tape).getName(),
-					machine.getTapes().get(tape).isInputAllowed());
+					machine.getTapes().get(tape).getInputAllowed());
 			try {
 				tape_graphic.setInputWord(machine.getTapes().get(tape).getInputWord());
 			} catch (TapeException e1) {
@@ -409,7 +409,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 				returnValue = ReturnValue.RUN;
 			}
 			else {
-				JOptionPane.showMessageDialog(null, "Each roboter can just be assigned to one tape at a time!");
+				ErrorDialog.showError("Each roboter can just be assigned to one tape at a time!");
 			}
 		}
 	}

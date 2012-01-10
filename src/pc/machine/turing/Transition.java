@@ -85,9 +85,9 @@ public class Transition implements Serializable {
 			readString += "" + read.get(i);
 			writeString += "" + write.get(i);
 			if (i < action.size()-1) {
-				actionString += ", ";
-				readString += ", ";
-				writeString += ", ";
+				actionString += ",";
+				readString += ",";
+				writeString += ",";
 			}
 			else if (i == action.size()-1) {
 				actionString += ">";
@@ -95,7 +95,7 @@ public class Transition implements Serializable {
 				writeString += ">";
 			}
 		}
-		return readString + " / " + writeString + " / " + actionString;
+		return readString + "/" + writeString + "/" + actionString;
 	}
 	
 	public Object clone() {

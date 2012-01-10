@@ -94,18 +94,22 @@ public class Edge implements Serializable {
 	@Override
 	public String toString() {
 		String transitionsString = "";
-		for (int i = 0 ; i < transitions.size(); i++) {
+		int numberOfTransitions = (transitions.size() <= 3 ? transitions.size() : 3); //print up to 4 transitions
+		for (int i = 0 ; i < numberOfTransitions; i++) {
 			transitionsString += transitions.get(i);
-			if (i < transitions.size()-1) {
+			if (i < numberOfTransitions-1) {
 				transitionsString += "\n";
 			}
+		}
+		if (transitions.size() > numberOfTransitions) { //print ellipsis if more transitions exist
+			transitionsString += "\n...";
 		}
 		return transitionsString;
 	}
 	
 	/**
 	 * Sets the label x position
-	 * @param x
+	 * @param x The x position
 	 */
 	public void setPosLabelX(int x) {
 		this.posLabelX = x;
@@ -113,7 +117,7 @@ public class Edge implements Serializable {
 	
 	/**
 	 * Sets the label y position
-	 * @param y
+	 * @param y The y position
 	 */
 	public void setPosLabelY(int y) {
 		this.posLabelY = y;
@@ -137,6 +141,8 @@ public class Edge implements Serializable {
 	
 	@Override
 	public Object clone() {
-		return new Edge((State) this.from.clone(), (State) this.to.clone(), (ArrayList<Transition>) this.transitions.clone());
+		return new Edge((State) this.from.clone(), 
+				(State) this.to.clone(), 
+				(ArrayList<Transition>) this.transitions.clone());
 	}
 }

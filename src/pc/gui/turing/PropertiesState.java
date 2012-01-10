@@ -13,6 +13,12 @@ import com.mxgraph.view.mxGraph;
 
 import machine.turing.State;
 
+/**
+ * This class implements the state properties panel
+ * @author Sven Schuster
+ *
+ */
+
 public class PropertiesState extends JPanel implements ItemListener, DocumentListener {
 	
 	private static final long serialVersionUID = -5483231033293338765L;

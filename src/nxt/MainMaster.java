@@ -25,9 +25,14 @@ import java.io.*;
  */
 public class MainMaster {
 	static int counter = 0;
-	static ColorSensor counterSensor;
 	static DataInputStream in;
 	static DataOutputStream out;
+	
+	ColorSensor cs1 = null;
+	ColorSensor cs2 = null;
+	TouchSensor ts1 = null;
+	
+	Line line = null;
 
 	// Pushes one bit with given motor 
 	private static void pushBit(int bit, int newBit, Motor motor) {
@@ -37,25 +42,16 @@ public class MainMaster {
 		}
 	}
 	
-	/**
-	 * Establishes connection to the controlling PC and waits for commands.
-	 * @param args
-	 */
-	public static void main(String[] args) {
+	public void run() {
 		Common.playTune("HAHA",200);
 		String sensor1, sensor2, sensor3, counterString;
-		ColorSensor cs1 = new ColorSensor(SensorPort.S1);
-		ColorSensor cs2 = new ColorSensor(SensorPort.S2);
-		TouchSensor ts1 = new TouchSensor(SensorPort.S4);
+		this.cs1 = new ColorSensor(SensorPort.S1);
+		this.cs2 = new ColorSensor(SensorPort.S2);
+		this.ts1 = new TouchSensor(SensorPort.S4);
 		// initialize speeds
 		Motor.A.setSpeed(Common.LINE_SPEED);
 		Motor.B.setSpeed(Common.PUSH_SPEED);
 		Motor.C.setSpeed(Common.PUSH_SPEED);
-		
-		Line line = new Line(8); // laenge uebergeben
-		line.start();
-		//initialize counter
-		counterSensor = line.getCounterSensor();
 				
 		// sensor listener for emergency stop
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
@@ -65,16 +61,33 @@ public class MainMaster {
 			}
 		});
 		
-		// setup connection
-		LCD.drawString("Waiting...", 0, 0);
-		NXTConnection connection = Bluetooth.waitForConnection();           
-		LCD.clearDisplay();
-		LCD.drawString("Connecting...", 0, 0);
-		in = connection.openDataInputStream();
-		out = connection.openDataOutputStream();           
-		LCD.clearDisplay();
-		LCD.drawString("Connected", 0, 0);
-		
+		while (true) {
+			LCD.drawString("Moving to begin...", 0, 0);
+			line = new Line(8); // laenge uebergeben
+			line.start();
+			// setup connection
+			LCD.clearDisplay();
+			LCD.drawString("Waiting...", 0, 0);
+			NXTConnection connection = Bluetooth.waitForConnection();           
+			LCD.clearDisplay();
+			LCD.drawString("Connecting...", 0, 0);
+			in = connection.openDataInputStream();
+			out = connection.openDataOutputStream();          
+			LCD.clearDisplay();
+			LCD.drawString("Connected", 0, 0);
+			
+			//listen to commands
+			this.serve(); 
+			
+			//close connection
+			LCD.clearDisplay();
+			LCD.drawString("Disconnecting...", 0, 0);
+			line = null;
+			connection.close();
+		}
+	}
+	
+	private void serve() {
 		char ch = ' ';
 
 		while (true) {
@@ -88,9 +101,7 @@ public class MainMaster {
 			LCD.clearDisplay();
 			switch (ch) {
 				case 'q':
-					connection.close();
-					System.exit(0);
-					break;
+					return; //end serving
 				case 't':
 					LCD.drawString("Pushing...", 0, 0);
 					Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
@@ -121,15 +132,19 @@ public class MainMaster {
 					try {
 						if (!cs1Active && !cs2Active) {
 							out.writeChar('#');
+							Common.playTune("C",200); //testing
 						}
 						else if (!cs1Active && cs2Active) {
 							out.writeChar('0');
+							Common.playTune("E",200); //testing
 						}
 						else if (cs1Active && !cs2Active) {
 							out.writeChar('1');
+							Common.playTune("G",200); //testing
 						}
 						else if (cs1Active && cs2Active) {
 							out.writeChar('2');
+							Common.playTune("H",200); //testing
 						}
 						out.flush();
 					}
@@ -205,5 +220,14 @@ public class MainMaster {
 					break;
 			}
 		}
+	}
+	
+	/**
+	 * Establishes connection to the controlling PC and waits for commands.
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		MainMaster master = new MainMaster();
+		master.run();
 	}
 }

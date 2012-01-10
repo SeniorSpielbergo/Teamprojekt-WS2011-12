@@ -79,6 +79,16 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		else
 			this.codeArea.setBackground(Color.WHITE);
 		this.codeArea.setEditable(editable);
+		this.setEditMenuItemsSelectable(editable);
+	}
+	
+	public void setEditMenuItemsSelectable(boolean selectable) {
+		this.copyAction.setEnabled(selectable);
+		this.cutAction.setEnabled(selectable);
+		this.pasteAction.setEnabled(selectable);
+		this.undoAction.setEnabled(selectable);
+		this.redoAction.setEnabled(selectable);
+		this.selectAction.setEnabled(selectable);
 	}
 
 	/**

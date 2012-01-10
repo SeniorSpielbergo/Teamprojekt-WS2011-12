@@ -3,24 +3,29 @@ package gui;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
+import tape.Tape;
+
 import machine.Machine;
 import machine.brainfuck.BrainfuckMachine;
 import machine.turing.*;
 import gui.RunWindow.*;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.Toolkit;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /** This class represents an editor for Turing machines.
  * 
  * @author Vanessa Baier, Nils Breyer, Sven Schuster, Philipp Neumann, David Wille
  * 
  */
-@SuppressWarnings("serial")
-public class Editor extends JFrame implements ActionListener {
+
+public class Editor extends JFrame implements ActionListener, ItemListener {
+	private static final long serialVersionUID = -2288629542566838685L;
 	/**
 	 * The name of the application.
 	 */
@@ -28,17 +33,22 @@ public class Editor extends JFrame implements ActionListener {
 	/**
 	 * The version of the application.
 	 */
-	public static final String APP_VERSION = "0.8.0";
+	public static final String APP_VERSION = "0.8.3";
 	/**
-	 * The version of the application.
+	 * The authors of the application.
 	 */
 	public static final String APP_AUTHORS = "Im Rahmen des Teamprojekts 2011 entstanden.\n\nInstitut für Programmierung\nund Reaktive Systeme\n\nBetreuer: Matthias Hagner\n\nVanessa Baier,\n Nils Breyer,\n Phillipp Neumann,\n Sven Schuster,\n David Wille";
-	
+
 	/**
 	 * The machine currently open in the editor.
 	 */
 	protected Machine currentMachine;
 	private File currentFile = null;
+	private String lastDir = ".";
+	private boolean delay = true;
+	private String tapeStyle = "default";
+	private SimulationWindow simulationWindow = null;
+	
 	private JMenu newSubmenu;
 	private JMenuItem newBFAction;
 	private JMenuItem newTMAction;
@@ -50,6 +60,9 @@ public class Editor extends JFrame implements ActionListener {
 	private JMenuItem runAction;
 	private JMenuItem organizeRobotsAction;
 	private JMenuItem aboutAction;
+	private JCheckBoxMenuItem toggleDelayAction;
+	private ArrayList<JRadioButtonMenuItem> tapeStyleMenuItems = new ArrayList<JRadioButtonMenuItem>();
+	private JMenu tapeStyleSubmenu;
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
 	private JMenu simulationMenu;
@@ -73,7 +86,10 @@ public class Editor extends JFrame implements ActionListener {
 		saveAction.setEnabled(false);
 		saveAsAction.setEnabled(false);
 		exportLatexAction.setEnabled(false);
-		runAction.setEnabled(false);
+		runAction.setEnabled(false);		
+		toggleDelayAction = new JCheckBoxMenuItem("Delay");
+		toggleDelayAction.setSelected(true);
+		toggleDelayAction.addItemListener(this);
 
 		// add menu subitems
 		fileMenu.add(newSubmenu);
@@ -85,6 +101,9 @@ public class Editor extends JFrame implements ActionListener {
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exitAction);
 		simulationMenu.add(runAction);
+		simulationMenu.add(toggleDelayAction);
+		simulationMenu.add(tapeStyleSubmenu);
+		simulationMenu.add(new JSeparator());
 		simulationMenu.add(organizeRobotsAction);
 		helpMenu.add(aboutAction);
 
@@ -95,6 +114,21 @@ public class Editor extends JFrame implements ActionListener {
 		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		runAction.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+	}
+	
+	/**
+	 * Checks if an object is contained in an array
+	 * @param array The array to search in
+	 * @param object The object to be searched
+	 * @return True if the object is contained in the array, false if not
+	 */
+	public static boolean contains(Object[] array, Object object) {
+		for (Object o: array) {
+			if (o == object)  {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -132,21 +166,38 @@ public class Editor extends JFrame implements ActionListener {
 		// set menu bar
 		setJMenuBar(menuBar);
 
-		// create submenu items
+		// create File->New menu items
 		newSubmenu = new JMenu("New");
 		newTMAction = new JMenuItem("Turing machine...");
 		newBFAction = new JMenuItem("Brainfuck program");
 		newSubmenu.add(newTMAction);
 		newSubmenu.add(newBFAction);
 
-		// create menu subitems
+		// create File menu items
 		openAction = new JMenuItem("Open...");
 		saveAction = new JMenuItem("Save");
 		saveAsAction = new JMenuItem("Save As...");
 		exportLatexAction = new JMenuItem("Export as LaTeX");
 		exitAction = new JMenuItem("Exit");
-		runAction = new JMenuItem("Run...");
+		
+		// create Simulation->Tape style submenu items
+		tapeStyleSubmenu = new JMenu("Tape style");
+		File stylesDir = new File("tape/images/styles");
+		for (File style : stylesDir.listFiles()) {
+			if (style.isDirectory() == true) {
+				JRadioButtonMenuItem styleMenuItem = new JRadioButtonMenuItem(style.getName());
+				styleMenuItem.setSelected(style.getName().equals("default"));
+				styleMenuItem.addItemListener(this);
+				this.tapeStyleMenuItems.add(styleMenuItem);
+				tapeStyleSubmenu.add(styleMenuItem);
+			}
+		}
 
+		newSubmenu.add(newTMAction);
+		newSubmenu.add(newBFAction);
+		
+		// create Simulation menu items
+		runAction = new JMenuItem("Run...");
 		organizeRobotsAction = new JMenuItem("Organize robots...");
 		aboutAction = new JMenuItem("About...");
 
@@ -203,10 +254,10 @@ public class Editor extends JFrame implements ActionListener {
 		final JFileChooser fc = new JFileChooser();
 		// set current directory for file chooser
 		try {
-			File currentDirectory = new File(new File(".").getCanonicalPath());
+			File currentDirectory = new File(this.lastDir);
 			fc.setCurrentDirectory(currentDirectory);
 		}
-		catch (IOException e) {
+		catch (Throwable e) {
 		}
 
 		// set xml filter for file chooser
@@ -238,6 +289,11 @@ public class Editor extends JFrame implements ActionListener {
 		int retVal = fc.showOpenDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
+			try {
+				this.lastDir = selectedFile.getCanonicalPath();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			Machine machine = null;
 			if(selectedFile.getName().toLowerCase().endsWith(TuringMachine.FILE_EXTENSION)) {
 				machine = new TuringMachine();
@@ -260,7 +316,7 @@ public class Editor extends JFrame implements ActionListener {
 			}
 		}
 	}
-	
+
 	/**
 	 * Saves a file.
 	 */
@@ -287,10 +343,10 @@ public class Editor extends JFrame implements ActionListener {
 		final JFileChooser fc = new JFileChooser();
 		// set current directory for file chooser
 		try {
-			File currentDirectory = new File(new File(".").getCanonicalPath());
+			File currentDirectory = new File(this.lastDir);
 			fc.setCurrentDirectory(currentDirectory);
 		}
-		catch (IOException e) {
+		catch (Throwable e) {
 		}
 
 		// set xml filter for file chooser
@@ -302,7 +358,7 @@ public class Editor extends JFrame implements ActionListener {
 				return currentMachine.getFileExtension();
 			}
 		});
-		
+
 		File f = null;
 		if (this.currentFile == null) {
 			f = new File(this.currentMachine.getName() + this.currentMachine.getFileExtension());
@@ -314,13 +370,17 @@ public class Editor extends JFrame implements ActionListener {
 		int retVal = fc.showSaveDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
+			try {
+				this.lastDir = selectedFile.getCanonicalPath();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			if (selectedFile.exists()){
 				int result = JOptionPane.showConfirmDialog(null, "Do you want to override the file?", "Override", JOptionPane.YES_NO_OPTION);
 				if (result == JOptionPane.NO_OPTION) {
 					saveAsFile();
 					return;
 				} 
-				
 			}
 			try { 
 				this.currentMachine.save(selectedFile.getPath());
@@ -354,14 +414,11 @@ public class Editor extends JFrame implements ActionListener {
 	public void runSimulation() {
 		RunWindow runWindow = new RunWindow(currentMachine);
 		runWindow.setLocationRelativeTo(null);
-		this.currentMachine.getEditor().setEditable(false);
 
 		ReturnValue returnValue = runWindow.showDialog();
 		if (returnValue == ReturnValue.RUN) {
-			simulate();
-		}
-		else {
-			this.currentMachine.getEditor().setEditable(true);
+			this.simulationWindow = new SimulationWindow(this.currentMachine, this);
+			this.applySimulationSettings();
 		}
 	}
 
@@ -374,11 +431,12 @@ public class Editor extends JFrame implements ActionListener {
 		organizeRobotsWindow.showDialog();
 	}
 
-	/**
-	 * Simulates the Turing machine.
-	 */
-	public void simulate() {
-		new SimulationWindow(this.currentMachine);
+	public void setEditable(boolean editable) {
+		this.currentMachine.getEditor().setEditable(editable);
+		this.runAction.setEnabled(editable);
+		this.openAction.setEnabled(editable);
+		this.newBFAction.setEnabled(editable);
+		this.newTMAction.setEnabled(editable);
 	}
 	
 	@Override
@@ -457,6 +515,7 @@ public class Editor extends JFrame implements ActionListener {
 			}
 
 			this.currentFile = null;
+			this.simulationWindow = null;
 			this.setTitle(APP_NAME);
 
 			saveAction.setEnabled(false);
@@ -471,5 +530,38 @@ public class Editor extends JFrame implements ActionListener {
 			this.repaint();
 			this.currentMachine = null;
 		}
+	}
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getSource() == toggleDelayAction) {
+			this.delay = this.toggleDelayAction.getState();
+		}
+		else if (contains(this.tapeStyleMenuItems.toArray(), e.getSource())) {
+			for (JRadioButtonMenuItem item : this.tapeStyleMenuItems) {
+				item.removeItemListener(this);
+			}
+			
+			for (Component comp : this.tapeStyleMenuItems) {
+				JRadioButtonMenuItem menu = (JRadioButtonMenuItem) comp;
+				menu.setSelected(false);
+			}
+			JRadioButtonMenuItem style = (JRadioButtonMenuItem) e.getSource();
+			style.setSelected(true);
+			this.tapeStyle = style.getText();
+			
+			for (JRadioButtonMenuItem item : this.tapeStyleMenuItems) {
+				item.addItemListener(this);
+			}
+		}
+		
+		this.applySimulationSettings();
+	}
+	
+	private void applySimulationSettings() {
+		if (this.simulationWindow != null) {
+			this.simulationWindow.setDelay(this.delay);
+			this.simulationWindow.setTapeStyle(this.tapeStyle);
+		}
+
 	}
 }

@@ -37,6 +37,8 @@ public abstract class Tape extends Observable implements Runnable{
 	protected boolean iWishToInterruptThisThread;
 	
 	protected Thread writeInputWordThread;
+	
+	private boolean delay = true;
 
 	/**
 	 * Enum representing the tape types
@@ -181,8 +183,6 @@ public abstract class Tape extends Observable implements Runnable{
 				super.setChanged();
 				super.notifyObservers(Event.INPUTFINISHED);
 			}
-			
-			
 		}
 		catch(TapeException e){
 			ErrorDialog.showError("Writing the input word failed.", e);
@@ -198,10 +198,6 @@ public abstract class Tape extends Observable implements Runnable{
 	public Thread getWriteInputWordThread() {
 		return writeInputWordThread;
 	}
-//
-//	public void setWriteInputWordThread(Thread writeInputWordThread) {
-//		this.writeInputWordThread = writeInputWordThread;
-//	}
 
 	/**
 	 * This method returns the tape type
@@ -262,8 +258,19 @@ public abstract class Tape extends Observable implements Runnable{
 	/**
 	 * Returns if input allowed
 	 */
-	public boolean isInputAllowed() {
+	public boolean getInputAllowed() {
 		return this.allowInput;
 	}
-
+	
+	public void setDelay(boolean b){
+		this.delay = b;
+	}
+	
+	public boolean getDelay(){
+		return this.delay;
+	}
+	
+	public boolean isDelayEnabled(){
+		return this.delay;
+	}
 }

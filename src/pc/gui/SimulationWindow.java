@@ -5,6 +5,7 @@ import gui.turing.TuringMachineEditor;
 import java.util.*;
 import javax.swing.*;
 
+import tape.GraphicTape;
 import tape.Tape;
 import tape.TapeException;
 import java.awt.*;
@@ -26,6 +27,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	 * panel for toolbar, panel for tapes
 	 */
 	JPanel panelall, panelToolbar;
+
+	JLabel resultLabel;
 	/**
 	 * toolbar
 	 */
@@ -50,37 +53,52 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	 */
 	Simulation sim;
 
-	int counter = 0; 
+	private boolean delay = true;
+	private String style = "default";
+	private Editor editor;
+	private int counter = 0; 
 
-	ImageIcon iconPlay = new ImageIcon(SimulationWindow.class.getResource("images/play.png"));
-	ImageIcon iconPause = new ImageIcon(SimulationWindow.class.getResource("images/pause.png"));
-	ImageIcon iconStepForward = new ImageIcon(SimulationWindow.class.getResource("images/forward.png"));
+	private ImageIcon iconPlay = new ImageIcon(SimulationWindow.class.getResource("images/play.png"));
+	private ImageIcon iconPause = new ImageIcon(SimulationWindow.class.getResource("images/pause.png"));
+	private ImageIcon iconStepForward = new ImageIcon(SimulationWindow.class.getResource("images/forward.png"));
 
+
+	public SimulationWindow(Machine machine) {
+		this(machine,null);
+	}
 
 	/**
 	 * Creates a new window for the simulation.
-	 * @param machine
+	 * @param machine The machine to simulate
+	 * @param editor The editor window
 	 */
-	public SimulationWindow(Machine machine){
+	public SimulationWindow(Machine machine, Editor editor){
 		this.simulationPaused = true;
 		this.currentMachine = machine;
+		this.editor = editor;
 		for(int i = 0; i< currentMachine.getTapes().size(); i++){
+			this.currentMachine.getTapes().get(i).addObserver(this);
+			if(this.currentMachine.getType() == Machine.MachineType.TuringMachine){
+				this.currentMachine.getTapes().get(i).addObserver((TuringMachineEditor)(currentMachine.getEditor()));
+			}
 			if(currentMachine.getTapes().get(i).getType() == tape.Tape.Type.GRAPHIC){
 				graphicTapes.add((tape.GraphicTape)machine.getTapes().get(i));
-				graphicTapes.get(i).addObserver(this);
-				if(this.currentMachine.getType() == Machine.MachineType.TuringMachine){
-					graphicTapes.get(i).addObserver((TuringMachineEditor)(currentMachine.getEditor()));
-				}
 			}
+		}
+
+		if (editor != null) {
+			this.editor.setEditable(false);
 		}
 
 		this.setTitle("Simulation of " +this.currentMachine.getName());
 		this.setLayout(new GridBagLayout());
-		this.setBounds(200,200,600,700);
+		this.setMinimumSize(new Dimension(300,75));
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		this.panelall = new JPanel(new GridBagLayout());
 		this.scrollpaneRight = new JScrollPane(panelall);
+		this.resultLabel = new JLabel("Result");
+
 
 		toolbar = new JToolBar("Functions");
 		buttonPlay = new JButton(this.iconPlay);
@@ -93,6 +111,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		toolbar.add(buttonForward);
 		this.panelToolbar = new JPanel();
 		this.panelToolbar.add(toolbar);
+
 
 		//initialize tapes
 		try {
@@ -120,6 +139,13 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			return;
 		}
 
+		int visibleTapes = (this.graphicTapes.size() <= 5 ? this.graphicTapes.size() : 5); //show up to 5 tapes per default
+		int height = 85;
+		if (visibleTapes > 0) {
+			height += visibleTapes * ((int)this.graphicTapes.get(0).getTapePanel().getPreferredSize().getHeight()+3);
+		}
+		this.setBounds(200,200,600,height);
+
 		setVisible(true);
 		this.init();
 	}
@@ -136,11 +162,15 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		windowConstraints.weighty = 0.05;
 		this.add(panelToolbar, windowConstraints);
 
+
 		//adding tapes to panel
 		GridBagConstraints panelallConstraints = new GridBagConstraints();
+		panelallConstraints.gridx = 0;
+		panelallConstraints.gridy = 0;
+		this.panelall.add(this.resultLabel,panelallConstraints);
 		for(int i = 0; i< graphicTapes.size(); i++){
 			panelallConstraints.gridx = 0;
-			panelallConstraints.gridy = i;
+			panelallConstraints.gridy = i+1;
 			panelallConstraints.weightx = 1.0;
 			panelallConstraints.fill = GridBagConstraints.HORIZONTAL;
 			this.panelall.add(this.graphicTapes.get(i).getTapePanel(),panelallConstraints);
@@ -191,36 +221,44 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		this.repaint();
 	}
 
-	//TODO shutdown tapes, if simwindow closed without finishing simulation
 	public void dispose(){
 		if(!this.sim.isSimulationAlreadyStarted()){
 			for (Tape t : this.graphicTapes){
-				System.out.println("thread wird interrupted");
 				t.setiWishToInterruptThisThread(true);
-
+				try {
+					t.getWriteInputWordThread().join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		else if(this.sim.isSimulationAlreadyStarted()){ 
 			this.sim.setAbortSimulation();
-			while(!this.sim.isSimulationAborted()){
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {}
 
-			}
-
-			try{
-				System.out.println(" i shut down the tapes");
-				this.currentMachine.shutdownTapes();
-			}
-			catch (TapeException e) {
-				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+			try {
+				this.sim.getSimulationThread().join();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
-				ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
-				return;
 			}
 		}
+
+		try{
+			System.out.println(" i shut down the tapes");
+			this.currentMachine.shutdownTapes();
+		}
+		catch (TapeException e) {
+			System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+			e.printStackTrace();
+			ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
+			return;
+		}
+
+
 		this.setVisible(false);
+
+		if (editor != null) {
+			this.editor.setEditable(true);
+		}
 	}
 
 	public void update(Observable observable, Object obj) {
@@ -243,25 +281,37 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 			this.buttonForward.setEnabled(false);
 			this.buttonPlay.setEnabled(false);
+			this.resultLabel.setText("Input word was accepted.");
+		}
+		else if(this.sim.isSimulationAlreadyStarted()
+				&& observable instanceof Simulation 
+				&& obj instanceof Simulation.simulationState 
+				&&((Simulation.simulationState)obj)==Simulation.simulationState.ABORTED){
+
+			this.buttonForward.setEnabled(false);
+			this.buttonPlay.setEnabled(false);
+			this.resultLabel.setText("Input word was not accepted.");
 		}
 
-		else if(!this.sim.isSimulationAlreadyStarted()
-				&& observable instanceof tape.Tape
-				&& obj instanceof tape.Tape.Event
-				&& (tape.Tape.Event)obj ==tape.Tape.Event.INPUTABORTED){
+		//		else if(!this.sim.isSimulationAlreadyStarted()
+		//				&& observable instanceof tape.Tape
+		//				&& obj instanceof tape.Tape.Event
+		//				&& (tape.Tape.Event)obj ==tape.Tape.Event.INPUTABORTED){
+		//
+		//			try{
+		//				this.resultLabel.setText("Input word was not accepted.");
+		//				System.out.println(" i shut down the tapes");
+		//				this.currentMachine.shutdownTapes();
+		//			}
+		//			catch (TapeException e) {
+		//				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+		//				e.printStackTrace();
+		//				ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
+		//				return;
+		//			}
+		//
+		//		}
 
-			try{
-				System.out.println(" i shut down the tapes");
-				this.currentMachine.shutdownTapes();
-			}
-			catch (TapeException e) {
-				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
-				e.printStackTrace();
-				ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
-				return;
-			}
-
-		}
 	}
 
 
@@ -284,6 +334,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				sim.start();
 				this.buttonPlay.setEnabled(false);
 				sim.pause();
+				this.buttonPlay.setEnabled(true);
 			}
 
 			catch (RuntimeException e){
@@ -316,5 +367,29 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			}
 			simulationPaused = !simulationPaused;
 		}
+	}
+
+	public void setDelay(boolean enabled) {
+		this.delay = enabled;
+
+		for (GraphicTape tape : this.graphicTapes) {
+			tape.setDelay(enabled);
+		}
+	}
+
+	public boolean getDelay() {
+		return this.delay;
+	}
+
+	public void setTapeStyle(String style) {
+		this.style = style;
+
+		for (GraphicTape tape : this.graphicTapes) {
+			tape.setStyle(style);
+		}
+	}
+
+	public String getTapeStyle() {
+		return this.style;
 	}
 }

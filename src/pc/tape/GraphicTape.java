@@ -12,7 +12,6 @@ import java.util.HashMap;
  *
  */
 public class GraphicTape extends Tape {
-
 	/**
 	 * Panel for the tape.
 	 */
@@ -22,9 +21,9 @@ public class GraphicTape extends Tape {
 	 */
 	JLabel textlabel;
 	/**
-	 * TextArea for displaying the tapes content.
+	 * Canvas for displaying the tapes content.
 	 */
-	JTextArea jTextAreaTape;
+	GraphicTapePanel canvas;
 	/**
 	 * Stores the current tape content
 	 */
@@ -76,21 +75,19 @@ public class GraphicTape extends Tape {
 	 */
 	public void init() throws TapeException {
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
-		
+
 		System.out.println(this.name + ": Tape ready.");
 		//add graphic stuff
 		this.tapePanel = new JPanel(new BorderLayout());
-		this.jTextAreaTape = new JTextArea();
-		this.jTextAreaTape.setFont(new Font("Courier",Font.PLAIN, this.jTextAreaTape.getFont().getSize()));
-		this.jTextAreaTape.setEditable(false);
 		this.textlabel = new JLabel(this.name);
+		this.canvas = new GraphicTapePanel(this);
 		this.tapePanel.add(textlabel,BorderLayout.NORTH);
-		this.tapePanel.add(this.jTextAreaTape, BorderLayout.CENTER);
+		this.tapePanel.add(this.canvas, BorderLayout.CENTER);
 
 		//set ready
 		this.ready = true;
 	}
-	
+
 	/**
 	 * This method shuts the tape down.
 	 * @throws TapeException If the tape has not been initialized
@@ -133,12 +130,15 @@ public class GraphicTape extends Tape {
 	 */
 	public void write(char c) throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
+		char oldChar = this.get(this.getPosition());
 		this.memory.put(this.position, c);
-		this.printTape();
-		try{
-			Thread.sleep(500);
+		this.canvas.write(oldChar);
+		if(this.isDelayEnabled()){
+			try{
+				Thread.sleep(500);
+			}
+			catch(InterruptedException e){}
 		}
-		catch(InterruptedException e){}
 
 	}
 
@@ -152,12 +152,14 @@ public class GraphicTape extends Tape {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
 		position--;
-		this.printTape();
-		try{
-			Thread.sleep(500);
-		}
-		catch(InterruptedException e){}
+		this.canvas.move(position + 1);
 
+		if(this.isDelayEnabled()){
+			try{
+				Thread.sleep(500);
+			}
+			catch(InterruptedException e){}
+		}
 	}
 
 	@Override
@@ -170,11 +172,14 @@ public class GraphicTape extends Tape {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
 		position++;
-		this.printTape();
-		try{
-			Thread.sleep(500);
+		this.canvas.move(position - 1);
+
+		if(this.isDelayEnabled()){
+			try{
+				Thread.sleep(500);
+			}
+			catch(InterruptedException e){}
 		}
-		catch(InterruptedException e){}
 	}
 
 	@Override
@@ -201,37 +206,27 @@ public class GraphicTape extends Tape {
 		//write input word to tape
 		for (int i = 0; i < this.inputWord.length(); i++) {
 			if(this.iWishToInterruptThisThread){
-				System.out.println("thread wird gestoppt");
-				break;
-			}
-			
-			this.write(this.inputWord.charAt(i));
-			printTape();
-			this.moveRight();
-		}
-		for (int i = 0; i < this.inputWord.length(); i++) {
-			if(this.iWishToInterruptThisThread){
-				System.out.println("thread wird gestoppt");
 				super.setChanged();
 				super.notifyObservers(Event.INPUTABORTED);
 				break;
 			}
-			printTape();
+
+			this.write(this.inputWord.charAt(i));
+			this.moveRight();
+		}
+		for (int i = 0; i < this.inputWord.length(); i++) {
+			if(this.iWishToInterruptThisThread){
+				super.setChanged();
+				super.notifyObservers(Event.INPUTABORTED);
+				break;
+			}
 			this.moveLeft();
 		}
-		printTape();
 		if(this.iWishToInterruptThisThread)
 			return false;
 		return true;
 	}
 
-	/**
-	 * This method writes the tapestring into the textarea
-	 */
-	public void printTape() {
-		jTextAreaTape.setText(this.getMemoryAsFormattedString(-20,40));
-	}
-	
 	/**
 	 * Returns the tapePanel.
 	 * @return tapePanel
@@ -240,12 +235,37 @@ public class GraphicTape extends Tape {
 		return tapePanel;
 	}
 
+	public char get(int position) {
+		if (this.memory.get(position) != null) {
+			return this.memory.get(position);
+		}
+		else {
+			return '#';
+		}
+	}
+
+	@Override
+	public Object clone() {
+		return this;
+	}
+
 	/**
-	 * Returns the textArea of the taoe.
-	 * @return textAreaTape
+	 * Returns a formatted string representing the current tape state.
+	 * It includes the tape name, relevant parts of the memory and the head position.
 	 */
-	public JTextArea getjTextAreaTape() {
-		return jTextAreaTape;
+	@Override
+	public String toString() {
+		String text;
+		if (ready) {
+			text = " " + this.getName() + "@pos "  + this.getPosition() + ": \n";
+			int offset = this.getPosition() - (this.getPosition() % 10) - 20 ;
+			text += this.getMemoryAsFormattedString(offset, 40);
+		}
+		else {
+			text = " " + this.getName() + " (tape not initialized), input word: " + this.inputWord;
+		}
+
+		return text;
 	}
 
 	/**
@@ -255,8 +275,9 @@ public class GraphicTape extends Tape {
 	 * @param length Number of memory fields to be included
 	 * @return The formatted string with the memory content
 	 */
-	public String getMemoryAsFormattedString(int offset, int length) {
-		if (length < 1) return "";	
+	public String getMemoryAsFormattedString(int offset, int length) { //only used for debugging
+		if (length < 1) return "";
+
 		//print top horizontal line
 		String text = "-";
 		for (int i=offset; i<=offset+length; i++) {
@@ -294,8 +315,13 @@ public class GraphicTape extends Tape {
 		text += "\n";
 
 		return text;
-
 	}
 
+	public String getStyle() {
+		return this.canvas.getStyle();
+	}
 
+	public void setStyle(String style) {
+		this.canvas.setStyle(style);
+	}
 }

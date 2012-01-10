@@ -14,6 +14,12 @@ import com.mxgraph.view.mxGraph;
 
 import machine.turing.Textbox;
 
+/**
+ * This class implements the textbox properties panel
+ * @author David Wille
+ *
+ */
+
 public class PropertiesTextbox extends JPanel implements DocumentListener {
 	private static final long serialVersionUID = -4793677956080787446L;
 	private Textbox textbox;
@@ -23,12 +29,17 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 	private JScrollPane scrollPane;
 	private mxGraph graph;
 
+	/**
+	 * This constructs a new textbox properties panel
+	 * @param textbox Textbox whose information should be displayed
+	 * @param graph Current graph
+	 */
 	public PropertiesTextbox(Textbox textbox, mxGraph graph) {
 		this.graph = graph;
 		this.textbox = textbox;
 		
 		this.setMaximumSize(new Dimension(1000, 120));
-		this.setPreferredSize(new Dimension(250, 180));
+		this.setPreferredSize(new Dimension(250, 300));
 		this.setBorder(BorderFactory.createTitledBorder("Properties"));
 		this.setLayout(new BorderLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -39,6 +50,7 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 		textArea.getDocument().addDocumentListener(this);
 		textArea.setText(textbox.getText());
 		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
 		scrollPane = new JScrollPane(textArea);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setPreferredSize(new Dimension(120, 150));

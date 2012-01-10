@@ -21,6 +21,7 @@ public class TuringSimulation extends Simulation{
 	/**
 	 * Specific states
 	 */
+	@SuppressWarnings("javadoc")
 	State currentState, startState, nextState;
 
 	/** 
@@ -84,6 +85,12 @@ public class TuringSimulation extends Simulation{
 				super.notifyObservers((Object)Simulation.simulationState.FINISHED);
 
 			}
+			else if(!currentState.isFinalState() && rightLabel == null){
+				System.out.println("abgekackt");
+				super.setChanged();
+				super.notifyObservers((Object)Simulation.simulationState.ABORTED);
+
+			}
 
 			else{
 				System.out.println("State: "+ this.currentState);
@@ -93,7 +100,9 @@ public class TuringSimulation extends Simulation{
 
 				//go/do label
 				for(int i = 0; i < machine.getNumberOfTapes(); i++){
-					tapes.get(i).write(rightLabel.getWrite().get(i));
+					if (rightLabel.getWrite().get(i) != '*') { //* means reproduce symbol -> do nothing
+						tapes.get(i).write(rightLabel.getWrite().get(i));
+					}
 
 					switch(rightLabel.getAction().get(i)){
 
@@ -135,7 +144,8 @@ public class TuringSimulation extends Simulation{
 		for(Edge e : currentState.getEdge()){
 			for(int j = 0; j < e.getTransitions().size(); j++){
 				for(int i = 0; i < machine.getNumberOfTapes(); i++){
-					if( e.getTransitions().get(j).getRead().get(i) == currentSymbols.get(i)){
+					if(e.getTransitions().get(j).getRead().get(i) == '*'  //* matches every symbol
+							|| e.getTransitions().get(j).getRead().get(i) == currentSymbols.get(i)){ 
 						super.setChanged();
 						super.notifyObservers((Object)e);
 						label = e.getTransitions().get(j);

@@ -24,5 +24,4 @@ public abstract class MachineEditor extends JPanel {
 	 */
 	public abstract void setEditable(boolean editable);
 	
-	
 }

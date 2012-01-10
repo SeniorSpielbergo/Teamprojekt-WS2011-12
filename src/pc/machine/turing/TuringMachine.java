@@ -40,8 +40,15 @@ import tape.TapeException;
  * 
  */
 public class TuringMachine extends Machine{
+	/**
+	 * The supported file format version
+	 */
 	public static final int XML_VERSION = 3;
+	/**
+	 * The file extension for turing machine files
+	 */
 	public static final String FILE_EXTENSION = ".tm";
+	
 	/**
 	 * Contains all states of this machine
 	 */
@@ -84,7 +91,7 @@ public class TuringMachine extends Machine{
 	public TuringMachine(String name, int numberOfTapes) {
 		this(name, new ArrayList<State>(), new ArrayList<Edge>(), new ArrayList<Tape>());
 		for(int i = 0; i < numberOfTapes; i++){
-			this.tapes.add(new ConsoleTape());
+			this.tapes.add(new GraphicTape());
 		}
 	}
 

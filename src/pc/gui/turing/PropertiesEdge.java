@@ -14,6 +14,12 @@ import machine.turing.*;
 
 import gui.*;
 
+/**
+ * This class implements the edge properties panel
+ * @author David Wille
+ *
+ */
+
 public class PropertiesEdge extends JPanel implements ActionListener, ListSelectionListener {
 
 	static final long serialVersionUID = -3667258249137827980L;

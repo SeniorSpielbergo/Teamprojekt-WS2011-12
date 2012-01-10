@@ -1,6 +1,10 @@
 package gui.turing;
 
+import gui.ErrorDialog;
+
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import java.awt.*;
 
@@ -12,10 +16,9 @@ import java.awt.event.*;
  * @author Nessa Baier
  *
  */
-public class NewTMDialogue extends JDialog implements ActionListener{
+public class NewTMDialogue extends JDialog implements ActionListener, ChangeListener, FocusListener {
 	/**
 	 * Enum for the buttonevents.
-	 * @author Nessa Baier
 	 *
 	 */
 	public enum ReturnValue {
@@ -26,7 +29,7 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 	 * Panels for the dialogue.
 	 */
 	private JPanel panelName, panelTapes, panelButtons;
-	
+
 	/**
 	 * Labels for the panels.
 	 */
@@ -38,7 +41,7 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 	/**
 	 * Spinner for the number of tapes.
 	 */
-	private JSpinner numberOfTapes;
+	private JSpinner spinnerNumberOfTapes;
 	/**
 	 * Buttons "create" and "cancel"
 	 */
@@ -47,6 +50,15 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 	 * Return value for the pressed button.
 	 */
 	private  ReturnValue returnValue;
+	/**
+	 * Stores the numberOfTapes
+	 */
+	private int numberOfTapes = 1;
+
+	/**
+	 * The underlying text field of the spinner
+	 */
+	private JTextField spinnerTextField;
 
 	/**
 	 * Creates a new dialogue.
@@ -67,10 +79,13 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 		panelTapes = new JPanel();
 		tapes.setText("Tapes");
 		panelTapes.add(tapes);
-		
+
 		SpinnerModel tapemodel = new SpinnerNumberModel(1,1,10,1);
-		numberOfTapes = new JSpinner(tapemodel);
-		panelTapes.add(numberOfTapes);
+		spinnerNumberOfTapes = new JSpinner(tapemodel);
+		spinnerNumberOfTapes.addChangeListener(this);
+		spinnerTextField = ((JSpinner.DefaultEditor) spinnerNumberOfTapes.getEditor()).getTextField();
+		spinnerTextField.addFocusListener(this);
+		panelTapes.add(spinnerNumberOfTapes);
 
 		//Buttons
 		buttonCreate = new JButton("Create");
@@ -86,7 +101,7 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 		panelButtons.add(Box.createHorizontalGlue());
 		panelButtons.add(Box.createRigidArea(new Dimension(10, 0)));
 		panelButtons.add(buttonCreate);
-		
+
 		getRootPane().setDefaultButton(buttonCreate);
 
 		//dialogue window
@@ -101,48 +116,96 @@ public class NewTMDialogue extends JDialog implements ActionListener{
 	}
 
 
-	/**
-	 * Handles the buttonevents.
-	 */
-	public void actionPerformed(ActionEvent e){
-		if (e.getSource().equals(buttonCancel)){
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(buttonCancel)) {
 			returnValue = ReturnValue.CANCEL;
 			this.setVisible(false);
 			dispose();
 
 		}
-
-		else if(e.getSource().equals(buttonCreate)){
+		else if (e.getSource().equals(buttonCreate)) {
+			if (!checkSpinner()) {
+				return;
+			}
 			returnValue = ReturnValue.CREATE;
 			this.setVisible(false);
 			dispose();
 		}
-
 	}
-	
+
 	/**
 	 * Returns the typed name for the new machine.
-	 * @return name
+	 * @return name Name of the machine
 	 */
 	public String getMachinesName(){
 		return fieldName.getText();
 	}
-	
+
 	/**
 	 * Returns the chosen number of tapes.
-	 * @return numberOfTapes
+	 * @return numberOfTapes Number of tapes
 	 */
-	public Integer getNumberOfTapes(){
-		return (Integer)numberOfTapes.getValue();
+	public int getNumberOfTapes(){
+		return numberOfTapes;
 	}
-	
+
 	/**
 	 * Returns which button was pressed, cancel or create.
-	 * @return returnValue
+	 * @return returnValue Returns the user decision (cancel / create)
 	 */
 	public ReturnValue showDialogue(){
 		this.setVisible(true);
 		return returnValue;
+	}
+
+	/**
+	 * Checks if the value in the spinner text field is valid
+	 * @return true/false Returns if valid or not
+	 */
+	public boolean checkSpinner() {
+		boolean isValid = true;
+		if (!spinnerTextField.getText().equals("")) {
+			try {
+				numberOfTapes = Integer.parseInt(spinnerTextField.getText());
+			}
+			catch (Exception ex) {
+				isValid = false;
+			}
+			if (numberOfTapes > 10) {
+				isValid = false;
+			}
+			else if (numberOfTapes < 1) {
+				isValid = false;
+			}
+		}
+		else {
+			isValid = false;
+		}
+		return isValid;
+	}
+
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		if (e.getSource() == spinnerNumberOfTapes) {
+			numberOfTapes = (Integer) this.spinnerNumberOfTapes.getValue();
+		}
+	}
+
+
+	@Override
+	public void focusGained(FocusEvent e) {
+	}
+
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		if (e.getOppositeComponent() != buttonCancel) {
+			if (!checkSpinner()) {
+				ErrorDialog.showError("Only integer values from 1 to 10 are allowed for the number of tapes. Treating as 1.");
+			}
+		}
 	}
 }
 

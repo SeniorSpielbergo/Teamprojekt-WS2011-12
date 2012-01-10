@@ -8,4 +8,12 @@
         <name>NXT_03</name>
         <mac>00:16:53:0F:DB:8E</mac>
     </robot>
+    <robot>
+        <name>NXT_07</name>
+        <mac>00:16:53:04:ED:8C</mac>
+    </robot>
+    <robot>
+        <name>NXT_40</name>
+        <mac>00:16:53:05:9C:73</mac>
+    </robot>
 </robots>
