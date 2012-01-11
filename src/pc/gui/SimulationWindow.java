@@ -179,7 +179,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		JPanel gap = new JPanel();
 		panelallConstraints.fill = GridBagConstraints.BOTH;
 		panelallConstraints.weighty = 1.0;
-		panelallConstraints.gridy = graphicTapes.size();
+		panelallConstraints.gridy = graphicTapes.size()+1;
 		panelallConstraints.gridx = 0;
 		this.panelall.add(gap,panelallConstraints);
 
