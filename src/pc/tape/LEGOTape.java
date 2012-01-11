@@ -3,13 +3,15 @@ package tape;
 import java.io.*;
 import java.lang.String;
 
+import javax.swing.JPanel;
+
 /** Represents a physical Turing machine tape and provides methods to interact with the tape
  * 
  * @author Nils Breyer
  * 
  */
 
-public class LEGOTape extends GraphicTape {
+public class LEGOTape extends DisplayableTape {
 	/**
 	 * The minimal position of the head allowed on the LEGO tape
 	 */
@@ -30,6 +32,10 @@ public class LEGOTape extends GraphicTape {
 	 * The symbol at the current position
 	 */
 	private char currentSymbol = 'n';
+	/**
+	 * The graphical tape to be displayed on the computer
+	 */
+	private GraphicTape graphicTape = null;
 
 	/**
 	 * Constructs a new LEGO tape based on two NXT robots with the name "Default LEGO tape"
@@ -38,9 +44,7 @@ public class LEGOTape extends GraphicTape {
 	 * @see #LEGOTape(String, MasterRobot, SlaveRobot)
 	 */
 	public LEGOTape(MasterRobot master, SlaveRobot slave) {
-		this.master = master;
-		this.slave = slave;
-		this.name = "Default LEGO tape";
+		this("Default LEGO tape", master, slave, true);
 	}
 	
 	/**
@@ -51,10 +55,7 @@ public class LEGOTape extends GraphicTape {
 	 * @see #LEGOTape(String, MasterRobot, SlaveRobot)
 	 */
 	public LEGOTape(MasterRobot master, SlaveRobot slave, boolean allowInput) {
-		this.master = master;
-		this.slave = slave;
-		this.name = "Default LEGO tape";
-		this.allowInput = allowInput;
+		this("Default LEGO tape", master, slave, allowInput);
 	}
 
 	/**
@@ -64,9 +65,7 @@ public class LEGOTape extends GraphicTape {
 	 * @param slave The robot that can only write
 	 */
 	public LEGOTape(String name, MasterRobot master, SlaveRobot slave) {
-		this.master = master;
-		this.slave = slave;
-		this.name = name;
+		this(name,master,slave,true);
 	}
 	
 	/**
@@ -81,6 +80,7 @@ public class LEGOTape extends GraphicTape {
 		this.slave = slave;
 		this.name = name;
 		this.allowInput = allowInput;
+		this.graphicTape = new GraphicTape(name, allowInput);
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class LEGOTape extends GraphicTape {
 		System.out.println(this.name + ": Initializing tape...");
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
 
-		super.init();
+		this.graphicTape.init();
 		
 		try {
 			this.master.connect();
@@ -126,9 +126,10 @@ public class LEGOTape extends GraphicTape {
 	public void shutdown() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
-		super.shutdown();
+		this.graphicTape.shutdown();
 
 		try {
+			this.iWishToInterruptThisThread = false;
 			this.master.disconnect();
 			this.slave.disconnect();
 			//reset tape
@@ -148,8 +149,6 @@ public class LEGOTape extends GraphicTape {
 			throw new TapeException(this, "Input word can only be written when at position 0");
 		}
 		
-		super.writeInputWord();
-
 		//write input word to tape
 		this.write('#');
 		this.moveRight();
@@ -209,7 +208,7 @@ public class LEGOTape extends GraphicTape {
 	public char read() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
-		super.read();
+		this.graphicTape.read();
 
 		try {
 			currentSymbol = this.master.read();
@@ -230,7 +229,7 @@ public class LEGOTape extends GraphicTape {
 	public void write(char c) throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
-		super.write(c);
+		this.graphicTape.write(c);
 
 		if (this.currentSymbol == 'n') {
 			this.read();
@@ -253,7 +252,7 @@ public class LEGOTape extends GraphicTape {
 	public void moveLeft() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 
-		super.moveLeft();
+		this.graphicTape.moveLeft();
 		
 		try {
 			this.master.moveLeft();
@@ -276,7 +275,7 @@ public class LEGOTape extends GraphicTape {
 	public void moveRight() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 
-		super.moveRight();
+		this.graphicTape.moveRight();
 		
 		try {
 			this.master.moveRight();
@@ -297,7 +296,7 @@ public class LEGOTape extends GraphicTape {
 	public void test()  throws TapeException{ //TODO: remove
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		
-		super.test();
+		this.graphicTape.test();
 		
 		try {
 			this.master.test();
@@ -326,5 +325,20 @@ public class LEGOTape extends GraphicTape {
 	@Override
 	public Object clone() {
 		return this;
+	}
+
+	@Override
+	public String getStyle() {
+		return this.graphicTape.getStyle();
+	}
+
+	@Override
+	public void setStyle(String style) {
+		this.graphicTape.setStyle(style);
+	}
+
+	@Override
+	public JPanel getTapePanel() {
+		return this.graphicTape.getTapePanel();
 	}
 }

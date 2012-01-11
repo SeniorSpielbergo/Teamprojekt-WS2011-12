@@ -5,6 +5,7 @@ import gui.turing.TuringMachineEditor;
 import java.util.*;
 import javax.swing.*;
 
+import tape.DisplayableTape;
 import tape.GraphicTape;
 import tape.Tape;
 import tape.TapeException;
@@ -39,7 +40,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	/**
 	 * the simulation's graphic tapes
 	 */
-	ArrayList<tape.GraphicTape> graphicTapes = new ArrayList<tape.GraphicTape>();
+	ArrayList<tape.DisplayableTape> graphicTapes = new ArrayList<tape.DisplayableTape>();
 	/**
 	 * Current machine
 	 */
@@ -81,8 +82,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			if(this.currentMachine.getType() == Machine.MachineType.TuringMachine){
 				this.currentMachine.getTapes().get(i).addObserver((TuringMachineEditor)(currentMachine.getEditor()));
 			}
-			if(currentMachine.getTapes().get(i).getType() == tape.Tape.Type.GRAPHIC || currentMachine.getTapes().get(i).getType() == tape.Tape.Type.LEGO){
-				graphicTapes.add((tape.GraphicTape)machine.getTapes().get(i));
+			if(currentMachine.getTapes().get(i) instanceof DisplayableTape){
+				graphicTapes.add((tape.DisplayableTape)machine.getTapes().get(i));
 			}
 		}
 
@@ -372,7 +373,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	public void setDelay(boolean enabled) {
 		this.delay = enabled;
 
-		for (GraphicTape tape : this.graphicTapes) {
+		for (DisplayableTape tape : this.graphicTapes) {
 			tape.setDelay(enabled);
 		}
 	}
@@ -384,7 +385,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	public void setTapeStyle(String style) {
 		this.style = style;
 
-		for (GraphicTape tape : this.graphicTapes) {
+		for (DisplayableTape tape : this.graphicTapes) {
 			tape.setStyle(style);
 		}
 	}

@@ -104,7 +104,9 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 						document.resetHighlights();
 					}
 				});
-			} catch (InvocationTargetException | InterruptedException e) {
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			document.setHighlight((Integer) obj);

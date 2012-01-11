@@ -11,7 +11,7 @@ import java.util.HashMap;
  * @author Nessa Baier, Nils Breyer
  *
  */
-public class GraphicTape extends Tape {
+public class GraphicTape extends DisplayableTape {
 	/**
 	 * Panel for the tape.
 	 */
