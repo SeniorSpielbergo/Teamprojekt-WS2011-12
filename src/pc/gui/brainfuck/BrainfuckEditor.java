@@ -109,7 +109,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			document.setHighlight((Integer) obj);
+			document.highlight((Integer) obj);
 		}
 		else if(obs instanceof BrainfuckSimulation && obj instanceof Simulation.simulationState) {
 			document.resetHighlights();
@@ -197,7 +197,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		
 		this.getMenus().add(editMenu);
 	}
-	
+
 	/**
 	 * Represents a highlightable document for brainfuck code.
 	 * @author Sven Schuster
@@ -216,7 +216,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		 * Highlight the character at the specified position. The highlighted character will be shown in red.
 		 * @param position Position of character to be highlighted.
 		 */
-		public void setHighlight(int position) {
+		public void highlight(int position) {
 			SimpleAttributeSet attributes = new SimpleAttributeSet();
 			StyleConstants.setForeground(attributes, Color.RED);
 			this.setCharacterAttributes(position, 1, attributes, false);

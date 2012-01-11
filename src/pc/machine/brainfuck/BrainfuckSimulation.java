@@ -16,6 +16,8 @@ public class BrainfuckSimulation extends Simulation {
 	private Tape outputTape;
 	private String code;
 	private ArrayList<Integer> loopBegin;
+	private boolean outputMoved = false,
+			inputMoved = false;
 
 	/**
 	 * Creates new simulation with given BrainfuckMachine.
@@ -23,17 +25,17 @@ public class BrainfuckSimulation extends Simulation {
 	 */
 	public BrainfuckSimulation(BrainfuckMachine machine){
 		super(machine);
-		
+
 		this.inputTape = machine.getTapes().get(0);
 		this.outputTape = machine.getTapes().get(1);
 		this.actionTape = machine.getTapes().get(2);
 		this.code = ((BrainfuckEditor) machine.getEditor()).getCode();
 		this.loopBegin = new ArrayList<Integer>();
 		this.loopBegin.add(0);
-		
+
 		this.addObserver((BrainfuckEditor) machine.getEditor());
 	}
-	
+
 	/**
 	 * Executing the brainfuck machine.
 	 * @throws TapeException If an operation on the tape could not be executed correctly.
@@ -41,7 +43,13 @@ public class BrainfuckSimulation extends Simulation {
 	 */
 	@Override
 	public void runMachine() throws TapeException, IllegalArgumentException {
-		runMachine(code);
+		if(!checkSyntax(code)) {
+			this.abortSimulation = true;
+			throw new IllegalArgumentException("Syntaxcheck failed."); // TODO: better solution?
+		}
+		else
+			runMachine(code);
+		
 		if(this.abortSimulation) {
 			this.simulationAborted = true;
 			super.setChanged();
@@ -53,151 +61,141 @@ public class BrainfuckSimulation extends Simulation {
 		}
 	}
 
-	// Recursive function to simulate brainfuck code
+	// Recursive function to simulate brainfuck code.
 	private void runMachine(String code) throws TapeException, IllegalArgumentException {
 		int instructionPointer = 0;
-		if(checkSyntax(code)){
-			while(!this.abortSimulation && instructionPointer < code.length()){
-				switch(code.charAt(instructionPointer)) {
-				case '<': 
-					super.setChanged();
-					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
-					actionTape.moveLeft();
+		while(!this.abortSimulation && instructionPointer < code.length()){
+			switch(code.charAt(instructionPointer)) {
+			case '<': 
+				this.highlight(instructionPointer);
+				actionTape.moveLeft();
+				break;
+			case '>':
+				this.highlight(instructionPointer);
+				actionTape.moveRight();
+				break;
+			case '+': 
+				this.highlight(instructionPointer);
+				switch(actionTape.read()) {
+				case '#':
+					actionTape.write('0'); break;
+				case '0':
+					actionTape.write('1'); break;
+				case '1': 
+					actionTape.write('2'); break;
+				case '2': 
 					break;
-				case '>':
-					super.setChanged();
-					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
-					actionTape.moveRight();
+				default: 
 					break;
-				case '+': 
-					super.setChanged();
-					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
+				}
+				break;
+			case '-':
+				this.highlight(instructionPointer);
+				switch(actionTape.read()) {
+				case '#':
+					break;
+				case '0':
+					actionTape.write('#'); break;
+				case '1': 
+					actionTape.write('0'); break;
+				case '2': 
+					actionTape.write('1'); break;
+				default: 
+					break;
+				}
+				break;
+			case '[': 
+				this.highlight(instructionPointer);
+				int currentValue;
+				loopBegin.add(loopBegin.get(loopBegin.size()-1) + instructionPointer + 1);
+				this.sleep();
+				while(true) {
 					switch(actionTape.read()) {
 					case '#':
-						actionTape.write('0'); break;
+						currentValue = 0; break;
 					case '0':
-						actionTape.write('1'); break;
+						currentValue = 1; break;
 					case '1': 
-						actionTape.write('2'); break;
+						currentValue = 2; break;
 					case '2': 
-						break;
+						currentValue = 3; break;
 					default: 
-						break;
+						currentValue = 0; break;
 					}
-					break;
-				case '-':
-					super.setChanged();
-					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
-					switch(actionTape.read()) {
-					case '#':
-						break;
-					case '0':
-						actionTape.write('#'); break;
-					case '1': 
-						actionTape.write('0'); break;
-					case '2': 
-						actionTape.write('1'); break;
-					default: 
-						break;
-					}
-					break;
-				case '[': 
-					super.setChanged();
-					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
-					int currentValue;
-					loopBegin.add(loopBegin.get(loopBegin.size()-1) + instructionPointer + 1);
-					this.sleep();
-					while(true) {
-						switch(actionTape.read()) {
-						case '#':
-							currentValue = 0; break;
-						case '0':
-							currentValue = 1; break;
-						case '1': 
-							currentValue = 2; break;
-						case '2': 
-							currentValue = 3; break;
-						default: 
-							currentValue = 0; break;
-						}
-						if(currentValue == 0){
-							int x = 0;
-							int y = 1;
-							int i = instructionPointer;
-							while(true) {
-								i++;
-								x++;
-								switch(code.charAt(i)){
-								case '[': y++; break;
-								case ']': y--; break;
-								default: break;
-								}
-								if(code.charAt(i) == ']' && y == 0)
-									break;
+					if(currentValue == 0){
+						int x = 0;
+						int y = 1;
+						int i = instructionPointer;
+						while(true) {
+							i++;
+							x++;
+							switch(code.charAt(i)){
+							case '[': y++; break;
+							case ']': y--; break;
+							default: break;
 							}
-							instructionPointer += x-1;
-							break;
+							if(code.charAt(i) == ']' && y == 0)
+								break;
 						}
-						else{
-							String loopCode = "";
-							int i = instructionPointer;
-							int x = 1;
-							while(x != 0){
-								i++;
-								switch(code.charAt(i)) {
-								case '[': 
+						instructionPointer += x-1;
+						break;
+					}
+					else{
+						String loopCode = "";
+						int i = instructionPointer;
+						int x = 1;
+						while(x != 0){
+							i++;
+							switch(code.charAt(i)) {
+							case '[': 
+								loopCode+=code.charAt(i);
+								x++; 
+								break;
+							case ']':
+								x--; 
+								if(x != 0)
 									loopCode+=code.charAt(i);
-									x++; 
-									break;
-								case ']':
-									x--; 
-									if(x != 0)
-										loopCode+=code.charAt(i);
-									break;
-								default: 
-									loopCode+=code.charAt(i); 
-									break;
-								}
+								break;
+							default: 
+								loopCode+=code.charAt(i); 
+								break;
 							}
-							runMachine(loopCode);
 						}
+						runMachine(loopCode);
 					}
-					break;
-				case ']': 
-					loopBegin.remove(loopBegin.size()-1);
-					super.setChanged();
-					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
-					this.sleep();
-					break;
-				case '.':
-					super.setChanged();
-					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
-					outputTape.write(actionTape.read());
-					outputTape.moveRight();
-					break;
-				case ',':
-					super.setChanged();
-					super.notifyObservers((Object) (instructionPointer + loopBegin.get(loopBegin.size()-1)));
-					char input = inputTape.read();
+				}
+				break;
+			case ']': 
+				loopBegin.remove(loopBegin.size()-1);
+				this.highlight(instructionPointer);
+				this.sleep();
+				break;
+			case '.':
+				this.highlight(instructionPointer);
+				if(this.outputMoved)
 					inputTape.moveRight();
-					actionTape.write(input);
-					break;
-				}
-				instructionPointer++;
-				while(this.simulationIsPaused) {
-					this.sleep();
-				}
+				outputTape.write(actionTape.read());
+				this.outputMoved = true;
+				break;
+			case ',':
+				this.highlight(instructionPointer);
+				if(this.inputMoved)
+					inputTape.moveRight();
+				actionTape.write(inputTape.read());
+				this.inputMoved = true;
+				break;
+			}
+			instructionPointer++;
+			while(this.simulationIsPaused) {
+				this.sleep();
 			}
 		}
-		else
-			throw new IllegalArgumentException("Syntaxcheck failed");
 	}
-	
 
-	// Checks syntax of brainfuck-Application (just checks the loops)
+	// Checks syntax of brainfuck-Application (just checks the loops).
 	private boolean checkSyntax(String code) {
 		int i = 0,
-			x = 0;
+				x = 0;
 		while(i < code.length()) {
 			if(code.charAt(i) == '[')
 				x++;
@@ -209,13 +207,19 @@ public class BrainfuckSimulation extends Simulation {
 		}
 		return x == 0;
 	}
-	
-	// Sleeps 400ms
+
+	// Sleeps 400ms.
 	private void sleep() {
 		try {
 			Thread.sleep(400);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	// Notifies Editor to highlight character at instructionPointer.
+	private void highlight(int ip) {
+		super.setChanged();
+		super.notifyObservers((Object) (ip + this.loopBegin.get(this.loopBegin.size()-1)));
 	}
 }	
