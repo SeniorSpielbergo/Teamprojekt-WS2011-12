@@ -1,9 +1,13 @@
 package machine.brainfuck;
 
+import gui.ErrorDialog;
 import gui.MachineEditor;
 import gui.brainfuck.BrainfuckEditor;
 
 import java.io.*;
+
+import javax.swing.text.BadLocationException;
+
 import tape.*;
 import machine.*;
 
@@ -45,13 +49,20 @@ public class BrainfuckMachine extends Machine {
 	 */
 	@Override
 	public void save(String filename) throws IOException {
+		boolean saving = true;
 		if (brainfuckEditor != null) {
-			this.code = brainfuckEditor.getCode();
+			try {
+				this.code = brainfuckEditor.getCode();
+			} catch(BadLocationException e) {
+				ErrorDialog.showError("Not able to get your code to save, aborting saving process.", e);
+			}
 		}
-		FileWriter fstream = new FileWriter(filename);
-		BufferedWriter out = new BufferedWriter(fstream);
-		out.write(code);
-		out.close();
+		if(saving) {
+			FileWriter fstream = new FileWriter(filename);
+			BufferedWriter out = new BufferedWriter(fstream);
+			out.write(code);
+			out.close();
+		}
 	}
 
 	/**

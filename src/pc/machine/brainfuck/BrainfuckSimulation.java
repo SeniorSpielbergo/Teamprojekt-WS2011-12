@@ -2,6 +2,9 @@ package machine.brainfuck;
 
 import java.util.ArrayList;
 
+import javax.swing.text.BadLocationException;
+
+import gui.ErrorDialog;
 import gui.brainfuck.BrainfuckEditor;
 import tape.*;
 import machine.*;
@@ -17,7 +20,7 @@ public class BrainfuckSimulation extends Simulation {
 	private String code;
 	private ArrayList<Integer> loopBegin;
 	private boolean outputMoved = false,
-			inputMoved = false;
+					inputMoved = false;
 
 	/**
 	 * Creates new simulation with given BrainfuckMachine.
@@ -29,7 +32,12 @@ public class BrainfuckSimulation extends Simulation {
 		this.inputTape = machine.getTapes().get(0);
 		this.outputTape = machine.getTapes().get(1);
 		this.actionTape = machine.getTapes().get(2);
-		this.code = ((BrainfuckEditor) machine.getEditor()).getCode();
+		try {
+			this.code = ((BrainfuckEditor) machine.getEditor()).getCode();
+		} catch (BadLocationException e) {
+			ErrorDialog.showError("Was not able to get the code to execute, aborting simulation.", e);
+			this.abortSimulation = true;
+		}
 		this.loopBegin = new ArrayList<Integer>();
 		this.loopBegin.add(0);
 
@@ -45,7 +53,7 @@ public class BrainfuckSimulation extends Simulation {
 	public void runMachine() throws TapeException, IllegalArgumentException {
 		if(!checkSyntax(code)) {
 			this.abortSimulation = true;
-			throw new IllegalArgumentException("Syntaxcheck failed."); // TODO: better solution?
+			throw new IllegalArgumentException("Syntaxcheck failed. Check the brackets in your code."); // better solution? maybe earlier?
 		}
 		else
 			runMachine(code);
@@ -173,7 +181,7 @@ public class BrainfuckSimulation extends Simulation {
 			case '.':
 				this.highlight(instructionPointer);
 				if(this.outputMoved)
-					inputTape.moveRight();
+					outputTape.moveRight();
 				outputTape.write(actionTape.read());
 				this.outputMoved = true;
 				break;

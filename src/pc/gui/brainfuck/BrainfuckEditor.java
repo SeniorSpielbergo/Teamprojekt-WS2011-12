@@ -68,8 +68,9 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 	/**
 	 * Returns code of the editor.
 	 * @return code
+	 * @throws BadLocationException
 	 */
-	public String getCode() {
+	public String getCode() throws BadLocationException {
 		return this.document.getText();
 	}
 	
@@ -105,15 +106,14 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 					}
 				});
 			} catch (InvocationTargetException e) {
-				e.printStackTrace();
+				// well.. no highlightreset then :D
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				// well.. no highlightreset then :D
 			}
 			document.highlight((Integer) obj);
 		}
 		else if(obs instanceof BrainfuckSimulation && obj instanceof Simulation.simulationState) {
 			document.resetHighlights();
-			this.setEditable(true);
 		}
 	}
 
@@ -213,7 +213,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		}
 		
 		/**
-		 * Highlight the character at the specified position. The highlighted character will be shown in red.
+		 * Highlights the character at the specified position. The highlighted character will be shown in red.
 		 * @param position Position of character to be highlighted.
 		 */
 		public void highlight(int position) {
@@ -223,7 +223,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		}
 		
 		/**
-		 * Reset all highlights. The whole document will then have a black foreground color.
+		 * Resets all highlights. The whole document will then have a black foreground color.
 		 */
 		private void resetHighlights() {
 			SimpleAttributeSet attributes = new SimpleAttributeSet();
@@ -234,15 +234,10 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		/**
 		 * Returns the whole text held by the document. 
 		 * @return text
+		 * @throws BadLocationException
 		 */
-		public String getText() {
-			try {
-				return super.getText(0, this.getLength());
-			} 
-			catch (BadLocationException e) {
-				ErrorDialog.showError("Something went terribly wrong.", e);
-			}
-			return "";
+		public String getText() throws BadLocationException{
+			return super.getText(0, this.getLength());
 		}
 	}
 }
