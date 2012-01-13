@@ -1,12 +1,9 @@
 package machine.brainfuck;
 
-import gui.ErrorDialog;
 import gui.MachineEditor;
 import gui.brainfuck.BrainfuckEditor;
 
 import java.io.*;
-
-import javax.swing.text.BadLocationException;
 
 import tape.*;
 import machine.*;
@@ -29,7 +26,7 @@ public class BrainfuckMachine extends Machine {
 		super("Brainfuck machine");
 		tapes.add(new GraphicTape("Input", true));
 		tapes.add(new GraphicTape("Output", false));
-		tapes.add(new GraphicTape("Action", false));		
+		tapes.add(new GraphicTape("Action", false));
 	}
 
 	/**
@@ -96,7 +93,7 @@ public class BrainfuckMachine extends Machine {
 		brainfuckEditor.setCode(code);
 		return brainfuckEditor;
 	}
-
+	
 	@Override
 	public MachineType getType() {
 		return Machine.MachineType.BrainfuckMachine;
@@ -125,5 +122,13 @@ public class BrainfuckMachine extends Machine {
 			i++;
 		}
 		return x == 0;
+	}
+	
+	@Override
+	public Object clone() {
+		BrainfuckMachine bf = new BrainfuckMachine(this.getName());
+		BrainfuckEditor bfEditor = (BrainfuckEditor) bf.createEditor();
+		bfEditor.setCode(new String(this.code));
+		return bf;
 	}
 }
