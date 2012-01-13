@@ -137,4 +137,17 @@ public class Line extends Thread {
 	public int getCount() {
 		return this.counter;
 	}
+	
+	public void clearTape() {
+		for (int i = 0; i < Common.TAPE_SIZE; i++) {
+			Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
+			Motor.B.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+			Motor.C.rotate(Common.PUSH_ANGLE_MASTER);
+			Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+			this.moveRight();
+		}
+		for (int i = Common.TAPE_SIZE-1; i >= 0; i--) {
+			this.moveLeft();
+		}
+	}
 }
