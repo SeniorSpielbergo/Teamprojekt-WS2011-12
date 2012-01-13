@@ -62,15 +62,39 @@ public class MainMaster {
 			}
 		});
 		
-		LCD.drawString("Moving to begin...", 0, 0);
-		line = new Line(Common.TAPE_SIZE);
-		line.start();
-		LCD.clearDisplay();
-		LCD.drawString("Clearing tape...", 0, 0);
-		line.clearTape();
+		while (true) {
+			LCD.drawString("Moving to begin...", 0, 0);
+			line = new Line(Common.TAPE_SIZE);
+			line.start();
+			LCD.clearDisplay();
+			LCD.drawString("Clearing tape...", 0, 0);
+			if (line.clearTape()) {
+				break;
+			}
+			else {
+				LCD.clearDisplay();
+				LCD.drawString("ATTENTION", 0, 0);
+				LCD.drawString("Clearing tape failed.", 0, 1);
+				LCD.drawString("After the sound,", 0, 2);
+				LCD.drawString("clearing starts again!", 0, 3);
+				
+				line = null;
+				Common.playTune("CXCXCXCXCXCXCXCX", 400);
+				for (int i = 0; i < 3; i++) {
+					try {
+						Thread.sleep(1000);
+					}
+					catch (InterruptedException e) {}
+					Common.playTune("E", 600);
+				}
+				LCD.clearDisplay();
+			}
+		}
+
 		
 		while (true) {
 			// setup connection
+			Common.playTune("CEG", 400);
 			LCD.clearDisplay();
 			LCD.drawString("Waiting...", 0, 0);
 			NXTConnection connection = Bluetooth.waitForConnection();           
@@ -91,7 +115,7 @@ public class MainMaster {
 			connection.close();
 			
 			LCD.drawString("Moving to begin...", 0, 0);
-			line = new Line(8); // laenge uebergeben
+			line = new Line(Common.TAPE_SIZE); // laenge uebergeben
 			line.start();
 		}
 	}

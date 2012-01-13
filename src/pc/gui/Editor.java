@@ -196,7 +196,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 					tapeStyleSubmenu.add(styleMenuItem);
 				}
 			}
-		} catch (URISyntaxException e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 

@@ -104,7 +104,7 @@ public class Line extends Thread {
 	 * 		   false - Repositioning failed
 	 */
 	public boolean moveRight() {
-		if(this.counter == this.length)
+		if(this.counter == this.length-1)
 			return false;
 		else {
 			failed = false;
@@ -138,16 +138,21 @@ public class Line extends Thread {
 		return this.counter;
 	}
 	
-	public void clearTape() {
+	public boolean clearTape() {
 		for (int i = 0; i < Common.TAPE_SIZE; i++) {
 			Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
 			Motor.B.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
 			Motor.C.rotate(Common.PUSH_ANGLE_MASTER);
 			Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
-			this.moveRight();
+			if (this.counter < Common.TAPE_SIZE-1 && !this.moveRight()) {
+				return false;
+			}
 		}
-		for (int i = Common.TAPE_SIZE-1; i >= 0; i--) {
-			this.moveLeft();
+		for (int i = Common.TAPE_SIZE-1; i > 0; i--) {
+			if (!this.moveLeft()) {
+				return false;
+			}
 		}
+		return true;
 	}
 }
