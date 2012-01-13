@@ -68,10 +68,14 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 	/**
 	 * Returns code of the editor.
 	 * @return code
-	 * @throws BadLocationException
 	 */
-	public String getCode() throws BadLocationException {
-		return this.document.getText();
+	public String getCode() {
+		try {
+			return document.getText();
+		} catch(BadLocationException e) {
+			ErrorDialog.showError("Unknown error. Not able to get the code, aborting process.", e);
+		}
+		return "";
 	}
 	
 	@Override
@@ -84,6 +88,10 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		this.setEditMenuItemsSelectable(editable);
 	}
 	
+	/**
+	 * Enables or disables the edit menu items.
+	 * @param selectable
+	 */
 	public void setEditMenuItemsSelectable(boolean selectable) {
 		this.copyAction.setEnabled(selectable);
 		this.cutAction.setEnabled(selectable);

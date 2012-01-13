@@ -49,15 +49,8 @@ public class BrainfuckMachine extends Machine {
 	 */
 	@Override
 	public void save(String filename) throws IOException {
-		boolean saving = true;
 		if (brainfuckEditor != null) {
-			try {
-				this.code = brainfuckEditor.getCode();
-			} catch(BadLocationException e) {
-				ErrorDialog.showError("Not able to get your code to save, aborting saving process.", e);
-			}
-		}
-		if(saving) {
+			this.code = brainfuckEditor.getCode();
 			FileWriter fstream = new FileWriter(filename);
 			BufferedWriter out = new BufferedWriter(fstream);
 			out.write(code);
@@ -78,9 +71,8 @@ public class BrainfuckMachine extends Machine {
 		BufferedInputStream f = new BufferedInputStream(new FileInputStream(file));
 		f.read(buffer);
 		code = new String(buffer);
-		if (brainfuckEditor != null) {
+		if (brainfuckEditor != null)
 			brainfuckEditor.setCode(code);
-		}
 	}
 
 	/**
@@ -113,5 +105,25 @@ public class BrainfuckMachine extends Machine {
 	@Override
 	public String getFileExtension() {
 		return BrainfuckMachine.FILE_EXTENSION;
+	}
+	
+	@Override
+	public boolean isSimulatable() {
+		this.code = brainfuckEditor.getCode();
+		if(code.equals(""))
+			return false;
+		
+		int i = 0,
+				x = 0;
+		while(i < code.length()) {
+			if(code.charAt(i) == '[')
+				x++;
+			else if(code.charAt(i) == ']')
+				x--;
+			if(x == -1)
+				return false;
+			i++;
+		}
+		return x == 0;
 	}
 }
