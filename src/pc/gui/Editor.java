@@ -16,6 +16,8 @@ import java.awt.Event;
 import java.awt.Toolkit;
 import java.awt.event.*;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 /** This class represents an editor for Turing machines.
@@ -182,15 +184,20 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		
 		// create Simulation->Tape style submenu items
 		tapeStyleSubmenu = new JMenu("Tape style");
-		File stylesDir = new File("tape/images/styles");
-		for (File style : stylesDir.listFiles()) {
-			if (style.isDirectory() == true) {
-				JRadioButtonMenuItem styleMenuItem = new JRadioButtonMenuItem(style.getName());
-				styleMenuItem.setSelected(style.getName().equals("default"));
-				styleMenuItem.addItemListener(this);
-				this.tapeStyleMenuItems.add(styleMenuItem);
-				tapeStyleSubmenu.add(styleMenuItem);
+		try {
+			URI stylesURI = Tape.class.getResource("tape/images/styles").toURI();
+			File stylesDir = new File(stylesURI);
+			for (File style : stylesDir.listFiles()) {
+				if (style.isDirectory() == true) {
+					JRadioButtonMenuItem styleMenuItem = new JRadioButtonMenuItem(style.getName());
+					styleMenuItem.setSelected(style.getName().equals("default"));
+					styleMenuItem.addItemListener(this);
+					this.tapeStyleMenuItems.add(styleMenuItem);
+					tapeStyleSubmenu.add(styleMenuItem);
+				}
 			}
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
 		}
 
 		newSubmenu.add(newTMAction);
