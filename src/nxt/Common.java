@@ -1,10 +1,12 @@
 import lejos.nxt.Sound;
 
 public class Common {
+	static final int TAPE_SIZE = 8;
 	static final int PUSH_SPEED = 150;
 	static final int LINE_SPEED = 250;
-	static final int PUSH_ANGLE_MASTER = -155;
+	static final int PUSH_ANGLE_MASTER = -170;
 	static final int PUSH_ANGLE_SLAVE = -165;
+	
 	
 	public static void playTune(String m, int t) {
 		char[] charArray = m.toCharArray();

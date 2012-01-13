@@ -28,6 +28,7 @@ public class MainMaster {
 	static DataInputStream in;
 	static DataOutputStream out;
 	
+	
 	ColorSensor cs1 = null;
 	ColorSensor cs2 = null;
 	TouchSensor ts1 = null;
@@ -61,10 +62,14 @@ public class MainMaster {
 			}
 		});
 		
+		LCD.drawString("Moving to begin...", 0, 0);
+		line = new Line(Common.TAPE_SIZE);
+		line.start();
+		LCD.clearDisplay();
+		LCD.drawString("Clearing tape...", 0, 0);
+		this.clearTape();
+		
 		while (true) {
-			LCD.drawString("Moving to begin...", 0, 0);
-			line = new Line(8); // laenge uebergeben
-			line.start();
 			// setup connection
 			LCD.clearDisplay();
 			LCD.drawString("Waiting...", 0, 0);
@@ -84,6 +89,23 @@ public class MainMaster {
 			LCD.drawString("Disconnecting...", 0, 0);
 			line = null;
 			connection.close();
+			
+			LCD.drawString("Moving to begin...", 0, 0);
+			line = new Line(8); // laenge uebergeben
+			line.start();
+		}
+	}
+	
+	private void clearTape() {
+		for (int i = 0; i < Common.TAPE_SIZE; i++) {
+			Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
+			Motor.B.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+			Motor.C.rotate(Common.PUSH_ANGLE_MASTER);
+			Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+			this.line.moveRight();
+		}
+		for (int i = Common.TAPE_SIZE-1; i >= 0; i--) {
+			this.line.moveLeft();
 		}
 	}
 	
