@@ -185,7 +185,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		// create Simulation->Tape style submenu items
 		tapeStyleSubmenu = new JMenu("Tape style");
 		try {
-			URI stylesURI = Tape.class.getResource("tape/images/styles").toURI();
+			URI stylesURI = Tape.class.getResource("images/styles").toURI();
 			File stylesDir = new File(stylesURI);
 			for (File style : stylesDir.listFiles()) {
 				if (style.isDirectory() == true) {
