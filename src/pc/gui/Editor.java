@@ -384,6 +384,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			}
 			try { 
 				this.currentMachine.save(selectedFile.getPath());
+				this.currentFile = selectedFile;
 			} catch (IOException e) {
 				ErrorDialog.showError("Saving the file '" + selectedFile.getName() + "' failed because of an I/O error.", e);
 			}
