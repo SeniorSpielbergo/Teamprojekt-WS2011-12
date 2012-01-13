@@ -22,8 +22,23 @@ public abstract class Simulation extends Observable implements Runnable{
 	protected Thread simulationThread;
 	boolean simulationAlreadyStarted;
 	protected boolean simulationIsPaused,abortSimulation,simulationAborted;
+	protected int maxNumberOfSteps, numberOfSteps;;
 	
 
+
+	/**
+	 * @return the numberOfSteps
+	 */
+	public int getNumberOfSteps() {
+		return numberOfSteps;
+	}
+
+	/**
+	 * @param numberOfSteps the numberOfSteps to set
+	 */
+	public void setNumberOfSteps(int numberOfSteps) {
+		this.numberOfSteps = numberOfSteps;
+	}
 
 	/**
 	 * Creates a new Simulation object from a Machine object
@@ -36,6 +51,22 @@ public abstract class Simulation extends Observable implements Runnable{
 		this.simulationIsPaused = false;
 		this.abortSimulation = false;
 		this.simulationAborted = false;
+		this.maxNumberOfSteps = 1000;
+		this.numberOfSteps= 0;
+	}
+
+	/**
+	 * @return the maxNumberOfSteps
+	 */
+	public int getMaxNumberOfSteps() {
+		return maxNumberOfSteps;
+	}
+
+	/**
+	 * @param maxNumberOfSteps the maxNumberOfSteps to set
+	 */
+	public void setMaxNumberOfSteps(int maxNumberOfSteps) {
+		this.maxNumberOfSteps = maxNumberOfSteps;
 	}
 
 	/**

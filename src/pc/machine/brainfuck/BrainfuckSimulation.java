@@ -16,8 +16,7 @@ public class BrainfuckSimulation extends Simulation {
 	private Tape outputTape;
 	private String code;
 	private ArrayList<Integer> loopBegin;
-	private boolean outputMoved = false,
-					inputMoved = false;
+	private boolean outputMoved, inputMoved;
 
 	/**
 	 * Creates new simulation with given BrainfuckMachine.
@@ -32,6 +31,8 @@ public class BrainfuckSimulation extends Simulation {
 		this.code = ((BrainfuckEditor) machine.getEditor()).getCode();
 		this.loopBegin = new ArrayList<Integer>();
 		this.loopBegin.add(0);
+		this.outputMoved = false; 
+		this.inputMoved = false;
 
 		this.addObserver((BrainfuckEditor) machine.getEditor());
 	}

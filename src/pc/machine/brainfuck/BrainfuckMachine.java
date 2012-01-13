@@ -17,7 +17,7 @@ public class BrainfuckMachine extends Machine {
 	public static final String FILE_EXTENSION = ".bf";
 
 	private BrainfuckEditor brainfuckEditor;
-	private String code = "Type your brainfuck code here";
+	private String code;
 
 	/**
 	 * Creates a new brainfuck machine with input-, output- and actiontape.
@@ -27,17 +27,7 @@ public class BrainfuckMachine extends Machine {
 		tapes.add(new GraphicTape("Input", true));
 		tapes.add(new GraphicTape("Output", false));
 		tapes.add(new GraphicTape("Action", false));
-	}
-
-	/**
-	 * Creates a new brainfuck machine with given name, input-, output- and actiontape.
-	 * @param name Name of machine
-	 */
-	public BrainfuckMachine(String name) {
-		super(name);
-		tapes.add(new GraphicTape("Input", true));
-		tapes.add(new GraphicTape("Output", false));
-		tapes.add(new GraphicTape("Action", false));
+		this.code = "Type your brainfuck code here";
 	}
 
 	/**
@@ -126,7 +116,7 @@ public class BrainfuckMachine extends Machine {
 	
 	@Override
 	public Object clone() {
-		BrainfuckMachine bf = new BrainfuckMachine(this.getName());
+		BrainfuckMachine bf = new BrainfuckMachine();
 		BrainfuckEditor bfEditor = (BrainfuckEditor) bf.createEditor();
 		bfEditor.setCode(new String(this.code));
 		return bf;
