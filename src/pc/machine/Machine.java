@@ -164,4 +164,6 @@ public abstract class Machine {
 	public abstract String getFileExtension();
 	
 	public abstract boolean isSimulatable();
+	
+	public abstract Object clone();
 }

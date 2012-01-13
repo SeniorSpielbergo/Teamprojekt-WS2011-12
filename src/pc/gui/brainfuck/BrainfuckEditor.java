@@ -236,7 +236,7 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		private void resetHighlights() {
 			SimpleAttributeSet attributes = new SimpleAttributeSet();
 			StyleConstants.setForeground(attributes, Color.BLACK);
-			this.setCharacterAttributes(0, this.getLength()-1, attributes, false);
+			this.setCharacterAttributes(0, this.getLength(), attributes, false);
 		}
 		
 		/**

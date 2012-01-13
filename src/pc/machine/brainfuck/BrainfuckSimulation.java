@@ -2,9 +2,6 @@ package machine.brainfuck;
 
 import java.util.ArrayList;
 
-import javax.swing.text.BadLocationException;
-
-import gui.ErrorDialog;
 import gui.brainfuck.BrainfuckEditor;
 import tape.*;
 import machine.*;
@@ -106,7 +103,6 @@ public class BrainfuckSimulation extends Simulation {
 				this.highlight(instructionPointer);
 				int currentValue;
 				loopBegin.add(loopBegin.get(loopBegin.size()-1) + instructionPointer + 1);
-				this.sleep();
 				while(true) {
 					switch(actionTape.read()) {
 					case '#':
@@ -166,7 +162,6 @@ public class BrainfuckSimulation extends Simulation {
 			case ']': 
 				loopBegin.remove(loopBegin.size()-1);
 				this.highlight(instructionPointer);
-				this.sleep();
 				break;
 			case '.':
 				this.highlight(instructionPointer);
@@ -185,17 +180,10 @@ public class BrainfuckSimulation extends Simulation {
 			}
 			instructionPointer++;
 			while(this.simulationIsPaused) {
-				this.sleep();
+				try {
+					Thread.sleep(400);
+				} catch(InterruptedException e) {}
 			}
-		}
-	}
-
-	// Sleeps 400ms.
-	private void sleep() {
-		try {
-			Thread.sleep(400);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 	}
 
