@@ -35,6 +35,8 @@ public class TuringSimulation extends Simulation{
 	ArrayList<Character> currentSymbols = new ArrayList<Character>();
 
 
+
+
 	/**
 	 * Constructs a new turingmachine.
 	 * @param machine The current machine object.
@@ -70,67 +72,74 @@ public class TuringSimulation extends Simulation{
 	 * @throws TapeException If something went wrong with the tapes.
 	 */
 	public void runMachine() throws TapeException{
-		if(!this.abortSimulation){
-			currentSymbols.clear();
+		System.out.println(" \n +Steps: " +numberOfSteps);
+		if (this.maxNumberOfSteps >= this.numberOfSteps){ 
+			this.numberOfSteps++;
+			if(!this.abortSimulation){
+				currentSymbols.clear();
 
-			//read symbol(s)
-			for(int i = 0; i < machine.getNumberOfTapes(); i++)
-				currentSymbols.add(i,this.tapes.get(i).read());
+				//read symbol(s)
+				for(int i = 0; i < machine.getNumberOfTapes(); i++)
+					currentSymbols.add(i,this.tapes.get(i).read());
 
-			//searching for the right label
-			Transition rightLabel = getRightLabel();
-			if(currentState.isFinalState() && rightLabel == null){
-				System.out.println("ich habe fertig");
-				super.setChanged();
-				super.notifyObservers((Object)Simulation.simulationState.FINISHED);
+				//searching for the right label
+				Transition rightLabel = getRightLabel();
+				if(currentState.isFinalState() && rightLabel == null){
+					System.out.println("ich habe fertig");
+					super.setChanged();
+					super.notifyObservers((Object)Simulation.simulationState.FINISHED);
 
+				}
+				else if(!currentState.isFinalState() && rightLabel == null){
+					System.out.println("abgekackt");
+					super.setChanged();
+					super.notifyObservers((Object)Simulation.simulationState.ABORTED);
+
+				}
+
+				else{
+					System.out.println("State: "+ this.currentState);
+					System.out.println("Transition: "+ rightLabel);
+					System.out.println("Next State: "+ this.nextState);
+
+
+					//go/do label
+					for(int i = 0; i < machine.getNumberOfTapes(); i++){
+						if (rightLabel.getWrite().get(i) != '*') { //* means reproduce symbol -> do nothing
+							tapes.get(i).write(rightLabel.getWrite().get(i));
+						}
+
+						switch(rightLabel.getAction().get(i)){
+
+						case 'R':
+							tapes.get(i).moveRight();
+							break;
+						case 'L':
+							tapes.get(i).moveLeft();
+							break;
+						default:
+							break;
+						}
+					}
+
+					currentState = nextState;
+					super.setChanged();
+					super.notifyObservers((Object)currentState);
+					while(this.simulationIsPaused){
+						try{
+							Thread.sleep(400);
+						}catch(InterruptedException e){}
+					}
+					//do the next step
+					runMachine();
+				}
 			}
-			else if(!currentState.isFinalState() && rightLabel == null){
-				System.out.println("abgekackt");
-				super.setChanged();
-				super.notifyObservers((Object)Simulation.simulationState.ABORTED);
-
-			}
-
 			else{
-				System.out.println("State: "+ this.currentState);
-				System.out.println("Transition: "+ rightLabel);
-				System.out.println("Next State: "+ this.nextState);
-
-
-				//go/do label
-				for(int i = 0; i < machine.getNumberOfTapes(); i++){
-					if (rightLabel.getWrite().get(i) != '*') { //* means reproduce symbol -> do nothing
-						tapes.get(i).write(rightLabel.getWrite().get(i));
-					}
-
-					switch(rightLabel.getAction().get(i)){
-
-					case 'R':
-						tapes.get(i).moveRight();
-						break;
-					case 'L':
-						tapes.get(i).moveLeft();
-						break;
-					default:
-						break;
-					}
-				}
-
-				currentState = nextState;
-				super.setChanged();
-				super.notifyObservers((Object)currentState);
-				while(this.simulationIsPaused){
-					try{
-						Thread.sleep(400);
-					}catch(InterruptedException e){}
-				}
-				//do the next step
-				runMachine();
+				this.simulationAborted = true;
 			}
 		}
 		else{
-			this.simulationAborted = true;
+			this.simulationAborted = true; // TODO is needed?
 		}
 
 	}

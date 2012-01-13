@@ -44,6 +44,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	private JTextField[] tapeInput;
 	private JButton runButton;
 	private JButton cancelButton;
+	private PresimulationDialogue presimDialogue;
 	/**
 	 * Stores the list of robots available
 	 */
@@ -404,9 +405,11 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		else if(e.getSource() == runButton) {
 			updateTapeWords();
 			if (checkRobots()) {
-				this.setVisible(false);
-				dispose();
-				returnValue = ReturnValue.RUN;
+				this.presimDialogue = new PresimulationDialogue((Machine)this.machine.clone());
+				if(this.presimDialogue.showDialogue() == PresimulationDialogue.ReturnValue.SIMULATE){
+					this.setVisible(false);
+					dispose();
+					returnValue = ReturnValue.RUN;}
 			}
 			else {
 				ErrorDialog.showError("Each roboter can just be assigned to one tape at a time!");
