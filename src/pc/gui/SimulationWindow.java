@@ -77,6 +77,12 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		this.simulationPaused = true;
 		this.currentMachine = machine;
 		this.editor = editor;
+		
+		if(!currentMachine.isSimulatable()) {
+			ErrorDialog.showError("Machine is not simulatable. You may check for any syntax errors.");
+			dispose();
+		}
+		
 		for(int i = 0; i< currentMachine.getTapes().size(); i++){
 			this.currentMachine.getTapes().get(i).addObserver(this);
 			if(this.currentMachine.getType() == Machine.MachineType.TuringMachine){

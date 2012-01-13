@@ -32,12 +32,7 @@ public class BrainfuckSimulation extends Simulation {
 		this.inputTape = machine.getTapes().get(0);
 		this.outputTape = machine.getTapes().get(1);
 		this.actionTape = machine.getTapes().get(2);
-		try {
-			this.code = ((BrainfuckEditor) machine.getEditor()).getCode();
-		} catch (BadLocationException e) {
-			ErrorDialog.showError("Was not able to get the code to execute, aborting simulation.", e);
-			this.abortSimulation = true;
-		}
+		this.code = ((BrainfuckEditor) machine.getEditor()).getCode();
 		this.loopBegin = new ArrayList<Integer>();
 		this.loopBegin.add(0);
 
@@ -51,12 +46,7 @@ public class BrainfuckSimulation extends Simulation {
 	 */
 	@Override
 	public void runMachine() throws TapeException, IllegalArgumentException {
-		if(!checkSyntax(code)) {
-			this.abortSimulation = true;
-			throw new IllegalArgumentException("Syntaxcheck failed. Check the brackets in your code."); // better solution? maybe earlier?
-		}
-		else
-			runMachine(code);
+		runMachine(code);
 		
 		if(this.abortSimulation) {
 			this.simulationAborted = true;
@@ -198,22 +188,6 @@ public class BrainfuckSimulation extends Simulation {
 				this.sleep();
 			}
 		}
-	}
-
-	// Checks syntax of brainfuck-Application (just checks the loops).
-	private boolean checkSyntax(String code) {
-		int i = 0,
-				x = 0;
-		while(i < code.length()) {
-			if(code.charAt(i) == '[')
-				x++;
-			else if(code.charAt(i) == ']')
-				x--;
-			if(x == -1)
-				return false;
-			i++;
-		}
-		return x == 0;
 	}
 
 	// Sleeps 400ms.

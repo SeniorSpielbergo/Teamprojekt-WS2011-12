@@ -946,4 +946,10 @@ public class TuringMachine extends Machine{
 				(ArrayList<Textbox>) this.textboxes.clone(), 
 				(ArrayList<Frame>) this.frames.clone());
 	}
+	
+	@Override
+	public boolean isSimulatable() {
+		// Check whether there is a startState
+		return true;
+	}
 }
