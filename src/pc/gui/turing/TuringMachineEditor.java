@@ -668,9 +668,12 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			edge.setPosLabelY((int) g.getY());
 
 			edge.getVia().clear();
-			for (mxPoint p : mxEdge.getGeometry().getPoints()) {	// FIXME This is causing NullpointerExceptions on adding new Edges
-				edge.getVia().add(new Point((int)p.getX(), (int)p.getY()));
+			if (mxEdge.getGeometry().getPoints() != null) {
+				for (mxPoint p : mxEdge.getGeometry().getPoints()) {
+					edge.getVia().add(new Point((int)p.getX(), (int)p.getY()));
+				}
 			}
+
 			graph.refresh();
 			this.addUndoableEdit("Label moved");
 			lastSelectedEdge = mxEdge;
