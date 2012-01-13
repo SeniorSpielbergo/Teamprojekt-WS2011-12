@@ -122,6 +122,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 		//initialize tapes
 		try {
+			for(Tape tape : currentMachine.getTapes()){
+				tape.setDelay(false);
+			}
 			this.currentMachine.initTapes();
 		}
 		catch (TapeException e){
@@ -275,6 +278,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 			counter++;
 			if(counter == this.currentMachine.getNumberOfTapes()){
+				for(Tape tape : currentMachine.getTapes()){
+					tape.setDelay(this.delay);
+				}
 				this.buttonPlay.setEnabled(true);
 				this.buttonForward.setEnabled(true);
 				System.out.println("Writing input word finished: notified");
