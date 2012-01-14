@@ -28,13 +28,14 @@ public class BrainfuckSimulation extends Simulation {
 		this.inputTape = machine.getTapes().get(0);
 		this.outputTape = machine.getTapes().get(1);
 		this.actionTape = machine.getTapes().get(2);
-		this.code = ((BrainfuckEditor) machine.getEditor()).getCode();
+		
+		this.code = machine.getCode();
+		
 		this.loopBegin = new ArrayList<Integer>();
 		this.loopBegin.add(0);
+		
 		this.outputMoved = false; 
 		this.inputMoved = false;
-
-		this.addObserver((BrainfuckEditor) machine.getEditor());
 	}
 
 	/**
@@ -45,7 +46,7 @@ public class BrainfuckSimulation extends Simulation {
 	@Override
 	public void runMachine() throws TapeException, IllegalArgumentException {
 		runMachine(code);
-		
+
 		if(this.abortSimulation) {
 			this.simulationAborted = true;
 			super.setChanged();
@@ -64,10 +65,12 @@ public class BrainfuckSimulation extends Simulation {
 			switch(code.charAt(instructionPointer)) {
 			case '<': 
 				this.highlight(instructionPointer);
+				this.numberOfSteps++;
 				actionTape.moveLeft();
 				break;
 			case '>':
 				this.highlight(instructionPointer);
+				this.numberOfSteps++;
 				actionTape.moveRight();
 				break;
 			case '+': 
@@ -84,6 +87,7 @@ public class BrainfuckSimulation extends Simulation {
 				default: 
 					break;
 				}
+				this.numberOfSteps++;
 				break;
 			case '-':
 				this.highlight(instructionPointer);
@@ -99,6 +103,7 @@ public class BrainfuckSimulation extends Simulation {
 				default: 
 					break;
 				}
+				this.numberOfSteps++;
 				break;
 			case '[': 
 				this.highlight(instructionPointer);
@@ -163,6 +168,7 @@ public class BrainfuckSimulation extends Simulation {
 			case ']': 
 				loopBegin.remove(loopBegin.size()-1);
 				this.highlight(instructionPointer);
+				this.numberOfSteps++;
 				break;
 			case '.':
 				this.highlight(instructionPointer);
@@ -170,6 +176,7 @@ public class BrainfuckSimulation extends Simulation {
 					outputTape.moveRight();
 				outputTape.write(actionTape.read());
 				this.outputMoved = true;
+				this.numberOfSteps++;
 				break;
 			case ',':
 				this.highlight(instructionPointer);
@@ -177,6 +184,7 @@ public class BrainfuckSimulation extends Simulation {
 					inputTape.moveRight();
 				actionTape.write(inputTape.read());
 				this.inputMoved = true;
+				this.numberOfSteps++;
 				break;
 			}
 			instructionPointer++;
@@ -190,7 +198,9 @@ public class BrainfuckSimulation extends Simulation {
 
 	// Notifies Editor to highlight character at instructionPointer.
 	private void highlight(int ip) {
-		super.setChanged();
-		super.notifyObservers((Object) (ip + this.loopBegin.get(this.loopBegin.size()-1)));
+		if(this.countObservers() != 0) {
+			super.setChanged();
+			super.notifyObservers((Object) (ip + this.loopBegin.get(this.loopBegin.size()-1)));
+		}
 	}
 }	

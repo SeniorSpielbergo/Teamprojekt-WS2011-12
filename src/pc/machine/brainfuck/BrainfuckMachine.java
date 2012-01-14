@@ -4,6 +4,7 @@ import gui.MachineEditor;
 import gui.brainfuck.BrainfuckEditor;
 
 import java.io.*;
+import java.util.Observer;
 
 import tape.*;
 import machine.*;
@@ -16,7 +17,6 @@ import machine.*;
 public class BrainfuckMachine extends Machine {
 	public static final String FILE_EXTENSION = ".bf";
 
-	private BrainfuckEditor brainfuckEditor;
 	private String code;
 
 	/**
@@ -29,6 +29,14 @@ public class BrainfuckMachine extends Machine {
 		tapes.add(new GraphicTape("Action", false));
 		this.code = "Type your brainfuck code here";
 	}
+	
+	public String getCode() {
+		return this.code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
+	}
 
 	/**
 	 * Saves the brainfuck code to given filename.
@@ -36,8 +44,8 @@ public class BrainfuckMachine extends Machine {
 	 */
 	@Override
 	public void save(String filename) throws IOException {
-		if (brainfuckEditor != null) {
-			this.code = brainfuckEditor.getCode();
+		if (this.editor != null) {
+			this.code = ((BrainfuckEditor) this.editor).getCode();
 			FileWriter fstream = new FileWriter(filename);
 			BufferedWriter out = new BufferedWriter(fstream);
 			out.write(code);
@@ -57,9 +65,9 @@ public class BrainfuckMachine extends Machine {
 		byte[] buffer = new byte[(int) file.length()];
 		BufferedInputStream f = new BufferedInputStream(new FileInputStream(file));
 		f.read(buffer);
-		code = new String(buffer);
-		if (brainfuckEditor != null)
-			brainfuckEditor.setCode(code);
+		this.code = new String(buffer);
+		if (this.editor != null)
+			((BrainfuckEditor) this.editor).setCode(code);
 	}
 
 	/**
@@ -70,6 +78,8 @@ public class BrainfuckMachine extends Machine {
 	@Override
 	public Simulation createSimulation() throws TapeException {
 		BrainfuckSimulation brainfuckSimulation = new BrainfuckSimulation(this);
+		if(this.editor != null)
+			brainfuckSimulation.addObserver((Observer) this.editor);
 		return brainfuckSimulation;
 	}
 
@@ -79,9 +89,9 @@ public class BrainfuckMachine extends Machine {
 	 */
 	@Override
 	protected MachineEditor createEditor() {
-		brainfuckEditor = new BrainfuckEditor();
-		brainfuckEditor.setCode(code);
-		return brainfuckEditor;
+		this.editor = new BrainfuckEditor();
+		((BrainfuckEditor) this.editor).setCode(code);
+		return this.editor;
 	}
 	
 	@Override
@@ -96,7 +106,7 @@ public class BrainfuckMachine extends Machine {
 	
 	@Override
 	public boolean isSimulatable() {
-		this.code = brainfuckEditor.getCode();
+		this.code = ((BrainfuckEditor) this.editor).getCode();
 		if(code.equals(""))
 			return false;
 		
@@ -117,8 +127,7 @@ public class BrainfuckMachine extends Machine {
 	@Override
 	public Object clone() {
 		BrainfuckMachine bf = new BrainfuckMachine();
-		BrainfuckEditor bfEditor = (BrainfuckEditor) bf.createEditor();
-		bfEditor.setCode(new String(this.code));
+		bf.setCode(new String(((BrainfuckEditor) this.editor).getCode()));
 		return bf;
 	}
 }

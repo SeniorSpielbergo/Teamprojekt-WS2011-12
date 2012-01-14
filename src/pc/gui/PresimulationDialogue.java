@@ -79,7 +79,7 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		for(int i = 0; i < numberOfTapes; i++){
 			ConsoleTape t = new ConsoleTape();
 			try {
-				t.setInputWord(machine.getTapes().get(i).getInputWord());
+				t.setInputWord(machine.getTapes().get(i).getInputWord()); //FIXME: does not work
 			} catch (TapeException e1) {
 				ErrorDialog.showError("Error changing Tapetype", e1);
 			}	
