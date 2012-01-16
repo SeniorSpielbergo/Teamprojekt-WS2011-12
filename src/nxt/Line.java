@@ -21,6 +21,7 @@ public class Line extends Thread {
 	private boolean failed = false;
 	private ColorSensor counterSensor = new ColorSensor(SensorPort.S3);
 	private Timer timer;
+	private boolean requestStop;
 	private TimerListener tl = new TimerListener(){ 
 		public void timedOut() {
 			Motor.A.stop();
@@ -50,7 +51,8 @@ public class Line extends Thread {
 	 * Thread counting at which position the Tape currently is, starting at the leftmost position 0.
 	 */
 	public void run() {
-		while(true) {
+		this.requestStop = false;
+		while(!this.requestStop) {
 			if ((counterSensor.getColorNumber() >= Line.MARKER_COLOR_MIN && counterSensor.getColorNumber() <= Line.MARKER_COLOR_MAX) || counterSensor.getColorNumber() == Line.LEFT_END_MARKER_COLOR){
 				if (grey && !color) {
 					grey = false;
@@ -154,5 +156,19 @@ public class Line extends Thread {
 			}
 		}
 		return true;
+	}
+	
+	public void requestStop() {
+		this.requestStop = true;
+	}
+	
+	public void stop() {
+		this.requestStop();
+		try {
+			this.join();
+		}
+		catch (InterruptedException e) {
+			
+		}
 	}
 }

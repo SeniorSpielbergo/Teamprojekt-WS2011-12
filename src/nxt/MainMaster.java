@@ -27,12 +27,12 @@ public class MainMaster {
 	static int counter = 0;
 	static DataInputStream in;
 	static DataOutputStream out;
-	
-	
+
+
 	ColorSensor cs1 = null;
 	ColorSensor cs2 = null;
 	TouchSensor ts1 = null;
-	
+
 	Line line = null;
 
 	// Pushes one bit with given motor 
@@ -42,7 +42,7 @@ public class MainMaster {
 			motor.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
 		}
 	}
-	
+
 	public void run() {
 		Common.playTune("HAHA",200);
 		String sensor1, sensor2, sensor3, counterString;
@@ -53,7 +53,7 @@ public class MainMaster {
 		Motor.A.setSpeed(Common.LINE_SPEED);
 		Motor.B.setSpeed(Common.PUSH_SPEED);
 		Motor.C.setSpeed(Common.PUSH_SPEED);
-				
+
 		// sensor listener for emergency stop
 		SensorPort.S4.addSensorPortListener(new SensorPortListener() {
 			public void stateChanged(SensorPort port, int oldValue, int newValue) {
@@ -61,7 +61,7 @@ public class MainMaster {
 					System.exit(0);
 			}
 		});
-		
+
 		while (true) {
 			LCD.drawString("Moving to begin...", 0, 0);
 			line = new Line(Common.TAPE_SIZE);
@@ -77,8 +77,9 @@ public class MainMaster {
 				LCD.drawString("Clearing tape failed.", 0, 1);
 				LCD.drawString("After the sound,", 0, 2);
 				LCD.drawString("clearing starts again!", 0, 3);
+
+				line.stop();
 				
-				line = null;
 				Common.playTune("CXCXCXCXCXCXCXCX", 400);
 				for (int i = 0; i < 3; i++) {
 					try {
@@ -91,7 +92,7 @@ public class MainMaster {
 			}
 		}
 
-		
+
 		while (true) {
 			// setup connection
 			Common.playTune("CEG", 400);
@@ -104,16 +105,16 @@ public class MainMaster {
 			out = connection.openDataOutputStream();          
 			LCD.clearDisplay();
 			LCD.drawString("Connected", 0, 0);
-			
+
 			//listen to commands
 			this.serve(); 
-			
+
 			//close connection
 			LCD.clearDisplay();
 			LCD.drawString("Disconnecting...", 0, 0);
-			line = null;
+			line.stop();
 			connection.close();
-			
+
 			LCD.drawString("Moving to begin...", 0, 0);
 			line = new Line(Common.TAPE_SIZE); // laenge uebergeben
 			line.start();
@@ -130,131 +131,131 @@ public class MainMaster {
 			catch (IOException e) {
 				break;
 			}
-	           
+
 			LCD.clearDisplay();
 			switch (ch) {
-				case 'q':
-					return; //end serving
-				case 't':
-					LCD.drawString("Pushing...", 0, 0);
-					Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
-					Motor.B.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
-					Motor.C.rotate(Common.PUSH_ANGLE_MASTER);
-					Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
-					LCD.clearDisplay();
-					break;
-				case 'r':
-					boolean cs1Active, cs2Active;
-					if (cs1.getColorNumber() >= 5 && cs1.getColorNumber() <= 10) {
-						LCD.drawString("brick", 0, 0);
-						cs1Active = true;
+			case 'q':
+				return; //end serving
+			case 't':
+				LCD.drawString("Pushing...", 0, 0);
+				Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
+				Motor.B.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+				Motor.C.rotate(Common.PUSH_ANGLE_MASTER);
+				Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+				LCD.clearDisplay();
+				break;
+			case 'r':
+				boolean cs1Active, cs2Active;
+				if (cs1.getColorNumber() >= 5 && cs1.getColorNumber() <= 10) {
+					LCD.drawString("brick", 0, 0);
+					cs1Active = true;
+				}
+				else {
+					LCD.drawString("no brick", 0, 0);
+					cs1Active = false;
+
+				}
+				if (cs2.getColorNumber() >= 5 && cs2.getColorNumber() <= 10) {
+					LCD.drawString("brick", 0, 1);
+					cs2Active = true;
+				}
+				else {
+					LCD.drawString("no brick", 0, 1);
+					cs2Active = false;
+				}
+				try {
+					if (!cs1Active && !cs2Active) {
+						out.writeChar('#');
+						Common.playTune("C",200); //testing
 					}
-					else {
-						LCD.drawString("no brick", 0, 0);
-						cs1Active = false;
-						
+					else if (!cs1Active && cs2Active) {
+						out.writeChar('0');
+						Common.playTune("E",200); //testing
 					}
-					if (cs2.getColorNumber() >= 5 && cs2.getColorNumber() <= 10) {
-						LCD.drawString("brick", 0, 1);
-						cs2Active = true;
+					else if (cs1Active && !cs2Active) {
+						out.writeChar('1');
+						Common.playTune("G",200); //testing
 					}
-					else {
-						LCD.drawString("no brick", 0, 1);
-						cs2Active = false;
+					else if (cs1Active && cs2Active) {
+						out.writeChar('2');
+						Common.playTune("H",200); //testing
 					}
-					try {
-						if (!cs1Active && !cs2Active) {
-							out.writeChar('#');
-							Common.playTune("C",200); //testing
-						}
-						else if (!cs1Active && cs2Active) {
-							out.writeChar('0');
-							Common.playTune("E",200); //testing
-						}
-						else if (cs1Active && !cs2Active) {
-							out.writeChar('1');
-							Common.playTune("G",200); //testing
-						}
-						else if (cs1Active && cs2Active) {
-							out.writeChar('2');
-							Common.playTune("H",200); //testing
-						}
-						out.flush();
-					}
-					catch (IOException e) {
-					}
-					break;
-				case 'w':
-					int bit1, bit0, nbit1, nbit0;
-					char newSymbol = 'n', currentSymbol = 'n';
-					try{
-						currentSymbol = in.readChar();
-						newSymbol = in.readChar();
-					}
-					catch(IOException e){}
-					switch(currentSymbol){
-						case '#': bit1 = 0; bit0 = 0; break;
-						case '0': bit1 = 0; bit0 = 1; break;
-						case '1': bit1 = 1; bit0 = 0; break;
-						case '2': bit1 = 1; bit0 = 1; break;
-						default: bit1 = -1; bit0 = -1; break;
-					}
-					switch(newSymbol){
-						case '#': nbit1 = 0; nbit0 = 0; break;
-						case '0': nbit1 = 0; nbit0 = 1; break;
-						case '1': nbit1 = 1; nbit0 = 0; break;
-						case '2': nbit1 = 1; nbit0 = 1; break;
-						default: nbit1 = -1; nbit0 = -1; break;
-					}
-					pushBit(bit1, nbit1, Motor.B);
-					pushBit(bit0, nbit0, Motor.C);	
+					out.flush();
+				}
+				catch (IOException e) {
+				}
+				break;
+			case 'w':
+				int bit1, bit0, nbit1, nbit0;
+				char newSymbol = 'n', currentSymbol = 'n';
+				try{
+					currentSymbol = in.readChar();
+					newSymbol = in.readChar();
+				}
+				catch(IOException e){}
+				switch(currentSymbol){
+				case '#': bit1 = 0; bit0 = 0; break;
+				case '0': bit1 = 0; bit0 = 1; break;
+				case '1': bit1 = 1; bit0 = 0; break;
+				case '2': bit1 = 1; bit0 = 1; break;
+				default: bit1 = -1; bit0 = -1; break;
+				}
+				switch(newSymbol){
+				case '#': nbit1 = 0; nbit0 = 0; break;
+				case '0': nbit1 = 0; nbit0 = 1; break;
+				case '1': nbit1 = 1; nbit0 = 0; break;
+				case '2': nbit1 = 1; nbit0 = 1; break;
+				default: nbit1 = -1; nbit0 = -1; break;
+				}
+				pushBit(bit1, nbit1, Motor.B);
+				pushBit(bit0, nbit0, Motor.C);	
+				try {
+					out.writeChar('.');
+					out.flush();
+				}
+				catch (IOException e) {
+				}
+				break;
+			case 'L':
+				if(line.moveLeft()) {
 					try {
 						out.writeChar('.');
 						out.flush();
 					}
 					catch (IOException e) {
 					}
-					break;
-				case 'L':
-					if(line.moveLeft()) {
-						try {
-							out.writeChar('.');
-							out.flush();
-						}
-						catch (IOException e) {
-						}
+				}
+				else {
+					try {
+						out.writeChar('!');
+						out.flush();
 					}
-					else {
-						try {
-							out.writeChar('!');
-							out.flush();
-						}
-						catch (IOException e) {
-						}						
+					catch (IOException e) {
+					}						
+				}
+				break;
+			case 'R': 
+				if(line.moveRight()) {
+					try {
+						out.writeChar('.');
+						out.flush();
 					}
-					break;
-				case 'R': 
-					if(line.moveRight()) {
-						try {
-							out.writeChar('.');
-							out.flush();
-						}
-						catch (IOException e) {
-						}
+					catch (IOException e) {
 					}
-					else {
-						try {
-							out.writeChar('!');
-							out.flush();
-						}
-						catch (IOException e) {
-						}
+				}
+				else {
+					try {
+						out.writeChar('!');
+						out.flush();
 					}
-					break;
+					catch (IOException e) {
+					}
+				}
+				break;
 			}
 		}
 	}
-	
+
 	/**
 	 * Establishes connection to the controlling PC and waits for commands.
 	 * @param args
