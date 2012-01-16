@@ -341,4 +341,11 @@ public class LEGOTape extends DisplayableTape {
 	public JPanel getTapePanel() {
 		return this.graphicTape.getTapePanel();
 	}
+
+	@Override
+	public int getHeight() {
+		return this.graphicTape.getHeight();
+	}
+	
+	
 }
