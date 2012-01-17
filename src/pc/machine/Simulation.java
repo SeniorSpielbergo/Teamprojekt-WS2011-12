@@ -22,8 +22,45 @@ public abstract class Simulation extends Observable implements Runnable{
 	protected Thread simulationThread;
 	boolean simulationAlreadyStarted;
 	protected boolean simulationIsPaused,abortSimulation,simulationAborted;
-	protected int maxNumberOfSteps, numberOfSteps;;
+	protected int maxNumberOfSteps, numberOfSteps, numberOfMovementsGraphic, numberOfMovementsLego,
+					numberOfWritingsGraphic, numberOfWritingsLego;
 	
+
+
+	/**
+	 * @return the numberOfWritingsGraphic
+	 */
+	public int getNumberOfWritingsGraphic() {
+		return numberOfWritingsGraphic;
+	}
+
+
+
+	/**
+	 * @param numberOfWritingsGraphic the numberOfWritingsGraphic to set
+	 */
+	public void setNumberOfWritingsGraphic(int numberOfWritingsGraphic) {
+		this.numberOfWritingsGraphic = numberOfWritingsGraphic;
+	}
+
+
+
+	/**
+	 * @return the numberOfWritingsLego
+	 */
+	public int getNumberOfWritingsLego() {
+		return numberOfWritingsLego;
+	}
+
+
+
+	/**
+	 * @param numberOfWritingsLego the numberOfWritingsLego to set
+	 */
+	public void setNumberOfWritingsLego(int numberOfWritingsLego) {
+		this.numberOfWritingsLego = numberOfWritingsLego;
+	}
+
 
 
 	/**
@@ -32,6 +69,44 @@ public abstract class Simulation extends Observable implements Runnable{
 	public int getNumberOfSteps() {
 		return numberOfSteps;
 	}
+
+
+
+	/**
+	 * @return the numberOfMovementsGraphic
+	 */
+	public int getNumberOfMovementsGraphic() {
+		return numberOfMovementsGraphic;
+	}
+
+
+
+	/**
+	 * @param numberOfMovementsGraphic the numberOfMovementsGraphic to set
+	 */
+	public void setNumberOfMovementsGraphic(int numberOfMovementsGraphic) {
+		this.numberOfMovementsGraphic = numberOfMovementsGraphic;
+	}
+
+
+
+	/**
+	 * @return the numberOfMovementsLego
+	 */
+	public int getNumberOfMovementsLego() {
+		return numberOfMovementsLego;
+	}
+
+
+
+	/**
+	 * @param numberOfMovementsLego the numberOfMovementsLego to set
+	 */
+	public void setNumberOfMovementsLego(int numberOfMovementsLego) {
+		this.numberOfMovementsLego = numberOfMovementsLego;
+	}
+
+
 
 	/**
 	 * @param numberOfSteps the numberOfSteps to set
@@ -53,6 +128,10 @@ public abstract class Simulation extends Observable implements Runnable{
 		this.simulationAborted = false;
 		this.maxNumberOfSteps = 1000;
 		this.numberOfSteps= 0;
+		this.numberOfMovementsGraphic = 0;
+		this.numberOfMovementsLego = 0;
+		this.numberOfWritingsGraphic = 0;
+		this.numberOfWritingsLego = 0;
 	}
 
 	/**

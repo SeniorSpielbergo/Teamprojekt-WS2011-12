@@ -107,15 +107,27 @@ public class TuringSimulation extends Simulation{
 					for(int i = 0; i < machine.getNumberOfTapes(); i++){
 						if (rightLabel.getWrite().get(i) != '*') { //* means reproduce symbol -> do nothing
 							tapes.get(i).write(rightLabel.getWrite().get(i));
+							if(tapes.get(i).getType()== Tape.Type.GRAPHIC)
+								this.numberOfWritingsGraphic++;
+							else if(tapes.get(i).getType() == Tape.Type.LEGO)
+								this.numberOfWritingsLego++;
 						}
 
 						switch(rightLabel.getAction().get(i)){
 
 						case 'R':
 							tapes.get(i).moveRight();
+							if(tapes.get(i).getType()== Tape.Type.GRAPHIC)
+								this.numberOfMovementsGraphic++;
+							else if(tapes.get(i).getType() == Tape.Type.LEGO)
+								this.numberOfMovementsLego++;							
 							break;
 						case 'L':
 							tapes.get(i).moveLeft();
+							if(tapes.get(i).getType()== Tape.Type.GRAPHIC)
+								this.numberOfMovementsGraphic++;
+							else if(tapes.get(i).getType() == Tape.Type.LEGO)
+								this.numberOfMovementsLego++;							
 							break;
 						default:
 							break;

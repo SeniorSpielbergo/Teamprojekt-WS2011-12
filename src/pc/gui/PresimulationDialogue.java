@@ -29,6 +29,7 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 	Machine machine;
 	Simulation sim;
 	String duration;
+	int simulationTime;
 	/**
 	 * Stores the value returned by the dialog
 	 */
@@ -39,7 +40,7 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		duration = new String();
 		this.panelText = new JPanel();
 		this.panelButtons = new JPanel();
-		this.labelText = new JLabel("The expected duration will be about ");
+		this.labelText = new JLabel();
 		this.labelDuration = new JLabel();
 		this.buttonCancel = new JButton("Cancel");
 		this.buttonSimulate = new JButton("Simulate");
@@ -49,9 +50,10 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 	}
 
 	private void init(){
+		//TODO: make it beautiful!
 		this.setTitle("Presimulation");
-		this.setLayout(new FlowLayout());
-		this.panelText.setLayout(new FlowLayout());
+		this.setLayout(new GridLayout(2,0));
+		this.panelText.setLayout(new GridLayout(3,0));
 		this.panelText.add(this.labelText);
 		this.panelText.add(this.labelDuration);
 
@@ -103,9 +105,8 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 			e.printStackTrace();
 		}
 
-		duration = Integer.toString(this.sim.getNumberOfSteps());
-		//duration = String.valueOf(this.sim.getNumberOfSteps());
-		this.labelDuration.setText(duration +"Steps.");
+		this.labelText.setText("The simulation needs " +Integer.toString(this.sim.getNumberOfSteps()) +" Steps." );
+		this.labelDuration.setText("This will last about " + Integer.valueOf(this.simulationTime)+" minutes.");
 
 	}
 
@@ -117,6 +118,14 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		this.setVisible(true);
 
 		return returnValue;
+	}
+	
+	public int simulationTime(){
+		this.simulationTime= (this.sim.getNumberOfMovementsGraphic()
+								+this.sim.getNumberOfMovementsLego()
+								+this.sim.getNumberOfWritingsGraphic())*500
+								+this.sim.getNumberOfWritingsLego()*800;
+		return this.simulationTime/(1000*60);
 	}
 
 	@Override
