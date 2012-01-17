@@ -24,4 +24,6 @@ public abstract class DisplayableTape extends Tape{
 	public abstract void setStyle(String style);
 	
 	public abstract JPanel getTapePanel();
+	
+	public abstract int getHeight();
 }

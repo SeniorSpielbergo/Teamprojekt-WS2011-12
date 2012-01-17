@@ -21,6 +21,7 @@ public class Line extends Thread {
 	private boolean failed = false;
 	private ColorSensor counterSensor = new ColorSensor(SensorPort.S3);
 	private Timer timer;
+	private boolean requestStop;
 	private TimerListener tl = new TimerListener(){ 
 		public void timedOut() {
 			Motor.A.stop();
@@ -50,7 +51,8 @@ public class Line extends Thread {
 	 * Thread counting at which position the Tape currently is, starting at the leftmost position 0.
 	 */
 	public void run() {
-		while(true) {
+		this.requestStop = false;
+		while(!this.requestStop) {
 			if ((counterSensor.getColorNumber() >= Line.MARKER_COLOR_MIN && counterSensor.getColorNumber() <= Line.MARKER_COLOR_MAX) || counterSensor.getColorNumber() == Line.LEFT_END_MARKER_COLOR){
 				if (grey && !color) {
 					grey = false;
@@ -104,7 +106,7 @@ public class Line extends Thread {
 	 * 		   false - Repositioning failed
 	 */
 	public boolean moveRight() {
-		if(this.counter == this.length)
+		if(this.counter == this.length-1)
 			return false;
 		else {
 			failed = false;
@@ -138,16 +140,35 @@ public class Line extends Thread {
 		return this.counter;
 	}
 	
-	public void clearTape() {
+	public boolean clearTape() {
 		for (int i = 0; i < Common.TAPE_SIZE; i++) {
 			Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
 			Motor.B.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
 			Motor.C.rotate(Common.PUSH_ANGLE_MASTER);
 			Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
-			this.moveRight();
+			if (this.counter < Common.TAPE_SIZE-1 && !this.moveRight()) {
+				return false;
+			}
 		}
-		for (int i = Common.TAPE_SIZE-1; i >= 0; i--) {
-			this.moveLeft();
+		for (int i = Common.TAPE_SIZE-1; i > 0; i--) {
+			if (!this.moveLeft()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public void requestStop() {
+		this.requestStop = true;
+	}
+	
+	public void stop() {
+		this.requestStop();
+		try {
+			this.join();
+		}
+		catch (InterruptedException e) {
+			
 		}
 	}
 }

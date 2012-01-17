@@ -126,7 +126,7 @@ public class GraphicTapePanel extends JPanel {
 		return currentFieldPositionX + field*this.fieldWidth;
 	}
 
-	public void drawCenteredString(String s, int x, int y, int width, int height, Graphics g) {
+	private void drawCenteredString(String s, int x, int y, int width, int height, Graphics g) {
 		FontMetrics fm = g.getFontMetrics();
 		int stringX = (width - fm.stringWidth(s)) / 2 + x;
 		int stringY = (fm.getAscent() + (height - (fm.getAscent() + fm.getDescent())) / 2) + y;
@@ -176,5 +176,9 @@ public class GraphicTapePanel extends JPanel {
 		else {
 			repaint();
 		}
+	}
+	
+	public int getHeight() {
+		return this.fieldHeight;
 	}
 }

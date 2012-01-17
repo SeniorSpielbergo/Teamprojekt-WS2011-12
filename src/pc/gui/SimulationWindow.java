@@ -149,15 +149,24 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			return;
 		}
 
-		int visibleTapes = (this.graphicTapes.size() <= 5 ? this.graphicTapes.size() : 5); //show up to 5 tapes per default
-		int height = 85;
-		if (visibleTapes > 0) {
-			height += visibleTapes * ((int)this.graphicTapes.get(0).getTapePanel().getPreferredSize().getHeight()+3);
-		}
-		this.setBounds(200,200,600,height);
-
+		this.setLocation(200, 200);
+		this.computeSize();
 		setVisible(true);
 		this.init();
+	}
+	
+	private void computeSize() {
+		int visibleTapes = (this.graphicTapes.size() <= 5 ? this.graphicTapes.size() : 5); //show up to 5 tapes per default
+		int height = 100;
+		if (visibleTapes > 0) {
+			height += visibleTapes * ((int)this.graphicTapes.get(0).getHeight()+3);
+		}
+		this.setSize(600,1);
+		this.repaint();
+		this.validate();
+		this.setSize(600,height);
+		this.repaint();
+		this.validate();
 	}
 
 	/**
@@ -400,6 +409,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		for (DisplayableTape tape : this.graphicTapes) {
 			tape.setStyle(style);
 		}
+		this.computeSize();
+
 	}
 
 	public String getTapeStyle() {

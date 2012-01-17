@@ -324,4 +324,8 @@ public class GraphicTape extends DisplayableTape {
 	public void setStyle(String style) {
 		this.canvas.setStyle(style);
 	}
+	
+	public int getHeight() {
+		return this.canvas.getHeight() + this.textlabel.getHeight() + 2;
+	}
 }
