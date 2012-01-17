@@ -36,12 +36,17 @@ public class MainMaster {
 	Line line = null;
 
 	// Pushes one bit with given motor 
-	private static void pushBit(int bit, int newBit, Motor motor) {
-		if (bit>newBit){
-			motor.rotate(Common.PUSH_ANGLE_MASTER);
-			motor.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
-		}
-	}
+//	private static void pushBit(int bit, int newBit, Motor motor) {
+//		new Thread(new Runnable() {
+//			public void run(){
+//				if (bit>newBit){
+//					motor.rotate(Common.PUSH_ANGLE_MASTER);
+//					motor.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+//				}
+//			};
+//		}).start();
+//		
+//	}
 
 	public void run() {
 		Common.playTune("HAHA",200);
@@ -206,9 +211,9 @@ public class MainMaster {
 				case '1': nbit1 = 1; nbit0 = 0; break;
 				case '2': nbit1 = 1; nbit0 = 1; break;
 				default: nbit1 = -1; nbit0 = -1; break;
-				}
-				pushBit(bit1, nbit1, Motor.B);
-				pushBit(bit0, nbit0, Motor.C);	
+				}				
+				Common.pushBits(bit1>nbit1,bit0>nbit0);
+					
 				try {
 					out.writeChar('.');
 					out.flush();
