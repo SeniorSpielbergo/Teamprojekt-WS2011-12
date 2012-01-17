@@ -30,12 +30,12 @@ public class MainSlave {
 	static DataInputStream in;
 	static DataOutputStream out;
 
-	private static void pushBit(int bit, int newBit, Motor motor) {
-		if (bit<newBit){
-			motor.rotate(Common.PUSH_ANGLE_SLAVE);
-			motor.rotate(Common.PUSH_ANGLE_SLAVE*(-1)+1);
-		}
-	}
+//	private static void pushBit(int bit, int newBit, Motor motor) {
+//		if (bit<newBit){
+//			motor.rotate(Common.PUSH_ANGLE_SLAVE);
+//			motor.rotate(Common.PUSH_ANGLE_SLAVE*(-1)+1);
+//		}
+//	}
 	
 	public void run() {
 		Common.playTune("HAHA",200);
@@ -120,8 +120,7 @@ public class MainSlave {
 						case '2': nbit1 = 1; nbit0 = 1; break;
 						default: nbit1 = -1; nbit0 = -1; break;
 					}
-					pushBit(bit1, nbit1, Motor.B);
-					pushBit(bit0, nbit0, Motor.C);
+					Common.pushBits(bit1<nbit1,bit0<nbit0);
 					try {
 						out.writeChar('.');
 						out.flush();
