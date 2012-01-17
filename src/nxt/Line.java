@@ -96,7 +96,7 @@ public class Line extends Thread {
 			this.dontStop = true;
 			Motor.A.forward();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(200);
 			}
 			catch (Exception e) {
 				
