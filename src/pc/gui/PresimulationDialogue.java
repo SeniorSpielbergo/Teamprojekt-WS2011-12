@@ -1,7 +1,5 @@
 package gui;
 
-import gui.RunWindow.ReturnValue;
-
 import javax.swing.*;
 
 import tape.ConsoleTape;
@@ -15,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PresimulationDialogue extends JDialog implements ActionListener{
+	private static final long serialVersionUID = 5423418738498074784L;
 
 	/**
 	 * Represents the return values for this window
@@ -79,7 +78,7 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		for(int i = 0; i < numberOfTapes; i++){
 			ConsoleTape t = new ConsoleTape();
 			try {
-				t.setInputWord(machine.getTapes().get(i).getInputWord()); //FIXME: does not work
+				t.setInputWord(machine.getTapes().get(i).getInputWord());
 			} catch (TapeException e1) {
 				ErrorDialog.showError("Error changing Tapetype", e1);
 			}	
@@ -89,6 +88,7 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		try {
 			this.machine.initTapes();
 			this.machine.writeInputWords();
+			this.machine.getTapes().get(0).getWriteInputWordThread().join();
 			this.sim = this.machine.createSimulation();
 			this.sim.getSimulationThread().start();
 			sim.getSimulationThread().join();
