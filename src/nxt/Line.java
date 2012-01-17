@@ -22,6 +22,8 @@ public class Line extends Thread {
 	private ColorSensor counterSensor = new ColorSensor(SensorPort.S3);
 	private Timer timer;
 	private boolean requestStop;
+	private boolean dontStop = false;
+	
 	private TimerListener tl = new TimerListener(){ 
 		public void timedOut() {
 			Motor.A.stop();
@@ -59,14 +61,15 @@ public class Line extends Thread {
 					color = true;
 				}
 				if (color && !grey) {
-					if (Motor.A.isBackward()) {
-						color = false;
-						this.counter++;
-						Motor.A.stop();
-					}
-					if (Motor.A.isForward()) {
-						color = false;
-						this.counter--;
+					color = false;
+
+					if (!this.dontStop) {
+						if (Motor.A.isBackward()) {
+							this.counter++;
+						}
+						if (Motor.A.isForward()) {
+							this.counter--;
+						}
 						Motor.A.stop();
 					}
 				}
@@ -87,8 +90,19 @@ public class Line extends Thread {
 		else{
 			failed = false;
 			timer = new Timer(this.TIMER_LENGTH,tl);
+			//Motor.A.forward();
+			//timer.start();
+			
+			this.dontStop = true;
 			Motor.A.forward();
-			timer.start();
+			try {
+				Thread.sleep(200);
+			}
+			catch (Exception e) {
+				
+			}
+			this.dontStop = false;
+			
 			while(!Motor.A.isStopped()){}
 			if(failed) {
 				LCD.drawString("Security warning: Timer elapsed!", 0, 2);
@@ -111,7 +125,17 @@ public class Line extends Thread {
 		else {
 			failed = false;
 			timer = new Timer(this.TIMER_LENGTH,tl);
+			//TODO: debug
+			this.dontStop = true;
 			Motor.A.backward();
+			try {
+				Thread.sleep(100);
+			}
+			catch (Exception e) {
+				
+			}
+			this.dontStop = false;
+
 			timer.start();
 			while(!Motor.A.isStopped()){}
 			if(failed) {

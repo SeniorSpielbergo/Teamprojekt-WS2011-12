@@ -6,8 +6,7 @@ public class Common {
 	static final int PUSH_SPEED = 150;
 	static final int LINE_SPEED = 250;
 	static final int PUSH_ANGLE_MASTER = -173;
-	static final int PUSH_ANGLE_SLAVE = -165;
-
+	static final int PUSH_ANGLE_SLAVE = -173;
 
 	public static void playTune(String m, int t) {
 		char[] charArray = m.toCharArray();
