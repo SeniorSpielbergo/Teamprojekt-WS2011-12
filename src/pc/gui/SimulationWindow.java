@@ -57,7 +57,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	private boolean delay = true;
 	private String style = "default";
 	private Editor editor;
-	private int counter = 0; 
+	private Integer counter = 0; 
 
 	private ImageIcon iconPlay = new ImageIcon(SimulationWindow.class.getResource("images/play.png"));
 	private ImageIcon iconPause = new ImageIcon(SimulationWindow.class.getResource("images/pause.png"));
@@ -281,12 +281,13 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	}
 
 	public void update(Observable observable, Object obj) {
+		System.out.println("bljkahs");
 		if (observable instanceof tape.Tape 
 				&& obj instanceof tape.Tape.Event
 				&& (tape.Tape.Event)obj == tape.Tape.Event.INPUTFINISHED){
 
-			counter++;
-			if(counter == this.currentMachine.getNumberOfTapes()){
+			synchronized(counter){counter++;}
+			if(counter >= this.currentMachine.getNumberOfTapes()){
 				for(Tape tape : currentMachine.getTapes()){
 					tape.setDelay(this.delay);
 				}
