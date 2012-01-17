@@ -12,7 +12,8 @@ import java.util.Observable;
 public abstract class Simulation extends Observable implements Runnable{
 	public enum simulationState {
 		ABORTED,
-		FINISHED
+		FINISHED,
+		FAILED
 	};
 	
 	/**

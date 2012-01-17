@@ -309,7 +309,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		else if(this.sim.isSimulationAlreadyStarted()
 				&& observable instanceof Simulation 
 				&& obj instanceof Simulation.simulationState 
-				&&((Simulation.simulationState)obj)==Simulation.simulationState.ABORTED){
+				&&((Simulation.simulationState)obj)==Simulation.simulationState.FAILED){
 
 			this.buttonForward.setEnabled(false);
 			this.buttonPlay.setEnabled(false);
