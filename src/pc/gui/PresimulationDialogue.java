@@ -107,7 +107,7 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 
 		this.labelText.setText("The simulation needs " +Integer.toString(this.sim.getNumberOfSteps()) +" Steps." );
 		this.labelDuration.setText("This will last about " + Integer.valueOf(this.simulationTime)+" minutes.");
-
+		this.centerDialogOnTheScreen();
 	}
 
 	/**
@@ -138,6 +138,17 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 			dispose();
 			this.returnValue = ReturnValue.SIMULATE;
 		}
+	}
+	
+	/**
+	 * Center the dialog window on the screen
+	 */
+	private void centerDialogOnTheScreen() {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension dialogSize = this.getSize();
+		int centerPosX = (screenSize.width - dialogSize.width) / 2;
+		int centerPosY = (screenSize.height - dialogSize.height) / 2;
+		setLocation(centerPosX, centerPosY);
 	}
 
 }
