@@ -127,6 +127,9 @@ public class BrainfuckMachine extends Machine {
 	@Override
 	public Object clone() {
 		BrainfuckMachine bf = new BrainfuckMachine();
+		bf.getTapes().set(0,this.getTapes().get(0));
+		bf.getTapes().set(1,this.getTapes().get(1));
+		bf.getTapes().set(2,this.getTapes().get(2));
 		bf.setCode(new String(((BrainfuckEditor) this.editor).getCode()));
 		return bf;
 	}

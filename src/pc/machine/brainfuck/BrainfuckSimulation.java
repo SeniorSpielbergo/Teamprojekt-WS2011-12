@@ -2,7 +2,6 @@ package machine.brainfuck;
 
 import java.util.ArrayList;
 
-import gui.brainfuck.BrainfuckEditor;
 import tape.*;
 import machine.*;
 
