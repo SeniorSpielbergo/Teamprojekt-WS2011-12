@@ -1,3 +1,4 @@
+import lejos.nxt.Motor;
 import lejos.nxt.Sound;
 
 public class Common {
@@ -6,8 +7,7 @@ public class Common {
 	static final int LINE_SPEED = 250;
 	static final int PUSH_ANGLE_MASTER = -173;
 	static final int PUSH_ANGLE_SLAVE = -173;
-	
-	
+
 	public static void playTune(String m, int t) {
 		char[] charArray = m.toCharArray();
 		for(char c : charArray) {
@@ -40,5 +40,32 @@ public class Common {
 			}
 		}
 	}
-	
+	public static void pushBits(final boolean push1,final boolean push2) {
+		Thread t1 = new Thread(new Runnable() {
+			public void run(){
+				if (push1){
+					Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
+					Motor.B.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+				}
+			};
+		});
+		Thread t2 = new Thread(new Runnable() {
+			public void run(){
+				if (push2){
+					Motor.C.rotate(Common.PUSH_ANGLE_MASTER);
+					Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+				}
+			};
+		});
+		t1.start();
+		t2.start();
+		try {
+			t1.join();
+			t2.join();	
+		} catch(InterruptedException e) {
+
+		}
+	}
+
+
 }

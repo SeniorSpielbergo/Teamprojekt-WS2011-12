@@ -166,10 +166,11 @@ public class Line extends Thread {
 	
 	public boolean clearTape() {
 		for (int i = 0; i < Common.TAPE_SIZE; i++) {
-			Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
-			Motor.B.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
-			Motor.C.rotate(Common.PUSH_ANGLE_MASTER);
-			Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+//			Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
+//			Motor.B.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+//			Motor.C.rotate(Common.PUSH_ANGLE_MASTER);
+//			Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+			Common.pushBits(true,true);
 			if (this.counter < Common.TAPE_SIZE-1 && !this.moveRight()) {
 				return false;
 			}
