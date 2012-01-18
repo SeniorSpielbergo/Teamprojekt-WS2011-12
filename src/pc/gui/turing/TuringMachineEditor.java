@@ -25,7 +25,6 @@ import machine.turing.*;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
@@ -72,6 +71,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	private mxCell selectedState = null;
 	private mxCell selectedEdge = null;
 	private mxCell lastSelectedEdge = null;
+	private ArrayList<Transition> copiedTransitions = null;
 	protected ArrayList<TuringMachineState> turingMachineStates = null;
 	protected int currentStateIndex = -1;
 	protected boolean undoing = false; 
@@ -366,6 +366,10 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		selectAllAction.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		addViaAction.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		removeViaAction.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | KeyEvent.SHIFT_MASK));
+		
+		copyAction.setEnabled(false);
+		pasteAction.setEnabled(false);
+		cutAction.setEnabled(false);
 
 		undoAction.addActionListener(this);
 		redoAction.addActionListener(this);
@@ -528,17 +532,57 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			}
 		}
 	}
+	
+	private void copy() {
+		if (lastSelectedEdge != null) {
+			Edge edge = (Edge) lastSelectedEdge.getValue();
+			ArrayList<Transition> temp = edge.getTransitions();
+			if (temp != null && temp.size() != 0) {
+				copiedTransitions = edge.getTransitions();
+				pasteAction.setEnabled(true);
+			}
+		}
+	}
+	
+	private void cut() {
+		if (lastSelectedEdge != null) {
+			mxCell cell = (mxCell) graph.getSelectionCell();
+			Edge edge = (Edge) lastSelectedEdge.getValue();
+			ArrayList<Transition> temp = edge.getTransitions();
+			if (temp != null && temp.size() != 0) {
+				copiedTransitions = edge.getTransitions();
+				edge.setTransitions(new ArrayList<Transition>());
+				pasteAction.setEnabled(true);
+				graph.refresh();
+				graph.repaint();
+				this.graph.clearSelection();
+				this.graph.setSelectionCell(cell);
+			}
+		}
+	}
+	
+	private void paste() {
+		if (lastSelectedEdge != null) {
+			mxCell cell = (mxCell) graph.getSelectionCell();
+			Edge edge = (Edge) lastSelectedEdge.getValue();
+			edge.setTransitions(copiedTransitions);
+			graph.refresh();
+			graph.repaint();
+			this.graph.clearSelection();
+			this.graph.setSelectionCell(cell);
+		}
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == copyAction) {
-			JOptionPane.showMessageDialog(null, "Not implemented yet!");
+			copy();
 		}
 		else if (e.getSource() == cutAction) {
-			JOptionPane.showMessageDialog(null, "Not implemented yet!");
+			cut();
 		}
 		else if (e.getSource() == pasteAction) {
-			JOptionPane.showMessageDialog(null, "Not implemented yet!");
+			paste();
 		}
 		else if (e.getSource() == selectAllAction) {
 			graph.selectAll();
@@ -678,9 +722,17 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			graph.refresh();
 			this.addUndoableEdit("Label moved");
 			lastSelectedEdge = mxEdge;
+			copyAction.setEnabled(true);
+			cutAction.setEnabled(true);
+			if (copiedTransitions != null) {
+				pasteAction.setEnabled(true);
+			}
 		}
 		else {
 			lastSelectedEdge = null;
+			cutAction.setEnabled(false);
+			copyAction.setEnabled(false);
+			pasteAction.setEnabled(false);
 		}
 	}
 
@@ -870,9 +922,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	public void setEditMenuItemsSelectable(boolean selectable) {
 		this.selectAllAction.setEnabled(selectable);
 		this.gridToggleAction.setEnabled(selectable);
-		this.copyAction.setEnabled(selectable);
-		this.cutAction.setEnabled(selectable);
-		this.pasteAction.setEnabled(selectable);
+		this.copyAction.setEnabled(false);
+		this.cutAction.setEnabled(false);
+		this.pasteAction.setEnabled(false);
 		if (selectable) {
 			this.updateUndoRedoMenu();
 		}
