@@ -256,6 +256,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 					Edge oldEdge = null;
 					if (lastSelectedEdge != null) {
 						oldEdge = (Edge) lastSelectedEdge.getValue();
+						lastSelectedEdge = null;
 					}
 					mxCell graphEdge = (mxCell) e.getProperty("edge");
 					mxICell source = ((mxCell) graphEdge).getSource();
