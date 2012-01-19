@@ -1,6 +1,7 @@
 package machine.turing;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /** This class represents the transitions on all tapes for a specific edge
  * 
@@ -99,7 +100,7 @@ public class Transition implements Serializable {
 	}
 	
 	public Object clone() {
-		return new Transition(new String(this.id), 
+		return new Transition(UUID.randomUUID().toString(), 
 				(ArrayList<Character>) this.read.clone(),
 				(ArrayList<Character>) this.write.clone(),
 				(ArrayList<Character>) this.action.clone());
