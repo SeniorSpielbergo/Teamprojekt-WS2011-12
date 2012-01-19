@@ -584,14 +584,17 @@ number</text>
 number 
 is all 0's</text>
     </textbox>
-    <textbox height="60" width="270" x="510" y="10">
+    <textbox height="50" width="270" x="680" y="10">
         <text>CAUTION: if using a LEGO tape please remember to 
-insert enough leading zero's for the left number</text>
+insert enough leading zero's for the left number.</text>
     </textbox>
-    <textbox height="60" width="370" x="50" y="10">
+    <textbox height="50" width="370" x="10" y="10">
         <text>This machine takes two binary numbers and adds them together.
-The two binary numbers have to be given on tape Input devided by one #.
-The result will be provided on tape Output.</text>
+The two binary numbers have to be given on tape Input devided by one #.</text>
+    </textbox>
+    <textbox height="50" width="280" x="390" y="10">
+        <text>Because this machine works exactly like the brainfuck
+application the result is given on tape Output.</text>
     </textbox>
     <frame height="70" width="730" x="50" y="90"/>
     <frame height="330" width="240" x="50" y="280"/>
