@@ -538,7 +538,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			Edge edge = (Edge) lastSelectedEdge.getValue();
 			ArrayList<Transition> temp = edge.getTransitions();
 			if (temp != null && temp.size() != 0) {
-				copiedTransitions = edge.getTransitions();
+				copiedTransitions = cloneTransition(edge.getTransitions());
 				pasteAction.setEnabled(true);
 			}
 		}
@@ -550,7 +550,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			Edge edge = (Edge) lastSelectedEdge.getValue();
 			ArrayList<Transition> temp = edge.getTransitions();
 			if (temp != null && temp.size() != 0) {
-				copiedTransitions = edge.getTransitions();
+				copiedTransitions = cloneTransition(edge.getTransitions());
 				edge.setTransitions(new ArrayList<Transition>());
 				pasteAction.setEnabled(true);
 				graph.refresh();
@@ -565,12 +565,20 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		if (lastSelectedEdge != null) {
 			mxCell cell = (mxCell) graph.getSelectionCell();
 			Edge edge = (Edge) lastSelectedEdge.getValue();
-			edge.setTransitions(copiedTransitions);
+			edge.setTransitions(cloneTransition(copiedTransitions));
 			graph.refresh();
 			graph.repaint();
 			this.graph.clearSelection();
 			this.graph.setSelectionCell(cell);
 		}
+	}
+	
+	private ArrayList<Transition> cloneTransition(ArrayList<Transition> clone) {
+		ArrayList<Transition> ret = new ArrayList<Transition>();
+		for (Transition t: clone) {
+			ret.add((Transition) t.clone());
+		}
+		return ret;
 	}
 
 	@Override
