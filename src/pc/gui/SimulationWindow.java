@@ -163,7 +163,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	
 	private void computeSize() {
 		int visibleTapes = (this.graphicTapes.size() <= 5 ? this.graphicTapes.size() : 5); //show up to 5 tapes per default
-		int height = 100;
+		int height = 120;
 		if (visibleTapes > 0) {
 			height += visibleTapes * ((int)this.graphicTapes.get(0).getHeight()+3);
 		}
