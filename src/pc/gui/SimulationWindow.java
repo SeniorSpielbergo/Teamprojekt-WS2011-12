@@ -6,7 +6,6 @@ import java.util.*;
 import javax.swing.*;
 
 import tape.DisplayableTape;
-import tape.GraphicTape;
 import tape.Tape;
 import tape.TapeException;
 import java.awt.*;
@@ -77,6 +76,13 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		this.simulationPaused = true;
 		this.currentMachine = machine;
 		this.editor = editor;
+		this.toFront();
+		try {
+			this.setAlwaysOnTop(true);
+		}
+		catch (SecurityException e) {
+			ErrorDialog.showError("Error bringing the simulation window to the foreground.");
+		}
 		
 		if(!currentMachine.isSimulatable()) {
 			ErrorDialog.showError("Machine is not simulatable. You may check for any syntax errors.");
@@ -157,7 +163,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	
 	private void computeSize() {
 		int visibleTapes = (this.graphicTapes.size() <= 5 ? this.graphicTapes.size() : 5); //show up to 5 tapes per default
-		int height = 100;
+		int height = 120;
 		if (visibleTapes > 0) {
 			height += visibleTapes * ((int)this.graphicTapes.get(0).getHeight()+3);
 		}

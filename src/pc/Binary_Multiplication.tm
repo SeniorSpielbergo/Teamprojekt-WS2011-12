@@ -24,22 +24,22 @@
         <name>q_s</name>
     </state>
     <state final="no" height="50" id="33d74080-61b8-4ff7-a8c4-5a88cb810d35" start="no" width="50" x="700" y="200">
-        <name>q_1</name>
-    </state>
-    <state final="no" height="50" id="1b469c68-0292-451a-ae1e-2353687d66dd" start="no" width="50" x="950" y="200">
-        <name>q_2</name>
-    </state>
-    <state final="no" height="50" id="dfc99d3b-bc06-4d94-8425-e9c2b0f74991" start="no" width="50" x="700" y="350">
         <name>q_3</name>
     </state>
-    <state final="no" height="50" id="e3ab2cdb-d1e2-4a18-a530-3d2cbe448ff9" start="no" width="50" x="700" y="500">
+    <state final="no" height="50" id="1b469c68-0292-451a-ae1e-2353687d66dd" start="no" width="50" x="950" y="200">
         <name>q_4</name>
     </state>
-    <state final="no" height="50" id="db734b0a-6034-4979-9e75-62e3398710d2" start="no" width="50" x="500" y="200">
+    <state final="no" height="50" id="dfc99d3b-bc06-4d94-8425-e9c2b0f74991" start="no" width="50" x="700" y="350">
         <name>q_5</name>
     </state>
-    <state final="no" height="50" id="92f333ee-0318-407b-927e-036dc48e68ec" start="no" width="50" x="300" y="200">
+    <state final="no" height="50" id="e3ab2cdb-d1e2-4a18-a530-3d2cbe448ff9" start="no" width="50" x="700" y="500">
         <name>q_6</name>
+    </state>
+    <state final="no" height="50" id="db734b0a-6034-4979-9e75-62e3398710d2" start="no" width="50" x="500" y="200">
+        <name>q_2</name>
+    </state>
+    <state final="no" height="50" id="92f333ee-0318-407b-927e-036dc48e68ec" start="no" width="50" x="300" y="200">
+        <name>q_1</name>
     </state>
     <state final="yes" height="50" id="8f51ce8a-1183-47aa-8544-f0983e6a88dd" start="no" width="50" x="300" y="650">
         <name>q_f</name>
