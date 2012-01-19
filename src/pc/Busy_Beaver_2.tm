@@ -5,7 +5,7 @@
         <input/>
     </tape>
     <state final="no" height="50" id="42a48f32-3694-4c8f-9e6a-0f7ffd9356d8" start="yes" width="50" x="220" y="240">
-        <name>q_1</name>
+        <name>q_s</name>
     </state>
     <state final="no" height="50" id="c2712a0e-c3e8-4daf-a743-e474fbbfcde5" start="no" width="50" x="470" y="200">
         <name>q_2</name>
