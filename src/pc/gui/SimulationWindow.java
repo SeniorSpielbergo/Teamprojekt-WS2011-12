@@ -6,7 +6,6 @@ import java.util.*;
 import javax.swing.*;
 
 import tape.DisplayableTape;
-import tape.GraphicTape;
 import tape.Tape;
 import tape.TapeException;
 import java.awt.*;
@@ -77,6 +76,13 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		this.simulationPaused = true;
 		this.currentMachine = machine;
 		this.editor = editor;
+		this.toFront();
+		try {
+			this.setAlwaysOnTop(true);
+		}
+		catch (SecurityException e) {
+			ErrorDialog.showError("Error bringing the simulation window to the foreground.");
+		}
 		
 		if(!currentMachine.isSimulatable()) {
 			ErrorDialog.showError("Machine is not simulatable. You may check for any syntax errors.");
