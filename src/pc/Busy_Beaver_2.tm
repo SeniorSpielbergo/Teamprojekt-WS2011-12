@@ -8,7 +8,7 @@
         <name>q_s</name>
     </state>
     <state final="no" height="50" id="c2712a0e-c3e8-4daf-a743-e474fbbfcde5" start="no" width="50" x="470" y="200">
-        <name>q_2</name>
+        <name>q_1</name>
     </state>
     <state final="yes" height="50" id="8c575131-d922-46de-b6ec-4318d821528f" start="no" width="50" x="700" y="200">
         <name>q_f</name>
