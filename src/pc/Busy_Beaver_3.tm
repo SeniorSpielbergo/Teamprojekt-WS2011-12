@@ -19,7 +19,7 @@
     <edge from="d43a8ae5-4e8b-48e1-af92-ab8e5acfab28" labelx="0" labely="5" to="f557899a-a3a8-48b2-a086-36f48a8b70dc">
         <transition id="79cac112-61e6-416e-94c4-61b06f59d92f">
             <read>
-                <symbol>*</symbol>
+                <symbol>#</symbol>
             </read>
             <write>
                 <symbol>1</symbol>
@@ -34,7 +34,7 @@
         <via x="230" y="120"/>
         <transition id="bf0bcbee-2752-4cb0-9ca9-664bae19d864">
             <read>
-                <symbol>*</symbol>
+                <symbol>#</symbol>
             </read>
             <write>
                 <symbol>1</symbol>
@@ -73,7 +73,7 @@
     <edge from="f9809e0d-b8e2-449f-9dbd-70b431b14761" labelx="1" labely="-35" to="f557899a-a3a8-48b2-a086-36f48a8b70dc">
         <transition id="77bb1ca6-995a-4300-bb49-08a9608fade4">
             <read>
-                <symbol>0</symbol>
+                <symbol>#</symbol>
             </read>
             <write>
                 <symbol>1</symbol>
