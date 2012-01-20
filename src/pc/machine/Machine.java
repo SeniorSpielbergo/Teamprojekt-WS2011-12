@@ -32,6 +32,10 @@ public abstract class Machine {
 	 */
 	protected String name;
 	/**
+	 * The machine author string
+	 */
+	protected String author;
+	/**
 	 * The tapes array of the machine
 	 */
 	protected ArrayList<Tape> tapes;
@@ -97,6 +101,22 @@ public abstract class Machine {
 	 */
 	public String getName() {
 		return this.name;
+	}
+	
+	/**
+	 * Returns the Turing machine's author
+	 * @return The Turing machine's author
+	 */
+	public String getAuthor() {
+		return this.author;
+	}
+	
+	/**
+	 * Sets the Turing machine's author
+	 * @param The Turing machine's author
+	 */
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	/**
