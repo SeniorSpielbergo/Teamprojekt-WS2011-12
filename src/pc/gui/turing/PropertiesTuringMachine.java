@@ -24,6 +24,8 @@ public class PropertiesTuringMachine extends JPanel implements DocumentListener 
 	private JLabel numberEdges;
 	private JTextField turingMachineName;
 	private JTextField turingMachineAuthor;
+	private JTextArea descriptionArea;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Constructs a panel, that shows the information about a Turing Machine
@@ -48,6 +50,15 @@ public class PropertiesTuringMachine extends JPanel implements DocumentListener 
 		numberTapesLabel = new JLabel("Number of tapes: " + this.machine.getNumberOfTapes());
 		numberStates = new JLabel("Number of states: " + this.machine.getStates().size());
 		numberEdges = new JLabel("Number of edges: " + this.machine.getEdges().size());
+		descriptionArea = new JTextArea(10,5);
+		descriptionArea.setBorder(BorderFactory.createLoweredBevelBorder());
+		descriptionArea.getDocument().addDocumentListener(this);
+		descriptionArea.setText(this.machine.getDescription());
+		descriptionArea.setLineWrap(true);
+		descriptionArea.setWrapStyleWord(true);
+		scrollPane = new JScrollPane(descriptionArea);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setPreferredSize(new Dimension(120, 150));
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0.2;
