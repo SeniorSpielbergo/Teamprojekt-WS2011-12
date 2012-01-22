@@ -17,7 +17,7 @@ public class TuringMachineState {
 		return this.machine;
 	}
 	
-	public mxGraphSelectionModel getSelection() {
+	public mxGraphSelectionModel getSelection() {	// FIXME: never set, still needed?
 		return this.selection;
 	}
 	
