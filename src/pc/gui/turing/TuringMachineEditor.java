@@ -49,6 +49,8 @@ import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.util.mxEventObject;
 import com.mxgraph.util.mxPoint;
+import com.mxgraph.util.mxUndoManager;
+import com.mxgraph.util.mxUndoableEdit;
 
 import gui.MachineEditor;
 
@@ -74,8 +76,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	private ArrayList<Transition> copiedTransitions = null;
 	protected ArrayList<TuringMachineState> turingMachineStates = null;
 	protected int currentStateIndex = -1;
-	private boolean undoing = false; 
-	private boolean suppressCellMoved = false;
 
 	protected JPanel jPanelLeft = null;
 	protected JPanel jPanelGraph = null;
@@ -96,9 +96,24 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	private JMenuItem addViaAction;
 	private JMenuItem removeViaAction;
 	private JCheckBoxMenuItem gridToggleAction;
+	
+	private mxUndoManager undoManager = new mxUndoManager();
 
 	private boolean gridEnabled = true;
 
+	protected mxIEventListener undoHandler = new mxIEventListener()
+	{
+		public void invoke(Object source, mxEventObject evt)
+		{
+			undoManager.undoableEditHappened((mxUndoableEdit) evt.getProperty("edit"));
+			updateUndoRedoMenu();
+		}
+	};
+	
+	public mxUndoManager getUndoManager() {
+		return this.undoManager;
+	}
+	
 	public TuringMachineEditor(final TuringMachine machine) {
 		super();
 		this.machine = machine;
@@ -137,17 +152,19 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		this.graph.setAllowLoops(true);
 		this.graph.setAutoSizeCells(true);
 		this.graph.setCellsResizable(true);
-		this.graph.setCellsEditable(false);
+//		this.graph.setCellsEditable(false);
 		this.graph.setAllowNegativeCoordinates(true);
 		this.graph.setSplitEnabled(false);
 
+		this.graph.getModel().addListener(mxEvent.UNDO, undoHandler);
+		this.graph.getView().addListener(mxEvent.UNDO, undoHandler);
+		
 		this.graph.addListener(mxEvent.CELLS_ADDED, new mxIEventListener() {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
 				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if (cell.getValue() == null) {
-						suppressCellMoved = true;
 						if (cell.getStyle().equals("CIRCLE")) {
 							State state = new State(UUID.randomUUID().toString(), "New...", false, false);
 							state.setXcoord((int)cell.getGeometry().getX());
@@ -159,7 +176,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 							graph.refresh();
 							toolBox.setClicked(null);
 							graph.setSelectionCell(cell);
-							addUndoableEdit("State inserted");
 						}
 						if (cell.getStyle().equals("FRAME")) {
 							Frame frame = new Frame((int)cell.getGeometry().getX(), (int)cell.getGeometry().getY(), WIDTH, HEIGHT);
@@ -169,7 +185,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 							graph.refresh();
 							toolBox.setClicked(null);
 							graph.setSelectionCell(cell);
-							addUndoableEdit("Frame inserted");
 						}
 						if (cell.getStyle().equals("TEXTBOX")) {
 							Textbox textbox = new Textbox("", (int)cell.getGeometry().getX(), (int)cell.getGeometry().getY(), WIDTH, HEIGHT);
@@ -179,7 +194,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 							graph.refresh();
 							toolBox.setClicked(null);
 							graph.setSelectionCell(cell);
-							addUndoableEdit("Textbox inserted");
 						}
 						setResizable();
 					}
@@ -208,26 +222,14 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 							finally {
 								graph.getModel().endUpdate();
 							}
-							if(!suppressCellMoved)
-								addUndoableEdit("State moved: " + ((State)cell.getValue()).getName());
-							else
-								suppressCellMoved = false;
 						}
 						else if(cell.getValue() instanceof Textbox) {
 							((Textbox)cell.getValue()).setX((int)cell.getGeometry().getX());
 							((Textbox)cell.getValue()).setY((int)cell.getGeometry().getY());
-							if(!suppressCellMoved)
-								addUndoableEdit("Textbox moved");
-							else
-								suppressCellMoved = false;
 						}
 						else if(cell.getValue() instanceof Frame) {
 							((Frame)cell.getValue()).setX((int)cell.getGeometry().getX());
 							((Frame)cell.getValue()).setY((int)cell.getGeometry().getY());
-							if(!suppressCellMoved)
-								addUndoableEdit("Frame moved");
-							else
-								suppressCellMoved = false;
 						}
 					}
 				}
@@ -285,7 +287,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 						graph.refresh();
 						graph.repaint();
 					}
-					addUndoableEdit("Edge inserted");
 				}
 			}
 		});
@@ -302,13 +303,11 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 						Textbox textbox  = (Textbox) cell.getValue();
 						textbox.setWidth((int) g.getWidth());
 						textbox.setHeight((int) g.getHeight());
-						addUndoableEdit("Textbox resized");
 					}
 					else if(cell.getValue() instanceof Frame) {
 						Frame frame = (Frame) cell.getValue();
 						frame.setWidth((int) g.getWidth());
 						frame.setHeight((int) g.getHeight());
-						addUndoableEdit("Frame resized");
 					}
 				}
 			}
@@ -433,7 +432,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		addViaAction.setEnabled(false);
 		removeViaAction.setEnabled(false);
 
-		PropertiesState propertiesState = new PropertiesState(state,graph, mxState);
+		PropertiesState propertiesState = new PropertiesState(state,graph, mxState, this);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
@@ -491,8 +490,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				v1 = this.getStateCell(currentEdge.getFrom());
 				v2 = this.getStateCell(currentEdge.getTo());
 				mxCell edge = (mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2);
-				if(initialized)
-					edge.setValue(currentEdge);
 				edge.getGeometry().setX(currentEdge.getPosLabel().getX());
 				edge.getGeometry().setY(currentEdge.getPosLabel().getY());
 
@@ -524,11 +521,13 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				mxFrame.setConnectable(false);
 			}
 		} finally {
-			if(!initialized)
-				this.addUndoableEdit("Machine loaded");
 			this.updateUndoRedoMenu();
 			graph.getModel().endUpdate();
 			graph.refresh();
+			if(!undoManager.isEmpty()) {
+				undoManager.clear();
+				this.updateUndoRedoMenu();
+			}
 		}
 	}
 
@@ -740,7 +739,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			}
 
 			graph.refresh();
-			this.addUndoableEdit("Label moved");
 			lastSelectedEdge = mxEdge;
 			copyAction.setEnabled(true);
 			cutAction.setEnabled(true);
@@ -779,7 +777,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 					for (int j = 0; j < this.machine.getEdges().size(); j++) {
 						if (this.machine.getEdges().get(j) == edge) {
 							this.machine.getEdges().remove(j);
-							this.addUndoableEdit("Edge removed");
 						}
 					}
 				}
@@ -789,7 +786,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 						for (int j = 0; j < this.machine.getStates().size(); j++) {
 							if (this.machine.getStates().get(j) == state) {
 								this.machine.getStates().remove(j);
-								this.addUndoableEdit("State removed");
 							}
 						}
 					}
@@ -798,7 +794,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 						for(int k = 0; k < this.machine.getTextboxes().size(); k++) {
 							if(this.machine.getTextboxes().get(k) == textbox) {
 								this.machine.getTextboxes().remove(k);
-								this.addUndoableEdit("Textbox removed");
 							}
 						}
 					}
@@ -807,7 +802,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 						for(int l = 0; l < this.machine.getFrames().size(); l++) {
 							if(this.machine.getFrames().get(l) == frame) {
 								this.machine.getFrames().remove(l);
-								this.addUndoableEdit("Frame removed");
 							}
 						}
 					}
@@ -973,78 +967,38 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		}
 	}
 
-	public boolean canUndo() {
-		return this.currentStateIndex > 0;
-	}
-
-	public boolean canRedo() {
-		return this.currentStateIndex < this.turingMachineStates.size()-1;
-	}
-	
-	public void updateUndoRedoMenu() {
-		if (canUndo()) {
-			this.undoAction.setText("Undo " + this.turingMachineStates.get(this.currentStateIndex).getName());
+	private void updateUndoRedoMenu() {
+		if (undoManager.canUndo()) {
 			this.undoAction.setEnabled(true);
 		}
 		else {
-			this.undoAction.setText("Undo");
 			this.undoAction.setEnabled(false);
 		}
-		if (canRedo()) {
-			this.redoAction.setText("Redo " + this.turingMachineStates.get(this.currentStateIndex+1).getName());
+		if (undoManager.canRedo()) {
 			this.redoAction.setEnabled(true);
 		}
 		else {
-			this.redoAction.setText("Redo");
 			this.redoAction.setEnabled(false);
 		}
 	}
 
-	public void addUndoableEdit(String name) {
-		if(!undoing) {
-			System.out.println(name);
-			while(turingMachineStates.size()-1 > this.currentStateIndex)
-				turingMachineStates.remove(turingMachineStates.size()-1);
-			turingMachineStates.add(new TuringMachineState(name, (TuringMachine) machine.clone()));
-			this.currentStateIndex++;
-			System.out.println(currentStateIndex);
-			System.out.println(turingMachineStates.size());
-			System.out.println(turingMachineStates);
-		}
+	private void undo() {
+		if(undoManager.canUndo())
+			undoManager.undo();
 		this.updateUndoRedoMenu();
+		graph.refresh();
+		graph.repaint();
 	}
 
-	public void undo() {
-		if(canUndo()) {
-			this.undoing = true;
-			graph.selectAll();
-			graph.removeCells(graph.getSelectionCells());
-			this.currentStateIndex--;
-			this.machine = (TuringMachine) this.turingMachineStates.get(this.currentStateIndex).getMachine();
-			this.drawGraph();
-			graph.refresh();
-			graph.repaint();
-			System.out.println(this.currentStateIndex);
-			System.out.println(turingMachineStates);
-			this.undoing = false;
-		}
+	private void redo() {
+		if(undoManager.canRedo())
+			undoManager.redo();
 		this.updateUndoRedoMenu();
-	}
-
-	public void redo() {
-		if(canRedo()) {
-			this.undoing = true;
-			graph.selectAll();
-			graph.removeCells(graph.getSelectionCells());
-			this.currentStateIndex++;
-			this.machine = this.turingMachineStates.get(this.currentStateIndex).getMachine();
-			this.drawGraph();
-			this.undoing = false;
-		}
-		this.updateUndoRedoMenu();
+		graph.refresh();
+		graph.repaint();
 	}
 	
-	mxCell getStateCell(State state){							
+	private mxCell getStateCell(State state){							
 		for (Object cell : this.graph.getChildVertices(graph.getDefaultParent())) {
 			mxCell mxCell = (mxCell) cell;
 			if(((State) mxCell.getValue()).getId().equals(state.getId())){
@@ -1054,7 +1008,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		return null;
 	}
 
-	mxCell getEdgeCell(State from, State to){							
+	private mxCell getEdgeCell(State from, State to){							
 		for (Object cell : this.graph.getChildEdges(graph.getDefaultParent())) {
 			mxCell mxCell = (mxCell) cell;
 			if(mxCell.getSource().getValue() == from && mxCell.getTarget().getValue() == to){

@@ -8,6 +8,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGraphModel;
+import com.mxgraph.model.mxGraphModel.mxValueChange;
+import com.mxgraph.util.mxUndoableEdit;
 import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraph;
 
@@ -31,8 +34,10 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 	private State state;
 	private mxGraph graph;
 	private mxCellState vertex;
+	private TuringMachineEditor tme;
 	
-	public PropertiesState(State state, mxGraph graph, mxCellState vertex) {
+	public PropertiesState(State state, mxGraph graph, mxCellState vertex, TuringMachineEditor tme) {
+		this.tme = tme;
 		this.graph = graph;
 		this.vertex = vertex;
 		this.state = state;
@@ -127,6 +132,11 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 
 	@Override
 	public void insertUpdate(DocumentEvent e) {
+		mxValueChange change = new mxValueChange((mxGraphModel) graph.getModel(), vertex.getCell(), this.state);
+		change.setPrevious(this.state.clone());
+		mxUndoableEdit edit = new mxUndoableEdit(change);
+		edit.add(change);
+		tme.getUndoManager().undoableEditHappened(edit);
 		this.state.setName(this.inputName.getText());
 		graph.refresh();
 		graph.repaint();
@@ -134,6 +144,11 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
+		mxValueChange change = new mxValueChange((mxGraphModel) graph.getModel(), vertex.getCell(), this.state);
+		change.setPrevious(this.state.clone());
+		mxUndoableEdit edit = new mxUndoableEdit(change);
+		edit.add(change);
+		tme.getUndoManager().undoableEditHappened(edit);
 		this.state.setName(this.inputName.getText());
 		graph.refresh();
 		graph.repaint();
