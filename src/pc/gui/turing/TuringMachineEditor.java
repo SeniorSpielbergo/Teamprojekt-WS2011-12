@@ -74,7 +74,8 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	private ArrayList<Transition> copiedTransitions = null;
 	protected ArrayList<TuringMachineState> turingMachineStates = null;
 	protected int currentStateIndex = -1;
-	protected boolean undoing = false; 
+	private boolean undoing = false; 
+	private boolean suppressCellMoved = false;
 
 	protected JPanel jPanelLeft = null;
 	protected JPanel jPanelGraph = null;
@@ -146,6 +147,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				for(Object cellObj: (Object[]) e.getProperty("cells")){
 					mxCell cell = (mxCell) cellObj;
 					if (cell.getValue() == null) {
+						suppressCellMoved = true;
 						if (cell.getStyle().equals("CIRCLE")) {
 							State state = new State(UUID.randomUUID().toString(), "New...", false, false);
 							state.setXcoord((int)cell.getGeometry().getX());
@@ -154,7 +156,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 							state.setHeight(HEIGHT);
 							cell.setValue(state);
 							machine.getStates().add(state);
-							System.out.println("blubb:" + machine);
 							graph.refresh();
 							toolBox.setClicked(null);
 							graph.setSelectionCell(cell);
@@ -207,17 +208,26 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 							finally {
 								graph.getModel().endUpdate();
 							}
-							addUndoableEdit("State moved: " + ((State)cell.getValue()).getName());
+							if(!suppressCellMoved)
+								addUndoableEdit("State moved: " + ((State)cell.getValue()).getName());
+							else
+								suppressCellMoved = false;
 						}
 						else if(cell.getValue() instanceof Textbox) {
 							((Textbox)cell.getValue()).setX((int)cell.getGeometry().getX());
 							((Textbox)cell.getValue()).setY((int)cell.getGeometry().getY());
-							addUndoableEdit("Textbox moved");
+							if(!suppressCellMoved)
+								addUndoableEdit("Textbox moved");
+							else
+								suppressCellMoved = false;
 						}
 						else if(cell.getValue() instanceof Frame) {
 							((Frame)cell.getValue()).setX((int)cell.getGeometry().getX());
 							((Frame)cell.getValue()).setY((int)cell.getGeometry().getY());
-							addUndoableEdit("Frame moved");
+							if(!suppressCellMoved)
+								addUndoableEdit("Frame moved");
+							else
+								suppressCellMoved = false;
 						}
 					}
 				}
@@ -481,6 +491,8 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				v1 = this.getStateCell(currentEdge.getFrom());
 				v2 = this.getStateCell(currentEdge.getTo());
 				mxCell edge = (mxCell) graph.insertEdge(graph.getDefaultParent(), null, currentEdge, v1, v2);
+				if(initialized)
+					edge.setValue(currentEdge);
 				edge.getGeometry().setX(currentEdge.getPosLabel().getX());
 				edge.getGeometry().setY(currentEdge.getPosLabel().getY());
 
@@ -1007,13 +1019,13 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			this.undoing = true;
 			graph.selectAll();
 			graph.removeCells(graph.getSelectionCells());
-			this.currentStateIndex--;
-			this.machine = this.turingMachineStates.get(this.currentStateIndex).getMachine();
-			this.drawGraph();
+//			this.currentStateIndex--;
+//			this.machine = (TuringMachine) this.turingMachineStates.get(this.currentStateIndex).getMachine();
+//			this.drawGraph();
 			graph.refresh();
 			graph.repaint();
-			System.out.println(this.currentStateIndex);
-			System.out.println(turingMachineStates);
+//			System.out.println(this.currentStateIndex);
+//			System.out.println(turingMachineStates);
 			this.undoing = false;
 		}
 		this.updateUndoRedoMenu();
@@ -1035,7 +1047,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	mxCell getStateCell(State state){							
 		for (Object cell : this.graph.getChildVertices(graph.getDefaultParent())) {
 			mxCell mxCell = (mxCell) cell;
-			if(mxCell.getValue().equals((Object) state)){
+			if(((State) mxCell.getValue()).getId().equals(state.getId())){
 				return mxCell;
 			}
 		}

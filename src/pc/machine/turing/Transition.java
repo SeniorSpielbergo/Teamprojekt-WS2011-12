@@ -100,10 +100,22 @@ public class Transition implements Serializable {
 	}
 	
 	public Object clone() {
+		ArrayList<Character> readNew = new ArrayList<Character>();
+		ArrayList<Character> writeNew = new ArrayList<Character>();
+		ArrayList<Character> actionNew = new ArrayList<Character>();
+		for(Character c : this.read) {
+			readNew.add(new Character(c));
+		}
+		for(Character c : this.write) {
+			writeNew.add(new Character(c));
+		}
+		for(Character c : this.action) {
+			actionNew.add(new Character(c));
+		}
 		return new Transition(UUID.randomUUID().toString(), 
-				(ArrayList<Character>) this.read.clone(),
-				(ArrayList<Character>) this.write.clone(),
-				(ArrayList<Character>) this.action.clone());
+				readNew,
+				writeNew,
+				actionNew);
 	}
 
 }

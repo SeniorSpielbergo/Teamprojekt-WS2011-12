@@ -939,12 +939,32 @@ public class TuringMachine extends Machine{
 	
 	@Override
 	public Object clone() {
+		ArrayList<State> statesNew = new ArrayList<State>();
+		ArrayList<Edge> edgesNew = new ArrayList<Edge>();
+		ArrayList<Tape> tapesNew = new ArrayList<Tape>();
+		ArrayList<Textbox> textboxesNew = new ArrayList<Textbox>();
+		ArrayList<Frame> framesNew = new ArrayList<Frame>();
+		for(State s : states) {
+			statesNew.add((State) s.clone());
+		}
+		for(Edge e : edges) {
+			edgesNew.add((Edge) e.clone());
+		}
+		for(Tape t : tapes) {
+			tapesNew.add(t);
+		}
+		for(Textbox te : textboxes) {
+			textboxesNew.add((Textbox) te.clone());
+		}
+		for(Frame f : frames) {
+			framesNew.add((Frame) f.clone());
+		}
 		return new TuringMachine(new String(name), 
-				(ArrayList<State>) this.states.clone(), 
-				(ArrayList<Edge>) this.edges.clone(), 
-				(ArrayList<Tape>) this.tapes.clone(), 
-				(ArrayList<Textbox>) this.textboxes.clone(), 
-				(ArrayList<Frame>) this.frames.clone());
+				statesNew, 
+				edgesNew, 
+				tapesNew, 
+				textboxesNew, 
+				framesNew);
 	}
 	
 	@Override

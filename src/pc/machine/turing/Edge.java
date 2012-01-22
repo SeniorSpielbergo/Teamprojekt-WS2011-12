@@ -149,8 +149,18 @@ public class Edge implements Serializable {
 	
 	@Override
 	public Object clone() {
-		return new Edge((State) this.from.clone(), 
-				(State) this.to.clone(), 
-				(ArrayList<Transition>) this.transitions.clone());
+				ArrayList<Transition> transitionsNew = new ArrayList<Transition>();
+				for(Transition t : this.transitions) {
+					transitionsNew.add((Transition) t.clone());
+				}
+				Edge e = new Edge((State) this.from.clone(), 
+						(State) this.to.clone(),
+						transitionsNew);
+				e.setPosLabelX(this.posLabelX);
+				e.setPosLabelY(this.posLabelY);
+				for(Point p : this.via) {
+					e.getVia().add((Point) p.clone());
+				}
+				return e;
 	}
 }
