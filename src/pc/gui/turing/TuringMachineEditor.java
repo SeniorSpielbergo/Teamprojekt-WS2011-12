@@ -1019,13 +1019,13 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			this.undoing = true;
 			graph.selectAll();
 			graph.removeCells(graph.getSelectionCells());
-//			this.currentStateIndex--;
-//			this.machine = (TuringMachine) this.turingMachineStates.get(this.currentStateIndex).getMachine();
-//			this.drawGraph();
+			this.currentStateIndex--;
+			this.machine = (TuringMachine) this.turingMachineStates.get(this.currentStateIndex).getMachine();
+			this.drawGraph();
 			graph.refresh();
 			graph.repaint();
-//			System.out.println(this.currentStateIndex);
-//			System.out.println(turingMachineStates);
+			System.out.println(this.currentStateIndex);
+			System.out.println(turingMachineStates);
 			this.undoing = false;
 		}
 		this.updateUndoRedoMenu();
