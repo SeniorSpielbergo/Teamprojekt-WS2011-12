@@ -152,7 +152,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		this.graph.setAllowLoops(true);
 		this.graph.setAutoSizeCells(true);
 		this.graph.setCellsResizable(true);
-//		this.graph.setCellsEditable(false);
+		this.graph.setCellsEditable(false);
 		this.graph.setAllowNegativeCoordinates(true);
 		this.graph.setSplitEnabled(false);
 
