@@ -10,6 +10,10 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGraphModel;
+import com.mxgraph.model.mxGraphModel.mxValueChange;
+import com.mxgraph.util.mxUndoableEdit;
 import com.mxgraph.view.mxGraph;
 
 import machine.turing.Textbox;
@@ -28,15 +32,19 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 	private JTextArea textArea;
 	private JScrollPane scrollPane;
 	private mxGraph graph;
+	private TuringMachineEditor turingMachineEditor;
+	private mxCell cell;
 
 	/**
 	 * This constructs a new textbox properties panel
 	 * @param textbox Textbox whose information should be displayed
 	 * @param graph Current graph
 	 */
-	public PropertiesTextbox(Textbox textbox, mxGraph graph) {
+	public PropertiesTextbox(Textbox textbox, mxGraph graph, mxCell cell, TuringMachineEditor turingMachineEditor) {
+		this.turingMachineEditor = turingMachineEditor;
 		this.graph = graph;
 		this.textbox = textbox;
+		this.cell = cell;
 		
 		this.setMaximumSize(new Dimension(1000, 120));
 		this.setPreferredSize(new Dimension(250, 300));
@@ -71,8 +79,17 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 		this.add(content);
 	}
 
+	private void addUndoableEdit() {
+		mxValueChange change = new mxValueChange((mxGraphModel) graph.getModel(), cell, this.textbox);
+		change.setPrevious(this.textbox.clone());
+		mxUndoableEdit edit = new mxUndoableEdit(change);
+		edit.add(change);
+		turingMachineEditor.getUndoManager().undoableEditHappened(edit);
+	}
+	
 	@Override
 	public void insertUpdate(DocumentEvent e) {
+		addUndoableEdit();
 		this.textbox.setText(textArea.getText());
 		this.graph.refresh();
 		this.graph.repaint();
@@ -80,6 +97,7 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
+		addUndoableEdit();
 		this.textbox.setText(textArea.getText());
 		this.graph.refresh();
 		this.graph.repaint();

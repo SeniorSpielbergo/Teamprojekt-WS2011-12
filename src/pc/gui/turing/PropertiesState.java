@@ -34,10 +34,10 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 	private State state;
 	private mxGraph graph;
 	private mxCellState vertex;
-	private TuringMachineEditor tme;
+	private TuringMachineEditor turingMachineEditor;
 	
-	public PropertiesState(State state, mxGraph graph, mxCellState vertex, TuringMachineEditor tme) {
-		this.tme = tme;
+	public PropertiesState(State state, mxGraph graph, mxCellState vertex, TuringMachineEditor turingMachineEditor) {
+		this.turingMachineEditor = turingMachineEditor;
 		this.graph = graph;
 		this.vertex = vertex;
 		this.state = state;
@@ -58,7 +58,6 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 		this.setBorder(BorderFactory.createTitledBorder("Properties"));
 		this.setLayout(new BorderLayout());
 		
-		// add / delete container
 		GridBagConstraints c = new GridBagConstraints();
 		
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -107,8 +106,17 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 			cell.setStyle("CIRCLE");
 	}
 	
+	private void addUndoableEdit() {
+		mxValueChange change = new mxValueChange((mxGraphModel) graph.getModel(), vertex.getCell(), this.state);
+		change.setPrevious(this.state.clone());
+		mxUndoableEdit edit = new mxUndoableEdit(change);
+		edit.add(change);
+		turingMachineEditor.getUndoManager().undoableEditHappened(edit);
+	}
+	
 	@Override
 	public void itemStateChanged(ItemEvent e) {
+		addUndoableEdit();
 		if(e.getSource().equals(finalState)) {
 			this.state.setFinalState(finalState.isSelected());
 			mxCell cell = (mxCell) vertex.getCell();
@@ -126,17 +134,13 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 			this.vertex = graph.getView().getState(cell);
 		}
 	}
-
+	
 	@Override
 	public void changedUpdate(DocumentEvent e) {}
 
 	@Override
 	public void insertUpdate(DocumentEvent e) {
-		mxValueChange change = new mxValueChange((mxGraphModel) graph.getModel(), vertex.getCell(), this.state);
-		change.setPrevious(this.state.clone());
-		mxUndoableEdit edit = new mxUndoableEdit(change);
-		edit.add(change);
-		tme.getUndoManager().undoableEditHappened(edit);
+		addUndoableEdit();
 		this.state.setName(this.inputName.getText());
 		graph.refresh();
 		graph.repaint();
@@ -144,11 +148,7 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
-		mxValueChange change = new mxValueChange((mxGraphModel) graph.getModel(), vertex.getCell(), this.state);
-		change.setPrevious(this.state.clone());
-		mxUndoableEdit edit = new mxUndoableEdit(change);
-		edit.add(change);
-		tme.getUndoManager().undoableEditHappened(edit);
+		addUndoableEdit();
 		this.state.setName(this.inputName.getText());
 		graph.refresh();
 		graph.repaint();

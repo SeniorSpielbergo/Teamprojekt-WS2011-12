@@ -249,7 +249,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 						displayProperties((State) cell.getValue(), graph.getView().getState(cell));
 					}
 					else if(cell.getValue() instanceof Textbox) {
-						displayProperties((Textbox) cell.getValue());
+						displayProperties((Textbox) cell.getValue(), cell);
 					}
 					else if(cell.getValue() instanceof Frame) {
 						displayProperties();
@@ -444,11 +444,11 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	 * Displays the information of a textbox
 	 * @param textbox Selected textbox
 	 */
-	private void displayProperties(Textbox textbox) {
+	private void displayProperties(Textbox textbox, mxCell cell) {
 		addViaAction.setEnabled(false);
 		removeViaAction.setEnabled(false);
 
-		PropertiesTextbox propertiesTextbox = new PropertiesTextbox(textbox, graph);
+		PropertiesTextbox propertiesTextbox = new PropertiesTextbox(textbox, graph, cell ,this);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
@@ -986,6 +986,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		if(undoManager.canUndo())
 			undoManager.undo();
 		this.updateUndoRedoMenu();
+		this.updateStateStyles();
 		graph.refresh();
 		graph.repaint();
 	}
@@ -994,8 +995,26 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		if(undoManager.canRedo())
 			undoManager.redo();
 		this.updateUndoRedoMenu();
+		this.updateStateStyles();
 		graph.refresh();
 		graph.repaint();
+	}
+	
+	private void updateStateStyles() {
+		for (Object cell : this.graph.getChildVertices(graph.getDefaultParent())) {
+			mxCell mxCell = (mxCell) cell;
+			if(mxCell.getValue() instanceof State) {
+				State s = (State) mxCell.getValue();
+				if(s.isStartState() && s.isFinalState()) 
+					mxCell.setStyle("FINALSTART");
+				else if(s.isStartState())
+					mxCell.setStyle("START");
+				else if(s.isFinalState())
+					mxCell.setStyle("FINAL");
+				else
+					mxCell.setStyle("CIRCLE");
+			}
+		}
 	}
 	
 	private mxCell getStateCell(State state){							
