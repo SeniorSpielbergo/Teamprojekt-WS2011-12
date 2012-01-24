@@ -35,7 +35,7 @@ public class LEGOTape extends DisplayableTape {
 	/**
 	 * The graphical tape to be displayed on the computer
 	 */
-	private GraphicTape graphicTape = null;
+	private final GraphicTape graphicTape;
 
 	/**
 	 * Constructs a new LEGO tape based on two NXT robots with the name "Default LEGO tape"
@@ -46,7 +46,7 @@ public class LEGOTape extends DisplayableTape {
 	public LEGOTape(MasterRobot master, SlaveRobot slave) {
 		this("Default LEGO tape", master, slave, true);
 	}
-	
+
 	/**
 	 * Constructs a new LEGO tape based on two NXT robots with the name "Default LEGO tape"
 	 * @param master The robot that can move the tape, read and write symbols
@@ -67,7 +67,7 @@ public class LEGOTape extends DisplayableTape {
 	public LEGOTape(String name, MasterRobot master, SlaveRobot slave) {
 		this(name,master,slave,true);
 	}
-	
+
 	/**
 	 * Constructs a new LEGO tape based on two NXT robots with a specific name
 	 * @param name Tape name string
@@ -93,7 +93,7 @@ public class LEGOTape extends DisplayableTape {
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
 
 		this.graphicTape.init();
-		
+
 		try {
 			this.master.connect();
 			this.slave.connect();
@@ -140,7 +140,7 @@ public class LEGOTape extends DisplayableTape {
 			throw new TapeException(this, "Tape did not shutdown properly.", e);
 		}
 
-		
+
 		ready = false;
 	}
 
@@ -148,7 +148,7 @@ public class LEGOTape extends DisplayableTape {
 		if (this.position != 0) {
 			throw new TapeException(this, "Input word can only be written when at position 0");
 		}
-		
+
 		//write input word to tape
 		this.write('#');
 		this.moveRight();
@@ -226,21 +226,30 @@ public class LEGOTape extends DisplayableTape {
 	 * @throws TapeException If the tape has not been initialized
 	 * @see #read()
 	 */
-	public void write(char c) throws TapeException{
+	public void write(final char c) throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
-
-		this.graphicTape.write(c);
-
-		if (this.currentSymbol == 'n') {
-			this.read();
-		}
-		try {
-			this.master.write(currentSymbol, c);
-			this.slave.write(currentSymbol, c);
-		}
-		catch (IOException e) {
-			throw new TapeException(this, "Writing failure.", e);
-		}
+		Thread t1 = new Thread(new Runnable() {
+			public void run() {			
+					try {
+						graphicTape.write(c);
+					} catch (TapeException e) {
+						e.printStackTrace();
+					}				
+			}});
+			t1.start();
+			if (this.currentSymbol == 'n') {
+				this.read();
+			}
+			try {
+				this.master.write(currentSymbol, c);
+				this.slave.write(currentSymbol, c);
+				t1.join();
+			}
+			catch (IOException e) {
+				throw new TapeException(this, "Writing failure.", e);
+			} catch (InterruptedException e) {
+				throw new TapeException(this, "Thread join failure.", e);
+			}
 
 	}
 
@@ -251,17 +260,26 @@ public class LEGOTape extends DisplayableTape {
 	 */
 	public void moveLeft() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
-
-		this.graphicTape.moveLeft();
-		
+		Thread t1 = new Thread(new Runnable() {
+			public void run() {
+				try {
+					graphicTape.moveLeft();
+				} catch (TapeException e) {
+					e.printStackTrace();
+				}
+			}});
+		t1.start();
 		try {
 			this.master.moveLeft();
 			System.out.println(this.name + "@pos " + this.position);
 			this.currentSymbol = 'n';
+			t1.join();
 		}
 		catch (IOException e) {
 			this.currentSymbol = 'n';
 			throw new TapeException(this, "Moving failure.", e);
+		} catch (InterruptedException e) {
+			throw new TapeException(this, "Thread join failure.", e);
 		}
 
 
@@ -274,16 +292,27 @@ public class LEGOTape extends DisplayableTape {
 	 */
 	public void moveRight() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
-
-		this.graphicTape.moveRight();
+		Thread t1 = new Thread(new Runnable() {
+			public void run() {
+				try {
+					graphicTape.moveRight();
+				} catch (TapeException e) {
+					e.printStackTrace();
+				}
+			}});
+		t1.start();
 		
+
 		try {
 			this.master.moveRight();
 			System.out.println(this.name + "@pos " + this.position);
 			this.currentSymbol = 'n';
+			t1.join();
 		}
 		catch (IOException e) {
 			this.currentSymbol = 'n';
+			throw new TapeException(this, "Moving failure.", e);
+		} catch (InterruptedException e) {
 			throw new TapeException(this, "Moving failure.", e);
 		}
 
@@ -295,9 +324,9 @@ public class LEGOTape extends DisplayableTape {
 	 */
 	public void test()  throws TapeException{ //TODO: remove
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
-		
+
 		this.graphicTape.test();
-		
+
 		try {
 			this.master.test();
 		}
@@ -321,7 +350,7 @@ public class LEGOTape extends DisplayableTape {
 		}
 		return text;
 	}
-	
+
 	@Override
 	public Object clone() {
 		return this;
@@ -346,6 +375,6 @@ public class LEGOTape extends DisplayableTape {
 	public int getHeight() {
 		return this.graphicTape.getHeight();
 	}
-	
-	
+
+
 }
