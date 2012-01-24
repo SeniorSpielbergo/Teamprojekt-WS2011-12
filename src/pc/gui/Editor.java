@@ -405,7 +405,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	 * Exports the Turing machine to LaTeX.
 	 */
 	public void exportLatex() {
-		JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		InOut.writeLatexToFile("text.tex", (TuringMachine) this.currentMachine);
 	}
 
 	/**
@@ -507,7 +507,9 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		saveAction.setEnabled(true);
 		saveAsAction.setEnabled(true);
 		runAction.setEnabled(true);
-		exportLatexAction.setEnabled(false);
+		if (this.currentMachine instanceof TuringMachine) {
+			exportLatexAction.setEnabled(true);
+		}
 
 		validate();
 	}

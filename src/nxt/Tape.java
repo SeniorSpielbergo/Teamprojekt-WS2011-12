@@ -80,14 +80,12 @@ public class Tape extends Thread {
 		else{
 			failed = false;
 			timer = new Timer(this.TIMER_LENGTH,tl);
-			//Motor.A.forward();
-			//timer.start();
 
 			this.dontStop = true;
 			Motor.A.forward();
 			try {
-				Thread.sleep(200);
-			}
+				Thread.sleep(400);
+				Common.playTune("C",100);			}
 			catch (Exception e) {
 
 			}
@@ -115,11 +113,12 @@ public class Tape extends Thread {
 		else {
 			failed = false;
 			timer = new Timer(this.TIMER_LENGTH,tl);
-			//TODO: debug
+
 			this.dontStop = true;
 			Motor.A.backward();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(400);
+				Common.playTune("C",100);
 			}
 			catch (Exception e) {
 
