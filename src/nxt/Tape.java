@@ -7,7 +7,7 @@ import lejos.util.TimerListener;
  * @author Sven Schuster
  *
  */
-public class Line extends Thread {
+public class Tape extends Thread {
 	private static final int TIMER_LENGTH = 800;
 	private static final int LEFT_END_MARKER_COLOR = 2;
 	private static final int MARKER_COLOR_MIN = 5;
@@ -35,7 +35,7 @@ public class Line extends Thread {
 	 * Creates a new Line with given length. The Line will initially move to the leftmost position.
 	 * @param length Length of line
 	 */
-	public Line(int length) {
+	public Tape(int length) {
 		this.length = length;
 		Motor.A.setSpeed(Common.LINE_SPEED);
 		initialize();
@@ -43,9 +43,9 @@ public class Line extends Thread {
 
 	// Initializing the Line to the mostleft position.
 	private void initialize() {
-		if(counterSensor.getColorNumber() != Line.LEFT_END_MARKER_COLOR)
+		if(counterSensor.getColorNumber() != Tape.LEFT_END_MARKER_COLOR)
 			Motor.A.forward();
-		while(counterSensor.getColorNumber() != Line.LEFT_END_MARKER_COLOR) {}
+		while(counterSensor.getColorNumber() != Tape.LEFT_END_MARKER_COLOR) {}
 		Motor.A.stop();
 	}
 
@@ -55,7 +55,7 @@ public class Line extends Thread {
 	public void run() {
 		this.requestStop = false;
 		while(!this.requestStop) {
-			if ((counterSensor.getColorNumber() >= Line.MARKER_COLOR_MIN && counterSensor.getColorNumber() <= Line.MARKER_COLOR_MAX) || counterSensor.getColorNumber() == Line.LEFT_END_MARKER_COLOR){
+			if ((counterSensor.getColorNumber() >= Tape.MARKER_COLOR_MIN && counterSensor.getColorNumber() <= Tape.MARKER_COLOR_MAX) || counterSensor.getColorNumber() == Tape.LEFT_END_MARKER_COLOR){
 				if (!this.dontStop) {
 					if (Motor.A.isBackward()) {
 						this.counter++;
