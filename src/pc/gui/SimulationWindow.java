@@ -277,6 +277,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
 			return;
 		}
+		for(Tape tape : currentMachine.getTapes()){
+			tape.deleteObserver(this);
+		}
 
 
 		this.setVisible(false);
@@ -293,7 +296,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				&& (tape.Tape.Event)obj == tape.Tape.Event.INPUTFINISHED){
 
 			synchronized(counter){counter++;}
+			System.out.println("Counter: " + counter);
 			if(counter >= this.currentMachine.getNumberOfTapes()){
+				
 				for(Tape tape : currentMachine.getTapes()){
 					tape.setDelay(this.delay);
 				}

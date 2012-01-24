@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="Binary Addition" tapes="3" xml-version="3">
+    <author>Sven Schuster</author>
+    <description/>
     <tape type="graphic">
         <name>Input</name>
         <input>
