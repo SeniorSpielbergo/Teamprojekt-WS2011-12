@@ -16,8 +16,6 @@ public class Tape extends Thread {
 	private int counter = 0;
 	private int length = 0;
 	private long time;
-	private boolean grey = false;
-	private boolean color = false;
 	private boolean failed = false;
 	private ColorSensor counterSensor = new ColorSensor(SensorPort.S3);
 	private Timer timer;
@@ -85,7 +83,7 @@ public class Tape extends Thread {
 			Motor.A.forward();
 			try {
 				Thread.sleep(400);
-				Common.playTune("C",100);			}
+			}
 			catch (Exception e) {
 
 			}
@@ -118,7 +116,6 @@ public class Tape extends Thread {
 			Motor.A.backward();
 			try {
 				Thread.sleep(400);
-				Common.playTune("C",100);
 			}
 			catch (Exception e) {
 
@@ -155,10 +152,6 @@ public class Tape extends Thread {
 
 	public boolean clearTape() {
 		for (int i = 0; i < Common.TAPE_SIZE; i++) {
-			//			Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
-			//			Motor.B.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
-			//			Motor.C.rotate(Common.PUSH_ANGLE_MASTER);
-			//			Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
 			Common.pushBits(true,true);
 			if (this.counter < Common.TAPE_SIZE-1 && !this.moveRight()) {
 				return false;
