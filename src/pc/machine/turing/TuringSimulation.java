@@ -137,7 +137,7 @@ public class TuringSimulation extends Simulation{
 					currentState = nextState;
 					super.setChanged();
 					super.notifyObservers((Object)currentState);
-					while(this.simulationIsPaused){
+					while(this.simulationIsPaused && this.isSimulationAborted()){
 						try{
 							Thread.sleep(400);
 						}catch(InterruptedException e){}
@@ -150,9 +150,9 @@ public class TuringSimulation extends Simulation{
 				this.simulationAborted = true;
 			}
 		}
-		else{
-			this.simulationAborted = true; // TODO is needed?
-		}
+//		else{
+//			this.simulationAborted = true; // TODO is needed?
+//		}
 
 	}
 
