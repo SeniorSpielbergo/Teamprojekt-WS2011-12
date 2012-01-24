@@ -23,11 +23,11 @@ public class LEGOTape extends DisplayableTape {
 	/**
 	 * The master robot of the tape
 	 */
-	private MasterRobot master = null;
+	private final MasterRobot master;
 	/**
 	 * The slave robot of the tape
 	 */
-	private SlaveRobot slave = null;
+	private final SlaveRobot slave;
 	/**
 	 * The symbol at the current position
 	 */
@@ -228,7 +228,7 @@ public class LEGOTape extends DisplayableTape {
 	 */
 	public void write(final char c) throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
-		Thread t1 = new Thread(new Runnable() {
+		Thread t = new Thread(new Runnable() {
 			public void run() {			
 					try {
 						graphicTape.write(c);
@@ -236,14 +236,22 @@ public class LEGOTape extends DisplayableTape {
 						e.printStackTrace();
 					}				
 			}});
-			t1.start();
+			t.start();
 			if (this.currentSymbol == 'n') {
 				this.read();
 			}
 			try {
-				this.master.write(currentSymbol, c);
+				Thread t1 = new Thread(new Runnable() {
+					public void run() {			
+							try {
+				master.write(currentSymbol, c);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							}});
 				this.slave.write(currentSymbol, c);
 				t1.join();
+				t.join();
 			}
 			catch (IOException e) {
 				throw new TapeException(this, "Writing failure.", e);
