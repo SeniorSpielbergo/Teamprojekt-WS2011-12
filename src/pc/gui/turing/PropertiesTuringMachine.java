@@ -129,12 +129,28 @@ public class PropertiesTuringMachine extends JPanel implements DocumentListener 
 
 	@Override
 	public void insertUpdate(DocumentEvent e) {
-		this.machine.setName(this.turingMachineName.getText());
+		if (e.getDocument() == turingMachineName.getDocument()) {
+			this.machine.setName(this.turingMachineName.getText());
+		}
+		else if (e.getDocument() == turingMachineAuthor.getDocument()) {
+			this.machine.setAuthor(this.turingMachineAuthor.getText());
+		}
+		else if (e.getDocument() == descriptionArea.getDocument()) {
+			this.machine.setDescription(this.descriptionArea.getText());
+		}
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
-		this.machine.setName(this.turingMachineName.getText());
+		if (e.getDocument() == turingMachineName.getDocument()) {
+			this.machine.setName(this.turingMachineName.getText());
+		}
+		else if (e.getDocument() == turingMachineAuthor.getDocument()) {
+			this.machine.setAuthor(this.turingMachineAuthor.getText());
+		}
+		else if (e.getDocument() == descriptionArea.getDocument()) {
+			this.machine.setDescription(this.descriptionArea.getText());
+		}
 	}
 
 	@Override
