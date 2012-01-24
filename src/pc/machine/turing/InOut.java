@@ -2,6 +2,8 @@ package machine.turing;
 import java.io.*;
 import java.lang.String;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -64,7 +66,9 @@ public class InOut {
 			String description = "";
 			if (machine.getDescription() != "") {
 				description = machine.getDescription();
-				description.replaceAll("\\n", "\\\\");
+				Pattern p = Pattern.compile("\n");
+				Matcher m = p.matcher(description);
+				description = m.replaceAll("\\\\\\\\\n");
 			}
 			newContent = oldContent.replace("{PLACEHOLDER_TEXT}", description);
 			newContent = newContent.replace("{PLACEHOLDER_MAKETITLE}", makeTitleName);
