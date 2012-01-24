@@ -44,6 +44,7 @@ import com.mxgraph.view.mxGraphSelectionModel;
 import com.mxgraph.view.mxGraph;
 import com.mxgraph.view.mxStylesheet;
 import com.mxgraph.model.*;
+import com.mxgraph.model.mxGraphModel.mxValueChange;
 
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxEvent;
@@ -257,7 +258,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 					}
 				} 
 				else if (cell.isEdge()) {
-					displayProperties((Edge) cell.getValue());
+					displayProperties(cell);
 				}
 			}
 		});
@@ -412,11 +413,11 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	 * Displays the information of an edge
 	 * @param edge Selected edge
 	 */
-	private void displayProperties(Edge edge) {
+	private void displayProperties(mxCell cell) {
 		addViaAction.setEnabled(true);
 		removeViaAction.setEnabled(true);
 
-		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), edge, graph);
+		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), (Edge) cell.getValue(), graph, cell, this);
 		jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
@@ -627,6 +628,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	private void addVia() {
 		if (this.graph.getSelectionCell() != null && ((mxCell)this.graph.getSelectionCell()).isEdge()) {
 			mxCell edge = (mxCell)this.graph.getSelectionCell();
+			addEdgeValueChange(edge);
 			List<mxPoint> points = edge.getGeometry().getPoints();
 			if (points == null) {
 				points = new ArrayList<mxPoint>();
@@ -651,6 +653,14 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 
 			points.add(new mxPoint(x,y));
 
+			Edge e = (Edge) edge.getValue();
+			e.getVia().clear();
+			if (edge.getGeometry().getPoints() != null) {
+				for (mxPoint p : edge.getGeometry().getPoints()) {
+					e.getVia().add(new Point((int)p.getX(), (int)p.getY()));
+				}
+			}
+			
 			Object[] selection = this.graph.getSelectionCells();
 			this.graph.setSelectionCells(new Object[0]);
 			this.graph.refresh();
@@ -660,13 +670,14 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			this.graph.repaint();
 		}
 	}
-
+	
 	/**
 	 * Removes a via point from an edge
 	 */
 	private void removeVia() {
 		if (this.graph.getSelectionCell() != null && ((mxCell)this.graph.getSelectionCell()).isEdge()) {
 			mxCell edge = (mxCell)this.graph.getSelectionCell();
+			addEdgeValueChange(edge);
 			List<mxPoint> points = edge.getGeometry().getPoints();
 			if (points == null) {
 				points = new ArrayList<mxPoint>();
@@ -984,21 +995,43 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	}
 
 	private void undo() {
+		mxCell cell = (mxCell) graph.getSelectionCell();
 		if(undoManager.canUndo())
 			undoManager.undo();
 		this.updateUndoRedoMenu();
 		this.updateStateStyles();
+		this.updateViaPoints();
+		graph.refresh();
+		if(cell != null) {
+			this.graph.clearSelection();
+			this.graph.setSelectionCell(cell);
+		}
 		graph.refresh();
 		graph.repaint();
 	}
 
 	private void redo() {
+		mxCell cell = (mxCell) graph.getSelectionCell();
 		if(undoManager.canRedo())
 			undoManager.redo();
 		this.updateUndoRedoMenu();
 		this.updateStateStyles();
+		this.updateViaPoints();
+		graph.refresh();
+		if(cell != null) {
+			this.graph.clearSelection();
+			this.graph.setSelectionCell(cell);
+		}
 		graph.refresh();
 		graph.repaint();
+	}
+	
+	private void addEdgeValueChange(mxCell cell) {
+		mxValueChange change = new mxValueChange((mxGraphModel) graph.getModel(), cell, (Edge) cell.getValue());
+		change.setPrevious(((Edge) cell.getValue()).clone());
+		mxUndoableEdit edit = new mxUndoableEdit(change);
+		edit.add(change);
+		this.getUndoManager().undoableEditHappened(edit);
 	}
 	
 	private void updateStateStyles() {
@@ -1018,7 +1051,27 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		}
 	}
 	
-	private mxCell getStateCell(State state){							
+	private void updateViaPoints() {
+		Object[] cells = graph.getChildCells(graph.getDefaultParent());
+		for(Object cellObj : cells) {
+			mxCell cell = (mxCell) cellObj;
+			if(cell.isEdge()) {
+				List<mxPoint> points = cell.getGeometry().getPoints();
+				points.clear();
+				Edge e = (Edge) cell.getValue();
+				ArrayList<Point> via = e.getVia();
+				System.out.println("-----------------------------------");
+				System.out.println(e);
+				for(Point p : via) {
+					points.add(new mxPoint(p.getX(),p.getY()));
+					System.out.println(p);
+				}
+				System.out.println("-----------------------------------");
+			}
+		}
+	}
+	
+	private mxCell getStateCell(State state){
 		for (Object cell : this.graph.getChildVertices(graph.getDefaultParent())) {
 			mxCell mxCell = (mxCell) cell;
 			if(((State) mxCell.getValue()).getId().equals(state.getId())){
@@ -1028,7 +1081,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		return null;
 	}
 
-	private mxCell getEdgeCell(State from, State to){							
+	private mxCell getEdgeCell(State from, State to){
 		for (Object cell : this.graph.getChildEdges(graph.getDefaultParent())) {
 			mxCell mxCell = (mxCell) cell;
 			if(mxCell.getSource().getValue() == from && mxCell.getTarget().getValue() == to){

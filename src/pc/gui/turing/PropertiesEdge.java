@@ -8,6 +8,10 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGraphModel;
+import com.mxgraph.model.mxGraphModel.mxValueChange;
+import com.mxgraph.util.mxUndoableEdit;
 import com.mxgraph.view.mxGraph;
 
 import machine.turing.*;
@@ -44,16 +48,21 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 	 * Stores the edited edge
 	 */
 	private Edge edge;
+	
+	private mxCell cell;
+	private TuringMachineEditor turingMachineEditor;
 
 	/**
 	 * Constructs a panel showing all transitions of the current edge
 	 * @param numberTapes Number of tapes in the current machine
 	 * @param edge The edge that should be edited
 	 */
-	public PropertiesEdge(int numberTapes, Edge edge,mxGraph graph) {
+	public PropertiesEdge(int numberTapes, Edge edge, mxGraph graph, mxCell cell, TuringMachineEditor turingMachineEditor) {
 		this.graph = graph;
 		this.edge = edge;
 		this.numberTapes = numberTapes;
+		this.cell = cell;
+		this.turingMachineEditor = turingMachineEditor;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setMaximumSize(new Dimension(250, 300));
 		this.setPreferredSize(new Dimension(250, 300));
@@ -134,6 +143,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 	 * @param row The row that should be edited
 	 */
 	private void editTable(int row) {
+		addUndoableEdit();
 		PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes, edge.getTransitions().get(row));
 		Transition editData = editWindow.showEdit();
 		editWindow.setLocationRelativeTo(null);
@@ -180,6 +190,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 						newRow[2] += ", ";
 					}
 				}
+				addUndoableEdit();
 				model.addRow(newRow);
 				edge.getTransitions().add(editData);
 				graph.refresh();
@@ -188,6 +199,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 		}
 		else if (e.getSource() == deleteButton) {
 			if (table.getSelectedRow() != -1) {
+				addUndoableEdit();
 				int row = table.getSelectedRow();
 				edge.getTransitions().remove(row);
 				model.deleteRow(row);
@@ -213,5 +225,13 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 			table.setColumnSelectionInterval(0, 2);
 			table.setRowSelectionInterval(row, row);
 		}
+	}
+	
+	private void addUndoableEdit() {
+		mxValueChange change = new mxValueChange((mxGraphModel) graph.getModel(), this.cell, this.edge);
+		change.setPrevious(this.edge.clone());
+		mxUndoableEdit edit = new mxUndoableEdit(change);
+		edit.add(change);
+		turingMachineEditor.getUndoManager().undoableEditHappened(edit);
 	}
 }
