@@ -99,7 +99,7 @@ public class MainMaster {
 			LCD.drawString("Connected", 0, 0);
 
 			//listen to commands
-			this.serve(); 
+			this.serve();
 
 			//close connection
 			LCD.clearDisplay();
