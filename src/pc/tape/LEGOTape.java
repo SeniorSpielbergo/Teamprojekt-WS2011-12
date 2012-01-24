@@ -230,34 +230,35 @@ public class LEGOTape extends DisplayableTape {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		Thread t = new Thread(new Runnable() {
 			public void run() {			
-					try {
-						graphicTape.write(c);
-					} catch (TapeException e) {
-						e.printStackTrace();
-					}				
+				try {
+					graphicTape.write(c);
+				} catch (TapeException e) {
+					e.printStackTrace();
+				}				
 			}});
-			t.start();
-			if (this.currentSymbol == 'n') {
-				this.read();
-			}
-			try {
-				Thread t1 = new Thread(new Runnable() {
-					public void run() {			
-							try {
-				master.write(currentSymbol, c);
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-							}});
-				this.slave.write(currentSymbol, c);
-				t1.join();
-				t.join();
-			}
-			catch (IOException e) {
-				throw new TapeException(this, "Writing failure.", e);
-			} catch (InterruptedException e) {
-				throw new TapeException(this, "Thread join failure.", e);
-			}
+		t.start();
+		if (this.currentSymbol == 'n') {
+			this.read();
+		}
+		try {
+			Thread t1 = new Thread(new Runnable() {
+				public void run() {			
+					try {
+						master.write(currentSymbol, c);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}});
+			t1.start();
+			this.slave.write(currentSymbol, c);
+			t1.join();
+			t.join();
+		}
+		catch (IOException e) {
+			throw new TapeException(this, "Writing failure.", e);
+		} catch (InterruptedException e) {
+			throw new TapeException(this, "Thread join failure.", e);
+		}
 
 	}
 
@@ -309,7 +310,7 @@ public class LEGOTape extends DisplayableTape {
 				}
 			}});
 		t1.start();
-		
+
 
 		try {
 			this.master.moveRight();

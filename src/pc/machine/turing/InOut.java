@@ -60,8 +60,14 @@ public class InOut {
 
 			// write automata nodes
 			table += writeTableForStates(machine);
-
-			newContent = oldContent.replace("{PLACEHOLDER_MAKETITLE}", makeTitleName);
+			
+			String description = "";
+			if (machine.getDescription() != "") {
+				description = machine.getDescription();
+				description.replaceAll("\\n", "\\\\");
+			}
+			newContent = oldContent.replace("{PLACEHOLDER_TEXT}", description);
+			newContent = newContent.replace("{PLACEHOLDER_MAKETITLE}", makeTitleName);
 			newContent = newContent.replace("{PLACEHOLDER_TABLE}", table);
 
 			FileWriter writer = new FileWriter(outputFile);
