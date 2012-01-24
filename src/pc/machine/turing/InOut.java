@@ -46,26 +46,23 @@ public class InOut {
 			// read text to temp string
 			String line = "";
 			String oldContent = "";
-			String automata = "";
-			String makeTitleName, newContent;
+			String table = "";
+			String makeTitleName = "";
+			String newContent = "";
 			while((line = reader.readLine()) != null) {
 				oldContent += line + "\n";
 			}
 			reader.close();
 
 			// write maketitle
-			makeTitleName = "\\title{" + machine.getName() + "}";
+			makeTitleName = "\\title{" + machine.getName() + "}\n";
+			makeTitleName += "\\author{" + machine.getAuthor() + "}";
 
 			// write automata nodes
-			automata += writeStatesToLatex(machine.getStates());
+			table += writeTableForStates(machine);
 
-			automata += "\n";
-
-			// write automata edges
-			automata += writeEdgesToLatex(machine.getEdges());
-
-			newContent = oldContent.replace("{PLACEHOLDER_MAKETITLENAME}", makeTitleName);
-			newContent = newContent.replace("{PLACEHOLDER_AUTOMATA}", automata);
+			newContent = oldContent.replace("{PLACEHOLDER_MAKETITLE}", makeTitleName);
+			newContent = newContent.replace("{PLACEHOLDER_TABLE}", table);
 
 			FileWriter writer = new FileWriter(outputFile);
 			writer.write(newContent);
@@ -74,110 +71,54 @@ public class InOut {
 		catch (IOException e) {
 		}
 	}
-
-	/**
-	 * Returns the LaTeX string of nodes for an automata
-	 * @param states The states that should be converted to LaTeX
-	 * @return String of nodes formated for an automata 
-	 */
-	private static String writeStatesToLatex(ArrayList<State> states) {
-		String output = "";
-		State oldLeft = states.get(0), oldMiddle = states.get(0);
-		for (int i = 0; i < states.size(); i++) {
-			State currentState = states.get(i);
-			String type = "";
-			String name = currentState.getName();
-			// check type of node
-//			switch (currentState.getType()) { //TODO: change to new booleans
-//			case START:
-//				type = ", initial";
-//				break;
-//			case NORMAL:
-//				break;
-//			case FINAL:
-//				type = ", accepting";
-//				break;
-//			default:
-//				break;
-//			}
-
-			if (i % 3 == 0) {
-				if (i == 0) {
-					output += "\\node[state" + type + "] (" + name + ") {$" + name + "$};\n";
+	
+	private static String writeTableForStates(TuringMachine machine) {
+		String table = "";
+		for (int i = 0; i < machine.getStates().size(); i++) {
+			State state = machine.getStates().get(i);
+			table += "\\subsubsection*{$" + state.getName() + "$)}\n\n";
+			table += "\\begin{longtable}{c|c|c|c}\n";
+			table += "read & write & action & next state\\\\\n";
+			table += "\\hline\n";
+			for (int j = 0; j < machine.getEdges().size(); j++) {
+				if (machine.getEdges().get(j).getFrom().equals(state)) {
+					Edge edge = machine.getEdges().get(j);
+					for (int k = 0; k < edge.getTransitions().size(); k++) {
+						table += writeTransitionToLatex(edge.getTransitions().get(k));
+						table += " & $" + edge.getTo() + "$\\\\\n";
+					}
 				}
-				else {
-					output += "\\node[state" + type + "] (" + name + ") [below of = " + oldLeft.getName() + "] {$" + name + "$};\n";
-				}
-				oldLeft = currentState;
 			}
-			else if (i % 3 == 1) {
-				output += "\\node[state" + type + "] (" + name + ") [right of = " + oldLeft.getName() + "] {$" + name + "$};\n";
-				oldMiddle = currentState;
-			}
-			else if (i % 3 == 2) {
-				output += "\\node[state" + type + "] (" + name + ") [right of = " + oldMiddle.getName() + "] {$" + name + "$};\n";
-			}
-
+			table += "\\end{longtable}\n\n";
 		}
-		return output;
+		return table;
 	}
-
-	/**
-	 * Returns the LaTeX string of edges for an automata
-	 * @param edges The edges that should be converted to LaTeX
-	 * @return String of edges formated for an automata
-	 */
-	private static String writeEdgesToLatex(ArrayList<Edge> edges) {
-		String output = "";
-		for (int i = 0; i < edges.size(); i++) {
-			Edge currentEdge = edges.get(i);
-			for (int j = 0; j < currentEdge.getTransitions().size(); j++) {
-				Transition currentTransition = currentEdge.getTransitions().get(j);
-				String transition = writeTransitionString(currentTransition);
-				State from = currentEdge.getFrom();
-				State to = currentEdge.getTo();
-				if (from.equals(to)) {
-					output += "\\path[->] (" + from.getName() +  ") edge [loop above] node {" + transition + "} ();\n";
-				}
-				else {
-					output += "\\path[->] (" + from.getName() +  ") edge [bend left] node {" + transition + "} (" + to.getName() +  ");\n";
-				}
-			}
-		}
-		return output;
-	}
-
-	/**
-	 * Returns the LaTeX string of a transition for an automata
-	 * @param transition The transition that should be converted to LaTeX
-	 * @return String of a transition formated for an automata
-	 */
-	private static String writeTransitionString(Transition transition) {
-		String output = "";
+	
+	private static String writeTransitionToLatex(Transition transition) {
+		String entry = "";
+		ArrayList<Character> action = transition.getAction();
+		ArrayList<Character> read = transition.getRead();
+		ArrayList<Character> write = transition.getWrite();
+		String actionString = "<";
 		String readString = "<";
-		String writeActionString = "<";
-		Transition currentTransition = transition;
-		ArrayList<Character> read = currentTransition.getRead(); 
-		ArrayList<Character> write = currentTransition.getWrite(); 
-		ArrayList<Character> action = currentTransition.getAction();
-		for (int i = 0; i < read.size(); i++) {
-			readString += "" + escapeHash(read.get(i));
-			if (i == read.size()-1) {
+		String writeString = "<";
+		for (int j = 0; j < action.size(); j++) {
+			actionString += "" + escapeHash(action.get(j));
+			readString += "" + escapeHash(read.get(j));
+			writeString += "" + escapeHash(write.get(j));
+			if (j < action.size()-1) {
+				actionString += ",";
+				readString += ",";
+				writeString += ",";
+			}
+			else if (j == action.size()-1) {
+				actionString += ">";
 				readString += ">";
-			}
-			else {
-				readString += ", ";
+				writeString += ">";
 			}
 		}
-		for (int i = 0; i < write.size(); i++) {
-			writeActionString += "" + escapeHash(write.get(i)) + ", ";
-			writeActionString += "" + escapeHash(action.get(i)) + ">";
-			if (i != write.size()-1) {
-				writeActionString += ", ";
-			}
-		}
-		output += readString + " / " + writeActionString;
-		return output;
+		entry += "$" + readString + "$ & $" + writeString + "$ & $" + actionString + "$";
+		return entry;
 	}
 
 	/**
