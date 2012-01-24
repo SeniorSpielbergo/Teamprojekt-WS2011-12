@@ -33,20 +33,7 @@ public class MainMaster {
 	ColorSensor cs2 = null;
 	TouchSensor ts1 = null;
 
-	Line line = null;
-
-	// Pushes one bit with given motor 
-//	private static void pushBit(int bit, int newBit, Motor motor) {
-//		new Thread(new Runnable() {
-//			public void run(){
-//				if (bit>newBit){
-//					motor.rotate(Common.PUSH_ANGLE_MASTER);
-//					motor.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
-//				}
-//			};
-//		}).start();
-//		
-//	}
+	Tape tape = null;
 
 	public void run() {
 		Common.playTune("HAHA",200);
@@ -69,11 +56,11 @@ public class MainMaster {
 
 		while (true) {
 			LCD.drawString("Moving to begin...", 0, 0);
-			line = new Line(Common.TAPE_SIZE);
-			line.start();
+			tape = new Tape(Common.TAPE_SIZE);
+			tape.start();
 			LCD.clearDisplay();
 			LCD.drawString("Clearing tape...", 0, 0);
-			if (line.clearTape()) {
+			if (tape.clearTape()) {
 				break;
 			}
 			else {
@@ -83,7 +70,7 @@ public class MainMaster {
 				LCD.drawString("After the sound,", 0, 2);
 				LCD.drawString("clearing starts again!", 0, 3);
 
-				line.stop();
+				tape.stop();
 				
 				Common.playTune("CXCXCXCXCXCXCXCX", 400);
 				for (int i = 0; i < 3; i++) {
@@ -117,12 +104,12 @@ public class MainMaster {
 			//close connection
 			LCD.clearDisplay();
 			LCD.drawString("Disconnecting...", 0, 0);
-			line.stop();
+			tape.stop();
 			connection.close();
 
 			LCD.drawString("Moving to begin...", 0, 0);
-			line = new Line(Common.TAPE_SIZE); // laenge uebergeben
-			line.start();
+			tape = new Tape(Common.TAPE_SIZE); // laenge uebergeben
+			tape.start();
 		}
 	}
 
@@ -222,7 +209,7 @@ public class MainMaster {
 				}
 				break;
 			case 'L':
-				if(line.moveLeft()) {
+				if(tape.moveLeft()) {
 					try {
 						out.writeChar('.');
 						out.flush();
@@ -240,7 +227,7 @@ public class MainMaster {
 				}
 				break;
 			case 'R': 
-				if(line.moveRight()) {
+				if(tape.moveRight()) {
 					try {
 						out.writeChar('.');
 						out.flush();
