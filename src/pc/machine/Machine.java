@@ -30,15 +30,15 @@ public abstract class Machine {
 	/**
 	 * The machine name string
 	 */
-	protected String name;
+	protected String name = "";
 	/**
 	 * The machine author string
 	 */
-	protected String author;
+	protected String author = "";
 	/**
 	 * The machine description string
 	 */
-	protected String description;
+	protected String description = "";
 	/**
 	 * The tapes array of the machine
 	 */

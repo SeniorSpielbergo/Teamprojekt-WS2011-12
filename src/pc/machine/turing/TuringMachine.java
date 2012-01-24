@@ -206,6 +206,18 @@ public class TuringMachine extends Machine{
 			throw new IOException("The file format version of the file '" + filename 
 					+ "' is not supported by this program. Please convert the file before opening.");
 		}
+		
+		// load author
+		NodeList authorList = doc.getElementsByTagName("author");
+		if (authorList.getLength() != 0) {
+			this.author = InOut.getTagValue("author", doc.getDocumentElement());
+		}
+		
+		// load description
+		NodeList descriptionList = doc.getElementsByTagName("description");
+		if (descriptionList.getLength() != 0) {
+			this.description = InOut.getTagValue("description", doc.getDocumentElement());
+		}
 
 		//load the rest
 		System.out.println("Loading tape configuration...");
@@ -589,6 +601,16 @@ public class TuringMachine extends Machine{
 		Attr attrXMLVersion = doc.createAttribute("xml-version");
 		attrXMLVersion.setValue(String.valueOf(TuringMachine.XML_VERSION));
 		rootElement.setAttributeNode(attrXMLVersion);
+		
+		// save author of machine
+		Element authorElement = doc.createElement("author");
+		authorElement.appendChild(doc.createTextNode(this.getAuthor()));
+		rootElement.appendChild(authorElement);
+		
+		// save description of machine
+		Element descriptionElement = doc.createElement("description");
+		descriptionElement.appendChild(doc.createTextNode(this.getDescription()));
+		rootElement.appendChild(descriptionElement);
 		
 		//save the rest
 		System.out.println("Saving tape configuration...");
