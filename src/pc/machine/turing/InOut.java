@@ -56,7 +56,7 @@ public class InOut {
 
 			// write maketitle
 			makeTitleName = "\\title{" + machine.getName() + "}\n";
-			makeTitleName += "\\author{" + machine.getAuthor() + "}";
+			makeTitleName += "\\author{Author: " + machine.getAuthor() + "}";
 
 			// write automata nodes
 			table += writeTableForStates(machine);
@@ -75,19 +75,31 @@ public class InOut {
 	private static String writeTableForStates(TuringMachine machine) {
 		String table = "";
 		for (int i = 0; i < machine.getStates().size(); i++) {
+			boolean stateGotEdge = false;
 			State state = machine.getStates().get(i);
-			table += "\\subsubsection*{$" + state.getName() + "$)}\n\n";
+			table += "\\subsubsection*{$" + state.getName() + "$";
+			if (state.isStartState()) {
+				table += " (start state)";
+			}
+			else if (state.isFinalState()) {
+				table += " (final state)";
+			}
+			table += ":}\n\n";
 			table += "\\begin{longtable}{c|c|c|c}\n";
 			table += "read & write & action & next state\\\\\n";
 			table += "\\hline\n";
 			for (int j = 0; j < machine.getEdges().size(); j++) {
 				if (machine.getEdges().get(j).getFrom().equals(state)) {
+					stateGotEdge = true;
 					Edge edge = machine.getEdges().get(j);
 					for (int k = 0; k < edge.getTransitions().size(); k++) {
 						table += writeTransitionToLatex(edge.getTransitions().get(k));
 						table += " & $" + edge.getTo() + "$\\\\\n";
 					}
 				}
+			}
+			if (!stateGotEdge) {
+				table += "-- & -- & --& --\n";
 			}
 			table += "\\end{longtable}\n\n";
 		}
