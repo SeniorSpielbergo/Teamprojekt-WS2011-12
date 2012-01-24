@@ -30,6 +30,7 @@ import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 
 import tape.Tape;
+import tape.Tape.Event;
 
 import machine.turing.Edge;
 import machine.turing.State;
