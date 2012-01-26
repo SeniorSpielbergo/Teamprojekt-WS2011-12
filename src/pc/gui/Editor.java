@@ -5,6 +5,7 @@ import javax.swing.filechooser.FileFilter;
 
 import tape.Tape;
 
+import machine.ExtensionFileFilter;
 import machine.Machine;
 import machine.brainfuck.BrainfuckMachine;
 import machine.turing.*;
@@ -268,25 +269,15 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		}
 
 		// set xml filter for file chooser
+		
+		fc.setFileFilter(new ExtensionFileFilter(Machine.MachineType.BrainfuckMachine.toString(), BrainfuckMachine.FILE_EXTENSION));
+		fc.setFileFilter(new ExtensionFileFilter(Machine.MachineType.TuringMachine.toString(), TuringMachine.FILE_EXTENSION));
+
 		fc.setFileFilter (new FileFilter() {
 			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith(BrainfuckMachine.FILE_EXTENSION);
-			}
-			public String getDescription() {
-				return "Brainfuck programs (" + BrainfuckMachine.FILE_EXTENSION + ")";
-			}
-		});
-		fc.setFileFilter (new FileFilter() {
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith(TuringMachine.FILE_EXTENSION);
-			}
-			public String getDescription() {
-				return "Turing machines (" + TuringMachine.FILE_EXTENSION + ")";
-			}
-		});
-		fc.setFileFilter (new FileFilter() {
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith(TuringMachine.FILE_EXTENSION) || f.getName().toLowerCase().endsWith(BrainfuckMachine.FILE_EXTENSION);
+				return f.isDirectory() 
+						|| f.getName().toLowerCase().endsWith(TuringMachine.FILE_EXTENSION) 
+						|| f.getName().toLowerCase().endsWith(BrainfuckMachine.FILE_EXTENSION);
 			}
 			public String getDescription() {
 				return "All supported files (" + TuringMachine.FILE_EXTENSION + ", " + BrainfuckMachine.FILE_EXTENSION + ")";
@@ -357,14 +348,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		}
 
 		// set xml filter for file chooser
-		fc.setFileFilter (new FileFilter() {
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith(currentMachine.getFileExtension());
-			}
-			public String getDescription() {
-				return currentMachine.getFileExtension();
-			}
-		});
+		fc.setFileFilter (new ExtensionFileFilter(currentMachine.getType().toString(), currentMachine.getFileExtension()));			
 
 		File f = null;
 		if (this.currentFile == null) {
