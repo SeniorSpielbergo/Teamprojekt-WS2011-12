@@ -4,7 +4,10 @@ import gui.MachineEditor;
 import gui.brainfuck.BrainfuckEditor;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Observer;
+
+import javax.swing.filechooser.FileFilter;
 
 import tape.*;
 import machine.*;
@@ -132,5 +135,14 @@ public class BrainfuckMachine extends Machine {
 		bf.getTapes().set(2,this.getTapes().get(2));
 		bf.setCode(new String(((BrainfuckEditor) this.editor).getCode()));
 		return bf;
+	}
+	
+	@Override
+	public ArrayList<FileFilter> getSupportedExportFormats() {
+		ArrayList<FileFilter> filters = new ArrayList<FileFilter>();
+		
+		//add export filters here
+		
+		return filters;
 	}
 }

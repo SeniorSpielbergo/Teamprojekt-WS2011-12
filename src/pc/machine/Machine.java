@@ -5,6 +5,8 @@ import gui.MachineEditor;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.filechooser.FileFilter;
+
 import tape.Tape;
 import tape.TapeException;
 
@@ -194,6 +196,8 @@ public abstract class Machine {
 		}
 		return this.editor;
 	}
+	
+	public abstract ArrayList<FileFilter> getSupportedExportFormats();
 
 	/**
 	 * Returns type of the machine
