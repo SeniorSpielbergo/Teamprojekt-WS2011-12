@@ -1174,11 +1174,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		}
 	}
 	
-	public void updateMachineObject() {
-		System.out.println("----------------------------------------------");
-		System.out.println(this.machine);
-		System.out.println("----------------------------------------------");
-		
+	public void updateMachineObject() {		
 		ArrayList<State> states = new ArrayList<State>();
 		ArrayList<Edge> edges = new ArrayList<Edge>();
 		ArrayList<Textbox> textboxes = new ArrayList<Textbox>();
@@ -1228,9 +1224,5 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			this.machine.getTextboxes().add(t);
 		for(Frame f : frames)
 			this.machine.getFrames().add(f);
-
-		System.out.println("----------------------------------------------");
-		System.out.println(this.machine);
-		System.out.println("----------------------------------------------");
 	}
 }
