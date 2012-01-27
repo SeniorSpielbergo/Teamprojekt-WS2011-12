@@ -21,67 +21,64 @@ public class InOut {
 	 * @param fileName Name of the file, where to write to
 	 * @param machine Turing machine that should be written to the file
 	 */
-	public static void writeLatexToFile(String fileName, TuringMachine machine) {
+	public static void writeLatexToFile(String fileName, TuringMachine machine) throws IOException {
 		// check for right file ending
 		if (!fileName.endsWith(".tex")) {
 			fileName = fileName + ".tex";
 		}
 
-		try {
-			// copy from template to new file
-			File inputFile = new File("template.tex");
-			File outputFile = new File(fileName);
+		// copy from template to new file
+		File inputFile = new File("template.tex");
+		File outputFile = new File(fileName);
 
-			FileReader in = new FileReader(inputFile);
-			FileWriter out = new FileWriter(outputFile);
-			int c;
+		FileReader in = new FileReader(inputFile);
+		FileWriter out = new FileWriter(outputFile);
+		int c;
 
-			while ((c = in.read()) != -1) {
-				out.write(c);
-			}
-			in.close();
-			out.close();
-
-			// edit new file
-			BufferedReader reader = new BufferedReader(new FileReader(outputFile));
-
-			// read text to temp string
-			String line = "";
-			String oldContent = "";
-			String table = "";
-			String makeTitleName = "";
-			String newContent = "";
-			while((line = reader.readLine()) != null) {
-				oldContent += line + "\n";
-			}
-			reader.close();
-
-			// write maketitle
-			makeTitleName = "\\title{" + machine.getName() + "}\n";
-			makeTitleName += "\\author{Author: " + machine.getAuthor() + "}";
-
-			// write automata nodes
-			table += writeTableForStates(machine);
-			
-			String description = "";
-			if (machine.getDescription() != "") {
-				description = machine.getDescription();
-				Pattern p = Pattern.compile("\n");
-				Matcher m = p.matcher(description);
-				description = m.replaceAll("\\\\\\\\\n");
-			}
-			newContent = oldContent.replace("{PLACEHOLDER_TEXT}", description);
-			newContent = newContent.replace("{PLACEHOLDER_MAKETITLE}", makeTitleName);
-			newContent = newContent.replace("{PLACEHOLDER_TABLE}", table);
-
-			FileWriter writer = new FileWriter(outputFile);
-			writer.write(newContent);
-			writer.close();
+		while ((c = in.read()) != -1) {
+			out.write(c);
 		}
-		catch (IOException e) {
+		in.close();
+		out.close();
+
+		// edit new file
+		BufferedReader reader = new BufferedReader(new FileReader(outputFile));
+
+		// read text to temp string
+		String line = "";
+		String oldContent = "";
+		String table = "";
+		String makeTitleName = "";
+		String newContent = "";
+		while((line = reader.readLine()) != null) {
+			oldContent += line + "\n";
 		}
+		reader.close();
+
+		// write maketitle
+		makeTitleName = "\\title{" + machine.getName() + "}\n";
+		makeTitleName += "\\author{Author: " + machine.getAuthor() + "}";
+
+		// write automata nodes
+		table += writeTableForStates(machine);
+
+		String description = "";
+		if (machine.getDescription() != "") {
+			description = machine.getDescription();
+			Pattern p = Pattern.compile("\n");
+			Matcher m = p.matcher(description);
+			description = m.replaceAll("\\\\\\\\\n");
+		}
+		newContent = oldContent.replace("{PLACEHOLDER_TEXT}", description);
+		newContent = newContent.replace("{PLACEHOLDER_MAKETITLE}", makeTitleName);
+		newContent = newContent.replace("{PLACEHOLDER_TABLE}", table);
+
+		FileWriter writer = new FileWriter(outputFile);
+		writer.write(newContent);
+		writer.close();
 	}
-	
+
+
 	private static String writeTableForStates(TuringMachine machine) {
 		String table = "";
 		for (int i = 0; i < machine.getStates().size(); i++) {
@@ -115,7 +112,7 @@ public class InOut {
 		}
 		return table;
 	}
-	
+
 	private static String writeTransitionToLatex(Transition transition) {
 		String entry = "";
 		ArrayList<Character> action = transition.getAction();
@@ -214,7 +211,7 @@ public class InOut {
 		Element element = (Element) node;
 		return element;
 	}
-	
+
 	/**
 	 * Gets an attribute integer value of an attribute with a specific name that is child of the currentElement
 	 * @param attribute_name The name of the attribute to search

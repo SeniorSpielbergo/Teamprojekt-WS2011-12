@@ -28,6 +28,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.mxgraph.util.mxCellRenderer;
+import com.mxgraph.util.mxUtils;
+
 import tape.ConsoleTape;
 import tape.LEGOTape;
 import tape.GraphicTape;
@@ -50,7 +53,7 @@ public class TuringMachine extends Machine{
 	 * The file extension for turing machine files
 	 */
 	public static final String FILE_EXTENSION = ".tm";
-	
+
 	/**
 	 * Contains all states of this machine
 	 */
@@ -64,12 +67,12 @@ public class TuringMachine extends Machine{
 	 * Contains all textboxes of this machine
 	 */
 	protected ArrayList<Textbox> textboxes;
-	
+
 	/**
 	 * Contains all frames of this machine
 	 */
 	protected ArrayList<Frame> frames;
-	
+
 	/**
 	 * Constructs an untitled Turing machine
 	 */
@@ -84,7 +87,7 @@ public class TuringMachine extends Machine{
 	public TuringMachine(String name) {
 		this(name, new ArrayList<State>(), new ArrayList<Edge>(), new ArrayList<Tape>());
 	}
-	
+
 	/**
 	 * Constructs an empty Turing machine with a name and its tapes
 	 * @param name Name for the Turing machine
@@ -112,7 +115,7 @@ public class TuringMachine extends Machine{
 		this.frames = new ArrayList<Frame>();
 		this.textboxes = new ArrayList<Textbox>();
 	}
-	
+
 	/**
 	 * Constructs a new Turing machine with edges, states and transitions
 	 * @param states All states of the Turing machine
@@ -130,7 +133,7 @@ public class TuringMachine extends Machine{
 		this.frames = frames;
 		this.textboxes = textboxes;
 	}
-	
+
 	public String getFileExtension() {
 		return TuringMachine.FILE_EXTENSION;
 	}
@@ -150,7 +153,7 @@ public class TuringMachine extends Machine{
 	public ArrayList<Edge> getEdges() {
 		return this.edges;
 	}
-	
+
 	/**
 	 * Returns the Turing machine's Textboxes.
 	 * @return Turing Machine's Textboxes.
@@ -158,7 +161,7 @@ public class TuringMachine extends Machine{
 	public ArrayList<Textbox> getTextboxes() {
 		return this.textboxes;
 	}
-	
+
 	/**
 	 * Returns the Turing machine's Frames.
 	 * @return Turing Machine's Frames.
@@ -166,7 +169,7 @@ public class TuringMachine extends Machine{
 	public ArrayList<Frame> getFrames() {
 		return this.frames;
 	}
-	
+
 	/**
 	 * Reads a Turing machine from a XML file.
 	 * The data (states, edges...) of the current TuringMachine object will be overwritten with the data from the file. 
@@ -208,13 +211,13 @@ public class TuringMachine extends Machine{
 			throw new IOException("The file format version of the file '" + filename 
 					+ "' is not supported by this program. Please convert the file before opening.");
 		}
-		
+
 		// load author
 		NodeList authorList = doc.getElementsByTagName("author");
 		if (authorList.getLength() != 0) {
 			this.author = InOut.getTagValue("author", doc.getDocumentElement());
 		}
-		
+
 		// load description
 		NodeList descriptionList = doc.getElementsByTagName("description");
 		if (descriptionList.getLength() != 0) {
@@ -316,8 +319,10 @@ public class TuringMachine extends Machine{
 	@Override
 	public ArrayList<FileFilter> getSupportedExportFormats() {
 		ArrayList<FileFilter> filters = new ArrayList<FileFilter>();
-		
+
+		filters.add(new ExtensionFileFilter("Scalable vector graphics", ".svg"));
 		filters.add(new ExtensionFileFilter("Latex document", ".tex"));
+
 
 		return filters;
 	}
@@ -339,7 +344,7 @@ public class TuringMachine extends Machine{
 				if (this.getStateById(id) != null) {
 					throw new IOException("State ID '" + id + "' already exists! Please check your xml file!");
 				}
-				
+
 				//read start and final attribute
 				boolean startState = false;
 				String startString = currentElement.getAttribute("start");
@@ -352,7 +357,7 @@ public class TuringMachine extends Machine{
 				else {
 					throw new IOException("Expected 'yes' or 'no' in attribute 'start' for State ID '" + id + "' but found '" + startString + "'.");
 				}
-				
+
 				boolean finalState = false;
 				String finalString = currentElement.getAttribute("final");
 				if (finalString.equals("yes")) {
@@ -368,18 +373,18 @@ public class TuringMachine extends Machine{
 				//get position
 				int x = InOut.getAttributeValueInt("x", currentElement);
 				int y = InOut.getAttributeValueInt("y", currentElement);
-				
+
 				//get size
 				int width = InOut.getAttributeValueInt("width", currentElement);
 				int height = InOut.getAttributeValueInt("height", currentElement);
-				
+
 				String name = InOut.getTagValue("name", currentElement);
 				State state = new State(id, name, startState, finalState);
 				state.setXcoord(x);
 				state.setYcoord(y);
 				state.setWidth(width);
 				state.setHeight(height);
-				
+
 				states.add(state);
 				System.out.println(" " + state);
 			}
@@ -413,7 +418,7 @@ public class TuringMachine extends Machine{
 				if (to == null) {
 					throw new IOException("Invalid edge end point: No such state with ID '" + fromId + "'.");
 				}
-				
+
 				// get transitions
 				NodeList transitionList = edgeElement.getElementsByTagName("transition");
 				ArrayList<Transition> transitions = new ArrayList<Transition>();
@@ -427,7 +432,7 @@ public class TuringMachine extends Machine{
 				}
 
 				Edge edge = new Edge(from, to, transitions);
-				
+
 				// get via points
 				NodeList viaList = edgeElement.getElementsByTagName("via");
 				for (int j = 0; j < viaList.getLength(); j++) {
@@ -444,7 +449,7 @@ public class TuringMachine extends Machine{
 				edge.setPosLabelY(labelY);
 				edges.add(edge);
 				System.out.println(" " + edge); 
-				
+
 				// write edges that start at a state
 				for (int j = 0; j < states.size(); j++) { //TODO: review
 					ArrayList<Edge> tempStartEdges = new ArrayList<Edge>();
@@ -486,7 +491,7 @@ public class TuringMachine extends Machine{
 		if (action.size() != this.getNumberOfTapes()) {
 			throw new IOException("Expected " + this.getNumberOfTapes() + " action symbols for Transition ID '" + id + "', but found " + read.size() + ". Make sure that the number of symbols matches the number of tapes.");
 		}
-		
+
 		// check actions
 		for (Character c : action) {
 			if (!(c=='L' || c=='N' || c=='R')) {
@@ -517,45 +522,45 @@ public class TuringMachine extends Machine{
 		}
 		return symbols;
 	}
-	
+
 	private void loadTextboxes(Document doc) throws IOException {
 		NodeList textboxList = doc.getElementsByTagName("textbox");
 		for (int i = 0; i < textboxList.getLength(); i++) {
 			Node textboxNode = textboxList.item(i);
-	
+
 			if (textboxNode.getNodeType() != Node.ELEMENT_NODE) {
 				break; //ignore attributes etc.
 			}
 			Element textboxElement = (Element) textboxNode;
-	
+
 			//Get tape type and name
 			int height = Integer.parseInt(textboxElement.getAttribute("height"));
 			int width = Integer.parseInt(textboxElement.getAttribute("width"));
 			int x = Integer.parseInt(textboxElement.getAttribute("x"));
 			int y = Integer.parseInt(textboxElement.getAttribute("y"));
 			String text = InOut.getTagValue("text", textboxElement);
-	
+
 			Textbox textbox = new Textbox(text, x, y, width, height);
 			this.textboxes.add(textbox);
 		}
 	}
-	
+
 	private void loadFrames(Document doc) throws IOException {
 		NodeList frameList = doc.getElementsByTagName("frame");
 		for (int i = 0; i < frameList.getLength(); i++) {
 			Node frameNode = frameList.item(i);
-	
+
 			if (frameNode.getNodeType() != Node.ELEMENT_NODE) {
 				break; //ignore attributes etc.
 			}
 			Element frameElement = (Element) frameNode;
-	
+
 			//Get tape type and name
 			int height = Integer.parseInt(frameElement.getAttribute("height"));
 			int width = Integer.parseInt(frameElement.getAttribute("width"));
 			int x = Integer.parseInt(frameElement.getAttribute("x"));
 			int y = Integer.parseInt(frameElement.getAttribute("y"));
-	
+
 			Frame frame = new Frame(x, y, width, height);
 			this.frames.add(frame);
 		}
@@ -608,22 +613,22 @@ public class TuringMachine extends Machine{
 		Attr attrTape = doc.createAttribute("tapes");
 		attrTape.setValue(String.valueOf(this.getTapes().size()));
 		rootElement.setAttributeNode(attrTape);
-		
+
 		// save xml version number
 		Attr attrXMLVersion = doc.createAttribute("xml-version");
 		attrXMLVersion.setValue(String.valueOf(TuringMachine.XML_VERSION));
 		rootElement.setAttributeNode(attrXMLVersion);
-		
+
 		// save author of machine
 		Element authorElement = doc.createElement("author");
 		authorElement.appendChild(doc.createTextNode(this.getAuthor()));
 		rootElement.appendChild(authorElement);
-		
+
 		// save description of machine
 		Element descriptionElement = doc.createElement("description");
 		descriptionElement.appendChild(doc.createTextNode(this.getDescription()));
 		rootElement.appendChild(descriptionElement);
-		
+
 		//save the rest
 		System.out.println("Saving tape configuration...");
 		this.saveTapesConfig(doc, rootElement);
@@ -647,13 +652,13 @@ public class TuringMachine extends Machine{
 		}
 		System.out.println("File '" + filename + "' successfully saved.");
 	}
-	
+
 	private void saveTapesConfig(Document doc, Element rootElement) {
 		for (Tape tape : this.tapes) {
 			// tape element
 			Element tapeElement = doc.createElement("tape");
 			rootElement.appendChild(tapeElement);
-			
+
 			// save tape type number
 			Attr attrType = doc.createAttribute("type");
 			String tapeType = "";
@@ -668,15 +673,15 @@ public class TuringMachine extends Machine{
 			}
 			attrType.setValue(tapeType);
 			tapeElement.setAttributeNode(attrType);
-			
+
 			//save tape name
 			Element nameElement = doc.createElement("name");
 			nameElement.appendChild(doc.createTextNode(tape.getName()));
 			tapeElement.appendChild(nameElement);
-						
+
 			if (tape.getType().equals("LEGO")) {
 				LEGOTape lego_tape = (LEGOTape) tape;
-				
+
 				//save master robot name and mac address
 				Element masterElement = doc.createElement("master");
 				Attr attrMasterMac = doc.createAttribute("mac-address");
@@ -684,7 +689,7 @@ public class TuringMachine extends Machine{
 				masterElement.setAttributeNode(attrMasterMac);
 				masterElement.appendChild(doc.createTextNode(lego_tape.getMaster().getName()));
 				tapeElement.appendChild(masterElement);
-				
+
 				//save slave robot name and mac address
 				Element slaveElement = doc.createElement("slave");
 				Attr attrSlaveMac = doc.createAttribute("mac-address");
@@ -693,7 +698,7 @@ public class TuringMachine extends Machine{
 				slaveElement.appendChild(doc.createTextNode(lego_tape.getSlave().getName()));
 				tapeElement.appendChild(slaveElement);
 			}
-			
+
 			// save input word
 			Element inputElement = doc.createElement("input");
 			tapeElement.appendChild(inputElement);
@@ -705,7 +710,7 @@ public class TuringMachine extends Machine{
 			}
 		}
 	}
-	
+
 	private void saveStates(Document doc, Element rootElement) {
 		for(State state : this.states) {
 			// state element
@@ -735,7 +740,7 @@ public class TuringMachine extends Machine{
 				attrFinal.setValue("no");
 			}
 			stateElement.setAttributeNode(attrFinal);
-			
+
 			// save the state position
 			Attr attrX = doc.createAttribute("x");
 			attrX.setValue(String.valueOf(state.getXcoord()));
@@ -744,12 +749,12 @@ public class TuringMachine extends Machine{
 			Attr attrY = doc.createAttribute("y");
 			attrY.setValue(String.valueOf(state.getYcoord()));
 			stateElement.setAttributeNode(attrY);
-			
+
 			// save the state size
 			Attr attrWidth = doc.createAttribute("width");
 			attrWidth.setValue(String.valueOf(state.getWidth()));
 			stateElement.setAttributeNode(attrWidth);
-			
+
 			Attr attrHeight = doc.createAttribute("height");
 			attrHeight.setValue(String.valueOf(state.getHeight()));
 			stateElement.setAttributeNode(attrHeight);
@@ -760,22 +765,22 @@ public class TuringMachine extends Machine{
 			stateElement.appendChild(nameElement);
 		}
 	}
-	
+
 	private void saveEdges(Document doc, Element rootElement) {
 		for (Edge edge : this.getEdges()) {
 			Element edgeElement = doc.createElement("edge");
 			rootElement.appendChild(edgeElement);
-			
+
 			// save from of edge
 			Attr attrEdgeFrom = doc.createAttribute("from");
 			attrEdgeFrom.setValue(edge.getFrom().getId());
 			edgeElement.setAttributeNode(attrEdgeFrom);
-			
+
 			// save to of edge
 			Attr attrEdgeTo = doc.createAttribute("to");
 			attrEdgeTo.setValue(edge.getTo().getId());
 			edgeElement.setAttributeNode(attrEdgeTo);
-			
+
 			// save label position
 			Attr attrEdgeLabelX = doc.createAttribute("labelx");
 			attrEdgeLabelX.setValue("" + edge.getPosLabel().getX());
@@ -783,7 +788,7 @@ public class TuringMachine extends Machine{
 			Attr attrEdgeLabelY = doc.createAttribute("labely");
 			attrEdgeLabelY.setValue("" + edge.getPosLabel().getY());
 			edgeElement.setAttributeNode(attrEdgeLabelY);
-			
+
 			//save via points
 			for (Point p : edge.getVia()) {
 				Element viaElement = doc.createElement("via");
@@ -795,14 +800,14 @@ public class TuringMachine extends Machine{
 				attrY.setValue("" + p.getY());
 				viaElement.setAttributeNode(attrY);
 			}
-			
+
 			//save transition
 			for (Transition transition : edge.getTransitions()) {
 				this.saveTransition(transition, doc, edgeElement);
 			}
 		}
 	}
-	
+
 	private void saveTransition(Transition transition, Document doc, Element edgeElement) {
 		// transition element
 		Element transitionElement = doc.createElement("transition");
@@ -843,59 +848,59 @@ public class TuringMachine extends Machine{
 			actionElement.appendChild(symbolElement);
 		}
 	}
-	
+
 	private void saveTextboxes(Document doc, Element rootElement) {
 		for (Textbox textbox : this.getTextboxes()) {
 			Element textboxElement = doc.createElement("textbox");
 			rootElement.appendChild(textboxElement);
-			
+
 			// save x textbox
 			Attr attrX = doc.createAttribute("x");
 			attrX.setValue("" + textbox.getX());
 			textboxElement.setAttributeNode(attrX);
-			
+
 			// save y textbox
 			Attr attrY = doc.createAttribute("y");
 			attrY.setValue("" + textbox.getY());
 			textboxElement.setAttributeNode(attrY);
-			
+
 			// save width textbox
 			Attr attrWidth = doc.createAttribute("width");
 			attrWidth.setValue("" + textbox.getWidth());
 			textboxElement.setAttributeNode(attrWidth);
-			
+
 			// save height textbox
 			Attr attrHeight = doc.createAttribute("height");
 			attrHeight.setValue("" + textbox.getHeight());
 			textboxElement.setAttributeNode(attrHeight);
-			
+
 			// textbox text element
 			Element textElement = doc.createElement("text");
 			textElement.appendChild(doc.createTextNode(textbox.getText()));
 			textboxElement.appendChild(textElement);
 		}
 	}
-	
+
 	private void saveFrames(Document doc, Element rootElement) {
 		for (Frame frame : this.getFrames()) {
 			Element frameElement = doc.createElement("frame");
 			rootElement.appendChild(frameElement);
-			
+
 			// save x textbox
 			Attr attrX = doc.createAttribute("x");
 			attrX.setValue("" + frame.getX());
 			frameElement.setAttributeNode(attrX);
-			
+
 			// save y textbox
 			Attr attrY = doc.createAttribute("y");
 			attrY.setValue("" + frame.getY());
 			frameElement.setAttributeNode(attrY);
-			
+
 			// save width textbox
 			Attr attrWidth = doc.createAttribute("width");
 			attrWidth.setValue("" + frame.getWidth());
 			frameElement.setAttributeNode(attrWidth);
-			
+
 			// save height textbox
 			Attr attrHeight = doc.createAttribute("height");
 			attrHeight.setValue("" + frame.getHeight());
@@ -932,7 +937,7 @@ public class TuringMachine extends Machine{
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Sets the machine name
 	 * @param name The name to be set
@@ -969,7 +974,7 @@ public class TuringMachine extends Machine{
 	public MachineType getType() {
 		return Machine.MachineType.TuringMachine;
 	}
-	
+
 	@Override
 	public Object clone() {
 		ArrayList<State> statesNew = new ArrayList<State>();
@@ -999,13 +1004,13 @@ public class TuringMachine extends Machine{
 				textboxesNew, 
 				framesNew);
 	}
-	
+
 	@Override
 	public boolean isSimulatable() {
 		// TODO: Check whether there is a startState and a finalState
 		return true;
 	}
-	
+
 
 	@Override
 	public void export(String filename) throws IOException {
@@ -1013,6 +1018,10 @@ public class TuringMachine extends Machine{
 
 		if (filename.endsWith(".tex")) {
 			InOut.writeLatexToFile(filename, this);
+		}
+		else if (filename.endsWith(".svg")) {
+			Document doc = mxCellRenderer.createSvgDocument(((TuringMachineEditor)this.getEditor()).getGraph(), null, 1, null, null);
+			mxUtils.writeFile(mxUtils.getXml(doc.getDocumentElement()), filename);
 		}
 		else {
 			throw new IOException("Cannot export to '" + filename + "' because the filetype is not supported.");

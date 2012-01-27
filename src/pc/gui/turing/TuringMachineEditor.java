@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.*;
+import java.io.IOException;
 
 import machine.Simulation;
 import machine.turing.*;
@@ -1211,5 +1212,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			this.machine.getTextboxes().add(t);
 		for(Frame f : frames)
 			this.machine.getFrames().add(f);
+	}
+	
+	public mxGraph getGraph() {
+		return this.graph;
 	}
 }
