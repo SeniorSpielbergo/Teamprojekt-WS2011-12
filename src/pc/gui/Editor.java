@@ -120,7 +120,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		runAction.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		
-		this.welcomeScreen = new WelcomeScreen();
+		this.welcomeScreen = new WelcomeScreen(this);
 		this.add(welcomeScreen);
 	}
 	

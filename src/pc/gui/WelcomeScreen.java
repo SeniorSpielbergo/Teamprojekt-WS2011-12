@@ -29,8 +29,10 @@ public class WelcomeScreen extends JPanel {
 	private JPanel brainfuckOpen;
 	private JPanel brainfuckCreate;
 	private JPanel brainfuckExamples;
+	private Editor editor;
 	
-	public WelcomeScreen() {
+	public WelcomeScreen(Editor editor) {
+		this.editor = editor;
 		initWelcomeScreen();
 		this.setLayout(new BorderLayout());
 		
@@ -45,9 +47,9 @@ public class WelcomeScreen extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 		
 		// turingPane
-		turingOpen = new WelcomeScreenGroup("Open");
-		turingCreate = new WelcomeScreenGroup("Create");
-		turingExamples = new WelcomeScreenGroup("Examples");
+		turingOpen = new WelcomeScreenGroup(this.editor, "Open");
+		turingCreate = new WelcomeScreenGroup(this.editor, "Create");
+		turingExamples = new WelcomeScreenGroup(this.editor, "Examples");
 		turingContainer.setLayout(new GridBagLayout());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -69,9 +71,9 @@ public class WelcomeScreen extends JPanel {
 		turingContainer.add(turingExamples, c);
 		
 		// brainfuckPane
-		brainfuckOpen = new WelcomeScreenGroup("Open");
-		brainfuckCreate = new WelcomeScreenGroup("Create");
-		brainfuckExamples = new WelcomeScreenGroup("Examples");
+		brainfuckOpen = new WelcomeScreenGroup(this.editor, "Open");
+		brainfuckCreate = new WelcomeScreenGroup(this.editor, "Create");
+		brainfuckExamples = new WelcomeScreenGroup(this.editor, "Examples");
 		brainfuckContainer.setLayout(new GridBagLayout());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
