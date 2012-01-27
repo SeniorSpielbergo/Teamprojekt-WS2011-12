@@ -29,6 +29,7 @@ public class MainSlave {
 	static ColorSensor counterSensor;
 	static DataInputStream in;
 	static DataOutputStream out;
+	static TetrisSound sound;
 
 //	private static void pushBit(int bit, int newBit, Motor motor) {
 //		if (bit<newBit){
@@ -128,7 +129,24 @@ public class MainSlave {
 					catch (IOException e) {
 					}
 					break;
-			}
+				case 'S':
+					sound = new TetrisSound();
+					sound.start();
+					break;
+					
+					//mute
+				case 'm':
+					sound.enableSound(false);
+					break;
+					//music
+				case 'M':
+					sound.enableSound(true);
+					break;
+					
+				case 's':
+					sound.setSoundOff();
+					break;
+					}
 		}
 	}
 	

@@ -1,60 +1,29 @@
 package gui.turing;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Observable;
-import java.util.UUID;
-import java.util.Observer;
-
+import java.util.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 import machine.Simulation;
 import machine.turing.*;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 
 import tape.Tape;
-import tape.Tape.Event;
 
-import machine.turing.Edge;
-import machine.turing.State;
-import machine.turing.TuringMachine;
+import gui.MachineEditor;
 
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.handler.mxRubberband;
 
-import com.mxgraph.view.mxCellState;
-import com.mxgraph.view.mxGraphSelectionModel;
-import com.mxgraph.view.mxGraph;
-import com.mxgraph.view.mxStylesheet;
+import com.mxgraph.view.*;
 import com.mxgraph.model.*;
 import com.mxgraph.model.mxGraphModel.mxValueChange;
 
-import com.mxgraph.util.mxConstants;
-import com.mxgraph.util.mxEvent;
+import com.mxgraph.util.*;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
-import com.mxgraph.util.mxEventObject;
-import com.mxgraph.util.mxPoint;
-import com.mxgraph.util.mxUndoManager;
-import com.mxgraph.util.mxUndoableEdit;
-
-import gui.MachineEditor;
 
 /**
  * This class implements the TuringMachineEditor
@@ -551,7 +520,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			Edge edge = (Edge) lastSelectedEdge.getValue();
 			ArrayList<Transition> temp = edge.getTransitions();
 			if (temp != null && temp.size() != 0) {
-				copiedTransitions = cloneTransition(edge.getTransitions());
+				copiedTransitions = cloneTransitions(edge.getTransitions());
 				pasteAction.setEnabled(true);
 			}
 		}
@@ -563,7 +532,8 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			Edge edge = (Edge) lastSelectedEdge.getValue();
 			ArrayList<Transition> temp = edge.getTransitions();
 			if (temp != null && temp.size() != 0) {
-				copiedTransitions = cloneTransition(edge.getTransitions());
+				addEdgeValueChange(cell);
+				copiedTransitions = cloneTransitions(edge.getTransitions());
 				edge.setTransitions(new ArrayList<Transition>());
 				pasteAction.setEnabled(true);
 				graph.refresh();
@@ -578,7 +548,20 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		if (lastSelectedEdge != null) {
 			mxCell cell = (mxCell) graph.getSelectionCell();
 			Edge edge = (Edge) lastSelectedEdge.getValue();
-			edge.setTransitions(cloneTransition(copiedTransitions));
+			if(copiedTransitions.size() > 0) {
+				addEdgeValueChange(cell);
+				for(Transition ct : cloneTransitions(copiedTransitions)) {
+					boolean alreadyExists = false;
+					for(Transition t : edge.getTransitions()) {
+						if(t.getRead().equals(ct.getRead())
+							&& t.getWrite().equals(ct.getWrite())
+							&& t.getAction().equals(ct.getAction()))
+							alreadyExists = true;
+					}
+					if(!alreadyExists)
+						edge.getTransitions().add(ct);
+				}
+			}
 			graph.refresh();
 			graph.repaint();
 			this.graph.clearSelection();
@@ -586,7 +569,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		}
 	}
 	
-	private ArrayList<Transition> cloneTransition(ArrayList<Transition> clone) {
+	private ArrayList<Transition> cloneTransitions(ArrayList<Transition> clone) {
 		ArrayList<Transition> ret = new ArrayList<Transition>();
 		for (Transition t: clone) {
 			ret.add((Transition) t.clone());

@@ -318,8 +318,8 @@ public class TuringMachine extends Machine{
 	public ArrayList<FileFilter> getSupportedExportFormats() {
 		ArrayList<FileFilter> filters = new ArrayList<FileFilter>();
 		
-		filters.add(new ExtensionFileFilter("Latex-Document", ".tex"));
-		
+		filters.add(new ExtensionFileFilter("Latex document", ".tex"));
+
 		return filters;
 	}
 
