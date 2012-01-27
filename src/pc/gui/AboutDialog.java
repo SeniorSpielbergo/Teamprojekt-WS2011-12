@@ -40,7 +40,7 @@ public class AboutDialog extends JDialog {
 	public AboutDialog() {
 		super();
 		
-		this.setTitle("About " + Editor.APP_NAME);
+		this.setTitle("About " + AppData.APP_NAME);
 		
 		this.setLayout(new BorderLayout());
 		
@@ -54,7 +54,7 @@ public class AboutDialog extends JDialog {
 		this.jPanelDetails.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		this.jPanelDetails.add(Box.createHorizontalGlue());
 		
-		this.jLabelAppName = new JLabel(Editor.APP_NAME, JLabel.CENTER);
+		this.jLabelAppName = new JLabel(AppData.APP_NAME, JLabel.CENTER);
 		this.jLabelAppName.setFont(this.jLabelAppName.getFont().deriveFont(this.jLabelAppName.getFont().getStyle() | Font.BOLD, this.jLabelAppName.getFont().getSize() + 2));
 		this.jPanelAppName = new JPanel(new BorderLayout());
 		this.jPanelAppName.add(this.jLabelAppName, BorderLayout.CENTER);
@@ -62,7 +62,7 @@ public class AboutDialog extends JDialog {
 		this.jPanelDetails.add(Box.createRigidArea(new Dimension(0, 5)));
 
 		
-		this.jLabelVersion = new JLabel(Editor.APP_VERSION, JLabel.CENTER);
+		this.jLabelVersion = new JLabel(AppData.APP_VERSION, JLabel.CENTER);
 		this.jPanelVersion = new JPanel(new BorderLayout());
 		this.jPanelVersion.add(this.jLabelVersion, BorderLayout.CENTER);
 		this.jPanelDetails.add(jPanelVersion);
@@ -70,7 +70,7 @@ public class AboutDialog extends JDialog {
 
 		
 		this.jTextPaneText = new JTextPane();
-		this.jTextPaneText.setText(Editor.APP_AUTHORS);
+		this.jTextPaneText.setText(AppData.APP_AUTHORS);
 		StyledDocument doc = this.jTextPaneText.getStyledDocument();
 		SimpleAttributeSet center = new SimpleAttributeSet();
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);

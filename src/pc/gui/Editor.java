@@ -28,18 +28,6 @@ import java.util.ArrayList;
 
 public class Editor extends JFrame implements ActionListener, ItemListener {
 	private static final long serialVersionUID = -2288629542566838685L;
-	/**
-	 * The name of the application.
-	 */
-	public static final String APP_NAME = "TuringBrain IDE";
-	/**
-	 * The version of the application.
-	 */
-	public static final String APP_VERSION = "0.8.5";
-	/**
-	 * The authors of the application.
-	 */
-	public static final String APP_AUTHORS = "Im Rahmen des Teamprojekts 2011 entstanden.\n\nInstitut für Programmierung\nund Reaktive Systeme\n\nBetreuer: Matthias Hagner\n\nVanessa Baier,\n Nils Breyer,\n Phillipp Neumann,\n Sven Schuster,\n David Wille";
 
 	/**
 	 * The machine currently open in the editor.
@@ -76,7 +64,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	 * Constructs the Editor window with all actionListeners and a basic setup.
 	 */
 	public Editor() {
-		setTitle(APP_NAME);
+		setTitle(AppData.APP_NAME);
 		setSize(800, 800);
 		setMinimumSize(new Dimension(600, 400));
 
@@ -136,31 +124,6 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * The editor main, which initializes a new editor window.
-	 * @param args Command line arguments
-	 */
-	public static void main(String[] args) {
-		// try to set look for Linux and Mac OS X
-		try {
-			if (System.getProperties().getProperty("os.name").equals("Linux")) {
-				UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-			}
-			else if (System.getProperties().getProperty("os.name").equals("Mac OS X")) {
-				System.setProperty("com.apple.mrj.application.apple.menu.about.name", APP_NAME);
-				System.setProperty("apple.laf.useScreenMenuBar", "true");
-			}
-		} 
-		catch (Exception e) {
-		}
-
-		Editor mainWindow = new Editor();
-		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainWindow.setVisible(true);
-
-		//mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
 	/**
@@ -523,10 +486,10 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	 */
 	public void loadEditor() {
 		if (!(this.currentFile == null)) {
-			this.setTitle(this.currentFile.getName() + " - " + APP_NAME);
+			this.setTitle(this.currentFile.getName() + " - " + AppData.APP_NAME);
 		}
 		else {
-			this.setTitle(APP_NAME);
+			this.setTitle(AppData.APP_NAME);
 		}
 		this.remove(welcomeScreen);
 		this.repaint();
@@ -560,7 +523,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 
 			this.currentFile = null;
 			this.simulationWindow = null;
-			this.setTitle(APP_NAME);
+			this.setTitle(AppData.APP_NAME);
 
 			saveAction.setEnabled(false);
 			saveAsAction.setEnabled(false);
@@ -607,6 +570,28 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			this.simulationWindow.setDelay(this.delay);
 			this.simulationWindow.setTapeStyle(this.tapeStyle);
 		}
+	}
+	
+	/**
+	 * The editor main, which initializes a new editor window.
+	 * @param args Command line arguments
+	 */
+	public static void main(String[] args) {
+		// try to set look for Linux and Mac OS X
+		try {
+			if (System.getProperties().getProperty("os.name").equals("Linux")) {
+				UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+			}
+			else if (System.getProperties().getProperty("os.name").equals("Mac OS X")) {
+				System.setProperty("com.apple.mrj.application.apple.menu.about.name", AppData.APP_NAME);
+				System.setProperty("apple.laf.useScreenMenuBar", "true");
+			}
+		} 
+		catch (Exception e) {
+		}
 
+		Editor mainWindow = new Editor();
+		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainWindow.setVisible(true);
 	}
 }

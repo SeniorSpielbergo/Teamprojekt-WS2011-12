@@ -127,7 +127,7 @@ public class WelcomeScreen extends JPanel {
 		brainfuckContainer = new JPanel();
 		logo = new JLabel("", new ImageIcon("gui/images/logo.png"), JLabel.CENTER);
 		header = new JPanel();
-		headerText = new JLabel("Welcome to " + Editor.APP_NAME + "!");
+		headerText = new JLabel("Welcome to " + AppData.APP_NAME + "!");
 	}
 	
 }
