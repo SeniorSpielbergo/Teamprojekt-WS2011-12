@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -69,6 +70,13 @@ public class WelcomeScreen extends JPanel {
 		c.weightx = 1.0;
 		c.insets = new Insets(5,5,5,5);
 		turingContainer.add(turingExamples, c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 3;
+		c.weightx = 1.0;
+		c.weighty = 1.0;
+		c.insets = new Insets(5,5,5,5);
+		turingContainer.add(Box.createHorizontalGlue(), c);
 		
 		// brainfuckPane
 		brainfuckOpen = new WelcomeScreenGroup(this.editor, "Open");
@@ -93,6 +101,12 @@ public class WelcomeScreen extends JPanel {
 		c.weightx = 1.0;
 		c.insets = new Insets(5,5,5,5);
 		brainfuckContainer.add(brainfuckExamples, c);
+		c.gridx = 0;
+		c.gridy = 3;
+		c.weightx = 1.0;
+		c.weighty = 1.0;
+		c.insets = new Insets(5,5,5,5);
+		brainfuckContainer.add(Box.createHorizontalGlue(), c);
 		
 		turingPane = new JScrollPane(turingContainer);
 		brainfuckPane = new JScrollPane(brainfuckContainer);

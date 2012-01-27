@@ -23,14 +23,12 @@ public class WelcomeScreenGroup extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.LINE_START;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.weightx = 0.1;
 		c.insets = new Insets(5,5,5,5);
 		this.add(title, c);
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.LINE_START;
 		c.gridx = 0;
 		c.gridy = 1;
 		c.weightx = 0.1;
