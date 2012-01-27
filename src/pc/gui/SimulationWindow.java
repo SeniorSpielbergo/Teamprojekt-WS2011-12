@@ -325,7 +325,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				&& obj instanceof Simulation.simulationState 
 				&&((Simulation.simulationState)obj)==Simulation.simulationState.FINISHED){
 
-			this.myFirstLEGOTape.getSlave().soundOff();
+			if (this.myFirstLEGOTape != null) {
+				this.myFirstLEGOTape.getSlave().soundOff();
+			}
 			this.buttonForward.setEnabled(false);
 			this.buttonPlay.setEnabled(false);
 			this.resultLabel.setText("Input word was accepted.");
@@ -335,7 +337,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				&& obj instanceof Simulation.simulationState 
 				&&((Simulation.simulationState)obj)==Simulation.simulationState.FAILED){
 
-			this.myFirstLEGOTape.getSlave().soundOff();
+			if (this.myFirstLEGOTape != null) {
+				this.myFirstLEGOTape.getSlave().soundOff();
+			}
 			this.buttonForward.setEnabled(false);
 			this.buttonPlay.setEnabled(false);
 			this.resultLabel.setText("Input word was not accepted.");
