@@ -589,6 +589,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		} 
 		catch (Exception e) {
 		}
+		
+		AppData.init();
 
 		Editor mainWindow = new Editor();
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
