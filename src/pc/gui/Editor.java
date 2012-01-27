@@ -18,7 +18,6 @@ import java.awt.Toolkit;
 import java.awt.event.*;
 import java.io.*;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 /** This class represents an editor for Turing machines.
