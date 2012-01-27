@@ -45,12 +45,14 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	/**
 	 * The machine currently open in the editor.
 	 */
+	
 	protected Machine currentMachine;
 	private File currentFile = null;
 	private String lastDir = ".";
 	private boolean delay = true;
 	private String tapeStyle = "default";
 	private SimulationWindow simulationWindow = null;
+	private WelcomeScreen welcomeScreen;
 	
 	private JMenu newSubmenu;
 	private JMenuItem newBFAction;
@@ -58,7 +60,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	private JMenuItem openAction;
 	private JMenuItem saveAction;
 	private JMenuItem saveAsAction;
-	private JMenuItem exportLatexAction;
+	private JMenuItem exportAction;
 	private JMenuItem exitAction;
 	private JMenuItem runAction;
 	private JMenuItem organizeRobotsAction;
@@ -88,7 +90,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		// disable actions
 		saveAction.setEnabled(false);
 		saveAsAction.setEnabled(false);
-		exportLatexAction.setEnabled(false);
+		exportAction.setEnabled(false);
 		runAction.setEnabled(false);		
 		toggleDelayAction = new JCheckBoxMenuItem("Delay");
 		toggleDelayAction.setSelected(true);
@@ -100,7 +102,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		fileMenu.add(saveAction);
 		fileMenu.add(saveAsAction);
 		fileMenu.add(new JSeparator());
-		fileMenu.add(exportLatexAction);
+		fileMenu.add(exportAction);
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exitAction);
 		simulationMenu.add(runAction);
@@ -117,6 +119,9 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		runAction.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		
+		this.welcomeScreen = new WelcomeScreen();
+		this.add(welcomeScreen);
 	}
 	
 	/**
@@ -180,7 +185,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		openAction = new JMenuItem("Open...");
 		saveAction = new JMenuItem("Save");
 		saveAsAction = new JMenuItem("Save As...");
-		exportLatexAction = new JMenuItem("Export as LaTeX");
+		exportAction = new JMenuItem("Export...");
 		exitAction = new JMenuItem("Exit");
 		
 		// create Simulation->Tape style submenu items
@@ -220,7 +225,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		openAction.addActionListener(this);
 		saveAction.addActionListener(this);
 		saveAsAction.addActionListener(this);
-		exportLatexAction.addActionListener(this);
+		exportAction.addActionListener(this);
 		exitAction.addActionListener(this);
 		runAction.addActionListener(this);
 		organizeRobotsAction.addActionListener(this);
@@ -386,10 +391,55 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	}
 
 	/**
-	 * Exports the Turing machine to LaTeX.
+	 * Exports the machine.
 	 */
-	public void exportLatex() {
-		InOut.writeLatexToFile("text.tex", (TuringMachine) this.currentMachine);
+	public void export() {
+		final JFileChooser fc = new JFileChooser();
+		// set current directory for file chooser
+		try {
+			File currentDirectory = new File(this.lastDir);
+			fc.setCurrentDirectory(currentDirectory);
+		}
+		catch (Throwable e) {
+		}
+
+		// set xml filter for file chooser
+		for (FileFilter filter : this.currentMachine.getSupportedExportFormats()) {
+			fc.setFileFilter (filter);
+		}
+
+		File f = null;
+		if (this.currentFile == null) {
+			f = new File(this.currentMachine.getName() +  ".tex");
+		}
+		else {
+			f = new File(this.currentFile.getName().substring(0, this.currentFile.getName().length()-this.currentMachine.getFileExtension().length()) + ".tex");
+		}
+		fc.setSelectedFile(f);
+		int retVal = fc.showSaveDialog(null);
+		if (retVal == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fc.getSelectedFile();
+			try {
+				this.lastDir = selectedFile.getCanonicalPath();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			if (selectedFile.exists()) {
+				int result = JOptionPane.showConfirmDialog(null, "Do you want to override the file?", "Override", JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.NO_OPTION) {
+					export();
+					return;
+				}
+			}
+			try { 
+				this.currentMachine.export(selectedFile.getPath());
+			} catch (IOException e) {
+				ErrorDialog.showError("Exporting the file '" + selectedFile.getName() + "' failed because of an I/O error.", e);
+			}
+			catch (RuntimeException e){
+				ErrorDialog.showError("Exporting the file '" + selectedFile.getName() + "' failed because of an unkown error.", e);
+			}
+		}
 	}
 
 	/**
@@ -448,8 +498,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		else if (e.getSource() == saveAsAction) {
 			saveAsFile();
 		}
-		else if (e.getSource() == exportLatexAction) {
-			exportLatex();
+		else if (e.getSource() == exportAction) {
+			export();
 		}
 		else if (e.getSource() == runAction) {
 			runSimulation();
@@ -479,7 +529,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		else {
 			this.setTitle(APP_NAME);
 		}
-
+		this.remove(welcomeScreen);
+		this.repaint();
 		this.add(this.currentMachine.getEditor());
 
 		int menupos = 1;
@@ -491,8 +542,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		saveAction.setEnabled(true);
 		saveAsAction.setEnabled(true);
 		runAction.setEnabled(true);
-		if (this.currentMachine instanceof TuringMachine) {
-			exportLatexAction.setEnabled(true);
+		if (this.currentMachine.getSupportedExportFormats().size() > 0) {
+			exportAction.setEnabled(true);
 		}
 
 		validate();
@@ -515,7 +566,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			saveAction.setEnabled(false);
 			saveAsAction.setEnabled(false);
 			runAction.setEnabled(false);
-			exportLatexAction.setEnabled(false);
+			exportAction.setEnabled(false);
 
 			for (JMenu menu : this.currentMachine.getEditor().getMenus()) {
 				this.menuBar.remove(menu);

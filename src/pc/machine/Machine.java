@@ -198,6 +198,8 @@ public abstract class Machine {
 	}
 	
 	public abstract ArrayList<FileFilter> getSupportedExportFormats();
+	
+	public abstract void export(String filename) throws IOException;
 
 	/**
 	 * Returns type of the machine
