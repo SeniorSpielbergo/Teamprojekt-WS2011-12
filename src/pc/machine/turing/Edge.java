@@ -115,6 +115,21 @@ public class Edge implements Serializable {
 		return transitionsString;
 	}
 	
+	public String properToString() {
+		String transitionsString = "" + this.from + " - " + this.to + ": ";
+		int numberOfTransitions = (transitions.size() <= 3 ? transitions.size() : 3); //print up to 4 transitions
+		for (int i = 0 ; i < numberOfTransitions; i++) {
+			transitionsString += transitions.get(i);
+			if (i < numberOfTransitions-1) {
+				transitionsString += "\n";
+			}
+		}
+		if (transitions.size() > numberOfTransitions) { //print ellipsis if more transitions exist
+			transitionsString += "\n...";
+		}
+		return transitionsString;
+	}
+	
 	/**
 	 * Sets the label x position
 	 * @param x The x position
