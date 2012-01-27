@@ -36,6 +36,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 
 	JButton buttonPlay, buttonForward;
+	JToggleButton buttonSound;
 	/**
 	 * the simulation's graphic tapes
 	 */
@@ -47,13 +48,16 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	/**
 	 * true if simulation is/should be paused
 	 */
-	boolean simulationPaused;
+	boolean simulationPaused, soundEnabled;
 	/**
 	 * current simulation
 	 */
 	Simulation sim;
 
+	tape.LEGOTape myFirstLEGOTape;
+
 	private boolean delay = true;
+
 	private String style = "default";
 	private Editor editor;
 	private Integer counter = 0; 
@@ -76,6 +80,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		this.simulationPaused = true;
 		this.currentMachine = machine;
 		this.editor = editor;
+
+		this.soundEnabled = true;
 		this.toFront();
 		try {
 			this.setAlwaysOnTop(true);
@@ -83,12 +89,12 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		catch (SecurityException e) {
 			ErrorDialog.showError("Error bringing the simulation window to the foreground.");
 		}
-		
+
 		if(!currentMachine.isSimulatable()) {
 			ErrorDialog.showError("Machine is not simulatable. You may check for any syntax errors.");
 			dispose();
 		}
-		
+
 		for(int i = 0; i< currentMachine.getTapes().size(); i++){
 			this.currentMachine.getTapes().get(i).addObserver(this);
 			if(this.currentMachine.getType() == Machine.MachineType.TuringMachine){
@@ -118,12 +124,17 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		buttonPlay.setEnabled(false);
 		buttonForward = new JButton(this.iconStepForward);
 		buttonForward.setEnabled(false);
+		buttonSound = new JToggleButton("Sound on/off");
+		this.buttonSound.setActionCommand("disabled");
+		buttonSound.addActionListener(this);
 		buttonPlay.addActionListener(this);
 		buttonForward.addActionListener(this);
 		toolbar.add(buttonPlay);
 		toolbar.add(buttonForward);
+
 		this.panelToolbar = new JPanel();
 		this.panelToolbar.add(toolbar);
+		this.panelToolbar.add(this.buttonSound);
 
 
 		//initialize tapes
@@ -160,7 +171,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		setVisible(true);
 		this.init();
 	}
-	
+
 	private void computeSize() {
 		int visibleTapes = (this.graphicTapes.size() <= 5 ? this.graphicTapes.size() : 5); //show up to 5 tapes per default
 		int height = 120;
@@ -277,7 +288,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
 			return;
 		}
-		
+
 		this.sim.setAbortSimulation(); //TODO is this ok?
 		for(Tape tape : currentMachine.getTapes()){
 			tape.deleteObserver(this);
@@ -292,7 +303,6 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	}
 
 	public void update(Observable observable, Object obj) {
-		System.out.println("bljkahs");
 		if (observable instanceof tape.Tape 
 				&& obj instanceof tape.Tape.Event
 				&& (tape.Tape.Event)obj == tape.Tape.Event.INPUTFINISHED){
@@ -300,7 +310,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			synchronized(counter){counter++;}
 			System.out.println("Counter: " + counter);
 			if(counter >= this.currentMachine.getNumberOfTapes()){
-				
+
 				for(Tape tape : currentMachine.getTapes()){
 					tape.setDelay(this.delay);
 				}
@@ -315,6 +325,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				&& obj instanceof Simulation.simulationState 
 				&&((Simulation.simulationState)obj)==Simulation.simulationState.FINISHED){
 
+			this.myFirstLEGOTape.getSlave().soundOff();
 			this.buttonForward.setEnabled(false);
 			this.buttonPlay.setEnabled(false);
 			this.resultLabel.setText("Input word was accepted.");
@@ -324,6 +335,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				&& obj instanceof Simulation.simulationState 
 				&&((Simulation.simulationState)obj)==Simulation.simulationState.FAILED){
 
+			this.myFirstLEGOTape.getSlave().soundOff();
 			this.buttonForward.setEnabled(false);
 			this.buttonPlay.setEnabled(false);
 			this.resultLabel.setText("Input word was not accepted.");
@@ -383,6 +395,12 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			try {
 				simulationPaused = false;
 				sim.start();
+				for(Tape t: this.currentMachine.getTapes()){
+					if(t instanceof tape.LEGOTape){
+						this.myFirstLEGOTape = ((tape.LEGOTape) t);
+						this.myFirstLEGOTape.getSlave().startSound();
+					}
+				}
 				this.buttonPlay.setIcon(this.iconPause);
 			}
 			catch (RuntimeException e){
@@ -402,6 +420,18 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				this.buttonPlay.setIcon(this.iconPlay);
 			}
 			simulationPaused = !simulationPaused;
+		}
+
+		else if(event.getSource().equals(buttonSound)){
+			this.soundEnabled = !this.soundEnabled;
+			if(this.myFirstLEGOTape != null){
+				if(this.soundEnabled){
+					this.myFirstLEGOTape.getSlave().playSound();
+				}
+				else{
+					this.myFirstLEGOTape.getSlave().muteSound();
+				}
+			}
 		}
 	}
 
