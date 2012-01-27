@@ -1006,4 +1006,17 @@ public class TuringMachine extends Machine{
 		// Check whether there is a startState
 		return true;
 	}
+	
+
+	@Override
+	public void export(String filename) throws IOException {
+		System.out.println("Saving file '" + filename + "'...");
+
+		if (filename.endsWith(".tex")) {
+			InOut.writeLatexToFile(filename, this);
+		}
+		else {
+			throw new IOException("Cannot export to '" + filename + "' because the filetype is not supported.");
+		}
+	}
 }
