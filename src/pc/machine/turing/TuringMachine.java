@@ -568,6 +568,7 @@ public class TuringMachine extends Machine{
 	 */
 	public void save(String filename) throws IOException {
 		System.out.println("Saving file '" + filename + "'...");
+		((TuringMachineEditor) this.editor).updateMachineObject();
 
 		if (!filename.endsWith(".tm")) {
 			throw new IOException("Wrong file extension of file '" + filename + "'. Must be '.tm'");
@@ -963,7 +964,6 @@ public class TuringMachine extends Machine{
 	@Override
 	protected MachineEditor createEditor() {
 		return new TuringMachineEditor(this);
-		
 	}
 
 	@Override
@@ -1003,7 +1003,7 @@ public class TuringMachine extends Machine{
 	
 	@Override
 	public boolean isSimulatable() {
-		// Check whether there is a startState
+		// TODO: Check whether there is a startState and a finalState
 		return true;
 	}
 	
