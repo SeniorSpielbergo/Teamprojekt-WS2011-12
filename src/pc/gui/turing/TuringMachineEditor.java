@@ -935,6 +935,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 
 	@Override
 	public void setEditable(boolean editable) {
+		this.updateMachineObject();
 		this.graph.setCellsMovable(editable);
 		this.graph.setCellsResizable(editable);
 		this.graph.setCellsDeletable(editable);
@@ -1059,13 +1060,8 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				points.clear();
 				Edge e = (Edge) cell.getValue();
 				ArrayList<Point> via = e.getVia();
-				System.out.println("-----------------------------------");
-				System.out.println(e);
-				for(Point p : via) {
+				for(Point p : via)
 					points.add(new mxPoint(p.getX(),p.getY()));
-					System.out.println(p);
-				}
-				System.out.println("-----------------------------------");
 			}
 		}
 	}
@@ -1175,5 +1171,61 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			this.graph.clearSelection();
 			this.graph.setSelectionCell(cell);
 		}
+	}
+	
+	public void updateMachineObject() {
+		ArrayList<State> states = new ArrayList<State>();
+		ArrayList<Edge> edges = new ArrayList<Edge>();
+		ArrayList<Textbox> textboxes = new ArrayList<Textbox>();
+		ArrayList<Frame> frames = new ArrayList<Frame>();
+		
+		for(Object cellObj : graph.getChildCells(graph.getDefaultParent())) {
+			mxCell cell = (mxCell) cellObj;
+			if(cell.getValue() instanceof State) {
+				State s = (State) ((State) cell.getValue()).clone();
+				s.setXcoord((int) cell.getGeometry().getX());
+				s.setYcoord((int) cell.getGeometry().getY());
+				states.add(s);
+			}
+			else if(cell.getValue() instanceof Edge) {
+				Edge e = (Edge) ((Edge) cell.getValue()).clone();
+				e.setFrom((State) cell.getSource().getValue());
+				e.setTo((State) cell.getTarget().getValue());
+				edges.add(e);
+			}
+			else if(cell.getValue() instanceof Textbox) {
+				Textbox t = (Textbox) ((Textbox) cell.getValue()).clone();
+				t.setX((int) cell.getGeometry().getX());
+				t.setY((int) cell.getGeometry().getY());
+				t.setHeight((int) cell.getGeometry().getHeight());
+				t.setWidth((int) cell.getGeometry().getWidth());
+				textboxes.add(t);
+			}
+			else if(cell.getValue() instanceof Frame) {
+				Frame f = (Frame) ((Frame) cell.getValue()).clone();
+				f.setX((int) cell.getGeometry().getX());
+				f.setY((int) cell.getGeometry().getY());
+				f.setHeight((int) cell.getGeometry().getHeight());
+				f.setWidth((int) cell.getGeometry().getWidth());
+				frames.add(f);
+			}
+		}
+		this.machine.getStates().clear();
+		this.machine.getEdges().clear();
+		this.machine.getTextboxes().clear();
+		this.machine.getFrames().clear();
+		
+		for(State s : states)
+			this.machine.getStates().add(s);
+		for(Edge e : edges)
+			this.machine.getEdges().add(e);
+		for(Textbox t : textboxes)
+			this.machine.getTextboxes().add(t);
+		for(Frame f : frames)
+			this.machine.getFrames().add(f);
+
+		System.out.println("----------------------------------------------");
+		System.out.println(this.machine);
+		System.out.println("----------------------------------------------");
 	}
 }
