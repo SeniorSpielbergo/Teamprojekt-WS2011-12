@@ -44,7 +44,6 @@ public class TuringSimulation extends Simulation{
 	 */
 	public TuringSimulation(TuringMachine machine) throws TapeException{
 		super(machine);
-		System.out.println(machine.getEditor());
 		this.addObserver((TuringMachineEditor)machine.getEditor());
 		this.machine = machine;
 		this.tapes = machine.getTapes();
@@ -64,7 +63,6 @@ public class TuringSimulation extends Simulation{
 
 			}
 		}
-		this.findEdge();
 	}
 
 	/**
@@ -141,7 +139,7 @@ public class TuringSimulation extends Simulation{
 					while(this.simulationIsPaused){
 						if(this.abortSimulation){
 							break;
-							}
+						}
 						try{
 							Thread.sleep(400);
 						}catch(InterruptedException e){}
@@ -166,6 +164,7 @@ public class TuringSimulation extends Simulation{
 	 */
 	private Transition getRightLabel(){
 		Transition label= null;
+		findEdge();
 		for(Edge e : currentState.getEdge()){
 			for(int j = 0; j < e.getTransitions().size(); j++){
 				for(int i = 0; i < machine.getNumberOfTapes(); i++){
@@ -194,9 +193,9 @@ public class TuringSimulation extends Simulation{
 	 * This method adds the edge to its state.
 	 */
 	private void findEdge(){
-		for( State s : machine.getStates())
-			for( Edge e : machine.getEdges())
-				if(e.getFrom().getId().equals(s.getId()))
-					s.getEdge().add(e);
+		currentState.getEdge().clear();
+		for(Edge e : this.machine.getEdges())
+			if(e.getFrom().getId().equals(currentState.getId()))
+				currentState.getEdge().add(e);				
 	}
 }

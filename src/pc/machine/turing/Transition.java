@@ -104,13 +104,13 @@ public class Transition implements Serializable {
 		ArrayList<Character> writeNew = new ArrayList<Character>();
 		ArrayList<Character> actionNew = new ArrayList<Character>();
 		for(Character c : this.read) {
-			readNew.add(new Character(c));
+			readNew.add(c);
 		}
 		for(Character c : this.write) {
-			writeNew.add(new Character(c));
+			writeNew.add(c);
 		}
 		for(Character c : this.action) {
-			actionNew.add(new Character(c));
+			actionNew.add(c);
 		}
 		return new Transition(UUID.randomUUID().toString(), 
 				readNew,

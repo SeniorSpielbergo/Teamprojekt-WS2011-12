@@ -21,7 +21,6 @@ import javax.xml.transform.stream.StreamResult;
 import machine.ExtensionFileFilter;
 import machine.Machine;
 import machine.Simulation;
-import machine.brainfuck.BrainfuckMachine;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;

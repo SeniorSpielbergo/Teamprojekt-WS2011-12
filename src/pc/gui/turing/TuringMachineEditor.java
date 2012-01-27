@@ -919,7 +919,8 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 
 	@Override
 	public void setEditable(boolean editable) {
-		this.updateMachineObject();
+		if(!editable)
+				this.updateMachineObject();
 		this.graph.setCellsMovable(editable);
 		this.graph.setCellsResizable(editable);
 		this.graph.setCellsDeletable(editable);
@@ -1053,8 +1054,10 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	private mxCell getStateCell(State state){
 		for (Object cell : this.graph.getChildVertices(graph.getDefaultParent())) {
 			mxCell mxCell = (mxCell) cell;
-			if(((State) mxCell.getValue()).getId().equals(state.getId())){
-				return mxCell;
+			if(mxCell.getValue() instanceof State) {
+				if(((State) mxCell.getValue()).getId().equals(state.getId())){
+					return mxCell;
+				}
 			}
 		}
 		return null;
@@ -1063,7 +1066,8 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	private mxCell getEdgeCell(State from, State to){
 		for (Object cell : this.graph.getChildEdges(graph.getDefaultParent())) {
 			mxCell mxCell = (mxCell) cell;
-			if(mxCell.getSource().getValue() == from && mxCell.getTarget().getValue() == to){
+			if(((State) mxCell.getSource().getValue()).getId().equals(from.getId()) 
+					&& ((State) mxCell.getSource().getValue()).getId().equals(from.getId())){
 				return mxCell;
 			}
 		}
