@@ -410,12 +410,12 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 
 		File f = null;
 		if (this.currentFile == null) {
-			f = new File(this.currentMachine.getName() + this.currentMachine.getFileExtension());
+			f = new File(this.currentMachine.getName() +  ".tex");
 		}
 		else {
-			f = this.currentFile;
+			f = new File(this.currentFile.getName().substring(0, this.currentFile.getName().length()-this.currentMachine.getFileExtension().length()) + ".tex");
 		}
-		fc.setSelectedFile(new File(this.currentFile.getName().substring(0, this.currentFile.getName().length()-this.currentMachine.getFileExtension().length()) + ".tex"));
+		fc.setSelectedFile(f);
 		int retVal = fc.showSaveDialog(null);
 		if (retVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fc.getSelectedFile();
