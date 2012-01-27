@@ -58,7 +58,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	private JMenuItem openAction;
 	private JMenuItem saveAction;
 	private JMenuItem saveAsAction;
-	private JMenuItem exportLatexAction;
+	private JMenuItem exportAction;
 	private JMenuItem exitAction;
 	private JMenuItem runAction;
 	private JMenuItem organizeRobotsAction;
@@ -88,7 +88,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		// disable actions
 		saveAction.setEnabled(false);
 		saveAsAction.setEnabled(false);
-		exportLatexAction.setEnabled(false);
+		exportAction.setEnabled(false);
 		runAction.setEnabled(false);		
 		toggleDelayAction = new JCheckBoxMenuItem("Delay");
 		toggleDelayAction.setSelected(true);
@@ -100,7 +100,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		fileMenu.add(saveAction);
 		fileMenu.add(saveAsAction);
 		fileMenu.add(new JSeparator());
-		fileMenu.add(exportLatexAction);
+		fileMenu.add(exportAction);
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exitAction);
 		simulationMenu.add(runAction);
@@ -182,7 +182,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		openAction = new JMenuItem("Open...");
 		saveAction = new JMenuItem("Save");
 		saveAsAction = new JMenuItem("Save As...");
-		exportLatexAction = new JMenuItem("Export as LaTeX");
+		exportAction = new JMenuItem("Export as LaTeX");
 		exitAction = new JMenuItem("Exit");
 		
 		// create Simulation->Tape style submenu items
@@ -222,7 +222,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		openAction.addActionListener(this);
 		saveAction.addActionListener(this);
 		saveAsAction.addActionListener(this);
-		exportLatexAction.addActionListener(this);
+		exportAction.addActionListener(this);
 		exitAction.addActionListener(this);
 		runAction.addActionListener(this);
 		organizeRobotsAction.addActionListener(this);
@@ -388,9 +388,9 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	}
 
 	/**
-	 * Exports the Turing machine to LaTeX.
+	 * Exports the machine.
 	 */
-	public void exportLatex() {
+	public void export() {
 		InOut.writeLatexToFile("text.tex", (TuringMachine) this.currentMachine);
 	}
 
@@ -450,8 +450,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		else if (e.getSource() == saveAsAction) {
 			saveAsFile();
 		}
-		else if (e.getSource() == exportLatexAction) {
-			exportLatex();
+		else if (e.getSource() == exportAction) {
+			export();
 		}
 		else if (e.getSource() == runAction) {
 			runSimulation();
@@ -494,7 +494,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		saveAsAction.setEnabled(true);
 		runAction.setEnabled(true);
 		if (this.currentMachine instanceof TuringMachine) {
-			exportLatexAction.setEnabled(true);
+			exportAction.setEnabled(true);
 		}
 
 		validate();
@@ -517,7 +517,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			saveAction.setEnabled(false);
 			saveAsAction.setEnabled(false);
 			runAction.setEnabled(false);
-			exportLatexAction.setEnabled(false);
+			exportAction.setEnabled(false);
 
 			for (JMenu menu : this.currentMachine.getEditor().getMenus()) {
 				this.menuBar.remove(menu);
