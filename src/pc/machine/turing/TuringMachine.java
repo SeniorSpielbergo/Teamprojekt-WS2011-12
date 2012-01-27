@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,8 +18,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import machine.ExtensionFileFilter;
 import machine.Machine;
 import machine.Simulation;
+import machine.brainfuck.BrainfuckMachine;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -309,6 +312,15 @@ public class TuringMachine extends Machine{
 			throw new IOException("The tapes count attribute of the machine did not match the number of tapes actually defined (attribute is " 
 					+ machineTapesCountString + " but " + this.tapes.size() + " tapes were defined).");
 		}
+	}
+
+	@Override
+	public ArrayList<FileFilter> getSupportedExportFormats() {
+		ArrayList<FileFilter> filters = new ArrayList<FileFilter>();
+		
+		filters.add(new ExtensionFileFilter("Latex-Document", ".tex"));
+		
+		return filters;
 	}
 
 	/**
@@ -993,5 +1005,18 @@ public class TuringMachine extends Machine{
 	public boolean isSimulatable() {
 		// TODO: Check whether there is a startState and a finalState
 		return true;
+	}
+	
+
+	@Override
+	public void export(String filename) throws IOException {
+		System.out.println("Saving file '" + filename + "'...");
+
+		if (filename.endsWith(".tex")) {
+			InOut.writeLatexToFile(filename, this);
+		}
+		else {
+			throw new IOException("Cannot export to '" + filename + "' because the filetype is not supported.");
+		}
 	}
 }

@@ -277,6 +277,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
 			return;
 		}
+		
+		this.sim.setAbortSimulation(); //TODO is this ok?
 		for(Tape tape : currentMachine.getTapes()){
 			tape.deleteObserver(this);
 		}

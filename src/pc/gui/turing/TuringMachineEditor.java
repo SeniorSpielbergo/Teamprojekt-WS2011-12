@@ -30,6 +30,7 @@ import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 
 import tape.Tape;
+import tape.Tape.Event;
 
 import machine.turing.Edge;
 import machine.turing.State;
@@ -1174,6 +1175,10 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	}
 	
 	public void updateMachineObject() {
+		System.out.println("----------------------------------------------");
+		System.out.println(this.machine);
+		System.out.println("----------------------------------------------");
+		
 		ArrayList<State> states = new ArrayList<State>();
 		ArrayList<Edge> edges = new ArrayList<Edge>();
 		ArrayList<Textbox> textboxes = new ArrayList<Textbox>();
@@ -1182,19 +1187,19 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		for(Object cellObj : graph.getChildCells(graph.getDefaultParent())) {
 			mxCell cell = (mxCell) cellObj;
 			if(cell.getValue() instanceof State) {
-				State s = (State) ((State) cell.getValue()).clone();
+				State s = (State) ((State) cell.getValue());
 				s.setXcoord((int) cell.getGeometry().getX());
 				s.setYcoord((int) cell.getGeometry().getY());
 				states.add(s);
 			}
 			else if(cell.getValue() instanceof Edge) {
-				Edge e = (Edge) ((Edge) cell.getValue()).clone();
+				Edge e = (Edge) ((Edge) cell.getValue());
 				e.setFrom((State) cell.getSource().getValue());
 				e.setTo((State) cell.getTarget().getValue());
 				edges.add(e);
 			}
 			else if(cell.getValue() instanceof Textbox) {
-				Textbox t = (Textbox) ((Textbox) cell.getValue()).clone();
+				Textbox t = (Textbox) ((Textbox) cell.getValue());
 				t.setX((int) cell.getGeometry().getX());
 				t.setY((int) cell.getGeometry().getY());
 				t.setHeight((int) cell.getGeometry().getHeight());
@@ -1202,7 +1207,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				textboxes.add(t);
 			}
 			else if(cell.getValue() instanceof Frame) {
-				Frame f = (Frame) ((Frame) cell.getValue()).clone();
+				Frame f = (Frame) ((Frame) cell.getValue());
 				f.setX((int) cell.getGeometry().getX());
 				f.setY((int) cell.getGeometry().getY());
 				f.setHeight((int) cell.getGeometry().getHeight());

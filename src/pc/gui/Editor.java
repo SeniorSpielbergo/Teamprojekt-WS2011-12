@@ -5,6 +5,7 @@ import javax.swing.filechooser.FileFilter;
 
 import tape.Tape;
 
+import machine.ExtensionFileFilter;
 import machine.Machine;
 import machine.brainfuck.BrainfuckMachine;
 import machine.turing.*;
@@ -35,7 +36,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	/**
 	 * The version of the application.
 	 */
-	public static final String APP_VERSION = "0.8.4";
+	public static final String APP_VERSION = "0.8.5";
 	/**
 	 * The authors of the application.
 	 */
@@ -57,7 +58,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	private JMenuItem openAction;
 	private JMenuItem saveAction;
 	private JMenuItem saveAsAction;
-	private JMenuItem exportLatexAction;
+	private JMenuItem exportAction;
 	private JMenuItem exitAction;
 	private JMenuItem runAction;
 	private JMenuItem organizeRobotsAction;
@@ -87,7 +88,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		// disable actions
 		saveAction.setEnabled(false);
 		saveAsAction.setEnabled(false);
-		exportLatexAction.setEnabled(false);
+		exportAction.setEnabled(false);
 		runAction.setEnabled(false);		
 		toggleDelayAction = new JCheckBoxMenuItem("Delay");
 		toggleDelayAction.setSelected(true);
@@ -99,7 +100,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		fileMenu.add(saveAction);
 		fileMenu.add(saveAsAction);
 		fileMenu.add(new JSeparator());
-		fileMenu.add(exportLatexAction);
+		fileMenu.add(exportAction);
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exitAction);
 		simulationMenu.add(runAction);
@@ -116,6 +117,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		runAction.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		
+		this.getContentPane().add(new WelcomeScreen());
 	}
 	
 	/**
@@ -179,7 +182,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		openAction = new JMenuItem("Open...");
 		saveAction = new JMenuItem("Save");
 		saveAsAction = new JMenuItem("Save As...");
-		exportLatexAction = new JMenuItem("Export as LaTeX");
+		exportAction = new JMenuItem("Export...");
 		exitAction = new JMenuItem("Exit");
 		
 		// create Simulation->Tape style submenu items
@@ -219,7 +222,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		openAction.addActionListener(this);
 		saveAction.addActionListener(this);
 		saveAsAction.addActionListener(this);
-		exportLatexAction.addActionListener(this);
+		exportAction.addActionListener(this);
 		exitAction.addActionListener(this);
 		runAction.addActionListener(this);
 		organizeRobotsAction.addActionListener(this);
@@ -268,25 +271,15 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		}
 
 		// set xml filter for file chooser
+		
+		fc.setFileFilter(new ExtensionFileFilter(Machine.MachineType.BrainfuckMachine.toString(), BrainfuckMachine.FILE_EXTENSION));
+		fc.setFileFilter(new ExtensionFileFilter(Machine.MachineType.TuringMachine.toString(), TuringMachine.FILE_EXTENSION));
+
 		fc.setFileFilter (new FileFilter() {
 			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith(BrainfuckMachine.FILE_EXTENSION);
-			}
-			public String getDescription() {
-				return "Brainfuck programs (" + BrainfuckMachine.FILE_EXTENSION + ")";
-			}
-		});
-		fc.setFileFilter (new FileFilter() {
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith(TuringMachine.FILE_EXTENSION);
-			}
-			public String getDescription() {
-				return "Turing machines (" + TuringMachine.FILE_EXTENSION + ")";
-			}
-		});
-		fc.setFileFilter (new FileFilter() {
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith(TuringMachine.FILE_EXTENSION) || f.getName().toLowerCase().endsWith(BrainfuckMachine.FILE_EXTENSION);
+				return f.isDirectory() 
+						|| f.getName().toLowerCase().endsWith(TuringMachine.FILE_EXTENSION) 
+						|| f.getName().toLowerCase().endsWith(BrainfuckMachine.FILE_EXTENSION);
 			}
 			public String getDescription() {
 				return "All supported files (" + TuringMachine.FILE_EXTENSION + ", " + BrainfuckMachine.FILE_EXTENSION + ")";
@@ -357,14 +350,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		}
 
 		// set xml filter for file chooser
-		fc.setFileFilter (new FileFilter() {
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().toLowerCase().endsWith(currentMachine.getFileExtension());
-			}
-			public String getDescription() {
-				return currentMachine.getFileExtension();
-			}
-		});
+		fc.setFileFilter (new ExtensionFileFilter(currentMachine.getType().toString(), currentMachine.getFileExtension()));			
 
 		File f = null;
 		if (this.currentFile == null) {
@@ -402,10 +388,55 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	}
 
 	/**
-	 * Exports the Turing machine to LaTeX.
+	 * Exports the machine.
 	 */
-	public void exportLatex() {
-		JOptionPane.showMessageDialog(null, "Not implemented yet!");
+	public void export() {
+		final JFileChooser fc = new JFileChooser();
+		// set current directory for file chooser
+		try {
+			File currentDirectory = new File(this.lastDir);
+			fc.setCurrentDirectory(currentDirectory);
+		}
+		catch (Throwable e) {
+		}
+
+		// set xml filter for file chooser
+		for (FileFilter filter : this.currentMachine.getSupportedExportFormats()) {
+			fc.setFileFilter (filter);
+		}
+
+		File f = null;
+		if (this.currentFile == null) {
+			f = new File(this.currentMachine.getName() + this.currentMachine.getFileExtension());
+		}
+		else {
+			f = this.currentFile;
+		}
+		fc.setSelectedFile(new File(this.currentFile.getName().substring(0, this.currentFile.getName().length()-this.currentMachine.getFileExtension().length()) + ".tex"));
+		int retVal = fc.showSaveDialog(null);
+		if (retVal == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fc.getSelectedFile();
+			try {
+				this.lastDir = selectedFile.getCanonicalPath();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			if (selectedFile.exists()) {
+				int result = JOptionPane.showConfirmDialog(null, "Do you want to override the file?", "Override", JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.NO_OPTION) {
+					export();
+					return;
+				}
+			}
+			try { 
+				this.currentMachine.export(selectedFile.getPath());
+			} catch (IOException e) {
+				ErrorDialog.showError("Exporting the file '" + selectedFile.getName() + "' failed because of an I/O error.", e);
+			}
+			catch (RuntimeException e){
+				ErrorDialog.showError("Exporting the file '" + selectedFile.getName() + "' failed because of an unkown error.", e);
+			}
+		}
 	}
 
 	/**
@@ -464,8 +495,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		else if (e.getSource() == saveAsAction) {
 			saveAsFile();
 		}
-		else if (e.getSource() == exportLatexAction) {
-			exportLatex();
+		else if (e.getSource() == exportAction) {
+			export();
 		}
 		else if (e.getSource() == runAction) {
 			runSimulation();
@@ -507,7 +538,9 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		saveAction.setEnabled(true);
 		saveAsAction.setEnabled(true);
 		runAction.setEnabled(true);
-		exportLatexAction.setEnabled(false);
+		if (this.currentMachine.getSupportedExportFormats().size() > 0) {
+			exportAction.setEnabled(true);
+		}
 
 		validate();
 	}
@@ -529,7 +562,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			saveAction.setEnabled(false);
 			saveAsAction.setEnabled(false);
 			runAction.setEnabled(false);
-			exportLatexAction.setEnabled(false);
+			exportAction.setEnabled(false);
 
 			for (JMenu menu : this.currentMachine.getEditor().getMenus()) {
 				this.menuBar.remove(menu);
