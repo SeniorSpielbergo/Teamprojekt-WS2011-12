@@ -86,6 +86,7 @@ public class WelcomeScreen extends JPanel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
+		c.weighty = 0;
 		c.weightx = 1.0;
 		c.insets = new Insets(5,5,5,5);
 		brainfuckContainer.add(brainfuckOpen, c);
@@ -101,6 +102,7 @@ public class WelcomeScreen extends JPanel {
 		c.weightx = 1.0;
 		c.insets = new Insets(5,5,5,5);
 		brainfuckContainer.add(brainfuckExamples, c);
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 3;
 		c.weightx = 1.0;
