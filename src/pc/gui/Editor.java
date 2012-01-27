@@ -45,12 +45,14 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	/**
 	 * The machine currently open in the editor.
 	 */
+	
 	protected Machine currentMachine;
 	private File currentFile = null;
 	private String lastDir = ".";
 	private boolean delay = true;
 	private String tapeStyle = "default";
 	private SimulationWindow simulationWindow = null;
+	private WelcomeScreen welcomeScreen;
 	
 	private JMenu newSubmenu;
 	private JMenuItem newBFAction;
@@ -118,7 +120,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		runAction.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		
-		this.getContentPane().add(new WelcomeScreen());
+		this.welcomeScreen = new WelcomeScreen();
+		this.add(welcomeScreen);
 	}
 	
 	/**
@@ -526,7 +529,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		else {
 			this.setTitle(APP_NAME);
 		}
-
+		this.remove(welcomeScreen);
+		this.repaint();
 		this.add(this.currentMachine.getEditor());
 
 		int menupos = 1;
