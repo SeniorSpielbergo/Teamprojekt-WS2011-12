@@ -2,10 +2,12 @@ package machine.turing;
 import gui.MachineEditor;
 import gui.turing.TuringMachineEditor;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -321,8 +323,8 @@ public class TuringMachine extends Machine{
 		ArrayList<FileFilter> filters = new ArrayList<FileFilter>();
 
 		filters.add(new ExtensionFileFilter("Scalable vector graphics", ".svg"));
+		filters.add(new ExtensionFileFilter("Image", ".png"));
 		filters.add(new ExtensionFileFilter("Latex document", ".tex"));
-
 
 		return filters;
 	}
@@ -1014,7 +1016,7 @@ public class TuringMachine extends Machine{
 
 	@Override
 	public void export(String filename) throws IOException {
-		System.out.println("Saving file '" + filename + "'...");
+		System.out.println("Exporting file '" + filename + "'...");
 
 		if (filename.endsWith(".tex")) {
 			InOut.writeLatexToFile(filename, this);
@@ -1023,8 +1025,16 @@ public class TuringMachine extends Machine{
 			Document doc = mxCellRenderer.createSvgDocument(((TuringMachineEditor)this.getEditor()).getGraph(), null, 1, null, null);
 			mxUtils.writeFile(mxUtils.getXml(doc.getDocumentElement()), filename);
 		}
+		else if (filename.endsWith(".png")) {
+			BufferedImage img = mxCellRenderer.createBufferedImage(((TuringMachineEditor)this.getEditor()).getGraph(), null, 1, null, true, null);
+		    File file = new File(filename);
+		    ImageIO.write(img, "png", file);
+		}
 		else {
 			throw new IOException("Cannot export to '" + filename + "' because the filetype is not supported.");
 		}
+		
+		System.out.println("Exporting file '" + filename + "' finished.");
+
 	}
 }
