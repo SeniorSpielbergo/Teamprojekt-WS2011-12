@@ -153,18 +153,27 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 		}
 		else if (this.type == Type.CREATE) {
 			if (this.machineType == MachineType.TuringMachine) {
+				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_tm_new.png")), JLabel.CENTER);
 				createNew = new WelcomeScreenButton("Create new Turing Machine...");
 			}
 			else if (this.machineType == MachineType.BrainfuckMachine) {
+				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_bf_new.png")), JLabel.CENTER);
 				createNew = new WelcomeScreenButton("Create new Brainfuck Machine...");
 			}
-			createNew.addActionListener(this);
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.anchor = GridBagConstraints.LINE_START;
 			c.gridx = 0;
 			c.gridy = 0;
-			c.weightx = 0.95;
+			c.weightx = 0.05;
 			c.gridheight = 4;
+			c.insets = new Insets(5,5,5,5);
+			this.add(logo, c);
+			createNew.addActionListener(this);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridx = 1;
+			c.gridy = 0;
+			c.weightx = 0.95;
 			c.insets = new Insets(5,5,5,5);
 			this.add(createNew, c);
 		}

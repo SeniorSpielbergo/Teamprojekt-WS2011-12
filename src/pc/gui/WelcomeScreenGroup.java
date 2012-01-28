@@ -56,9 +56,6 @@ public class WelcomeScreenGroup extends JPanel {
 					currentFileType = MachineType.BrainfuckMachine;
 				}
 				if (currentFileType == this.machineType) {
-					if (i != 0) {
-						this.add(new JSeparator(SwingConstants.HORIZONTAL));
-					}
 					this.add(new WelcomeScreenLine(this.editor, exampleFiles[i].getAbsolutePath(), this.machineType), c);
 				}
 			}
