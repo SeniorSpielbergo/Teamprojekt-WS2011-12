@@ -40,11 +40,8 @@ public class WelcomeScreenGroup extends JPanel {
 		if (this.type == Type.FILE) {
 			this.add(new WelcomeScreenLine(this.editor, "machine/examples/Binary_Addition.tm"), c);
 		}
-		else if (this.type == Type.OPEN) {
-			
-		}
-		else if (this.type == Type.CREATE) {
-			
+		else {
+			this.add(new WelcomeScreenLine(this.editor, this.type), c);
 		}
 	}
 }
