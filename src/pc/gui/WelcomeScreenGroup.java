@@ -8,13 +8,17 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import gui.WelcomeScreenLine.Type;
+
 public class WelcomeScreenGroup extends JPanel {
 	
 	private static final long serialVersionUID = -7394463454996558171L;
 	private JLabel title;
 	private Editor editor;
+	private Type type;
 
-	public WelcomeScreenGroup(Editor editor, String titleText) {
+	public WelcomeScreenGroup(Editor editor, String titleText, Type type) {
+		this.type = type;
 		this.editor = editor;
 		this.setLayout(new GridBagLayout());
 		title = new JLabel(titleText, JLabel.LEFT);
@@ -33,6 +37,14 @@ public class WelcomeScreenGroup extends JPanel {
 		c.gridy = 1;
 		c.weightx = 0.1;
 		c.insets = new Insets(5,5,5,5);
-		this.add(new WelcomeScreenLine(this.editor, "machine/examples/Binary_Addition.tm"), c);
+		if (this.type == Type.FILE) {
+			this.add(new WelcomeScreenLine(this.editor, "machine/examples/Binary_Addition.tm"), c);
+		}
+		else if (this.type == Type.OPEN) {
+			
+		}
+		else if (this.type == Type.CREATE) {
+			
+		}
 	}
 }

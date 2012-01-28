@@ -4,9 +4,14 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 
@@ -14,7 +19,7 @@ import machine.Machine;
 import machine.brainfuck.BrainfuckMachine;
 import machine.turing.TuringMachine;
 
-public class WelcomeScreenLine extends JPanel {
+public class WelcomeScreenLine extends JPanel implements ActionListener {
 	
 	public enum Type {
 		OPEN, CREATE, FILE
@@ -24,12 +29,14 @@ public class WelcomeScreenLine extends JPanel {
 	private Type type;
 	private JLabel logo;
 	private JLabel author;
-	private JLabel filename;
+	private WelcomeScreenButton filename;
 	private JLabel name;
 	private JTextPane description = new JTextPane();
 	private Machine machine;
+	private Editor editor;
 
 	public WelcomeScreenLine(Editor editor, String file) {
+		this.editor = editor;
 		this.type = Type.FILE;
 		this.setBackground(Color.WHITE);
 		if (file.endsWith(".tm")) {
@@ -41,8 +48,9 @@ public class WelcomeScreenLine extends JPanel {
 		try {
 			machine.load(file);
 			name = new JLabel(machine.getName(), JLabel.LEFT);
-			author = new JLabel(machine.getAuthor(), JLabel.LEFT);
-			filename = new JLabel(file, JLabel.LEFT);
+			author = new JLabel(machine.getAuthor()); 
+			filename = new WelcomeScreenButton(file);
+			filename.addActionListener(this);
 			description.setText(machine.getDescription());
 			if (file.endsWith(".tm")) {
 				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_tm.png")), JLabel.CENTER);
@@ -100,8 +108,16 @@ public class WelcomeScreenLine extends JPanel {
 		c.gridx = 1;
 		c.gridy = 3;
 		c.weightx = 0.9;
-		c.insets = new Insets(5,15,5,5);
+		c.insets = new Insets(0,10,0,5);
 		this.add(filename, c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.gridx = 2;
+		c.gridy = 0;
+		c.weightx = 6.0;
+		c.gridheight = 4;
+		c.insets = new Insets(0,0,0,0);
+		this.add(Box.createVerticalGlue(), c);
 	}
 	
 	public WelcomeScreenLine(Editor editor, Type type) {
@@ -112,6 +128,13 @@ public class WelcomeScreenLine extends JPanel {
 		}
 		else if (this.type == Type.CREATE) {
 			
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == filename) {
+			JOptionPane.showMessageDialog(null, "Not implemented yet!");
 		}
 	}
 	
