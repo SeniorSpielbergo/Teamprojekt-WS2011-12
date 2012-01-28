@@ -8,6 +8,8 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import java.io.File;
+
 import machine.Machine.MachineType;
 
 import gui.WelcomeScreenLine.Type;
@@ -25,6 +27,7 @@ public class WelcomeScreenGroup extends JPanel {
 		this.type = type;
 		this.editor = editor;
 		this.setLayout(new GridBagLayout());
+		File[] exampleFiles = AppData.examplesDirectory.listFiles();
 		title = new JLabel(titleText, JLabel.LEFT);
 		this.setBackground(Color.WHITE);
 		
@@ -42,7 +45,19 @@ public class WelcomeScreenGroup extends JPanel {
 		c.weightx = 0.1;
 		c.insets = new Insets(5,5,5,5);
 		if (this.type == Type.FILE) {
-			this.add(new WelcomeScreenLine(this.editor, "machine/examples/Binary_Addition.tm", this.machineType), c);
+			for (int i = 0; i < exampleFiles.length; i++) {
+				MachineType currentFileType = null;
+				if (exampleFiles[i].toString().endsWith(".tm")) {
+					currentFileType = MachineType.TuringMachine;
+				}
+				else if (exampleFiles[i].toString().endsWith(".bf")) {
+					currentFileType = MachineType.BrainfuckMachine;
+				}
+				if (currentFileType == this.machineType) {
+					//this.add(new WelcomeScreenLine(this.editor, exampleFiles[i].getAbsolutePath(), this.machineType), c);
+					System.out.println(exampleFiles[i].getPath());
+				}
+			}
 		}
 		else {
 			this.add(new WelcomeScreenLine(this.editor, this.type, this.machineType), c);
