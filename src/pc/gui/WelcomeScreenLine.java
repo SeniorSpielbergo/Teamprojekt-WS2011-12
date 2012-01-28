@@ -1,5 +1,7 @@
 package gui;
 
+import gui.WelcomeScreenGroup.MachineType;
+
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -32,10 +34,12 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 	private JLabel name;
 	private JTextPane description = new JTextPane();
 	private Machine machine;
+	private MachineType machineType;
 	private Editor editor;
 
-	public WelcomeScreenLine(Editor editor, String file) {
+	public WelcomeScreenLine(Editor editor, String file, MachineType machineType) {
 		this.editor = editor;
+		this.machineType = machineType;
 		this.type = Type.FILE;
 		this.setBackground(Color.WHITE);
 		if (file.endsWith(".tm")) {
@@ -119,8 +123,9 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 		this.add(Box.createVerticalGlue(), c);
 	}
 	
-	public WelcomeScreenLine(Editor editor, Type type) {
+	public WelcomeScreenLine(Editor editor, Type type, MachineType machineType) {
 		this.type = type;
+		this.machineType = machineType;
 		this.setBackground(Color.WHITE);
 		if (this.type == Type.OPEN) {
 			

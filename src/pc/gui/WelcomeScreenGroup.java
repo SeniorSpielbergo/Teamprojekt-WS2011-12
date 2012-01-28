@@ -16,8 +16,14 @@ public class WelcomeScreenGroup extends JPanel {
 	private JLabel title;
 	private Editor editor;
 	private Type type;
+	private MachineType machineType;
+	
+	public enum MachineType {
+		TM, BF;
+	}
 
-	public WelcomeScreenGroup(Editor editor, String titleText, Type type) {
+	public WelcomeScreenGroup(Editor editor, String titleText, Type type, MachineType machineType) {
+		this.machineType = machineType;
 		this.type = type;
 		this.editor = editor;
 		this.setLayout(new GridBagLayout());
@@ -38,10 +44,10 @@ public class WelcomeScreenGroup extends JPanel {
 		c.weightx = 0.1;
 		c.insets = new Insets(5,5,5,5);
 		if (this.type == Type.FILE) {
-			this.add(new WelcomeScreenLine(this.editor, "machine/examples/Binary_Addition.tm"), c);
+			this.add(new WelcomeScreenLine(this.editor, "machine/examples/Binary_Addition.tm", this.machineType), c);
 		}
 		else {
-			this.add(new WelcomeScreenLine(this.editor, this.type), c);
+			this.add(new WelcomeScreenLine(this.editor, this.type, this.machineType), c);
 		}
 	}
 }
