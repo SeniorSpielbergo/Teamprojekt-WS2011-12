@@ -148,8 +148,8 @@ public class WelcomeScreen extends JPanel {
 		headerRight = new JPanel();
 		headerTitle = new JLabel("Welcome to " + AppData.APP_NAME + "!");
 		headerText = new JTextPane();
-		headerText.setText(AppData.APP_NAME + " lets you create and simulate your own Turing machines and Brainfuck programs."
-				+ "To do so it provides an easy to use graphical Turing machine editor and a simple code editor for your Brainfuck programs."
+		headerText.setText(AppData.APP_NAME + " lets you create and simulate your own Turing machines and Brainfuck programs. "
+				+ "To do so it provides an easy to use graphical Turing machine editor and a simple code editor for your Brainfuck programs. "
 				+ "To get started, you might want to have a look on the example machines below.");
 	}
 }
