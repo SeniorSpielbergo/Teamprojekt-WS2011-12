@@ -63,7 +63,8 @@ public class WelcomeScreenLine extends JPanel {
 			author.setForeground(new Color(120,120,120));
 		}
 		catch(Exception e) {
-			name = new JLabel(file);
+			int index = file.lastIndexOf("/");
+			name = new JLabel(file.substring(index+1), JLabel.LEFT);
 		}
 		name.setFont(name.getFont().deriveFont(Font.BOLD));
 
