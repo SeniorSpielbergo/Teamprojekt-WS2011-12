@@ -7,6 +7,8 @@ import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 import java.io.File;
 
@@ -36,16 +38,16 @@ public class WelcomeScreenGroup extends JPanel {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.weightx = 0.1;
-		c.insets = new Insets(5,5,5,5);
+		c.weightx = 1.0;
+		c.insets = new Insets(5,10,5,5);
 		this.add(title, c);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 1;
-		c.weightx = 0.1;
-		c.insets = new Insets(5,5,5,5);
 		if (this.type == Type.FILE) {
 			for (int i = 0; i < exampleFiles.length; i++) {
+				c.fill = GridBagConstraints.HORIZONTAL;
+				c.gridx = 0;
+				c.gridy = i+1;
+				c.weightx = 1.0;
+				c.insets = new Insets(5,10,5,5);
 				MachineType currentFileType = null;
 				if (exampleFiles[i].toString().endsWith(".tm")) {
 					currentFileType = MachineType.TuringMachine;
@@ -54,12 +56,19 @@ public class WelcomeScreenGroup extends JPanel {
 					currentFileType = MachineType.BrainfuckMachine;
 				}
 				if (currentFileType == this.machineType) {
-					//this.add(new WelcomeScreenLine(this.editor, exampleFiles[i].getAbsolutePath(), this.machineType), c);
-					System.out.println(exampleFiles[i].getPath());
+					if (i != 0) {
+						this.add(new JSeparator(SwingConstants.HORIZONTAL));
+					}
+					this.add(new WelcomeScreenLine(this.editor, exampleFiles[i].getAbsolutePath(), this.machineType), c);
 				}
 			}
 		}
 		else {
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridx = 0;
+			c.gridy = 1;
+			c.weightx = 0.1;
+			c.insets = new Insets(5,10,5,5);
 			this.add(new WelcomeScreenLine(this.editor, this.type, this.machineType), c);
 		}
 	}

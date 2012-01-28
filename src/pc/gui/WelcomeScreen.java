@@ -78,7 +78,7 @@ public class WelcomeScreen extends JPanel {
 		c.gridy = 3;
 		c.weightx = 1.0;
 		c.weighty = 1.0;
-		c.insets = new Insets(5,5,5,5);
+		c.insets = new Insets(0,0,0,0);
 		turingContainer.add(Box.createHorizontalGlue(), c);
 		
 		// brainfuckPane
@@ -110,7 +110,7 @@ public class WelcomeScreen extends JPanel {
 		c.gridy = 3;
 		c.weightx = 1.0;
 		c.weighty = 1.0;
-		c.insets = new Insets(5,5,5,5);
+		c.insets = new Insets(0,0,0,0);
 		brainfuckContainer.add(Box.createHorizontalGlue(), c);
 		
 		turingPane = new JScrollPane(turingContainer);
