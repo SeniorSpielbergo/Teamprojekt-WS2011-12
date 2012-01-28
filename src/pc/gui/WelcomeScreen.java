@@ -125,7 +125,7 @@ public class WelcomeScreen extends JPanel {
 		tabbedPane = new JTabbedPane();
 		turingContainer = new JPanel();
 		brainfuckContainer = new JPanel();
-		logo = new JLabel("", new ImageIcon("gui/images/logo.png"), JLabel.CENTER);
+		logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/logo.png")), JLabel.CENTER);
 		header = new JPanel();
 		headerText = new JLabel("Welcome to " + AppData.APP_NAME + "!");
 	}

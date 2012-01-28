@@ -95,6 +95,9 @@ public class AppData {
 		AppData.tapeStylesDirectory.mkdirs();
 
 		copyResourcesRecursively(Tape.class.getResource("images/styles"), new File(AppData.appDataDirectory.getAbsolutePath() + File.separator + "tape"));
+		//TODO: copy examples
+		
+		//TODO: save version file
 	}
 
 	private static void update() throws IOException{

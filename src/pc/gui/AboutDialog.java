@@ -44,7 +44,7 @@ public class AboutDialog extends JDialog {
 		
 		this.setLayout(new BorderLayout());
 		
-		this.jLabelIcon = new JLabel("", new ImageIcon("gui/images/logo.png"), JLabel.CENTER);
+		this.jLabelIcon = new JLabel("", new ImageIcon(this.getClass().getResource("images/logo.png")), JLabel.CENTER);
 		this.add(jLabelIcon, BorderLayout.CENTER);
 		
 		this.jPanelDetails = new JPanel();
