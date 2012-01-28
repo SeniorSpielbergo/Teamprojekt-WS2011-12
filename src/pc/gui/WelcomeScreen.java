@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextPane;
 
 import gui.WelcomeScreenLine.Type;
 import machine.Machine.MachineType;
@@ -25,8 +26,10 @@ public class WelcomeScreen extends JPanel {
 	private JPanel turingContainer;
 	private JPanel brainfuckContainer;
 	private JPanel header;
+	private JPanel headerRight;
 	private JLabel logo;
-	private JLabel headerText;
+	private JLabel headerTitle;
+	private JTextPane headerText;
 	private JPanel turingOpen;
 	private JPanel turingCreate;
 	private JPanel turingExamples;
@@ -44,9 +47,21 @@ public class WelcomeScreen extends JPanel {
 		header.setLayout(new BorderLayout());
 
 		header.add(logo, BorderLayout.LINE_START);
-		this.logo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		header.add(headerText, BorderLayout.CENTER);
-		this.headerText.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		this.logo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		header.add(headerRight, BorderLayout.CENTER);
+		
+		this.headerTitle.setFont(this.headerTitle.getFont().deriveFont(24f));
+		this.headerText.setEditable(false);
+		this.headerText.setBackground(this.getBackground());
+		this.headerText.setOpaque(true);
+		this.headerText.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+
+		
+		this.headerRight.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
+		headerRight.setLayout(new BorderLayout());
+		headerRight.add(this.headerTitle, BorderLayout.NORTH);
+		headerRight.add(this.headerText, BorderLayout.CENTER);
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -130,6 +145,11 @@ public class WelcomeScreen extends JPanel {
 		brainfuckContainer = new JPanel();
 		logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/logo.png")), JLabel.CENTER);
 		header = new JPanel();
-		headerText = new JLabel("Welcome to " + AppData.APP_NAME + "!");
+		headerRight = new JPanel();
+		headerTitle = new JLabel("Welcome to " + AppData.APP_NAME + "!");
+		headerText = new JTextPane();
+		headerText.setText(AppData.APP_NAME + " lets you create and simulate your own Turing machines and Brainfuck programs. "
+				+ "To do so it provides an easy to use graphical Turing machine editor and a simple code editor for your Brainfuck programs. "
+				+ "To get started, you might want to have a look on the example machines below.");
 	}
 }

@@ -15,7 +15,7 @@
    id="svg2985"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   sodipodi:docname="filetype_bf.svg"
+   sodipodi:docname="filetype_bf_new.svg"
    inkscape:export-filename="/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/src/pc/gui/images/filetype_bf_new.png"
    inkscape:export-xdpi="135"
    inkscape:export-ydpi="135">
@@ -589,16 +589,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="20"
-     inkscape:cx="15.47578"
+     inkscape:zoom="5"
+     inkscape:cx="-9.62422"
      inkscape:cy="18.317824"
-     inkscape:current-layer="g3947"
+     inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
-     inkscape:window-width="1389"
+     inkscape:window-width="1390"
      inkscape:window-height="856"
-     inkscape:window-x="51"
+     inkscape:window-x="50"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
@@ -609,7 +609,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -619,7 +619,7 @@
      inkscape:groupmode="layer">
     <g
        id="g4014"
-       transform="translate(0.25,-0.1)">
+       transform="translate(-1.4828111,-0.1)">
       <path
          transform="matrix(0.94043747,0,0,0.94043747,2.4358116,2.7406925)"
          style="fill:#5e5e5e;fill-opacity:1;stroke:none;filter:url(#filter3838)"
@@ -730,7 +730,7 @@
     </g>
     <g
        id="g3947"
-       transform="translate(-25.3,-0.35)">
+       transform="translate(-26.812046,-0.71179838)">
       <path
          sodipodi:type="star"
          style="opacity:0.5;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter3939)"
@@ -761,11 +761,11 @@
          sodipodi:cx="-13.3"
          sodipodi:sides="6"
          id="path3117"
-         style="fill:url(#linearGradient4040);fill-opacity:1;fill-rule:nonzero;stroke:#6e6e6e;stroke-width:0.26088755;stroke-miterlimit:4;stroke-opacity:0.47058823999999999;stroke-dasharray:none"
+         style="fill:url(#linearGradient4040);fill-opacity:1;fill-rule:nonzero;stroke:#6e6e6e;stroke-width:0.26088756;stroke-miterlimit:4;stroke-opacity:0.47058824;stroke-dasharray:none"
          sodipodi:type="star" />
       <path
          sodipodi:type="star"
-         style="opacity:1;fill:url(#linearGradient4064);fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter4060)"
+         style="fill:url(#linearGradient4064);fill-opacity:1;fill-rule:nonzero;stroke:none;filter:url(#filter4060)"
          id="path4042"
          sodipodi:sides="6"
          sodipodi:cx="-13.3"

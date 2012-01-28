@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -33,7 +32,9 @@ public class WelcomeScreenGroup extends JPanel implements MouseListener {
 		this.setLayout(new GridBagLayout());
 		File[] exampleFiles = AppData.examplesDirectory.listFiles();
 		title = new JLabel(titleText, JLabel.LEFT);
-		this.setBackground(Color.WHITE);
+		title.setFont(title.getFont().deriveFont(16f));
+
+		//this.setBackground(Color.WHITE);
 		
 		GridBagConstraints c = new GridBagConstraints();
 

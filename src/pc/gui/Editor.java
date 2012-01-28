@@ -38,24 +38,28 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	private SimulationWindow simulationWindow = null;
 	private WelcomeScreen welcomeScreen;
 	
+	private JMenu fileMenu;
 	private JMenu newSubmenu;
 	private JMenuItem newBFAction;
 	private JMenuItem newTMAction;
 	private JMenuItem openAction;
 	private JMenuItem saveAction;
 	private JMenuItem saveAsAction;
+	private JMenuItem closeAction;
 	private JMenuItem exportAction;
 	private JMenuItem exitAction;
+	private JMenu simulationMenu;
 	private JMenuItem runAction;
 	private JMenuItem organizeRobotsAction;
-	private JMenuItem aboutAction;
 	private JCheckBoxMenuItem toggleDelayAction;
 	private ArrayList<JRadioButtonMenuItem> tapeStyleMenuItems = new ArrayList<JRadioButtonMenuItem>();
 	private JMenu tapeStyleSubmenu;
 	private JMenuBar menuBar;
-	private JMenu fileMenu;
-	private JMenu simulationMenu;
 	private JMenu helpMenu;
+	private JMenuItem reportBugAction;
+	private JMenuItem wikiAction;
+	private JMenuItem aboutAction;
+
 
 	/**
 	 * Constructs the Editor window with all actionListeners and a basic setup.
@@ -71,20 +75,12 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		menuBar.add(simulationMenu);
 		menuBar.add(helpMenu);
 
-		// disable actions
-		saveAction.setEnabled(false);
-		saveAsAction.setEnabled(false);
-		exportAction.setEnabled(false);
-		runAction.setEnabled(false);		
-		toggleDelayAction = new JCheckBoxMenuItem("Delay");
-		toggleDelayAction.setSelected(true);
-		toggleDelayAction.addItemListener(this);
-
 		// add menu subitems
 		fileMenu.add(newSubmenu);
 		fileMenu.add(openAction);
 		fileMenu.add(saveAction);
 		fileMenu.add(saveAsAction);
+		fileMenu.add(closeAction);
 		fileMenu.add(new JSeparator());
 		fileMenu.add(exportAction);
 		fileMenu.add(new JSeparator());
@@ -94,7 +90,16 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		simulationMenu.add(tapeStyleSubmenu);
 		simulationMenu.add(new JSeparator());
 		simulationMenu.add(organizeRobotsAction);
+		helpMenu.add(reportBugAction);
+		helpMenu.add(wikiAction);
 		helpMenu.add(aboutAction);
+		
+		//disable menu items
+		saveAction.setEnabled(false);
+		saveAsAction.setEnabled(false);
+		closeAction.setEnabled(false);
+		runAction.setEnabled(false);
+		exportAction.setEnabled(false);
 
 		// menu shortcuts
 		newTMAction.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -104,6 +109,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		runAction.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		
+		
+		//show welcome screen
 		this.welcomeScreen = new WelcomeScreen(this);
 		this.add(welcomeScreen);
 	}
@@ -144,8 +151,13 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		openAction = new JMenuItem("Open...");
 		saveAction = new JMenuItem("Save");
 		saveAsAction = new JMenuItem("Save As...");
+		closeAction = new JMenuItem("Close");
 		exportAction = new JMenuItem("Export...");
 		exitAction = new JMenuItem("Exit");
+		
+		// create Simulation menu items
+		runAction = new JMenuItem("Run...");
+		organizeRobotsAction = new JMenuItem("Organize robots...");
 		
 		// create Simulation->Tape style submenu items
 		tapeStyleSubmenu = new JMenu("Tape style");
@@ -162,13 +174,13 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-
-		newSubmenu.add(newTMAction);
-		newSubmenu.add(newBFAction);
 		
-		// create Simulation menu items
-		runAction = new JMenuItem("Run...");
-		organizeRobotsAction = new JMenuItem("Organize robots...");
+		toggleDelayAction = new JCheckBoxMenuItem("Delay");
+		toggleDelayAction.setSelected(true);
+
+		// create help menu items
+		reportBugAction = new JMenuItem("Report a bug...");
+		wikiAction = new JMenuItem("Open wiki...");
 		aboutAction = new JMenuItem("About...");
 
 		// create menu items
@@ -182,10 +194,14 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		openAction.addActionListener(this);
 		saveAction.addActionListener(this);
 		saveAsAction.addActionListener(this);
+		closeAction.addActionListener(this);
 		exportAction.addActionListener(this);
 		exitAction.addActionListener(this);
 		runAction.addActionListener(this);
+		toggleDelayAction.addItemListener(this);
 		organizeRobotsAction.addActionListener(this);
+		reportBugAction.addActionListener(this);
+		wikiAction.addActionListener(this);
 		aboutAction.addActionListener(this);
 	}
 
@@ -452,11 +468,15 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	}
 
 	public void setEditable(boolean editable) {
-		this.currentMachine.getEditor().setEditable(editable);
+		if (this.currentMachine != null) {
+			this.currentMachine.getEditor().setEditable(editable);
+		}
 		this.runAction.setEnabled(editable);
 		this.openAction.setEnabled(editable);
 		this.newBFAction.setEnabled(editable);
 		this.newTMAction.setEnabled(editable);
+		this.closeAction.setEnabled(editable);
+
 	}
 	
 	@Override
@@ -476,18 +496,11 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		else if (e.getSource() == saveAsAction) {
 			saveAsFile();
 		}
+		else if (e.getSource() == closeAction) {
+			closeCurrentFile();
+		}
 		else if (e.getSource() == exportAction) {
 			export();
-		}
-		else if (e.getSource() == runAction) {
-			runSimulation();
-		}
-		else if (e.getSource() == organizeRobotsAction) {
-			organizeRobots();
-		}
-		else if (e.getSource() == aboutAction) {
-			AboutDialog about = new AboutDialog();
-			about.setVisible(true);
 		}
 		else if (e.getSource() == openAction) {
 			openFile();
@@ -495,6 +508,23 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		else if (e.getSource() == exitAction) {
 			exitEditor();
 		}
+		else if (e.getSource() == runAction) {
+			runSimulation();
+		}
+		else if (e.getSource() == organizeRobotsAction) {
+			organizeRobots();
+		}
+		else if (e.getSource() == reportBugAction) {
+			ErrorDialog.showError("not implemented yet!"); //TODO: implement
+		}
+		else if (e.getSource() == wikiAction) {
+			ErrorDialog.showError("not implemented yet!"); //TODO: implement
+		}
+		else if (e.getSource() == aboutAction) {
+			AboutDialog about = new AboutDialog();
+			about.setVisible(true);
+		}
+
 	}
 
 	/**
@@ -520,6 +550,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		saveAction.setEnabled(true);
 		saveAsAction.setEnabled(true);
 		runAction.setEnabled(true);
+		closeAction.setEnabled(true);
+
 		if (this.currentMachine.getSupportedExportFormats().size() > 0) {
 			exportAction.setEnabled(true);
 		}
@@ -545,6 +577,11 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			saveAsAction.setEnabled(false);
 			runAction.setEnabled(false);
 			exportAction.setEnabled(false);
+			closeAction.setEnabled(false);
+			
+			//show welocme screen
+			this.welcomeScreen = new WelcomeScreen(this);
+			this.add(welcomeScreen);
 
 			for (JMenu menu : this.currentMachine.getEditor().getMenus()) {
 				this.menuBar.remove(menu);
