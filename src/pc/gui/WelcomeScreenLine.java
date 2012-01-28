@@ -3,6 +3,7 @@ package gui;
 import machine.Machine.MachineType;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -56,13 +57,19 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 			name = new JLabel(machine.getName(), JLabel.LEFT);
 			author = new JLabel(machine.getAuthor());
 			description.setText(machine.getDescription());
+			author.setForeground(new Color(120,120,120));
 		}
 		catch(Exception e) {
 			name = new JLabel(file);
 		}
+		name.setFont(name.getFont().deriveFont(Font.BOLD));
+
 		 
 		filename = new WelcomeScreenButton(file);
 		filename.addActionListener(this);
+		filename.setForeground(new Color(120,120,120));
+		filename.setFont(description.getFont().deriveFont(9f));
+		
 		if (file.endsWith(".tm")) {
 			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_tm.png")), JLabel.CENTER);
 		}
