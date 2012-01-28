@@ -1,0 +1,19 @@
+TuringBrain IDE Readme
+======================
+
+TuringBrain IDE lets you create and simulate Turing Machines and Brainfuck programs.
+
+
+============================
+Howto create a runnable .jar
+============================
+
+1. Open the source code in the src/pc folder in Eclipse.
+2. Export as runnable .jar.
+3. Insert the manifast src/pc/manifest.mf into the .jar file using
+
+$ jar -uvfm TuringBrainIDE.jar manifest.mf
+
+4. Execute using
+
+$ java -jar TuringBrainIDE.jar 
