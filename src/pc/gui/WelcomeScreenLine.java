@@ -156,6 +156,7 @@ public class WelcomeScreenLine extends JPanel {
 			c.weightx = 0.95;
 			c.insets = new Insets(5,15,5,5);
 			this.add(open, c);
+			this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		}
 		else if (this.type == Type.CREATE) {
 			if (this.machineType == MachineType.TuringMachine) {
@@ -181,6 +182,7 @@ public class WelcomeScreenLine extends JPanel {
 			c.weightx = 0.95;
 			c.insets = new Insets(5,5,5,5);
 			this.add(createNew, c);
+			this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		}
 	}
 	
