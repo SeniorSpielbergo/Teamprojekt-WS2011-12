@@ -76,68 +76,65 @@ public class WelcomeScreenLine extends JPanel {
 
 		filename = new JLabel(file, JLabel.LEFT);
 		filename.setForeground(new Color(120,120,120));
+		filename.setFont(description.getFont().deriveFont(11f));
+		if (file.endsWith(TuringMachine.FILE_EXTENSION)) {
+			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_tm.png")), JLabel.CENTER);
+		}
+		else if (file.endsWith(BrainfuckMachine.FILE_EXTENSION)) {
+			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_bf.png")), JLabel.CENTER);
+		}
 
-		if (file.endsWith(".tm")) {
-			filename.setFont(description.getFont().deriveFont(11f));
-			if (file.endsWith(TuringMachine.FILE_EXTENSION)) {
-				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_tm.png")), JLabel.CENTER);
-			}
-			else if (file.endsWith(BrainfuckMachine.FILE_EXTENSION)) {
-				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_bf.png")), JLabel.CENTER);
-			}
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
 
-			this.setLayout(new GridBagLayout());
-			GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 0.05;
+		c.gridheight = 4;
+		c.insets = new Insets(5,5,5,5);
+		this.add(logo, c);
+		c.gridheight = 1;
 
-			c.fill = GridBagConstraints.HORIZONTAL;
-			c.anchor = GridBagConstraints.LINE_START;
-			c.gridx = 0;
-			c.gridy = 0;
-			c.weightx = 0.05;
-			c.gridheight = 4;
-			c.insets = new Insets(5,5,5,5);
-			this.add(logo, c);
-			c.gridheight = 1;
+		int gridy = 1;
 
-			int gridy = 1;
-
-			if (machine.getName() != "") {
-				c.fill = GridBagConstraints.HORIZONTAL;
-				c.anchor = GridBagConstraints.LINE_START;
-				c.gridx = 1;
-				c.gridy = gridy++;
-				c.weightx = 0.95;
-				c.insets = new Insets(5,15,5,5);
-				this.add(name, c);
-			}
-			if (machine.getAuthor() != "") {
-				c.fill = GridBagConstraints.HORIZONTAL;
-				c.anchor = GridBagConstraints.LINE_START;
-				c.gridx = 1;
-				c.gridy = gridy++;
-				c.weightx = 0.95;
-				c.insets = new Insets(5,15,5,5);
-				this.add(author, c);
-			}
-			if (machine.getDescription() != "") {
-				c.fill = GridBagConstraints.HORIZONTAL;
-				c.anchor = GridBagConstraints.LINE_START;
-				c.gridx = 1;
-				c.gridy = gridy++;
-				c.weightx = 0.95;
-				c.insets = new Insets(5,15,5,5);
-				description.setEditable(false);
-				this.add(description, c);
-			}
+		if (machine.getName() != "") {
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.anchor = GridBagConstraints.LINE_START;
 			c.gridx = 1;
 			c.gridy = gridy++;
 			c.weightx = 0.95;
-			c.insets = new Insets(0,10,0,5);
-			this.add(filename, c);
-			this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+			c.insets = new Insets(5,15,5,5);
+			this.add(name, c);
 		}
+		if (machine.getAuthor() != "") {
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridx = 1;
+			c.gridy = gridy++;
+			c.weightx = 0.95;
+			c.insets = new Insets(5,15,5,5);
+			this.add(author, c);
+		}
+		if (machine.getDescription() != "") {
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridx = 1;
+			c.gridy = gridy++;
+			c.weightx = 0.95;
+			c.insets = new Insets(5,15,5,5);
+			description.setEditable(false);
+			this.add(description, c);
+		}
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.gridx = 1;
+		c.gridy = gridy++;
+		c.weightx = 0.95;
+		c.insets = new Insets(5,15,5,5);
+		this.add(filename, c);
+		this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
 
 	public WelcomeScreenLine(Type type, MachineType machineType) {
