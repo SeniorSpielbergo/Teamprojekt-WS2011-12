@@ -32,6 +32,7 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 	private JLabel author;
 	private WelcomeScreenButton filename;
 	private WelcomeScreenButton createNew;
+	private WelcomeScreenButton open;
 	private JLabel name;
 	private JTextPane description = new JTextPane();
 	private Machine machine;
@@ -133,7 +134,24 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 		GridBagConstraints c = new GridBagConstraints();
 		
 		if (this.type == Type.OPEN) {
-			
+			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/open.png")), JLabel.CENTER);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridx = 0;
+			c.gridy = 0;
+			c.weightx = 0.1;
+			c.gridheight = 4;
+			c.insets = new Insets(5,5,5,5);
+			this.add(logo, c);
+			open = new WelcomeScreenButton("Open existing machine...");
+			open.addActionListener(this);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridx = 1;
+			c.gridy = 0;
+			c.weightx = 0.9;
+			c.insets = new Insets(5,15,5,5);
+			this.add(open, c);
 		}
 		else if (this.type == Type.CREATE) {
 			if (this.machineType == MachineType.TuringMachine) {
@@ -158,6 +176,9 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == filename) {
 			JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		}
+		else if (e.getSource() == open) {
+			this.editor.openFile();
 		}
 		else if (e.getSource() == createNew) {
 			this.editor.newFile(machineType);
