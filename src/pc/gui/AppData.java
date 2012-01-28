@@ -42,7 +42,7 @@ public class AppData {
 	public static File tapeStylesDirectory;
 	public static File versionFile;
 
-	
+
 	public static void init() {
 		//init system specific paths
 		if (System.getProperties().getProperty("os.name").equals("Linux")) {
@@ -58,7 +58,7 @@ public class AppData {
 		AppData.examplesDirectory = new File(appDataDirectory.getAbsolutePath() + File.separator + "examples");
 		AppData.tapeStylesDirectory = new File(appDataDirectory.getAbsolutePath() + File.separator + "tape" + File.separator + "styles");
 		AppData.versionFile = new File(appDataDirectory.getAbsolutePath() + File.separator + "Version");
-		
+
 		try {
 			String installedVersion = AppData.getInstalledVersion();
 			if (!AppData.APP_VERSION.equals(installedVersion)) {
@@ -102,15 +102,27 @@ public class AppData {
 
 		copyResourcesRecursively(Tape.class.getResource("images/styles"), new File(AppData.appDataDirectory.getAbsolutePath() + File.separator + "tape"));
 		copyResourcesRecursively(Machine.class.getResource("examples"), new File(AppData.appDataDirectory.getAbsolutePath()));
-		
-        FileWriter outFile = new FileWriter(versionFile);
-        PrintWriter out = new PrintWriter(outFile);
-        out.println(AppData.APP_VERSION);
-        out.close();
+
+		FileWriter outFile = new FileWriter(versionFile);
+		PrintWriter out = new PrintWriter(outFile);
+		out.println(AppData.APP_VERSION);
+		out.close();
 	}
 
 	private static void update() throws IOException{
-		//TODO: implement
+		AppData.deleteDirectoryRecursively(AppData.examplesDirectory);
+		AppData.deleteDirectoryRecursively(AppData.tapeStylesDirectory);
+
+		AppData.examplesDirectory.mkdirs();
+		AppData.tapeStylesDirectory.mkdirs();
+
+		copyResourcesRecursively(Tape.class.getResource("images/styles"), new File(AppData.appDataDirectory.getAbsolutePath() + File.separator + "tape"));
+		copyResourcesRecursively(Machine.class.getResource("examples"), new File(AppData.appDataDirectory.getAbsolutePath()));
+
+		FileWriter outFile = new FileWriter(versionFile);
+		PrintWriter out = new PrintWriter(outFile);
+		out.println(AppData.APP_VERSION);
+		out.close();
 	}
 
 
