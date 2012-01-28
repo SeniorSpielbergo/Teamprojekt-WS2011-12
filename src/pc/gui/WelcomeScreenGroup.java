@@ -31,7 +31,7 @@ public class WelcomeScreenGroup extends JPanel {
 		this.setLayout(new GridBagLayout());
 		File[] exampleFiles = AppData.examplesDirectory.listFiles();
 		title = new JLabel(titleText, JLabel.LEFT);
-		this.setBackground(Color.WHITE);
+		//this.setBackground(Color.WHITE);
 		
 		GridBagConstraints c = new GridBagConstraints();
 
