@@ -17,6 +17,12 @@ import javax.swing.JTextPane;
 import gui.WelcomeScreenLine.Type;
 import machine.Machine.MachineType;
 
+/** This class represents the Welcome Screen
+ * 
+ * @author David Wille
+ * 
+ */
+
 public class WelcomeScreen extends JPanel {
 	
 	private static final long serialVersionUID = 882824632406556671L;

@@ -17,6 +17,12 @@ import machine.turing.TuringMachine;
 
 import gui.WelcomeScreenLine.Type;
 
+/** This class represents a group on the Welcome Screen
+ * 
+ * @author David Wille
+ * 
+ */
+
 public class WelcomeScreenGroup extends JPanel implements MouseListener {
 	
 	private static final long serialVersionUID = -7394463454996558171L;
