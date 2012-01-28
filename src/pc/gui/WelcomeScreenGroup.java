@@ -4,19 +4,21 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 
 import java.io.File;
 
 import machine.Machine.MachineType;
+import machine.brainfuck.BrainfuckMachine;
+import machine.turing.TuringMachine;
 
 import gui.WelcomeScreenLine.Type;
 
-public class WelcomeScreenGroup extends JPanel {
+public class WelcomeScreenGroup extends JPanel implements MouseListener {
 	
 	private static final long serialVersionUID = -7394463454996558171L;
 	private JLabel title;
@@ -49,14 +51,16 @@ public class WelcomeScreenGroup extends JPanel {
 				c.weightx = 1.0;
 				c.insets = new Insets(5,10,5,5);
 				MachineType currentFileType = null;
-				if (exampleFiles[i].toString().endsWith(".tm")) {
+				if (exampleFiles[i].toString().endsWith(TuringMachine.FILE_EXTENSION)) {
 					currentFileType = MachineType.TuringMachine;
 				}
-				else if (exampleFiles[i].toString().endsWith(".bf")) {
+				else if (exampleFiles[i].toString().endsWith(BrainfuckMachine.FILE_EXTENSION)) {
 					currentFileType = MachineType.BrainfuckMachine;
 				}
 				if (currentFileType == this.machineType) {
-					this.add(new WelcomeScreenLine(this.editor, exampleFiles[i].getAbsolutePath(), this.machineType), c);
+					WelcomeScreenLine line = new WelcomeScreenLine(exampleFiles[i].getAbsolutePath(), this.machineType);
+					line.addMouseListener(this);
+					this.add(line, c);
 				}
 			}
 		}
@@ -66,7 +70,48 @@ public class WelcomeScreenGroup extends JPanel {
 			c.gridy = 1;
 			c.weightx = 0.1;
 			c.insets = new Insets(5,10,5,5);
-			this.add(new WelcomeScreenLine(this.editor, this.type, this.machineType), c);
+			WelcomeScreenLine line = new WelcomeScreenLine(this.type, this.machineType);
+			line.addMouseListener(this);
+			this.add(line, c);
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		WelcomeScreenLine source = (WelcomeScreenLine) e.getSource();
+		
+		if (source.getPanelType() == Type.CREATE) {
+			this.editor.newFile(this.machineType);
+		}
+		else if (source.getPanelType() == Type.OPEN) {
+			this.editor.openFile();
+		}
+		else if (source.getPanelType() == Type.FILE) {
+			this.editor.openFile(source.getFilePath());
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

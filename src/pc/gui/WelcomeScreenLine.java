@@ -6,13 +6,10 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.EtchedBorder;
@@ -21,7 +18,7 @@ import machine.Machine;
 import machine.brainfuck.BrainfuckMachine;
 import machine.turing.TuringMachine;
 
-public class WelcomeScreenLine extends JPanel implements ActionListener {
+public class WelcomeScreenLine extends JPanel {
 	
 	public enum Type {
 		OPEN, CREATE, FILE
@@ -31,29 +28,35 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 	private Type type;
 	private JLabel logo;
 	private JLabel author;
-	private WelcomeScreenButton filename;
-	private WelcomeScreenButton createNew;
-	private WelcomeScreenButton open;
+	private JLabel filename;
+	private JLabel createNew;
+	private JLabel open;
 	private JLabel name;
 	private JTextPane description = new JTextPane();
 	private Machine machine;
 	private MachineType machineType;
-	private Editor editor;
+	private String file;
 
-	public WelcomeScreenLine(Editor editor, String file, MachineType machineType) {
-		this.editor = editor;
+	public WelcomeScreenLine(String file, MachineType machineType) {
 		this.machineType = machineType;
+		this.file = file;
 		this.type = Type.FILE;
 		this.setBackground(Color.WHITE);
-		if (file.endsWith(".tm")) {
+		if (file.endsWith(TuringMachine.FILE_EXTENSION)) {
 			machine = new TuringMachine();
 		}
-		else if (file.endsWith(".bf")) {
+		else if (file.endsWith(BrainfuckMachine.FILE_EXTENSION)) {
 			machine = new BrainfuckMachine();
 		}
 		try {
 			machine.load(file);
-			name = new JLabel(machine.getName(), JLabel.LEFT);
+			if (this.machine.getType() == MachineType.BrainfuckMachine) {
+				int index = file.lastIndexOf("/");
+				name = new JLabel(file.substring(index+1), JLabel.LEFT);
+			}
+			else if (this.machine.getType() == MachineType.TuringMachine) {
+				name = new JLabel(machine.getName(), JLabel.LEFT);
+			}
 			author = new JLabel(machine.getAuthor());
 			description.setText(machine.getDescription());
 		}
@@ -61,12 +64,11 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 			name = new JLabel(file);
 		}
 		 
-		filename = new WelcomeScreenButton(file);
-		filename.addActionListener(this);
-		if (file.endsWith(".tm")) {
+		filename = new JLabel(file, JLabel.LEFT);
+		if (file.endsWith(TuringMachine.FILE_EXTENSION)) {
 			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_tm.png")), JLabel.CENTER);
 		}
-		else if (file.endsWith(".bf")) {
+		else if (file.endsWith(BrainfuckMachine.FILE_EXTENSION)) {
 			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_bf.png")), JLabel.CENTER);
 		}
 		
@@ -123,8 +125,7 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 		this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
 	
-	public WelcomeScreenLine(Editor editor, Type type, MachineType machineType) {
-		this.editor = editor;
+	public WelcomeScreenLine(Type type, MachineType machineType) {
 		this.type = type;
 		this.machineType = machineType;
 		this.setBackground(Color.WHITE);
@@ -141,8 +142,7 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 			c.gridheight = 4;
 			c.insets = new Insets(5,5,5,5);
 			this.add(logo, c);
-			open = new WelcomeScreenButton("Open existing machine...");
-			open.addActionListener(this);
+			open = new JLabel("Open existing machine...", JLabel.LEFT);
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.anchor = GridBagConstraints.LINE_START;
 			c.gridx = 1;
@@ -154,11 +154,11 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 		else if (this.type == Type.CREATE) {
 			if (this.machineType == MachineType.TuringMachine) {
 				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_tm_new.png")), JLabel.CENTER);
-				createNew = new WelcomeScreenButton("Create new Turing Machine...");
+				createNew = new JLabel("Create new Turing Machine...", JLabel.LEFT);
 			}
 			else if (this.machineType == MachineType.BrainfuckMachine) {
 				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_bf_new.png")), JLabel.CENTER);
-				createNew = new WelcomeScreenButton("Create new Brainfuck Machine...");
+				createNew = new JLabel("Create new Brainfuck Machine...", JLabel.LEFT);
 			}
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.anchor = GridBagConstraints.LINE_START;
@@ -168,7 +168,6 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 			c.gridheight = 4;
 			c.insets = new Insets(5,5,5,5);
 			this.add(logo, c);
-			createNew.addActionListener(this);
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.anchor = GridBagConstraints.LINE_START;
 			c.gridx = 1;
@@ -178,18 +177,13 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 			this.add(createNew, c);
 		}
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == filename) {
-			JOptionPane.showMessageDialog(null, "Not implemented yet!");
-		}
-		else if (e.getSource() == open) {
-			this.editor.openFile();
-		}
-		else if (e.getSource() == createNew) {
-			this.editor.newFile(machineType);
-		}
+	
+	public Type getPanelType() {
+		return this.type;
+	}
+	
+	public String getFilePath() {
+		return this.file;
 	}
 	
 }

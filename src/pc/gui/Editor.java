@@ -3,8 +3,6 @@ package gui;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 
-import tape.Tape;
-
 import machine.ExtensionFileFilter;
 import machine.Machine;
 import machine.brainfuck.BrainfuckMachine;
@@ -17,7 +15,6 @@ import java.awt.Event;
 import java.awt.Toolkit;
 import java.awt.event.*;
 import java.io.*;
-import java.net.URI;
 import java.util.ArrayList;
 
 /** This class represents an editor for Turing machines.
@@ -277,6 +274,27 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			catch(Exception e) {
 				ErrorDialog.showError("The file '" + selectedFile.getName() + "' couldn't be openend, because the file is corrupt.", e);
 			}
+		}
+	}
+	
+	public void openFile(String file) {
+		Machine machine = null;
+		try {
+			if (file.endsWith(TuringMachine.FILE_EXTENSION)) {
+				machine = new TuringMachine();
+			}
+			else if (file.endsWith(BrainfuckMachine.FILE_EXTENSION)) {
+				machine = new BrainfuckMachine();
+			}
+			machine.load(file);
+			this.currentMachine = machine;
+			this.currentFile = new File(file);
+			this.loadEditor();
+		}
+		catch(Exception e) {
+			int index = file.lastIndexOf("/");
+			String name = file.substring(index+1);
+			ErrorDialog.showError("The file '" + name + "' couldn't be openend, because the file is corrupt.", e);
 		}
 	}
 
