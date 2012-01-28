@@ -1,6 +1,6 @@
 package gui;
 
-import gui.WelcomeScreenGroup.MachineType;
+import machine.Machine.MachineType;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -31,6 +31,7 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 	private JLabel logo;
 	private JLabel author;
 	private WelcomeScreenButton filename;
+	private WelcomeScreenButton createNew;
 	private JLabel name;
 	private JTextPane description = new JTextPane();
 	private Machine machine;
@@ -124,14 +125,32 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 	}
 	
 	public WelcomeScreenLine(Editor editor, Type type, MachineType machineType) {
+		this.editor = editor;
 		this.type = type;
 		this.machineType = machineType;
 		this.setBackground(Color.WHITE);
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
 		if (this.type == Type.OPEN) {
 			
 		}
 		else if (this.type == Type.CREATE) {
-			
+			if (this.machineType == MachineType.TuringMachine) {
+				createNew = new WelcomeScreenButton("Create new Turing Machine...");
+			}
+			else if (this.machineType == MachineType.BrainfuckMachine) {
+				createNew = new WelcomeScreenButton("Create new Brainfuck Machine...");
+			}
+			createNew.addActionListener(this);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridx = 0;
+			c.gridy = 0;
+			c.weightx = 0.1;
+			c.gridheight = 4;
+			c.insets = new Insets(5,5,5,5);
+			this.add(createNew, c);
 		}
 	}
 
@@ -139,6 +158,9 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == filename) {
 			JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		}
+		else if (e.getSource() == createNew) {
+			this.editor.newFile(machineType);
 		}
 	}
 	

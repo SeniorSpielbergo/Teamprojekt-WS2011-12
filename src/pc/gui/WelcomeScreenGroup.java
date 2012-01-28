@@ -8,6 +8,8 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import machine.Machine.MachineType;
+
 import gui.WelcomeScreenLine.Type;
 
 public class WelcomeScreenGroup extends JPanel {
@@ -17,10 +19,6 @@ public class WelcomeScreenGroup extends JPanel {
 	private Editor editor;
 	private Type type;
 	private MachineType machineType;
-	
-	public enum MachineType {
-		TM, BF;
-	}
 
 	public WelcomeScreenGroup(Editor editor, String titleText, Type type, MachineType machineType) {
 		this.machineType = machineType;

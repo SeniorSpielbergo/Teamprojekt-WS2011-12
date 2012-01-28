@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import gui.WelcomeScreenLine.Type;
-import gui.WelcomeScreenGroup.MachineType;
+import machine.Machine.MachineType;
 
 public class WelcomeScreen extends JPanel {
 	
@@ -51,9 +51,9 @@ public class WelcomeScreen extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 		
 		// turingPane
-		turingOpen = new WelcomeScreenGroup(this.editor, "Open", Type.OPEN, MachineType.TM);
-		turingCreate = new WelcomeScreenGroup(this.editor, "Create", Type.CREATE, MachineType.TM);
-		turingExamples = new WelcomeScreenGroup(this.editor, "Examples", Type.FILE, MachineType.TM);
+		turingOpen = new WelcomeScreenGroup(this.editor, "Open", Type.OPEN, MachineType.TuringMachine);
+		turingCreate = new WelcomeScreenGroup(this.editor, "Create", Type.CREATE, MachineType.TuringMachine);
+		turingExamples = new WelcomeScreenGroup(this.editor, "Examples", Type.FILE, MachineType.TuringMachine);
 		turingContainer.setLayout(new GridBagLayout());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -82,9 +82,9 @@ public class WelcomeScreen extends JPanel {
 		turingContainer.add(Box.createHorizontalGlue(), c);
 		
 		// brainfuckPane
-		brainfuckOpen = new WelcomeScreenGroup(this.editor, "Open", Type.OPEN, MachineType.BF);
-		brainfuckCreate = new WelcomeScreenGroup(this.editor, "Create", Type.CREATE, MachineType.BF);
-		brainfuckExamples = new WelcomeScreenGroup(this.editor, "Examples", Type.FILE, MachineType.BF);
+		brainfuckOpen = new WelcomeScreenGroup(this.editor, "Open", Type.OPEN, MachineType.BrainfuckMachine);
+		brainfuckCreate = new WelcomeScreenGroup(this.editor, "Create", Type.CREATE, MachineType.BrainfuckMachine);
+		brainfuckExamples = new WelcomeScreenGroup(this.editor, "Examples", Type.FILE, MachineType.BrainfuckMachine);
 		brainfuckContainer.setLayout(new GridBagLayout());
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
