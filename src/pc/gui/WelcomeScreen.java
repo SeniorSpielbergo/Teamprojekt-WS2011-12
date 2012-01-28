@@ -47,7 +47,7 @@ public class WelcomeScreen extends JPanel {
 		header.setLayout(new BorderLayout());
 
 		header.add(logo, BorderLayout.LINE_START);
-		this.logo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		this.logo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		header.add(headerRight, BorderLayout.CENTER);
 		
 		this.headerTitle.setFont(this.headerTitle.getFont().deriveFont(24f));
