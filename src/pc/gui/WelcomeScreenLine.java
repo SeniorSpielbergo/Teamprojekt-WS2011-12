@@ -68,7 +68,7 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 		filename = new WelcomeScreenButton(file);
 		filename.addActionListener(this);
 		filename.setForeground(new Color(120,120,120));
-		filename.setFont(description.getFont().deriveFont(9f));
+		filename.setFont(description.getFont().deriveFont(11f));
 		
 		if (file.endsWith(".tm")) {
 			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_tm.png")), JLabel.CENTER);
