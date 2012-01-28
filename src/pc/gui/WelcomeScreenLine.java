@@ -9,12 +9,13 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Box;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
+import javax.swing.border.EtchedBorder;
 
 import machine.Machine;
 import machine.brainfuck.BrainfuckMachine;
@@ -32,6 +33,7 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 	private JLabel author;
 	private WelcomeScreenButton filename;
 	private WelcomeScreenButton createNew;
+	private WelcomeScreenButton open;
 	private JLabel name;
 	private JTextPane description = new JTextPane();
 	private Machine machine;
@@ -52,19 +54,20 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 		try {
 			machine.load(file);
 			name = new JLabel(machine.getName(), JLabel.LEFT);
-			author = new JLabel(machine.getAuthor()); 
-			filename = new WelcomeScreenButton(file);
-			filename.addActionListener(this);
+			author = new JLabel(machine.getAuthor());
 			description.setText(machine.getDescription());
-			if (file.endsWith(".tm")) {
-				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_tm.png")), JLabel.CENTER);
-			}
-			else if (file.endsWith(".bf")) {
-				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_bf.png")), JLabel.CENTER);
-			}
 		}
 		catch(Exception e) {
 			name = new JLabel(file);
+		}
+		 
+		filename = new WelcomeScreenButton(file);
+		filename.addActionListener(this);
+		if (file.endsWith(".tm")) {
+			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_tm.png")), JLabel.CENTER);
+		}
+		else if (file.endsWith(".bf")) {
+			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_bf.png")), JLabel.CENTER);
 		}
 		
 		this.setLayout(new GridBagLayout());
@@ -74,17 +77,20 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 		c.anchor = GridBagConstraints.LINE_START;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.weightx = 0.1;
+		c.weightx = 0.05;
 		c.gridheight = 4;
 		c.insets = new Insets(5,5,5,5);
 		this.add(logo, c);
 		c.gridheight = 1;
+		
+		int gridy = 1;
+		
 		if (machine.getName() != "") {
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.anchor = GridBagConstraints.LINE_START;
 			c.gridx = 1;
-			c.gridy = 0;
-			c.weightx = 0.9;
+			c.gridy = gridy++;
+			c.weightx = 0.95;
 			c.insets = new Insets(5,15,5,5);
 			this.add(name, c);
 		}
@@ -92,8 +98,8 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.anchor = GridBagConstraints.LINE_START;
 			c.gridx = 1;
-			c.gridy = 1;
-			c.weightx = 0.9;
+			c.gridy = gridy++;
+			c.weightx = 0.95;
 			c.insets = new Insets(5,15,5,5);
 			this.add(author, c);
 		}
@@ -101,8 +107,8 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.anchor = GridBagConstraints.LINE_START;
 			c.gridx = 1;
-			c.gridy = 2;
-			c.weightx = 0.9;
+			c.gridy = gridy++;
+			c.weightx = 0.95;
 			c.insets = new Insets(5,15,5,5);
 			description.setEditable(false);
 			this.add(description, c);
@@ -110,18 +116,11 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.LINE_START;
 		c.gridx = 1;
-		c.gridy = 3;
-		c.weightx = 0.9;
+		c.gridy = gridy++;
+		c.weightx = 0.95;
 		c.insets = new Insets(0,10,0,5);
 		this.add(filename, c);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.LINE_START;
-		c.gridx = 2;
-		c.gridy = 0;
-		c.weightx = 6.0;
-		c.gridheight = 4;
-		c.insets = new Insets(0,0,0,0);
-		this.add(Box.createVerticalGlue(), c);
+		this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
 	
 	public WelcomeScreenLine(Editor editor, Type type, MachineType machineType) {
@@ -133,7 +132,24 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 		GridBagConstraints c = new GridBagConstraints();
 		
 		if (this.type == Type.OPEN) {
-			
+			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/open.png")), JLabel.CENTER);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridx = 0;
+			c.gridy = 0;
+			c.weightx = 0.05;
+			c.gridheight = 4;
+			c.insets = new Insets(5,5,5,5);
+			this.add(logo, c);
+			open = new WelcomeScreenButton("Open existing machine...");
+			open.addActionListener(this);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.LINE_START;
+			c.gridx = 1;
+			c.gridy = 0;
+			c.weightx = 0.95;
+			c.insets = new Insets(5,15,5,5);
+			this.add(open, c);
 		}
 		else if (this.type == Type.CREATE) {
 			if (this.machineType == MachineType.TuringMachine) {
@@ -147,7 +163,7 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 			c.anchor = GridBagConstraints.LINE_START;
 			c.gridx = 0;
 			c.gridy = 0;
-			c.weightx = 0.1;
+			c.weightx = 0.95;
 			c.gridheight = 4;
 			c.insets = new Insets(5,5,5,5);
 			this.add(createNew, c);
@@ -158,6 +174,9 @@ public class WelcomeScreenLine extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == filename) {
 			JOptionPane.showMessageDialog(null, "Not implemented yet!");
+		}
+		else if (e.getSource() == open) {
+			this.editor.openFile();
 		}
 		else if (e.getSource() == createNew) {
 			this.editor.newFile(machineType);
