@@ -44,7 +44,12 @@ public class WelcomeScreenLine extends JPanel {
 			author = new JLabel(machine.getAuthor(), JLabel.LEFT);
 			filename = new JLabel(file, JLabel.LEFT);
 			description.setText(machine.getDescription());
-			logo = new JLabel("", new ImageIcon("gui/images/logo.png"), JLabel.CENTER);
+			if (file.endsWith(".tm")) {
+				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_tm.png")), JLabel.CENTER);
+			}
+			else if (file.endsWith(".bf")) {
+				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_bf.png")), JLabel.CENTER);
+			}
 		}
 		catch(Exception e) {
 			name = new JLabel(file);
@@ -53,39 +58,48 @@ public class WelcomeScreenLine extends JPanel {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 0.1;
+		c.gridheight = 4;
+		c.insets = new Insets(5,5,5,5);
+		this.add(logo, c);
+		c.gridheight = 1;
 		if (machine.getName() != "") {
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.anchor = GridBagConstraints.LINE_START;
-			c.gridx = 0;
+			c.gridx = 1;
 			c.gridy = 0;
-			c.weightx = 1.0;
+			c.weightx = 0.9;
 			c.insets = new Insets(5,15,5,5);
 			this.add(name, c);
 		}
 		if (machine.getAuthor() != "") {
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.anchor = GridBagConstraints.LINE_START;
-			c.gridx = 0;
+			c.gridx = 1;
 			c.gridy = 1;
-			c.weightx = 1.0;
+			c.weightx = 0.9;
 			c.insets = new Insets(5,15,5,5);
 			this.add(author, c);
 		}
 		if (machine.getDescription() != "") {
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.anchor = GridBagConstraints.LINE_START;
-			c.gridx = 0;
+			c.gridx = 1;
 			c.gridy = 2;
-			c.weightx = 1.0;
+			c.weightx = 0.9;
 			c.insets = new Insets(5,15,5,5);
 			description.setEditable(false);
 			this.add(description, c);
 		}
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.anchor = GridBagConstraints.LINE_START;
-		c.gridx = 0;
+		c.gridx = 1;
 		c.gridy = 3;
-		c.weightx = 1.0;
+		c.weightx = 0.9;
 		c.insets = new Insets(5,15,5,5);
 		this.add(filename, c);
 	}
