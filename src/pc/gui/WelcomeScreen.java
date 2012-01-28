@@ -132,5 +132,4 @@ public class WelcomeScreen extends JPanel {
 		header = new JPanel();
 		headerText = new JLabel("Welcome to " + AppData.APP_NAME + "!");
 	}
-	
 }

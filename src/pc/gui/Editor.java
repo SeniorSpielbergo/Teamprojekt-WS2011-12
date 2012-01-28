@@ -153,9 +153,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		// create Simulation->Tape style submenu items
 		tapeStyleSubmenu = new JMenu("Tape style");
 		try {
-			URI stylesURI = Tape.class.getResource("images/styles").toURI();
-			File stylesDir = new File(stylesURI);
-			for (File style : stylesDir.listFiles()) {
+			for (File style : AppData.tapeStylesDirectory.listFiles()) {
 				if (style.isDirectory() == true) {
 					JRadioButtonMenuItem styleMenuItem = new JRadioButtonMenuItem(style.getName());
 					styleMenuItem.setSelected(style.getName().equals("default"));

@@ -1,5 +1,6 @@
 package tape;
 
+import gui.AppData;
 import gui.ErrorDialog;
 
 import java.awt.AlphaComposite;
@@ -54,16 +55,16 @@ public class GraphicTapePanel extends JPanel {
 
 	private void loadStyle(String style) {
 		try {
-			fieldImage = ImageIO.read(new File("tape/images/styles/" + style + "/tape_field.png"));
+			fieldImage = ImageIO.read(new File(AppData.tapeStylesDirectory.getAbsolutePath() + File.separator + style + File.separator + "tape_field.png"));
 			fieldWidth = fieldImage.getWidth();
 			fieldHeight = fieldImage.getHeight();
 		} catch (IOException e) {
-			ErrorDialog.showError("The image 'tape/images/styles/" + style + "/tape_field.png' couldn't be opened.", e);
+			ErrorDialog.showError("The image '" + AppData.tapeStylesDirectory.getAbsolutePath() + File.separator + style + File.separator + "tape_field.png' couldn't be opened.", e);
 		}
 		try {
-			headImage = ImageIO.read(new File("tape/images/styles/" + style + "/head.png"));
+			headImage = ImageIO.read(new File(AppData.tapeStylesDirectory.getAbsolutePath() + File.separator + style + File.separator + "head.png"));
 		} catch (IOException e) {
-			ErrorDialog.showError("The image 'tape/images/styles/" + style + "/head.png' couldn't be opened.", e);
+			ErrorDialog.showError("The image '" + AppData.tapeStylesDirectory.getAbsolutePath() + File.separator + style + File.separator + "head.png' couldn't be opened.", e);
 		}
 		this.setMinimumSize(new Dimension(2 * fieldWidth,fieldHeight)); //at least show 2 fields
 		this.setPreferredSize(new Dimension(10 * fieldWidth,fieldHeight));
