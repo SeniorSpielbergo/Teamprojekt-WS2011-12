@@ -49,8 +49,8 @@ public class AppData {
 		else {
 			AppData.appDataDirectory = new File(System.getProperty("user.home") + File.separator + AppData.APP_NAME);
 		}
-		AppData.examplesDirectory = new File(appDataDirectory.getAbsolutePath() + File.separator + "Examples");
-		AppData.tapeStylesDirectory = new File(appDataDirectory.getAbsolutePath() + File.separator + "TapeStyles");
+		AppData.examplesDirectory = new File(appDataDirectory.getAbsolutePath() + File.separator + "examples");
+		AppData.tapeStylesDirectory = new File(appDataDirectory.getAbsolutePath() + File.separator + "tape" + File.separator + "styles");
 
 		try {
 			String installedVersion = AppData.getInstalledVersion();
@@ -68,9 +68,9 @@ public class AppData {
 		catch (Exception e) {
 			System.out.println("App data not installed.");
 			try {
-				System.out.println("Installing app data  (n/a ->" + AppData.APP_VERSION + ")...");
+				System.out.println("Installing app data  (n/a->" + AppData.APP_VERSION + ")...");
 				AppData.install();
-				System.out.println("Installing app data  (n/a ->" + AppData.APP_VERSION + ") finished.");
+				System.out.println("Installing app data  (n/a->" + AppData.APP_VERSION + ") finished.");
 			} catch (Exception e1) {
 				ErrorDialog.showError("Failed to install application data. The application might not run correctly.", e1);
 			}
@@ -94,8 +94,7 @@ public class AppData {
 		AppData.examplesDirectory.mkdirs();
 		AppData.tapeStylesDirectory.mkdirs();
 
-		copyResourcesRecursively(Tape.class.getResource("/images/styles"), AppData.examplesDirectory);
-
+		copyResourcesRecursively(Tape.class.getResource("images/styles"), new File(AppData.appDataDirectory.getAbsolutePath() + File.separator + "tape"));
 	}
 
 	private static void update() throws IOException{
@@ -128,6 +127,8 @@ public class AppData {
 			return false;
 		} else {
 			final File newDestDir = new File(destDir, toCopy.getName());
+			System.out.println("Installing '" + newDestDir.getAbsolutePath() + "'...");
+
 			if (!newDestDir.exists() && !newDestDir.mkdir()) {
 				return false;
 			}
@@ -159,6 +160,7 @@ public class AppData {
 					}
 					entryInputStream.close();
 				} else {
+					System.out.println("Installing '" + f.getAbsolutePath() + "'...");
 					if (!ensureDirectoryExists(f)) {
 						throw new IOException("Could not create directory: "
 								+ f.getAbsolutePath());
