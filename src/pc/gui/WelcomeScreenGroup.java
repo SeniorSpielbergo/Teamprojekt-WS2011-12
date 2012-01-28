@@ -33,6 +33,6 @@ public class WelcomeScreenGroup extends JPanel {
 		c.gridy = 1;
 		c.weightx = 0.1;
 		c.insets = new Insets(5,5,5,5);
-		this.add(new WelcomeScreenLine(this.editor, "Binary_Addition.tm"), c);
+		this.add(new WelcomeScreenLine(this.editor, "machine/examples/Binary_Addition.tm"), c);
 	}
 }
