@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -14,6 +16,8 @@ import java.util.Enumeration;
 import java.util.Scanner;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+
+import machine.Machine;
 
 import tape.Tape;
 
@@ -33,9 +37,11 @@ public class AppData {
 	public static final String APP_AUTHORS = "Im Rahmen des Teamprojekts 2011 entstanden.\n\nInstitut für Programmierung\nund Reaktive Systeme\n\nBetreuer: Matthias Hagner\n\nVanessa Baier,\n Nils Breyer,\n Phillipp Neumann,\n Sven Schuster,\n David Wille";
 
 
-	static File appDataDirectory;
-	static File examplesDirectory;
-	static File tapeStylesDirectory;
+	public static File appDataDirectory;
+	public static File examplesDirectory;
+	public static File tapeStylesDirectory;
+	public static File versionFile;
+
 	
 	public static void init() {
 		//init system specific paths
@@ -51,7 +57,8 @@ public class AppData {
 		}
 		AppData.examplesDirectory = new File(appDataDirectory.getAbsolutePath() + File.separator + "examples");
 		AppData.tapeStylesDirectory = new File(appDataDirectory.getAbsolutePath() + File.separator + "tape" + File.separator + "styles");
-
+		AppData.versionFile = new File(appDataDirectory.getAbsolutePath() + File.separator + "Version");
+		
 		try {
 			String installedVersion = AppData.getInstalledVersion();
 			if (!AppData.APP_VERSION.equals(installedVersion)) {
@@ -78,7 +85,6 @@ public class AppData {
 	}
 
 	private static String getInstalledVersion() throws FileNotFoundException {
-		File versionFile = new File(appDataDirectory.getAbsolutePath() + File.separator + "Version");
 		Scanner scanner = new Scanner(new FileInputStream(versionFile), "UTF-8");
 		String version = scanner.nextLine();
 		scanner.close();
@@ -95,9 +101,12 @@ public class AppData {
 		AppData.tapeStylesDirectory.mkdirs();
 
 		copyResourcesRecursively(Tape.class.getResource("images/styles"), new File(AppData.appDataDirectory.getAbsolutePath() + File.separator + "tape"));
-		//TODO: copy examples
+		copyResourcesRecursively(Machine.class.getResource("examples"), new File(AppData.appDataDirectory.getAbsolutePath()));
 		
-		//TODO: save version file
+        FileWriter outFile = new FileWriter(versionFile);
+        PrintWriter out = new PrintWriter(outFile);
+        out.println(AppData.APP_VERSION);
+        out.close();
 	}
 
 	private static void update() throws IOException{
