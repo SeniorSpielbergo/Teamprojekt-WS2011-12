@@ -135,8 +135,11 @@ public class WelcomeScreen extends JPanel {
 		brainfuckContainer.add(Box.createHorizontalGlue(), c);
 		
 		turingPane = new JScrollPane(turingContainer);
+		turingPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
 		brainfuckPane = new JScrollPane(brainfuckContainer);
-		
+		brainfuckPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
 		// tabs
 		tabbedPane.addTab("Turing Machine", turingPane);
 		tabbedPane.addTab("Brainfuck", brainfuckPane);
