@@ -132,7 +132,7 @@ public class WelcomeScreenLine extends JPanel {
 		c.gridx = 1;
 		c.gridy = gridy++;
 		c.weightx = 0.95;
-		c.insets = new Insets(0,10,0,5);
+		c.insets = new Insets(0,15,5,5);
 		this.add(filename, c);
 		this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
