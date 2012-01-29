@@ -154,6 +154,8 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 							machine.getFrames().add(frame);
 							cell.setValue(frame);
 							cell.setConnectable(false);
+							mxCell[] cells = {cell};
+							graph.orderCells(true, cells);
 							graph.refresh();
 							toolBox.setClicked(null);
 							graph.setSelectionCell(cell);
@@ -491,6 +493,8 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 				mxCell mxFrame= (mxCell) graph.insertVertex(graph.getDefaultParent(), null, 
 						frames.get(i), x, y, width, height,"FRAME");
 				mxFrame.setConnectable(false);
+				mxCell[] cells = {mxFrame};
+				graph.orderCells(true, cells);
 			}
 		} finally {
 			this.updateUndoRedoMenu();
@@ -698,7 +702,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 					toolBox.setClicked(null);
 				}
 				else if (toolBox.getClicked().equals("Frame")) {
-					graph.insertVertex(graph.getDefaultParent(), null, null, x, y, WIDTH, HEIGHT, "FRAME");
+					mxCell cell = (mxCell) graph.insertVertex(graph.getDefaultParent(), null, null, x, y, WIDTH, HEIGHT, "FRAME");
+					mxCell[] cells = {cell};
+					graph.orderCells(true, cells);
 					this.graph.refresh();
 					toolBox.setClicked(null);
 				}
