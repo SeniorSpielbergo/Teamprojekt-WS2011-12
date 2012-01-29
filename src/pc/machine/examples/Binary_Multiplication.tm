@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="Binary Multiplication" tapes="3" xml-version="3">
+    <author>Nils Breyer and David Wille</author>
+    <description>This Turing machine multiplies two binary digits.</description>
     <tape type="graphic">
         <name>Input1 / Output</name>
         <input>

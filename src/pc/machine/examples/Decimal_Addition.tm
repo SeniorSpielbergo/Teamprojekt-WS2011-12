@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="Decimal Addition" tapes="2" xml-version="3">
     <author>Nils Breyer</author>
-    <description>This machine adds two decimal numbers. 
-
-The input has to be on the first tape. The second argument is being copied to the second tape. The value on the first tape is incremented by 1 until the counter (second argument) is zero.
-
-Input: n1#n2
-n1 has to be at least as long as n2 (add trailing zeros!)
-Output: n1+n2
-</description>
+    <description>This Turing machine adds two decimal digits.
+Can not be use on LEGO machines.</description>
     <tape type="graphic">
         <name>Default graphic tape</name>
         <input>

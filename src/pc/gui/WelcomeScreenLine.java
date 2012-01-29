@@ -65,7 +65,13 @@ public class WelcomeScreenLine extends JPanel {
 				name = new JLabel(machine.getName(), JLabel.LEFT);
 			}
 			author = new JLabel(machine.getAuthor());
-			description.setText(machine.getDescription());
+			if (machine.getDescription().length() > 500) {
+				String text = machine.getDescription();
+				description.setText(text.substring(0, 500) + "...");
+			}
+			else {
+				description.setText(machine.getDescription());
+			}
 			author.setForeground(new Color(120,120,120));
 		}
 		catch(Exception e) {
