@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="|1|^2 = |0|" tapes="3" xml-version="3">
+    <author>David Wille</author>
+    <description>This Turing machine checks whether the squared number of 1s is the same as the number 0s.</description>
     <tape type="graphic">
         <name>Input</name>
         <input>

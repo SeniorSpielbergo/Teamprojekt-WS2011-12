@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="Palindrom" tapes="1" xml-version="3">
+    <author>David Wille</author>
+    <description>This Turing machine checks whether the given binary number is a palindrom or not.</description>
     <tape type="graphic">
         <name>Input</name>
         <input>
@@ -17,16 +19,16 @@
             <symbol>0</symbol>
         </input>
     </tape>
-    <state final="no" height="50" id="53cf915b-95ed-4b19-a053-4806a1a8cae2" start="yes" width="50" x="110" y="100">
+    <state final="no" height="50" id="53cf915b-95ed-4b19-a053-4806a1a8cae2" start="yes" width="50" x="100" y="100">
         <name>q_s</name>
     </state>
-    <state final="no" height="50" id="44c4d8ea-71a8-4953-a1b5-4a4c874856c7" start="no" width="50" x="330" y="100">
+    <state final="no" height="50" id="44c4d8ea-71a8-4953-a1b5-4a4c874856c7" start="no" width="50" x="300" y="100">
         <name>q_1</name>
     </state>
-    <state final="no" height="50" id="5f22e858-397b-48b8-83ae-b3b97ca5e964" start="no" width="50" x="520" y="100">
+    <state final="no" height="50" id="5f22e858-397b-48b8-83ae-b3b97ca5e964" start="no" width="50" x="500" y="100">
         <name>q_2</name>
     </state>
-    <state final="no" height="50" id="09697b53-f09f-43c8-96f3-0070c4604326" start="no" width="50" x="720" y="100">
+    <state final="no" height="50" id="09697b53-f09f-43c8-96f3-0070c4604326" start="no" width="50" x="700" y="100">
         <name>q_3</name>
     </state>
     <state final="no" height="50" id="2b5ce292-9c8c-446e-8490-e8ba200002c8" start="no" width="50" x="300" y="300">

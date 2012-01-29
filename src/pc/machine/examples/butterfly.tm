@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="0^n 1^n 2^n" tapes="1" xml-version="3">
+    <author>David Wille</author>
+    <description>This Turing machine checks whether the input word is in the form 0^n 1^n 2^n.</description>
     <tape type="graphic">
         <name>Action</name>
         <input>
@@ -11,28 +13,28 @@
             <symbol>2</symbol>
         </input>
     </tape>
-    <state final="no" height="50" id="c0534004-d95e-4d1f-8ecb-f83c1d8bec94" start="yes" width="50" x="500" y="330">
+    <state final="no" height="50" id="c0534004-d95e-4d1f-8ecb-f83c1d8bec94" start="yes" width="50" x="500" y="300">
         <name>q_0</name>
     </state>
-    <state final="yes" height="50" id="06990be0-bf90-4205-b8c2-6381cf03d2e5" start="no" width="50" x="500" y="470">
+    <state final="yes" height="50" id="06990be0-bf90-4205-b8c2-6381cf03d2e5" start="no" width="50" x="500" y="450">
         <name>q_F</name>
     </state>
     <state final="no" height="50" id="4db7ad0d-81e0-4e1c-82ce-2b134aa38aed" start="no" width="50" x="600" y="150">
         <name>r_5</name>
     </state>
-    <state final="no" height="50" id="09d7fc8c-fff3-4977-9c87-72f968ad6ef0" start="no" width="50" x="420" y="150">
+    <state final="no" height="50" id="09d7fc8c-fff3-4977-9c87-72f968ad6ef0" start="no" width="50" x="400" y="150">
         <name>l_5</name>
     </state>
-    <state final="no" height="50" id="63081164-8258-4f45-96a1-0dd77ca3fe64" start="no" width="50" x="690" y="510">
+    <state final="no" height="50" id="63081164-8258-4f45-96a1-0dd77ca3fe64" start="no" width="50" x="650" y="500">
         <name>r_7</name>
     </state>
-    <state final="no" height="50" id="1329eca1-915a-474b-8b95-5c97ebf282fe" start="no" width="50" x="360" y="500">
+    <state final="no" height="50" id="1329eca1-915a-474b-8b95-5c97ebf282fe" start="no" width="50" x="350" y="500">
         <name>l_7</name>
     </state>
-    <state final="no" height="50" id="b61fd117-129e-477b-988b-22daf22f46ac" start="no" width="50" x="710" y="300">
+    <state final="no" height="50" id="b61fd117-129e-477b-988b-22daf22f46ac" start="no" width="50" x="700" y="300">
         <name>r_0</name>
     </state>
-    <state final="no" height="50" id="7879bbd8-83d5-41b0-82cc-0579946eca42" start="no" width="50" x="330" y="300">
+    <state final="no" height="50" id="7879bbd8-83d5-41b0-82cc-0579946eca42" start="no" width="50" x="300" y="300">
         <name>l_0</name>
     </state>
     <state final="no" height="50" id="c74f58d8-b5db-41fd-8175-90a195c4fc4b" start="no" width="50" x="200" y="400">
@@ -41,28 +43,28 @@
     <state final="no" height="50" id="0d28d182-84c0-4652-b37c-575587474cfe" start="no" width="50" x="800" y="400">
         <name>r_6</name>
     </state>
-    <state final="no" height="50" id="abc98968-55ca-4f81-b74d-6accbe9bf977" start="no" width="50" x="870" y="250">
+    <state final="no" height="50" id="abc98968-55ca-4f81-b74d-6accbe9bf977" start="no" width="50" x="850" y="250">
         <name>r_1</name>
     </state>
-    <state final="no" height="50" id="154c2245-e2a3-4f7a-849e-ea5312500c07" start="no" width="50" x="190" y="280">
+    <state final="no" height="50" id="154c2245-e2a3-4f7a-849e-ea5312500c07" start="no" width="50" x="150" y="250">
         <name>l_1</name>
     </state>
-    <state final="no" height="50" id="108174f1-2c79-4c14-9814-692d093c3b75" start="no" width="50" x="50" y="180">
+    <state final="no" height="50" id="108174f1-2c79-4c14-9814-692d093c3b75" start="no" width="50" x="50" y="150">
         <name>l_2</name>
     </state>
-    <state final="no" height="50" id="a9f8d85d-c5dd-41d6-bdef-a02794aa570c" start="no" width="50" x="960" y="160">
+    <state final="no" height="50" id="a9f8d85d-c5dd-41d6-bdef-a02794aa570c" start="no" width="50" x="950" y="150">
         <name>r_2</name>
     </state>
-    <state final="no" height="50" id="1c7777f5-b289-424f-915d-135c20e76c6d" start="no" width="50" x="170" y="60">
+    <state final="no" height="50" id="1c7777f5-b289-424f-915d-135c20e76c6d" start="no" width="50" x="150" y="50">
         <name>l_3</name>
     </state>
-    <state final="no" height="50" id="95c0198f-e450-421e-8de6-6f795478dfad" start="no" width="50" x="310" y="50">
+    <state final="no" height="50" id="95c0198f-e450-421e-8de6-6f795478dfad" start="no" width="50" x="300" y="50">
         <name>l_4</name>
     </state>
     <state final="no" height="50" id="abcc9381-8b87-4d53-b3fc-646dd3bd9a2d" start="no" width="50" x="700" y="50">
         <name>r_4</name>
     </state>
-    <state final="no" height="50" id="8c67cd35-9d38-43a5-9541-57fcaaa27f3f" start="no" width="50" x="860" y="50">
+    <state final="no" height="50" id="8c67cd35-9d38-43a5-9541-57fcaaa27f3f" start="no" width="50" x="850" y="50">
         <name>r_3</name>
     </state>
     <edge from="c0534004-d95e-4d1f-8ecb-f83c1d8bec94" labelx="0" labely="65" to="06990be0-bf90-4205-b8c2-6381cf03d2e5">
