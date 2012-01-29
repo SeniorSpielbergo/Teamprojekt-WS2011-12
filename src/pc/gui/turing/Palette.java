@@ -28,7 +28,7 @@ import com.mxgraph.util.mxRectangle;
 public class Palette extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 2826433120960614428L;
-	private JLabel[] icons = new JLabel[4];
+	private JLabel[] icons = new JLabel[3];
 
 	private String clicked = null;
 
