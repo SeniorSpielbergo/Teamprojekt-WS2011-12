@@ -1,11 +1,15 @@
 package machine.turing;
 
+import java.io.Serializable;
+
 /**
  * This class represents a position in an 2-dimensional environment via x and y coordinates
  * @author nils
  *
  */
-public class Point {
+public class Point implements Serializable {
+	private static final long serialVersionUID = 664264498391192265L;
+	
 	private int x;
 	private int y;
 	
