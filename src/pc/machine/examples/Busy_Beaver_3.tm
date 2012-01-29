@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="Busy Beaver 3" tapes="1" xml-version="3">
+    <author>David Wille</author>
+    <description>The Turing machine calculates the Busy Beaver for n = 3.</description>
     <tape type="graphic">
         <name>Input / Output</name>
         <input/>
     </tape>
-    <state final="no" height="50" id="d43a8ae5-4e8b-48e1-af92-ab8e5acfab28" start="yes" width="50" x="170" y="190">
+    <state final="no" height="50" id="d43a8ae5-4e8b-48e1-af92-ab8e5acfab28" start="yes" width="50" x="150" y="150">
         <name>q_s</name>
     </state>
-    <state final="no" height="50" id="f557899a-a3a8-48b2-a086-36f48a8b70dc" start="no" width="50" x="480" y="160">
+    <state final="no" height="50" id="f557899a-a3a8-48b2-a086-36f48a8b70dc" start="no" width="50" x="450" y="150">
         <name>q_1</name>
     </state>
-    <state final="no" height="50" id="f9809e0d-b8e2-449f-9dbd-70b431b14761" start="no" width="50" x="300" y="310">
+    <state final="no" height="50" id="f9809e0d-b8e2-449f-9dbd-70b431b14761" start="no" width="50" x="300" y="300">
         <name>q_2</name>
     </state>
-    <state final="yes" height="50" id="5b841a2a-07b7-4cca-8014-aabca1d22689" start="no" width="50" x="450" y="430">
+    <state final="yes" height="50" id="5b841a2a-07b7-4cca-8014-aabca1d22689" start="no" width="50" x="450" y="400">
         <name>q_f</name>
     </state>
     <edge from="d43a8ae5-4e8b-48e1-af92-ab8e5acfab28" labelx="0" labely="5" to="f557899a-a3a8-48b2-a086-36f48a8b70dc">

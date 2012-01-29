@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <machine name="Busy Beaver 2" tapes="1" xml-version="3">
+    <author>David Wille</author>
+    <description>The Turing machine calculates the Busy Beaver for n = 2.</description>
     <tape type="graphic">
         <name>Input / Output</name>
         <input/>
     </tape>
-    <state final="no" height="50" id="42a48f32-3694-4c8f-9e6a-0f7ffd9356d8" start="yes" width="50" x="220" y="240">
+    <state final="no" height="50" id="42a48f32-3694-4c8f-9e6a-0f7ffd9356d8" start="yes" width="50" x="200" y="200">
         <name>q_s</name>
     </state>
-    <state final="no" height="50" id="c2712a0e-c3e8-4daf-a743-e474fbbfcde5" start="no" width="50" x="470" y="200">
+    <state final="no" height="50" id="c2712a0e-c3e8-4daf-a743-e474fbbfcde5" start="no" width="50" x="450" y="200">
         <name>q_1</name>
     </state>
     <state final="yes" height="50" id="8c575131-d922-46de-b6ec-4318d821528f" start="no" width="50" x="700" y="200">
