@@ -971,7 +971,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		}
 	}
 
-	private void updateUndoRedoMenu() {
+	public void updateUndoRedoMenu() {
 		if (undoManager.canUndo()) {
 			this.undoAction.setEnabled(true);
 		}
@@ -1024,6 +1024,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		mxUndoableEdit edit = new mxUndoableEdit(change);
 		edit.add(change);
 		this.getUndoManager().undoableEditHappened(edit);
+		this.updateUndoRedoMenu();
 	}
 	
 	private void updateStateStyles() {

@@ -85,6 +85,7 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 		mxUndoableEdit edit = new mxUndoableEdit(change);
 		edit.add(change);
 		turingMachineEditor.getUndoManager().undoableEditHappened(edit);
+		turingMachineEditor.updateUndoRedoMenu();
 	}
 	
 	@Override

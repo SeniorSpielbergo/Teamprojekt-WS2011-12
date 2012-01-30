@@ -112,6 +112,7 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 		mxUndoableEdit edit = new mxUndoableEdit(change);
 		edit.add(change);
 		turingMachineEditor.getUndoManager().undoableEditHappened(edit);
+		turingMachineEditor.updateUndoRedoMenu();
 	}
 	
 	@Override

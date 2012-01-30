@@ -233,5 +233,6 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 		mxUndoableEdit edit = new mxUndoableEdit(change);
 		edit.add(change);
 		turingMachineEditor.getUndoManager().undoableEditHappened(edit);
+		turingMachineEditor.updateUndoRedoMenu();
 	}
 }
