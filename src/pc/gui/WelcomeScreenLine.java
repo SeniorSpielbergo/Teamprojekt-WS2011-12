@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -58,7 +59,7 @@ public class WelcomeScreenLine extends JPanel {
 		try {
 			machine.load(file);
 			if (this.machine.getType() == MachineType.BrainfuckMachine) {
-				int index = file.lastIndexOf("/");
+				int index = file.lastIndexOf(File.separator);
 				name = new JLabel(file.substring(index+1), JLabel.LEFT);
 			}
 			else if (this.machine.getType() == MachineType.TuringMachine) {
@@ -75,7 +76,7 @@ public class WelcomeScreenLine extends JPanel {
 			author.setForeground(new Color(120,120,120));
 		}
 		catch(Exception e) {
-			int index = file.lastIndexOf("/");
+			int index = file.lastIndexOf(File.separator);
 			name = new JLabel(file.substring(index+1), JLabel.LEFT);
 		}
 		name.setFont(name.getFont().deriveFont(Font.BOLD));
@@ -84,10 +85,10 @@ public class WelcomeScreenLine extends JPanel {
 		filename.setForeground(new Color(120,120,120));
 		filename.setFont(description.getFont().deriveFont(11f));
 		if (file.endsWith(TuringMachine.FILE_EXTENSION)) {
-			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_tm.png")), JLabel.CENTER);
+			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images" + File.separator + "filetype_tm.png")), JLabel.CENTER);
 		}
 		else if (file.endsWith(BrainfuckMachine.FILE_EXTENSION)) {
-			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_bf.png")), JLabel.CENTER);
+			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images" + File.separator + "filetype_bf.png")), JLabel.CENTER);
 		}
 
 		this.setLayout(new GridBagLayout());
@@ -151,7 +152,7 @@ public class WelcomeScreenLine extends JPanel {
 		GridBagConstraints c = new GridBagConstraints();
 
 		if (this.type == Type.OPEN) {
-			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/open.png")), JLabel.CENTER);
+			logo = new JLabel("", new ImageIcon(this.getClass().getResource("images" + File.separator + "open.png")), JLabel.CENTER);
 			c.fill = GridBagConstraints.HORIZONTAL;
 			c.anchor = GridBagConstraints.LINE_START;
 			c.gridx = 0;
@@ -172,11 +173,11 @@ public class WelcomeScreenLine extends JPanel {
 		}
 		else if (this.type == Type.CREATE) {
 			if (this.machineType == MachineType.TuringMachine) {
-				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_tm_new.png")), JLabel.CENTER);
+				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images" + File.separator + "filetype_tm_new.png")), JLabel.CENTER);
 				createNew = new JLabel("Create new Turing Machine...", JLabel.LEFT);
 			}
 			else if (this.machineType == MachineType.BrainfuckMachine) {
-				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/filetype_bf_new.png")), JLabel.CENTER);
+				logo = new JLabel("", new ImageIcon(this.getClass().getResource("images" + File.separator + "filetype_bf_new.png")), JLabel.CENTER);
 				createNew = new JLabel("Create new Brainfuck Machine...", JLabel.LEFT);
 			}
 			c.fill = GridBagConstraints.HORIZONTAL;

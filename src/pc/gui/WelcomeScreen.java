@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -152,7 +153,7 @@ public class WelcomeScreen extends JPanel {
 		tabbedPane = new JTabbedPane();
 		turingContainer = new JPanel();
 		brainfuckContainer = new JPanel();
-		logo = new JLabel("", new ImageIcon(this.getClass().getResource("images/logo.png")), JLabel.CENTER);
+		logo = new JLabel("", new ImageIcon(this.getClass().getResource("images" + File.separator + "logo.png")), JLabel.CENTER);
 		header = new JPanel();
 		headerRight = new JPanel();
 		headerTitle = new JLabel("Welcome to " + AppData.APP_NAME + "!");
