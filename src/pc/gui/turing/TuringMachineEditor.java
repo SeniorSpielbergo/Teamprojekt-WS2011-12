@@ -68,7 +68,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	private JMenuItem addViaAction;
 	private JMenuItem removeViaAction;
 	private JCheckBoxMenuItem gridToggleAction;
-	
+
 	private mxUndoManager undoManager = new mxUndoManager();
 
 	private boolean gridEnabled = true;
@@ -81,11 +81,11 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			updateUndoRedoMenu();
 		}
 	};
-	
+
 	public mxUndoManager getUndoManager() {
 		return this.undoManager;
 	}
-	
+
 	public TuringMachineEditor(final TuringMachine machine) {
 		super();
 		this.machine = machine;
@@ -130,7 +130,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 
 		this.graph.getModel().addListener(mxEvent.UNDO, undoHandler);
 		this.graph.getView().addListener(mxEvent.UNDO, undoHandler);
-		
+
 		this.graph.addListener(mxEvent.CELLS_ADDED, new mxIEventListener() {
 			@Override
 			public void invoke(Object obj, mxEventObject e) {
@@ -349,7 +349,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		selectAllAction.setAccelerator(KeyStroke.getKeyStroke('A', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		addViaAction.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		removeViaAction.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | KeyEvent.SHIFT_MASK));
-		
+
 		copyAction.setEnabled(false);
 		pasteAction.setEnabled(false);
 		cutAction.setEnabled(false);
@@ -519,7 +519,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			}
 		}
 	}
-	
+
 	private void copy() {
 		if (lastSelectedEdge != null) {
 			Edge edge = (Edge) lastSelectedEdge.getValue();
@@ -530,7 +530,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			}
 		}
 	}
-	
+
 	private void cut() {
 		if (lastSelectedEdge != null) {
 			mxCell cell = (mxCell) graph.getSelectionCell();
@@ -548,7 +548,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			}
 		}
 	}
-	
+
 	private void paste() {
 		if (lastSelectedEdge != null) {
 			mxCell cell = (mxCell) graph.getSelectionCell();
@@ -559,8 +559,8 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 					boolean alreadyExists = false;
 					for(Transition t : edge.getTransitions()) {
 						if(t.getRead().equals(ct.getRead())
-							&& t.getWrite().equals(ct.getWrite())
-							&& t.getAction().equals(ct.getAction()))
+								&& t.getWrite().equals(ct.getWrite())
+								&& t.getAction().equals(ct.getAction()))
 							alreadyExists = true;
 					}
 					if(!alreadyExists)
@@ -573,7 +573,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			this.graph.setSelectionCell(cell);
 		}
 	}
-	
+
 	private ArrayList<Transition> cloneTransitions(ArrayList<Transition> clone) {
 		ArrayList<Transition> ret = new ArrayList<Transition>();
 		for (Transition t: clone) {
@@ -648,7 +648,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 					e.getVia().add(new Point((int)p.getX(), (int)p.getY()));
 				}
 			}
-			
+
 			Object[] selection = this.graph.getSelectionCells();
 			this.graph.setSelectionCells(new Object[0]);
 			this.graph.refresh();
@@ -658,7 +658,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			this.graph.repaint();
 		}
 	}
-	
+
 	/**
 	 * Removes a via point from an edge
 	 */
@@ -833,7 +833,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	@Override
 	public void update(Observable observable, Object obj) {
 		System.out.println("Notified");
-		
+
 
 		if(obj instanceof State){
 			System.out.println("is State");
@@ -894,7 +894,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 					selectedState.setStyle("CIRCLE");
 				}
 				if(selectedEdge!= null){
-				selectedEdge.setStyle("EDGE");
+					selectedEdge.setStyle("EDGE");
 				}
 				inputWordWritten = false;
 				this.setEditable(true);
@@ -927,7 +927,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	@Override
 	public void setEditable(boolean editable) {
 		if(!editable)
-				this.updateMachineObject();
+			this.updateMachineObject();
 		this.graph.setCellsMovable(editable);
 		this.graph.setCellsResizable(editable);
 		this.graph.setCellsDeletable(editable);
@@ -936,7 +936,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		this.setEditMenuItemsSelectable(editable);
 		this.hideLeftSplitPane(!editable);
 	}
-	
+
 	public void setEditMenuItemsSelectable(boolean selectable) {
 		this.selectAllAction.setEnabled(selectable);
 		this.gridToggleAction.setEnabled(selectable);
@@ -1017,7 +1017,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		graph.refresh();
 		graph.repaint();
 	}
-	
+
 	private void addEdgeValueChange(mxCell cell) {
 		mxValueChange change = new mxValueChange((mxGraphModel) graph.getModel(), cell, (Edge) cell.getValue());
 		change.setPrevious(((Edge) cell.getValue()).clone());
@@ -1026,7 +1026,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		this.getUndoManager().undoableEditHappened(edit);
 		this.updateUndoRedoMenu();
 	}
-	
+
 	private void updateStateStyles() {
 		for (Object cell : this.graph.getChildVertices(graph.getDefaultParent())) {
 			mxCell mxCell = (mxCell) cell;
@@ -1043,14 +1043,15 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			}
 		}
 	}
-	
+
 	private void updateViaPoints() {
 		Object[] cells = graph.getChildCells(graph.getDefaultParent());
 		for(Object cellObj : cells) {
 			mxCell cell = (mxCell) cellObj;
 			if(cell.isEdge()) {
 				List<mxPoint> points = cell.getGeometry().getPoints();
-				points.clear();
+				if(points != null)
+					points.clear();
 				Edge e = (Edge) cell.getValue();
 				ArrayList<Point> via = e.getVia();
 				for(Point p : via)
@@ -1058,7 +1059,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			}
 		}
 	}
-	
+
 	private mxCell getStateCell(State state){
 		for (Object cell : this.graph.getChildVertices(graph.getDefaultParent())) {
 			mxCell mxCell = (mxCell) cell;
@@ -1081,7 +1082,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Initializes the styles
 	 * @param stylesheet Stylesheet that should be edited
@@ -1149,7 +1150,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		styleSelectedEdge.put(mxConstants.STYLE_STROKECOLOR, "yellow");
 		stylesheet.putCellStyle("EDGE_SELECTED", styleSelectedEdge);
 	}
-	
+
 	public void setResizable() {
 		mxCell cell = (mxCell) graph.getSelectionCell();
 		// set cells unresizable if state selected
@@ -1168,13 +1169,13 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			this.graph.setSelectionCell(cell);
 		}
 	}
-	
+
 	public void updateMachineObject() {		
 		ArrayList<State> states = new ArrayList<State>();
 		ArrayList<Edge> edges = new ArrayList<Edge>();
 		ArrayList<Textbox> textboxes = new ArrayList<Textbox>();
 		ArrayList<Frame> frames = new ArrayList<Frame>();
-		
+
 		for(Object cellObj : graph.getChildCells(graph.getDefaultParent())) {
 			mxCell cell = (mxCell) cellObj;
 			if(cell.getValue() instanceof State) {
@@ -1210,7 +1211,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		this.machine.getEdges().clear();
 		this.machine.getTextboxes().clear();
 		this.machine.getFrames().clear();
-		
+
 		for(State s : states)
 			this.machine.getStates().add(s);
 		for(Edge e : edges)
@@ -1220,7 +1221,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		for(Frame f : frames)
 			this.machine.getFrames().add(f);
 	}
-	
+
 	public mxGraph getGraph() {
 		return this.graph;
 	}
