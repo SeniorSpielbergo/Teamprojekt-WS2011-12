@@ -44,9 +44,9 @@ public class Palette extends JPanel implements MouseListener {
 		stateCell.setVertex(true);
 		mxCell textCell = new mxCell(null, new mxGeometry(0, 0, 50, 50), "TEXTBOX");
 		textCell.setVertex(true);
-		icons[0] = this.addIcon("Frame", "gui/images/frame.png", frameCell);
-		icons[1] = this.addIcon("State", "gui/images/state.png", stateCell);
-		icons[2] = this.addIcon("Text", "gui/images/text.png", textCell);
+		icons[0] = this.addIcon("Frame", new ImageIcon(this.getClass().getResource("images/frame.png")), frameCell);
+		icons[1] = this.addIcon("State", new ImageIcon(this.getClass().getResource("images/state.png")), stateCell);
+		icons[2] = this.addIcon("Text", new ImageIcon(this.getClass().getResource("images/text.png")), textCell);
 
 		for (int i = 0; i < 3; i++) {
 			c.fill = GridBagConstraints.BOTH;
@@ -65,8 +65,8 @@ public class Palette extends JPanel implements MouseListener {
 	 * @param cell Cell that should be displayed
 	 * @return Label to be added
 	 */
-	public JLabel addIcon(String name, String icon, mxCell cell) {
-		JLabel label = new JLabel(name, new ImageIcon(icon), JLabel.LEFT);
+	public JLabel addIcon(String name, ImageIcon icon, mxCell cell) {
+		JLabel label = new JLabel(name, icon, JLabel.LEFT);
 		label.setName(name);
 		
 		mxRectangle bounds = (mxGeometry) cell.getGeometry().clone();
