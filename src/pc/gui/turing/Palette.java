@@ -10,6 +10,7 @@ import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;
 import java.awt.dnd.DragGestureListener;
 import java.awt.dnd.DragSource;
+import java.io.File;
 
 import javax.swing.*;
 
@@ -44,9 +45,9 @@ public class Palette extends JPanel implements MouseListener {
 		stateCell.setVertex(true);
 		mxCell textCell = new mxCell(null, new mxGeometry(0, 0, 50, 50), "TEXTBOX");
 		textCell.setVertex(true);
-		icons[0] = this.addIcon("Frame", new ImageIcon(this.getClass().getResource("images/frame.png")), frameCell);
-		icons[1] = this.addIcon("State", new ImageIcon(this.getClass().getResource("images/state.png")), stateCell);
-		icons[2] = this.addIcon("Text", new ImageIcon(this.getClass().getResource("images/text.png")), textCell);
+		icons[0] = this.addIcon("Frame", new ImageIcon(this.getClass().getResource("images" + File.separator + "frame.png")), frameCell);
+		icons[1] = this.addIcon("State", new ImageIcon(this.getClass().getResource("images" + File.separator + "state.png")), stateCell);
+		icons[2] = this.addIcon("Text", new ImageIcon(this.getClass().getResource("images" + File.separator + "text.png")), textCell);
 
 		for (int i = 0; i < 3; i++) {
 			c.fill = GridBagConstraints.BOTH;
