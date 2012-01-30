@@ -989,7 +989,24 @@ public class TuringMachine extends Machine{
 			statesNew.add((State) s.clone());
 		}
 		for(Edge e : edges) {
-			edgesNew.add((Edge) e.clone());
+			State fromNew = null;
+			State toNew = null;
+			for(State s : statesNew) {
+				if(s.getId().equals(e.getFrom().getId()))
+					fromNew = s;
+				if(s.getId().equals(e.getTo().getId()))
+					toNew = s;
+			}
+			ArrayList<Transition> transitionsNew = new ArrayList<Transition>();
+			for(Transition t : e.getTransitions())
+				transitionsNew.add((Transition) t.clone());
+			Edge edgeNew = new Edge(fromNew, toNew, transitionsNew);
+			edgeNew.setPosLabelX(e.getPosLabel().getX());
+			edgeNew.setPosLabelY(e.getPosLabel().getY());
+			for(Point p : e.getVia()) {
+				edgeNew.getVia().add((Point) p.clone());
+			}
+			edgesNew.add(edgeNew);
 		}
 		for(Tape t : tapes) {
 			tapesNew.add(t);
@@ -1010,10 +1027,15 @@ public class TuringMachine extends Machine{
 
 	@Override
 	public boolean isSimulatable() {
-		// TODO: Check whether there is a startState and a finalState
-		return true;
+		boolean startState = false, finalState = false;
+		for(State s : this.states) {
+			if(s.isStartState())
+				startState = true;
+			if(s.isFinalState())
+				finalState = true;
+		}
+		return startState && finalState;
 	}
-
 
 	@Override
 	public void export(String filename) throws IOException {

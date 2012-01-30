@@ -17,7 +17,7 @@ public class Edge implements Serializable {
 	 * The state where the edge ends
 	 */
 	protected State to;
-	
+
 	/**
 	 * The list of via points
 	 */
@@ -26,7 +26,7 @@ public class Edge implements Serializable {
 	 * Contains all transitions of this edge
 	 */
 	protected ArrayList<Transition> transitions;
-	
+
 	/**
 	 * The label x position
 	 */
@@ -47,7 +47,7 @@ public class Edge implements Serializable {
 		this.transitions = transitions;
 		this.via = new ArrayList<Point>();
 	}
-	
+
 	/**
 	 * Returns the edge's start state
 	 * @return Start state for this edge
@@ -55,7 +55,7 @@ public class Edge implements Serializable {
 	public State getFrom() {
 		return this.from;
 	}
-	
+
 	/**
 	 * Returns the edge's end state
 	 * @return End state for this edge
@@ -63,7 +63,7 @@ public class Edge implements Serializable {
 	public State getTo() {
 		return this.to;
 	}
-	
+
 	/**
 	 * Returns the transitions for this edge
 	 * @return Transitions for this edge
@@ -71,7 +71,7 @@ public class Edge implements Serializable {
 	public ArrayList<Transition> getTransitions() {
 		return this.transitions;
 	}
-	
+
 	/**
 	 * Sets the transitions for this edge
 	 * @return Transitions for this edge
@@ -79,7 +79,7 @@ public class Edge implements Serializable {
 	public void setTransitions(ArrayList<Transition> transitions) {
 		this.transitions = transitions;
 	}
-	
+
 	/**
 	 * Sets the start state
 	 * @param from Start state
@@ -87,7 +87,7 @@ public class Edge implements Serializable {
 	public void setFrom(State from) {
 		this.from = from;
 	}
-	
+
 	/**
 	 * Sets the end state
 	 * @param to End state
@@ -114,7 +114,7 @@ public class Edge implements Serializable {
 		}
 		return transitionsString;
 	}
-	
+
 	public String properToString() {
 		String transitionsString = "" + this.from + " - " + this.to + ": ";
 		int numberOfTransitions = (transitions.size() <= 3 ? transitions.size() : 3); //print up to 4 transitions
@@ -129,7 +129,7 @@ public class Edge implements Serializable {
 		}
 		return transitionsString;
 	}
-	
+
 	/**
 	 * Sets the label x position
 	 * @param x The x position
@@ -137,7 +137,7 @@ public class Edge implements Serializable {
 	public void setPosLabelX(int x) {
 		this.posLabelX = x;
 	}
-	
+
 	/**
 	 * Sets the label y position
 	 * @param y The y position
@@ -145,7 +145,7 @@ public class Edge implements Serializable {
 	public void setPosLabelY(int y) {
 		this.posLabelY = y;
 	}
-	
+
 	/**
 	 * Returns the current label position
 	 * @return The point where the label is positioned
@@ -161,21 +161,19 @@ public class Edge implements Serializable {
 	public ArrayList<Point> getVia() {
 		return via;
 	}
-	
+
 	@Override
 	public Object clone() {
-				ArrayList<Transition> transitionsNew = new ArrayList<Transition>();
-				for(Transition t : this.transitions) {
-					transitionsNew.add((Transition) t.clone());
-				}
-				Edge e = new Edge((State) this.from.clone(), 
-						(State) this.to.clone(),
-						transitionsNew);
-				e.setPosLabelX(this.posLabelX);
-				e.setPosLabelY(this.posLabelY);
-				for(Point p : this.via) {
-					e.getVia().add((Point) p.clone());
-				}
-				return e;
+		ArrayList<Transition> transitionsNew = new ArrayList<Transition>();
+		for(Transition t : this.transitions) {
+			transitionsNew.add((Transition) t.clone());
+		}
+		Edge e = new Edge(this.from, this.to, transitionsNew);
+		e.setPosLabelX(this.posLabelX);
+		e.setPosLabelY(this.posLabelY);
+		for(Point p : this.via) {
+			e.getVia().add((Point) p.clone());
+		}
+		return e;
 	}
 }

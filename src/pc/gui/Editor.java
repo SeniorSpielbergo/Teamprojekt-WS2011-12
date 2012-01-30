@@ -451,10 +451,15 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		RunWindow runWindow = new RunWindow(currentMachine);
 		runWindow.setLocationRelativeTo(null);
 
-		ReturnValue returnValue = runWindow.showDialog();
-		if (returnValue == ReturnValue.RUN) {
-			this.simulationWindow = new SimulationWindow(this.currentMachine, this);
-			this.applySimulationSettings();
+		if(!currentMachine.isSimulatable()) {
+			ErrorDialog.showError("Machine is not simulatable. You may check your machine again.");
+		}
+		else {
+			ReturnValue returnValue = runWindow.showDialog();
+			if (returnValue == ReturnValue.RUN) {
+				this.simulationWindow = new SimulationWindow(this.currentMachine, this);
+				this.applySimulationSettings();
+			}
 		}
 	}
 
