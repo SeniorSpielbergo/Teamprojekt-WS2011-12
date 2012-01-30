@@ -130,9 +130,8 @@ public class AppData {
 		if (f.isDirectory()) {
 			for (File c : f.listFiles()) {
 				System.out.println("Deleting " + c.getAbsolutePath() + "...");
-				c.delete();
+				deleteDirectoryRecursively(c);
 			}
-
 		}
 		System.out.println("Deleting " + f.getAbsolutePath() + "...");
 		f.delete();
@@ -143,15 +142,16 @@ public class AppData {
 		assert destDir.isDirectory();
 
 		if (!toCopy.isDirectory()) {
+			File destFile = new File(destDir, toCopy.getName());
+			System.out.println("Installing '" + destFile.getAbsolutePath() + "'...");
 			try {
-				return copyStream(new FileInputStream(toCopy), new FileOutputStream(new File(destDir, toCopy.getName())));
+				return copyStream(new FileInputStream(toCopy), new FileOutputStream(destFile));
 			} catch (final FileNotFoundException e) {
 				e.printStackTrace();
 			}
 			return false;
 		} else {
 			final File newDestDir = new File(destDir, toCopy.getName());
-			System.out.println("Installing '" + newDestDir.getAbsolutePath() + "'...");
 
 			if (!newDestDir.exists() && !newDestDir.mkdir()) {
 				return false;
@@ -178,13 +178,13 @@ public class AppData {
 
 				final File f = new File(destDir, filename);
 				if (!entry.isDirectory()) {
+					System.out.println("Installing '" + f.getAbsolutePath() + "'...");
 					final InputStream entryInputStream = jarFile.getInputStream(entry);
 					if(!copyStream(entryInputStream, f)){
 						return false;
 					}
 					entryInputStream.close();
 				} else {
-					System.out.println("Installing '" + f.getAbsolutePath() + "'...");
 					if (!ensureDirectoryExists(f)) {
 						throw new IOException("Could not create directory: "
 								+ f.getAbsolutePath());
