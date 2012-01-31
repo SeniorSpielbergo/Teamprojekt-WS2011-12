@@ -35,6 +35,82 @@ public class MainMaster {
 
 	Tape tape = null;
 
+	public static void printRightArrow(){
+		int x =0, y = 29;
+		for(int i = 1; i <= 20 ; i++){
+			LCD.setPixel(1, x+i, y+5);
+			LCD.setPixel(1, x+i, y+30);
+		}
+		for(int i = 1; i <=4 ; i++){
+			LCD.setPixel(1, x+20 , y+i);
+			LCD.setPixel(1, x+20 , y+i+30);
+		}
+		for (int i = 5; i <= 30; i++) {
+			LCD.setPixel(1, x+1 , y+i);
+		}
+		for(int i = 1; i <=17 ; i++){
+			LCD.setPixel(1, x+20+i , y+i);
+			LCD.setPixel(1, x+20+i , y+35-i);
+		}
+	}
+	
+	public static void clearRightArrow(){
+		int x =0, y = 29;
+		for(int i = 1; i <= 20 ; i++){
+			LCD.setPixel(0, x+i, y+5);
+			LCD.setPixel(0, x+i, y+30);
+		}
+		for(int i = 1; i <=4 ; i++){
+			LCD.setPixel(0, x+20 , y+i);
+			LCD.setPixel(0, x+20 , y+i+30);
+		}
+		for (int i = 5; i <= 30; i++) {
+			LCD.setPixel(0, x+1 , y+i);
+		}
+		for(int i = 1; i <=17 ; i++){
+			LCD.setPixel(0, x+20+i , y+i);
+			LCD.setPixel(0, x+20+i , y+35-i);
+		}
+	}
+	
+	public static void printLeftArrow(){
+		int x = 62, y = 29;
+		for(int i = 1; i <= 20 ; i++){
+			LCD.setPixel(1, x-i+37, y+5);
+			LCD.setPixel(1, x-i+37, y+30);
+		}
+		for(int i = 1; i <=4 ; i++){
+			LCD.setPixel(1, x+17 , y+i);
+			LCD.setPixel(1, x+17 , y+i+30);
+		}
+		for (int i = 5; i <= 30; i++) {
+			LCD.setPixel(1, x+37 , y+i);
+		}
+		for(int i = 1; i <=17 ; i++){
+			LCD.setPixel(1, x+17-i , y+i);
+			LCD.setPixel(1, x+17-i , y+35-i);
+		}
+	}
+	
+	public static void clearLeftArrow(){
+		int x = 62, y = 29;
+		for(int i = 1; i <= 20 ; i++){
+			LCD.setPixel(0, x-i+37, y+5);
+			LCD.setPixel(0, x-i+37, y+30);
+		}
+		for(int i = 1; i <=4 ; i++){
+			LCD.setPixel(0, x+17 , y+i);
+			LCD.setPixel(0, x+17 , y+i+30);
+		}
+		for (int i = 5; i <= 30; i++) {
+			LCD.setPixel(0, x+37 , y+i);
+		}
+		for(int i = 1; i <=17 ; i++){
+			LCD.setPixel(0, x+17-i , y+i);
+			LCD.setPixel(0, x+17-i , y+35-i);
+		}
+	}
+	
 	public void run() {
 		Common.playTune("HAHA",200);
 		String sensor1, sensor2, sensor3, counterString;
@@ -209,6 +285,7 @@ public class MainMaster {
 				}
 				break;
 			case 'L':
+				printLeftArrow();
 				if(tape.moveLeft()) {
 					try {
 						out.writeChar('.');
@@ -225,8 +302,10 @@ public class MainMaster {
 					catch (IOException e) {
 					}						
 				}
+				clearLeftArrow();
 				break;
 			case 'R': 
+				printRightArrow();
 				if(tape.moveRight()) {
 					try {
 						out.writeChar('.');
@@ -243,6 +322,7 @@ public class MainMaster {
 					catch (IOException e) {
 					}
 				}
+				clearRightArrow();
 				break;
 			}
 		}

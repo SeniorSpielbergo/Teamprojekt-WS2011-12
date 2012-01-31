@@ -9,12 +9,14 @@ public class Calibrate {
 		ColorSensor cs1 = new ColorSensor(SensorPort.S1);
 		ColorSensor cs2 = new ColorSensor(SensorPort.S2);
 		ColorSensor counterSensor = new ColorSensor(SensorPort.S3);
-		
+		LCD.drawString("white level",0,0);
 		while(!Button.ENTER.isPressed()) {}
+		
 		cs1.initWhiteBalance();
 		cs2.initWhiteBalance();
 		counterSensor.initWhiteBalance();
-		
+		LCD.clearDisplay();
+		LCD.drawString("black level",0,0);
 		while(!Button.ESCAPE.isPressed()) {}
 		cs1.initBlackLevel();
 		cs2.initBlackLevel();
