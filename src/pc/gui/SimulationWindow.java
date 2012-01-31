@@ -126,7 +126,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			buttonForward = new JButton(this.iconStepForward);
 			buttonForward.setEnabled(false);
 			buttonSound = new JToggleButton("Sound on/off");
-			if(this.myFirstLEGOTape == null)
+			
 				this.buttonSound.setEnabled(false);
 			this.buttonSound.setActionCommand("disabled");
 			buttonSound.addActionListener(this);
@@ -409,6 +409,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 						this.myFirstLEGOTape.getSlave().startSound();
 					
 				}
+				if(this.myFirstLEGOTape != null)
+					this.buttonSound.setEnabled(true);
 				this.buttonPlay.setIcon(this.iconPause);
 			}
 			catch (RuntimeException e){
