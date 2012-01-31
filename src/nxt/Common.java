@@ -2,7 +2,7 @@ import lejos.nxt.Motor;
 import lejos.nxt.Sound;
 
 public class Common {
-	static final int TAPE_SIZE = 9;
+	static final int TAPE_SIZE = 11;
 	static final int PUSH_SPEED = 150;
 	static final int LINE_SPEED = 250;
 	static final int PUSH_ANGLE_MASTER = -173;

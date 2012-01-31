@@ -19,7 +19,7 @@ public class LEGOTape extends DisplayableTape {
 	/**
 	 * The maximal position of the head allowed on the LEGO tape
 	 */
-	public static final int MAX_POSITION = 8;	
+	public static final int MAX_POSITION = 10;	
 	/**
 	 * The master robot of the tape
 	 */
