@@ -82,83 +82,92 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		this.editor = editor;
 
 		this.soundEnabled = true;
-		this.toFront();
-		try {
-			this.setAlwaysOnTop(true);
-		}
-		catch (SecurityException e) {
-			ErrorDialog.showError("Error bringing the simulation window to the foreground.");
-		}
 
-		for(int i = 0; i< currentMachine.getTapes().size(); i++){
-			this.currentMachine.getTapes().get(i).addObserver(this);
-			if(this.currentMachine.getType() == Machine.MachineType.TuringMachine){
-				this.currentMachine.getTapes().get(i).addObserver((TuringMachineEditor)(currentMachine.getEditor()));
+		for(Tape t: this.currentMachine.getTapes()){
+			if(t instanceof tape.LEGOTape){
+				this.myFirstLEGOTape = ((tape.LEGOTape) t);
 			}
-			if(currentMachine.getTapes().get(i) instanceof DisplayableTape){
-				graphicTapes.add((tape.DisplayableTape)machine.getTapes().get(i));
-			}
-		}
 
-		if (editor != null) {
-			this.editor.setEditable(false);
-		}
-
-		this.setTitle("Simulation of " +this.currentMachine.getName());
-		this.setLayout(new GridBagLayout());
-		this.setMinimumSize(new Dimension(300,75));
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-		this.panelall = new JPanel(new GridBagLayout());
-		this.scrollpaneRight = new JScrollPane(panelall);
-		this.resultLabel = new JLabel("Result");
-
-
-		toolbar = new JToolBar("Functions");
-		buttonPlay = new JButton(this.iconPlay);
-		buttonPlay.setEnabled(false);
-		buttonForward = new JButton(this.iconStepForward);
-		buttonForward.setEnabled(false);
-		buttonSound = new JToggleButton("Sound on/off");
-		this.buttonSound.setActionCommand("disabled");
-		buttonSound.addActionListener(this);
-		buttonPlay.addActionListener(this);
-		buttonForward.addActionListener(this);
-		toolbar.add(buttonPlay);
-		toolbar.add(buttonForward);
-
-		this.panelToolbar = new JPanel();
-		this.panelToolbar.add(toolbar);
-		this.panelToolbar.add(this.buttonSound);
-
-
-		//initialize tapes
-		try {
-			for(Tape tape : currentMachine.getTapes()){
-				tape.setDelay(false);
-			}
-			this.currentMachine.initTapes();
-		}
-		catch (TapeException e){
+			this.toFront();
 			try {
-				this.currentMachine.shutdownTapes();
-			} catch (TapeException e1) {
-				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
-				e1.printStackTrace();
+				this.setAlwaysOnTop(true);
 			}
-			ErrorDialog.showError("The initialization of the tapes failed because of a tape exception.", e);
-			return;
-		}
-		catch (RuntimeException e){
-			try {
-				this.currentMachine.shutdownTapes();
-			} catch (TapeException e1) {
-				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
-				e1.printStackTrace();
+			catch (SecurityException e) {
+				ErrorDialog.showError("Error bringing the simulation window to the foreground.");
 			}
-			ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
 
-			return;
+			for(int i = 0; i< currentMachine.getTapes().size(); i++){
+				this.currentMachine.getTapes().get(i).addObserver(this);
+				if(this.currentMachine.getType() == Machine.MachineType.TuringMachine){
+					this.currentMachine.getTapes().get(i).addObserver((TuringMachineEditor)(currentMachine.getEditor()));
+				}
+				if(currentMachine.getTapes().get(i) instanceof DisplayableTape){
+					graphicTapes.add((tape.DisplayableTape)machine.getTapes().get(i));
+				}
+			}
+
+			if (editor != null) {
+				this.editor.setEditable(false);
+			}
+
+			this.setTitle("Simulation of " +this.currentMachine.getName());
+			this.setLayout(new GridBagLayout());
+			this.setMinimumSize(new Dimension(300,75));
+			this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+			this.panelall = new JPanel(new GridBagLayout());
+			this.scrollpaneRight = new JScrollPane(panelall);
+			this.resultLabel = new JLabel("Result");
+
+
+			toolbar = new JToolBar("Functions");
+			buttonPlay = new JButton(this.iconPlay);
+			buttonPlay.setEnabled(false);
+			buttonForward = new JButton(this.iconStepForward);
+			buttonForward.setEnabled(false);
+			buttonSound = new JToggleButton("Sound on/off");
+			if(this.myFirstLEGOTape == null)
+				this.buttonSound.setEnabled(false);
+			this.buttonSound.setActionCommand("disabled");
+			buttonSound.addActionListener(this);
+			buttonPlay.addActionListener(this);
+			buttonForward.addActionListener(this);
+			toolbar.add(buttonPlay);
+			toolbar.add(buttonForward);
+
+			this.panelToolbar = new JPanel();
+			this.panelToolbar.add(toolbar);
+			this.panelToolbar.add(this.buttonSound);
+
+
+			//initialize tapes
+			try {
+				for(Tape tape : currentMachine.getTapes()){
+					tape.setDelay(false);
+				}
+				this.currentMachine.initTapes();
+			}
+			catch (TapeException e){
+				try {
+					this.currentMachine.shutdownTapes();
+				} catch (TapeException e1) {
+					System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+					e1.printStackTrace();
+				}
+				ErrorDialog.showError("The initialization of the tapes failed because of a tape exception.", e);
+				return;
+			}
+			catch (RuntimeException e){
+				try {
+					this.currentMachine.shutdownTapes();
+				} catch (TapeException e1) {
+					System.out.println("Warning: The tapes couldn't be shutdown correctly.");
+					e1.printStackTrace();
+				}
+				ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
+
+				return;
+			}
 		}
 
 		this.setLocation(200, 200);
@@ -192,6 +201,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		windowConstraints.weightx = 1.0;
 		windowConstraints.weighty = 0.05;
 		this.add(panelToolbar, windowConstraints);
+
 
 
 		//adding tapes to panel
@@ -395,10 +405,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				simulationPaused = false;
 				sim.start();
 				for(Tape t: this.currentMachine.getTapes()){
-					if(t instanceof tape.LEGOTape){
-						this.myFirstLEGOTape = ((tape.LEGOTape) t);
+					if(this.myFirstLEGOTape != null)
 						this.myFirstLEGOTape.getSlave().startSound();
-					}
+					
 				}
 				this.buttonPlay.setIcon(this.iconPause);
 			}
