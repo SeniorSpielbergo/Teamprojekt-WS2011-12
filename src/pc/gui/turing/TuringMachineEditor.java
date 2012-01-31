@@ -926,8 +926,6 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 
 	@Override
 	public void setEditable(boolean editable) {
-		if(!editable)
-			this.updateMachineObject();
 		this.graph.setCellsMovable(editable);
 		this.graph.setCellsResizable(editable);
 		this.graph.setCellsDeletable(editable);
@@ -1170,7 +1168,8 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		}
 	}
 
-	public void updateMachineObject() {		
+	@Override
+	public void updateMachine() {		
 		ArrayList<State> states = new ArrayList<State>();
 		ArrayList<Edge> edges = new ArrayList<Edge>();
 		ArrayList<Textbox> textboxes = new ArrayList<Textbox>();
