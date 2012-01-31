@@ -448,6 +448,8 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	 * Opens the run window.
 	 */
 	public void runSimulation() {
+		this.currentMachine.getEditor().updateMachine();
+		
 		RunWindow runWindow = new RunWindow(currentMachine);
 		runWindow.setLocationRelativeTo(null);
 

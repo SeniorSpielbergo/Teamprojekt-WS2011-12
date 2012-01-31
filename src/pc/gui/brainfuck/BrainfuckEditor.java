@@ -163,6 +163,11 @@ public class BrainfuckEditor extends MachineEditor implements Observer, ActionLi
 		redoAction.setEnabled(undoManager.canRedo());
 	}
 	
+	@Override
+	public void updateMachine() {
+		// nothing to do here
+	}
+	
 	// Creates the EditMenu
 	private void initEditMenu() {
 		editMenu = new JMenu("Edit");

@@ -574,8 +574,8 @@ public class TuringMachine extends Machine{
 	 * @param filename File writing to (with or without .xml at the end)
 	 */
 	public void save(String filename) throws IOException {
+		this.editor.updateMachine();
 		System.out.println("Saving file '" + filename + "'...");
-		((TuringMachineEditor) this.editor).updateMachineObject();
 
 		if (!filename.endsWith(".tm")) {
 			throw new IOException("Wrong file extension of file '" + filename + "'. Must be '.tm'");
