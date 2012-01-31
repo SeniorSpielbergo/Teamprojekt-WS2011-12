@@ -25,7 +25,6 @@ import java.util.ArrayList;
 
 public class Editor extends JFrame implements ActionListener, ItemListener {
 	private static final long serialVersionUID = -2288629542566838685L;
-
 	/**
 	 * The machine currently open in the editor.
 	 */
@@ -375,6 +374,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			try { 
 				this.currentMachine.save(selectedFile.getPath());
 				this.currentFile = selectedFile;
+				this.updateTitle();
 			} catch (IOException e) {
 				ErrorDialog.showError("Saving the file '" + selectedFile.getName() + "' failed because of an I/O error.", e);
 			}
@@ -547,17 +547,21 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		}
 
 	}
-
-	/**
-	 * Loads and prepares the editor for the current machine
-	 */
-	public void loadEditor() {
+	
+	private void updateTitle() {
 		if (!(this.currentFile == null)) {
 			this.setTitle(this.currentFile.getName() + " - " + AppData.APP_NAME);
 		}
 		else {
 			this.setTitle(AppData.APP_NAME);
 		}
+	}
+
+	/**
+	 * Loads and prepares the editor for the current machine
+	 */
+	public void loadEditor() {
+		this.updateTitle();
 		this.remove(welcomeScreen);
 		this.repaint();
 		this.add(this.currentMachine.getEditor());
