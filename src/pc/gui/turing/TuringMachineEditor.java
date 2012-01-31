@@ -1074,7 +1074,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		for (Object cell : this.graph.getChildEdges(graph.getDefaultParent())) {
 			mxCell mxCell = (mxCell) cell;
 			if(((State) mxCell.getSource().getValue()).getId().equals(from.getId()) 
-					&& ((State) mxCell.getSource().getValue()).getId().equals(from.getId())){
+					&& ((State) mxCell.getTarget().getValue()).getId().equals(to.getId())){
 				return mxCell;
 			}
 		}
