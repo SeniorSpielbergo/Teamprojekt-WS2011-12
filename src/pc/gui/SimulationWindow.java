@@ -278,7 +278,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			this.sim.setAbortSimulation();
 
 			try {
+				System.out.println("vorher");
 				this.sim.getSimulationThread().join();
+				System.out.println("vorher");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -391,6 +393,10 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				simulationPaused = false;
 				sim.start();
 				this.buttonPlay.setEnabled(false);
+				if(this.myFirstLEGOTape != null){
+					this.myFirstLEGOTape.getSlave().startSound();
+					this.buttonSound.setEnabled(true);
+				}
 				sim.pause();
 				this.buttonPlay.setEnabled(true);
 			}
