@@ -129,12 +129,14 @@ public class AppData {
 	private static void deleteDirectoryRecursively(File f) throws IOException {
 		if (f.isDirectory()) {
 			for (File c : f.listFiles()) {
-				System.out.println("Deleting " + c.getAbsolutePath() + "...");
 				deleteDirectoryRecursively(c);
 			}
 		}
 		System.out.println("Deleting " + f.getAbsolutePath() + "...");
-		f.delete();
+		boolean successful = f.delete();
+		if (!successful) {
+			System.out.println("Warning: Deleting " + f.getAbsolutePath() + " failed!");
+		}
 	}
 
 	private static boolean copyFilesRecusively(final File toCopy,
