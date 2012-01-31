@@ -29,7 +29,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	/**
 	 * The machine currently open in the editor.
 	 */
-	
+
 	protected Machine currentMachine;
 	private File currentFile = null;
 	private String lastDir = ".";
@@ -37,7 +37,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	private String tapeStyle = "default";
 	private SimulationWindow simulationWindow = null;
 	private WelcomeScreen welcomeScreen;
-	
+
 	private JMenu fileMenu;
 	private JMenu newSubmenu;
 	private JMenuItem newBFAction;
@@ -93,7 +93,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		helpMenu.add(reportBugAction);
 		helpMenu.add(wikiAction);
 		helpMenu.add(aboutAction);
-		
+
 		//disable menu items
 		saveAction.setEnabled(false);
 		saveAsAction.setEnabled(false);
@@ -108,13 +108,13 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		saveAction.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		exitAction.setAccelerator(KeyStroke.getKeyStroke('Q', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		runAction.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		
-		
+
+
 		//show welcome screen
 		this.welcomeScreen = new WelcomeScreen(this);
 		this.add(welcomeScreen);
 	}
-	
+
 	/**
 	 * Checks if an object is contained in an array
 	 * @param array The array to search in
@@ -154,11 +154,11 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		closeAction = new JMenuItem("Close");
 		exportAction = new JMenuItem("Export...");
 		exitAction = new JMenuItem("Exit");
-		
+
 		// create Simulation menu items
 		runAction = new JMenuItem("Run...");
 		organizeRobotsAction = new JMenuItem("Organize robots...");
-		
+
 		// create Simulation->Tape style submenu items
 		tapeStyleSubmenu = new JMenu("Tape style");
 		try {
@@ -174,7 +174,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-		
+
 		toggleDelayAction = new JCheckBoxMenuItem("Delay");
 		toggleDelayAction.setSelected(true);
 
@@ -247,7 +247,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		}
 
 		// set xml filter for file chooser
-		
+
 		fc.setFileFilter(new ExtensionFileFilter(Machine.MachineType.BrainfuckMachine.toString(), BrainfuckMachine.FILE_EXTENSION));
 		fc.setFileFilter(new ExtensionFileFilter(Machine.MachineType.TuringMachine.toString(), TuringMachine.FILE_EXTENSION));
 
@@ -292,7 +292,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			}
 		}
 	}
-	
+
 	public void openFile(String file) {
 		Machine machine = null;
 		try {
@@ -483,7 +483,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		this.closeAction.setEnabled(editable);
 
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == newTMAction) {
@@ -520,10 +520,24 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			organizeRobots();
 		}
 		else if (e.getSource() == reportBugAction) {
-			ErrorDialog.showError("not implemented yet!"); //TODO: implement
+			try {
+				java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+				java.net.URI uri = new java.net.URI("https://github.com/SeniorSpielbergo/Teamprojekt-WS2011-12/issues/new");
+				desktop.browse( uri );
+			}
+			catch ( Exception e1 ) {
+				ErrorDialog.showError("Could not open https://github.com/SeniorSpielbergo/Teamprojekt-WS2011-12/issues/new.");	
+			}
 		}
 		else if (e.getSource() == wikiAction) {
-			ErrorDialog.showError("not implemented yet!"); //TODO: implement
+			try {
+				java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+				java.net.URI uri = new java.net.URI("http://github.com/SeniorSpielbergo/Teamprojekt-WS2011-12/wiki");
+				desktop.browse( uri );
+			}
+			catch ( Exception e1 ) {
+				ErrorDialog.showError("Could not open http://github.com/SeniorSpielbergo/Teamprojekt-WS2011-12/wiki.");	
+			}
 		}
 		else if (e.getSource() == aboutAction) {
 			AboutDialog about = new AboutDialog();
@@ -583,7 +597,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			runAction.setEnabled(false);
 			exportAction.setEnabled(false);
 			closeAction.setEnabled(false);
-			
+
 			//show welocme screen
 			this.welcomeScreen = new WelcomeScreen(this);
 			this.add(welcomeScreen);
@@ -606,7 +620,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			for (JRadioButtonMenuItem item : this.tapeStyleMenuItems) {
 				item.removeItemListener(this);
 			}
-			
+
 			for (Component comp : this.tapeStyleMenuItems) {
 				JRadioButtonMenuItem menu = (JRadioButtonMenuItem) comp;
 				menu.setSelected(false);
@@ -614,22 +628,22 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 			JRadioButtonMenuItem style = (JRadioButtonMenuItem) e.getSource();
 			style.setSelected(true);
 			this.tapeStyle = style.getText();
-			
+
 			for (JRadioButtonMenuItem item : this.tapeStyleMenuItems) {
 				item.addItemListener(this);
 			}
 		}
-		
+
 		this.applySimulationSettings();
 	}
-	
+
 	private void applySimulationSettings() {
 		if (this.simulationWindow != null) {
 			this.simulationWindow.setDelay(this.delay);
 			this.simulationWindow.setTapeStyle(this.tapeStyle);
 		}
 	}
-	
+
 	/**
 	 * The editor main, which initializes a new editor window.
 	 * @param args Command line arguments
@@ -647,7 +661,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		} 
 		catch (Exception e) {
 		}
-		
+
 		AppData.init();
 
 		Editor mainWindow = new Editor();
