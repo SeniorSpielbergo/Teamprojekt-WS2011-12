@@ -87,6 +87,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			if(t instanceof tape.LEGOTape){
 				this.myFirstLEGOTape = ((tape.LEGOTape) t);
 			}
+		}
 
 			this.toFront();
 			try {
@@ -126,8 +127,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			buttonForward = new JButton(this.iconStepForward);
 			buttonForward.setEnabled(false);
 			buttonSound = new JToggleButton("Sound on/off");
-			
-				this.buttonSound.setEnabled(false);
+
+			this.buttonSound.setEnabled(false);
 			this.buttonSound.setActionCommand("disabled");
 			buttonSound.addActionListener(this);
 			buttonPlay.addActionListener(this);
@@ -168,7 +169,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 				return;
 			}
-		}
+		
 
 		this.setLocation(200, 200);
 		this.computeSize();
@@ -404,13 +405,10 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			try {
 				simulationPaused = false;
 				sim.start();
-				for(Tape t: this.currentMachine.getTapes()){
-					if(this.myFirstLEGOTape != null)
-						this.myFirstLEGOTape.getSlave().startSound();
-					
-				}
-				if(this.myFirstLEGOTape != null)
+				if(this.myFirstLEGOTape != null){
+					this.myFirstLEGOTape.getSlave().startSound();
 					this.buttonSound.setEnabled(true);
+				}
 				this.buttonPlay.setIcon(this.iconPause);
 			}
 			catch (RuntimeException e){
