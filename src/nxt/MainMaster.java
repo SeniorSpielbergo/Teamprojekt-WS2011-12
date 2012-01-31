@@ -215,38 +215,30 @@ public class MainMaster {
 			case 'r':
 				boolean cs1Active, cs2Active;
 				if (cs1.getColorNumber() >= 5 && cs1.getColorNumber() <= 10) {
-					LCD.drawString("brick", 0, 0);
 					cs1Active = true;
 				}
 				else {
-					LCD.drawString("no brick", 0, 0);
 					cs1Active = false;
 
 				}
 				if (cs2.getColorNumber() >= 5 && cs2.getColorNumber() <= 10) {
-					LCD.drawString("brick", 0, 1);
 					cs2Active = true;
 				}
 				else {
-					LCD.drawString("no brick", 0, 1);
 					cs2Active = false;
 				}
 				try {
 					if (!cs1Active && !cs2Active) {
 						out.writeChar('#');
-						Common.playTune("C",200); //testing
 					}
 					else if (!cs1Active && cs2Active) {
 						out.writeChar('0');
-						Common.playTune("E",200); //testing
 					}
 					else if (cs1Active && !cs2Active) {
 						out.writeChar('1');
-						Common.playTune("G",200); //testing
 					}
 					else if (cs1Active && cs2Active) {
 						out.writeChar('2');
-						Common.playTune("H",200); //testing
 					}
 					out.flush();
 				}
