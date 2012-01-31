@@ -31,7 +31,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 
 	protected Machine currentMachine;
 	private File currentFile = null;
-	private String lastDir = ".";
+	private String lastDir = "./machine/examples";
 	private boolean delay = true;
 	private String tapeStyle = "default";
 	private SimulationWindow simulationWindow = null;
