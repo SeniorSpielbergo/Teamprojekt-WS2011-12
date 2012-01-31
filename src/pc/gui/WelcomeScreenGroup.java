@@ -37,6 +37,7 @@ public class WelcomeScreenGroup extends JPanel implements MouseListener {
 		this.editor = editor;
 		this.setLayout(new GridBagLayout());
 		File[] exampleFiles = AppData.examplesDirectory.listFiles();
+		java.util.Arrays.sort(exampleFiles);
 		title = new JLabel(titleText, JLabel.LEFT);
 		title.setFont(title.getFont().deriveFont(16f));
 

@@ -87,6 +87,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			if(t instanceof tape.LEGOTape){
 				this.myFirstLEGOTape = ((tape.LEGOTape) t);
 			}
+		}
 
 			this.toFront();
 			try {
@@ -126,8 +127,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			buttonForward = new JButton(this.iconStepForward);
 			buttonForward.setEnabled(false);
 			buttonSound = new JToggleButton("Sound on/off");
-			if(this.myFirstLEGOTape == null)
-				this.buttonSound.setEnabled(false);
+
+			this.buttonSound.setEnabled(false);
 			this.buttonSound.setActionCommand("disabled");
 			buttonSound.addActionListener(this);
 			buttonPlay.addActionListener(this);
@@ -168,7 +169,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 				return;
 			}
-		}
+		
 
 		this.setLocation(200, 200);
 		this.computeSize();
@@ -277,7 +278,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			this.sim.setAbortSimulation();
 
 			try {
+				System.out.println("vorher");
 				this.sim.getSimulationThread().join();
+				System.out.println("vorher");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -390,6 +393,10 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				simulationPaused = false;
 				sim.start();
 				this.buttonPlay.setEnabled(false);
+				if(this.myFirstLEGOTape != null){
+					this.myFirstLEGOTape.getSlave().startSound();
+					this.buttonSound.setEnabled(true);
+				}
 				sim.pause();
 				this.buttonPlay.setEnabled(true);
 			}
@@ -404,10 +411,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			try {
 				simulationPaused = false;
 				sim.start();
-				for(Tape t: this.currentMachine.getTapes()){
-					if(this.myFirstLEGOTape != null)
-						this.myFirstLEGOTape.getSlave().startSound();
-					
+				if(this.myFirstLEGOTape != null){
+					this.myFirstLEGOTape.getSlave().startSound();
+					this.buttonSound.setEnabled(true);
 				}
 				this.buttonPlay.setIcon(this.iconPause);
 			}

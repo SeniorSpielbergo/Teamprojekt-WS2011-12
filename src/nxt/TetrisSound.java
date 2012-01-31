@@ -129,7 +129,7 @@ public class TetrisSound implements Runnable{
 	public void enableSound(boolean enabled){
 
 		if(enabled)
-			Sound.setVolume(10);
+			Sound.setVolume(20);
 		else{
 			Sound.setVolume(0);
 		}
