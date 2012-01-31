@@ -51,7 +51,10 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 	private void init(){
 		//TODO: make it beautiful!
 		this.setTitle("Presimulation");
-		this.setLayout(new GridLayout(2,0));
+		this.setLayout(new GridBagLayout());
+		
+		
+		
 		this.panelText.setLayout(new GridLayout(3,0));
 		this.panelText.add(this.labelText);
 		this.panelText.add(this.labelDuration);
@@ -68,10 +71,7 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 
 		getRootPane().setDefaultButton(this.buttonSimulate);
 		
-		
-
-		this.add(this.panelText);
-		this.add(this.panelButtons);
+	
 		this.setSize(250, 150);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
@@ -106,7 +106,25 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		}
 
 		this.labelText.setText("The simulation needs " +Integer.toString(this.sim.getNumberOfSteps()) +" Steps." );
-		this.labelDuration.setText("This will last about " + Integer.valueOf(this.simulationTime)+" minutes.");
+		if(this.simulationTime() < 1){
+			this.labelDuration.setText("This will last less then one minute.");
+		}
+		else{
+		this.labelDuration.setText("This will last about " + Integer.valueOf(this.simulationTime())+" minutes.");
+		
+		}
+		
+		GridBagConstraints windowConstraints = new GridBagConstraints();
+		windowConstraints.gridx = 0;
+		windowConstraints.gridy = 0;
+		windowConstraints.weightx = 1.0;
+		windowConstraints.weighty = 0.05;
+		this.add(this.panelText);
+		windowConstraints.gridy = 1;
+		
+
+		this.add(this.panelButtons, windowConstraints);
+		
 		this.centerDialogOnTheScreen();
 	}
 
@@ -121,10 +139,7 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 	}
 	
 	public int simulationTime(){
-		this.simulationTime= (this.sim.getNumberOfMovementsGraphic()
-								+this.sim.getNumberOfMovementsLego()
-								+this.sim.getNumberOfWritingsGraphic())*500
-								+this.sim.getNumberOfWritingsLego()*800;
+		this.simulationTime= (this.sim.getNumberOfMovements() + this.sim.getNumberOfWritings() * 500);
 		return this.simulationTime/(1000*60);
 	}
 
