@@ -1,5 +1,6 @@
 package gui;
 
+
 import java.util.ArrayList;
 
 import javax.swing.table.*;
@@ -20,7 +21,7 @@ public class CustomTable extends AbstractTableModel {
 	/**
 	 * Stores the data
 	 */
-	private ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+	private ArrayList<ArrayList<Object>> data = new ArrayList<ArrayList<Object>>();
 	/**
 	 * Stores which columns are editable
 	 */
@@ -61,7 +62,7 @@ public class CustomTable extends AbstractTableModel {
 	 * @return Value of the cell
 	 */
 	@Override
-	public String getValueAt(int i, int j) {
+	public Object getValueAt(int i, int j) {
 		return data.get(i).get(j);
 	}
 
@@ -83,8 +84,18 @@ public class CustomTable extends AbstractTableModel {
 	 */
 	@Override
 	public void setValueAt(Object value, int row, int col) {
-		data.get(row).set(col, (String) value);
+		data.get(row).set(col, value);
 		fireTableCellUpdated(row, col);
+	}
+	
+	/**
+	 * Returns the columns class
+	 * @param col Column number
+	 * @return The columns class
+	 */
+	@Override
+	public Class<?> getColumnClass(int col) {
+		return data.get(0).get(col).getClass();
 	}
 
 	/**
@@ -107,8 +118,8 @@ public class CustomTable extends AbstractTableModel {
 	 * Add row to table
 	 * @param values Values to be inserted
 	 */
-	public void addRow(String[] values) {
-		ArrayList<String> row = new ArrayList<String>();
+	public void addRow(Object[] values) {
+		ArrayList<Object> row = new ArrayList<Object>();
 		for (int i = 0; i < values.length; i++) {
 			row.add(values[i]);
 		}
@@ -121,7 +132,7 @@ public class CustomTable extends AbstractTableModel {
 	 * @param values Values to set
 	 * @param row Row that should be updated
 	 */
-	public void updateRow(String[] values, int row) {
+	public void updateRow(Object[] values, int row) {
 		for (int i = 0; i < values.length; i++) {
 			setValueAt(values[i], row, i);
 			fireTableCellUpdated(row, i);

@@ -46,7 +46,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	private JButton cancelButton;
 	private JPanel saveCancelContainer;
 	private JPanel addDeleteContainer;
-	private RobotsTable model;
+	private CustomTable model;
 	private ListSelectionModel listSelectionModel;
 	/**
 	 * Stores the data
@@ -119,7 +119,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			ErrorDialog.showError("Parsing the XML file failed.", e);
 		}
 		// add table
-		model = new RobotsTable(head, editable);
+		model = new CustomTable(head, editable);
 		table = new JTable(model);
 		table.getModel().addTableModelListener(this);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
