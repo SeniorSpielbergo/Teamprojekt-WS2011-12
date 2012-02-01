@@ -48,7 +48,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	/**
 	 * Stores the list of robots available
 	 */
-	private ArrayList<ArrayList<String>> robots = new ArrayList<ArrayList<String>>();
+	private ArrayList<ArrayList<Object>> robots = new ArrayList<ArrayList<Object>>();
 	/**
 	 * Stores the descriptions for the combo boxes
 	 */
@@ -218,8 +218,8 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		if (type ==  Tape.Type.LEGO) {
 			int robotNumber1 = robotCombo1[tape].getSelectedIndex();
 			int robotNumber2 = robotCombo2[tape].getSelectedIndex();
-			MasterRobot master = new MasterRobot(robots.get(robotNumber1).get(0), robots.get(robotNumber1).get(1));
-			SlaveRobot slave = new SlaveRobot(robots.get(robotNumber2).get(0), robots.get(robotNumber2).get(1));
+			MasterRobot master = new MasterRobot(robots.get(robotNumber1).get(0).toString(), robots.get(robotNumber1).get(1).toString());
+			SlaveRobot slave = new SlaveRobot(robots.get(robotNumber2).get(0).toString(), robots.get(robotNumber2).get(1).toString());
 			Tape tape_lego = new LEGOTape(machine.getTapes().get(tape).getName(), master, slave, machine.getTapes().get(tape).getInputAllowed());
 			try {
 				tape_lego.setInputWord(machine.getTapes().get(tape).getInputWord());

@@ -16,6 +16,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -45,12 +46,12 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	private JButton cancelButton;
 	private JPanel saveCancelContainer;
 	private JPanel addDeleteContainer;
-	private CustomTable model;
+	private RobotsTable model;
 	private ListSelectionModel listSelectionModel;
 	/**
 	 * Stores the data
 	 */
-	private ArrayList<ArrayList<String>> data;
+	private ArrayList<ArrayList<Object>> data;
 	/**
 	 * Stores whether the table is initialized
 	 */
@@ -58,11 +59,11 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	/**
 	 * Contains the columns names
 	 */
-	private String[] head = {"Name", "MAC-Address"};
+	private String[] head = {"Name", "MAC-Address", "Master"};
 	/**
 	 * Stores which columns are editable
 	 */
-	private boolean[] editable = {true, true};
+	private boolean[] editable = {true, true, true};
 	
 	/**
 	 * Constructs the window to organize the robots
@@ -118,7 +119,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			ErrorDialog.showError("Parsing the XML file failed.", e);
 		}
 		// add table
-		model = new CustomTable(head, editable);
+		model = new RobotsTable(head, editable);
 		table = new JTable(model);
 		table.getModel().addTableModelListener(this);
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -132,7 +133,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		// if robots.xml not empty
 		if (data != null) {
 			for (int i = 0; i < data.size(); i++) {
-				String[] tempData = {data.get(i).get(0), data.get(i).get(1)};
+				Object[] tempData = {data.get(i).get(0), data.get(i).get(1), data.get(i).get(2)};
 				model.addRow(tempData);
 				table.setEditingColumn(i);
 			}
@@ -157,7 +158,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	 * @return ArrayList of robots with their MAC-Addresses
 	 * @throws IOException Exception on loading problems
 	 */
-	public static ArrayList<ArrayList<String>> loadRobotsFromXML() throws IOException {
+	public static ArrayList<ArrayList<Object>> loadRobotsFromXML() throws IOException {
 		File file = new File("robots.xml");
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		Document doc = null;
@@ -174,7 +175,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			doc.getDocumentElement().normalize();
 		}
 		
-		ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
+		ArrayList<ArrayList<Object>> output = new ArrayList<ArrayList<Object>>();
 		
 		// only parse if file exists
 		if (file.exists()) {
@@ -191,9 +192,15 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 				String name = InOut.getTagValue("name", robotElement);
 				String mac = InOut.getTagValue("mac", robotElement);
 				
-				ArrayList<String> robot = new ArrayList<String>();
+				ArrayList<Object> robot = new ArrayList<Object>();
 				robot.add(name);
 				robot.add(mac);
+				if (robotElement.getAttribute("master").equals("true")) {
+					robot.add(Boolean.TRUE);
+				}
+				else if (robotElement.getAttribute("master").equals("false")) {
+					robot.add(Boolean.FALSE);
+				}
 				output.add(robot);
 			}
 		}
@@ -205,7 +212,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	 * Saves the robots with their MAC-Addresses to the robots.xml
 	 * @param robots ArrayList of robots, which should be saved
 	 */
-	private void saveRobotsToXML(ArrayList<ArrayList<String>> robots) {
+	private void saveRobotsToXML(ArrayList<ArrayList<Object>> robots) {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
 		Transformer transformer = null;
@@ -238,12 +245,16 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 				Element robotElement = doc.createElement("robot");
 				rootElement.appendChild(robotElement);
 				
+				Attr attrMaster = doc.createAttribute("master");
+				attrMaster.setValue(robots.get(i).get(2).toString());
+				robotElement.setAttributeNode(attrMaster);
+				
 				Element nameElement = doc.createElement("name");
-				nameElement.appendChild(doc.createTextNode(robots.get(i).get(0)));
+				nameElement.appendChild(doc.createTextNode(robots.get(i).get(0).toString()));
 				robotElement.appendChild(nameElement);
 				
 				Element macElement = doc.createElement("mac");
-				macElement.appendChild(doc.createTextNode(robots.get(i).get(1)));
+				macElement.appendChild(doc.createTextNode(robots.get(i).get(1).toString()));
 				robotElement.appendChild(macElement);
 			}
 		}
@@ -289,11 +300,11 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			int row = e.getFirstRow();
 			int col = e.getColumn();
 			if (e.getType() == TableModelEvent.UPDATE) {
-				String newData = (String) this.table.getModel().getValueAt(row, col);
+				Object newData = this.table.getModel().getValueAt(row, col);
 				data.get(row).set(col, newData);
 			}
 			else if (e.getType() == TableModelEvent.INSERT) {
-				ArrayList<String> tempData = new ArrayList<String>();
+				ArrayList<Object> tempData = new ArrayList<Object>();
 				tempData.add("");
 				tempData.add("");
 				data.add(tempData);
