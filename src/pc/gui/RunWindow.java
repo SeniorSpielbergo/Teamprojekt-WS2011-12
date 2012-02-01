@@ -174,7 +174,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 			if (tapeType == Tape.Type.LEGO) {
 				LEGOTape tape = (LEGOTape) this.machine.getTapes().get(i);
 				String masterName = tape.getMaster().getName();
-				String masterMac = tape.getSlave().getMacAddress();
+				String masterMac = tape.getMaster().getMacAddress();
 				String slaveName = tape.getSlave().getName();
 				String slaveMac = tape.getSlave().getMacAddress();
 				robotCombo1[i].setSelectedItem(masterName + " - " + masterMac);
