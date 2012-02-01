@@ -131,7 +131,7 @@ public class MainMaster {
 		});
 
 		while (true) {
-			LCD.drawString("Moving to begin...", 0, 0);
+			LCD.drawString("Moving to start...", 0, 0);
 			tape = new Tape(Common.TAPE_SIZE);
 			tape.start();
 			LCD.clearDisplay();
