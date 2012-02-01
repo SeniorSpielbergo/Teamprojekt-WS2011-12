@@ -111,7 +111,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		//create split pane
 		this.jSplitPaneHorizontal = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				this.jPanelLeft, this.jPanelGraph);
-		this.jSplitPaneHorizontal.setOneTouchExpandable(true);
+		this.jSplitPaneHorizontal.setOneTouchExpandable(false);
 		this.hideLeftSplitPane(false);
 		this.jPanelGraph.setMinimumSize(new Dimension(200, 100));
 		this.setLayout(new BorderLayout());
