@@ -284,7 +284,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			dispose();
 		}
 		else if (e.getSource() == addButton) {
-			String[] tempData = {"", ""};
+			Object[] tempData = {"", "", Boolean.FALSE};
 			model.addRow(tempData);
 		}
 		else if (e.getSource() == deleteButton) {
@@ -307,6 +307,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 				ArrayList<Object> tempData = new ArrayList<Object>();
 				tempData.add("");
 				tempData.add("");
+				tempData.add(Boolean.FALSE);
 				data.add(tempData);
 			}
 			else if (e.getType() == TableModelEvent.DELETE) {
@@ -328,7 +329,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 			if (row == -1) {
 				row = table.getRowCount() - 1;
 			}
-			table.setColumnSelectionInterval(0, 1);
+			table.setColumnSelectionInterval(0, 2);
 			table.setRowSelectionInterval(row, row);
 		}
 	}

@@ -216,18 +216,20 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	 */
 	private void refreshTapes(int tape, Tape.Type type) {
 		if (type ==  Tape.Type.LEGO) {
-			int robotNumber1 = robotCombo1[tape].getSelectedIndex();
-			int robotNumber2 = robotCombo2[tape].getSelectedIndex();
-			MasterRobot master = new MasterRobot(robots.get(robotNumber1).get(0).toString(), robots.get(robotNumber1).get(1).toString());
-			SlaveRobot slave = new SlaveRobot(robots.get(robotNumber2).get(0).toString(), robots.get(robotNumber2).get(1).toString());
-			Tape tape_lego = new LEGOTape(machine.getTapes().get(tape).getName(), master, slave, machine.getTapes().get(tape).getInputAllowed());
-			try {
-				tape_lego.setInputWord(machine.getTapes().get(tape).getInputWord());
-			} catch (TapeException e1) {
-				ErrorDialog.showError("Error changing Tapetype", e1);
-			}						
-			machine.getTapes().remove(tape);
-			machine.getTapes().add(tape, tape_lego);
+			if (robots.size() > 0) {
+				int robotNumber1 = robotCombo1[tape].getSelectedIndex();
+				int robotNumber2 = robotCombo2[tape].getSelectedIndex();
+				MasterRobot master = new MasterRobot(robots.get(robotNumber1).get(0).toString(), robots.get(robotNumber1).get(1).toString());
+				SlaveRobot slave = new SlaveRobot(robots.get(robotNumber2).get(0).toString(), robots.get(robotNumber2).get(1).toString());
+				Tape tape_lego = new LEGOTape(machine.getTapes().get(tape).getName(), master, slave, machine.getTapes().get(tape).getInputAllowed());
+				try {
+					tape_lego.setInputWord(machine.getTapes().get(tape).getInputWord());
+				} catch (TapeException e1) {
+					ErrorDialog.showError("Error changing Tapetype", e1);
+				}						
+				machine.getTapes().remove(tape);
+				machine.getTapes().add(tape, tape_lego);
+			}
 		}
 		else if (type == Tape.Type.CONSOLE) {
 			Tape tape_console = new ConsoleTape(machine.getTapes().get(tape).getName(), machine.getTapes().get(tape).getInputAllowed());
