@@ -221,8 +221,16 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	private void refreshTapes(int tape, Tape.Type type) {
 		if (type ==  Tape.Type.LEGO) {
 			if (robots.size() > 0) {
-				int robotNumber1 = robotCombo1[tape].getSelectedIndex();
-				int robotNumber2 = robotCombo2[tape].getSelectedIndex();
+				int robotNumber1 = 0;
+				int robotNumber2 = 0;
+				for (int i = 0; i < robots.size(); i++) {
+					if (robotCombo1[tape].getSelectedItem().equals("" + robots.get(i).get(0) + " - " + robots.get(i).get(1))) {
+						robotNumber1 = i;
+					}
+					if (robotCombo2[tape].getSelectedItem().equals("" + robots.get(i).get(0) + " - " + robots.get(i).get(1))) {
+						robotNumber2 = i;
+					}
+				}
 				MasterRobot master = new MasterRobot(robots.get(robotNumber1).get(0).toString(), robots.get(robotNumber1).get(1).toString());
 				SlaveRobot slave = new SlaveRobot(robots.get(robotNumber2).get(0).toString(), robots.get(robotNumber2).get(1).toString());
 				Tape tape_lego = new LEGOTape(machine.getTapes().get(tape).getName(), master, slave, machine.getTapes().get(tape).getInputAllowed());
@@ -356,8 +364,14 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		for (int i = 0; i < tapeCombo.length; i++) {
 			Tape tempTape = this.machine.getTapes().get(i);
 			if (tempTape.getType() == Tape.Type.LEGO) {
-				counter[robotCombo1[i].getSelectedIndex()]++;
-				counter[robotCombo2[i].getSelectedIndex()]++;
+				for (int j = 0; j < robots.size(); j++) {
+					if (robotCombo1[i].getSelectedItem().equals("" + robots.get(j).get(0) + " - " + robots.get(j).get(1))) {
+						counter[j]++;
+					}
+					if (robotCombo2[i].getSelectedItem().equals("" + robots.get(j).get(0) + " - " + robots.get(j).get(1))) {
+						counter[j]++;
+					}
+				}
 			}
 		}
 		// check if robots are assigned to > 1 tape
