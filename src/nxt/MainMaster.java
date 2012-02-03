@@ -27,7 +27,6 @@ public class MainMaster {
 	static int counter = 0;
 	static DataInputStream in;
 	static DataOutputStream out;
-	static char lastSymbol = ' ';
 
 
 	ColorSensor cs1 = null;
@@ -37,7 +36,7 @@ public class MainMaster {
 	Tape tape = null;
 
 	public static void printRightArrow(){
-		int x = 62, y = 29;
+		int x =0, y = 29;
 		for(int i = 1; i <= 20 ; i++){
 			LCD.setPixel(1, x+i, y+5);
 			LCD.setPixel(1, x+i, y+30);
@@ -56,7 +55,7 @@ public class MainMaster {
 	}
 	
 	public static void clearRightArrow(){
-		int x = 62, y = 29;
+		int x =0, y = 29;
 		for(int i = 1; i <= 20 ; i++){
 			LCD.setPixel(0, x+i, y+5);
 			LCD.setPixel(0, x+i, y+30);
@@ -75,7 +74,7 @@ public class MainMaster {
 	}
 	
 	public static void printLeftArrow(){
-		int x =0, y = 29;
+		int x = 62, y = 29;
 		for(int i = 1; i <= 20 ; i++){
 			LCD.setPixel(1, x-i+37, y+5);
 			LCD.setPixel(1, x-i+37, y+30);
@@ -94,7 +93,7 @@ public class MainMaster {
 	}
 	
 	public static void clearLeftArrow(){
-		int x =0, y = 29;
+		int x = 62, y = 29;
 		for(int i = 1; i <= 20 ; i++){
 			LCD.setPixel(0, x-i+37, y+5);
 			LCD.setPixel(0, x-i+37, y+30);
@@ -137,7 +136,7 @@ public class MainMaster {
 			tape.start();
 			LCD.clearDisplay();
 			LCD.drawString("Clearing tape...", 0, 0);
-			if (true) {//tape.clearTape()) {
+			if (tape.clearTape()) {
 				break;
 			}
 			else {
@@ -201,17 +200,23 @@ public class MainMaster {
 				break;
 			}
 
-			
+			LCD.clearDisplay();
 			switch (ch) {
 			case 'q':
 				return; //end serving
 			case 't':
-				LCD.drawString("Pushing...", 0, 0);
-				Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
-				Motor.B.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
-				Motor.C.rotate(Common.PUSH_ANGLE_MASTER);
-				Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
-				LCD.clearDisplay();
+				String tapeName = "";
+				char c = ' ';
+				while (c != '\n') {
+					try {
+						tapeName += c;
+						c = in.readChar();
+					}
+					catch (IOException e) {
+						break;
+					}
+				}
+				LCD.drawString(tapeName, 0, 0);
 				break;
 			case 'r':
 				boolean cs1Active, cs2Active;
@@ -229,25 +234,18 @@ public class MainMaster {
 					cs2Active = false;
 				}
 				try {
-					
 					if (!cs1Active && !cs2Active) {
-						lastSymbol = '#';
 						out.writeChar('#');
 					}
 					else if (!cs1Active && cs2Active) {
-						lastSymbol = '0';
 						out.writeChar('0');
 					}
 					else if (cs1Active && !cs2Active) {
-						lastSymbol = '1';
 						out.writeChar('1');
 					}
 					else if (cs1Active && cs2Active) {
-						lastSymbol = '2';
 						out.writeChar('2');
 					}
-					LCD.drawString("SYM:" + lastSymbol, 6, 2);
-					//LCD.drawString("test", 1 , 1);
 					out.flush();
 				}
 				catch (IOException e) {
