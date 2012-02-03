@@ -5,7 +5,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.*;
-import java.io.IOException;
 
 import machine.Simulation;
 import machine.turing.*;
@@ -990,7 +989,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			undoManager.undo();
 		this.updateUndoRedoMenu();
 		this.updateStateStyles();
-		this.updateViaPoints();
+		this.updateViaPointsInGraph();
 		graph.refresh();
 		if(cell != null) {
 			this.graph.clearSelection();
@@ -1006,7 +1005,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 			undoManager.redo();
 		this.updateUndoRedoMenu();
 		this.updateStateStyles();
-		this.updateViaPoints();
+		this.updateViaPointsInGraph();
 		graph.refresh();
 		if(cell != null) {
 			this.graph.clearSelection();
@@ -1042,19 +1041,29 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		}
 	}
 
-	private void updateViaPoints() {
-		Object[] cells = graph.getChildCells(graph.getDefaultParent());
+	private void updateViaPointsInGraph() {
+		Object[] cells = graph.getChildEdges(graph.getDefaultParent());
 		for(Object cellObj : cells) {
 			mxCell cell = (mxCell) cellObj;
-			if(cell.isEdge()) {
-				List<mxPoint> points = cell.getGeometry().getPoints();
-				if(points != null)
-					points.clear();
-				Edge e = (Edge) cell.getValue();
-				ArrayList<Point> via = e.getVia();
-				for(Point p : via)
-					points.add(new mxPoint(p.getX(),p.getY()));
-			}
+			List<mxPoint> points = cell.getGeometry().getPoints();
+			if(points != null)
+				points.clear();
+			Edge e = (Edge) cell.getValue();
+			ArrayList<Point> via = e.getVia();
+			for(Point p : via)
+				points.add(new mxPoint(p.getX(),p.getY()));
+		}
+	}
+	
+	private void updateViaPointsInEdge() {
+		Object[] cells = graph.getChildEdges(graph.getDefaultParent());
+		for(Object cellObj : cells) {
+			mxCell cell = (mxCell) cellObj;
+			List<mxPoint> points = cell.getGeometry().getPoints();
+			ArrayList<Point> via = ((Edge) cell.getValue()).getVia();
+			via.clear();
+			for(mxPoint p : points)
+				via.add(new Point((int) p.getX(), (int) p.getY()));
 		}
 	}
 
@@ -1169,7 +1178,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	}
 
 	@Override
-	public void updateMachine() {		
+	public void updateMachine() {
+		updateViaPointsInEdge();
+		
 		ArrayList<State> states = new ArrayList<State>();
 		ArrayList<Edge> edges = new ArrayList<Edge>();
 		ArrayList<Textbox> textboxes = new ArrayList<Textbox>();
