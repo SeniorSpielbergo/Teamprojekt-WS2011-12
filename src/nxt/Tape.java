@@ -56,10 +56,14 @@ public class Tape extends Thread {
 			if ((counterSensor.getColorNumber() >= Tape.MARKER_COLOR_MIN && counterSensor.getColorNumber() <= Tape.MARKER_COLOR_MAX) || counterSensor.getColorNumber() == Tape.LEFT_END_MARKER_COLOR){
 				if (!this.dontStop) {
 					if (Motor.A.isBackward()) {
-						this.counter++;
+						
+						this.counter++;						 
+						LCD.drawString("POS:" + this.counter + " ", 6, 3);
 					}
 					if (Motor.A.isForward()) {
+						
 						this.counter--;
+						LCD.drawString("POS:" + this.counter + " ", 6, 3);
 					}
 					Motor.A.stop();
 				}
@@ -95,7 +99,7 @@ public class Tape extends Thread {
 				return false;
 			}
 			timer.stop();
-			LCD.clear();
+			//LCD.clear();
 			return true;
 		}
 	}
@@ -129,7 +133,7 @@ public class Tape extends Thread {
 				return false;
 			}
 			timer.stop();
-			LCD.clear();
+			//LCD.clear();
 			return true;
 		}
 	}
