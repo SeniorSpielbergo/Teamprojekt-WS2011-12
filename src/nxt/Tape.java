@@ -156,7 +156,7 @@ public class Tape extends Thread {
 
 	public boolean clearTape() {
 		for (int i = 0; i < Common.TAPE_SIZE; i++) {
-			Common.pushBits(true,true);
+			Common.pushBits(true,true,true);
 			if (this.counter < Common.TAPE_SIZE-1 && !this.moveRight()) {
 				return false;
 			}
