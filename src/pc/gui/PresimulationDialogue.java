@@ -143,7 +143,7 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 			this.simulationTime = this.sim.getNumberOfSteps() * 500;
 		}
 		else if(this.machine.getType() == Machine.MachineType.TuringMachine){
-		this.simulationTime= (this.sim.getNumberOfMovements() + this.sim.getNumberOfWritings() * 500);
+		this.simulationTime= (this.sim.getNumberOfMovements() + this.sim.getNumberOfWritings()) * 1000;
 		}
 		return this.simulationTime/(1000*60);
 	}
