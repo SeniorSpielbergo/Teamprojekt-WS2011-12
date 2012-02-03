@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -109,9 +110,11 @@ public class WelcomeScreenGroup extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 }
