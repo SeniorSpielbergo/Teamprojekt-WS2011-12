@@ -1,5 +1,6 @@
 package machine.turing;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import machine.Simulation;
@@ -74,7 +75,7 @@ public class TuringSimulation extends Simulation{
 
 	/**
 	 * This method runs the simulation.
-	 * @throws TapeException If something went wrong with the tapes.
+	 * 
 	 */
 	public void runMachine() throws TapeException{
 		System.out.println(" \n +Steps: " +numberOfSteps);
@@ -84,7 +85,12 @@ public class TuringSimulation extends Simulation{
 				
 				//send current state to robot
 				for ( LEGOTape t : this.legoTapes)
-					t.getSlave().
+					try {
+						t.getSlave().sendStateName(this.currentState.name);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				
 				currentSymbols.clear();
 
