@@ -1,6 +1,7 @@
 package gui.turing;
 
 import java.awt.*;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -72,6 +73,9 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 		this.setTitle("Edit transition properties");
 		this.setSize(300, 250);
 		this.setResizable(false);
+		Point center = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+		center.setLocation(center.getX()-150, center.getY()-125);
+		this.setLocation(center);
 		
 		// ok and cancel button
 		saveCancelContainer = new JPanel();
