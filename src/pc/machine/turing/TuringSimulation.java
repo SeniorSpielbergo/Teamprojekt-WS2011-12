@@ -50,6 +50,7 @@ public class TuringSimulation extends Simulation{
 		this.addObserver((TuringMachineEditor)machine.getEditor());
 		this.machine = machine;
 		this.tapes = machine.getTapes();
+		this.legoTapes = new ArrayList<LEGOTape>();
 		for( Tape t : this.tapes){
 			if (t.getType()== Tape.Type.LEGO)
 				this.legoTapes.add((tape.LEGOTape)t);
@@ -84,13 +85,14 @@ public class TuringSimulation extends Simulation{
 			if(!this.abortSimulation){
 				
 				//send current state to robot
-				for ( LEGOTape t : this.legoTapes)
+				for ( LEGOTape t : this.legoTapes){
 					try {
 						t.getSlave().sendStateName(this.currentState.name);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+				}
 				
 				currentSymbols.clear();
 
