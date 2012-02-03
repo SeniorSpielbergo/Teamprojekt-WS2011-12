@@ -163,12 +163,6 @@ public abstract class Tape extends Observable implements Runnable{
 	public abstract void moveRight() throws TapeException;
 
 	/**
-	 * This method runs a test on the tape. It is not specified what this method actually does.
-	 * @throws TapeException Thrown if the test fails
-	 */
-	public abstract void test() throws TapeException; //TODO: remove
-
-	/**
 	 * @throws TapeException Thrown if writing the input word fails
 	 */
 	public abstract boolean writeInputWord() throws TapeException;

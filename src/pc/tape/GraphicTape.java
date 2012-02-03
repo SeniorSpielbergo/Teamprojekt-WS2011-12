@@ -184,18 +184,6 @@ public class GraphicTape extends DisplayableTape {
 
 	@Override
 	/**
-	 * This method runs a test on the tape. It is not specified what this method actually does.
-	 * @throws TapeException If the tape has not been initialized
-	 */
-	public void test() throws TapeException {
-		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
-
-		System.out.println("Test"); 
-
-	}
-
-	@Override
-	/**
 	 * Writes the input word on the tape.
 	 * @throws TapeException If something went wrong with the tapes.
 	 */

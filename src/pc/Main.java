@@ -46,9 +46,6 @@ public class Main {
 					tapes.get(0).shutdown();
 					break;
 				}
-				else if (cmd.equals("test")) {
-					tapes.get(0).test();
-				}
 				else if (cmd.equals("read")) {
 					char c = tapes.get(0).read();
 					System.out.println("Read: " + c);
