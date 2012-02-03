@@ -353,7 +353,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			this.resultLabel.setText("Input word was not accepted.");
 		}
 
-		//		else if(!this.sim.isSimulationAlreadyStarted()
+		//		else if(!this.sim.isSimulationAlreadyStarted()		// FIXME: still needed?
 		//				&& observable instanceof tape.Tape
 		//				&& obj instanceof tape.Tape.Event
 		//				&& (tape.Tape.Event)obj ==tape.Tape.Event.INPUTABORTED){
