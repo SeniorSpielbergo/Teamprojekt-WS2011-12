@@ -50,4 +50,29 @@ public class SlaveRobot extends Robot {
 			// TODO Auto-generated catch block
 		}
 	}
+	
+	/**
+	 * Send the machine name
+	 * @throws IOException Thrown if the sending failed
+	 */
+	public void sendMachineName(String name) throws IOException {
+		this.sendCommand('m');
+		for (char c : name.toCharArray()) {
+			this.sendCommand(c);
+		}
+		this.sendCommand('\n');
+	}
+	
+	
+	/**
+	 * Send the state name
+	 * @throws IOException Thrown if the sending failed
+	 */
+	public void sendStateName(String name) throws IOException {
+		this.sendCommand('m');
+		for (char c : name.toCharArray()) {
+			this.sendCommand(c);
+		}
+		this.sendCommand('\n');
+	}
 }

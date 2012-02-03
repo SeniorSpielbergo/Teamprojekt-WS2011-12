@@ -5,13 +5,17 @@ import gui.CustomTable;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-public class ConnectedWindow extends JDialog {
+import tape.Robot;
+
+public class ConnectedWindow extends JDialog implements Observer {
 
 	private static final long serialVersionUID = -7819314476730849863L;
 	private CustomTable model;
@@ -52,7 +56,7 @@ public class ConnectedWindow extends JDialog {
 		this.add(tablePane);
 	}
 	
-	public void robotConnected(String robotName) {
+	private void robotConnected(String robotName) {
 		int robotRow = -1;
 		Object[] update = null;
 		for (int i = 0; i < robotNames.size(); i++) {
@@ -65,6 +69,14 @@ public class ConnectedWindow extends JDialog {
 		}
 		if (robotRow != -1 && update != null) {
 			model.updateRow(update, robotRow);
+		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (o instanceof Robot) {
+			String robotName = (String) arg;
+			this.robotConnected(robotName);
 		}
 	}
 	

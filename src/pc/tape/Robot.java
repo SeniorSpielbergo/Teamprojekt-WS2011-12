@@ -1,13 +1,14 @@
 package tape;
 import lejos.pc.comm.*;
 import java.io.*;
+import java.util.Observable;
 
 /** Contains common function for Master and Slave Robots
  * 
  * @author Nils Breyer, Phillipp Neumann
  * 
  */
-public abstract class Robot {
+public abstract class Robot extends Observable {
 	/**
 	 * The name of the robot
 	 */
@@ -57,6 +58,8 @@ public abstract class Robot {
 		this.output = new DataOutputStream(os);
 
 		System.out.println("Connected to '" + this.name + "'.");
+		super.setChanged();
+		super.notifyObservers(this.name);
 	}
 
 	/**

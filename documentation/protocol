@@ -1,0 +1,33 @@
+
+used commands
+
+/master
+
+q               quit
+
+t<name>\n       name of the tape
+
+r               read
+
+w               write
+
+L               move left
+
+R               move right
+
+
+/slave
+
+q               qiut
+
+w               write
+
+S               starting sound
+
+s               set sound off
+
+m               mute sound
+
+M               unmute sound
+
+

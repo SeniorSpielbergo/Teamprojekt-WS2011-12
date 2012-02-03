@@ -65,10 +65,15 @@ public class MasterRobot extends Robot {
 	}
 
 	/**
-	 * Test the tape
+	 * Send the tape name
 	 * @throws IOException Thrown if the sending failed
 	 */
-	public void test() throws IOException { //TODO: remove
+	public void sendTapeName(String name) throws IOException {
 		this.sendCommand('t');
+		for (char c : name.toCharArray()) {
+			this.sendCommand(c);
+		}
+		this.sendCommand('\n');
+
 	}
 }
