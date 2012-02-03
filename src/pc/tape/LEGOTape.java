@@ -100,6 +100,7 @@ public class LEGOTape extends DisplayableTape {
 			this.currentSymbol = 'n';
 
 			ready = true;
+			this.sendTapeName();
 			System.out.println(this.name + ": Tape ready.");
 
 		}
@@ -328,19 +329,17 @@ public class LEGOTape extends DisplayableTape {
 	}
 
 	/**
-	 * This method runs a test on the tape. It is not specified what this method actually does.
+	 * This method sends the name of the tape to the master robot
 	 * @throws TapeException If the tape has not been initialized
 	 */
-	public void test()  throws TapeException{ //TODO: remove
-		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
-
-		this.graphicTape.test();
+	public void sendTapeName()  throws TapeException{
+		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
 		try {
-			this.master.test();
+			this.master.sendTapeName(this.name);
 		}
 		catch (IOException e) {
-			throw new TapeException(this, "Test failure.", e);
+			throw new TapeException(this, "Couldn't send tape name.", e);
 		}
 	}
 

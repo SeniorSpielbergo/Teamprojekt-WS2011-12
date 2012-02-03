@@ -1,0 +1,15 @@
+java -jar TuringBrainIDE.jar --force-update //force the AppData to be updated
+
+java -jar TuringBrainIDE.jar Machine.tm //opens the machine in editor
+
+java -jar TuringBrainIDE.jar --outputfile test.png --export Machine.tm //Exports the machine as png
+
+java -jar TuringBrainIDE.jar --outputfile Output --input 001,0#0 --simulate Test.tm //Simulates the machine and writes the output to a file
+
+java -jar TuringBrainIDE.jar --outputfile Output --inputfile Input --simulate Test.tm //Simulates the machine using input from file Input and writes the output to a file
+
+java -jar TuringBrainIDE.jar --simulate Test.tm //Simulates the machine with no input on the console
+
+java -jar TuringBrainIDE.jar --help //shows help
+
+java -jar TuringBrainIDE.jar --version //shows version number
