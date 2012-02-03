@@ -121,7 +121,7 @@ public class MainSlave {
 						case '2': nbit1 = 1; nbit0 = 1; break;
 						default: nbit1 = -1; nbit0 = -1; break;
 					}
-					Common.pushBits(bit1<nbit1,bit0<nbit0);
+					Common.pushBits(bit1<nbit1,bit0<nbit0,false);
 					try {
 						out.writeChar('.');
 						out.flush();

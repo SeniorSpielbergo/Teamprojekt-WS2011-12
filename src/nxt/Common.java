@@ -5,7 +5,7 @@ public class Common {
 	static final int TAPE_SIZE = 11;
 	static final int PUSH_SPEED = 150;
 	static final int LINE_SPEED = 250;
-	static final int PUSH_ANGLE_MASTER = -173;
+	static final int PUSH_ANGLE_MASTER = -180;
 	static final int PUSH_ANGLE_SLAVE = -173;
 
 	public static void playTune(String m, int t) {
@@ -40,20 +40,28 @@ public class Common {
 			}
 		}
 	}
-	public static void pushBits(final boolean push1,final boolean push2) {
+	public static void pushBits(final boolean push1,final boolean push2, boolean master) {
+		final int angle;
+		if(master) {
+			angle = Common.PUSH_ANGLE_MASTER;
+		} else {
+			angle = Common.PUSH_ANGLE_SLAVE;
+		}
+		
 		Thread t1 = new Thread(new Runnable() {
 			public void run(){
 				if (push1){
-					Motor.B.rotate(Common.PUSH_ANGLE_MASTER);
-					Motor.B.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+					
+					Motor.B.rotate(angle);
+					Motor.B.rotate(angle*(-1)+1);
 				}
 			};
 		});
 		Thread t2 = new Thread(new Runnable() {
 			public void run(){
 				if (push2){
-					Motor.C.rotate(Common.PUSH_ANGLE_MASTER);
-					Motor.C.rotate(Common.PUSH_ANGLE_MASTER*(-1)+1);
+					Motor.C.rotate(angle);
+					Motor.C.rotate(angle*(-1)+1);
 				}
 			};
 		});

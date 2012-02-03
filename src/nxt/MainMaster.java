@@ -137,7 +137,7 @@ public class MainMaster {
 			tape.start();
 			LCD.clearDisplay();
 			LCD.drawString("Clearing tape...", 0, 0);
-			if (true) {//tape.clearTape()) {
+			if (tape.clearTape()) {
 				break;
 			}
 			else {
@@ -184,7 +184,7 @@ public class MainMaster {
 			tape.stop();
 			connection.close();
 
-			LCD.drawString("Moving to begin...", 0, 0);
+			LCD.drawString("Moving to start...", 0, 0);
 			tape = new Tape(Common.TAPE_SIZE); // laenge uebergeben
 			tape.start();
 		}
@@ -275,7 +275,7 @@ public class MainMaster {
 				case '2': nbit1 = 1; nbit0 = 1; break;
 				default: nbit1 = -1; nbit0 = -1; break;
 				}				
-				Common.pushBits(bit1>nbit1,bit0>nbit0);
+				Common.pushBits(bit1>nbit1,bit0>nbit0,true);
 					
 				try {
 					out.writeChar('.');
