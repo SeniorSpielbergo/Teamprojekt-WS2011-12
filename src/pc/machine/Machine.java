@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.filechooser.FileFilter;
 
+import tape.LEGOTape;
 import tape.Tape;
 import tape.TapeException;
 
@@ -195,6 +196,17 @@ public abstract class Machine {
 			this.editor = this.createEditor();
 		}
 		return this.editor;
+	}
+	
+	public ArrayList<String> getRobotNames() {
+		ArrayList<String> names = new ArrayList<String>();
+		for (Tape t : this.getTapes()) {
+			if (t instanceof LEGOTape) {
+				names.add(((LEGOTape) t).getMaster().getName());
+				names.add(((LEGOTape) t).getSlave().getName());
+			}
+		}
+		return names;
 	}
 	
 	public abstract ArrayList<FileFilter> getSupportedExportFormats();
