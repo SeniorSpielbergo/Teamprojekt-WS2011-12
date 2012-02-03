@@ -27,6 +27,7 @@ public class MainMaster {
 	static int counter = 0;
 	static DataInputStream in;
 	static DataOutputStream out;
+	static char lastSymbol = ' ';
 
 
 	ColorSensor cs1 = null;
@@ -136,7 +137,7 @@ public class MainMaster {
 			tape.start();
 			LCD.clearDisplay();
 			LCD.drawString("Clearing tape...", 0, 0);
-			if (tape.clearTape()) {
+			if (true) {//tape.clearTape()) {
 				break;
 			}
 			else {
@@ -200,7 +201,7 @@ public class MainMaster {
 				break;
 			}
 
-			LCD.clearDisplay();
+			
 			switch (ch) {
 			case 'q':
 				return; //end serving
@@ -228,18 +229,25 @@ public class MainMaster {
 					cs2Active = false;
 				}
 				try {
+					
 					if (!cs1Active && !cs2Active) {
+						lastSymbol = '#';
 						out.writeChar('#');
 					}
 					else if (!cs1Active && cs2Active) {
+						lastSymbol = '0';
 						out.writeChar('0');
 					}
 					else if (cs1Active && !cs2Active) {
+						lastSymbol = '1';
 						out.writeChar('1');
 					}
 					else if (cs1Active && cs2Active) {
+						lastSymbol = '2';
 						out.writeChar('2');
 					}
+					LCD.drawString("SYM:" + lastSymbol, 6, 2);
+					//LCD.drawString("test", 1 , 1);
 					out.flush();
 				}
 				catch (IOException e) {
