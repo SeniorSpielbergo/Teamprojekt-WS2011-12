@@ -295,6 +295,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		mxGraphComponent graphComponent = new mxGraphComponent(graph);
 		graphComponent.addKeyListener(this);
 		graphComponent.getGraphControl().addMouseListener(this);
+		graphComponent.getVerticalScrollBar().setUnitIncrement(14);
 		this.jPanelGraph.add(graphComponent, BorderLayout.CENTER);
 		initialized = true;
 		new mxRubberband(graphComponent);

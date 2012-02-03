@@ -324,7 +324,6 @@ public class TuringMachine extends Machine{
 
 		filters.add(new ExtensionFileFilter("Scalable vector graphics", ".svg"));
 		filters.add(new ExtensionFileFilter("Image", ".png"));
-		filters.add(new ExtensionFileFilter("Website", ".html"));
 		filters.add(new ExtensionFileFilter("Latex document", ".tex"));
 
 		return filters;
@@ -1046,10 +1045,6 @@ public class TuringMachine extends Machine{
 		}
 		else if (filename.endsWith(".svg")) {
 			Document doc = mxCellRenderer.createSvgDocument(((TuringMachineEditor)this.getEditor()).getGraph(), null, 1, null, null);
-			mxUtils.writeFile(mxUtils.getXml(doc.getDocumentElement()), filename);
-		}
-		else if (filename.endsWith(".html")) {
-			Document doc = mxCellRenderer.createHtmlDocument(((TuringMachineEditor)this.getEditor()).getGraph(), null, 1, null, null);
 			mxUtils.writeFile(mxUtils.getXml(doc.getDocumentElement()), filename);
 		}
 		else if (filename.endsWith(".png")) {

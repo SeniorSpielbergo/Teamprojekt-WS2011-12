@@ -26,4 +26,8 @@ public class ExtensionFileFilter extends FileFilter {
 	public String getDescription() {
 		return this.description + " (" + this.extension + ")";
 	}
+	
+	public String getExtension() {
+		return this.extension;
+	}
 }

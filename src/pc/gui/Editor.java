@@ -8,6 +8,7 @@ import machine.Machine;
 import machine.brainfuck.BrainfuckMachine;
 import machine.turing.*;
 import gui.RunWindow.*;
+import gui.turing.ConnectedWindow;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -404,10 +405,10 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 
 		File f = null;
 		if (this.currentFile == null) {
-			f = new File(this.currentMachine.getName() +  ".tex");
+			f = new File(this.currentMachine.getName());
 		}
 		else {
-			f = new File(this.currentFile.getName().substring(0, this.currentFile.getName().length()-this.currentMachine.getFileExtension().length()) + ".tex");
+			f = new File(this.currentFile.getName().substring(0, this.currentFile.getName().length()-this.currentMachine.getFileExtension().length()));
 		}
 		fc.setSelectedFile(f);
 		int retVal = fc.showSaveDialog(null);
@@ -426,7 +427,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 				}
 			}
 			try { 
-				this.currentMachine.export(selectedFile.getPath());
+				this.currentMachine.export(selectedFile.getPath()+ ((machine.ExtensionFileFilter)fc.getFileFilter()).getExtension());
 			} catch (IOException e) {
 				ErrorDialog.showError("Exporting the file '" + selectedFile.getName() + "' failed because of an I/O error.", e);
 			}
