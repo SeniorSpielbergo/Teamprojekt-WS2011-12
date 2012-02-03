@@ -28,7 +28,7 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 	Machine machine;
 	Simulation sim;
 	String duration;
-	int simulationTime;
+	double simulationTime;
 	/**
 	 * Stores the value returned by the dialog
 	 */
@@ -52,9 +52,9 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		//TODO: make it beautiful!
 		this.setTitle("Presimulation");
 		this.setLayout(new GridBagLayout());
-		
-		
-		
+
+
+
 		this.panelText.setLayout(new GridLayout(3,0));
 		this.panelText.add(this.labelText);
 		this.panelText.add(this.labelDuration);
@@ -70,11 +70,11 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		panelButtons.add(this.buttonSimulate);
 
 		getRootPane().setDefaultButton(this.buttonSimulate);
-		
-	
-		this.setSize(250, 150);
+
+
+		this.setSize(350, 150);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
+
 		int numberOfTapes = this.machine.getNumberOfTapes();
 
 		for(int i = 0; i < numberOfTapes; i++){
@@ -104,16 +104,36 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		this.labelText.setText("The simulation needs " +Integer.toString(this.sim.getNumberOfSteps()) +" Steps." );
-		if(this.simulationTime() < 1){
-			this.labelDuration.setText("This will last less then one minute.");
+		if(this.sim.getNumberOfSteps() < 1001){
+			this.labelText.setText("The simulation needs " +Integer.toString(this.sim.getNumberOfSteps()) +" Steps." );
 		}
 		else{
-		this.labelDuration.setText("This will last about " + Integer.valueOf(this.simulationTime())+" minutes.");
-		
+			this.labelText.setText("The simulation needs many many Steps." );
+			this.labelDuration.setText("It maybe needs much more longer then you want!");
+			this.setTitle("Warning!!!");
 		}
-		
+		if(this.simulationTime()/60 < 1){
+			this.labelDuration.setText("This will last about " +Integer.valueOf((int)this.simulationTime) +" seconds.");
+		}
+		else if(this.simulationTime < 1001){
+			String minutes;
+			String seconds;
+			if((int)this.simulationTime/60 < 10)
+				minutes = "0" +Integer.valueOf((int)this.simulationTime/60);
+
+			else{
+				minutes = ""+Integer.valueOf((int)this.simulationTime/60);
+			}
+			if((int)this.simulationTime%60 < 10)
+				seconds = "0" +Integer.valueOf((int)this.simulationTime%60);
+
+			else{
+				seconds = ""+Integer.valueOf((int)this.simulationTime%60);
+			}
+			this.labelDuration.setText("This will last about "+minutes +":" 
+					+ seconds +" minutes.");
+		}
+
 		GridBagConstraints windowConstraints = new GridBagConstraints();
 		windowConstraints.gridx = 0;
 		windowConstraints.gridy = 0;
@@ -121,10 +141,10 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		windowConstraints.weighty = 0.05;
 		this.add(this.panelText);
 		windowConstraints.gridy = 1;
-		
+
 
 		this.add(this.panelButtons, windowConstraints);
-		
+
 		this.centerDialogOnTheScreen();
 	}
 
@@ -137,15 +157,15 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 
 		return returnValue;
 	}
-	
-	public int simulationTime(){
+
+	public double simulationTime(){
 		if(this.machine.getType() == Machine.MachineType.BrainfuckMachine){
-			this.simulationTime = this.sim.getNumberOfSteps() * 500;
+			this.simulationTime = this.sim.getNumberOfSteps();
 		}
 		else if(this.machine.getType() == Machine.MachineType.TuringMachine){
-		this.simulationTime= (this.sim.getNumberOfMovements() + this.sim.getNumberOfWritings()) * 1000;
+			this.simulationTime= (this.sim.getNumberOfMovements() + this.sim.getNumberOfWritings());
 		}
-		return this.simulationTime/(1000*60);
+		return this.simulationTime;
 	}
 
 	@Override
@@ -159,7 +179,7 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 			this.returnValue = ReturnValue.SIMULATE;
 		}
 	}
-	
+
 	/**
 	 * Center the dialog window on the screen
 	 */

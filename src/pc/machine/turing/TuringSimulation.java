@@ -1,5 +1,6 @@
 package machine.turing;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import machine.Simulation;
@@ -28,6 +29,8 @@ public class TuringSimulation extends Simulation{
 	 * The tapes of the current turingmachine.
 	 */
 	ArrayList<Tape> tapes = null;
+	
+	ArrayList<LEGOTape> legoTapes = null;
 
 	/**
 	 * The currently read symbols.
@@ -47,6 +50,10 @@ public class TuringSimulation extends Simulation{
 		this.addObserver((TuringMachineEditor)machine.getEditor());
 		this.machine = machine;
 		this.tapes = machine.getTapes();
+		for( Tape t : this.tapes){
+			if (t.getType()== Tape.Type.LEGO)
+				this.legoTapes.add((tape.LEGOTape)t);
+		}
 		this.init();
 		findEdge();
 	}
@@ -68,13 +75,23 @@ public class TuringSimulation extends Simulation{
 
 	/**
 	 * This method runs the simulation.
-	 * @throws TapeException If something went wrong with the tapes.
+	 * 
 	 */
 	public void runMachine() throws TapeException{
 		System.out.println(" \n +Steps: " +numberOfSteps);
 		if (this.maxNumberOfSteps >= this.numberOfSteps){ 
 			this.numberOfSteps++;
 			if(!this.abortSimulation){
+				
+				//send current state to robot
+				for ( LEGOTape t : this.legoTapes)
+					try {
+						t.getSlave().sendStateName(this.currentState.name);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				
 				currentSymbols.clear();
 
 				//read symbol(s)
