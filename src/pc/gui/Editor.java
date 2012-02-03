@@ -8,6 +8,7 @@ import machine.Machine;
 import machine.brainfuck.BrainfuckMachine;
 import machine.turing.*;
 import gui.RunWindow.*;
+import gui.turing.ConnectedWindow;
 
 import java.awt.Component;
 import java.awt.Dimension;
