@@ -133,7 +133,7 @@ public class BrainfuckSimulation extends Simulation {
 							case ']': y--; break;
 							default: break;
 							}
-							if(code.charAt(i) == ']' && y == 0)
+							if((code.charAt(i) == ']' && y == 0) || this.abortSimulation)
 								break;
 						}
 						instructionPointer += x-1;
@@ -160,6 +160,8 @@ public class BrainfuckSimulation extends Simulation {
 								break;
 							}
 						}
+						if(this.abortSimulation)
+							break;
 						runMachine(loopCode);
 					}
 				}
