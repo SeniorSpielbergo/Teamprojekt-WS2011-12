@@ -58,12 +58,12 @@ public class Tape extends Thread {
 					if (Motor.A.isBackward()) {
 						
 						this.counter++;						 
-						LCD.drawString("POS:" + this.counter, 6, 3);
+						LCD.drawString("POS:" + this.counter + " ", 6, 3);
 					}
 					if (Motor.A.isForward()) {
 						
 						this.counter--;
-						LCD.drawString("POS:" + this.counter, 6, 3);
+						LCD.drawString("POS:" + this.counter + " ", 6, 3);
 					}
 					Motor.A.stop();
 				}
