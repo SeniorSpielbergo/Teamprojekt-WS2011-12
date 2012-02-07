@@ -1,6 +1,4 @@
 package gui;
-
-import gui.turing.ConnectedWindow;
 import gui.turing.TuringMachineEditor;
 
 import java.util.*;
@@ -147,7 +145,6 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				for(Tape tape : currentMachine.getTapes()){
 					tape.setDelay(false);
 				}
-				//new ConnectedWindow(this.currentMachine.getRobotNames());
 				this.currentMachine.initTapes();
 			}
 			catch (TapeException e){
