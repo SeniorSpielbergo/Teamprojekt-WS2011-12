@@ -215,6 +215,7 @@ public class MainMaster {
 						break;
 					}
 				}
+				LCD.drawString("                                 ", 0, 0);
 				LCD.drawString(tapeName, 0, 0);
 				break;
 			case 'r':
