@@ -200,8 +200,7 @@ public class MainMaster {
 			catch (IOException e) {
 				break;
 			}
-			//LCD.clearDisplay();
-
+			
 			switch (ch) {
 			case 'q':
 				return; //end serving

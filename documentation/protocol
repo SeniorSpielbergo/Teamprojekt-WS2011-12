@@ -15,6 +15,8 @@ L               move left
 
 R               move right
 
+t<name>\n 	tape name
+
 
 /slave
 
@@ -30,4 +32,6 @@ m               mute sound
 
 M               unmute sound
 
+n<name>\n 	machine name
 
+x<name>\n 	state name

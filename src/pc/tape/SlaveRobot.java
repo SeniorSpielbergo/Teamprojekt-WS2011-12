@@ -56,7 +56,7 @@ public class SlaveRobot extends Robot {
 	 * @throws IOException Thrown if the sending failed
 	 */
 	public void sendMachineName(String name) throws IOException {
-		this.sendCommand('m');
+		this.sendCommand('n');
 		for (char c : name.toCharArray()) {
 			this.sendCommand(c);
 		}
@@ -69,7 +69,7 @@ public class SlaveRobot extends Robot {
 	 * @throws IOException Thrown if the sending failed
 	 */
 	public void sendStateName(String name) throws IOException {
-		this.sendCommand('m');
+		this.sendCommand('x');
 		for (char c : name.toCharArray()) {
 			this.sendCommand(c);
 		}
