@@ -28,5 +28,4 @@ public abstract class MachineEditor extends JPanel {
 	 * Used to update the machine that my has been changed in the editor.
 	 */
 	public abstract void updateMachine();
-	
 }
