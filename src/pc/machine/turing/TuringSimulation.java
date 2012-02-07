@@ -98,7 +98,7 @@ public class TuringSimulation extends Simulation{
 				//send current state to robot
 				for ( LEGOTape t : this.legoTapes){
 					try {
-						t.getSlave().sendStateName(this.currentState.name);
+						t.getSlave().sendStateName(this.currentState.getName());
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
