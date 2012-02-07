@@ -160,8 +160,11 @@ public class Tape extends Thread {
 			if (this.counter < Common.TAPE_SIZE-1 && !this.moveRight()) {
 				return false;
 			}
+			if (Button.ENTER.isPressed()){
+				break;
+			}
 		}
-		for (int i = Common.TAPE_SIZE-1; i > 0; i--) {
+		for (int i = counter; i > 0; i--) {
 			if (!this.moveLeft()) {
 				return false;
 			}

@@ -22,6 +22,7 @@ import java.io.*;
  * Application running on the Master-NXT.
  * @author David Wille
  * @author Sven Schuster
+ * @author Philipp Neumann
  */
 public class MainMaster {
 	static int counter = 0;
@@ -36,6 +37,9 @@ public class MainMaster {
 
 	Tape tape = null;
 
+	/**
+	 * Print an Arrow on the NXT Display
+	 */
 	public static void printRightArrow(){
 		int x = 62, y = 29;
 		for(int i = 1; i <= 20 ; i++){
@@ -54,7 +58,9 @@ public class MainMaster {
 			LCD.setPixel(1, x+20+i , y+35-i);
 		}
 	}
-	
+	/**
+	 * Clear an Arrow on the NXT Display
+	 */
 	public static void clearRightArrow(){
 		int x = 62, y = 29;
 		for(int i = 1; i <= 20 ; i++){
@@ -73,7 +79,9 @@ public class MainMaster {
 			LCD.setPixel(0, x+20+i , y+35-i);
 		}
 	}
-	
+	/**
+	 * Print an Arrow on the NXT Display
+	 */
 	public static void printLeftArrow(){
 		int x =0, y = 29;
 		for(int i = 1; i <= 20 ; i++){
@@ -92,7 +100,9 @@ public class MainMaster {
 			LCD.setPixel(1, x+17-i , y+35-i);
 		}
 	}
-	
+	/**
+	 * Clear an Arrow on the NXT Display
+	 */
 	public static void clearLeftArrow(){
 		int x =0, y = 29;
 		for(int i = 1; i <= 20 ; i++){
@@ -111,11 +121,13 @@ public class MainMaster {
 			LCD.setPixel(0, x+17-i , y+35-i);
 		}
 	}
-	
+	/**
+	 * Run the whole logic of the Masterrobot
+	 */
 	public void run() {
 		Common.playTune("HAHA",200);
 		String sensor1, sensor2, sensor3, counterString;
-		this.cs1 = new ColorSensor(SensorPort.S1);
+		this.cs1 = new ColoPrintrSensor(SensorPort.S1);
 		this.cs2 = new ColorSensor(SensorPort.S2);
 		this.ts1 = new TouchSensor(SensorPort.S4);
 		// initialize speeds
@@ -189,7 +201,10 @@ public class MainMaster {
 			tape.start();
 		}
 	}
-
+	/**
+	 * This method is called when PC and NXT are connected
+	 * The NXT is now waiting for commands
+	 */	
 	private void serve() {
 		char ch = ' ';
 
