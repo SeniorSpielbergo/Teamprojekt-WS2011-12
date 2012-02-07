@@ -12,6 +12,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
+/**
+ * The dialogue for presimulating within presimulation.
+ * @author Nessa Baier
+ *
+ */
 public class PresimulationDialogue extends JDialog implements ActionListener{
 	private static final long serialVersionUID = 5423418738498074784L;
 
@@ -22,18 +28,50 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		CANCEL, SIMULATE
 	}
 
+	/**
+	 * Panels for text and buttons.
+	 */
 	JPanel panelText, panelButtons;
+
+	/**
+	 * Labels for text.
+	 */
 	JLabel labelText, labelDuration;
+
+	/**
+	 * Buttons for cancelling and simulating.
+	 */
 	JButton buttonCancel, buttonSimulate;
+
+	/**
+	 * The current machine (copy).
+	 */
 	Machine machine;
+
+	/**
+	 * The simulation object for presimulating.
+	 */
 	Simulation sim;
+
+	/**
+	 * Predicted duration of the simulation represented as string.
+	 */
 	String duration;
+
+	/**
+	 * The predicted duration of the simulation.
+	 */
 	double simulationTime;
+
 	/**
 	 * Stores the value returned by the dialog
 	 */
 	private ReturnValue returnValue;
 
+	/**
+	 * Creates a presimulation dialogue.
+	 * @param clonedMachine The current machine as copy.
+	 */
 	PresimulationDialogue(Machine clonedMachine){
 		this.setModal(true);
 		duration = new String();
@@ -48,35 +86,27 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 
 	}
 
+	/*
+	 * Initializes the dialogue with its machine, its new tapes(console tapes only) and the presimulation.
+	 */
 	private void init(){
-		//TODO: make it beautiful!
+
+		//dialogue
 		this.setTitle("Presimulation");
 		this.setLayout(new GridBagLayout());
-
+		this.setSize(350, 150);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.centerDialogOnTheScreen();
 
 
 		this.panelText.setLayout(new GridLayout(3,0));
 		this.panelText.add(this.labelText);
 		this.panelText.add(this.labelDuration);
 
-		this.buttonCancel.addActionListener(this);
-		this.buttonSimulate.addActionListener(this);
-		panelButtons = new JPanel();
-		panelButtons.setLayout(new BoxLayout(panelButtons, BoxLayout.LINE_AXIS));
-		panelButtons.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-		panelButtons.add(buttonCancel);
-		panelButtons.add(Box.createHorizontalGlue());
-		panelButtons.add(Box.createRigidArea(new Dimension(10, 0)));
-		panelButtons.add(this.buttonSimulate);
 
-		getRootPane().setDefaultButton(this.buttonSimulate);
-
-
-		this.setSize(350, 150);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		//presimulation
 
 		int numberOfTapes = this.machine.getNumberOfTapes();
-
 		for(int i = 0; i < numberOfTapes; i++){
 			ConsoleTape t = new ConsoleTape();
 			try {
@@ -97,13 +127,13 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		} 
 
 		catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (TapeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		//computing time and put it to stringformat
 		if(this.sim.getNumberOfSteps() < 1001){
 			this.labelText.setText("The simulation needs " +Integer.toString(this.sim.getNumberOfSteps()) +" Steps." );
 		}
@@ -134,6 +164,20 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 					+ seconds +" minutes.");
 		}
 
+		//buttons
+		panelButtons = new JPanel();
+		panelButtons.setLayout(new BoxLayout(panelButtons, BoxLayout.LINE_AXIS));
+		panelButtons.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+		panelButtons.add(buttonCancel);
+		panelButtons.add(Box.createHorizontalGlue());
+		panelButtons.add(Box.createRigidArea(new Dimension(10, 0)));
+		panelButtons.add(this.buttonSimulate);
+
+		this.buttonCancel.addActionListener(this);
+		this.buttonSimulate.addActionListener(this);
+
+		getRootPane().setDefaultButton(this.buttonSimulate);
+
 		GridBagConstraints windowConstraints = new GridBagConstraints();
 		windowConstraints.gridx = 0;
 		windowConstraints.gridy = 0;
@@ -142,15 +186,12 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		this.add(this.panelText);
 		windowConstraints.gridy = 1;
 
-
 		this.add(this.panelButtons, windowConstraints);
-
-		this.centerDialogOnTheScreen();
 	}
 
 	/**
-	 * Shows the window
-	 * @return RUN/CANCEL depending on the user decision
+	 * Shows the dialogue.
+	 * @return RUN/CANCEL depending on the user decision.
 	 */
 	public ReturnValue showDialogue() {
 		this.setVisible(true);
@@ -158,7 +199,11 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		return returnValue;
 	}
 
-	public double simulationTime(){
+	/*
+	 * Computes the simulation time.
+	 * @return simulationTime simulation time as double in seconds.
+	 */
+	private double simulationTime(){
 		if(this.machine.getType() == Machine.MachineType.BrainfuckMachine){
 			this.simulationTime = this.sim.getNumberOfSteps();
 		}
@@ -168,7 +213,9 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		return this.simulationTime;
 	}
 
-	@Override
+	/**
+	 * Handles the button events.
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == this.buttonCancel){
 			dispose();
@@ -180,8 +227,8 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		}
 	}
 
-	/**
-	 * Center the dialog window on the screen
+	/*
+	 * Center the dialog on the screen.
 	 */
 	private void centerDialogOnTheScreen() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

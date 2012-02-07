@@ -17,6 +17,9 @@ public class SlaveRobot extends Robot {
 		super(name,mac_address);
 	}
 	
+	/**
+	 * Sends the command 'S' for playing sound while simulation.
+	 */
 	public void startSound(){
 		try {
 			this.sendCommand('S');
@@ -25,7 +28,9 @@ public class SlaveRobot extends Robot {
 
 		}
 	}
-	
+	/**
+	 * Sends the command 'M' for unmuting sound.
+	 */
 	public void playSound(){
 		try {
 			this.sendCommand('M');
@@ -34,6 +39,9 @@ public class SlaveRobot extends Robot {
 		}
 	}
 	
+	/**
+	 * Sends the command 'm' for muting sound.
+	 */
 	public void muteSound(){
 		try {
 			this.sendCommand('m');
@@ -43,6 +51,9 @@ public class SlaveRobot extends Robot {
 		}
 	}
 	
+	/**
+	 * Sends the command 's' for setting sound off.
+	 */
 	public void soundOff(){
 		try {
 			this.sendCommand('s');

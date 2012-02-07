@@ -3,11 +3,20 @@ import lejos.nxt.Sound;
 
 public class TetrisSound implements Runnable{
 
+	/**
+	 * The thread which plays the sound.
+	 */
 	Thread soundThread = new Thread(this);
 
-	static final int QUARTER = 1000;
-	static final int EIGHTER = 500;
+	/**
+	 * Possible values of notes.
+	 */
+	static final int QUARTER = 500;
+	static final int EIGHTER = 250;
 
+	/**
+	 * Possible pitches.
+	 */
 	static final int Bb = 233;
 	static final int C = 261;
 	static final int CIS = 277;
@@ -26,19 +35,32 @@ public class TetrisSound implements Runnable{
 	static final int B = 494;
 
 
-	static final double speed = 0.5;
+	/**
+	 * Speed of sound.
+	 */
+	static final double speed = 1;
 
+	/**
+	 * True if sound is/should be off.
+	 */
 	private boolean soundOff = false;
 
+	/**
+	 * Starts the sound thread.
+	 */
 	public void start(){
 		this.soundThread.start();
 	}
 
+	/**
+	 * Plays the sound.
+	 */
 	public void run(){
 		this.playSound();
 	}
 
 
+	//Plays the tetris sound.
 	private void playSound(){
 		while(!this.soundOff){
 		Sound.playNote(Sound.PIANO,F, (int)(QUARTER * speed));
