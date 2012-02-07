@@ -69,7 +69,15 @@ public class TuringSimulation extends Simulation{
 				currentState = startState;
 				super.setChanged();
 				super.notifyObservers((Object)currentState);
-
+			}
+		}
+		
+		//send machine name to robot
+		for ( LEGOTape t : this.legoTapes){
+			try {
+				t.getSlave().sendMachineName(this.machine.getName());
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 		}
 	}
