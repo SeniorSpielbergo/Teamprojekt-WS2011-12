@@ -31,7 +31,7 @@ public class MainSlave {
 	static DataOutputStream out;
 	static TetrisSound sound;
 
-//	private static void pushBit(int bit, int newBit, Motor motor) {
+//	private static void pushBit(int bit, int newBit, Motor motor) {		// FIXME: still needed?
 //		if (bit<newBit){
 //			motor.rotate(Common.PUSH_ANGLE_SLAVE);
 //			motor.rotate(Common.PUSH_ANGLE_SLAVE*(-1)+1);
