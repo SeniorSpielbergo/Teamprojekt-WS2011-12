@@ -1,16 +1,12 @@
 package gui;
 
-
 import java.util.ArrayList;
 
 import javax.swing.table.*;
 
 /** This class represents a table model
- * 
  * @author David Wille
- * 
  */
-
 public class CustomTable extends AbstractTableModel {
 
 	static final long serialVersionUID = -3667258249137827980L;

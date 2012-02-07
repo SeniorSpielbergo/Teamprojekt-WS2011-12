@@ -19,7 +19,7 @@ import javax.swing.text.StyledDocument;
 
 /**
  * A simple about dialog showing information about the program
- * @author nils
+ * @author Nils Breyer
  *
  */
 public class AboutDialog extends JDialog {
