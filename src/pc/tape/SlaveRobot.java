@@ -24,8 +24,6 @@ public class SlaveRobot extends Robot {
 		try {
 			this.sendCommand('S');
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-
 		}
 	}
 	/**
@@ -35,7 +33,6 @@ public class SlaveRobot extends Robot {
 		try {
 			this.sendCommand('M');
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 		}
 	}
 	
@@ -46,8 +43,6 @@ public class SlaveRobot extends Robot {
 		try {
 			this.sendCommand('m');
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			
 		}
 	}
 	
@@ -58,7 +53,6 @@ public class SlaveRobot extends Robot {
 		try {
 			this.sendCommand('s');
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 		}
 	}
 	

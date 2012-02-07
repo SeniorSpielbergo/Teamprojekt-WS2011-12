@@ -372,7 +372,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	/**
 	 * This method handles button events.
 	 */
-	public void actionPerformed( ActionEvent event){ //TODO inactivate buttons while writing input word
+	public void actionPerformed( ActionEvent event){
 		//forward button
 		if(event.getSource().equals(buttonForward) && sim.isSimulationAlreadyStarted()){
 			sim.resume();

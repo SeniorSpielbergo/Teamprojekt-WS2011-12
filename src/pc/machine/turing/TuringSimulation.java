@@ -100,7 +100,6 @@ public class TuringSimulation extends Simulation{
 					try {
 						t.getSlave().sendStateName(this.currentState.getName());
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
