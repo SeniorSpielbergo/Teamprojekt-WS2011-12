@@ -141,6 +141,10 @@ public class State implements Serializable {
 		return height;
 	}
 
+	/**
+	 * Sets the height.
+	 * @return height
+	 */
 	public void setHeight(int height) {
 		this.height = height;
 	}
@@ -153,6 +157,10 @@ public class State implements Serializable {
 		return width;
 	}
 
+	/**
+	 * Sets the width.
+	 * @return width
+	 */
 	public void setWidth(int width) {
 		this.width = width;
 	}
