@@ -25,9 +25,6 @@ import java.util.ArrayList;
 
 public class Editor extends JFrame implements ActionListener, ItemListener {
 	private static final long serialVersionUID = -2288629542566838685L;
-	/**
-	 * The machine currently open in the editor.
-	 */
 
 	protected Machine currentMachine;
 	private File currentFile = null;
@@ -115,7 +112,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	}
 
 	/**
-	 * Checks if an object is contained in an array
+	 * Checks if an object is contained in an array.
 	 * @param array The array to search in
 	 * @param object The object to be searched
 	 * @return True if the object is contained in the array, false if not
@@ -474,6 +471,10 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		organizeRobotsWindow.showDialog();
 	}
 
+	/**
+	 * Sets the editability of the editor.
+	 * @param editable true / false depending whether editable
+	 */
 	public void setEditable(boolean editable) {
 		if (this.currentMachine != null) {
 			this.currentMachine.getEditor().setEditable(editable);
@@ -548,6 +549,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 
 	}
 	
+	// This method updates the window title
 	private void updateTitle() {
 		if (!(this.currentFile == null)) {
 			this.setTitle(this.currentFile.getName() + " - " + AppData.APP_NAME);
@@ -558,7 +560,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	}
 
 	/**
-	 * Loads and prepares the editor for the current machine
+	 * Loads and prepares the editor for the current machine.
 	 */
 	public void loadEditor() {
 		this.updateTitle();
@@ -643,6 +645,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		this.applySimulationSettings();
 	}
 
+	// applies the current settings to the simulation window
 	private void applySimulationSettings() {
 		if (this.simulationWindow != null) {
 			this.simulationWindow.setDelay(this.delay);
