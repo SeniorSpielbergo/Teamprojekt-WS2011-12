@@ -15,7 +15,6 @@ import machine.*;
 /**
  * This class is the window in which runs the simulation with the tapes.
  * @author Nessa Baier
- *
  */
 public class SimulationWindow extends JFrame implements Observer, ActionListener{
 	/**

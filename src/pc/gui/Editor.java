@@ -17,12 +17,14 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 
-/** This class represents an editor for Turing machines.
- * 
- * @author Vanessa Baier, Nils Breyer, Sven Schuster, Philipp Neumann, David Wille
- * 
+/** 
+ * This class represents an editor for Turing machines.
+ * @author Nessa Baier
+ * @author Nils Breyer
+ * @author Sven Schuster
+ * @author Philipp Neumann
+ * @author David Wille
  */
-
 public class Editor extends JFrame implements ActionListener, ItemListener {
 	private static final long serialVersionUID = -2288629542566838685L;
 

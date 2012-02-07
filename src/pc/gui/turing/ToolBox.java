@@ -6,10 +6,9 @@ import javax.swing.*;
 
 /**
  * This class implements the toolbox panel.
- * @author Sven Schuster, David Wille
- *
+ * @author Sven Schuster
+ * @author David Wille
  */
-
 public class ToolBox extends JPanel {
 
 	private static final long serialVersionUID = -5130578684131390225L;

@@ -3,10 +3,10 @@ import java.io.Serializable;
 import java.lang.String;
 import java.util.ArrayList;
 
-/** This class represents a state with it's id, name, type and edges.
- * 
- * @author David Wille, Sven Schuster
- * 
+/** 
+ * This class represents a state with it's id, name, type and edges.
+ * @author David Wille
+ * @author Sven Schuster
  */
 public class State implements Serializable {
 	private static final long serialVersionUID = -677700196207258408L;

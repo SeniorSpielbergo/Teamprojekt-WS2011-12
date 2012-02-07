@@ -20,7 +20,8 @@ import gui.*;
 
 /**
  * This class implements the edge properties panel.
- * @author David Wille, Sven Schuster
+ * @author David Wille
+ * @author Sven Schuster
  */
 public class PropertiesEdge extends JPanel implements ActionListener, ListSelectionListener {
 

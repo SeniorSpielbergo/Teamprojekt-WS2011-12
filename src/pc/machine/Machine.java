@@ -14,7 +14,6 @@ import tape.TapeException;
 /**
  * An abstract class that represents a machine that operates on tapes
  * @author Nils Breyer
- *
  */
 public abstract class Machine {
 	/**
