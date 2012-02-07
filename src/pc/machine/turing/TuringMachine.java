@@ -41,7 +41,6 @@ import tape.SlaveRobot;
 import tape.Tape;
 import tape.TapeException;
 
-//TODO complete javadoc!
 /** This class represents a Turing machine with it's states, edges and transitions.
  * 
  * @author David Wille, Nils Breyer
@@ -57,34 +56,20 @@ public class TuringMachine extends Machine{
 	 */
 	public static final String FILE_EXTENSION = ".tm";
 
-	/**
-	 * Contains all states of this machine
-	 */
-	protected ArrayList<State> states;
-	/**
-	 * Contains all edges of this machine
-	 */
-	protected ArrayList<Edge> edges;
+	private ArrayList<State> states;
+	private ArrayList<Edge> edges;
+	private ArrayList<Textbox> textboxes;
+	private ArrayList<Frame> frames;
 
 	/**
-	 * Contains all textboxes of this machine
-	 */
-	protected ArrayList<Textbox> textboxes;
-
-	/**
-	 * Contains all frames of this machine
-	 */
-	protected ArrayList<Frame> frames;
-
-	/**
-	 * Constructs an untitled Turing machine
+	 * Constructs an untitled Turing machine.
 	 */
 	public TuringMachine() {
 		this("Untitled Turing machine");
 	}
 
 	/**
-	 * Constructs an empty Turing machine with a name
+	 * Constructs an empty Turing machine with a name.
 	 * @param name Name for the Turing machine
 	 */
 	public TuringMachine(String name) {
@@ -92,7 +77,7 @@ public class TuringMachine extends Machine{
 	}
 
 	/**
-	 * Constructs an empty Turing machine with a name and its tapes
+	 * Constructs an empty Turing machine with a name and its tapes.
 	 * @param name Name for the Turing machine
 	 * @param numberOfTapes Number of tapes
 	 */
@@ -104,7 +89,7 @@ public class TuringMachine extends Machine{
 	}
 
 	/**
-	 * Constructs a new Turing machine with edges, states and transitions
+	 * Constructs a new Turing machine with edges, states and transitions.
 	 * @param states All states of the Turing machine
 	 * @param edges All edges of the Turing machine
 	 * @param name The name of the Turing machine
@@ -120,7 +105,7 @@ public class TuringMachine extends Machine{
 	}
 
 	/**
-	 * Constructs a new Turing machine with edges, states and transitions
+	 * Constructs a new Turing machine with edges, states and transitions.
 	 * @param states All states of the Turing machine
 	 * @param edges All edges of the Turing machine
 	 * @param name The name of the Turing machine
@@ -146,7 +131,7 @@ public class TuringMachine extends Machine{
 	}
 
 	/**
-	 * Returns the Turing machine's states
+	 * Returns the Turing machine's states.
 	 * @return Turing Machine's states
 	 */
 	public ArrayList<State> getStates() {
@@ -154,7 +139,7 @@ public class TuringMachine extends Machine{
 	}
 
 	/**
-	 * Returns the Turing machine's edges
+	 * Returns the Turing machine's edges.
 	 * @return Turing Machine's edges
 	 */
 	public ArrayList<Edge> getEdges() {
@@ -246,7 +231,7 @@ public class TuringMachine extends Machine{
 	}
 
 	/**
-	 * Loads the tapes' configuration from a xml Document 
+	 * Loads the tapes' configuration from a xml Document.
 	 * @param doc Document to load the configuration from
 	 * @throws IOException Exception if any problems occur while reading the configuration
 	 */
@@ -334,11 +319,6 @@ public class TuringMachine extends Machine{
 		return filters;
 	}
 
-	/**
-	 * Loads the states from an xml Document
-	 * @param doc The document where to get the states
-	 * @throws IOException Exception if any problem occurs while reading the states
-	 */
 	private void loadStates(Document doc) throws IOException {
 		// get list of nodes
 		NodeList stateList = doc.getElementsByTagName("state");
@@ -398,11 +378,6 @@ public class TuringMachine extends Machine{
 		} //end for (next state)
 	}
 
-	/**
-	 * Loads the edges from an xml Document
-	 * @param doc The document where to get the edges
-	 * @throws IOException Exception if any problem occurs while reading the edges
-	 */
 	private void loadEdges(Document doc) throws IOException {
 		// get list of edges
 		NodeList edgeList = doc.getElementsByTagName("edge");
@@ -574,7 +549,7 @@ public class TuringMachine extends Machine{
 	}
 
 	/**
-	 * Writes the Turing machine to a XML file with a given name
+	 * Writes the Turing machine to a XML file with a given name.
 	 * @param filename File writing to (with or without .xml at the end)
 	 */
 	public void save(String filename) throws IOException {
@@ -916,7 +891,7 @@ public class TuringMachine extends Machine{
 	}
 
 	/**
-	 * Gets a state of the TuringMachine with a given ID
+	 * Gets a state of the TuringMachine with a given ID.
 	 * @param id Id to be searched
 	 * @return The State with the given ID, or null if the state doesn't exist
 	 */
@@ -930,7 +905,7 @@ public class TuringMachine extends Machine{
 	}
 
 	/**
-	 * Gets a transition of the TuringMachine with a given ID
+	 * Gets a transition of the TuringMachine with a given ID.
 	 * @param id Id to be searched
 	 * @return The Transition with the given ID, or null if the state doesn't exist
 	 */
@@ -946,16 +921,14 @@ public class TuringMachine extends Machine{
 	}
 
 	/**
-	 * Sets the machine name
+	 * Sets the machine name.
 	 * @param name The name to be set
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/**
-	 * Gives a string representation of the Turing Machine
-	 */
+	//Gives a string representation of the Turing Machine.
 	@Override
 	public String toString() {
 		String str = "";
