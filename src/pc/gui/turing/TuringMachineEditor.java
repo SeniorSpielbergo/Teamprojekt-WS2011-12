@@ -387,7 +387,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		addViaAction.setEnabled(true);
 		removeViaAction.setEnabled(true);
 
-		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), (Edge) cell.getValue(), graph, cell, this);
+		PropertiesEdge propertiesEdge = new PropertiesEdge(this.machine.getNumberOfTapes(), (Edge) cell.getValue(), cell, this);
 		jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
@@ -400,7 +400,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		addViaAction.setEnabled(false);
 		removeViaAction.setEnabled(false);
 
-		PropertiesState propertiesState = new PropertiesState(state,graph, mxState, this);
+		PropertiesState propertiesState = new PropertiesState(state, mxState, this);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();
@@ -413,7 +413,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		addViaAction.setEnabled(false);
 		removeViaAction.setEnabled(false);
 
-		PropertiesTextbox propertiesTextbox = new PropertiesTextbox(textbox, graph, cell ,this);
+		PropertiesTextbox propertiesTextbox = new PropertiesTextbox(textbox, cell ,this);
 		this.jPanelProperties.removeAll();
 		jPanelProperties.validate();
 		jPanelProperties.repaint();

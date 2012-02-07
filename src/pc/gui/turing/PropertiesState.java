@@ -19,11 +19,8 @@ import machine.turing.State;
 /**
  * This class implements the state properties panel
  * @author Sven Schuster
- *
  */
-
 public class PropertiesState extends JPanel implements ItemListener, DocumentListener {
-	
 	private static final long serialVersionUID = -5483231033293338765L;
 
 	private JLabel name;
@@ -36,9 +33,15 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 	private mxCellState vertex;
 	private TuringMachineEditor turingMachineEditor;
 	
-	public PropertiesState(State state, mxGraph graph, mxCellState vertex, TuringMachineEditor turingMachineEditor) {
+	/**
+	 * Creates a new PropertiesState panel for given state and editor.
+	 * @param state the State object to open the properties for
+	 * @param vertex the mxCellState for the state to change
+	 * @param turingMachineEditor the TuringMachineEditor
+	 */
+	public PropertiesState(State state, mxCellState vertex, TuringMachineEditor turingMachineEditor) {
 		this.turingMachineEditor = turingMachineEditor;
-		this.graph = graph;
+		this.graph = turingMachineEditor.getGraph();
 		this.vertex = vertex;
 		this.state = state;
 		name = new JLabel("Name");
@@ -95,6 +98,10 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 		this.add(propertiesPanel, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Sets the Style of a given cell.
+	 * @param cell
+	 */
 	public void setStyle(mxCell cell) {
 		if(startState.isSelected() && finalState.isSelected())
 			cell.setStyle("FINALSTART");
@@ -106,6 +113,7 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 			cell.setStyle("CIRCLE");
 	}
 	
+	// Adds a value change to the undoManager 
 	private void addUndoableEdit() {
 		mxValueChange change = new mxValueChange((mxGraphModel) graph.getModel(), vertex.getCell(), this.state);
 		change.setPrevious(this.state.clone());
