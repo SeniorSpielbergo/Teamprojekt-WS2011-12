@@ -18,7 +18,7 @@ import javax.swing.event.TableModelListener;
 import machine.turing.*;
 
 /**
- * This class implements the transition edit dialog
+ * This class implements the transition edit dialog.
  * @author David Wille
  *
  */
@@ -33,30 +33,15 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 	private JButton saveButton;
 	private JPanel saveCancelContainer;
 	private ListSelectionModel listSelectionModel;
-	/**
-	 * Stores whether the table is initialized
-	 */
 	private boolean tableInitialized = false;
-	/**
-	 * Stores the number of tapes
-	 */
 	@SuppressWarnings("unused")		// is used in for loops
 	private int numberTapes;
-	/**
-	 * Stores the data returned by the dialog
-	 */
 	private Transition transition;
-	/**
-	 * Stores the columns names
-	 */
 	private String[] head = {"Tape", "Input", "Output", "Action"};
-	/**
-	 * Stores which columns are editable
-	 */
 	private boolean[] editable = {false, true, true, true};
 	
 	/**
-	 * Constructs a dialog to edit the properties of a transition
+	 * Constructs a dialog to edit the properties of a transition.
 	 * @param numberTapes Number of tapes in the current machine
 	 * @param transition Transition that should be edited
 	 */
@@ -140,7 +125,7 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 	}
 	
 	/**
-	 * Shows the Dialog
+	 * Shows the Dialog.
 	 * @return The data edited by the user
 	 */
 	public Transition showEdit() {

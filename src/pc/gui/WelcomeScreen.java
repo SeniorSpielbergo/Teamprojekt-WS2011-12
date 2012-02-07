@@ -18,7 +18,7 @@ import javax.swing.JTextPane;
 import gui.WelcomeScreenLine.Type;
 import machine.Machine.MachineType;
 
-/** This class represents the Welcome Screen
+/** This class represents the Welcome Screen.
  * 
  * @author David Wille
  * 
@@ -45,6 +45,10 @@ public class WelcomeScreen extends JPanel {
 	private JPanel brainfuckExamples;
 	private Editor editor;
 	
+	/**
+	 * Constructs the welcome screen.
+	 * @param editor The current editor window
+	 */
 	public WelcomeScreen(Editor editor) {
 		this.editor = editor;
 		initWelcomeScreen();
@@ -152,7 +156,7 @@ public class WelcomeScreen extends JPanel {
 		this.add(tabbedPane, BorderLayout.CENTER);
 	}
 	
-	public void initWelcomeScreen() {
+	private void initWelcomeScreen() {
 		tabbedPane = new JTabbedPane();
 		turingContainer = new JPanel();
 		brainfuckContainer = new JPanel();

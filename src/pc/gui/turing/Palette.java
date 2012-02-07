@@ -21,7 +21,7 @@ import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxRectangle;
 
 /**
- * This class implements the palette
+ * This class implements the palette.
  * @author Sven Schuster, David Wille
  *
  */
@@ -34,7 +34,7 @@ public class Palette extends JPanel implements MouseListener {
 	private String clicked = null;
 
 	/**
-	 * Constructs a palette
+	 * Constructs a palette.
 	 */
 	public Palette() {
 		this.setLayout(new GridBagLayout());
@@ -59,14 +59,7 @@ public class Palette extends JPanel implements MouseListener {
 		}
 	}
 	
-	/**
-	 * Adds a label to the palette
-	 * @param name Name for the palette
-	 * @param icon Icon for the palette
-	 * @param cell Cell that should be displayed
-	 * @return Label to be added
-	 */
-	public JLabel addIcon(String name, ImageIcon icon, mxCell cell) {
+	private JLabel addIcon(String name, ImageIcon icon, mxCell cell) {
 		JLabel label = new JLabel(name, icon, JLabel.LEFT);
 		label.setName(name);
 		
@@ -97,7 +90,7 @@ public class Palette extends JPanel implements MouseListener {
 
 	
 	/**
-	 * Returns the clicked item
+	 * Returns the clicked item.
 	 * @return The clicked item
 	 */
 	public String getClicked() {
