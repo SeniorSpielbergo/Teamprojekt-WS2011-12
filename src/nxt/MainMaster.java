@@ -27,6 +27,7 @@ public class MainMaster {
 	static int counter = 0;
 	static DataInputStream in;
 	static DataOutputStream out;
+	static char lastSymbol = ' ';
 
 
 	ColorSensor cs1 = null;
@@ -36,7 +37,7 @@ public class MainMaster {
 	Tape tape = null;
 
 	public static void printRightArrow(){
-		int x =0, y = 29;
+		int x = 62, y = 29;
 		for(int i = 1; i <= 20 ; i++){
 			LCD.setPixel(1, x+i, y+5);
 			LCD.setPixel(1, x+i, y+30);
@@ -55,7 +56,7 @@ public class MainMaster {
 	}
 	
 	public static void clearRightArrow(){
-		int x =0, y = 29;
+		int x = 62, y = 29;
 		for(int i = 1; i <= 20 ; i++){
 			LCD.setPixel(0, x+i, y+5);
 			LCD.setPixel(0, x+i, y+30);
@@ -74,7 +75,7 @@ public class MainMaster {
 	}
 	
 	public static void printLeftArrow(){
-		int x = 62, y = 29;
+		int x =0, y = 29;
 		for(int i = 1; i <= 20 ; i++){
 			LCD.setPixel(1, x-i+37, y+5);
 			LCD.setPixel(1, x-i+37, y+30);
@@ -93,7 +94,7 @@ public class MainMaster {
 	}
 	
 	public static void clearLeftArrow(){
-		int x = 62, y = 29;
+		int x =0, y = 29;
 		for(int i = 1; i <= 20 ; i++){
 			LCD.setPixel(0, x-i+37, y+5);
 			LCD.setPixel(0, x-i+37, y+30);
@@ -199,8 +200,7 @@ public class MainMaster {
 			catch (IOException e) {
 				break;
 			}
-
-			LCD.clearDisplay();
+			
 			switch (ch) {
 			case 'q':
 				return; //end serving
@@ -216,6 +216,7 @@ public class MainMaster {
 						break;
 					}
 				}
+				LCD.drawString("                                 ", 0, 0);
 				LCD.drawString(tapeName, 0, 0);
 				break;
 			case 'r':
@@ -235,17 +236,22 @@ public class MainMaster {
 				}
 				try {
 					if (!cs1Active && !cs2Active) {
+						 lastSymbol = '#';
 						out.writeChar('#');
 					}
 					else if (!cs1Active && cs2Active) {
+						 lastSymbol = '#';
 						out.writeChar('0');
 					}
 					else if (cs1Active && !cs2Active) {
+						 lastSymbol = '#';
 						out.writeChar('1');
 					}
 					else if (cs1Active && cs2Active) {
+						 lastSymbol = '#';
 						out.writeChar('2');
 					}
+					LCD.drawString("SYM:" + lastSymbol, 6, 2);
 					out.flush();
 				}
 				catch (IOException e) {

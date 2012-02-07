@@ -41,6 +41,7 @@ import tape.SlaveRobot;
 import tape.Tape;
 import tape.TapeException;
 
+//TODO complete javadoc!
 /** This class represents a Turing machine with it's states, edges and transitions.
  * 
  * @author David Wille, Nils Breyer
@@ -136,6 +137,10 @@ public class TuringMachine extends Machine{
 		this.textboxes = textboxes;
 	}
 
+	/**
+	 * Returns the file extension.
+	 * @return FILE_EXTENSION The file extension as enum.
+	 */
 	public String getFileExtension() {
 		return TuringMachine.FILE_EXTENSION;
 	}

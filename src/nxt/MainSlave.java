@@ -91,13 +91,20 @@ public class MainSlave {
 			switch (ch) {
 				case 'q':
 					return;
-				case 't':
-					LCD.drawString("Pushing...", 0, 0);
-					Motor.B.rotate(Common.PUSH_ANGLE_SLAVE);
-					Motor.B.rotate(Common.PUSH_ANGLE_SLAVE*(-1)+1);
-					Motor.C.rotate(Common.PUSH_ANGLE_SLAVE);
-					Motor.C.rotate(Common.PUSH_ANGLE_SLAVE*(-1)+1);
-					LCD.clearDisplay();
+				case 'n':
+					String tapeName = "";
+					char c = ' ';
+					while (c != '\n') {
+						try {
+							tapeName += c;
+							c = in.readChar();
+						}
+						catch (IOException e) {
+							break;
+						}
+					}
+					LCD.drawString("                                 ", 0, 0);
+					LCD.drawString(tapeName, 0, 0);
 					break;
 				case 'w':
 					int bit1, bit0, nbit1, nbit0;
@@ -146,7 +153,15 @@ public class MainSlave {
 				case 's':
 					sound.setSoundOff();
 					break;
+				default:
+					try {
+						out.writeChar('!');
+						out.flush();
 					}
+					catch (IOException e) {
+					}
+					break;
+			}
 		}
 	}
 	

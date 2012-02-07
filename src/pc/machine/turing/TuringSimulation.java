@@ -30,6 +30,9 @@ public class TuringSimulation extends Simulation{
 	 */
 	ArrayList<Tape> tapes = null;
 	
+	/** 
+	 * The LEGOtapes of the current turingmachine.
+	 */
 	ArrayList<LEGOTape> legoTapes = null;
 
 	/**
@@ -60,7 +63,7 @@ public class TuringSimulation extends Simulation{
 	}
 
 	/**
-	 * Intializes the simulation.
+	 * Initializes the simulation.
 	 */
 	private void init(){
 		for( int i=0; i < machine.getStates().size(); i++){
@@ -69,7 +72,15 @@ public class TuringSimulation extends Simulation{
 				currentState = startState;
 				super.setChanged();
 				super.notifyObservers((Object)currentState);
-
+			}
+		}
+		
+		//send machine name to robot
+		for ( LEGOTape t : this.legoTapes){
+			try {
+				t.getSlave().sendMachineName(this.machine.getName());
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 		}
 	}
@@ -163,10 +174,6 @@ public class TuringSimulation extends Simulation{
 				this.simulationAborted = true;
 			}
 		}
-		//		else{
-		//			this.simulationAborted = true; // TODO is needed?
-		//		}
-
 	}
 
 	/**

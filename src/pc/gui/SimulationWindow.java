@@ -19,29 +19,35 @@ import machine.*;
  */
 public class SimulationWindow extends JFrame implements Observer, ActionListener{
 	/**
-	 * ScrollPane
+	 * The ScrollPane.
 	 */
 	JScrollPane scrollpaneRight;
+	
 	/**
-	 * panel for toolbar, panel for tapes
+	 * Panels for toolbar tapes.
 	 */
 	JPanel panelall, panelToolbar;
 
+	/**
+	 * The label for the result.
+	 */
 	JLabel resultLabel;
 	/**
-	 * toolbar
+	 * The toolbar.
 	 */
 	JToolBar toolbar;
 
-
+	/**
+	 * The buttons play, forward and sound on/off.
+	 */
 	JButton buttonPlay, buttonForward;
 	JToggleButton buttonSound;
 	/**
-	 * the simulation's graphic tapes
+	 * The simulation's graphic tapes.
 	 */
 	ArrayList<tape.DisplayableTape> graphicTapes = new ArrayList<tape.DisplayableTape>();
 	/**
-	 * Current machine
+	 * Current machine.
 	 */
 	Machine currentMachine;
 	/**
@@ -53,6 +59,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	 */
 	Simulation sim;
 
+	/**
+	 * The first LEGOtape of the machine.
+	 */
 	tape.LEGOTape myFirstLEGOTape;
 
 	private boolean delay = true;
@@ -262,6 +271,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		this.repaint();
 	}
 
+	/**
+	 * Disposes the window and aborts the simulation.
+	 */
 	public void dispose(){
 		if(!this.sim.isSimulationAlreadyStarted()){
 			for (Tape t : this.graphicTapes){
@@ -309,6 +321,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		}
 	}
 
+	/**
+	 * Handles events from observed classes.
+	 */
 	public void update(Observable observable, Object obj) {
 		if (observable instanceof tape.Tape 
 				&& obj instanceof tape.Tape.Event
@@ -351,26 +366,6 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			this.buttonPlay.setEnabled(false);
 			this.resultLabel.setText("Input word was not accepted.");
 		}
-
-		//		else if(!this.sim.isSimulationAlreadyStarted()		// FIXME: still needed?
-		//				&& observable instanceof tape.Tape
-		//				&& obj instanceof tape.Tape.Event
-		//				&& (tape.Tape.Event)obj ==tape.Tape.Event.INPUTABORTED){
-		//
-		//			try{
-		//				this.resultLabel.setText("Input word was not accepted.");
-		//				System.out.println(" i shut down the tapes");
-		//				this.currentMachine.shutdownTapes();
-		//			}
-		//			catch (TapeException e) {
-		//				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
-		//				e.printStackTrace();
-		//				ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
-		//				return;
-		//			}
-		//
-		//		}
-
 	}
 
 
