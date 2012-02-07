@@ -200,7 +200,6 @@ public class MainMaster {
 				break;
 			}
 
-			LCD.clearDisplay();
 			switch (ch) {
 			case 'q':
 				return; //end serving
