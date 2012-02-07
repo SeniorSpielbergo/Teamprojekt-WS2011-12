@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class Editor extends JFrame implements ActionListener, ItemListener {
 	private static final long serialVersionUID = -2288629542566838685L;
 
-	protected Machine currentMachine;
+	private Machine currentMachine;
 	private File currentFile = null;
 	private String lastDir = "./machine/examples";
 	private boolean delay = true;

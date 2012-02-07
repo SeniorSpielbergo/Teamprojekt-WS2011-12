@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * This class represents a position in an 2-dimensional environment via x and y coordinates
- * @author nils
+ * @author Nils Breyer
  *
  */
 public class Point implements Serializable {

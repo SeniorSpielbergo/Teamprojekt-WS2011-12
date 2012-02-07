@@ -2,41 +2,22 @@ package machine.turing;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/** This class represents an edge with it'ss start and end state and it's transitions
+/** This class represents an edge with it'ss start and end state and it's transitions.
  * 
  * @author David Wille
  * 
  */
 public class Edge implements Serializable {
 	private static final long serialVersionUID = 4600179693147369571L;
-	/**
-	 * The state where the edge starts from
-	 */
-	protected State from;
-	/**
-	 * The state where the edge ends
-	 */
-	protected State to;
+	private State from;
+	private State to;
+	private ArrayList<Point> via;
+	private ArrayList<Transition> transitions;
+	private int posLabelX = 0;
+	private int posLabelY = 0;
 
 	/**
-	 * The list of via points
-	 */
-	protected ArrayList<Point> via;
-	/**
-	 * Contains all transitions of this edge
-	 */
-	protected ArrayList<Transition> transitions;
-
-	/**
-	 * The label x position
-	 */
-	protected int posLabelX = 0;
-	/**
-	 * The label y position
-	 */
-	protected int posLabelY = 0;
-	/**
-	 * Constructs an edge from a state to another with it's transitions
+	 * Constructs an edge from a state to another with it's transitions.
 	 * @param from Start state
 	 * @param to End state
 	 * @param transitions Transitions for this edge
@@ -49,7 +30,7 @@ public class Edge implements Serializable {
 	}
 
 	/**
-	 * Returns the edge's start state
+	 * Returns the edge's start state.
 	 * @return Start state for this edge
 	 */
 	public State getFrom() {
@@ -57,7 +38,7 @@ public class Edge implements Serializable {
 	}
 
 	/**
-	 * Returns the edge's end state
+	 * Returns the edge's end state.
 	 * @return End state for this edge
 	 */
 	public State getTo() {
@@ -65,7 +46,7 @@ public class Edge implements Serializable {
 	}
 
 	/**
-	 * Returns the transitions for this edge
+	 * Returns the transitions for this edge.
 	 * @return Transitions for this edge
 	 */
 	public ArrayList<Transition> getTransitions() {
@@ -73,7 +54,7 @@ public class Edge implements Serializable {
 	}
 
 	/**
-	 * Sets the transitions for this edge
+	 * Sets the transitions for this edge.
 	 * @return Transitions for this edge
 	 */
 	public void setTransitions(ArrayList<Transition> transitions) {
@@ -81,7 +62,7 @@ public class Edge implements Serializable {
 	}
 
 	/**
-	 * Sets the start state
+	 * Sets the start state.
 	 * @param from Start state
 	 */
 	public void setFrom(State from) {
@@ -89,7 +70,7 @@ public class Edge implements Serializable {
 	}
 
 	/**
-	 * Sets the end state
+	 * Sets the end state.
 	 * @param to End state
 	 */
 	public void setTo(State to) {
@@ -97,7 +78,7 @@ public class Edge implements Serializable {
 	}
 
 	/**
-	 * Gives a string representation of the edge
+	 * Gives a string representation of the edge.
 	 */
 	@Override
 	public String toString() {
@@ -115,23 +96,8 @@ public class Edge implements Serializable {
 		return transitionsString;
 	}
 
-	public String properToString() {
-		String transitionsString = "" + this.from + " - " + this.to + ": ";
-		int numberOfTransitions = (transitions.size() <= 3 ? transitions.size() : 3); //print up to 4 transitions
-		for (int i = 0 ; i < numberOfTransitions; i++) {
-			transitionsString += transitions.get(i);
-			if (i < numberOfTransitions-1) {
-				transitionsString += "\n";
-			}
-		}
-		if (transitions.size() > numberOfTransitions) { //print ellipsis if more transitions exist
-			transitionsString += "\n...";
-		}
-		return transitionsString;
-	}
-
 	/**
-	 * Sets the label x position
+	 * Sets the label x position.
 	 * @param x The x position
 	 */
 	public void setPosLabelX(int x) {
@@ -139,7 +105,7 @@ public class Edge implements Serializable {
 	}
 
 	/**
-	 * Sets the label y position
+	 * Sets the label y position.
 	 * @param y The y position
 	 */
 	public void setPosLabelY(int y) {
@@ -147,7 +113,7 @@ public class Edge implements Serializable {
 	}
 
 	/**
-	 * Returns the current label position
+	 * Returns the current label position.
 	 * @return The point where the label is positioned
 	 */
 	public Point getPosLabel() {
@@ -155,7 +121,7 @@ public class Edge implements Serializable {
 	}
 
 	/**
-	 * Returns the list of via points for this edge
+	 * Returns the list of via points for this edge.
 	 * @return List of vias
 	 */
 	public ArrayList<Point> getVia() {

@@ -936,7 +936,7 @@ public class TuringMachine extends Machine{
 	 */
 	public Transition getTransitionById(String id) {
 		for (Edge edge : this.edges) {
-			for (Transition transition : edge.transitions) {
+			for (Transition transition : edge.getTransitions()) {
 				if (transition.getId().equals(id)) {
 					return transition;
 				}

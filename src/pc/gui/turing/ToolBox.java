@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import javax.swing.*;
 
 /**
- * This class implements the toolbox panel
+ * This class implements the toolbox panel.
  * @author Sven Schuster, David Wille
  *
  */
@@ -16,7 +16,7 @@ public class ToolBox extends JPanel {
 	private Palette palette;
 	
 	/**
-	 * Constructs a new toolbox
+	 * Constructs a new toolbox.
 	 */
 	public ToolBox() {
 		palette = new Palette();
@@ -27,7 +27,7 @@ public class ToolBox extends JPanel {
 	}
 	
 	/**
-	 * Returns the clicked item
+	 * Returns the clicked item.
 	 * @return The clicked item
 	 */
 	public String getClicked() {
@@ -35,7 +35,7 @@ public class ToolBox extends JPanel {
 	}
 	
 	/**
-	 * Sets the clicked item
+	 * Sets the clicked item.
 	 * @param value The name of the clicked item
 	 */
 	public void setClicked(String value) {
