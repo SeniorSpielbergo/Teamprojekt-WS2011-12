@@ -20,7 +20,8 @@ import machine.turing.Textbox;
 
 /**
  * This class implements the textbox properties panel
- * @author David Wille, Sven Schuster
+ * @author David Wille
+ * @author Sven Schuster
  */
 public class PropertiesTextbox extends JPanel implements DocumentListener {
 	private static final long serialVersionUID = -4793677956080787446L;

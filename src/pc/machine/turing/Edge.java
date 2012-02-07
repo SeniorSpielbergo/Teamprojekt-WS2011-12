@@ -2,10 +2,10 @@ package machine.turing;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/** This class represents an edge with it'ss start and end state and it's transitions.
- * 
+/** 
+ * This class represents an edge with it'ss start and end state and it's transitions.
  * @author David Wille
- * 
+ * @author Sven Schuster
  */
 public class Edge implements Serializable {
 	private static final long serialVersionUID = 4600179693147369571L;

@@ -3,10 +3,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
-/** This class represents the transitions on all tapes for a specific edge.
- * 
+/**
+ * This class represents the transitions on all tapes for a specific edge.
  * @author David Wille
- * 
  */
 public class Transition implements Serializable {
 	private static final long serialVersionUID = 2530568958006425276L;

@@ -27,7 +27,11 @@ import com.mxgraph.util.mxEventSource.mxIEventListener;
 
 /**
  * This class implements the TuringMachineEditor
- * @author Nils Breyer, Nessa Baier, Philipp Neumann, Sven Schuster, David Wille
+ * @author Nessa Baier
+ * @author Nils Breyer
+ * @author Philipp Neumann
+ * @author Sven Schuster
+ * @author David Wille
  */
 public class TuringMachineEditor extends MachineEditor 
 implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {

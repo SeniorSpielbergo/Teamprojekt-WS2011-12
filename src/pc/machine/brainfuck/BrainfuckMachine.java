@@ -15,7 +15,6 @@ import machine.*;
 /**
  * Represents a brainfuck machine and provides methods to handle it.
  * @author Sven Schuster
- * 
  */
 public class BrainfuckMachine extends Machine {
 	public static final String FILE_EXTENSION = ".bf";

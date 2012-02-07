@@ -20,12 +20,10 @@ import machine.Machine;
 import machine.brainfuck.BrainfuckMachine;
 import machine.turing.TuringMachine;
 
-/** This class represents a line in a group on the Welcome Screen.
- * 
+/** 
+ * This class represents a line in a group on the Welcome Screen.
  * @author David Wille
- * 
  */
-
 public class WelcomeScreenLine extends JPanel {
 
 	/**

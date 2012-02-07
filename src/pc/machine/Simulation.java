@@ -6,8 +6,7 @@ import java.util.Observable;
 
 /**
  * Abstract class that controls a simulation of a machine.
- * @author Vanessa Baier
- *
+ * @author Nessa Baier
  */
 public abstract class Simulation extends Observable implements Runnable{
 	public enum simulationState {

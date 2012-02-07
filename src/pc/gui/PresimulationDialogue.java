@@ -12,11 +12,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 /**
  * The dialogue for presimulating within presimulation.
  * @author Nessa Baier
- *
  */
 public class PresimulationDialogue extends JDialog implements ActionListener{
 	private static final long serialVersionUID = 5423418738498074784L;
