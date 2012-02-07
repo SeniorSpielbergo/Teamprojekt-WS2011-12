@@ -20,10 +20,8 @@ import machine.turing.Textbox;
 
 /**
  * This class implements the textbox properties panel
- * @author David Wille
- *
+ * @author David Wille, Sven Schuster
  */
-
 public class PropertiesTextbox extends JPanel implements DocumentListener {
 	private static final long serialVersionUID = -4793677956080787446L;
 	private Textbox textbox;
@@ -36,13 +34,13 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 	private mxCell cell;
 
 	/**
-	 * This constructs a new textbox properties panel
+	 * This constructs a new textbox properties panel.
 	 * @param textbox Textbox whose information should be displayed
 	 * @param graph Current graph
 	 */
-	public PropertiesTextbox(Textbox textbox, mxGraph graph, mxCell cell, TuringMachineEditor turingMachineEditor) {
+	public PropertiesTextbox(Textbox textbox, mxCell cell, TuringMachineEditor turingMachineEditor) {
 		this.turingMachineEditor = turingMachineEditor;
-		this.graph = graph;
+		this.graph = turingMachineEditor.getGraph();
 		this.textbox = textbox;
 		this.cell = cell;
 		
@@ -79,6 +77,7 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 		this.add(content);
 	}
 
+	// adds a valuechange to the undoManager
 	private void addUndoableEdit() {
 		mxValueChange change = new mxValueChange((mxGraphModel) graph.getModel(), cell, this.textbox);
 		change.setPrevious(this.textbox.clone());
@@ -107,5 +106,4 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 	@Override
 	public void changedUpdate(DocumentEvent e) {
 	}
-	
 }

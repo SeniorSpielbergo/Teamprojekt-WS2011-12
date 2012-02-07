@@ -20,10 +20,8 @@ import gui.*;
 
 /**
  * This class implements the edge properties panel.
- * @author David Wille
- *
+ * @author David Wille, Sven Schuster
  */
-
 public class PropertiesEdge extends JPanel implements ActionListener, ListSelectionListener {
 
 	static final long serialVersionUID = -3667258249137827980L;
@@ -48,12 +46,12 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 	 * @param numberTapes Number of tapes in the current machine
 	 * @param edge The edge that should be edited
 	 */
-	public PropertiesEdge(int numberTapes, Edge edge, mxGraph graph, mxCell cell, TuringMachineEditor turingMachineEditor) {
-		this.graph = graph;
+	public PropertiesEdge(int numberTapes, Edge edge, mxCell cell, TuringMachineEditor turingMachineEditor) {
 		this.edge = edge;
 		this.numberTapes = numberTapes;
 		this.cell = cell;
 		this.turingMachineEditor = turingMachineEditor;
+		this.graph = turingMachineEditor.getGraph();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setMaximumSize(new Dimension(250, 300));
 		this.setPreferredSize(new Dimension(250, 300));
