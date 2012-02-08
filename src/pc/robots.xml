@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <robots>
     <robot master="true">
-        <name>IPS_03</name>
+        <name>NXT_23</name>
         <mac>00:16:53:13:53:BB</mac>
     </robot>
     <robot master="false">
@@ -13,7 +13,7 @@
         <mac>00:16:53:04:ED:8C</mac>
     </robot>
     <robot master="false">
-        <name>NXT_40</name>
+        <name>NXT_30</name>
         <mac>00:16:53:05:9C:73</mac>
     </robot>
 </robots>

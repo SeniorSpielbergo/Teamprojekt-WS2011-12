@@ -87,7 +87,6 @@ public class MainSlave {
 			catch (IOException e) {
 			}
 
-			LCD.clearDisplay();
 			switch (ch) {
 				case 'q':
 					return;
@@ -105,6 +104,21 @@ public class MainSlave {
 					}
 					LCD.drawString("                                 ", 0, 0);
 					LCD.drawString(tapeName, 0, 0);
+					break;
+				case 'x':
+					String stateName = "";
+					char c1 = ' ';
+					while (c1 != '\n') {
+						try {
+							stateName += c1;
+							c1 = in.readChar();
+						}
+						catch (IOException e) {
+							break;
+						}
+					}
+					LCD.drawString("                                 ", 0, 3);
+					LCD.drawString(stateName, 0, 3);
 					break;
 				case 'w':
 					int bit1, bit0, nbit1, nbit0;

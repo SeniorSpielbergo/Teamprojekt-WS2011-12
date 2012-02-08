@@ -7,10 +7,13 @@ import java.util.*;
 import javax.swing.*;
 
 import tape.DisplayableTape;
+import tape.LEGOTape;
 import tape.Tape;
 import tape.TapeException;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+
 import machine.*;
 
 @SuppressWarnings("serial")
@@ -56,6 +59,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	Simulation sim;
 
 	tape.LEGOTape myFirstLEGOTape;
+	ArrayList<tape.LEGOTape> legoTapes = new ArrayList<tape.LEGOTape>();
 
 	private boolean delay = true;
 
@@ -86,6 +90,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 		for(Tape t: this.currentMachine.getTapes()){
 			if(t instanceof tape.LEGOTape){
+				this.legoTapes.add((tape.LEGOTape) t);
 				this.myFirstLEGOTape = ((tape.LEGOTape) t);
 			}
 		}
@@ -327,6 +332,14 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				this.buttonPlay.setEnabled(true);
 				this.buttonForward.setEnabled(true);
 				System.out.println("Writing input word finished: notified");
+				//send machine name to robot
+				for ( LEGOTape t : this.legoTapes){
+					try {
+						t.getSlave().sendMachineName(this.currentMachine.getName());
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
 			}
 		}
 
@@ -393,12 +406,12 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		else if(event.getSource().equals(buttonForward)&& !sim.isSimulationAlreadyStarted()){
 			try {
 				simulationPaused = false;
-				sim.start();
 				this.buttonPlay.setEnabled(false);
 				if(this.myFirstLEGOTape != null){
 					this.myFirstLEGOTape.getSlave().startSound();
 					this.buttonSound.setEnabled(true);
 				}
+				sim.start();
 				sim.pause();
 				this.buttonPlay.setEnabled(true);
 			}
@@ -412,11 +425,11 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		else if(event.getSource().equals(buttonPlay)&& !sim.isSimulationAlreadyStarted()){
 			try {
 				simulationPaused = false;
-				sim.start();
 				if(this.myFirstLEGOTape != null){
 					this.myFirstLEGOTape.getSlave().startSound();
 					this.buttonSound.setEnabled(true);
 				}
+				sim.start();
 				this.buttonPlay.setIcon(this.iconPause);
 			}
 			catch (RuntimeException e){
