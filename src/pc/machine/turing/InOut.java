@@ -9,15 +9,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/** This class provides methods to read and write Turing machines from / to files
+/** This class provides IO methods.
  * 
  * @author David Wille
  * 
  */
 
 public class InOut {
+	
 	/**
-	 * Writes a Turing machine to a LaTex file
+	 * Writes a Turing machine to a LaTex file.
 	 * @param fileName Name of the file, where to write to
 	 * @param machine Turing machine that should be written to the file
 	 */
@@ -140,11 +141,6 @@ public class InOut {
 		return entry;
 	}
 
-	/**
-	 * Checks for hashes and escapes them
-	 * @param charToCheck Character to check for a hash
-	 * @return The initial character or an escaped hash
-	 */
 	private static String escapeHash(char charToCheck) {
 		if (charToCheck == '#') {
 			return "\\#";
@@ -153,7 +149,7 @@ public class InOut {
 	}
 
 	/**
-	 * Returns the value of an element with a certain tag
+	 * Returns the value of an element with a certain tag.
 	 * @param tag Tag you want to read
 	 * @param currentElement The current element you want to read from
 	 * @return The value of that tag
@@ -188,7 +184,7 @@ public class InOut {
 	}
 
 	/**
-	 * Gets a child element node with a specific name that is a child of the currentElement
+	 * Gets a child element node with a specific name that is a child of the currentElement.
 	 * @param tag The name of the child element to search
 	 * @param currentElement The parent element of the child to search
 	 * @return The child node with the specified name
@@ -213,7 +209,7 @@ public class InOut {
 	}
 
 	/**
-	 * Gets an attribute integer value of an attribute with a specific name that is child of the currentElement
+	 * Gets an attribute integer value of an attribute with a specific name that is child of the currentElement.
 	 * @param attribute_name The name of the attribute to search
 	 * @param currentElement The parent element of the child to search
 	 * @return The attribute integer value, or 0 if the attribuet is not existent

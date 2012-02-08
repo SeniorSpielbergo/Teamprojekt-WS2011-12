@@ -19,11 +19,10 @@ import machine.turing.*;
 import gui.*;
 
 /**
- * This class implements the edge properties panel
+ * This class implements the edge properties panel.
  * @author David Wille
- *
+ * @author Sven Schuster
  */
-
 public class PropertiesEdge extends JPanel implements ActionListener, ListSelectionListener {
 
 	static final long serialVersionUID = -3667258249137827980L;
@@ -36,33 +35,24 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 	private int numberTapes;
 	private ListSelectionModel listSelectionModel;
 	private mxGraph graph;
-	/**
-	 * Stores the columns names
-	 */
 	private String[] head = {"Input", "Output", "Action"};
-	/**
-	 * Stores which columns are editable
-	 */
 	private boolean[] editable = {false, false, false};
-	/**
-	 * Stores the edited edge
-	 */
 	private Edge edge;
 	
 	private mxCell cell;
 	private TuringMachineEditor turingMachineEditor;
 
 	/**
-	 * Constructs a panel showing all transitions of the current edge
+	 * Constructs a panel showing all transitions of the current edge.
 	 * @param numberTapes Number of tapes in the current machine
 	 * @param edge The edge that should be edited
 	 */
-	public PropertiesEdge(int numberTapes, Edge edge, mxGraph graph, mxCell cell, TuringMachineEditor turingMachineEditor) {
-		this.graph = graph;
+	public PropertiesEdge(int numberTapes, Edge edge, mxCell cell, TuringMachineEditor turingMachineEditor) {
 		this.edge = edge;
 		this.numberTapes = numberTapes;
 		this.cell = cell;
 		this.turingMachineEditor = turingMachineEditor;
+		this.graph = turingMachineEditor.getGraph();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setMaximumSize(new Dimension(250, 300));
 		this.setPreferredSize(new Dimension(250, 300));
@@ -138,10 +128,7 @@ public class PropertiesEdge extends JPanel implements ActionListener, ListSelect
 		this.add(addDeleteContainer, BorderLayout.AFTER_LAST_LINE);
 	}
 
-	/**
-	 * Opens the edit window and stores the edited data
-	 * @param row The row that should be edited
-	 */
+	// Opens the edit window and stores the edited data.
 	private void editTable(int row) {
 		addUndoableEdit();
 		PropertiesEdgeEdit editWindow = new PropertiesEdgeEdit(numberTapes, edge.getTransitions().get(row));

@@ -3,32 +3,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
-/** This class represents the transitions on all tapes for a specific edge
- * 
+/**
+ * This class represents the transitions on all tapes for a specific edge.
  * @author David Wille
- * 
  */
 public class Transition implements Serializable {
 	private static final long serialVersionUID = 2530568958006425276L;
-	/**
-	 * The unique id string of the transition
-	 */
-	String id;
-	/**
-	 * The symbols to be read for each tape
-	 */
-	protected ArrayList<Character> read;
-	/**
-	 * The symbols to be written for each tape
-	 */
-	protected ArrayList<Character> write;
-	/**
-	 * The directions to move for each tape
-	 */
-	protected ArrayList<Character> action;
+	private String id;
+	private ArrayList<Character> read;
+	private ArrayList<Character> write;
+	private ArrayList<Character> action;
 	
 	/**
-	 * Constructs a new transition with all read, write and head configurations
+	 * Constructs a new transition with all read, write and head configurations.
 	 * @param id Id of the transition
 	 * @param read List of symbols invoking a transition on the tapes
 	 * @param write List of symbols written on the tapes during transition
@@ -42,7 +29,7 @@ public class Transition implements Serializable {
 	}
 	
 	/**
-	 * Returns the transition's id
+	 * Returns the transition's id.
 	 * @return Transition Id
 	 */
 	public String getId() {
@@ -50,7 +37,7 @@ public class Transition implements Serializable {
 	}
 	
 	/**
-	 * Returns the list of symbols invoking a transition on the tapes
+	 * Returns the list of symbols invoking a transition on the tapes.
 	 * @return List of symbols invoking a transition on the tapes
 	 */
 	public ArrayList<Character> getRead() {
@@ -58,7 +45,7 @@ public class Transition implements Serializable {
 	}
 	
 	/**
-	 * Returns the list of symbols written on the tapes during transition
+	 * Returns the list of symbols written on the tapes during transition.
 	 * @return List of symbols written on the tapes during transition
 	 */
 	public ArrayList<Character> getWrite() {
@@ -66,16 +53,13 @@ public class Transition implements Serializable {
 	}
 	
 	/**
-	 * Returns the list of head movements on the tapes
+	 * Returns the list of head movements on the tapes.
 	 * @return List of head movements on the tapes
 	 */
 	public ArrayList<Character> getAction() {
 		return this.action;
 	}
 
-	/**
-	 * Gives a string representation of the Transition
-	 */
 	@Override
 	public String toString() {
 		String actionString = "<";
@@ -99,6 +83,7 @@ public class Transition implements Serializable {
 		return readString + "/" + writeString + "/" + actionString;
 	}
 	
+	@Override
 	public Object clone() {
 		ArrayList<Character> readNew = new ArrayList<Character>();
 		ArrayList<Character> writeNew = new ArrayList<Character>();

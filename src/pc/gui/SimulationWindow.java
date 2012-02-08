@@ -1,6 +1,4 @@
 package gui;
-
-import gui.turing.ConnectedWindow;
 import gui.turing.TuringMachineEditor;
 
 import java.util.*;
@@ -20,33 +18,38 @@ import machine.*;
 /**
  * This class is the window in which runs the simulation with the tapes.
  * @author Nessa Baier
- *
  */
 public class SimulationWindow extends JFrame implements Observer, ActionListener{
 	/**
-	 * ScrollPane
+	 * The ScrollPane.
 	 */
 	JScrollPane scrollpaneRight;
+	
 	/**
-	 * panel for toolbar, panel for tapes
+	 * Panels for toolbar tapes.
 	 */
 	JPanel panelall, panelToolbar;
 
+	/**
+	 * The label for the result.
+	 */
 	JLabel resultLabel;
 	/**
-	 * toolbar
+	 * The toolbar.
 	 */
 	JToolBar toolbar;
 
-
+	/**
+	 * The buttons play, forward and sound on/off.
+	 */
 	JButton buttonPlay, buttonForward;
 	JToggleButton buttonSound;
 	/**
-	 * the simulation's graphic tapes
+	 * The simulation's graphic tapes.
 	 */
 	ArrayList<tape.DisplayableTape> graphicTapes = new ArrayList<tape.DisplayableTape>();
 	/**
-	 * Current machine
+	 * Current machine.
 	 */
 	Machine currentMachine;
 	/**
@@ -58,6 +61,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	 */
 	Simulation sim;
 
+	/**
+	 * The first LEGOtape of the machine.
+	 */
 	tape.LEGOTape myFirstLEGOTape;
 	ArrayList<tape.LEGOTape> legoTapes = new ArrayList<tape.LEGOTape>();
 
@@ -152,7 +158,6 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 				for(Tape tape : currentMachine.getTapes()){
 					tape.setDelay(false);
 				}
-				//new ConnectedWindow(this.currentMachine.getRobotNames());
 				this.currentMachine.initTapes();
 			}
 			catch (TapeException e){
@@ -270,6 +275,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		this.repaint();
 	}
 
+	/**
+	 * Disposes the window and aborts the simulation.
+	 */
 	public void dispose(){
 		if(!this.sim.isSimulationAlreadyStarted()){
 			for (Tape t : this.graphicTapes){
@@ -317,6 +325,9 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		}
 	}
 
+	/**
+	 * Handles events from observed classes.
+	 */
 	public void update(Observable observable, Object obj) {
 		if (observable instanceof tape.Tape 
 				&& obj instanceof tape.Tape.Event
@@ -367,33 +378,13 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			this.buttonPlay.setEnabled(false);
 			this.resultLabel.setText("Input word was not accepted.");
 		}
-
-		//		else if(!this.sim.isSimulationAlreadyStarted()		// FIXME: still needed?
-		//				&& observable instanceof tape.Tape
-		//				&& obj instanceof tape.Tape.Event
-		//				&& (tape.Tape.Event)obj ==tape.Tape.Event.INPUTABORTED){
-		//
-		//			try{
-		//				this.resultLabel.setText("Input word was not accepted.");
-		//				System.out.println(" i shut down the tapes");
-		//				this.currentMachine.shutdownTapes();
-		//			}
-		//			catch (TapeException e) {
-		//				System.out.println("Warning: The tapes couldn't be shutdown correctly.");
-		//				e.printStackTrace();
-		//				ErrorDialog.showError("The initialization of the tapes failed because of an undefined exception.", e);
-		//				return;
-		//			}
-		//
-		//		}
-
 	}
 
 
 	/**
 	 * This method handles button events.
 	 */
-	public void actionPerformed( ActionEvent event){ //TODO inactivate buttons while writing input word
+	public void actionPerformed( ActionEvent event){
 		//forward button
 		if(event.getSource().equals(buttonForward) && sim.isSimulationAlreadyStarted()){
 			sim.resume();

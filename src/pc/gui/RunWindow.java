@@ -8,16 +8,14 @@ import javax.swing.*;
 import tape.*;
 import machine.Machine;
 
-/** This class represents window for the run settings
- * 
- * @author David Wille, Philipp Neumann
- * 
+/** This class represents window for the run settings.
+ * @author David Wille
+ * @author Philipp Neumann
  */
-
 public class RunWindow extends JDialog implements ActionListener, KeyListener {
 
 	/**
-	 * Represents the return values for this window
+	 * Represents the return values for this window.
 	 */
 	public enum ReturnValue {
 		CANCEL, RUN
@@ -45,25 +43,13 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	private JButton runButton;
 	private JButton cancelButton;
 	private PresimulationDialogue presimDialogue;
-	/**
-	 * Stores the list of robots available
-	 */
 	private ArrayList<ArrayList<Object>> robots = new ArrayList<ArrayList<Object>>();
-	/**
-	 * Stores the descriptions for the combo boxes
-	 */
 	private final String[] description = {"LEGO-Tape", "Console-Tape", "Graphic-Tape"};
-	/**
-	 * Stores the current machine
-	 */
-	protected Machine machine;
-	/**
-	 * Stores the value returned by the dialog
-	 */
+	private Machine machine;
 	private ReturnValue returnValue;
 
 	/**
-	 * Constructs the run window
+	 * Constructs the run window.
 	 * @param currentMachine Turing machine needed to show the run settings
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })		// because of java7
@@ -213,11 +199,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		refreshRobotSettings();
 	}
 
-	/**
-	 * Refreshes the tape to a certain type
-	 * @param tape Tape number
-	 * @param type Tape type it should be changed to
-	 */
 	private void refreshTapes(int tape, Tape.Type type) {
 		if (type ==  Tape.Type.LEGO) {
 			if (robots.size() > 0) {
@@ -267,9 +248,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		}
 	}
 
-	/**
-	 * Refreshes the robot settings tab on change
-	 */
 	private void refreshRobotSettings() {
 		ArrayList<Tape> tapes = this.machine.getTapes();
 		int counter = 0;
@@ -297,10 +275,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		}
 	}
 
-	/**
-	 * Initializes the window
-	 * @param tapes Number of tapes
-	 */
 	private void initRunWindow(int tapes) {
 		try {
 			robots = OrganizeRobots.loadRobotsFromXML();
@@ -326,7 +300,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	}
 
 	/**
-	 * Shows the window
+	 * Shows the window.
 	 * @return RUN/CANCEL depending on the user decision
 	 */
 	public ReturnValue showDialog() {
@@ -335,9 +309,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		return returnValue;
 	}
 
-	/**
-	 * Updates the input words for the tapes
-	 */
 	private void updateTapeWords() {
 		for (int i = 0; i < tapeInput.length; i++) {
 			Tape tempTape = this.machine.getTapes().get(i);
@@ -350,10 +321,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		}
 	}
 
-	/**
-	 * Checks if robots are assigned to more than one tape
-	 * @return true/false accordingly
-	 */
+	// Checks if robots are assigned to more than one tape
 	private boolean checkRobots() {
 		int[] counter = new int[robots.size()];
 		// initialize counter
@@ -383,11 +351,6 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 		return true;
 	}
 
-	/**
-	 * Creates an ItemListener listening to changes in the combo boxes
-	 * @param index Number of the combo box
-	 * @return ItemListener for the combo box
-	 */
 	private ActionListener createItemListener(final int index) {
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -456,14 +419,14 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 	}
 
 	/**
-	 * Used for the window focused actions
+	 * Used for the window focused actions.
 	 */
 	public class ClickAction extends AbstractAction {
 		static final long serialVersionUID = -3667258249137827980L;
 		private JButton button;
 
 		/**
-		 * Constructs a new ClickAction
+		 * Constructs a new ClickAction.
 		 * @param button Button that should get a new ClickAction
 		 */
 		public ClickAction(JButton button) {

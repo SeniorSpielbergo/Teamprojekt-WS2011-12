@@ -17,37 +17,42 @@ public class SlaveRobot extends Robot {
 		super(name,mac_address);
 	}
 	
+	/**
+	 * Sends the command 'S' for playing sound while simulation.
+	 */
 	public void startSound(){
 		try {
 			this.sendCommand('S');
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-
 		}
 	}
-	
+	/**
+	 * Sends the command 'M' for unmuting sound.
+	 */
 	public void playSound(){
 		try {
 			this.sendCommand('M');
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 		}
 	}
 	
+	/**
+	 * Sends the command 'm' for muting sound.
+	 */
 	public void muteSound(){
 		try {
 			this.sendCommand('m');
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			
 		}
 	}
 	
+	/**
+	 * Sends the command 's' for setting sound off.
+	 */
 	public void soundOff(){
 		try {
 			this.sendCommand('s');
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 		}
 	}
 	

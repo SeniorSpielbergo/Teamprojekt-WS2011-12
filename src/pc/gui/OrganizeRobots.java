@@ -27,16 +27,11 @@ import javax.swing.event.*;
 
 import machine.turing.*;
 
-/** This class represents the window used to organize the robots
- * 
+/** This class represents the window used to organize the robots.
  * @author David Wille
- * 
  */
-
 public class OrganizeRobots extends JDialog implements ActionListener, TableModelListener, ListSelectionListener {
-	/**
-	 * serial version id
-	 */
+
 	static final long serialVersionUID = -3667258249137827980L;
 	private JTable table;
 	private JScrollPane tablePane;
@@ -48,25 +43,13 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	private JPanel addDeleteContainer;
 	private CustomTable model;
 	private ListSelectionModel listSelectionModel;
-	/**
-	 * Stores the data
-	 */
 	private ArrayList<ArrayList<Object>> data;
-	/**
-	 * Stores whether the table is initialized
-	 */
 	private boolean tableInitialized = false;
-	/**
-	 * Contains the columns names
-	 */
 	private String[] head = {"Name", "MAC-Address", "Master"};
-	/**
-	 * Stores which columns are editable
-	 */
 	private boolean[] editable = {true, true, true};
 	
 	/**
-	 * Constructs the window to organize the robots
+	 * Constructs the window to organize the robots.
 	 */
 	public OrganizeRobots() {
 		this.setModal(true);
@@ -147,14 +130,14 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	}
 	
 	/**
-	 * Shows the window
+	 * Shows the window.
 	 */
 	public void showDialog() {
 		this.setVisible(true);
 	}
 	
 	/**
-	 * Loads the robots from the robots.xml
+	 * Loads the robots from the robots xml file.
 	 * @return ArrayList of robots with their MAC-Addresses
 	 * @throws IOException Exception on loading problems
 	 */
@@ -208,10 +191,6 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 		return output;
 	}
 	
-	/**
-	 * Saves the robots with their MAC-Addresses to the robots.xml
-	 * @param robots ArrayList of robots, which should be saved
-	 */
 	private void saveRobotsToXML(ArrayList<ArrayList<Object>> robots) {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 

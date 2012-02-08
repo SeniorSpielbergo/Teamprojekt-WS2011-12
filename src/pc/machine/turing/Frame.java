@@ -2,16 +2,21 @@ package machine.turing;
 
 import java.io.Serializable;
 
+/**
+ * Implements a Frame to display 'subsystems' within the graph.
+ * @author Sven Schuster
+ */
 public class Frame implements Serializable {
 	private static final long serialVersionUID = 3300792709541871175L;
 	
-	protected int x;
-	protected int y;
-	protected int width;
-	protected int height;
+	private int x;
+	private int y;
+	private int width;
+	private int height;
 	
-	public Frame() {}
-	
+	/**
+	 * Creates a new Frame with given geometry.
+	 */	
 	public Frame(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
@@ -19,38 +24,71 @@ public class Frame implements Serializable {
 		this.height = height;
 	}
 	
+	/**
+	 * Returns the x value. 
+	 * @return x
+	 */
 	public int getX() {
 		return this.x;
 	}
 	
+	/**
+	 * Returns the y value. 
+	 * @return y
+	 */
 	public int getY() {
 		return this.y;
 	}
 	
+	/**
+	 * Returns the width. 
+	 * @return width
+	 */
 	public int getWidth() {
 		return this.width;
 	}
 	
+	/**
+	 * Returns the height. 
+	 * @return height
+	 */
 	public int getHeight() {
 		return this.height;
 	}
 	
+	/**
+	 * Sets the x value.
+	 * @param x
+	 */
 	public void setX(int x) {
 		this.x = x;
 	}
 	
+	/**
+	 * Sets the y value.
+	 * @param y
+	 */
 	public void setY(int y) {
 		this.y = y;
 	}
 	
+	/**
+	 * Sets the width.
+	 * @param width
+	 */
 	public void setWidth(int width) {
 		this.width = width;
 	}
 	
+	/**
+	 * Sets the height.
+	 * @param height
+	 */
 	public void setHeight(int height) {
 		this.height = height;
 	}
 	
+	@Override
 	public String toString() {
 		return "";
 	}

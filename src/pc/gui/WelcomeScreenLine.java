@@ -20,14 +20,15 @@ import machine.Machine;
 import machine.brainfuck.BrainfuckMachine;
 import machine.turing.TuringMachine;
 
-/** This class represents a line in a group on the Welcome Screen
- * 
+/** 
+ * This class represents a line in a group on the Welcome Screen.
  * @author David Wille
- * 
  */
-
 public class WelcomeScreenLine extends JPanel {
 
+	/**
+	 * Type of the current line.
+	 */
 	public enum Type {
 		OPEN, CREATE, FILE
 	};
@@ -45,6 +46,11 @@ public class WelcomeScreenLine extends JPanel {
 	private MachineType machineType;
 	private String file;
 
+	/**
+	 * Constructs a new welcome screen line for a specific file.
+	 * @param file The file linked with this line
+	 * @param machineType The type of machine linked with this line
+	 */
 	public WelcomeScreenLine(String file, MachineType machineType) {
 		this.machineType = machineType;
 		this.file = file;
@@ -144,6 +150,11 @@ public class WelcomeScreenLine extends JPanel {
 		this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 	}
 
+	/**
+	 * Constructs a new welcome screen line.
+	 * @param type Type of this line.
+	 * @param machineType The type of machine linked with this line
+	 */
 	public WelcomeScreenLine(Type type, MachineType machineType) {
 		this.type = type;
 		this.machineType = machineType;
@@ -199,10 +210,18 @@ public class WelcomeScreenLine extends JPanel {
 		}
 	}
 
+	/**
+	 * Returns the type of this line.
+	 * @return Type of this line
+	 */
 	public Type getPanelType() {
 		return this.type;
 	}
 
+	/**
+	 * Returns the path to the file linked with this line.
+	 * @return Path to the file
+	 */
 	public String getFilePath() {
 		return this.file;
 	}

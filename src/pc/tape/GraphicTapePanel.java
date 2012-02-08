@@ -148,7 +148,6 @@ public class GraphicTapePanel extends JPanel {
 				try {
 					Thread.sleep(20);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -168,7 +167,6 @@ public class GraphicTapePanel extends JPanel {
 				try {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

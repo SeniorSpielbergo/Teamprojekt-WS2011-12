@@ -12,8 +12,7 @@ import javax.swing.*;
 
 /**
  * A error dialog that can display a message and details of an exception
- * @author nils
- *
+ * @author Nils Breyer
  */
 @SuppressWarnings("serial")
 public class ErrorDialog extends JDialog {

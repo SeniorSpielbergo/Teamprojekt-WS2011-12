@@ -23,6 +23,7 @@ import java.io.*;
  * Application running on the Slave-NXT.
  * @author David Wille
  * @author Sven Schuster
+ * @author Philipp Neumann
  */
 public class MainSlave {
 	static int counter = 0;
@@ -31,13 +32,15 @@ public class MainSlave {
 	static DataOutputStream out;
 	static TetrisSound sound;
 
-//	private static void pushBit(int bit, int newBit, Motor motor) {
+//	private static void pushBit(int bit, int newBit, Motor motor) {		// FIXME: still needed?
 //		if (bit<newBit){
 //			motor.rotate(Common.PUSH_ANGLE_SLAVE);
 //			motor.rotate(Common.PUSH_ANGLE_SLAVE*(-1)+1);
 //		}
 //	}
-	
+	/**
+	 * Run the whole logic of the Mainrobot
+	 */	
 	public void run() {
 		Common.playTune("HAHA",200);
 		TouchSensor ts1 = new TouchSensor(SensorPort.S4);
@@ -76,7 +79,10 @@ public class MainSlave {
 			connection.close();
 		}
 	}
-	
+	/**
+	 * This method is called when PC and NXT are connected
+	 * The NXT is now waiting for commands
+	 */	
 	private void serve() {
 		char ch = ' ';
 

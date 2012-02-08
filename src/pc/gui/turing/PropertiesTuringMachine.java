@@ -12,9 +12,13 @@ import javax.swing.event.DocumentListener;
 
 import machine.turing.TuringMachine;
 
+/**
+ * This class implements the Turingmachine's properties panel 
+ * @author David Wille
+ */
 public class PropertiesTuringMachine extends JPanel implements DocumentListener {
-	
 	private static final long serialVersionUID = 4596217473460632217L;
+	
 	private TuringMachine machine;
 	private JPanel content;
 	private JLabel nameLabel = new JLabel("Name:");
@@ -29,7 +33,7 @@ public class PropertiesTuringMachine extends JPanel implements DocumentListener 
 	private JScrollPane scrollPane;
 
 	/**
-	 * Constructs a panel, that shows the information about a Turing Machine
+	 * Constructs a panel that shows the information about a Turing Machine.
 	 * @param machine The Turing Machine whose information should be displayed
 	 */
 	public PropertiesTuringMachine(TuringMachine machine) {
@@ -156,5 +160,4 @@ public class PropertiesTuringMachine extends JPanel implements DocumentListener 
 	@Override
 	public void changedUpdate(DocumentEvent e) {
 	}
-	
 }

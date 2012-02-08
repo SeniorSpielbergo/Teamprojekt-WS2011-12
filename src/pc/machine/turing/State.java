@@ -3,47 +3,26 @@ import java.io.Serializable;
 import java.lang.String;
 import java.util.ArrayList;
 
-/** This class represents a state with it's id, name, type and edges
- * 
+/** 
+ * This class represents a state with it's id, name, type and edges.
  * @author David Wille
- * 
+ * @author Sven Schuster
  */
 public class State implements Serializable {
 	private static final long serialVersionUID = -677700196207258408L;
-	/**
-	 * The state id string for internal use
-	 */
-	protected String id;
-	/**
-	 * The name of the state (only used to display to the user)
-	 */
-	protected String name;
-	/**
-	 * The state type
-	 */
-	protected boolean startState;
-	/**
-	 * True if the state is final
-	 */
-	protected boolean finalState;
-	/**
-	 * Contains all edges starting at this state //TODO: review if it is better to search the edges dynamically
-	 */
-	protected ArrayList<Edge> edge;
+	private String id;
+	private String name;
+	private boolean startState;
+	private boolean finalState;
+	private ArrayList<Edge> edge;
+	private int xcoord, ycoord, height, width;
 	
 	/**
-	 * Constructs a state with it's id, name and type
+	 * Constructs a state with it's id, name and type.
 	 * @param id State Id
 	 * @param name State name
 	 * @param type Type of state
 	 */
-	
-	/**
-	 * State geometry
-	 */
-	protected int xcoord, ycoord, height, width;
-	
-	
 	public State(String id, String name, boolean startState, boolean finalState) {
 		this.id = id;
 		this.name = name;
@@ -53,7 +32,7 @@ public class State implements Serializable {
 	}
 	
 	/**
-	 * Returns the state Id
+	 * Returns the state Id.
 	 * @return State Id
 	 */
 	public String getId() {
@@ -61,7 +40,7 @@ public class State implements Serializable {
 	}
 	
 	/**
-	 * Returns the state name
+	 * Returns the state name.
 	 * @return State name
 	 */
 	public String getName() {
@@ -69,7 +48,7 @@ public class State implements Serializable {
 	}
 	
 	/**
-	 * Sets the state name
+	 * Sets the state name.
 	 * @param name State name
 	 */
 	public void setName(String name) {
@@ -77,7 +56,7 @@ public class State implements Serializable {
 	}
 	
 	/**
-	 * Returns the edges starting from this state
+	 * Returns the edges starting from this state.
 	 * @return Edges starting at this edge  //TODO: review if it is better to search the edges dynamically
 	 */
 	public ArrayList<Edge> getEdge() {
@@ -85,7 +64,7 @@ public class State implements Serializable {
 	}
 	
 	/**
-	 * Sets the edges starting at this state
+	 * Sets the edges starting at this state.
 	 * @param edge Edges starting at this state  //TODO: review if it is better to search the edges dynamically
 	 */
 	public void setEdge(ArrayList<Edge> edge) {
@@ -94,68 +73,98 @@ public class State implements Serializable {
 		
 	
 	/**
-	 * Returns if this state is startstate
-	 * @return  true if this state is startstate
+	 * Returns if this state is start state.
+	 * @return  true if this state is start state
 	 */
 	public boolean isStartState() {
 		return startState;
 	}
 	/**
-	 * Sets the startstate 
+	 * Sets the start state. 
 	 * @param startState true if state is startState 
 	 */
 	public void setStartState(boolean startState) {
 		this.startState = startState;
 	}
 	/**
-	 * Returns if this state is finalstate
-	 * @return  true if this state is finalstate
+	 * Returns if this state is final state.
+	 * @return  true if this state is final state
 	 */
 	public boolean isFinalState() {
 		return finalState;
 	}
 	/**
-	 * Sets the finalstate
-	 * @param finalState true if state is finalState 
+	 * Sets the finalstate.
+	 * @param finalState true if state is final State 
 	 */
 	public void setFinalState(boolean finalState) {
 		this.finalState = finalState;
 	}
 	
+	/**
+	 * Returns the x coordinate.
+	 * @return x
+	 */
 	public int getXcoord() {
 		return xcoord;
 	}
+	
+	/**
+	 * Sets the x coordinate.
+	 * @param x
+	 */
 	public void setXcoord(int xcoord) {
 		this.xcoord = xcoord;
 	}
 
+	/**
+	 * Returns the y coordinate.
+	 * @return y
+	 */
 	public int getYcoord() {
 		return ycoord;
 	}
 
+	/**
+	 * Sets the y coordinate.
+	 * @param y
+	 */
 	public void setYcoord(int ycoord) {
 		this.ycoord = ycoord;
 	}
 
+	/**
+	 * Returns the height.
+	 * @return height
+	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * Sets the height.
+	 * @return height
+	 */
 	public void setHeight(int height) {
 		this.height = height;
 	}
 
+	/**
+	 * Returns the width.
+	 * @return width
+	 */
 	public int getWidth() {
 		return width;
 	}
 
+	/**
+	 * Sets the width.
+	 * @return width
+	 */
 	public void setWidth(int width) {
 		this.width = width;
 	}
 
-	/**
-	 * Gives a string representation of the State
-	 */
 	@Override
 	public String toString() {
 		return name;

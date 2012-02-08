@@ -15,7 +15,6 @@ import machine.*;
 /**
  * Represents a brainfuck machine and provides methods to handle it.
  * @author Sven Schuster
- * 
  */
 public class BrainfuckMachine extends Machine {
 	public static final String FILE_EXTENSION = ".bf";
@@ -23,7 +22,7 @@ public class BrainfuckMachine extends Machine {
 	private String code;
 
 	/**
-	 * Creates a new brainfuck machine with input-, output- and actiontape.
+	 * Creates a new brainfuck machine with graphical input-, output- and actiontape.
 	 */
 	public BrainfuckMachine() {
 		super("Brainfuck machine");
@@ -33,10 +32,17 @@ public class BrainfuckMachine extends Machine {
 		this.code = "Type your brainfuck code here";
 	}
 	
+	 /** Returns the code held by the machine. This is not the current code of the editor.
+	 * @return code
+	 */
 	public String getCode() {
 		return this.code;
 	}
 	
+	/**
+	 * Sets the current code of the machine. Does not change the code of the editor.
+	 * @param code
+	 */
 	public void setCode(String code) {
 		this.code = code;
 	}
@@ -109,6 +115,7 @@ public class BrainfuckMachine extends Machine {
 	
 	@Override
 	public boolean isSimulatable() {
+		// checks whether the {'s and }'s are correctly set
 		this.code = ((BrainfuckEditor) this.editor).getCode();
 		if(code.equals(""))
 			return false;
