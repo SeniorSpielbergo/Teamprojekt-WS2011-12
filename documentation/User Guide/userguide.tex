@@ -1,0 +1,60 @@
+\documentclass[%
+  a4paper,%
+  11pt,% <10pt, 9pt>
+  style=screen,
+  %sender=bottom,
+  blue,% <orange, green, violet>
+  %rgb, <cmyk>
+  %mono
+  ]{tubsartcl}
+\usepackage[utf8x]{inputenc}
+
+% Titelseiten-Elemente
+\title{TuringBrain IDE \LARGE 1.0}
+\subtitle{User Guide}
+\author{\small Vanessa Baier, Nils Breyer, Phillipp Neumann,\\ Sven Schuster, David Wille}
+\logo{\includegraphics{ips}}
+\titleabstract{TuringBrain IDE -- User Guide}
+\titlepicture{infozentrum.jpg}
+% Rückseiten-Elemente
+\address{
+  Advisor: Matthias Hagner\\\\
+  Technische Universität Braunschweig\\
+  Institut für Programmierung und Reaktive Systeme\\
+  Mühlenpfordtstr. 23\\
+  38106 Braunschweig}
+\backpageinfo{
+}
+
+\begin{document}
+
+\maketitle[image,logo=right]%[<plain/image/imagetext>,<logo=left/right>]
+\makebackpage[trisec]%[<plain/info/addressinfo>]
+
+\tableofcontents
+\newpage
+\section{Ut purus elit}
+
+Test \textcolor{tuSecondary}{Dies ist ein Text in \texttt{tuSecondary}.}\bigskip
+
+
+\begin{itemize}
+  \item Aufzählungspunkt Eins
+  \item Aufzählungspunkt Zwei
+    \begin{itemize}
+      \item Unter-Aufzählungspunkt Eins
+      \item Unter-Aufzählungspunkt Zwei
+    \end{itemize}
+  \item Aufzählungspunkt Drei
+\end{itemize}
+
+\section{Phasellus eu tellus sit amet}
+
+
+\section{Nulla malesuada porttitor diam.}
+
+
+\section{Donec felis erat}
+
+
+\end{document}
