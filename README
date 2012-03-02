@@ -10,7 +10,7 @@ Howto create a runnable .jar
 
 1. Open the source code in the src/pc folder in Eclipse.
 2. Export as runnable .jar.
-3. Insert the manifast src/pc/manifest.mf into the .jar file using
+3. Insert the manifest src/pc/manifest.mf into the .jar file using
 
 $ jar -uvfm TuringBrainIDE.jar manifest.mf
 
