@@ -1,0 +1,68 @@
+\documentclass[hyperref={bookmarksopen=false}]{beamer} 
+
+%\usepackage[english]{babel}
+\usepackage[ngerman]{babel}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+%\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
+%fuer externe bilder
+\usepackage{graphicx}
+\usepackage{listings}
+
+
+\useoutertheme[section]{tubs}
+
+%\setbeamertemplate{itemize items}[ball]
+%\setbeamertemplate{itemize items}[square]
+\setbeamertemplate{itemize items}[tusquare]
+
+\title[Grundlagen der Sicherheit in Netzen und verteilten
+Systemen]{Der Geburtstagsangriff auf Hash-Funktionen}
+\subtitle{} 
+\author[]{David Wille, Nils Breyer}
+
+\institute[TU Braunschweig, ITI]{Technische Universität Braunschweig, ITI}
+
+\date{\today}
+
+\instlogo{ips}
+%\titlegraphic{iz}
+\titlegraphic{torte}
+
+
+
+\begin{document}
+
+\frame[plain]{\titlepage} 
+
+\setbeamercolor{frametitle}{fg=white,bg=tu-red}
+\frame{
+        \frametitle{Inhalt}
+        \tableofcontents
+        }
+\setbeamercolor{frametitle}{fg=black,bg=tu-grey}
+
+\section{Das Geburtstagsparadoxon}
+
+\frame{
+	\frametitle{Ursprung}
+  		\begin{itemize}
+  			\item österreichischer Mathematiker Richard von Mises
+  			\pause
+  			\item Wie hoch ist die Wahrscheinlichkeit, dass bei 23 Personen mindestens zwei am selben Tag Geburtstag haben?
+  			\pause
+  			\item Erstaunlich ist: $P > 50\%$
+  			\pause
+  			\item bei 50 Personen: $P > 97\%$
+  		\end{itemize}
+}
+
+
+\frame{
+  \begin{center}\huge
+    Fragen?
+  \end{center}
+
+}
+
+\end{document}   
