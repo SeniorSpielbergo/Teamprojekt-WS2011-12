@@ -69,11 +69,6 @@ public class MasterRobot extends Robot {
 	 * @throws IOException Thrown if the sending failed
 	 */
 	public void sendTapeName(String name) throws IOException {
-		this.sendCommand('t');
-		for (char c : name.toCharArray()) {
-			this.sendCommand(c);
-		}
-		this.sendCommand('\n');
-
+		this.sendCommands("t" + name + "\n");
 	}
 }
