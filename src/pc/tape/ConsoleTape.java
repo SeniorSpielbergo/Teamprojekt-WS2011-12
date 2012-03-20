@@ -3,8 +3,6 @@ package tape;
 import java.util.*;
 import java.lang.String;
 
-import tape.Tape.Event;
-
 /**
  * Implements a virtual tape and shows it on the console
  * @author Nils Breyer

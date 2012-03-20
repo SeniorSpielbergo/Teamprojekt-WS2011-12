@@ -6,7 +6,6 @@ import gui.ErrorDialog;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
-import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -20,6 +19,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class GraphicTapePanel extends JPanel {
+	private static final long serialVersionUID = -1856062576947573601L;
 	private GraphicTape tape;
 	private BufferedImage fieldImage = null;
 	private BufferedImage headImage = null;

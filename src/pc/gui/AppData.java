@@ -100,8 +100,8 @@ public class AppData {
 		AppData.examplesDirectory.mkdirs();
 		AppData.tapeStylesDirectory.mkdirs();
 
-		copyResourcesRecursively(Tape.class.getResource("images/styles"), new File(AppData.appDataDirectory.getAbsolutePath() + File.separator + "tape"));
-		copyResourcesRecursively(Machine.class.getResource("examples"), new File(AppData.appDataDirectory.getAbsolutePath()));
+		copyResourcesRecursively(Tape.class.getResource("images/styles"), AppData.tapeStylesDirectory);
+		copyResourcesRecursively(Machine.class.getResource("examples"), AppData.examplesDirectory);
 
 		FileWriter outFile = new FileWriter(versionFile);
 		PrintWriter out = new PrintWriter(outFile);
@@ -204,8 +204,15 @@ public class AppData {
 				return copyJarResourcesRecursively(destination,
 						(JarURLConnection) urlConnection);
 			} else {
-				return copyFilesRecusively(new File(originUrl.getPath()),
-						destination);
+				boolean success = true;
+				for (File f: (new File(originUrl.getPath())).listFiles()) {
+					success = copyFilesRecusively(f,
+							destination);
+					if (success = false) {
+						return false;
+					}
+				}
+				return success;
 			}
 		} catch (final IOException e) {
 			e.printStackTrace();
