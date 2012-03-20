@@ -116,8 +116,8 @@ public class AppData {
 		AppData.examplesDirectory.mkdirs();
 		AppData.tapeStylesDirectory.mkdirs();
 
-		copyResourcesRecursively(Tape.class.getResource("images/styles"), new File(AppData.appDataDirectory.getAbsolutePath() + File.separator + "tape"));
-		copyResourcesRecursively(Machine.class.getResource("examples"), new File(AppData.appDataDirectory.getAbsolutePath()));
+		copyResourcesRecursively(Tape.class.getResource("images/styles"), AppData.tapeStylesDirectory);
+		copyResourcesRecursively(Machine.class.getResource("examples"), AppData.examplesDirectory);
 
 		FileWriter outFile = new FileWriter(versionFile);
 		PrintWriter out = new PrintWriter(outFile);
