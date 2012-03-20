@@ -47,32 +47,80 @@ public class Common {
 		} else {
 			angle = Common.PUSH_ANGLE_SLAVE;
 		}
-		
+
 		Thread t1 = new Thread(new Runnable() {
 			public void run(){
 				if (push1){
-					
-					Motor.B.rotate(angle);
-					Motor.B.rotate(angle*(-1)+1);
+					bugfixedRotate(Motor.B,angle);
+					bugfixedRotate(Motor.B,angle*(-1)+1);
 				}
 			};
 		});
 		Thread t2 = new Thread(new Runnable() {
 			public void run(){
 				if (push2){
-					Motor.C.rotate(angle);
-					Motor.C.rotate(angle*(-1)+1);
+					bugfixedRotate(Motor.C,angle);
+					bugfixedRotate(Motor.C,angle*(-1)+1);
 				}
 			};
 		});
+		try {
+			Thread.sleep(1000);
+		}
+		catch (Exception e) {
+
+		}
 		t1.start();
 		t2.start();
 		try {
 			t1.join();
 			t2.join();	
 		} catch(InterruptedException e) {
+			Common.playTune("CXCXCXCXCXCXCXCXC",100);
 
 		}
+	}
+
+	public static void bugfixedRotate(Motor motor, int angle) {
+		motor.stop();
+		motor.resetTachoCount();
+		int tacho = motor.getTachoCount();
+		boolean slowSpeed = false;
+		if (angle >= 0) {
+			motor.forward();
+			while (tacho < angle) {
+				if (!slowSpeed && angle - tacho < 30) {
+					motor.setSpeed(PUSH_SPEED/2);
+					slowSpeed = true;
+				}
+				try {
+					Thread.sleep(10);
+				}
+				catch (Exception e) {
+
+				}
+				tacho = motor.getTachoCount();
+			}
+		}
+		else {
+			motor.backward();
+			while (tacho > angle) {
+				if (!slowSpeed && tacho - angle < 30) {
+					motor.setSpeed(PUSH_SPEED/2);
+					slowSpeed = true;
+				}
+				try {
+					Thread.sleep(10);
+				}
+				catch (Exception e) {
+
+				}
+				tacho = motor.getTachoCount();
+			}
+		}
+
+		motor.stop();
+		motor.setSpeed(PUSH_SPEED);
 	}
 
 

@@ -10,7 +10,6 @@ import lejos.util.*;
  */
 public class Timer implements Runnable {
 	private int delay;
-	private Line line;
 	private TimerListener tl;
 	private boolean c = false;
 

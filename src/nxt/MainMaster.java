@@ -293,7 +293,7 @@ public class MainMaster {
 				case '1': nbit1 = 1; nbit0 = 0; break;
 				case '2': nbit1 = 1; nbit0 = 1; break;
 				default: nbit1 = -1; nbit0 = -1; break;
-				}				
+				}
 				Common.pushBits(bit1>nbit1,bit0>nbit0,true);
 
 				try {
