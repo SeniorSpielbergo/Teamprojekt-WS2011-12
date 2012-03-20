@@ -127,7 +127,7 @@ public class MainMaster {
 	public void run() {
 		Common.playTune("HAHA",200);
 		String sensor1, sensor2, sensor3, counterString;
-		this.cs1 = new ColoPrintrSensor(SensorPort.S1);
+		this.cs1 = new ColorSensor(SensorPort.S1);
 		this.cs2 = new ColorSensor(SensorPort.S2);
 		this.ts1 = new TouchSensor(SensorPort.S4);
 		// initialize speeds
@@ -160,7 +160,7 @@ public class MainMaster {
 				LCD.drawString("clearing starts again!", 0, 3);
 
 				tape.stop();
-				
+
 				Common.playTune("CXCXCXCXCXCXCXCX", 400);
 				for (int i = 0; i < 3; i++) {
 					try {
@@ -215,7 +215,7 @@ public class MainMaster {
 			catch (IOException e) {
 				break;
 			}
-			
+
 			switch (ch) {
 			case 'q':
 				return; //end serving
@@ -251,19 +251,19 @@ public class MainMaster {
 				}
 				try {
 					if (!cs1Active && !cs2Active) {
-						 lastSymbol = '#';
+						lastSymbol = '#';
 						out.writeChar('#');
 					}
 					else if (!cs1Active && cs2Active) {
-						 lastSymbol = '#';
+						lastSymbol = '0';
 						out.writeChar('0');
 					}
 					else if (cs1Active && !cs2Active) {
-						 lastSymbol = '#';
+						lastSymbol = '1';
 						out.writeChar('1');
 					}
 					else if (cs1Active && cs2Active) {
-						 lastSymbol = '#';
+						lastSymbol = '2';
 						out.writeChar('2');
 					}
 					LCD.drawString("SYM:" + lastSymbol, 6, 2);
@@ -295,12 +295,26 @@ public class MainMaster {
 				default: nbit1 = -1; nbit0 = -1; break;
 				}				
 				Common.pushBits(bit1>nbit1,bit0>nbit0,true);
-					
+
 				try {
+					LCD.clearDisplay();
+					LCD.drawString("sending .", 0,1);
 					out.writeChar('.');
+					LCD.clearDisplay();
+					LCD.drawString("flushing", 0,1);
 					out.flush();
+					LCD.clearDisplay();
+					LCD.drawString(". sent", 0,1);
+					
 				}
 				catch (IOException e) {
+					LCD.drawString(e.toString(), 1, 0);
+					try{
+						Thread.sleep(10000);
+					}
+					catch (Exception e1){
+
+					}
 				}
 				break;
 			case 'L':
