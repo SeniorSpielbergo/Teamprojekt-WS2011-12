@@ -4,8 +4,6 @@ import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
 
-import machine.brainfuck.BrainfuckMachine;
-
 public class ExtensionFileFilter extends FileFilter {
 	public ExtensionFileFilter(String description, String extension) {
 		super();
