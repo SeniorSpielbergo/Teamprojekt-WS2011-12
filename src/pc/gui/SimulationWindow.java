@@ -446,6 +446,14 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 		else if(event.getSource().equals(buttonSound)){
 			this.soundEnabled = !this.soundEnabled;
+			
+			if (this.soundEnabled) {
+				this.buttonSound.setIcon(this.iconSoundOn);
+			}
+			else {
+				this.buttonSound.setIcon(this.iconSoundOff);
+			}
+
 			if(this.myFirstLEGOTape != null){
 				if(this.soundEnabled){
 					this.myFirstLEGOTape.getSlave().playSound();
