@@ -30,7 +30,7 @@ public class AppData {
 	/**
 	 * The version of the application.
 	 */
-	public static final String APP_VERSION = "0.9.1";
+	public static final String APP_VERSION = "0.9.2";
 	/**
 	 * The authors of the application.
 	 */

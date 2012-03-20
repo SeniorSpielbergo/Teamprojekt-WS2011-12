@@ -150,10 +150,24 @@ public class MainSlave {
 					}
 					Common.pushBits(bit1<nbit1,bit0<nbit0,false);
 					try {
+						LCD.clearDisplay();
+						LCD.drawString("sending .", 0,1);
 						out.writeChar('.');
+						LCD.clearDisplay();
+						LCD.drawString("flushing", 0,1);
 						out.flush();
+						LCD.clearDisplay();
+						LCD.drawString(". sent", 0,1);
 					}
 					catch (IOException e) {
+						LCD.drawString(e.toString(),1,0);
+						
+						try{
+						Thread.sleep(10000);
+						}
+						catch (Exception e1){
+							
+						}
 					}
 					break;
 				case 'S':
