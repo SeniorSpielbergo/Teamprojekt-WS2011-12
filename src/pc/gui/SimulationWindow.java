@@ -43,7 +43,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	 * The buttons play, forward and sound on/off.
 	 */
 	JButton buttonPlay, buttonForward;
-	JToggleButton buttonSound;
+	JButton buttonSound;
 	/**
 	 * The simulation's graphic tapes.
 	 */
@@ -76,6 +76,8 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	private ImageIcon iconPlay = new ImageIcon(SimulationWindow.class.getResource("images/play.png"));
 	private ImageIcon iconPause = new ImageIcon(SimulationWindow.class.getResource("images/pause.png"));
 	private ImageIcon iconStepForward = new ImageIcon(SimulationWindow.class.getResource("images/forward.png"));
+	private ImageIcon iconSoundOn = new ImageIcon(SimulationWindow.class.getResource("images/sound_on.png"));
+	private ImageIcon iconSoundOff = new ImageIcon(SimulationWindow.class.getResource("images/sound_off.png"));
 
 
 	public SimulationWindow(Machine machine) {
@@ -130,7 +132,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 			this.panelall = new JPanel(new GridBagLayout());
 			this.scrollpaneRight = new JScrollPane(panelall);
-			this.resultLabel = new JLabel("Result");
+			this.resultLabel = new JLabel("");
 
 
 			toolbar = new JToolBar("Functions");
@@ -138,7 +140,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			buttonPlay.setEnabled(false);
 			buttonForward = new JButton(this.iconStepForward);
 			buttonForward.setEnabled(false);
-			buttonSound = new JToggleButton("Sound on/off");
+			buttonSound = new JButton(this.iconSoundOn);
 
 			this.buttonSound.setEnabled(false);
 			this.buttonSound.setActionCommand("disabled");
