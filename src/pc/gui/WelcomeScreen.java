@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -61,7 +62,8 @@ public class WelcomeScreen extends JPanel {
 		this.headerTitle.setFont(this.headerTitle.getFont().deriveFont(24f));
 		this.headerText.setEditable(false);
 		this.headerText.setBackground(this.getBackground());
-		this.headerText.setOpaque(true);
+		this.headerText.setOpaque(false);
+		this.headerText.setBackground(new Color(0,0,0,0));
 		this.headerText.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
 		
