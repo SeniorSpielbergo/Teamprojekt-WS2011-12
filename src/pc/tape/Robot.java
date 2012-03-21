@@ -2,6 +2,7 @@ package tape;
 import lejos.pc.comm.*;
 import java.io.*;
 import java.util.Observable;
+import java.util.concurrent.locks.ReentrantLock;
 
 /** Contains common function for Master and Slave Robots
  * 
@@ -13,6 +14,9 @@ public abstract class Robot extends Observable {
 	 * The name of the robot
 	 */
 	protected String name;
+	
+	protected final ReentrantLock writeLock = new ReentrantLock();
+
 
 	private String mac_address;
 	private NXTComm comm = null;
@@ -89,9 +93,8 @@ public abstract class Robot extends Observable {
 	 */
 	public void write(char current, char write) throws IOException{
 		System.out.println(this.name + ": Write from "+ current + " to " + write + " ...");
-		this.sendCommand('w');
-		this.sendCommand(current);
-		this.sendCommand(write);
+		this.sendCommands("w" + current + write);
+
 		char received = this.receiveCommand();		
 		if (received == '.') {
 			System.out.println(this.name + ": Writing finished successfully.");
@@ -110,21 +113,48 @@ public abstract class Robot extends Observable {
 	 * @throws IOException Thrown if the sending fails
 	 */
 	protected void sendCommand(char cmd) throws IOException {
-		System.out.println("Sending to '" + this.name + "' the command '" + cmd + "'...");
+		this.writeLock.lock();
 		try {
-			this.output.writeChar(cmd);
-			this.output.flush();
+			System.out.println("Sending to '" + this.name + "' the command '" + cmd + "'...");
+			try {
+				this.output.writeChar(cmd);
+				this.output.flush();
+				System.out.println("Sending to '" + this.name + "' the command '" + cmd + "' finished.");
+			}
+			catch (IOException e) {
+				System.out.println("Sending to '" + this.name + "' the command '" + cmd + "' failed: " + e.getMessage());
+				throw e;
+			}
+		}
+		finally {
+			this.writeLock.unlock();
+		}
+	}
+	
+	protected void sendCommands(String cmd) throws IOException {
+		this.writeLock.lock();
+		try {
+			System.out.println("Sending to '" + this.name + "' the command '" + cmd + "'...");
+			for (char c : cmd.toCharArray()) {
+				try {
+					this.output.writeChar(c);
+				}
+				catch (IOException e) {
+					System.out.println("Sending to '" + this.name + "' the command '" + cmd + "' failed: " + e.getMessage());
+					throw e;
+				}
+			}
+			try {
+				this.output.flush();
+			}
+			catch (IOException e) {
+				System.out.println("Sending to '" + this.name + "' the command '" + cmd + "' failed: " + e.getMessage());
+				throw e;
+			}
 			System.out.println("Sending to '" + this.name + "' the command '" + cmd + "' finished.");
 		}
-		catch (IOException e) {
-			System.out.println("Sending to '" + this.name + "' the command '" + cmd + "' failed: " + e.getMessage());
-			throw e;
-		}
-		try {
-			//Thread.sleep(1000);
-		}
-		catch (Exception e) {
-
+		finally {
+			this.writeLock.unlock();
 		}
 	}
 

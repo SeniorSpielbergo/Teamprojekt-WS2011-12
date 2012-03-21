@@ -3,7 +3,7 @@ import lejos.nxt.Sound;
 
 public class Common {
 	static final int TAPE_SIZE = 11;
-	static final int PUSH_SPEED = 150;
+	static final int PUSH_SPEED = 180;
 	static final int LINE_SPEED = 250;
 	static final int PUSH_ANGLE_MASTER = -180;
 	static final int PUSH_ANGLE_SLAVE = -173;
@@ -94,7 +94,7 @@ public class Common {
 					slowSpeed = true;
 				}
 				try {
-					Thread.sleep(10);
+					Thread.sleep(50);
 				}
 				catch (Exception e) {
 
@@ -110,7 +110,7 @@ public class Common {
 					slowSpeed = true;
 				}
 				try {
-					Thread.sleep(10);
+					Thread.sleep(50);
 				}
 				catch (Exception e) {
 
