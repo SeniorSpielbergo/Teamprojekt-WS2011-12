@@ -78,7 +78,8 @@ To use the LEGO tapes you have to do following steps:
 
 \subsection{Welcome page}
 \label{sec:welcome-page}
-
+If the installation was correct and you have started the application the one or the other way you will see the welcome page like in figure \ref{pic:welcome_page}. Now you can open a turing machine, create a new one or open an example that is listed below. \\
+You can also do the same with a brainfuck program.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.45]{graphics_gui/welcomescreen.png}
@@ -90,7 +91,7 @@ To use the LEGO tapes you have to do following steps:
 \newpage
 
 \section{Turing Machine editor}
-
+If you open an example you will see a window like figure \ref{pic:turing_editor}, if you create a new turing machine you will have a blank page. On the left side you have the toolboxes in the white main part you can edit/create the turing machine.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.3]{graphics_gui/turing_editor.png}
@@ -103,7 +104,7 @@ To use the LEGO tapes you have to do following steps:
 
 \subsection{Edit machine properties}
 \label{sec:edit-mach-prop}
-
+First of all you sould edit the turing machine properties.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/machine_properties.png}
@@ -114,9 +115,22 @@ To use the LEGO tapes you have to do following steps:
 
 \newpage
 
+\subsection{Toolbox}
+\label{sec:toolbox}
+With the toolbox you can drag an drop states, frame and text boxes on the main frame. In the main frame you have the possibility to change the size of text and frame boxes. 
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.5]{graphics_gui/toolbox_turing.png}
+\end{center}
+\caption{Toolbox}
+\label{pic:toolbox}
+\end{figure}
+
+\newpage
+
 \subsection{Adding and changing states}
 \label{sec:add-edit-states}
-
+If you have created or selected a state you can change the properties of the selected state. You can specify a lable or if it is a start or final state. The start state will marked with a bold border and the final will marked with a second circle.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/state_properties.png}
@@ -129,7 +143,8 @@ To use the LEGO tapes you have to do following steps:
 
 \subsection{Adding and changing edges}
 \label{sec:adding-chang-edges}
-
+If you want to create an edge you have to move the mouse pointer in the center of a state the state will highlighted with a bold green square. Then you have to hold the left mouse key and drop the arrow on the state where the edge shall end. \\
+If you have selected an edge you can add remove or edit trastions. If you want to edit a transition you have to double click an the trasition.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/edge_properties.png}
@@ -142,7 +157,7 @@ To use the LEGO tapes you have to do following steps:
 
 \subsection{Edit transitions}
 \label{sec:edit-transitions}
-
+If you double clicked a transtion or added a new, you can edit it. Allowed Input and output characters are #, 0, 1, 2 and *, where * is a wildcard. Allowed actions are L (left), R (right) an N (nothing). With ok you save the transition.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/edit_transitions.png}
@@ -153,22 +168,11 @@ To use the LEGO tapes you have to do following steps:
 
 \newpage
 
-\subsection{Toolbox}
-\label{sec:toolbox}
 
-\begin{figure}[!htb]
-\begin{center}
-\includegraphics[scale=0.5]{graphics_gui/toolbox_turing.png}
-\end{center}
-\caption{Toolbox}
-\label{pic:toolbox}
-\end{figure}
-
-\newpage
 
 \subsection{Via points}
 \label{sec:via-points}
-
+In the Edit menu you can add a via point if you have selected an edge.
 \subsection{Frames and textboxes}
 \label{sec:frames-textboxes}
 
