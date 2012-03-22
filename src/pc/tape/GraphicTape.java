@@ -61,18 +61,13 @@ public class GraphicTape extends DisplayableTape {
 		super(name, allowInput);
 	}
 
-	/**
-	 * Returns the tape's type.
-	 */
+	@Override
 	public Type getType() {
 
 		return Type.GRAPHIC;
 	}
 
-	/** 
-	 * This method initializes the tape.
-	 * @throws TapeException If the tape has already been initialized.
-	 */
+	@Override
 	public void init() throws TapeException {
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
 
@@ -88,10 +83,7 @@ public class GraphicTape extends DisplayableTape {
 		this.ready = true;
 	}
 
-	/**
-	 * This method shuts the tape down.
-	 * @throws TapeException If the tape has not been initialized
-	 */
+
 	@Override
 	public void shutdown() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
@@ -103,12 +95,7 @@ public class GraphicTape extends DisplayableTape {
 		this.memory.clear();
 	}
 
-	/** 
-	 * This method returns the char at the current tape position
-	 * @return Character at the current position
-	 * @throws TapeException If the tape has not been initialized
-	 * @see #write(char)
-	 */
+
 	@Override
 	public char read() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
@@ -121,10 +108,10 @@ public class GraphicTape extends DisplayableTape {
 		}
 	}
 
-	@Override
+	
 	/** 
 	 * This method writes a symbol at the current tape position
-	 * @param c Character to write (allowed characters are #, 0, 1, 2)
+	 * @param c Character to write ('*' is not allowed)
 	 * @throws TapeException If the tape has not been initialized
 	 * @see #read()
 	 */
@@ -143,11 +130,6 @@ public class GraphicTape extends DisplayableTape {
 	}
 
 	@Override
-	/** 
-	 * This method moves the tape one field to the left
-	 * @throws TapeException If the tape has not been initialized
-	 * @see #moveRight()
-	 */
 	public void moveLeft() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
@@ -163,11 +145,6 @@ public class GraphicTape extends DisplayableTape {
 	}
 
 	@Override
-	/** 
-	 * This method moves the tape one field to the right
-	 * @throws TapeException If the tape has not been initialized
-	 * @see #moveLeft()
-	 */
 	public void moveRight() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
@@ -305,14 +282,20 @@ public class GraphicTape extends DisplayableTape {
 		return text;
 	}
 
+	@Override
 	public String getStyle() {
 		return this.canvas.getStyle();
 	}
 
+	@Override
 	public void setStyle(String style) {
 		this.canvas.setStyle(style);
 	}
 	
+	/**
+	 * Returns the height of the canvas.
+	 * @return height of the canvas
+	 */
 	public int getHeight() {
 		return this.canvas.getHeight() + this.textlabel.getHeight() + 2;
 	}

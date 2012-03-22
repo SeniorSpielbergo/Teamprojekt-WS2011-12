@@ -11,6 +11,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage[english=british]{csquotes}
+\usepackage{graphicx}
+\usepackage{tikz}
 
 \setlength{\parindent}{0cm}
  
@@ -36,7 +38,7 @@
 \maketitle[image,logo=right]%[<plain/image/imagetext>,<logo=left/right>]
 
 \tableofcontents
-\newpage
+\clearpage
 \section{Introduction}
 
 TuringBrain IDE allows you to develop and debug your own TuringMachines in an easy to use WYSIWYG (what you see is what you get) environment. It also enables you to program and run Brainfuck code.
@@ -107,6 +109,7 @@ To use the LEGO tapes you have to do following steps:
 	\item[$\bullet$] Working directory: \${project\_loc}
 	\item[$\bullet$] Arguments: \${java\_type\_name} -v -n [NXT module name] -r -b
 	\end{enumerate}
+	\item Now you have to add these rules to the favorites, so you can run them from the external tools run button in the menubar. Simply go to Run \textgreater External Tools \textgreater Organize Favorites and add the rules you need
 \end{enumerate}
 
 \begin{figure}[!htb]
@@ -139,7 +142,7 @@ You can also do the same with brainfuck applications.
 \label{pic:welcome_page}
 \end{figure}
 
-\newpage
+\clearpage
 
 \section{Turing Machine editor}
 If you open an example you will see a window like figure \ref{pic:turing_editor}, while creating a new machine leads to an empty window to work with. On the left side you see a toolbox (\ref{sec:toolbox}) and also there will be displayed panels to change the properties of the machine and all its components.
@@ -151,7 +154,7 @@ If you open an example you will see a window like figure \ref{pic:turing_editor}
 \label{pic:turing_editor}
 \end{figure}
 
-\newpage
+\clearpage
 
 \subsection{Toolbox}
 \label{sec:toolbox}
@@ -164,7 +167,7 @@ With the toolbox you can use drag an drop to add states, frames and textboxes to
 \label{pic:toolbox}
 \end{figure}
 
-\newpage
+\clearpage
 
 \subsection{Edit machine properties}
 \label{sec:edit-mach-prop}
@@ -177,7 +180,7 @@ First of all you should edit the turing machine properties.
 \label{pic:machine_properties}
 \end{figure}
 
-\newpage
+\clearpage
 
 \subsection{Adding and changing states}
 \label{sec:add-edit-states}
@@ -190,7 +193,7 @@ If you have created or selected a state you can change the properties of the sel
 \label{pic:state_properties}
 \end{figure}
 
-\newpage
+\clearpage
 
 \subsection{Adding and changing edges}
 \label{sec:adding-chang-edges}
@@ -204,7 +207,7 @@ If you have selected an edge you can add, remove or edit transitions. If you wan
 \label{pic:edge_properties}
 \end{figure}
 
-\newpage
+\clearpage
 
 \subsection{Edit transitions}
 \label{sec:edit-transitions}
@@ -217,7 +220,7 @@ If you double clicked on a transtion or added a new one, you can edit it. In gen
 \label{pic:edit_transitions}
 \end{figure}
 
-\newpage
+\clearpage
 
 \subsection{Via points}
 \label{sec:via-points}
@@ -234,12 +237,12 @@ In the property toolbox of a textbox you can change the text of the box.
 \label{pic:text_properties}
 \end{figure}
 
-\newpage
+\clearpage
 
 \subsection{Export}
 \label{sec:export}
 In the menu File->Export you can export the turing machine to Latex (.tex), Scalable Vector Graphic (.svg) or Portable Network Graphic (.png)
-\newpage
+\clearpage
 
 \section{Brainfuck editor}
 \label{sec:brainfuck-editor}
@@ -281,10 +284,10 @@ The commands are executed sequentially. Every other character within the code wi
 \label{pic:brainfuck_editor}
 \end{figure}
 
-\newpage
+\clearpage
 
 \section{Run window}
-In the run window in the Input tab (Figure \ref{pic:run_window_input}) you can specify the input word for every tape. In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a lable for every tape and the type of the tape. If you choose a LEGO Tape you sould specify in the Robot settings tab the main and the slave robots for the tapes. With run you can start the presimulation.
+In in the Input tab (Figure \ref{pic:run_window_input}) of the run window you can specify the input word for every tape. In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a label for every tape and the type of the tape. If you choose a LEGO Tape you should specify the main and the slave robots for the tapes in the Robot settings tab. With run you can start the presimulation.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/run_window_input.png}
@@ -311,11 +314,7 @@ In the run window in the Input tab (Figure \ref{pic:run_window_input}) you can s
 \label{pic:run_window_robot_settings}
 \end{figure}
  
-\newpage
-
 \section{Simulation}
-
-
 
 \subsection{Organize robots}
 In the menu Simulation-> Organize robots you can add the robots with their hardware address.
@@ -327,10 +326,8 @@ In the menu Simulation-> Organize robots you can add the robots with their hardw
 \label{pic:organize_robots}
 \end{figure}
 
-\newpage
-If you run the simulation after the presimulation you will see the turing machine and the tapes (Figure \ref{pic:simulation_window}). After the input word has been written you can start the simulation with the play button. If you have paused the simulation you can simulate the next step with the second button. If you simulate on the LEGO Tape you can mute and unmute the sound.
 \subsection{Presimulation window}
-
+The Presimulation window (Figure \ref{pic:presimulation}) shows the estimated duration of the simulation. It also displays a warning if the simulation could be too long.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.4]{graphics_gui/presimulation.png}
@@ -339,6 +336,8 @@ If you run the simulation after the presimulation you will see the turing machin
 \label{pic:presimulation}
 \end{figure}
 
+\subsection{Simulation window}
+If you run the simulation after the presimulation you will see the turing machine and the tapes (Figure \ref{pic:simulation_window}). After the input word has been written you can start the simulation with the play button. If you have paused the simulation you can simulate the next step with the second button. If you simulate on the LEGO Tape you can mute and unmute the sound.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.35]{graphics_gui/simulation_window.png}
@@ -347,7 +346,7 @@ If you run the simulation after the presimulation you will see the turing machin
 \label{pic:simulation_window}
 \end{figure}
 
-\newpage
+\clearpage
 
 \section{Hardware -- LEGO\textregistered\, tape}
 
@@ -365,7 +364,7 @@ Figure \ref{pic:topview} shows a view of the machine's motor section to get a br
 \label{pic:topview}
 \end{figure}
 
-\newpage
+\clearpage
 
 Figure \ref{pic:position1} shows how the upper left pier has to be placed in relation to the left edge of the upper plate.
 
@@ -377,7 +376,7 @@ Figure \ref{pic:position1} shows how the upper left pier has to be placed in rel
 \label{pic:position1}
 \end{figure}
 
-\newpage
+\clearpage
 
 Figure \ref{pic:position2} shows how the upper left and right pier have to be placed in relation to the bottom edge of the upper plate.
 
@@ -389,7 +388,7 @@ Figure \ref{pic:position2} shows how the upper left and right pier have to be pl
 \label{pic:position2}
 \end{figure}
 
-\newpage
+\clearpage
 
 Figure \ref{pic:position3} shows how the lower left piers have to be placed in relation to the top and left edge of the lower plate.
 
@@ -401,7 +400,7 @@ Figure \ref{pic:position3} shows how the lower left piers have to be placed in r
 \label{pic:position3}
 \end{figure}
 
-\newpage
+\clearpage
 
 Figure \ref{pic:position4} shows how the lower right pier has to be placed in relation to the left pier and the support for the motor wheel.
 
@@ -413,7 +412,7 @@ Figure \ref{pic:position4} shows how the lower right pier has to be placed in re
 \label{pic:position4}
 \end{figure}
 
-\newpage
+\clearpage
 
 \subsection{The supporting bridge at the end of the tape}
 
@@ -427,7 +426,7 @@ Figure \ref{pic:bridge2} shows how the upper piers of the supporting bridge have
 \label{pic:bridge2}
 \end{figure}
 
-\newpage
+\clearpage
 
 Figure \ref{pic:bridge1} shows how the lower piers of the supporting bridge have to be placed in relation to the upper and right edge of the lower plate.
 
@@ -439,11 +438,11 @@ Figure \ref{pic:bridge1} shows how the lower piers of the supporting bridge have
 \label{pic:bridge1}
 \end{figure}
 
-\newpage
+\clearpage
 
 \subsection{The sensors}
 
-Figure \ref{pic:sensors} shows how the sensors have to be placed to work properly. As you can see the sensor it the rectangle 1 has to be above one of the position bits every time the sensors in rectangle 2 are above two bits at one of the positions.
+Figure \ref{pic:sensors} shows how the sensors have to be placed to work properly. As you can see the sensor in the rectangle 1 has to be above one of the position bits every time the sensors in rectangle 2 are above two bits at one of the positions.
 
 \begin{figure}[!htb]
 \begin{center}
@@ -453,11 +452,12 @@ Figure \ref{pic:sensors} shows how the sensors have to be placed to work properl
 \label{pic:sensors}
 \end{figure}
 
-\newpage
+\clearpage
 
 \subsection{The tape}
 
-The Marker in Figure \ref{pic:tape} shows how the bricks have to be placed so the sensors recognize them and can distinguish the different positions of the tape. It is also very important that the piers used for the upper bar of the tape are not interfering with the pushers shown in Figure \ref{pic:topview_pushers} and Figure \ref{pic:pusher}. So the pier you can see in the background of Figure \ref{pic:tape} is placed perfectly because it is not preventing the pushers from moving the bits.
+The Marker in Figure \ref{pic:tape} shows how the bricks have to be placed so the sensors recognize them and can distinguish the different positions of the tape. It is also very important that the piers used for the upper bar of the tape are not interfering with the pushers shown in Figure \ref{pic:pusher} and Figure \ref{pic:topview_pushers}. So the pier you can see in the background of Figure \ref{pic:tape} is placed perfectly because it is not preventing the pushers from moving the bits.\\
+Here you also can see that 2 bits with the same color always represent one field with a value (\#, 0, 1 or 2).
 
 \begin{figure}[!htb]
 \begin{center}
@@ -467,7 +467,7 @@ The Marker in Figure \ref{pic:tape} shows how the bricks have to be placed so th
 \label{pic:tape}
 \end{figure}
 
-\newpage
+\clearpage
 
 Figure \ref{pic:supporting_pier} shows how the supporting piers have to be placed so they do not interfere with the pushers. It also shows how the sensors in the rectangle 2 in figure \ref{pic:sensors} have to be placed so they are above the bits every time the sensor in rectangle 1 is above a position bit.
 
@@ -479,7 +479,46 @@ Figure \ref{pic:supporting_pier} shows how the supporting piers have to be place
 \label{pic:supporting_pier}
 \end{figure}
 
-\newpage
+\clearpage
+
+\subsection{Possible bit combinations on the tape}
+
+Figure \ref{pic:bit_combinations} shows all possible bit combinations on the tape with their respective value.
+
+\begin{figure}[!htb]
+\begin{center}
+\begin{tikzpicture}
+%\draw[help lines,scale=0.5] (0,0) grid (20,5);
+\draw[thick,scale=0.5] (1,1) rectangle +(1,1);
+\draw[thick,scale=0.5] (3,1) rectangle +(1,1);
+\draw[thick,scale=0.5,fill=tuRed] (1,3) rectangle +(1,1);
+\draw[thick,scale=0.5,fill=tuRed] (3,3) rectangle +(1,1);
+\draw (1.25,0.25) node[draw=none] {\#};
+
+\draw[thick,scale=0.5] (6,1) rectangle +(1,1);
+\draw[thick,scale=0.5,fill=tuRed] (8,1) rectangle +(1,1);
+\draw[thick,scale=0.5,fill=tuRed] (6,3) rectangle +(1,1);
+\draw[thick,scale=0.5] (8,3) rectangle +(1,1);
+\draw (3.75,0.25) node[draw=none] {0};
+
+\draw[thick,scale=0.5,fill=tuRed] (11,1) rectangle +(1,1);
+\draw[thick,scale=0.5] (13,1) rectangle +(1,1);
+\draw[thick,scale=0.5] (11,3) rectangle +(1,1);
+\draw[thick,scale=0.5,fill=tuRed] (13,3) rectangle +(1,1);
+\draw (6.25,0.25) node[draw=none] {1};
+
+\draw[thick,scale=0.5,fill=tuRed] (16,1) rectangle +(1,1);
+\draw[thick,scale=0.5,fill=tuRed] (18,1) rectangle +(1,1);
+\draw[thick,scale=0.5] (16,3) rectangle +(1,1);
+\draw[thick,scale=0.5] (18,3) rectangle +(1,1);
+\draw (8.75,0.25) node[draw=none] {2};
+\end{tikzpicture}
+\end{center}
+\caption{Bit combinations}
+\label{pic:bit_combinations}
+\end{figure}
+
+\clearpage
 
 \subsection{The pushers}
 
@@ -493,7 +532,7 @@ Figure \ref{pic:pusher} shows how the pushers have to be placed on the guard rai
 \label{pic:pusher}
 \end{figure}
 
-\newpage
+\clearpage
 
 Figure \ref{pic:topview_pushers} shows how the pushers are pushing the bits and how to place the supporting piers (rectangle) for the tape's upper bar so they do not interfere with the pushers.
 
@@ -504,152 +543,6 @@ Figure \ref{pic:topview_pushers} shows how the pushers are pushing the bits and 
 \caption{Position of the pushers}
 \label{pic:topview_pushers}
 \end{figure}
-
-
-\section{Code -- LEGO\textregistered\, tape}
-
-\subsection{Master NXT module}
-
-\subsubsection{Image}
-
-\subsubsection{MainMaster}
-
-\subsection{Slave NXT module}
-
-\subsubsection{MainSlave}
-
-\subsubsection{TetrisSound}
-
-
-\subsection{Common NXT classes}
-
-\subsubsection{Calibrate}
-
-\subsubsection{Common}
-
-\subsubsection{Tape}
-
-\subsubsection{Timer}
-
-\subsubsection{SensorTest}
-
-
-\section{Code -- GUI}
-
-
-\subsection{Package gui}
-
-\subsubsection{AboutDialog}
-
-\subsubsection{AppData}
-
-\subsubsection{CustomTable}
-
-\subsubsection{Editor}
-
-\subsubsection{ErrorDialog}
-
-\subsubsection{MachineEditor}
-
-\subsubsection{OrganizeRobots}
-
-\subsubsection{PresimulationDialogue}
-
-\subsubsection{RunWindow}
-
-\subsubsection{SimulationWindow}
-
-\subsubsection{WelcomeScreen}
-
-\subsubsection{WelcomeScreenGroup}
-
-\subsubsection{WelcomeScreenLine}
-
-\subsection{Package gui.brainfuck}
-
-\subsubsection{BrainfuckEditor}
-
-
-\subsection{Package gui.turing}
-
-\subsubsection{NewTMDialogue}
-
-\subsubsection{Palette}
-
-\subsubsection{PropertiesEdge}
-
-\subsubsection{PropertiesEdgeEdit}
-
-\subsubsection{PropertiesState}
-
-\subsubsection{PropertiesTextbox}
-
-\subsubsection{PropertiesTuringMachine}
-
-\subsubsection{ToolBox}
-
-\subsubsection{TuringMachineEditor}
-
-
-\subsection{Package machine}
-
-\subsubsection{ExtensionFileFilter}
-
-\subsubsection{Machine}
-
-\subsubsection{Simulation}
-
-
-\subsubsection{Package machine.brainfuck}
-
-\subsubsection{BrainfuckMachine}
-
-\subsubsection{BrainfuckSimulation}
-
-
-\subsection{Package machine.turing}
-
-\subsubsection{Edge}
-
-\subsubsection{Frame}
-
-\subsubsection{InOut}
-
-\subsubsection{Point}
-
-\subsubsection{State}
-
-\subsubsection{Textbox}
-
-\subsubsection{Transition}
-
-\subsubsection{TuringMachine}
-
-\subsubsection{TuringSimulation}
-
-
-\subsection{Package tape}
-
-\subsubsection{ConsoleTape}
-
-\subsubsection{DisplayableTape}
-
-\subsubsection{GraphicTape}
-
-\subsubsection{GraphicTapePanel}
-
-\subsubsection{LEGOTape}
-
-\subsubsection{MasterRobot}
-
-\subsubsection{Robot}
-
-\subsubsection{SlaveRobot}
-
-
-\subsubsection{Tape}
-
-\subsubsection{TapeException}
 
 
 \makebackpage[trisec]%[<plain/info/addressinfo>]

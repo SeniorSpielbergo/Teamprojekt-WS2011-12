@@ -135,7 +135,7 @@ public class GraphicTapePanel extends JPanel {
 	}
 
 	public void move(int oldPosition) {
-		if (this.tape.getDelay()) {
+		if (this.tape.isDelayEnabled()) {
 			this.moveAnimationOffset = (this.tape.position - oldPosition)*this.fieldWidth;
 			while (moveAnimationOffset != 0) {
 				if (moveAnimationOffset > 0) {
@@ -160,7 +160,7 @@ public class GraphicTapePanel extends JPanel {
 
 	public void write(char oldChar) {
 		this.oldChar = oldChar;
-		if (this.tape.getDelay() && this.tape.get(this.tape.getPosition()) != oldChar) {
+		if (this.tape.isDelayEnabled() && this.tape.get(this.tape.getPosition()) != oldChar) {
 			for (int i = 0; i < 100; i++) {
 				this.writeAnimationFrameCount = i;
 				repaint();

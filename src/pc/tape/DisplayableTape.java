@@ -2,6 +2,11 @@ package tape;
 
 import javax.swing.JPanel;
 
+/**
+ * This class is for all the tapes that can be shown in the simulation window.
+ * @author Nils Breyer //TODO javadoc
+ *
+ */
 public abstract class DisplayableTape extends Tape{
 	public DisplayableTape() {
 		super();
