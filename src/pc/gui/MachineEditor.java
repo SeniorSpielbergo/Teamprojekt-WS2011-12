@@ -6,7 +6,7 @@ import javax.swing.JMenu;
 import javax.swing.JPanel;
 
 /**
- * Abstract base class for all graphical machine editors 
+ * Abstract base class for all graphical machine editors.
  * @author Nils Breyer
  */
 @SuppressWarnings("serial")
@@ -24,7 +24,7 @@ public abstract class MachineEditor extends JPanel {
 	public abstract void setEditable(boolean editable);
 	
 	/**
-	 * Used to update the machine that my has been changed in the editor.
+	 * Used to update the machine that might has been changed in the editor.
 	 */
 	public abstract void updateMachine();
 }

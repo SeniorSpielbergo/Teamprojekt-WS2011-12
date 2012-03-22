@@ -18,7 +18,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 /**
- * A simple about dialog showing information about the program
+ * A simple about dialog showing information about the program.
  * @author Nils Breyer
  *
  */
@@ -35,7 +35,7 @@ public class AboutDialog extends JDialog {
 
 
 	/**
-	 * Constructs a new about dialog
+	 * Constructs a new about dialog.
 	 */
 	public AboutDialog() {
 		super();
@@ -89,7 +89,7 @@ public class AboutDialog extends JDialog {
 	}
 	
 	/**
-	 * Center the dialog window on the screen
+	 * Center the dialog window on the screen.
 	 */
 	private void centerDialogOnTheScreen() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

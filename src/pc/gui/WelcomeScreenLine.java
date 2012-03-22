@@ -48,8 +48,8 @@ public class WelcomeScreenLine extends JPanel {
 
 	/**
 	 * Constructs a new welcome screen line for a specific file.
-	 * @param file The file linked with this line
-	 * @param machineType The type of machine linked with this line
+	 * @param file The file linked with this line.
+	 * @param machineType The type of machine linked with this line.
 	 */
 	public WelcomeScreenLine(String file, MachineType machineType) {
 		this.machineType = machineType;
@@ -153,7 +153,7 @@ public class WelcomeScreenLine extends JPanel {
 	/**
 	 * Constructs a new welcome screen line.
 	 * @param type Type of this line.
-	 * @param machineType The type of machine linked with this line
+	 * @param machineType The type of machine linked with this line.
 	 */
 	public WelcomeScreenLine(Type type, MachineType machineType) {
 		this.type = type;
@@ -212,7 +212,7 @@ public class WelcomeScreenLine extends JPanel {
 
 	/**
 	 * Returns the type of this line.
-	 * @return Type of this line
+	 * @return Type of this line.
 	 */
 	public Type getPanelType() {
 		return this.type;
@@ -220,7 +220,7 @@ public class WelcomeScreenLine extends JPanel {
 
 	/**
 	 * Returns the path to the file linked with this line.
-	 * @return Path to the file
+	 * @return Path to the file.
 	 */
 	public String getFilePath() {
 		return this.file;

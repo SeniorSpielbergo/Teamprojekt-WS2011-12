@@ -65,6 +65,10 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	 * The first LEGOtape of the machine.
 	 */
 	tape.LEGOTape myFirstLEGOTape;
+	
+	/**
+	 * All LEGOTapes of the machine.
+	 */
 	ArrayList<tape.LEGOTape> legoTapes = new ArrayList<tape.LEGOTape>();
 
 	private boolean delay = true;
@@ -80,14 +84,18 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	private ImageIcon iconSoundOff = new ImageIcon(SimulationWindow.class.getResource("images/sound_off.png"));
 
 
+	/**
+	 * Creates a simulation window without editor.
+	 * @param machine The current machine.
+	 */
 	public SimulationWindow(Machine machine) {
 		this(machine,null);
 	}
 
 	/**
 	 * Creates a new window for the simulation.
-	 * @param machine The machine to simulate
-	 * @param editor The editor window
+	 * @param machine The machine to simulate.
+	 * @param editor The editor window.
 	 */
 	public SimulationWindow(Machine machine, Editor editor){
 		this.simulationPaused = true;
@@ -205,7 +213,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		this.validate();
 	}
 
-	/**
+	/*
 	 * Initializes window's contents.
 	 */
 	private void init(){
@@ -327,9 +335,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		}
 	}
 
-	/**
-	 * Handles events from observed classes.
-	 */
+	@Override 
 	public void update(Observable observable, Object obj) {
 		if (observable instanceof tape.Tape 
 				&& obj instanceof tape.Tape.Event
@@ -383,9 +389,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 	}
 
 
-	/**
-	 * This method handles button events.
-	 */
+	@Override
 	public void actionPerformed( ActionEvent event){
 		//forward button
 		if(event.getSource().equals(buttonForward) && sim.isSimulationAlreadyStarted()){
@@ -465,6 +469,10 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		}
 	}
 
+	/**
+	 * Enable/disable delay for simulation.
+	 * @param enabled True if delay should be enabled.
+	 */
 	public void setDelay(boolean enabled) {
 		this.delay = enabled;
 
@@ -473,10 +481,18 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 		}
 	}
 
+	/**
+	 * Returns if the delay is enabled.
+	 * @return True if delay is enabled.
+	 */
 	public boolean getDelay() {
 		return this.delay;
 	}
 
+	/**
+	 * Sets tape's style.
+	 * @param style
+	 */
 	public void setTapeStyle(String style) {
 		this.style = style;
 
@@ -487,6 +503,10 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 
 	}
 
+	/**
+	 * Returns the tape's style.
+	 * @return style
+	 */
 	public String getTapeStyle() {
 		return this.style;
 	}

@@ -3,7 +3,7 @@ package machine.turing;
 import java.io.Serializable;
 
 /**
- * Implements a Frame to display 'subsystems' within the graph.
+ * Implements a frame to display 'subsystems' within the graph.
  * @author Sven Schuster
  */
 public class Frame implements Serializable {
@@ -15,7 +15,7 @@ public class Frame implements Serializable {
 	private int height;
 	
 	/**
-	 * Creates a new Frame with given geometry.
+	 * Creates a new frame with given geometry.
 	 */	
 	public Frame(int x, int y, int width, int height) {
 		this.x = x;
