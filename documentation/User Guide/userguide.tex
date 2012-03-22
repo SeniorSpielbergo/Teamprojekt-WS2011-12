@@ -230,10 +230,10 @@ The commands are executed sequentially. Every other character within the code wi
 \label{pic:brainfuck_editor}
 \end{figure}
 
-\newpage
+\clearpage
 
 \section{Run window}
-In the run window in the Input tab (Figure \ref{pic:run_window_input}) you can specify the input word for every tape. In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a lable for every tape and the type of the tape. If you choose a LEGO Tape you sould specify in the Robot settings tab the main and the slave robots for the tapes. With run you can start the presimulation.
+In in the Input tab (Figure \ref{pic:run_window_input}) of the run window you can specify the input word for every tape. In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a label for every tape and the type of the tape. If you choose a LEGO Tape you should specify the main and the slave robots for the tapes in the Robot settings tab. With run you can start the presimulation.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/run_window_input.png}
@@ -260,11 +260,7 @@ In the run window in the Input tab (Figure \ref{pic:run_window_input}) you can s
 \label{pic:run_window_robot_settings}
 \end{figure}
  
-\newpage
-
 \section{Simulation}
-
-
 
 \subsection{Organize robots}
 In the menu Simulation-> Organize robots you can add the robots with their hardware address.
@@ -276,10 +272,8 @@ In the menu Simulation-> Organize robots you can add the robots with their hardw
 \label{pic:organize_robots}
 \end{figure}
 
-\newpage
-If you run the simulation after the presimulation you will see the turing machine and the tapes (Figure \ref{pic:simulation_window}). After the input word has been written you can start the simulation with the play button. If you have paused the simulation you can simulate the next step with the second button. If you simulate on the LEGO Tape you can mute and unmute the sound.
 \subsection{Presimulation window}
-
+The Presimulation window (Figure \ref{pic:presimulation}) shows the estimated duration of the simulation. It also displays a warning if the simulation could be too long.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.4]{graphics_gui/presimulation.png}
@@ -288,6 +282,8 @@ If you run the simulation after the presimulation you will see the turing machin
 \label{pic:presimulation}
 \end{figure}
 
+\subsection{Simulation window}
+If you run the simulation after the presimulation you will see the turing machine and the tapes (Figure \ref{pic:simulation_window}). After the input word has been written you can start the simulation with the play button. If you have paused the simulation you can simulate the next step with the second button. If you simulate on the LEGO Tape you can mute and unmute the sound.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.35]{graphics_gui/simulation_window.png}
