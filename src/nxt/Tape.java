@@ -8,7 +8,7 @@ import lejos.util.TimerListener;
  *
  */
 public class Tape extends Thread {
-	private static final int TIMER_LENGTH = 800;
+	private static final int TIMER_LENGTH = 1000;
 	private static final int LEFT_END_MARKER_COLOR = 2;
 	private static final int MARKER_COLOR_MIN = 5;
 	private static final int MARKER_COLOR_MAX = 9;
@@ -100,7 +100,7 @@ public class Tape extends Thread {
 			}
 			
 			try {
-				Thread.sleep(80);
+				Thread.sleep(100);
 			}
 			catch (Exception e) {
 
@@ -115,7 +115,6 @@ public class Tape extends Thread {
 
 				}
 			}
-			
 			
 			this.dontStop = false;
 
@@ -146,7 +145,7 @@ public class Tape extends Thread {
 			Motor.A.setSpeed(0);
 			Motor.A.backward();
 
-			for (int speed = 10; speed <100; speed+=10) {
+			for (int speed = 10; speed < 100; speed+=10) {
 				Motor.A.setSpeed(speed*Common.LINE_SPEED/100);
 				try {
 					Thread.sleep(20);
@@ -157,7 +156,7 @@ public class Tape extends Thread {
 			}
 			
 			try {
-				Thread.sleep(80);
+				Thread.sleep(100);
 			}
 			catch (Exception e) {
 

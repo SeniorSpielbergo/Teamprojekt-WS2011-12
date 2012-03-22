@@ -203,10 +203,10 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 	 */
 	private double simulationTime(){
 		if(this.machine.getType() == Machine.MachineType.BrainfuckMachine){
-			this.simulationTime = this.sim.getNumberOfSteps();
+			this.simulationTime = 1.9 * this.sim.getNumberOfSteps();
 		}
 		else if(this.machine.getType() == Machine.MachineType.TuringMachine){
-			this.simulationTime= (this.sim.getNumberOfMovements() + this.sim.getNumberOfWritings());
+			this.simulationTime= 1.9*(this.sim.getNumberOfMovements() + this.sim.getNumberOfWritings());
 		}
 		return this.simulationTime;
 	}
