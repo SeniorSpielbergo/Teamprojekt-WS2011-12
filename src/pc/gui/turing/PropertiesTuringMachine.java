@@ -13,7 +13,7 @@ import javax.swing.event.DocumentListener;
 import machine.turing.TuringMachine;
 
 /**
- * This class implements the Turingmachine's properties panel 
+ * This class implements the Turingmachine's properties panel.
  * @author David Wille
  */
 public class PropertiesTuringMachine extends JPanel implements DocumentListener {
@@ -34,7 +34,7 @@ public class PropertiesTuringMachine extends JPanel implements DocumentListener 
 
 	/**
 	 * Constructs a panel that shows the information about a Turing Machine.
-	 * @param machine The Turing Machine whose information should be displayed
+	 * @param machine The Turing Machine of which information should be displayed
 	 */
 	public PropertiesTuringMachine(TuringMachine machine) {
 		this.machine = machine;

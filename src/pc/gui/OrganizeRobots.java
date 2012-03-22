@@ -49,7 +49,7 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	private boolean[] editable = {true, true, true};
 	
 	/**
-	 * Constructs the window to organize the robots.
+	 * Constructs the window for organizing the robots.
 	 */
 	public OrganizeRobots() {
 		this.setModal(true);
@@ -138,8 +138,8 @@ public class OrganizeRobots extends JDialog implements ActionListener, TableMode
 	
 	/**
 	 * Loads the robots from the robots xml file.
-	 * @return ArrayList of robots with their MAC-Addresses
-	 * @throws IOException Exception on loading problems
+	 * @return ArrayList of robots with their MAC-Addresses.
+	 * @throws IOException Exception on loading problems.
 	 */
 	public static ArrayList<ArrayList<Object>> loadRobotsFromXML() throws IOException {
 		File file = new File("robots.xml");

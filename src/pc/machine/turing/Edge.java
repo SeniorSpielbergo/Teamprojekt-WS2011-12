@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /** 
- * This class represents an edge with it'ss start and end state and it's transitions.
+ * This class represents an edge with its start and end state and its transitions.
  * @author David Wille
  * @author Sven Schuster
  */
@@ -17,7 +17,7 @@ public class Edge implements Serializable {
 	private int posLabelY = 0;
 
 	/**
-	 * Constructs an edge from a state to another with it's transitions.
+	 * Constructs an edge from a state to another with its transitions.
 	 * @param from Start state
 	 * @param to End state
 	 * @param transitions Transitions for this edge
@@ -30,7 +30,7 @@ public class Edge implements Serializable {
 	}
 
 	/**
-	 * Returns the edge's start state.
+	 * Returns the edges start state.
 	 * @return Start state for this edge
 	 */
 	public State getFrom() {
@@ -38,7 +38,7 @@ public class Edge implements Serializable {
 	}
 
 	/**
-	 * Returns the edge's end state.
+	 * Returns the edges end state.
 	 * @return End state for this edge
 	 */
 	public State getTo() {

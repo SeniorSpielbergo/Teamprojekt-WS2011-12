@@ -4,7 +4,7 @@ import java.lang.String;
 import java.util.ArrayList;
 
 /** 
- * This class represents a state with it's id, name, type and edges.
+ * This class represents a state with its id, name, type and edges.
  * @author David Wille
  * @author Sven Schuster
  */
@@ -18,7 +18,7 @@ public class State implements Serializable {
 	private int xcoord, ycoord, height, width;
 	
 	/**
-	 * Constructs a state with it's id, name and type.
+	 * Constructs a state with its id, name and type.
 	 * @param id State Id
 	 * @param name State name
 	 * @param type Type of state
@@ -32,8 +32,8 @@ public class State implements Serializable {
 	}
 	
 	/**
-	 * Returns the state Id.
-	 * @return State Id
+	 * Returns the state id.
+	 * @return state id
 	 */
 	public String getId() {
 		return this.id;
@@ -41,7 +41,7 @@ public class State implements Serializable {
 	
 	/**
 	 * Returns the state name.
-	 * @return State name
+	 * @return state name
 	 */
 	public String getName() {
 		return this.name;
@@ -57,7 +57,7 @@ public class State implements Serializable {
 	
 	/**
 	 * Returns the edges starting from this state.
-	 * @return Edges starting at this edge  //TODO: review if it is better to search the edges dynamically
+	 * @return Edges starting at this edge  
 	 */
 	public ArrayList<Edge> getEdge() {
 		return this.edge;
@@ -65,7 +65,7 @@ public class State implements Serializable {
 	
 	/**
 	 * Sets the edges starting at this state.
-	 * @param edge Edges starting at this state  //TODO: review if it is better to search the edges dynamically
+	 * @param edge Edges starting at this state  
 	 */
 	public void setEdge(ArrayList<Edge> edge) {
 		this.edge = edge;
