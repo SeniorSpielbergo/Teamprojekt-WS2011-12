@@ -85,22 +85,31 @@ public class Tape extends Thread {
 
 			this.dontStop = true;
 			
-			Motor.A.setSpeed((int)(0.7*Common.LINE_SPEED));
+			Motor.A.setSpeed(0);
 			Motor.A.forward();
-			try {
-				Thread.sleep(200);
-			}
-			catch (Exception e) {
 
-			}
-			Motor.A.setSpeed(Common.LINE_SPEED);
-			try {
-				Thread.sleep(200);
-			}
-			catch (Exception e) {
+			for (int speed = 20; speed <100; speed+=10) {
+				LCD.drawString("" + (speed*Common.LINE_SPEED/100), 0, 2);
+				Motor.A.setSpeed(speed*Common.LINE_SPEED/100);
+				try {
+					Thread.sleep(25);
+				}
+				catch (Exception e) {
 
+				}
 			}
-			Motor.A.setSpeed((int)(0.7*Common.LINE_SPEED));
+			
+			for (int speed = 100; speed > 20; speed-=10) {
+				LCD.drawString("" + (speed*Common.LINE_SPEED/100), 0, 2);
+				Motor.A.setSpeed(speed*Common.LINE_SPEED/100);
+				try {
+					Thread.sleep(25);
+				}
+				catch (Exception e) {
+
+				}
+			}
+			
 			this.dontStop = false;
 
 			while(!Motor.A.isStopped()){}
@@ -126,22 +135,39 @@ public class Tape extends Thread {
 			timer = new Timer(this.TIMER_LENGTH,tl);
 
 			this.dontStop = true;
-			Motor.A.setSpeed((int)(0.7*Common.LINE_SPEED));
+
+			Motor.A.setSpeed(0);
 			Motor.A.backward();
+
+			for (int speed = 20; speed <100; speed+=10) {
+				LCD.drawString("" + (speed*Common.LINE_SPEED/100), 0, 2);
+				Motor.A.setSpeed(speed*Common.LINE_SPEED/100);
+				try {
+					Thread.sleep(20);
+				}
+				catch (Exception e) {
+
+				}
+			}
+			
 			try {
-				Thread.sleep(200);
+				Thread.sleep(80);
 			}
 			catch (Exception e) {
 
 			}
-			Motor.A.setSpeed(Common.LINE_SPEED);
-			try {
-				Thread.sleep(200);
-			}
-			catch (Exception e) {
+			
+			for (int speed = 100; speed > 20; speed-=10) {
+				LCD.drawString("" + (speed*Common.LINE_SPEED/100), 0, 2);
+				Motor.A.setSpeed(speed*Common.LINE_SPEED/100);
+				try {
+					Thread.sleep(20);
+				}
+				catch (Exception e) {
 
+				}
 			}
-			Motor.A.setSpeed((int)(0.7*Common.LINE_SPEED));
+			
 			this.dontStop = false;
 
 			timer.start();

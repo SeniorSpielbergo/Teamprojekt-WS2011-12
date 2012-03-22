@@ -4,7 +4,7 @@ import lejos.nxt.Sound;
 public class Common {
 	static final int TAPE_SIZE = 11;
 	static final int PUSH_SPEED = 180;
-	static final int LINE_SPEED = 270;
+	static final int LINE_SPEED = 400;
 	static final int PUSH_ANGLE_MASTER = -160;
 	static final int PUSH_ANGLE_SLAVE = -153;
 
