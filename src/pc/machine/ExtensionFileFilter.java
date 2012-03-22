@@ -4,6 +4,11 @@ import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
 
+/**
+ * TODO javadoc
+ * @author Nils Breyer
+ *
+ */
 public class ExtensionFileFilter extends FileFilter {
 	public ExtensionFileFilter(String description, String extension) {
 		super();

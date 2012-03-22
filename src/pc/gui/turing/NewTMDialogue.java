@@ -56,7 +56,7 @@ public class NewTMDialogue extends JDialog implements ActionListener, ChangeList
 	private int numberOfTapes = 1;
 
 	/**
-	 * The underlying text field of the spinner
+	 * The underlying text field of the spinner.
 	 */
 	private JTextField spinnerTextField;
 

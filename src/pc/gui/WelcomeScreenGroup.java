@@ -32,10 +32,10 @@ public class WelcomeScreenGroup extends JPanel implements MouseListener {
 
 	/**
 	 * Constructs a group of welcome screen lines.
-	 * @param editor The current editor window
-	 * @param titleText Text of the current group
-	 * @param type The type of the group
-	 * @param machineType The type of the machines displayed in this group
+	 * @param editor The current editor window.
+	 * @param titleText Text of the current group.
+	 * @param type The type of the group.
+	 * @param machineType The type of the machines displayed in this group.
 	 */
 	public WelcomeScreenGroup(Editor editor, String titleText, Type type, MachineType machineType) {
 		this.machineType = machineType;
