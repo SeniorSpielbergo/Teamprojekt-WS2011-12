@@ -60,16 +60,16 @@ TuringBrain IDE allows you to develop and debug your own TuringMachines in an ea
 
 \subsection{Installation}
 \label{sec:installation}
-If you don't want to use the LEGO tapes, you only have to download the executable .jar file from our repository.
+If you do not want to use the LEGO tapes, you only have to download the executable .jar file from our repository.
 To use the LEGO tapes you have to do following steps:
 \begin{enumerate}
 	\item Download Version 0.8.5beta of LeJos from http://sourceforge.net/projects/lejos/files/lejos-NXJ/
 	\item Download JGraph from http://www.jgraph.com/jgraph.html
-	\item Unpack the archive to a folder where you have execute privileges
-	\item Download eclipse an install it
-	\item Checkout our project as a new project with the wizzard of eclipse
-	\item Choose in the wizzard Libraries and add the variable for jgraph-home and nxj-home
-	\item Finish the project wizzard and compile the PC components with the external tool
+	\item Unpack the archive to a folder where you have executive rights
+	\item Download eclipse and install it
+	\item Checkout our project as a new project with the wizard of eclipse
+	\item Choose in the wizard Libraries and add the variable for jgraph-home and nxj-home
+	\item Finish the project wizard and compile the PC components with the external tool
 	%%Wahrscheinlich noch nicht ganz fertig%%
 \end{enumerate}
 
@@ -167,8 +167,6 @@ If you double clicked a transtion or added a new, you can edit it. Allowed Input
 \end{figure}
 
 \newpage
-
-
 
 \subsection{Via points}
 \label{sec:via-points}
@@ -272,6 +270,45 @@ In the Edit menu you can add a via point if you have selected an edge.
 \section{Hardware -- LEGO\textregistered\, tape}
 
 This section describes the position of the components used in the machine. The following subsections and pictures are meant to extend the building instructions file created with the LEGO\textregistered\, Digital Designer.
+
+\newpage
+
+\subsection{Overview}
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.28]{graphics_lego/overview.jpg}
+\end{center}
+\caption{Overview of the LEGO\textregistered\, Turing Machine}
+\label{pic:overview}
+\end{figure}
+
+\begin{center}
+\begin{minipage}{6cm}
+\begin{enumerate}
+\item[1)] Master NXT module
+\item[2)] Slave NXT module
+\item[3)] Motor A master robot
+\item[4)] Motor B master robot
+\item[5)] Motor C master robot
+\item[6)] Motor B slave robot
+\item[7)] Emergency shutdown
+\end{enumerate}
+\end{minipage}
+\begin{minipage}{8cm}
+\vspace*{-1cm}
+\begin{enumerate}
+\item[8)] Motor C slave robot
+\item[9)] Sensor to determine the tape position
+\item[10)] Sensor to read the bits
+\item[11)] Bridge with the machine's motor section
+\item[12)] Bridge to support the tape
+\item[13)] Tape
+\end{enumerate}
+\end{minipage}
+\end{center}
+
+\newpage
 
 \subsection{The machine's motor section}
 
@@ -424,152 +461,6 @@ Figure \ref{pic:topview_pushers} shows how the pushers are pushing the bits and 
 \caption{Position of the pushers}
 \label{pic:topview_pushers}
 \end{figure}
-
-
-\section{Code -- LEGO\textregistered\, tape}
-
-\subsection{Master NXT module}
-
-\subsubsection{Image}
-
-\subsubsection{MainMaster}
-
-\subsection{Slave NXT module}
-
-\subsubsection{MainSlave}
-
-\subsubsection{TetrisSound}
-
-
-\subsection{Common NXT classes}
-
-\subsubsection{Calibrate}
-
-\subsubsection{Common}
-
-\subsubsection{Tape}
-
-\subsubsection{Timer}
-
-\subsubsection{SensorTest}
-
-
-\section{Code -- GUI}
-
-
-\subsection{Package gui}
-
-\subsubsection{AboutDialog}
-
-\subsubsection{AppData}
-
-\subsubsection{CustomTable}
-
-\subsubsection{Editor}
-
-\subsubsection{ErrorDialog}
-
-\subsubsection{MachineEditor}
-
-\subsubsection{OrganizeRobots}
-
-\subsubsection{PresimulationDialogue}
-
-\subsubsection{RunWindow}
-
-\subsubsection{SimulationWindow}
-
-\subsubsection{WelcomeScreen}
-
-\subsubsection{WelcomeScreenGroup}
-
-\subsubsection{WelcomeScreenLine}
-
-\subsection{Package gui.brainfuck}
-
-\subsubsection{BrainfuckEditor}
-
-
-\subsection{Package gui.turing}
-
-\subsubsection{NewTMDialogue}
-
-\subsubsection{Palette}
-
-\subsubsection{PropertiesEdge}
-
-\subsubsection{PropertiesEdgeEdit}
-
-\subsubsection{PropertiesState}
-
-\subsubsection{PropertiesTextbox}
-
-\subsubsection{PropertiesTuringMachine}
-
-\subsubsection{ToolBox}
-
-\subsubsection{TuringMachineEditor}
-
-
-\subsection{Package machine}
-
-\subsubsection{ExtensionFileFilter}
-
-\subsubsection{Machine}
-
-\subsubsection{Simulation}
-
-
-\subsubsection{Package machine.brainfuck}
-
-\subsubsection{BrainfuckMachine}
-
-\subsubsection{BrainfuckSimulation}
-
-
-\subsection{Package machine.turing}
-
-\subsubsection{Edge}
-
-\subsubsection{Frame}
-
-\subsubsection{InOut}
-
-\subsubsection{Point}
-
-\subsubsection{State}
-
-\subsubsection{Textbox}
-
-\subsubsection{Transition}
-
-\subsubsection{TuringMachine}
-
-\subsubsection{TuringSimulation}
-
-
-\subsection{Package tape}
-
-\subsubsection{ConsoleTape}
-
-\subsubsection{DisplayableTape}
-
-\subsubsection{GraphicTape}
-
-\subsubsection{GraphicTapePanel}
-
-\subsubsection{LEGOTape}
-
-\subsubsection{MasterRobot}
-
-\subsubsection{Robot}
-
-\subsubsection{SlaveRobot}
-
-
-\subsubsection{Tape}
-
-\subsubsection{TapeException}
 
 
 \makebackpage[trisec]%[<plain/info/addressinfo>]
