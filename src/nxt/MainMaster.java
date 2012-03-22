@@ -299,7 +299,6 @@ public class MainMaster {
 				try {
 					out.writeChar('.');
 					out.flush();
-					
 				}
 				catch (IOException e) {
 					LCD.drawString(e.toString(), 1, 0);
