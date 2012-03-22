@@ -14,8 +14,10 @@ public class Main {
 	public static void main(String[] args) {
 		String type = JOptionPane.showInputDialog("Enter 'LEGO' or 'PC':");
 		if (type.equals("LEGO")) {
-			MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
-			SlaveRobot nxt_03 = new SlaveRobot("NXT_40", "00:16:53:05:9C:73");
+			//MasterRobot ips_03 = new MasterRobot("IPS_03", "00:16:53:13:53:BB");
+			MasterRobot ips_03 = new MasterRobot("NXT_07", "00:16:53:04:ED:8C");
+			//SlaveRobot nxt_03 = new SlaveRobot("NXT_40", "00:16:53:05:9C:73");
+			SlaveRobot nxt_03 = new SlaveRobot("NXT_03", "00:16:53:0F:DB:8E");
 			Tape tape_lego = new LEGOTape(ips_03, nxt_03);
 			tapes.add(tape_lego);
 		}
