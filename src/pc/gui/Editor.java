@@ -205,7 +205,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 
 	/**
 	 * Creates a new file.
-	 * @param type The machine type to be created
+	 * @param type The machine type to be created.
 	 */
 	public void newFile(Machine.MachineType type) {
 		this.closeCurrentFile();
@@ -291,6 +291,10 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 		}
 	}
 
+	/**
+	 * Opens a file of a machine.
+	 * @param file File of a machine.
+	 */
 	public void openFile(String file) {
 		Machine machine = null;
 		try {
@@ -465,7 +469,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 	}
 
 	/**
-	 * Shows the window to add and remove robots.
+	 * Shows the window for adding and removing robots.
 	 */
 	public void organizeRobots() {
 		OrganizeRobots organizeRobotsWindow = new OrganizeRobots();
@@ -475,7 +479,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 
 	/**
 	 * Sets the editability of the editor.
-	 * @param editable true / false depending whether editable
+	 * @param editable true / false depending whether editable.
 	 */
 	public void setEditable(boolean editable) {
 		if (this.currentMachine != null) {
@@ -657,7 +661,7 @@ public class Editor extends JFrame implements ActionListener, ItemListener {
 
 	/**
 	 * The editor main, which initializes a new editor window.
-	 * @param args Command line arguments
+	 * @param args Command line arguments.
 	 */
 	public static void main(String[] args) {
 		// try to set look for Linux and Mac OS X

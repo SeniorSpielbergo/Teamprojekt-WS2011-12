@@ -45,7 +45,7 @@ public class WelcomeScreen extends JPanel {
 	
 	/**
 	 * Constructs the welcome screen.
-	 * @param editor The current editor window
+	 * @param editor The current editor window.
 	 */
 	public WelcomeScreen(Editor editor) {
 		this.editor = editor;

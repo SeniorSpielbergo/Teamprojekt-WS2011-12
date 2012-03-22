@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.*;
 
-/** This class represents a table model
+/** This class represents a table model.
  * @author David Wille
  */
 public class CustomTable extends AbstractTableModel {
@@ -16,8 +16,8 @@ public class CustomTable extends AbstractTableModel {
 
 	/**
 	 * Constructs a custom table with column names and sets if columns are editable.
-	 * @param head Names for the columns
-	 * @param editable Editable columns
+	 * @param head Names for the columns.
+	 * @param editable Editable columns.
 	 */
 	public CustomTable(String[] head, boolean[] editable) {
 		this.editable = editable;
@@ -67,7 +67,7 @@ public class CustomTable extends AbstractTableModel {
 
 	/**
 	 * Add row to the table.
-	 * @param values Values to be inserted
+	 * @param values Values to be inserted.
 	 */
 	public void addRow(Object[] values) {
 		ArrayList<Object> row = new ArrayList<Object>();
@@ -80,8 +80,8 @@ public class CustomTable extends AbstractTableModel {
 	
 	/**
 	 * Updates a row with the given values.
-	 * @param values Values to set
-	 * @param row Row that should be updated
+	 * @param values Values to set.
+	 * @param row Row that should be updated.
 	 */
 	public void updateRow(Object[] values, int row) {
 		for (int i = 0; i < values.length; i++) {
@@ -92,7 +92,7 @@ public class CustomTable extends AbstractTableModel {
 
 	/**
 	 * Delete a row.
-	 * @param row Row which should be deleted
+	 * @param row Row which should be deleted.
 	 */
 	public void deleteRow(int row) {
 		data.remove(row);

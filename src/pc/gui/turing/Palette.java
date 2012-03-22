@@ -22,10 +22,10 @@ import com.mxgraph.util.mxRectangle;
 
 /**
  * This class implements the palette.
- * @author Sven Schuster, David Wille
+ * @author Sven Schuster
+ * @author David Wille
  *
  */
-
 public class Palette extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 2826433120960614428L;

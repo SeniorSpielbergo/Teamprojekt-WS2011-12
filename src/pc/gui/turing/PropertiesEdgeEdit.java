@@ -123,7 +123,7 @@ public class PropertiesEdgeEdit extends JDialog implements ActionListener, Table
 	}
 	
 	/**
-	 * Shows the Dialog.
+	 * Shows the dialog.
 	 * @return The data edited by the user
 	 */
 	public Transition showEdit() {
