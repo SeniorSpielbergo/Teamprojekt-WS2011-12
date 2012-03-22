@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Observable;
 import java.util.concurrent.locks.ReentrantLock;
 
-/** Contains common function for Master and Slave Robots
+/** Contains common functions for Master and Slave Robots.
  * 
  * @author Nils Breyer, Phillipp Neumann
  * 
@@ -15,6 +15,9 @@ public abstract class Robot extends Observable {
 	 */
 	protected String name;
 	
+	/**
+	 *  Lock for writing.
+	 */
 	protected final ReentrantLock writeLock = new ReentrantLock();
 
 
@@ -24,9 +27,9 @@ public abstract class Robot extends Observable {
 	private DataOutputStream output = null;
 
 	/**
-	 * Constructor for a Robot
+	 * Constructor for a Robot.
 	 * @param name Name of the Robot
-	 * @param mac_address MAC Adress of the Robot
+	 * @param mac_address MAC address of the Robot
 	 */
 
 	public Robot(String name, String mac_address) {
@@ -35,7 +38,7 @@ public abstract class Robot extends Observable {
 	}
 
 	/**
-	 * Method to connect to the Robot
+	 * Method to connect to the Robot.
 	 * @throws NXTCommException Thrown, if the connecting fails
 	 * @throws IOException Thrown if the connection couldn't be opened
 	 */
@@ -67,7 +70,7 @@ public abstract class Robot extends Observable {
 	}
 
 	/**
-	 * Method to disconnect from the Robot
+	 * Method to disconnect from the Robot.
 	 * @throws IOException Thrown if the disconnecting fails
 	 */
 	public void disconnect() throws IOException {
@@ -86,7 +89,7 @@ public abstract class Robot extends Observable {
 	}
 
 	/**
-	 * Method to send a character to the robot
+	 * Method to send a character to the robot.
 	 * @param current symbol that is currently on the position to write
 	 * @param write symbol that is send to the robot
 	 * @throws IOException Thrown if the sending or receiving of commands fails or the robot returns an error
@@ -108,7 +111,7 @@ public abstract class Robot extends Observable {
 	}
 
 	/**
-	 * Send a command to the robot
+	 * Send a command to the robot.
 	 * @param cmd character that is send to the robot
 	 * @throws IOException Thrown if the sending fails
 	 */
@@ -131,6 +134,11 @@ public abstract class Robot extends Observable {
 		}
 	}
 	
+	/**
+	 * Sends a command to the robot.
+	 * @param cmd string for the commands
+	 * @throws IOException Thrown if sending failed.
+	 */
 	protected void sendCommands(String cmd) throws IOException {
 		this.writeLock.lock();
 		try {
@@ -159,7 +167,7 @@ public abstract class Robot extends Observable {
 	}
 
 	/**
-	 * 
+	 * Receives command.
 	 * @return a character that have been send from the robot
 	 * @throws IOException Thrown if the receiving fails
 	 */
@@ -177,7 +185,7 @@ public abstract class Robot extends Observable {
 	}
 
 	/**
-	 * Returns the name of the robot
+	 * Returns the name of the robot.
 	 * @return Robot name string
 	 */
 	public String getName() {
@@ -185,8 +193,8 @@ public abstract class Robot extends Observable {
 	}
 
 	/**
-	 * Returns the Mac Address of the robot
-	 * @return Robot Mac address string
+	 * Returns the MAC address of the robot.
+	 * @return Robot MAC address string
 	 */
 	public String getMacAddress() {
 		return mac_address;

@@ -14,30 +14,36 @@ import java.util.Observable;
 
 public abstract class Tape extends Observable implements Runnable{
 	/**
-	 * True if the tape has been initialized
+	 * True if the tape has been initialized.
 	 */
 	protected boolean ready = false;
 	/**
-	 * The current head position
+	 * The current head position.
 	 */
 	protected int position = 0;
 	/**
-	 * The name of the tape
+	 * The name of the tape.
 	 */
 	protected String name = "";
 	/**
-	 * The initial input word for the tape
+	 * The initial input word for the tape.
 	 */
 	protected String inputWord = "";
 	/**
-	 * Allow input on the tape (default true)
+	 * Allow input on the tape (default true).
 	 */
 	protected boolean allowInput = true;
-	
+	/**
+	 * True if the thread should stop.
+	 */
 	protected boolean iWishToInterruptThisThread;
-	
+	/**
+	 * Thread for writing the input word.
+	 */
 	protected Thread writeInputWordThread;
-	
+	/**
+	 * delay enabled/disabled
+	 */
 	private boolean delay = true;
 
 	/**
@@ -64,7 +70,7 @@ public abstract class Tape extends Observable implements Runnable{
 	}
 
 	/**
-	 * Creates a new tape
+	 * Creates a new tape.
 	 */
 	public Tape() {
 		this.name = "Default tape";
@@ -74,7 +80,7 @@ public abstract class Tape extends Observable implements Runnable{
 	}
 
 	/**
-	 * Creates a new tape
+	 * Creates a new tape.
 	 * @param allowInput true/false if allowed
 	 */
 	public Tape(boolean allowInput) {
@@ -85,7 +91,7 @@ public abstract class Tape extends Observable implements Runnable{
 	}
 
 	/**
-	 * Creates a new tape with a specific name
+	 * Creates a new tape with a specific name.
 	 * @param name The tape name
 	 */
 	public Tape(String name) {
@@ -95,7 +101,7 @@ public abstract class Tape extends Observable implements Runnable{
 	}
 
 	/**
-	 * Creates a new tape with a specific name
+	 * Creates a new tape with a specific name.
 	 * @param name The tape name
 	 * @param allowInput true/false if allowed
 	 */
@@ -121,7 +127,7 @@ public abstract class Tape extends Observable implements Runnable{
 	}
 
 	/**
-	 * Initializes the tape
+	 * Initializes the tape.
 	 * This method has to be called before any moving or read/write command can be executed.
 	 * @throws TapeException Thrown if the initialization process fails
 	 * @see #shutdown()
@@ -129,36 +135,39 @@ public abstract class Tape extends Observable implements Runnable{
 	public abstract void init() throws TapeException;
 
 	/**
-	 * Shutdown the tape
+	 * Shutdown the tape.
 	 * @throws TapeException Thrown if the shutdown process fails
 	 * @see #init()
 	 */
 	public abstract void shutdown() throws TapeException;
 
-	/**
-	 * Reads the symbol at the current tape position
-	 * 
-	 * @return Symbol at the current tape position (#,0,1,2)
-	 * @throws TapeException Thrown if the reading fails
+	/** 
+	 * This method returns the char at the current tape position
+	 * @return Character at the current position
+	 * @throws TapeException If the tape has not been initialized
+	 * @see #write(char)
 	 */
 	public abstract char read() throws TapeException;
 
-	/**
-	 * Writes a symbol to the current tape position
-	 * @param c Symbol to write (#,0,1,2)
-	 * @throws TapeException Thrown if the writing fails
+	/** 
+	 * This method writes a symbol at the current tape position
+	 * @param c Character to write (allowed characters are #, 0, 1, 2)
+	 * @throws TapeException If the tape has not been initialized
+	 * @see #read()
 	 */
 	public abstract void write(char c) throws TapeException;
 
 	/**
-	 * Move the tape one field to the left
-	 * @throws TapeException Thrown if the moving fails
+	 * This method moves the tape one field to the left
+	 * @throws TapeException If the tape has not been initialized
+	 * @see #moveRight()
 	 */
 	public abstract void moveLeft() throws TapeException;
 
-	/**
-	 * Move the tape one field to the right
-	 * @throws TapeException Thrown if the moving fails
+	/** 
+	 * This method moves the tape one field to the right
+	 * @throws TapeException If the tape has not been initialized
+	 * @see #moveLeft()
 	 */
 	public abstract void moveRight() throws TapeException;
 
@@ -184,18 +193,25 @@ public abstract class Tape extends Observable implements Runnable{
 		
 	}
 	
+	/**
+	 * Starts writing the input word in an own thread.
+	 */
 	public void startWritingInputWord(){
 		this.writeInputWordThread = new Thread(this);
 		this.writeInputWordThread.start();
 	}
 
+	/**
+	 * Returns the thread in which the input word is written.
+	 * @return thread in which the input word gets written
+	 */
 	public Thread getWriteInputWordThread() {
 		return writeInputWordThread;
 	}
 
 	/**
 	 * This method returns the tape type
-	 * @return Either "LEGO" or "console" or "GUI" depending on the type of the tape
+	 * @return Either "LEGO" or "console" or "graphic" depending on the type of the tape
 	 */
 	public abstract Type getType();
 
@@ -250,20 +266,24 @@ public abstract class Tape extends Observable implements Runnable{
 	}
 
 	/**
-	 * Returns if input allowed
+	 * Returns true if input is allowed.
 	 */
 	public boolean getInputAllowed() {
 		return this.allowInput;
 	}
 	
+	/**
+	 * Sets the delay.
+	 * @param b 
+	 */
 	public void setDelay(boolean b){
 		this.delay = b;
 	}
 	
-	public boolean getDelay(){
-		return this.delay;
-	}
-	
+	/**
+	 * Returns if the delay is enabled.
+	 * @return True if enabled.
+	 */
 	public boolean isDelayEnabled(){
 		return this.delay;
 	}

@@ -4,25 +4,25 @@ import java.util.*;
 import java.lang.String;
 
 /**
- * Implements a virtual tape and shows it on the console
+ * Implements a virtual tape and shows it on the console.
  * @author Nils Breyer
  */
 
 public class ConsoleTape extends Tape {
 	/**
-	 * Stores the current tape content
+	 * Stores the current tape content.
 	 */
 	HashMap<Integer, Character> memory = new HashMap<Integer, Character>();
 
 	/**
-	 * Creates a new console tape
+	 * Creates a new console tape.
 	 */
 	public ConsoleTape() {
 		super("Default console tape");
 	}
 	
 	/**
-	 * Creates a new console tape
+	 * Creates a new console tape.
 	 * @param allowInput true/false if allowed
 	 */
 	public ConsoleTape(boolean allowInput) {
@@ -30,7 +30,7 @@ public class ConsoleTape extends Tape {
 	}
 
 	/**
-	 * Creates a new console tape with a specific name
+	 * Creates a new console tape with a specific name.
 	 * @param name The tape name
 	 */
 	public ConsoleTape(String name) {
@@ -38,7 +38,7 @@ public class ConsoleTape extends Tape {
 	}
 
 	/**
-	 * Creates a new console tape with a specific name
+	 * Creates a new console tape with a specific name.
 	 * @param name The tape name
 	 * @param allowInput true/false if allowed
 	 */
@@ -46,10 +46,7 @@ public class ConsoleTape extends Tape {
 		super(name, allowInput);
 	}
 	
-	/** 
-	 * This method initializes the tape
-	 * @throws TapeException If the tape has already been initialized
-	 */
+	@Override
 	public void init() throws TapeException {
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
 
@@ -58,18 +55,12 @@ public class ConsoleTape extends Tape {
 		System.out.println(this.name + ": Tape ready.");
 	}
 
-	/**
-	 * Returns the tape type
-	 * @return Returns "console"
-	 */
+	@Override
 	public Type getType() {
 		return Type.CONSOLE;
 	}
 
-	/**
-	 * This method shuts the tape down.
-	 * @throws TapeException If the tape has not been initialized
-	 */
+	@Override
 	public void shutdown() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
@@ -79,6 +70,7 @@ public class ConsoleTape extends Tape {
 		this.memory.clear();
 	}
 
+	@Override
 	public boolean writeInputWord() throws TapeException {
 		if (this.position != 0) {
 			throw new TapeException(this, "Input word can only be written when at position 0");
@@ -109,12 +101,7 @@ public class ConsoleTape extends Tape {
 		return true;
 	}
 
-	/** 
-	 * This method returns the char at the current tape position
-	 * @return Character at the current position
-	 * @throws TapeException If the tape has not been initialized
-	 * @see #write(char)
-	 */
+	@Override
 	public char read() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
@@ -126,12 +113,7 @@ public class ConsoleTape extends Tape {
 		}
 	}
 
-	/** 
-	 * This method writes a symbol at the current tape position
-	 * @param c Character to write (allowed characters are #, 0, 1, 2)
-	 * @throws TapeException If the tape has not been initialized
-	 * @see #read()
-	 */
+	@Override
 	public void write(char c) throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
@@ -139,11 +121,7 @@ public class ConsoleTape extends Tape {
 		this.printTape();
 	}
 
-	/** 
-	 * This method moves the tape one field to the left
-	 * @throws TapeException If the tape has not been initialized
-	 * @see #moveRight()
-	 */
+	@Override
 	public void moveLeft() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
@@ -151,11 +129,7 @@ public class ConsoleTape extends Tape {
 		this.printTape();
 	}
 
-	/** 
-	 * This method moves the tape one field to the right
-	 * @throws TapeException If the tape has not been initialized
-	 * @see #moveLeft()
-	 */
+	@Override
 	public void moveRight() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 

@@ -83,11 +83,7 @@ public class LEGOTape extends DisplayableTape {
 		this.graphicTape = new GraphicTape(name, allowInput);
 	}
 
-	/**
-	 * Initializes the LEGO tape by connecting to the two robots
-	 * @throws TapeException Thrown, when the tape failed to initialize
-	 * @see #shutdown()
-	 */
+	@Override
 	public void init() throws TapeException {
 		System.out.println(this.name + ": Initializing tape...");
 		if (this.ready) throw new TapeException(this, "Tape has already been initialized.");
@@ -111,19 +107,12 @@ public class LEGOTape extends DisplayableTape {
 
 	}
 
-	/**
-	 * Returns the tape type
-	 * @return Returns "LEGO"
-	 */
+	@Override
 	public Type getType() {
 		return Type.LEGO;
 	}
 
-	/**
-	 * Shuts the tape down by disconnecting the two robots
-	 * @throws TapeException If the tape has not been initialized
-	 * @see #init()
-	 */
+	@Override
 	public void shutdown() throws TapeException {
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
@@ -145,6 +134,7 @@ public class LEGOTape extends DisplayableTape {
 		ready = false;
 	}
 
+	@Override
 	public boolean writeInputWord() throws TapeException {
 		if (this.position != 0) {
 			throw new TapeException(this, "Input word can only be written when at position 0");
@@ -200,12 +190,7 @@ public class LEGOTape extends DisplayableTape {
 		return slave;
 	}
 
-	/**
-	 * Reads the symbol at the current tape position
-	 * @throws TapeException If the tape has not been initialized
-	 * @return #,0,1,2
-	 * @see #write(char)
-	 */
+	@Override
 	public char read() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 
@@ -221,12 +206,7 @@ public class LEGOTape extends DisplayableTape {
 		}
 	}
 
-	/**
-	 * Writes a symbol to the current tape position
-	 * @param c The symbol to write (#,0,1,2)
-	 * @throws TapeException If the tape has not been initialized
-	 * @see #read()
-	 */
+	@Override
 	public void write(final char c) throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has not been initialized.");
 		Thread t = new Thread(new Runnable() {
@@ -263,11 +243,7 @@ public class LEGOTape extends DisplayableTape {
 
 	}
 
-	/**
-	 * Moves the tape one field to the left
-	 * @throws TapeException If the tape has not been initialized
-	 * @see #moveRight()
-	 */
+	@Override
 	public void moveLeft() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		Thread t1 = new Thread(new Runnable() {
@@ -295,11 +271,7 @@ public class LEGOTape extends DisplayableTape {
 
 	}
 
-	/**
-	 * Moves the tape one field to the right
-	 * @throws TapeException If the tape has not been initialized
-	 * @see #moveLeft()
-	 */
+	@Override
 	public void moveRight() throws TapeException{
 		if (!this.ready) throw new TapeException(this, "Tape has already been initialized.");
 		Thread t1 = new Thread(new Runnable() {
@@ -343,9 +315,7 @@ public class LEGOTape extends DisplayableTape {
 		}
 	}
 
-	/**
-	 * Gives a string representation of the tape state, including the name, head position and the current symbol
-	 */
+
 	@Override
 	public String toString() {
 		String text;
