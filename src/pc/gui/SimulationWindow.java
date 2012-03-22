@@ -157,10 +157,10 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			buttonForward.addActionListener(this);
 			toolbar.add(buttonPlay);
 			toolbar.add(buttonForward);
+			toolbar.add(buttonSound);
 
 			this.panelToolbar = new JPanel();
 			this.panelToolbar.add(toolbar);
-			this.panelToolbar.add(this.buttonSound);
 
 
 			//initialize tapes
