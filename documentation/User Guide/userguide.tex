@@ -192,6 +192,36 @@ In the Edit menu you can add a via point if you have selected an edge.
 \newpage
 
 \section{Brainfuck editor}
+\label{sec:brainfuck-editor}
+The Brainfuck editor  can be used to create applications using the esoteric programming language brainfuck. Our brainfuck interpreter differs a little from the original brainfuck implementation. Instead of an array of ASCII-symbols, we use a TuringMachine tape (Action) with only the symbols \#,0,1,2. Also the input and output strings are replaced by the tapes Input and Output.\\
+
+The brainfuck language consists of only eight commands, each consisting of only one character:\\
+
+\begin{tabular}{|c|l|}
+\hline
+\textbf{Command} & \textbf{Meaning} \\
+\hline
+$>$ & move to the next symbol on Action tape \\
+\hline
+$<$ & move to the previous symbol on Action tape \\
+\hline
++ & increment symbol at current position on Action tape \\
+\hline
+- & decrement symbol at current position on Action tape \\
+\hline
+. & output symbol at current position on Action tape, symbol is written on Output tape \\
+\hline
+, & read next symbol from Input tape, writing it at current position on Action tape \\
+\hline
+[ & if current symbol is a \#, move to corresponding ] command, else execute following\\
+\ & commands \\
+\hline
+] & if current symbol is not a \#, jump back to corresponding [ command \\
+\hline
+\end{tabular}
+
+\bigskip
+The commands are executed sequentially. Every other character within the code will be ignored.An example can be seen in figure \ref{pic:brainfuck_editor}.
 
 \begin{figure}[!htb]
 \begin{center}
