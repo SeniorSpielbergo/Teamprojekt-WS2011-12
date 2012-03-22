@@ -20,7 +20,7 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 	private static final long serialVersionUID = 5423418738498074784L;
 
 	/**
-	 * Represents the return values for this window
+	 * Represents the return values for this window.
 	 */
 	public enum ReturnValue {
 		CANCEL, SIMULATE
@@ -211,9 +211,7 @@ public class PresimulationDialogue extends JDialog implements ActionListener{
 		return this.simulationTime;
 	}
 
-	/**
-	 * Handles the button events.
-	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == this.buttonCancel){
 			dispose();

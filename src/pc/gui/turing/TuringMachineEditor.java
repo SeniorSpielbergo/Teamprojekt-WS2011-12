@@ -303,7 +303,7 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 	}
 
 	/**
-	 * Initializes the editor
+	 * Initializes the editor.
 	 */
 	public void initEditor() {
 		editMenu = new JMenu("Edit");

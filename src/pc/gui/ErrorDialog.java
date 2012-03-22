@@ -11,7 +11,7 @@ import java.io.Writer;
 import javax.swing.*;
 
 /**
- * A error dialog that can display a message and details of an exception
+ * A error dialog that can display a message and details of an exception.
  * @author Nils Breyer
  */
 @SuppressWarnings("serial")
@@ -29,8 +29,8 @@ public class ErrorDialog extends JDialog {
 
 
 	/**
-	 * Creates a new ErrorDialog based on a message
-	 * @param msg The message that shall be displayed
+	 * Creates a new ErrorDialog based on a message.
+	 * @param msg The message that shall be displayed.
 	 */
 	private ErrorDialog(String msg) {
 		this(msg, null);
@@ -38,8 +38,8 @@ public class ErrorDialog extends JDialog {
 
 	/**
 	 * Creates a new ErrorDialog based on a message and an exception.
-	 * @param msg The message that shall be displayed
-	 * @param exception The exception that caused the error
+	 * @param msg The message that shall be displayed.
+	 * @param exception The exception that caused the error.
 	 */
 	private ErrorDialog(String msg, Throwable exception) {
 		this.setTitle("Error");
@@ -138,7 +138,7 @@ public class ErrorDialog extends JDialog {
 	}
 
 	/**
-	 * Center the dialog window on the screen
+	 * Center the dialog window on the screen.
 	 */
 	private void centerDialogOnTheScreen() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -149,7 +149,7 @@ public class ErrorDialog extends JDialog {
 	}
 
 	/**
-	 * Show/hide the exception details text area
+	 * Show/hide the exception details text area.
 	 */
 	private void toggleDetails() {
 		if (this.jPanelCenter.isVisible()) {
@@ -168,7 +168,7 @@ public class ErrorDialog extends JDialog {
 	}
 	
 	/**
-	 * Make sure that ESC closes the ErrorDialog
+	 * Make sure that ESC closes the ErrorDialog.
 	 */
 	private void registerEscapeKey() {
 		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
@@ -184,9 +184,9 @@ public class ErrorDialog extends JDialog {
 	}
 
 	/**
-	 * Gets the stack strace of an exception as a string representation
-	 * @param exception The exception that occurred
-	 * @return String representation of the exception message and stack trace
+	 * Gets the stack trace of an exception as a string representation.
+	 * @param exception The exception that occurred.
+	 * @return String representation of the exception message and stack trace.
 	 */
 	public static String getStackTraceString(Throwable exception) {
 		Writer result = new StringWriter();
@@ -196,11 +196,11 @@ public class ErrorDialog extends JDialog {
 	}
 
 	/**
-	 * Shows a blocking ErrorDialog based on a message string and an exception
+	 * Shows a blocking ErrorDialog based on a message string and an exception.
 	 * The message is always displayed to the user. The exception is used for the details text area,
 	 * that is displayed after the user selects the "Show details" button.
-	 * @param msg The error message that should be displayed to the user
-	 * @param throwable The exception that occurred
+	 * @param msg The error message that should be displayed to the user.
+	 * @param throwable The exception that occurred.
 	 */
 	public static void showError(String msg, Throwable throwable) {
 		//console output as fallback
@@ -215,8 +215,8 @@ public class ErrorDialog extends JDialog {
 	}
 
 	/**
-	 * Shows a blocking ErrorDialog based on a message string
-	 * @param msg The error message that should be displayed to the user
+	 * Shows a blocking ErrorDialog based on a message string.
+	 * @param msg The error message that should be displayed to the user.
 	 */
 	public static void showError(String msg) {
 		ErrorDialog.showError(msg, null);

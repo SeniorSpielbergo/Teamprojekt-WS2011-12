@@ -50,7 +50,7 @@ public class RunWindow extends JDialog implements ActionListener, KeyListener {
 
 	/**
 	 * Constructs the run window.
-	 * @param currentMachine Turing machine needed to show the run settings
+	 * @param currentMachine Turing machine needed to show the run settings.
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })		// because of java7
 	public RunWindow(Machine currentMachine) {

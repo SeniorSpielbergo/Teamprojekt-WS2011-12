@@ -99,7 +99,7 @@ public class PropertiesState extends JPanel implements ItemListener, DocumentLis
 	}
 
 	/**
-	 * Sets the Style of a given cell.
+	 * Sets the style of a given cell.
 	 * @param cell
 	 */
 	public void setStyle(mxCell cell) {

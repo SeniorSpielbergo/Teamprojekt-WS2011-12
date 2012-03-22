@@ -16,7 +16,7 @@ public abstract class Simulation extends Observable implements Runnable{
 	};
 	
 	/**
-	 * The machine to simulate
+	 * The machine to simulate.
 	 */
 	protected Machine machine;
 	protected Thread simulationThread;
@@ -29,7 +29,8 @@ public abstract class Simulation extends Observable implements Runnable{
 
 
 	/**
-	 * @return the numberOfSteps
+	 * Returns the number of steps needed for the simulation.
+	 * @return thenumberOfSteps
 	 */
 	public int getNumberOfSteps() {
 		return numberOfSteps;
@@ -39,6 +40,7 @@ public abstract class Simulation extends Observable implements Runnable{
 
 
 	/**
+	 * Returns the number of movements needed for the simulation.
 	 * @return the numberOfMovements
 	 */
 	public int getNumberOfMovements() {
@@ -46,19 +48,8 @@ public abstract class Simulation extends Observable implements Runnable{
 	}
 
 
-
-
 	/**
-	 * @param numberOfMovements the numberOfMovements to set
-	 */
-	public void setNumberOfMovements(int numberOfMovements) {
-		this.numberOfMovements = numberOfMovements;
-	}
-
-
-
-
-	/**
+	 * Returns the number of writing actions.
 	 * @return the numberOfWritings
 	 */
 	public int getNumberOfWritings() {
@@ -68,25 +59,25 @@ public abstract class Simulation extends Observable implements Runnable{
 
 
 
+//	/**
+//	 * @param numberOfWritings the numberOfWritings to set
+//	 */
+//	public void setNumberOfWritings(int numberOfWritings) {
+//		this.numberOfWritings = numberOfWritings;
+//	}
+//
+//
+//
+//
+//	/**
+//	 * @param numberOfSteps the numberOfSteps to set
+//	 */
+//	public void setNumberOfSteps(int numberOfSteps) {
+//		this.numberOfSteps = numberOfSteps;
+//	}
+
 	/**
-	 * @param numberOfWritings the numberOfWritings to set
-	 */
-	public void setNumberOfWritings(int numberOfWritings) {
-		this.numberOfWritings = numberOfWritings;
-	}
-
-
-
-
-	/**
-	 * @param numberOfSteps the numberOfSteps to set
-	 */
-	public void setNumberOfSteps(int numberOfSteps) {
-		this.numberOfSteps = numberOfSteps;
-	}
-
-	/**
-	 * Creates a new Simulation object from a Machine object
+	 * Creates a new Simulation object from a Machine object.
 	 * @param machine The machine to simulate
 	 */
 	public Simulation(Machine machine){
@@ -103,6 +94,7 @@ public abstract class Simulation extends Observable implements Runnable{
 	}
 
 	/**
+	 * Returns the maximum number of steps.
 	 * @return the maxNumberOfSteps
 	 */
 	public int getMaxNumberOfSteps() {
@@ -117,6 +109,7 @@ public abstract class Simulation extends Observable implements Runnable{
 	}
 
 	/**
+	 * Returns if the simulation should be aborted.
 	 * @return the abortSimulation
 	 */
 	public boolean isAbortSimulation() {
@@ -135,6 +128,7 @@ public abstract class Simulation extends Observable implements Runnable{
 	}
 
 	/**
+	 * Returns true if the simulation is aborted.
 	 * @return the simulationAborted
 	 */
 	public boolean isSimulationAborted() {
@@ -142,6 +136,7 @@ public abstract class Simulation extends Observable implements Runnable{
 	}
 
 	/**
+	 * Set true if the simulation is aborted.
 	 * @param simulationAborted the simulationAborted to set
 	 */
 	public void setSimulationAborted(boolean simulationAborted) {
@@ -149,7 +144,7 @@ public abstract class Simulation extends Observable implements Runnable{
 	}
 
 	/**
-	 * Runs the simulation
+	 * Runs the simulation.
 	 * @throws TapeException Thrown, if a tape action fails during the simulation
 	 */
 	protected abstract void runMachine() throws TapeException;
@@ -201,11 +196,11 @@ public abstract class Simulation extends Observable implements Runnable{
 	 * 
 	 */
 	public void setSimulationAlreadyStarted() {
-		this.simulationAlreadyStarted = true; //TODO is needed?
+		this.simulationAlreadyStarted = true;
 	}
 
 	/**
-	 * Runs the thread
+	 * Runs the thread.
 	 * */
 	public void run(){
 

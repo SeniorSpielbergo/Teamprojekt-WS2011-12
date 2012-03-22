@@ -19,7 +19,7 @@ import com.mxgraph.view.mxGraph;
 import machine.turing.Textbox;
 
 /**
- * This class implements the textbox properties panel
+ * This class implements the textbox properties panel.
  * @author David Wille
  * @author Sven Schuster
  */
