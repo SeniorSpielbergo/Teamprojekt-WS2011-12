@@ -2,13 +2,14 @@
 
 %\usepackage[english]{babel}
 \usepackage[ngerman]{babel}
-\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{tikz}
 %\usepackage[latin1]{inputenc}
 \usepackage[utf8]{inputenc}
 %fuer externe bilder
 \usepackage{graphicx}
 \usepackage{listings}
 
+\definecolor{tuRed}{cmyk}{0.1,1.0,0.8,0.0}
 
 \useoutertheme[section]{tubs}
 
@@ -29,8 +30,6 @@ Systemen]{Der Geburtstagsangriff auf Hash-Funktionen}
 %\titlegraphic{iz}
 \titlegraphic{torte}
 
-
-
 \begin{document}
 
 \frame[plain]{\titlepage} 
@@ -42,38 +41,62 @@ Systemen]{Der Geburtstagsangriff auf Hash-Funktionen}
         }
 \setbeamercolor{frametitle}{fg=black,bg=tu-grey}
 
-\section{TM-Konzept}
-
 \frame{
-	\frametitle{Ursprung}
-  		\begin{itemize}
-  			\item österreichischer Mathematiker Richard von Mises
-  			\pause
-  			\item Wie hoch ist die Wahrscheinlichkeit, dass bei 23 Personen mindestens zwei am selben Tag Geburtstag haben?
-  			\pause
-  			\item Erstaunlich ist: $P > 50\%$
-  			\pause
-  			\item bei 50 Personen: $P > 97\%$
-  		\end{itemize}
+	\frametitle{TM-Konzept}
+  		
 }
 
-\section{Hardware/Bauanleitung}
+\frame{
+	\frametitle{Hardware / Bauanleitung}
+  		\begin{figure}[!htb]
+		\begin{center}
+		\begin{tikzpicture}
+		%\draw[help lines,scale=0.5] (0,0) grid (20,5);
+		\draw[thick,scale=0.5] (1,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (3,1) rectangle +(1,1);
+		\draw[thick,scale=0.5,fill=tuRed] (1,3) rectangle +(1,1);
+		\draw[thick,scale=0.5,fill=tuRed] (3,3) rectangle +(1,1);
+		\draw (1.25,0.25) node[draw=none] {\#};
 
-\section{Live Demo}
+		\draw[thick,scale=0.5] (6,1) rectangle +(1,1);
+		\draw[thick,scale=0.5,fill=tuRed] (8,1) rectangle +(1,1);
+		\draw[thick,scale=0.5,fill=tuRed] (6,3) rectangle +(1,1);
+		\draw[thick,scale=0.5] (8,3) rectangle +(1,1);
+		\draw (3.75,0.25) node[draw=none] {0};
 
-TM erstellen + Sim
+		\draw[thick,scale=0.5,fill=tuRed] (11,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (13,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (11,3) rectangle +(1,1);
+		\draw[thick,scale=0.5,fill=tuRed] (13,3) rectangle +(1,1);
+		\draw (6.25,0.25) node[draw=none] {1};
 
-\section{Features}
+		\draw[thick,scale=0.5,fill=tuRed] (16,1) rectangle +(1,1);
+		\draw[thick,scale=0.5,fill=tuRed] (18,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (16,3) rectangle +(1,1);
+		\draw[thick,scale=0.5] (18,3) rectangle +(1,1);
+		\draw (8.75,0.25) node[draw=none] {2};
+		\end{tikzpicture}
+		\end{center}
+		\end{figure}
+}
 
-Sim ohne Delay
-Export
+\frame{
+	\frametitle{Live Demo}
+	TM erstellen + Sim  		
+}
 
+\frame{
+	\frametitle{Features}
+	Sim ohne Delay\\
+	Export  		
+}
 
-Optional:
-
-Brainfuck
-2-Band-Sim (am Ende)
-Doku
+\frame{
+	\frametitle{Optional}
+	Brainfuck\\
+	2-Band-Sim (am Ende)\\
+	Doku		
+}
 
 \frame{
   \begin{center}\huge
