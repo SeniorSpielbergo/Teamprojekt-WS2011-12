@@ -84,13 +84,23 @@ public class Tape extends Thread {
 			timer = new Timer(this.TIMER_LENGTH,tl);
 
 			this.dontStop = true;
+			
+			Motor.A.setSpeed((int)(0.7*Common.LINE_SPEED));
 			Motor.A.forward();
 			try {
-				Thread.sleep(400);
+				Thread.sleep(200);
 			}
 			catch (Exception e) {
 
 			}
+			Motor.A.setSpeed(Common.LINE_SPEED);
+			try {
+				Thread.sleep(200);
+			}
+			catch (Exception e) {
+
+			}
+			Motor.A.setSpeed((int)(0.7*Common.LINE_SPEED));
 			this.dontStop = false;
 
 			while(!Motor.A.isStopped()){}
@@ -99,7 +109,6 @@ public class Tape extends Thread {
 				return false;
 			}
 			timer.stop();
-			//LCD.clear();
 			return true;
 		}
 	}
@@ -117,23 +126,33 @@ public class Tape extends Thread {
 			timer = new Timer(this.TIMER_LENGTH,tl);
 
 			this.dontStop = true;
+			Motor.A.setSpeed((int)(0.7*Common.LINE_SPEED));
 			Motor.A.backward();
 			try {
-				Thread.sleep(400);
+				Thread.sleep(200);
 			}
 			catch (Exception e) {
 
 			}
+			Motor.A.setSpeed(Common.LINE_SPEED);
+			try {
+				Thread.sleep(200);
+			}
+			catch (Exception e) {
+
+			}
+			Motor.A.setSpeed((int)(0.7*Common.LINE_SPEED));
 			this.dontStop = false;
 
 			timer.start();
 			while(!Motor.A.isStopped()){}
 			if(failed) {
 				LCD.drawString("Security warning: Timer elapsed!", 0, 2);
+				Motor.A.setSpeed(Common.LINE_SPEED);
 				return false;
 			}
 			timer.stop();
-			//LCD.clear();
+			Motor.A.setSpeed(Common.LINE_SPEED);
 			return true;
 		}
 	}
