@@ -41,6 +41,7 @@ public class Tape extends Thread {
 
 	// Initializing the Line to the mostleft position.
 	private void initialize() {
+		Motor.A.setSpeed(Common.LINE_SPEED/2);
 		if(counterSensor.getColorNumber() != Tape.LEFT_END_MARKER_COLOR)
 			Motor.A.forward();
 		while(counterSensor.getColorNumber() != Tape.LEFT_END_MARKER_COLOR) {}
@@ -84,13 +85,38 @@ public class Tape extends Thread {
 			timer = new Timer(this.TIMER_LENGTH,tl);
 
 			this.dontStop = true;
+			
+			Motor.A.setSpeed(0);
 			Motor.A.forward();
+
+			for (int speed = 10; speed <100; speed+=10) {
+				Motor.A.setSpeed(speed*Common.LINE_SPEED/100);
+				try {
+					Thread.sleep(20);
+				}
+				catch (Exception e) {
+
+				}
+			}
+			
 			try {
-				Thread.sleep(400);
+				Thread.sleep(80);
 			}
 			catch (Exception e) {
 
 			}
+			
+			for (int speed = 100; speed > 20; speed-=10) {
+				Motor.A.setSpeed(speed*Common.LINE_SPEED/100);
+				try {
+					Thread.sleep(20);
+				}
+				catch (Exception e) {
+
+				}
+			}
+			
+			
 			this.dontStop = false;
 
 			while(!Motor.A.isStopped()){}
@@ -99,7 +125,6 @@ public class Tape extends Thread {
 				return false;
 			}
 			timer.stop();
-			//LCD.clear();
 			return true;
 		}
 	}
@@ -117,23 +142,48 @@ public class Tape extends Thread {
 			timer = new Timer(this.TIMER_LENGTH,tl);
 
 			this.dontStop = true;
+
+			Motor.A.setSpeed(0);
 			Motor.A.backward();
+
+			for (int speed = 10; speed <100; speed+=10) {
+				Motor.A.setSpeed(speed*Common.LINE_SPEED/100);
+				try {
+					Thread.sleep(20);
+				}
+				catch (Exception e) {
+
+				}
+			}
+			
 			try {
-				Thread.sleep(400);
+				Thread.sleep(80);
 			}
 			catch (Exception e) {
 
 			}
+			
+			for (int speed = 100; speed > 20; speed-=10) {
+				Motor.A.setSpeed(speed*Common.LINE_SPEED/100);
+				try {
+					Thread.sleep(20);
+				}
+				catch (Exception e) {
+
+				}
+			}
+			
 			this.dontStop = false;
 
 			timer.start();
 			while(!Motor.A.isStopped()){}
 			if(failed) {
 				LCD.drawString("Security warning: Timer elapsed!", 0, 2);
+				Motor.A.setSpeed(Common.LINE_SPEED);
 				return false;
 			}
 			timer.stop();
-			//LCD.clear();
+			Motor.A.setSpeed(Common.LINE_SPEED);
 			return true;
 		}
 	}

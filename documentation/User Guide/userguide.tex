@@ -10,6 +10,7 @@
   ]{tubsartcl}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
+\usepackage[english=british]{csquotes}
 
 \setlength{\parindent}{0cm}
  
@@ -63,18 +64,68 @@ TuringBrain IDE allows you to develop and debug your own TuringMachines in an ea
 If you don't want to use the LEGO tapes, you only have to download the executable .jar file from our repository.
 To use the LEGO tapes you have to do following steps:
 \begin{enumerate}
-	\item Download Version 0.8.5beta of LeJos from http://sourceforge.net/projects/lejos/files/lejos-NXJ/
-	\item Download JGraph from http://www.jgraph.com/jgraph.html
-	\item Unpack the archive to a folder where you have execute privileges
-	\item Download eclipse an install it
-	\item Checkout our project as a new project with the wizzard of eclipse
-	\item Choose in the wizzard Libraries and add the variable for jgraph-home and nxj-home
-	\item Finish the project wizzard and compile the PC components with the external tool
-	%%Wahrscheinlich noch nicht ganz fertig%%
+	\item Download Version 0.8.5beta of LeJos from \href{http://sourceforge.net/projects/lejos/files/lejos-NXJ/}{http://sourceforge.net/projects/lejos/files/lejos-NXJ/}
+	\item Download JGraph from \href{http://www.jgraph.com/jgraph.html}{http://www.jgraph.com/jgraph.html}
+	\item Unpack the archive to a folder where you have executive rights
+	\item Download eclipse and install it
+	\item Add our project as a new project in eclipse
+	\item In eclipse open Window \textgreater Preferences and choose Java \textgreater Build Path \textgreater Classpath Variables
+	\item Add two new Classpath Variables ``JGRAPH\_HOME'' and ``NXJ\_HOME'' pointing to the corresponding folder (e.g. figure \ref{pic:eclipse_preferences})
+	\item In eclipse open Project \textgreater Properties and choose Java Build Path \textgreater Libraries and add following Libraries (figure \ref{pic:libraries}):
+	\begin{enumerate}
+	\item[$\bullet$] JGRAPH\_HOME/lib/jgraphx.jar
+	\item[$\bullet$] NXJ\_HOME/3rdparty/lib/bcel.jar
+	\item[$\bullet$] NXJ\_HOME/3rdparty/lib/bluecove-gpl.jar
+	\item[$\bullet$] NXJ\_HOME/3rdparty/lib/bluecove.jar
+	\item[$\bullet$] NXJ\_HOME/lib/classes.jar
+	\item[$\bullet$] NXJ\_HOME/lib/jtools.jar
+	\item[$\bullet$] NXJ\_HOME/lib/pccomm.jar
+	\item[$\bullet$] NXJ\_HOME/lib/pctools.jar
+	\end{enumerate}
+	\item In eclipse open Run \textgreater External Tools \textgreater External Tools Configuration
+	\item Now you add a rule in the field ``Program'' and name it ``lejos Compile'' and add in Main:
+	\begin{enumerate}
+	\item[$\bullet$] Location: [your lejos location]/bin/nxjc
+	\item[$\bullet$] Working directory: \${project\_loc}
+	\item[$\bullet$] Arguments: -cp \textquotedbl .:[your lejos location]/lib/jgraphx.jar\textquotedbl\ \${resource\_loc}
+	\end{enumerate}
+	\item Now you add a rule in the field ``Program'' and name it ``lejos pc'' and add in Main:
+	\begin{enumerate}
+	\item[$\bullet$] Location: [your lejos location]/bin/nxjpc
+	\item[$\bullet$] Working directory: \${project\_loc}
+	\item[$\bullet$] Arguments: -cp \textquotedbl .:[your lejos location]/lib/jgraphx.jar\textquotedbl\ \${java\_type\_name}
+	\end{enumerate}
+	\item Now you add a rule in the field ``Program'' and name it ``lejos pc Compile'' and add in Main:
+	\begin{enumerate}
+	\item[$\bullet$] Location: [your lejos location]/bin/nxjpcc
+	\item[$\bullet$] Working directory: \${project\_loc}
+	\item[$\bullet$] Arguments: -cp \textquotedbl .:[your lejos location]/lib/jgraphx.jar\textquotedbl\ \${resource\_loc}
+	\end{enumerate}
+	\item Now you add a for every NXT module you want to use rule in the field ``Program'' and name it ``lejos Upload ([NXT module name])'' and add in Main:
+	\begin{enumerate}
+	\item[$\bullet$] Location: [your lejos location]/bin/nxj
+	\item[$\bullet$] Working directory: \${project\_loc}
+	\item[$\bullet$] Arguments: \${java\_type\_name} -v -n [NXT module name] -r -b
+	\end{enumerate}
 \end{enumerate}
 
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.45]{graphics_install/eclipse_preferences.png}
+\end{center}
+\caption{Eclipse preferences}
+\label{pic:eclipse_preferences}
+\end{figure}
 
-\newpage
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.45]{graphics_install/libraries.png}
+\end{center}
+\caption{Libraries}
+\label{pic:libraries}
+\end{figure}
+
+\clearpage
 
 \subsection{Welcome page}
 \label{sec:welcome-page}
