@@ -15,12 +15,12 @@ L               move left
 
 R               move right
 
-t<name>\n 	tape name
+
 
 
 /slave
 
-q               qiut
+q               quit
 
 w               write
 
