@@ -98,36 +98,68 @@
 		\draw (9.25,0.75) node[draw=none] {\#};
 		\end{tikzpicture}
 		\end{center}
-	\end{figure}
-  		
+	\end{figure}	
 }
 
 \section{Hardware / Bauanleitung}
 
 \frame{
 	\frametitle{Turingmaschine}
-  	\begin{center}
-	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
-		%\draw[help lines] (0,-6) grid (12,6);
-		\node[state] (q_c) {$q_c$};
-	\end{tikzpicture}
-      \end{center}
+        \begin{columns}
+          \begin{column}{0.5\textwidth}
+            \begin{center}
+              \begin{tikzpicture}[->,shorten >=1pt,node
+                distance=3cm,auto]
+		% \draw[help lines] (0,-6) grid (12,6);
+		\node[state] (q_0) {$q_c$};
+              \end{tikzpicture}
+            \end{center}
 
-  	\begin{center}
-	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
-		%\draw[help lines] (0,-6) grid (12,6);
+          \end{column}
+          \begin{column}{0.5\textwidth}
+            Zustand
+          \end{column}
+        \end{columns}
+
+
+        \begin{columns}
+          \begin{column}{0.5\textwidth}
+            \begin{center}
+              \begin{tikzpicture}[->,shorten >=1pt,node
+                distance=3cm,auto]
+		% \draw[help lines] (0,-6) grid (12,6);
+                \node[state,initial] (q_f) {$q_F$};
+              \end{tikzpicture}
+              \quad
+              \begin{tikzpicture}[->,shorten >=1pt,node
+                distance=3cm,auto]
+		% \draw[help lines] (0,-6) grid (12,6);
                 \node[state,accepting] (q_f) {$q_F$};
-	\end{tikzpicture}
-      \end{center}
+              \end{tikzpicture}
+            \end{center}
+          \end{column}
+          \begin{column}{0.5\textwidth}
+                    Startzustand, Finalzustand
+          \end{column}
+        \end{columns}
 
-  	\begin{center}
-	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
+
+        \begin{columns}
+          \begin{column}{0.5\textwidth}
+            	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
 		%\draw[help lines] (0,-6) grid (12,6);
 		\node[state, initial] 	(q_0) {$q_0$}; 
 		\node[state] (q_c) [right of = q_0] {$q_c$};
+		\draw (q_0) to (q_c) node {$c / \#$};
+              \end{tikzpicture}
+          \end{column}
+          \begin{column}{0.5\textwidth}
+            Übergang
+          \end{column}
+        \end{columns}
 
-		\draw (q_0) to (q_c) node [midway] {$c / \#$};
-	\end{tikzpicture}
+  	\begin{center}
+
       \end{center}
 }
 
