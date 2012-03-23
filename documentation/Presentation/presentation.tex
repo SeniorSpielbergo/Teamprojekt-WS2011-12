@@ -57,29 +57,24 @@
   	\begin{center}
 	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
 		%\draw[help lines] (0,-6) grid (12,6);
+		\node[state] (q_c) {$q_c$};
+	\end{tikzpicture}
+      \end{center}
+
+  	\begin{center}
+	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
+		%\draw[help lines] (0,-6) grid (12,6);
+                \node[state,accepting] (q_f) {$q_F$};
+	\end{tikzpicture}
+      \end{center}
+
+  	\begin{center}
+	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
+		%\draw[help lines] (0,-6) grid (12,6);
 		\node[state, initial] 	(q_0) {$q_0$}; 
 		\node[state] (q_c) [right of = q_0] {$q_c$};
-		\node[state] (q_b) [right of = q_c] {$q_b$};
-		\node[state] (q_a_0) [right of = q_b] {$q_{a,0}$};
-		\node[state] (q_a_1) [below of = q_a_0] {$q_{a,1}$};
-		\node[state] (q_a_2) [left of = q_a_1] {$q_{a,2}$};
-		\node[state] (q_a_3) [left of = q_a_2] {$q_{a,3}$};
-                \node[state] (q_r) [left of = q_a_3] {$q_r$};
-                \node[state,accepting] (q_f) [below left of = q_0] {$q_F$};
-
 
 		\draw (q_0) to (q_c) node [midway] {$c / \#$};
-                \draw (q_c) to [loop above] (q_c) node [midway] {$c / L$};
-                \draw (q_c) to (q_b) node [midway] {$b / R$};
-                \draw (q_b) to (q_a_0) node [midway] {$b / a$};
-                \draw (q_a_0) to [loop above] (q_a_0) node [midway] {$a / L$};
-                \draw (q_a_0) to (q_a_1) node [midway] {$\# / L$};
-                \draw (q_a_1) to (q_a_2) node [midway] {$a / \#$};
-                \draw (q_a_2) to (q_a_3) node [midway] {$a / \#$};
-                \draw (q_a_3) to (q_r) node [midway] {$\# / R$};
-                \draw (q_r) to [loop below] (q_r) node [midway] {$a,b,c / R$};
-                \draw (q_r) to (q_0) node [midway, right=30pt] {$\# / L$};
-                \draw (q_0) to (q_f) node [midway, right=-40pt] {$\# / \#$};
 	\end{tikzpicture}
       \end{center}
 }
