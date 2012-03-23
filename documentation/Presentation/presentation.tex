@@ -8,6 +8,11 @@
 %fuer externe bilder
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shadows,arrows}
+\usetikzlibrary{automata,arrows}
+
 
 \definecolor{tuRed}{cmyk}{0.1,1.0,0.8,0.0}
 
@@ -42,14 +47,93 @@
 
 \frame{
 	\frametitle{Turingmaschine}
+	\begin{figure}[!htb]
+		\begin{center}
+		\begin{tikzpicture}[>=stealth]
+		%\draw[help lines,scale=0.5] (0,0) grid (20,5);
+		% triangles
+		\draw[thick,fill=tuRed] (0,0.75) -- (0.25,1) -- (0.25,0.5) -- (0,0.75);
+		\draw[thick,fill=tuRed] (9.75,1) -- (10,0.75) -- (9.75,0.5) -- (9.75,1);
+		\draw[thick,fill=tuRed] (5,1.5) -- (5.5,1.5) -- (5.25,1.25) -- (5,1.5);
+		% arrows
+		\draw[very thick,<-] (4.25,1.5) -- (4.75,1.5);
+		\draw[very thick,->] (5.75,1.5) -- (6.25,1.5);
+		% tape
+		\draw[thick,scale=0.5] (1,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (2,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (3,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (4,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (5,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (6,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (7,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (8,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (9,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (10,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (11,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (12,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (13,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (14,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (15,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (16,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (17,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (18,1) rectangle +(1,1);
+		% symbols
+		\draw (0.75,0.75) node[draw=none] {\#};
+		\draw (1.25,0.75) node[draw=none] {\#};
+		\draw (1.75,0.75) node[draw=none] {\#};
+		\draw (2.25,0.75) node[draw=none] {\#};
+		\draw (2.75,0.75) node[draw=none] {\#};
+		\draw (3.25,0.75) node[draw=none] {1};
+		\draw (3.75,0.75) node[draw=none] {0};
+		\draw (4.25,0.75) node[draw=none] {1};
+		\draw (4.75,0.75) node[draw=none] {1};
+		\draw (5.25,0.75) node[draw=none] {0};
+		\draw (5.75,0.75) node[draw=none] {1};
+		\draw (6.25,0.75) node[draw=none] {2};
+		\draw (6.75,0.75) node[draw=none] {0};
+		\draw (7.25,0.75) node[draw=none] {1};
+		\draw (7.75,0.75) node[draw=none] {\#};
+		\draw (8.25,0.75) node[draw=none] {\#};
+		\draw (8.75,0.75) node[draw=none] {\#};
+		\draw (9.25,0.75) node[draw=none] {\#};
+		\end{tikzpicture}
+		\end{center}
+	\end{figure}
   		
 }
 
 \section{Hardware / Bauanleitung}
 
 \frame{
+	\frametitle{Turingmaschine}
+  	\begin{center}
+	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
+		%\draw[help lines] (0,-6) grid (12,6);
+		\node[state] (q_c) {$q_c$};
+	\end{tikzpicture}
+      \end{center}
+
+  	\begin{center}
+	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
+		%\draw[help lines] (0,-6) grid (12,6);
+                \node[state,accepting] (q_f) {$q_F$};
+	\end{tikzpicture}
+      \end{center}
+
+  	\begin{center}
+	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
+		%\draw[help lines] (0,-6) grid (12,6);
+		\node[state, initial] 	(q_0) {$q_0$}; 
+		\node[state] (q_c) [right of = q_0] {$q_c$};
+
+		\draw (q_0) to (q_c) node [midway] {$c / \#$};
+	\end{tikzpicture}
+      \end{center}
+}
+
+\frame{
 	\frametitle{Bedeutung der Bit Kombinationen}
-  		\begin{figure}[!htb]
+  	\begin{figure}[!htb]
 		\begin{center}
 		\begin{tikzpicture}
 		%\draw[help lines,scale=0.5] (0,0) grid (20,5);
@@ -78,7 +162,7 @@
 		\draw (8.75,0.25) node[draw=none] {2};
 		\end{tikzpicture}
 		\end{center}
-		\end{figure}
+	\end{figure}
 }
 
 \frame{
@@ -97,6 +181,19 @@
 	Brainfuck\\
 	2-Band-Sim (am Ende)\\
 	Doku		
+}
+
+\frame{
+	\frametitle{Brainfuck}
+	\begin{figure}[!htb]
+		\includegraphics[scale=0.5]{graphics/brainfuck.pdf}
+	\end{figure}
+	
+	Zusätzliche Befehle:
+	\begin{itemize}
+		\item $[$ - Wenn Zellenwert = \# : Springe zu zugehörigem $]$
+		\item $]$ - Wenn Zellenwert $>$ \# : Springe zu zugehörigem $[$
+	\end{itemize}
 }
 
 \frame{

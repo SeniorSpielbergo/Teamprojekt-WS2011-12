@@ -145,7 +145,7 @@ You can also do the same with brainfuck applications.
 \clearpage
 
 \section{Turing Machine editor}
-If you open an example you will see a window like figure \ref{pic:turing_editor}, while creating a new machine leads to an empty window to work with. On the left side you see a toolbox (\ref{sec:toolbox}) and also there will be displayed panels to change the properties of the machine and all its components.
+If you open an example you will see a window like figure \ref{pic:turing_editor}, while creating a new machine leads to an empty window to work with. On the left side you see a toolbox (\ref{sec:toolbox}) and also panels will be displayed to change the properties of the machine and all its components.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.3]{graphics_gui/turing_editor.png}
@@ -153,8 +153,6 @@ If you open an example you will see a window like figure \ref{pic:turing_editor}
 \caption{Turing Machine editor}
 \label{pic:turing_editor}
 \end{figure}
-
-\clearpage
 
 \subsection{Toolbox}
 \label{sec:toolbox}
@@ -180,8 +178,6 @@ First of all you should edit the turing machine properties.
 \label{pic:machine_properties}
 \end{figure}
 
-\clearpage
-
 \subsection{Adding and changing states}
 \label{sec:add-edit-states}
 If you have created or selected a state you can change the properties of the selected state. You can specify the label or whether it is a start and/or final state. The start state will be marked with a bold border and the final will be marked with a double circle.
@@ -197,7 +193,7 @@ If you have created or selected a state you can change the properties of the sel
 
 \subsection{Adding and changing edges}
 \label{sec:adding-chang-edges}
-If you want to create an edge you have to move the mouse pointer to the center of a state, which will highlighted with a bold green square. Then you have to hold the left mouse button and drop the arrow on the state where the edge shall end. \\
+If you want to create an edge you have to move the mouse pointer to the center of a state, which will be highlighted with a bold green square. Then you have to hold the left mouse button and drop the arrow on the state where the edge shall end. \\
 If you have selected an edge you can add, remove or edit transitions. If you want to edit a transition you just have to double click on it.
 \begin{figure}[!htb]
 \begin{center}
@@ -206,8 +202,6 @@ If you have selected an edge you can add, remove or edit transitions. If you wan
 \caption{Adding and changing edges}
 \label{pic:edge_properties}
 \end{figure}
-
-\clearpage
 
 \subsection{Edit transitions}
 \label{sec:edit-transitions}
@@ -224,11 +218,11 @@ If you double clicked on a transtion or added a new one, you can edit it. In gen
 
 \subsection{Via points}
 \label{sec:via-points}
-When you select an edge you can add via points with Edit $>$ Add via point.
+When you select an edge you can add via points with Edit \textgreater \ Add via point.
 
 \subsection{Frames and textboxes}
 \label{sec:frames-textboxes}
-In the property toolbox of a textbox you can change the text of the box.
+In the property panel of a textbox you can change the text to be displayed.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/text_properties.png}
@@ -237,16 +231,15 @@ In the property toolbox of a textbox you can change the text of the box.
 \label{pic:text_properties}
 \end{figure}
 
-\clearpage
-
 \subsection{Export}
 \label{sec:export}
-In the menu File->Export you can export the turing machine as a table to Latex (.tex), or as a graphic to Scalable Vector Graphic (.svg) or Portable Network Graphic (.png)
+In the menu File \textgreater \ Export you can export the turing machine as a table to Latex (.tex), or as a graphic to Scalable Vector Graphic (.svg) or Portable Network Graphic (.png)
+
 \clearpage
 
 \section{Brainfuck editor}
 \label{sec:brainfuck-editor}
-The Brainfuck editor  can be used to create applications using the esoteric programming language brainfuck. Our brainfuck interpreter differs a little from the original brainfuck implementation. Instead of an array of ASCII-symbols, we use a TuringMachine tape (Action) with only the symbols \#,0,1,2. Also the input and output strings are replaced by the tapes Input and Output.\\
+The Brainfuck editor  can be used to create applications using the esoteric programming language brainfuck. Our brainfuck interpreter differs a little from the original brainfuck implementation. Instead of an array of ASCII-symbols, we use a TuringMachine tape (Action) providing only the symbols \#, 0, 1, 2 with $\# < 0 < 1 < 2$. Also the input and output strings are replaced by the tapes Input and Output.\\
 
 The brainfuck language consists of only eight commands, each consisting of only one character:\\
 
@@ -260,11 +253,11 @@ $<$ & move to the previous symbol on Action tape \\
 \hline
 + & increment symbol at current position on Action tape \\
 \hline
-- & decrement symbol at current position on Action tape \\
+-- & decrement symbol at current position on Action tape \\
 \hline
 . & output symbol at current position on Action tape, symbol is written on Output tape \\
 \hline
-, & read next symbol from Input tape, writing it at current position on Action tape \\
+, & read next symbol from Input tape, write it to the current position on Action tape \\
 \hline
 [ & if current symbol is a \#, move to corresponding ] command, else execute following\\
 \ & commands \\
@@ -287,7 +280,7 @@ The commands are executed sequentially. Every other character within the code wi
 \clearpage
 
 \section{Run window}
-In in the Input tab (Figure \ref{pic:run_window_input}) of the run window you can specify the input word for every tape. In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a label for every tape and the type of the tape. If you choose a LEGO Tape you should specify the main and the slave robots for the tapes in the Robot settings tab. With run you can start the presimulation.
+In the Input tab (Figure \ref{pic:run_window_input}) of the run window you can specify the input word for every tape. In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a label for every tape and the type of the tape. If you choose a LEGO Tape you should specify the main and the slave robots for the tapes in the Robot settings tab. With run you can start the presimulation.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/run_window_input.png}
