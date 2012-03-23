@@ -21,7 +21,11 @@ import machine.Machine;
 
 import tape.Tape;
 
-//TODO javadoc 
+/**
+ * This class contains references to the application data directories and information about the program. It contains methods to update and install the application data.
+ * @author nils
+ *
+ */
 public class AppData {
 
 	/**
@@ -38,12 +42,27 @@ public class AppData {
 	public static final String APP_AUTHORS = "Im Rahmen des Teamprojekts 2011 entstanden.\n\nInstitut für Programmierung\nund Reaktive Systeme\n\nBetreuer: Matthias Hagner\n\nVanessa Baier,\n Nils Breyer,\n Phillipp Neumann,\n Sven Schuster,\n David Wille";
 
 
+	/**
+	 * The root directory for the application data
+	 */
 	public static File appDataDirectory;
+	/**
+	 * The directory where the example files are placed in
+	 */
 	public static File examplesDirectory;
+	/**
+	 * The directory where the tape styles are placed in
+	 */
 	public static File tapeStylesDirectory;
+	/**
+	 * 
+	 */
 	public static File versionFile;
 
 
+	/**
+	 * Initializes the program and checks if the correct version of the app data is installed, otherwise it is getting installed
+	 */
 	public static void init() {
 		//init system specific paths
 		if (System.getProperties().getProperty("os.name").equals("Linux")) {
