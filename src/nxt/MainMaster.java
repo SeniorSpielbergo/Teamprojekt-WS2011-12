@@ -38,7 +38,7 @@ public class MainMaster {
 	Tape tape = null;
 
 	/**
-	 * Print an Arrow on the NXT Display
+	 * Print an Arrow on the NXT Display.
 	 */
 	public static void printRightArrow(){
 		int x = 62, y = 29;
@@ -59,7 +59,7 @@ public class MainMaster {
 		}
 	}
 	/**
-	 * Clear an Arrow on the NXT Display
+	 * Clear an Arrow on the NXT Display.
 	 */
 	public static void clearRightArrow(){
 		int x = 62, y = 29;
@@ -80,7 +80,7 @@ public class MainMaster {
 		}
 	}
 	/**
-	 * Print an Arrow on the NXT Display
+	 * Print an Arrow on the NXT Display.
 	 */
 	public static void printLeftArrow(){
 		int x =0, y = 29;
@@ -101,7 +101,7 @@ public class MainMaster {
 		}
 	}
 	/**
-	 * Clear an Arrow on the NXT Display
+	 * Clear an Arrow on the NXT Display.
 	 */
 	public static void clearLeftArrow(){
 		int x =0, y = 29;
@@ -122,7 +122,7 @@ public class MainMaster {
 		}
 	}
 	/**
-	 * Run the whole logic of the Masterrobot
+	 * Run the whole logic of the Masterrobot.
 	 */
 	public void run() {
 		Common.playTune("HAHA",200);
@@ -202,7 +202,7 @@ public class MainMaster {
 		}
 	}
 	/**
-	 * This method is called when PC and NXT are connected
+	 * This method is called when PC and NXT are connected.
 	 * The NXT is now waiting for commands
 	 */	
 	private void serve() {

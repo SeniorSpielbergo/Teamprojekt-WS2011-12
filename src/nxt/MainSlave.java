@@ -32,14 +32,9 @@ public class MainSlave {
 	static DataOutputStream out;
 	static TetrisSound sound;
 
-//	private static void pushBit(int bit, int newBit, Motor motor) {		// FIXME: still needed?
-//		if (bit<newBit){
-//			motor.rotate(Common.PUSH_ANGLE_SLAVE);
-//			motor.rotate(Common.PUSH_ANGLE_SLAVE*(-1)+1);
-//		}
-//	}
+
 	/**
-	 * Run the whole logic of the Mainrobot
+	 * Run the whole logic of the Mainrobot.
 	 */	
 	public void run() {
 		Common.playTune("HAHA",200);
@@ -80,7 +75,7 @@ public class MainSlave {
 		}
 	}
 	/**
-	 * This method is called when PC and NXT are connected
+	 * This method is called when PC and NXT are connected.
 	 * The NXT is now waiting for commands
 	 */	
 	private void serve() {
