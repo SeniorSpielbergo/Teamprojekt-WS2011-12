@@ -372,6 +372,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			}
 			this.buttonForward.setEnabled(false);
 			this.buttonPlay.setEnabled(false);
+			this.buttonSound.setEnabled(false);
 			this.resultLabel.setText("Input word was accepted.");
 		}
 		else if(this.sim.isSimulationAlreadyStarted()
@@ -384,6 +385,7 @@ public class SimulationWindow extends JFrame implements Observer, ActionListener
 			}
 			this.buttonForward.setEnabled(false);
 			this.buttonPlay.setEnabled(false);
+			this.buttonSound.setEnabled(false);
 			this.resultLabel.setText("Input word was not accepted.");
 		}
 	}
