@@ -4,6 +4,11 @@ import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.addon.ColorSensor;
 
+/**
+ * For calibrating the color sensors.
+ * 
+ *
+ */
 public class Calibrate {
 	public static void main(String[] args) {
 		ColorSensor cs1 = new ColorSensor(SensorPort.S1);

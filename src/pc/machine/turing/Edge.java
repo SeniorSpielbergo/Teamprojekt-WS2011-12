@@ -55,7 +55,7 @@ public class Edge implements Serializable {
 
 	/**
 	 * Sets the transitions for this edge.
-	 * @return Transitions for this edge
+	 * 
 	 */
 	public void setTransitions(ArrayList<Transition> transitions) {
 		this.transitions = transitions;

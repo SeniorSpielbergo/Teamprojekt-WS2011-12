@@ -37,7 +37,8 @@ public class PropertiesTextbox extends JPanel implements DocumentListener {
 	/**
 	 * This constructs a new textbox properties panel.
 	 * @param textbox Textbox whose information should be displayed
-	 * @param graph Current graph
+	 * @param cell mxCell of the textbox
+	 * @param turingMachineEditor
 	 */
 	public PropertiesTextbox(Textbox textbox, mxCell cell, TuringMachineEditor turingMachineEditor) {
 		this.turingMachineEditor = turingMachineEditor;
