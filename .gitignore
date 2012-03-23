@@ -22,6 +22,7 @@
 *.mtc1
 *.nav
 *.out
+*.snm
 *.synctex.gz
 *.el
 *.pdf
