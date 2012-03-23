@@ -3,6 +3,10 @@ import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 import lejos.nxt.addon.ColorSensor;
 
+/**
+ * For testing color sensors.
+ *
+ */
 public class SensorTest {
 	public static void main(String[] args) {
 		ColorSensor cs1 = new ColorSensor(SensorPort.S1);

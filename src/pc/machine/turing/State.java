@@ -21,7 +21,8 @@ public class State implements Serializable {
 	 * Constructs a state with its id, name and type.
 	 * @param id State Id
 	 * @param name State name
-	 * @param type Type of state
+	 * @param startState
+	 * @param finalState
 	 */
 	public State(String id, String name, boolean startState, boolean finalState) {
 		this.id = id;
@@ -111,7 +112,7 @@ public class State implements Serializable {
 	
 	/**
 	 * Sets the x coordinate.
-	 * @param x
+	 * @param xcoord
 	 */
 	public void setXcoord(int xcoord) {
 		this.xcoord = xcoord;
@@ -127,7 +128,7 @@ public class State implements Serializable {
 
 	/**
 	 * Sets the y coordinate.
-	 * @param y
+	 * @param ycoord
 	 */
 	public void setYcoord(int ycoord) {
 		this.ycoord = ycoord;
@@ -143,7 +144,7 @@ public class State implements Serializable {
 
 	/**
 	 * Sets the height.
-	 * @return height
+	 *
 	 */
 	public void setHeight(int height) {
 		this.height = height;
@@ -159,7 +160,7 @@ public class State implements Serializable {
 
 	/**
 	 * Sets the width.
-	 * @return width
+	 *
 	 */
 	public void setWidth(int width) {
 		this.width = width;

@@ -203,6 +203,10 @@ public class Tape extends Thread {
 		return this.counter;
 	}
 
+	/**
+	 * Writes '#' at all positions.
+	 * @return True if nothing went wrong
+	 */
 	public boolean clearTape() {
 		for (int i = 0; i < Common.TAPE_SIZE; i++) {
 			Common.pushBits(true,true,true);
@@ -221,10 +225,13 @@ public class Tape extends Thread {
 		return true;
 	}
 
-	public void requestStop() {
+	private void requestStop() {
 		this.requestStop = true;
 	}
 
+	/**
+	 * Stops the LEGO-tape.
+	 */
 	public void stop() {
 		this.requestStop();
 		try {

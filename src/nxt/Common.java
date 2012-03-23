@@ -1,6 +1,11 @@
 import lejos.nxt.Motor;
 import lejos.nxt.Sound;
 
+/**
+ * Methods for both robots.
+ * 
+ *
+ */
 public class Common {
 	static final int TAPE_SIZE = 11;
 	static final int PUSH_SPEED = 180;
@@ -8,6 +13,11 @@ public class Common {
 	static final int PUSH_ANGLE_MASTER = -160;
 	static final int PUSH_ANGLE_SLAVE = -153;
 
+	/**
+	 * Plays sound.
+	 * @param m pitches
+	 * @param t duration
+	 */
 	public static void playTune(String m, int t) {
 		char[] charArray = m.toCharArray();
 		for(char c : charArray) {
@@ -40,6 +50,13 @@ public class Common {
 			}
 		}
 	}
+	
+	/**
+	 * Pushes bits.
+	 * @param push1 left robot
+	 * @param push2 right robot
+	 * @param master 
+	 */
 	public static void pushBits(final boolean push1,final boolean push2, boolean master) {
 		final int angle;
 		if(master) {
@@ -81,7 +98,7 @@ public class Common {
 		}
 	}
 
-	public static void bugfixedRotate(Motor motor, int angle) {
+	private static void bugfixedRotate(Motor motor, int angle) {
 		motor.stop();
 		motor.resetTachoCount();
 		int tacho = motor.getTachoCount();
