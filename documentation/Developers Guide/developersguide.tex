@@ -11,6 +11,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage{tikz}
+\usepackage{textcomp}
 %\usepackage[a4paper,margin=1cm,landscape]{geometry}
 \usetikzlibrary{positioning,shadows,arrows}
 
@@ -43,31 +44,9 @@
 
 \section{Code -- LEGO\textregistered\, tape}
 
-In the nxt Project you have two main classes, MainMaster and MainSlave. These two classes are responsible for receiving commands the Master and Slave robot reply with a \'.\'. The Master also have methods to send the read character to the pc receiver. Functions for the tape like moving left and right but it also implements a counter and a timer. \\
-Both Master and Slave Main classes import the common class that has some functions that both classes use.\\
+The project nxt contains classes to operate on the LEGO\textregistered\, modules. There are the two main classes, MainMaster and MainSlave which are responsible for receiving and executing commands. The Master also has methods to send the read character to the pc receiver. Functions for the tape like moving left and right are provided by the class Tape. It also implements a counter to determine the position of the tape and a security timer. \\
+Also the Common class is implemented which is used by both Master and Slave providing functions like pushing bits, playing sounds etc.\\
 There are some more common classes that can be used for testing the sensors or calibrate them.
-%\subsection{Master NXT module}
-
-%\subsubsection{MainMaster}
-
-%\subsection{Slave NXT module}
-
-%\subsubsection{MainSlave}
-
-%\subsubsection{TetrisSound}
-
-
-%\subsection{Common NXT classes}
-
-%\subsubsection{Calibrate}
-
-%\subsubsection{Common}
-
-%\subsubsection{Tape}
-
-%\subsubsection{Timer}
-
-%\subsubsection{SensorTest}
 
 \section{PC Packages}
 
@@ -107,122 +86,6 @@ There are some more common classes that can be used for testing the sensors or c
 ;
 \end{tikzpicture}
 \end{center}
-
-\section{Code -- GUI}
-
-
-\subsection{Package gui}
-
-\subsubsection{AboutDialog}
-
-\subsubsection{AppData}
-
-\subsubsection{CustomTable}
-
-\subsubsection{Editor}
-
-\subsubsection{ErrorDialog}
-
-\subsubsection{MachineEditor}
-
-\subsubsection{OrganizeRobots}
-
-\subsubsection{PresimulationDialogue}
-
-\subsubsection{RunWindow}
-
-\subsubsection{SimulationWindow}
-
-\subsubsection{WelcomeScreen}
-
-\subsubsection{WelcomeScreenGroup}
-
-\subsubsection{WelcomeScreenLine}
-
-\subsection{Package gui.brainfuck}
-
-\subsubsection{BrainfuckEditor}
-
-
-\subsection{Package gui.turing}
-
-\subsubsection{NewTMDialogue}
-
-\subsubsection{Palette}
-
-\subsubsection{PropertiesEdge}
-
-\subsubsection{PropertiesEdgeEdit}
-
-\subsubsection{PropertiesState}
-
-\subsubsection{PropertiesTextbox}
-
-\subsubsection{PropertiesTuringMachine}
-
-\subsubsection{ToolBox}
-
-\subsubsection{TuringMachineEditor}
-
-
-\subsection{Package machine}
-
-\subsubsection{ExtensionFileFilter}
-
-\subsubsection{Machine}
-
-\subsubsection{Simulation}
-
-
-\subsubsection{Package machine.brainfuck}
-
-\subsubsection{BrainfuckMachine}
-
-\subsubsection{BrainfuckSimulation}
-
-
-\subsection{Package machine.turing}
-
-\subsubsection{Edge}
-
-\subsubsection{Frame}
-
-\subsubsection{InOut}
-
-\subsubsection{Point}
-
-\subsubsection{State}
-
-\subsubsection{Textbox}
-
-\subsubsection{Transition}
-
-\subsubsection{TuringMachine}
-
-\subsubsection{TuringSimulation}
-
-
-\subsection{Package tape}
-
-\subsubsection{ConsoleTape}
-
-\subsubsection{DisplayableTape}
-
-\subsubsection{GraphicTape}
-
-\subsubsection{GraphicTapePanel}
-
-\subsubsection{LEGOTape}
-
-\subsubsection{MasterRobot}
-
-\subsubsection{Robot}
-
-\subsubsection{SlaveRobot}
-
-\subsubsection{Tape}
-
-\subsubsection{TapeException}
 
 
 \makebackpage[trisec]%[<plain/info/addressinfo>]
