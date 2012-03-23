@@ -193,7 +193,7 @@ If you have created or selected a state you can change the properties of the sel
 
 \subsection{Adding and changing edges}
 \label{sec:adding-chang-edges}
-If you want to create an edge you have to move the mouse pointer to the center of a state, which will highlighted with a bold green square. Then you have to hold the left mouse button and drop the arrow on the state where the edge shall end. \\
+If you want to create an edge you have to move the mouse pointer to the center of a state, which will be highlighted with a bold green square. Then you have to hold the left mouse button and drop the arrow on the state where the edge shall end. \\
 If you have selected an edge you can add, remove or edit transitions. If you want to edit a transition you just have to double click on it.
 \begin{figure}[!htb]
 \begin{center}
@@ -218,11 +218,11 @@ If you double clicked on a transtion or added a new one, you can edit it. In gen
 
 \subsection{Via points}
 \label{sec:via-points}
-When you select an edge you can add via points with Edit $>$ Add via point.
+When you select an edge you can add via points with Edit \textgreater \ Add via point.
 
 \subsection{Frames and textboxes}
 \label{sec:frames-textboxes}
-In the property toolbox of a textbox you can change the text of the box.
+In the property panel of a textbox you can change the text to be displayed.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/text_properties.png}
@@ -233,13 +233,13 @@ In the property toolbox of a textbox you can change the text of the box.
 
 \subsection{Export}
 \label{sec:export}
-In the menu File->Export you can export the turing machine as a table to Latex (.tex), or as a graphic to Scalable Vector Graphic (.svg) or Portable Network Graphic (.png)
+In the menu File \textgreater \ Export you can export the turing machine as a table to Latex (.tex), or as a graphic to Scalable Vector Graphic (.svg) or Portable Network Graphic (.png)
 
 \clearpage
 
 \section{Brainfuck editor}
 \label{sec:brainfuck-editor}
-The Brainfuck editor  can be used to create applications using the esoteric programming language brainfuck. Our brainfuck interpreter differs a little from the original brainfuck implementation. Instead of an array of ASCII-symbols, we use a TuringMachine tape (Action) with only the symbols \#,0,1,2 with $\# < 0 < 1 < 2$. Also the input and output strings are replaced by the tapes Input and Output.\\
+The Brainfuck editor  can be used to create applications using the esoteric programming language brainfuck. Our brainfuck interpreter differs a little from the original brainfuck implementation. Instead of an array of ASCII-symbols, we use a TuringMachine tape (Action) providing only the symbols \#, 0, 1, 2 with $\# < 0 < 1 < 2$. Also the input and output strings are replaced by the tapes Input and Output.\\
 
 The brainfuck language consists of only eight commands, each consisting of only one character:\\
 
@@ -253,11 +253,11 @@ $<$ & move to the previous symbol on Action tape \\
 \hline
 + & increment symbol at current position on Action tape \\
 \hline
-- & decrement symbol at current position on Action tape \\
+-- & decrement symbol at current position on Action tape \\
 \hline
 . & output symbol at current position on Action tape, symbol is written on Output tape \\
 \hline
-, & read next symbol from Input tape, writing it at current position on Action tape \\
+, & read next symbol from Input tape, write it to the current position on Action tape \\
 \hline
 [ & if current symbol is a \#, move to corresponding ] command, else execute following\\
 \ & commands \\
