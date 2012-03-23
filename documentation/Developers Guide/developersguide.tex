@@ -10,6 +10,10 @@
   ]{tubsartcl}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{textcomp}
+%\usepackage[a4paper,margin=1cm,landscape]{geometry}
+\usetikzlibrary{positioning,shadows,arrows}
 
 \setlength{\parindent}{0cm}
  
@@ -40,145 +44,48 @@
 
 \section{Code -- LEGO\textregistered\, tape}
 
-\subsection{Master NXT module}
-
-\subsubsection{MainMaster}
-
-\subsection{Slave NXT module}
-
-\subsubsection{MainSlave}
-
-\subsubsection{TetrisSound}
-
-
-\subsection{Common NXT classes}
-
-\subsubsection{Calibrate}
-
-\subsubsection{Common}
-
-\subsubsection{Tape}
-
-\subsubsection{Timer}
-
-\subsubsection{SensorTest}
-
-
-\section{Code -- GUI}
-
-
-\subsection{Package gui}
-
-\subsubsection{AboutDialog}
-
-\subsubsection{AppData}
-
-\subsubsection{CustomTable}
-
-\subsubsection{Editor}
-
-\subsubsection{ErrorDialog}
-
-\subsubsection{MachineEditor}
-
-\subsubsection{OrganizeRobots}
-
-\subsubsection{PresimulationDialogue}
-
-\subsubsection{RunWindow}
-
-\subsubsection{SimulationWindow}
-
-\subsubsection{WelcomeScreen}
-
-\subsubsection{WelcomeScreenGroup}
-
-\subsubsection{WelcomeScreenLine}
-
-\subsection{Package gui.brainfuck}
-
-\subsubsection{BrainfuckEditor}
-
-
-\subsection{Package gui.turing}
-
-\subsubsection{NewTMDialogue}
-
-\subsubsection{Palette}
-
-\subsubsection{PropertiesEdge}
-
-\subsubsection{PropertiesEdgeEdit}
-
-\subsubsection{PropertiesState}
-
-\subsubsection{PropertiesTextbox}
-
-\subsubsection{PropertiesTuringMachine}
-
-\subsubsection{ToolBox}
-
-\subsubsection{TuringMachineEditor}
-
-
-\subsection{Package machine}
-
-\subsubsection{ExtensionFileFilter}
-
-\subsubsection{Machine}
-
-\subsubsection{Simulation}
-
-
-\subsubsection{Package machine.brainfuck}
-
-\subsubsection{BrainfuckMachine}
-
-\subsubsection{BrainfuckSimulation}
-
-
-\subsection{Package machine.turing}
-
-\subsubsection{Edge}
-
-\subsubsection{Frame}
-
-\subsubsection{InOut}
-
-\subsubsection{Point}
-
-\subsubsection{State}
-
-\subsubsection{Textbox}
-
-\subsubsection{Transition}
-
-\subsubsection{TuringMachine}
-
-\subsubsection{TuringSimulation}
-
-
-\subsection{Package tape}
-
-\subsubsection{ConsoleTape}
-
-\subsubsection{DisplayableTape}
-
-\subsubsection{GraphicTape}
-
-\subsubsection{GraphicTapePanel}
-
-\subsubsection{LEGOTape}
-
-\subsubsection{MasterRobot}
-
-\subsubsection{Robot}
-
-\subsubsection{SlaveRobot}
-
-\subsubsection{Tape}
-
-\subsubsection{TapeException}
+The project nxt contains classes to operate on the LEGO\textregistered\, modules. There are the two main classes, MainMaster and MainSlave which are responsible for receiving and executing commands. The Master also has methods to send the read character to the pc receiver. Functions for the tape like moving left and right are provided by the class Tape. It also implements a counter to determine the position of the tape and a security timer. \\
+Also the Common class is implemented which is used by both Master and Slave providing functions like pushing bits, playing sounds etc.\\
+There are some more common classes that can be used for testing the sensors or calibrate them.
+
+\section{PC Packages}
+
+\begin{center}
+\begin{tikzpicture}[
+    fact/.style={rectangle, draw=none, rounded corners=1mm, fill=blue, drop shadow,
+        text centered, anchor=north, text=white},
+    state/.style={circle, draw=none, fill=tuRed,
+        text centered, anchor=north, text=white, minimum width=2.0cm},
+    leaf/.style={circle, draw=none, fill=red, circular drop shadow,
+        text centered, anchor=north, text=white},
+    level distance=0.5cm, growth parent anchor=south, >=stealth
+]
+\node (State00) [state] {PC Project} [very thick,->] 
+	[sibling distance=6cm]
+	child{[sibling distance=3cm]
+		node (State01) [state] {gui}
+		child{
+			node (State02) [state] {brainfuck}
+		}
+		child{
+			node (State03) [state] {turing}			
+		}
+	}
+	child{[sibling distance=3cm]
+		node (State05) [state] {machine}
+		child{
+			node (State06) [state] {turing}
+		}
+		child{
+			node (State07) [state] {brainfuck}
+		}		
+	}
+	child{[sibling distance=2cm]
+		node (State09) [state] {tape}
+	}
+;
+\end{tikzpicture}
+\end{center}
 
 
 \makebackpage[trisec]%[<plain/info/addressinfo>]

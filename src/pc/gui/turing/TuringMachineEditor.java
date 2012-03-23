@@ -919,6 +919,9 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 
 	@Override
 	public void setEditable(boolean editable) {
+		for (Object o : graph.getChildVertices(graph.getDefaultParent())) {
+			((mxCell) o).setConnectable(editable);
+		}
 		this.graph.setCellsMovable(editable);
 		this.graph.setCellsResizable(editable);
 		this.graph.setCellsDeletable(editable);

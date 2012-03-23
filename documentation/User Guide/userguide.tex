@@ -50,7 +50,7 @@ TuringBrain IDE allows you to develop and debug your own TuringMachines in an ea
   \item Create Turing Machines with multiple tapes
   \item Write Brainfuck programs within the integrated code editor
   \item Simulate your machines and programs using the integrated simulation
-  \item Simulate on special LEGO-Tape (hardware needed), graphically animated on the screen or on the console
+  \item Simulate on special LEGO\textregistered -Tape (hardware needed), graphically animated on the screen or on the console
   \item Pause simulation, Debug step-by-step
   \item Live-highlighting of the current state and edge during the simulation
   \item Save machines as .tm (an XML-Format) respective .bf
@@ -63,8 +63,8 @@ TuringBrain IDE allows you to develop and debug your own TuringMachines in an ea
 
 \subsection{Installation}
 \label{sec:installation}
-If you don't want to use the LEGO tapes, you only have to download the executable .jar file from our repository.
-To use the LEGO tapes you have to do following steps:
+If you don't want to use the LEGO\textregistered\, tapes, you only have to download the executable .jar file from our repository.
+To use the LEGO\textregistered\, tapes you have to do following steps:
 \begin{enumerate}
 	\item Download Version 0.8.5beta of LeJos from \href{http://sourceforge.net/projects/lejos/files/lejos-NXJ/}{http://sourceforge.net/projects/lejos/files/lejos-NXJ/}
 	\item Download JGraph from \href{http://www.jgraph.com/jgraph.html}{http://www.jgraph.com/jgraph.html}
@@ -145,7 +145,7 @@ You can also do the same with brainfuck applications.
 \clearpage
 
 \section{Turing Machine editor}
-If you open an example you will see a window like figure \ref{pic:turing_editor}, while creating a new machine leads to an empty window to work with. On the left side you see a toolbox (\ref{sec:toolbox}) and also there will be displayed panels to change the properties of the machine and all its components.
+If you open an example you will see a window like figure \ref{pic:turing_editor}, while creating a new machine leads to an empty window to work with. On the left side you see a toolbox (\ref{sec:toolbox}) and also panels will be displayed to change the properties of the machine and all its components.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.3]{graphics_gui/turing_editor.png}
@@ -153,8 +153,6 @@ If you open an example you will see a window like figure \ref{pic:turing_editor}
 \caption{Turing Machine editor}
 \label{pic:turing_editor}
 \end{figure}
-
-\clearpage
 
 \subsection{Toolbox}
 \label{sec:toolbox}
@@ -180,8 +178,6 @@ First of all you should edit the turing machine properties.
 \label{pic:machine_properties}
 \end{figure}
 
-\clearpage
-
 \subsection{Adding and changing states}
 \label{sec:add-edit-states}
 If you have created or selected a state you can change the properties of the selected state. You can specify the label or whether it is a start and/or final state. The start state will be marked with a bold border and the final will be marked with a double circle.
@@ -197,7 +193,7 @@ If you have created or selected a state you can change the properties of the sel
 
 \subsection{Adding and changing edges}
 \label{sec:adding-chang-edges}
-If you want to create an edge you have to move the mouse pointer to the center of a state, which will highlighted with a bold green square. Then you have to hold the left mouse button and drop the arrow on the state where the edge shall end. \\
+If you want to create an edge you have to move the mouse pointer to the center of a state, which will be highlighted with a bold green square. Then you have to hold the left mouse button and drop the arrow on the state where the edge shall end. \\
 If you have selected an edge you can add, remove or edit transitions. If you want to edit a transition you just have to double click on it.
 \begin{figure}[!htb]
 \begin{center}
@@ -207,11 +203,9 @@ If you have selected an edge you can add, remove or edit transitions. If you wan
 \label{pic:edge_properties}
 \end{figure}
 
-\clearpage
-
 \subsection{Edit transitions}
 \label{sec:edit-transitions}
-If you double clicked on a transtion or added a new one, you can edit it. In general every character can be used, except for *, which is a wildcard. For LEGO tapes, allowed input and output characters are only \#, 0, 1, 2 and *. Allowed actions are L (left), R (right) an N (nothing).
+If you double clicked on a transtion or added a new one, you can edit it. In general every character can be used, except for *, which is a wildcard. For LEGO\textregistered\, tapes, allowed input and output characters are only \#, 0, 1, 2 and *. Allowed actions are L (left), R (right) an N (nothing).
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/edit_transitions.png}
@@ -224,11 +218,11 @@ If you double clicked on a transtion or added a new one, you can edit it. In gen
 
 \subsection{Via points}
 \label{sec:via-points}
-When you select an edge you can add via points with Edit $>$ Add via point.
+When you select an edge you can add via points with Edit \textgreater \ Add via point.
 
 \subsection{Frames and textboxes}
 \label{sec:frames-textboxes}
-In the property toolbox of a textbox you can change the text of the box.
+In the property panel of a textbox you can change the text to be displayed.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/text_properties.png}
@@ -237,16 +231,15 @@ In the property toolbox of a textbox you can change the text of the box.
 \label{pic:text_properties}
 \end{figure}
 
-\clearpage
-
 \subsection{Export}
 \label{sec:export}
-In the menu File->Export you can export the turing machine as a table to Latex (.tex), or as a graphic to Scalable Vector Graphic (.svg) or Portable Network Graphic (.png)
+In the menu File \textgreater \ Export you can export the turing machine as a table to Latex (.tex), or as a graphic to Scalable Vector Graphic (.svg) or Portable Network Graphic (.png)
+
 \clearpage
 
 \section{Brainfuck editor}
 \label{sec:brainfuck-editor}
-The Brainfuck editor  can be used to create applications using the esoteric programming language brainfuck. Our brainfuck interpreter differs a little from the original brainfuck implementation. Instead of an array of ASCII-symbols, we use a TuringMachine tape (Action) with only the symbols \#,0,1,2. Also the input and output strings are replaced by the tapes Input and Output.\\
+The Brainfuck editor  can be used to create applications using the esoteric programming language brainfuck. Our brainfuck interpreter differs a little from the original brainfuck implementation. Instead of an array of ASCII-symbols, we use a TuringMachine tape (Action) providing only the symbols \#, 0, 1, 2 with $\# < 0 < 1 < 2$. Also the input and output strings are replaced by the tapes Input and Output.\\
 
 The brainfuck language consists of only eight commands, each consisting of only one character:\\
 
@@ -260,11 +253,11 @@ $<$ & move to the previous symbol on Action tape \\
 \hline
 + & increment symbol at current position on Action tape \\
 \hline
-- & decrement symbol at current position on Action tape \\
+-- & decrement symbol at current position on Action tape \\
 \hline
 . & output symbol at current position on Action tape, symbol is written on Output tape \\
 \hline
-, & read next symbol from Input tape, writing it at current position on Action tape \\
+, & read next symbol from Input tape, write it to the current position on Action tape \\
 \hline
 [ & if current symbol is a \#, move to corresponding ] command, else execute following\\
 \ & commands \\
@@ -287,7 +280,7 @@ The commands are executed sequentially. Every other character within the code wi
 \clearpage
 
 \section{Run window}
-In in the Input tab (Figure \ref{pic:run_window_input}) of the run window you can specify the input word for every tape. In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a label for every tape and the type of the tape. If you choose a LEGO Tape you should specify the main and the slave robots for the tapes in the Robot settings tab. With run you can start the presimulation.
+In the Input tab (Figure \ref{pic:run_window_input}) of the run window you can specify the input word for every tape. In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a label for every tape and the type of the tape. If you choose a LEGO\textregistered\, Tape you should specify the main and the slave robots for the tapes in the Robot settings tab. With run you can start the presimulation.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/run_window_input.png}
@@ -317,7 +310,7 @@ In in the Input tab (Figure \ref{pic:run_window_input}) of the run window you ca
 \section{Simulation}
 
 \subsection{Organize robots}
-In the menu Simulation-> Organize robots you can add the robots with their hardware address.
+In the menu Simulation \textgreater\ Organize robots you can add the robots with their hardware address and define if the corresponding robot is a master module.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.45]{graphics_gui/organize_robots.png}
@@ -337,7 +330,7 @@ The Presimulation window (Figure \ref{pic:presimulation}) shows the estimated du
 \end{figure}
 
 \subsection{Simulation window}
-If you run the simulation after the presimulation you will see the turing machine and the tapes (Figure \ref{pic:simulation_window}). After the input word has been written you can start the simulation with the play button. If you have paused the simulation you can simulate the next step with the second button. If you simulate on the LEGO Tape you can mute and unmute the sound.
+If you run the simulation after the presimulation you will see the turing machine and the tapes (Figure \ref{pic:simulation_window}). After the input word has been written you can start the simulation with the play button. If you have paused the simulation you can simulate the next step with the second button. If you simulate on the LEGO\textregistered\, Tape you can mute and unmute the sound.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.35]{graphics_gui/simulation_window.png}
@@ -479,11 +472,9 @@ Figure \ref{pic:supporting_pier} shows how the supporting piers have to be place
 \label{pic:supporting_pier}
 \end{figure}
 
-\clearpage
-
 \subsection{Possible bit combinations on the tape}
 
-Figure \ref{pic:bit_combinations} shows all possible bit combinations on the tape with their respective value.
+Figure \ref{pic:bit_combinations} shows all possible legal bit combinations on the tape with their respective value.
 
 \begin{figure}[!htb]
 \begin{center}
