@@ -154,8 +154,6 @@ If you open an example you will see a window like figure \ref{pic:turing_editor}
 \label{pic:turing_editor}
 \end{figure}
 
-\clearpage
-
 \subsection{Toolbox}
 \label{sec:toolbox}
 With the toolbox you can use drag an drop to add states, frames and textboxes to your machine. While states have a fixed size, frames and textboxes can be resized.
@@ -179,8 +177,6 @@ First of all you should edit the turing machine properties.
 \caption{Edit machine properties}
 \label{pic:machine_properties}
 \end{figure}
-
-\clearpage
 
 \subsection{Adding and changing states}
 \label{sec:add-edit-states}
@@ -206,8 +202,6 @@ If you have selected an edge you can add, remove or edit transitions. If you wan
 \caption{Adding and changing edges}
 \label{pic:edge_properties}
 \end{figure}
-
-\clearpage
 
 \subsection{Edit transitions}
 \label{sec:edit-transitions}
@@ -237,16 +231,15 @@ In the property toolbox of a textbox you can change the text of the box.
 \label{pic:text_properties}
 \end{figure}
 
-\clearpage
-
 \subsection{Export}
 \label{sec:export}
 In the menu File->Export you can export the turing machine as a table to Latex (.tex), or as a graphic to Scalable Vector Graphic (.svg) or Portable Network Graphic (.png)
+
 \clearpage
 
 \section{Brainfuck editor}
 \label{sec:brainfuck-editor}
-The Brainfuck editor  can be used to create applications using the esoteric programming language brainfuck. Our brainfuck interpreter differs a little from the original brainfuck implementation. Instead of an array of ASCII-symbols, we use a TuringMachine tape (Action) with only the symbols \#,0,1,2. Also the input and output strings are replaced by the tapes Input and Output.\\
+The Brainfuck editor  can be used to create applications using the esoteric programming language brainfuck. Our brainfuck interpreter differs a little from the original brainfuck implementation. Instead of an array of ASCII-symbols, we use a TuringMachine tape (Action) with only the symbols \#,0,1,2 with $\# < 0 < 1 < 2$. Also the input and output strings are replaced by the tapes Input and Output.\\
 
 The brainfuck language consists of only eight commands, each consisting of only one character:\\
 
