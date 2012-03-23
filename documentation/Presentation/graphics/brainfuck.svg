@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg3020"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   width="616"
+   height="276"
+   sodipodi:docname="brainfuck.pdf">
+  <metadata
+     id="metadata3026">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3024" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1440"
+     inkscape:window-height="842"
+     id="namedview3022"
+     showgrid="false"
+     inkscape:zoom="2.1152597"
+     inkscape:cx="240.63238"
+     inkscape:cy="128.85281"
+     inkscape:window-x="0"
+     inkscape:window-y="26"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3020" />
+  <path
+     style="fill:#000000"
+     d="M 14.5,244 4.5375233,234 14.5,224 C 19.979362,218.5 24.808419,214 25.231238,214 25.654057,214 26,223 26,234 26,245 25.654057,254 25.231238,254 24.808419,254 19.979362,249.5 14.5,244 z m 14.5,-10 0,-20 279,0 279,0 0,20 0,20 -279,0 -279,0 0,-20 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 37,0 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m 6,0 c 0,-11 0.34594,-20 0.76876,-20 0.42282,0 5.25188,4.5 10.73124,10 l 9.96248,10 -9.96248,10 c -5.47936,5.5 -10.30842,10 -10.73124,10 C 590.34594,254 590,245 590,234 z M 298.23025,201.73121 289,192.46242 289,156.73121 289,121 l -7.5,0 -7.5,0 0,9.5 0,9.5 -20,0 -20,0 0,-20 0,-20 20,0 20,0 0,9 0,9 9,0 9,0 0,18.5 0,18.5 7.5,0 7.5,0 0,-31.5 0,-31.5 -18.5,0 -18.5,0 0,-20 0,-20 38,0 38,0 0,20 0,20 -18.5,0 -18.5,0 0,31.5 0,31.5 7.5,0 7.5,0 0,-18.5 0,-18.5 9,0 9,0 0,-9 0,-9 20,0 20,0 0,20 0,20 -20,0 -20,0 0,-9.5 0,-9.5 -7.5,0 -7.5,0 0,35.76975 0,35.76975 -9.26879,9.23025 C 312.63338,206.84639 308.23699,211 307.96146,211 c -0.27553,0 -4.65457,-4.17096 -9.73121,-9.26879 z M 271,120 l 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m -21.49651,7.25 c 0.3946,-0.9625 0.95127,-3.6625 1.23704,-6 0.47582,-3.89206 0.76128,-4.25 3.38952,-4.25 2.43299,0 2.86995,0.40073 2.86995,2.63197 0,3.7297 -3.7247,9.36803 -6.18855,9.36803 -1.53563,0 -1.85193,-0.42319 -1.30796,-1.75 z M 379,120 l 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m -20,0.5 c 0,-3.22222 0.2381,-3.5 3,-3.5 2.7619,0 3,0.27778 3,3.5 0,3.22222 -0.2381,3.5 -3,3.5 -2.7619,0 -3,-0.27778 -3,-3.5 z M 307,72 l 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m -19,6.5 0,-4.5 -4.5,0 c -3.83333,0 -4.5,-0.296296 -4.5,-2 0,-1.703704 0.66667,-2 4.5,-2 l 4.5,0 0,-4.5 c 0,-3.833333 0.2963,-4.5 2,-4.5 1.7037,0 2,0.666667 2,4.5 l 0,4.5 4.5,0 c 3.83333,0 4.5,0.296296 4.5,2 0,1.703704 -0.66667,2 -4.5,2 l -4.5,0 0,4.5 c 0,3.833333 -0.2963,4.5 -2,4.5 -1.7037,0 -2,-0.666667 -2,-4.5 z m 55,-6.5 0,-17 -17,0 -17,0 0,17 0,17 17,0 17,0 0,-17 z m -28,0 c 0,-1.878788 0.66667,-2 11,-2 10.33333,0 11,0.121212 11,2 0,1.878788 -0.66667,2 -11,2 -10.33333,0 -11,-0.121212 -11,-2 z m -72,111.01273 c -9.10574,-3.26204 -10.5,-4.06015 -10.5,-6.01048 0,-1.95492 1.41449,-2.75487 10.81861,-6.11839 10.41154,-3.72385 10.80661,-3.78874 10.5,-1.72476 -0.24737,1.66514 -1.93966,2.72321 -7.56861,4.73212 -3.9875,1.4231 -7.25,2.83359 -7.25,3.13444 0,0.30084 3.20618,1.65564 7.12484,3.01066 6.72406,2.32509 8.52003,3.67863 7.71949,5.81781 -0.18938,0.50606 -5.06933,-0.77257 -10.84433,-2.8414 z m 119.18139,1.82817 c 0.24737,-1.66514 1.93966,-2.72321 7.56861,-4.73212 3.9875,-1.4231 7.25,-2.82205 7.25,-3.10878 0,-0.28673 -3.2625,-1.68568 -7.25,-3.10878 -5.62895,-2.00891 -7.32124,-3.06698 -7.56861,-4.73212 -0.30661,-2.06398 0.0885,-1.99909 10.5,1.72476 9.39976,3.36196 10.81861,4.16409 10.81861,6.11614 0,1.95205 -1.41885,2.75418 -10.81861,6.11614 -10.41154,3.72385 -10.80661,3.78874 -10.5,1.72476 z"
+     id="path3030"
+     inkscape:connector-curvature="0" />
+  <text
+     xml:space="preserve"
+     style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:NexusSansPro;-inkscape-font-specification:Sans Bold"
+     x="308"
+     y="24.966999"
+     id="text3032"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3034"
+       x="308"
+       y="24.966999"
+       style="font-size:16px;text-align:center;text-anchor:middle">Zeiger</tspan><tspan
+       sodipodi:role="line"
+       x="308"
+       y="44.966999"
+       style="font-size:16px;text-align:center;text-anchor:middle"
+       id="tspan3036">(Schreib- / Lesekopf)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:NexusSansPro;-inkscape-font-specification:Sans Bold"
+     x="354.56638"
+     y="66.56945"
+     id="text2993"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan2995"
+       x="354.56638"
+       y="66.56945"
+       style="font-size:16px">Dekrement</tspan><tspan
+       sodipodi:role="line"
+       x="354.56638"
+       y="86.56945"
+       style="font-size:16px"
+       id="tspan2997">Zellenwert</tspan></text>
+  <text
+     sodipodi:linespacing="125%"
+     id="text3023"
+     y="66.56945"
+     x="182.56638"
+     style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:NexusSansPro;-inkscape-font-specification:Sans Bold"
+     xml:space="preserve"><tspan
+       style="font-size:16px"
+       y="66.56945"
+       x="182.56638"
+       id="tspan3025"
+       sodipodi:role="line">Inkrement</tspan><tspan
+       id="tspan3027"
+       style="font-size:16px"
+       y="86.56945"
+       x="182.56638"
+       sodipodi:role="line">Zellenwert</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:NexusSansPro;-inkscape-font-specification:Sans Bold"
+     x="390.96854"
+     y="124.24558"
+     id="text3029"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3031"
+       x="390.96854"
+       y="124.24558">Ausgabe</tspan></text>
+  <text
+     sodipodi:linespacing="125%"
+     id="text3033"
+     y="124.24558"
+     x="170.96854"
+     style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:NexusSansPro;-inkscape-font-specification:Sans Bold"
+     xml:space="preserve"><tspan
+       y="124.24558"
+       x="170.96854"
+       id="tspan3035"
+       sodipodi:role="line">Eingabe</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:NexusSansPro;-inkscape-font-specification:Sans Bold"
+     x="394.27783"
+     y="170.57558"
+     id="text3037"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3039"
+       x="394.27783"
+       y="170.57558">Inkrement</tspan><tspan
+       sodipodi:role="line"
+       x="394.27783"
+       y="190.57558"
+       id="tspan3041">Zeiger</tspan></text>
+  <text
+     sodipodi:linespacing="125%"
+     id="text3043"
+     y="170.57558"
+     x="150.27783"
+     style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:NexusSansPro;-inkscape-font-specification:Sans Bold"
+     xml:space="preserve"><tspan
+       y="170.57558"
+       x="150.27783"
+       id="tspan3045"
+       sodipodi:role="line">Dekrement</tspan><tspan
+       id="tspan3047"
+       y="190.57558"
+       x="150.27783"
+       sodipodi:role="line">Zeiger</tspan></text>
+</svg>

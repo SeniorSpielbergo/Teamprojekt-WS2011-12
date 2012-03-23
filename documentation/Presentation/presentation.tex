@@ -8,6 +8,11 @@
 %fuer externe bilder
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shadows,arrows}
+\usetikzlibrary{automata,arrows}
+
 
 \definecolor{tuRed}{cmyk}{0.1,1.0,0.8,0.0}
 
@@ -100,6 +105,33 @@
 \section{Hardware / Bauanleitung}
 
 \frame{
+	\frametitle{Turingmaschine}
+  	\begin{center}
+	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
+		%\draw[help lines] (0,-6) grid (12,6);
+		\node[state] (q_c) {$q_c$};
+	\end{tikzpicture}
+      \end{center}
+
+  	\begin{center}
+	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
+		%\draw[help lines] (0,-6) grid (12,6);
+                \node[state,accepting] (q_f) {$q_F$};
+	\end{tikzpicture}
+      \end{center}
+
+  	\begin{center}
+	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
+		%\draw[help lines] (0,-6) grid (12,6);
+		\node[state, initial] 	(q_0) {$q_0$}; 
+		\node[state] (q_c) [right of = q_0] {$q_c$};
+
+		\draw (q_0) to (q_c) node [midway] {$c / \#$};
+	\end{tikzpicture}
+      \end{center}
+}
+
+\frame{
 	\frametitle{Bedeutung der Bit Kombinationen}
   	\begin{figure}[!htb]
 		\begin{center}
@@ -149,6 +181,19 @@
 	Brainfuck\\
 	2-Band-Sim (am Ende)\\
 	Doku		
+}
+
+\frame{
+	\frametitle{Brainfuck}
+	\begin{figure}[!htb]
+		\includegraphics[scale=0.5]{graphics/brainfuck.pdf}
+	\end{figure}
+	
+	Zusätzliche Befehle:
+	\begin{itemize}
+		\item $[$ - Wenn Zellenwert = \# : Springe zu zugehörigem $]$
+		\item $]$ - Wenn Zellenwert $>$ \# : Springe zu zugehörigem $[$
+	\end{itemize}
 }
 
 \frame{
