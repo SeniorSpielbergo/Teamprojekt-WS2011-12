@@ -10,6 +10,9 @@
   ]{tubsartcl}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
+\usepackage{tikz}
+%\usepackage[a4paper,margin=1cm,landscape]{geometry}
+\usetikzlibrary{positioning,shadows,arrows}
 
 \setlength{\parindent}{0cm}
  
@@ -40,7 +43,9 @@
 
 \section{Code -- LEGO\textregistered\, tape}
 
-In the nxt Project you have two main classes, MainMaster and MainSlave.
+In the nxt Project you have two main classes, MainMaster and MainSlave. These two classes are responsible for receiving commands the Master and Slave robot reply with a \'.\'. The Master also have methods to send the read character to the pc receiver. Functions for the tape like moving left and right but it also implements a counter and a timer. \\
+Both Master and Slave Main classes import the common class that has some functions that both classes use.\\
+There are some more common classes that can be used for testing the sensors or calibrate them.
 %\subsection{Master NXT module}
 
 %\subsubsection{MainMaster}
@@ -64,6 +69,44 @@ In the nxt Project you have two main classes, MainMaster and MainSlave.
 
 %\subsubsection{SensorTest}
 
+\section{PC Packages}
+
+\begin{center}
+\begin{tikzpicture}[
+    fact/.style={rectangle, draw=none, rounded corners=1mm, fill=blue, drop shadow,
+        text centered, anchor=north, text=white},
+    state/.style={circle, draw=none, fill=tuRed,
+        text centered, anchor=north, text=white},
+    leaf/.style={circle, draw=none, fill=red, circular drop shadow,
+        text centered, anchor=north, text=white},
+    level distance=0.5cm, growth parent anchor=south
+]
+\node (State00) [state] {PC Project} [->] 
+	[sibling distance=6cm]
+	child{[sibling distance=2cm]
+		node (State01) [state] {gui}
+		child{
+			node (State02) [state] {brainfuck}
+		}
+		child{
+			node (State03) [state] {turing}			
+		}
+	}
+	child{[sibling distance=2cm]
+		node (State05) [state] {machine}
+		child{
+			node (State06) [state] {turing}
+		}
+		child{
+			node (State07) [state] {brainfuck}
+		}		
+	}
+	child{[sibling distance=2cm]
+		node (State09) [state] {tape}
+	}
+;
+\end{tikzpicture}
+\end{center}
 
 \section{Code -- GUI}
 
