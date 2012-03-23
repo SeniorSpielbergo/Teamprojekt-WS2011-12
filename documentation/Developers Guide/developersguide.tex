@@ -55,14 +55,14 @@ There are some more common classes that can be used for testing the sensors or c
     fact/.style={rectangle, draw=none, rounded corners=1mm, fill=blue, drop shadow,
         text centered, anchor=north, text=white},
     state/.style={circle, draw=none, fill=tuRed,
-        text centered, anchor=north, text=white},
+        text centered, anchor=north, text=white, minimum width=2.0cm},
     leaf/.style={circle, draw=none, fill=red, circular drop shadow,
         text centered, anchor=north, text=white},
     level distance=0.5cm, growth parent anchor=south
 ]
 \node (State00) [state] {PC Project} [->] 
 	[sibling distance=6cm]
-	child{[sibling distance=2cm]
+	child{[sibling distance=3cm]
 		node (State01) [state] {gui}
 		child{
 			node (State02) [state] {brainfuck}
@@ -71,7 +71,7 @@ There are some more common classes that can be used for testing the sensors or c
 			node (State03) [state] {turing}			
 		}
 	}
-	child{[sibling distance=2cm]
+	child{[sibling distance=3cm]
 		node (State05) [state] {machine}
 		child{
 			node (State06) [state] {turing}
