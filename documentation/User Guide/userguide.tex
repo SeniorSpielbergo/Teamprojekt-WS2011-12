@@ -240,6 +240,7 @@ In the menu File \textgreater \ Export you can export the turing machine as a ta
 \section{Brainfuck editor}
 \label{sec:brainfuck-editor}
 The Brainfuck editor  can be used to create applications using the esoteric programming language brainfuck. Our brainfuck interpreter differs a little from the original brainfuck implementation. Instead of an array of ASCII-symbols, we use a TuringMachine tape (Action) providing only the symbols \#, 0, 1, 2 with $\# < 0 < 1 < 2$. Also the input and output strings are replaced by the tapes Input and Output.\\
+
 The brainfuck language consists of only eight commands, each consisting of only one character:\\
 
 \begin{tabular}{|c|l|}
@@ -270,7 +271,7 @@ The commands are executed sequentially. Every other character within the code wi
 
 \begin{figure}[!htb]
 \begin{center}
-\includegraphics[scale=0.49]{graphics_gui/brainfuck_editor.png}
+\includegraphics[scale=0.5]{graphics_gui/brainfuck_editor.png}
 \end{center}
 \caption{Brainfuck editor}
 \label{pic:brainfuck_editor}
@@ -279,7 +280,7 @@ The commands are executed sequentially. Every other character within the code wi
 \clearpage
 
 \section{Run window}
-In in the Input tab (Figure \ref{pic:run_window_input}) of the run window you can specify the input word for every tape. In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a label for every tape and the type of the tape. If you choose a LEGO Tape you should specify the main and the slave robots for the tapes in the Robot settings tab. With run you can start the presimulation.
+In the Input tab (Figure \ref{pic:run_window_input}) of the run window you can specify the input word for every tape. In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a label for every tape and the type of the tape. If you choose a LEGO Tape you should specify the main and the slave robots for the tapes in the Robot settings tab. With run you can start the presimulation.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/run_window_input.png}
