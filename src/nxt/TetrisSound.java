@@ -1,6 +1,10 @@
 import lejos.nxt.Sound;
 
-
+/**
+ * "Tetris sound"
+ * @author Nessa Baier
+ *
+ */
 public class TetrisSound implements Runnable{
 
 	/**
@@ -148,6 +152,10 @@ public class TetrisSound implements Runnable{
 
 	}
 
+	/**
+	 * Muting sound.
+	 * @param enabled
+	 */
 	public void enableSound(boolean enabled){
 
 		if(enabled)
@@ -157,6 +165,9 @@ public class TetrisSound implements Runnable{
 		}
 	}
 	
+	/**
+	 * Disables sound.
+	 */
 	public void setSoundOff(){
 		this.soundOff = true;
 	}
