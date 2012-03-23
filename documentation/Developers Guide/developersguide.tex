@@ -58,9 +58,9 @@ There are some more common classes that can be used for testing the sensors or c
         text centered, anchor=north, text=white, minimum width=2.0cm},
     leaf/.style={circle, draw=none, fill=red, circular drop shadow,
         text centered, anchor=north, text=white},
-    level distance=0.5cm, growth parent anchor=south
+    level distance=0.5cm, growth parent anchor=south, >=stealth
 ]
-\node (State00) [state] {PC Project} [->] 
+\node (State00) [state] {PC Project} [very thick,->] 
 	[sibling distance=6cm]
 	child{[sibling distance=3cm]
 		node (State01) [state] {gui}
