@@ -8,7 +8,7 @@ import lejos.util.TimerListener;
  *
  */
 public class Tape extends Thread {
-	private static final int TIMER_LENGTH = 1000;
+	private static final int TIMER_LENGTH = 1200;
 	private static final int LEFT_END_MARKER_COLOR = 2;
 	private static final int MARKER_COLOR_MIN = 5;
 	private static final int MARKER_COLOR_MAX = 9;
