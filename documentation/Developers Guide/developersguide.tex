@@ -87,6 +87,39 @@ There are some more common classes that can be used for testing the sensors or c
 \end{tikzpicture}
 \end{center}
 
+\section{Protocol}
+
+\begin{minipage}{5cm}
+\subsection{Master}
+\begin{tabular}{c|l}
+command & description\\
+\hline
+q & quit\\
+t<name>\textbackslash n & name of the tape\\
+r & read\\
+w & write\\
+L & move left\\
+R & move right
+\end{tabular}
+\vspace{1cm}
+\end{minipage}
+\hspace{2cm}
+\begin{minipage}{5cm}
+\subsection{Slave}
+\begin{tabular}{c|l}
+command & description\\
+\hline
+q & quit\\
+w & write\\
+S & starting sound\\
+s & set sound off\\
+m & mute sound\\
+M & unmute sound\\
+n<name>\textbackslash n & machine name\\
+x<name>\textbackslash n & state name
+\end{tabular}
+\end{minipage}
+
 
 \makebackpage[trisec]%[<plain/info/addressinfo>]
 
