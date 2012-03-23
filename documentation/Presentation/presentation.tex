@@ -147,10 +147,11 @@
         \begin{columns}
           \begin{column}{0.5\textwidth}
             	\begin{tikzpicture}[->,shorten >=1pt,node distance=3cm,auto]
-		%\draw[help lines] (0,-6) grid (12,6);
-		\node[state, initial] 	(q_0) {$q_0$}; 
+		%\draw[help lines] (0,-6) grid (6,3);
+		\node[state, initial] (q_0) {$q_0$}; 
 		\node[state] (q_c) [right of = q_0] {$q_c$};
-		\draw (q_0) to (q_c) node {$c / \#$};
+		\draw (q_0) to (q_c);
+		\node[draw=none,scale=0.6] at (1.5,0.3) {$c / \#$};
               \end{tikzpicture}
           \end{column}
           \begin{column}{0.5\textwidth}
