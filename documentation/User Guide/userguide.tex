@@ -145,7 +145,11 @@ You can also do the same with brainfuck applications.
 \clearpage
 
 \section{Turing Machine editor}
-If you open an example you will see a window like figure \ref{pic:turing_editor}, while creating a new machine leads to an empty window to work with. On the left side you see a toolbox (\ref{sec:toolbox}) and also panels will be displayed to change the properties of the machine and all its components.
+Creating a new machine (via the menu or the welcome page) first leads to a dialog that lets you set the name of the machine and the number of tapes.
+
+\textbf{Important:} The number of tapes is set when creating the Turing machine. It cannot be changed afterwards!
+
+If you open an example or another existing machine you will see a window like figure \ref{pic:turing_editor}. If you have created a new machine the graph will be empty. On the left side you see a toolbox (\ref{sec:toolbox}) and also panels will be displayed to change the properties of the machine and all its components.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.3]{graphics_gui/turing_editor.png}
@@ -169,7 +173,7 @@ With the toolbox you can use drag an drop to add states, frames and textboxes to
 
 \subsection{Edit machine properties}
 \label{sec:edit-mach-prop}
-First of all you should edit the turing machine properties.
+First of all you should edit the turing machine properties and enter an author and a description. These fields don't are entirely optional, but they can help to organize and document your machines. In the machine properties you will also see some statistics about your machine like the number of states.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/machine_properties.png}
@@ -181,6 +185,10 @@ First of all you should edit the turing machine properties.
 \subsection{Adding and changing states}
 \label{sec:add-edit-states}
 If you have created or selected a state you can change the properties of the selected state. You can specify the label or whether it is a start and/or final state. The start state will be marked with a bold border and the final will be marked with a double circle.
+
+\textbf{Important:} Every Turing machine must have exactly one state marked as start state. Having multiple start states leads to undefined behaviour, having no start state will lead to an error when simulating.
+
+
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/state_properties.png}
@@ -205,7 +213,23 @@ If you have selected an edge you can add, remove or edit transitions. If you wan
 
 \subsection{Edit transitions}
 \label{sec:edit-transitions}
-If you double clicked on a transtion or added a new one, you can edit it. In general every character can be used, except for *, which is a wildcard. For LEGO\textregistered\, tapes, allowed input and output characters are only \#, 0, 1, 2 and *. Allowed actions are L (left), R (right) an N (nothing).
+If you double clicked on a transtion or added a new one, you can edit it. Every transition specifies an input (the read symbol), an output (the symbol to write) and an action (movment of the head) individually for every tape. The transition is executed only, if all input symbols on all tapes match. If they match, the transition is always completly executed (on all tapes).
+\bigskip
+
+\emph{Input.} Every character can be used as an input symbol, except for *, which is a wildcard. The * always matches, regardless of the read symbol.
+
+\emph{Output.} Again every character can be used as an output symbol, except for * which has a special meaning. The * reproduces the read symbol (it never changes it).
+
+\emph{Action.} Allowed actions are: \emph{L} (moves the head one field to the left), \emph{R} (moves the head one filed to the right) and \emph{N} (does nothing).
+\bigskip
+
+\textbf{Important:}  For LEGO\textregistered\, tapes, allowed input and output characters are only \#, 0, 1, 2 and *, otherwise the simulation will stop with an error message.
+
+If you don't want to use every tape in a transition, use the combination */*/N as input/output/action, this will reproduces the exisiting symbol and let the head stay where it is. In fact this setting is the default when you add a new transition, so you only have to change the tapes you want to use in the transition.
+
+\textbf{Important:} Make sure that only the input conditions of one transition per state can be met at a time. Using multiple transitions with * input symbols or with identical inputs can lead to undeterministic behaviour.
+
+
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/edit_transitions.png}
@@ -218,11 +242,11 @@ If you double clicked on a transtion or added a new one, you can edit it. In gen
 
 \subsection{Via points}
 \label{sec:via-points}
-When you select an edge you can add via points with Edit \textgreater \ Add via point.
+Sometimes it is useful to set via points for edges. For example, if the direct way crosses other states or edges. For this case TuringBrainIDE supports to set via points for edges, to set the way of the edge manually. These via points don't affect the simulation at all and are only a tool for better visualisation. When you select an edge you can add via points with Edit \textgreater \ Add via point.
 
 \subsection{Frames and textboxes}
 \label{sec:frames-textboxes}
-In the property panel of a textbox you can change the text to be displayed.
+As via points frames and textboxes don't affect the simulation. These tools provide you a simple way to structure, comment and document your machines. In the property panel of a textbox you can change the text to be displayed.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/text_properties.png}
@@ -234,6 +258,10 @@ In the property panel of a textbox you can change the text to be displayed.
 \subsection{Export}
 \label{sec:export}
 In the menu File \textgreater \ Export you can export the turing machine as a table to Latex (.tex), or as a graphic to Scalable Vector Graphic (.svg) or Portable Network Graphic (.png)
+
+The export to Latex generates a document with tables containing all transitions, the SVG and PNG exporters export the graph as you see it in the editor.
+
+\textbf{Important:} The Latex exporter copies the state names, machine name etc. as you entered them in the machine. There might be problems with characters you have to escape in Latex. 
 
 \clearpage
 
