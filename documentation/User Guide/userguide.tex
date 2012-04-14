@@ -317,7 +317,12 @@ The commands are executed sequentially. Every other character within the code wi
 If you have created a more or less complex machine in either of the two machine editors (brainfuck or turing machine), you probably want to test and simulate it. This is were the integrated simulator of TuringBrainIDE comes in to account. The simulation works like the same for both machine types.
 
 \subsection{Run window}
-In order to simulate your machine, you always begin by selecting Simulation > Run... from the menu. In the Input tab (Figure \ref{pic:run_window_input}) of the run window you can specify the input word for every tape. In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a label for every tape and the type of the tape. If you choose a LEGO\textregistered\, Tape you should specify the main and the slave robots for the tapes in the Robot settings tab. With run you can start the presimulation.
+In order to simulate your machine, you always begin by selecting \emph{Simulation > Run...} from the menu. In this dialog you can set all options for the simulation.
+
+\emph{Input.} In the Input tab (Figure \ref{pic:run_window_input}) of the run window you can specify the input word for every tape. This word is written onto the tape before the actual simulation. The head of the tape always starts on the leftmost symbol of the input word on each tape. Every character before and after the input word is initialzed with a \# symbol. If you leave the input word empty, the head starts on a \#. 
+
+For turing machines you can set an input word for each tape individually, but it is common to design machines so that they only expect their input on the first tape. Brainfuck machines always have three tapes by design and only one of them (the input tape) can be given an input word.
+
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/run_window_input.png}
@@ -326,6 +331,9 @@ In order to simulate your machine, you always begin by selecting Simulation > Ru
 \label{pic:run_window_input}
 \end{figure}
 
+\emph{Tape settings.} In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a label for every tape and the type of the tape. This option doesn't influence the simulation, but it can be helpful to distinguish the tapes. The tape name is also displayed on the robot display of the master robot, when using a lego tape.
+
+The most important setting here is the tape type. For each tape you have to specifiy a type, how it is simulated. Available types are: \emph{Graphic-Tape} (default, simulates graphically on the display), \emph{LEGO-Tape} (displays the tape content graphically on the display and simulates it on a physical LEGO-Tape (see \ref{sec:hardw-lego-tape}) and \emph{Console-Tape} (outputs the tape content only on the console, for debugging only).
 
 \begin{figure}[!htb]
 \begin{center}
@@ -335,6 +343,7 @@ In order to simulate your machine, you always begin by selecting Simulation > Ru
 \label{pic:run_window_tape_settings}
 \end{figure}
 
+\emph{Robot settings.} If you choose at least one LEGO\textregistered\, tape in the tape settings you have to specify the main and the slave robots for the tapes in the robot settings tab. The robots must be added previously using the organize robots window (see \ref{sec:organzize-robots}).
 
 \begin{figure}[!htb]
 \begin{center}
@@ -344,9 +353,12 @@ In order to simulate your machine, you always begin by selecting Simulation > Ru
 \label{pic:run_window_robot_settings}
 \end{figure}
  
+With \emph{Run} you can start the presimulation.
 
 \subsection{Organize robots}
-In the menu Simulation \textgreater\ Organize robots you can add the robots with their hardware address and define if the corresponding robot is a master module.
+\label{sec:organize-robots}
+
+In the menu \emph{Simulation \textgreater\ Organize robots} you can add the robots with their hardware address and define if the corresponding robot is a master module.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.45]{graphics_gui/organize_robots.png}
@@ -378,6 +390,7 @@ If you run the simulation after the presimulation you will see the turing machin
 \clearpage
 
 \section{Hardware -- LEGO\textregistered\, tape}
+\label{sec:hardw-lego-tape}
 
 This section describes the position of the components used in the machine. The following subsections and pictures are meant to extend the building instructions file created with the LEGO\textregistered\, Digital Designer.
 
