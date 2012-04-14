@@ -312,8 +312,12 @@ The commands are executed sequentially. Every other character within the code wi
 
 \clearpage
 
-\section{Run window}
-In the Input tab (Figure \ref{pic:run_window_input}) of the run window you can specify the input word for every tape. In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a label for every tape and the type of the tape. If you choose a LEGO\textregistered\, Tape you should specify the main and the slave robots for the tapes in the Robot settings tab. With run you can start the presimulation.
+\section{Simulation}
+
+\subsection{Run window}
+If you have created a more or less complex machine in either of the two machine editors (brainfuck or turing machine), you probably want to test and simulate it. This is were the integrated simulator of TuringBrainIDE comes in to account. The simulation works like the same for both machine types.
+
+First of you begin by selecting Sinulation > Run... from the menu. In the Input tab (Figure \ref{pic:run_window_input}) of the run window you can specify the input word for every tape. In the tape settings tab (Figure \ref{pic:run_window_tape_settings}) you can specify a label for every tape and the type of the tape. If you choose a LEGO\textregistered\, Tape you should specify the main and the slave robots for the tapes in the Robot settings tab. With run you can start the presimulation.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/run_window_input.png}
@@ -340,7 +344,6 @@ In the Input tab (Figure \ref{pic:run_window_input}) of the run window you can s
 \label{pic:run_window_robot_settings}
 \end{figure}
  
-\section{Simulation}
 
 \subsection{Organize robots}
 In the menu Simulation \textgreater\ Organize robots you can add the robots with their hardware address and define if the corresponding robot is a master module.
