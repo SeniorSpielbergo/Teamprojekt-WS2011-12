@@ -160,7 +160,8 @@ If you open an example or another existing machine you will see a window like fi
 
 \subsection{Toolbox}
 \label{sec:toolbox}
-With the toolbox you can use drag an drop to add states, frames and textboxes to your machine. While states have a fixed size, frames and textboxes can be resized.
+With the toolbox you can use drag an drop to add states (see \ref{sec:add-edit-states}), frames and
+textboxes (see \ref{sec:frames-textboxes}) to your machine. While states have a fixed size, frames and textboxes can be resized.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/toolbox_turing.png}
@@ -173,7 +174,7 @@ With the toolbox you can use drag an drop to add states, frames and textboxes to
 
 \subsection{Edit machine properties}
 \label{sec:edit-mach-prop}
-First of all you should edit the turing machine properties and enter an author and a description. These fields don't are entirely optional, but they can help to organize and document your machines. In the machine properties you will also see some statistics about your machine like the number of states.
+First of all you should edit the turing machine properties and enter an author and a description. These fields are entirely optional, but they can help you to organize and document your machines. In the machine properties you will also see some statistics about your machine like the number of states.
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/machine_properties.png}
@@ -202,7 +203,9 @@ If you have created or selected a state you can change the properties of the sel
 \subsection{Adding and changing edges}
 \label{sec:adding-chang-edges}
 If you want to create an edge you have to move the mouse pointer to the center of a state, which will be highlighted with a bold green square. Then you have to hold the left mouse button and drop the arrow on the state where the edge shall end. \\
-If you have selected an edge you can add, remove or edit transitions. If you want to edit a transition you just have to double click on it.
+If you have selected an edge you can add, remove or edit transitions. If you want to edit a transition you just have to double click on it in the properties panel.
+
+If you don't want the edge to take the direct way from the start state to the end state, you can add via points to change the graphical route manually (see \ref{sec:via-points}).
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.5]{graphics_gui/edge_properties.png}
@@ -213,7 +216,16 @@ If you have selected an edge you can add, remove or edit transitions. If you wan
 
 \subsection{Edit transitions}
 \label{sec:edit-transitions}
-If you double clicked on a transtion or added a new one, you can edit it. Every transition specifies an input (the read symbol), an output (the symbol to write) and an action (movment of the head) individually for every tape. The transition is executed only, if all input symbols on all tapes match. If they match, the transition is always completly executed (on all tapes).
+If you double click on a transtion or add a new one, you can edit it. Every transition specifies an input (the read symbol), an output (the symbol to write) and an action (movment of the head) individually for every tape. The transition is executed only, if all input symbols on all tapes match. If they match, the transition is always completly executed (on all tapes).
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[scale=0.5]{graphics_gui/edit_transitions.png}
+\end{center}
+\caption{Edit transitions}
+\label{pic:edit_transitions}
+\end{figure}
+
 \bigskip
 
 \emph{Input.} Every character can be used as an input symbol, except for *, which is a wildcard. The * always matches, regardless of the read symbol.
@@ -229,14 +241,7 @@ If you don't want to use every tape in a transition, use the combination */*/N a
 
 \textbf{Important:} Make sure that only the input conditions of one transition per state can be met at a time. Using multiple transitions with * input symbols or with identical inputs can lead to undeterministic behaviour.
 
-
-\begin{figure}[!htb]
-\begin{center}
-\includegraphics[scale=0.5]{graphics_gui/edit_transitions.png}
-\end{center}
-\caption{Edit transitions}
-\label{pic:edit_transitions}
-\end{figure}
+The transitions are also displayed in the graph along the corresponding edge. Every tramsition of the edge corresponds to one line of text in the graph. For better clearness not all transitions might be displayed along edges with many transitions. Every line of text is of the form \emph{<input1,output1,action1> / <input2,output2,action2> / ...}, where inputi, outputi, actioni are the input, output and action for the i-th tape.
 
 \clearpage
 
