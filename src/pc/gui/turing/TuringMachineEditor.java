@@ -1059,10 +1059,12 @@ implements KeyListener, ItemListener, ActionListener, MouseListener, Observer {
 		for(Object cellObj : cells) {
 			mxCell cell = (mxCell) cellObj;
 			List<mxPoint> points = cell.getGeometry().getPoints();
-			ArrayList<Point> via = ((Edge) cell.getValue()).getVia();
-			via.clear();
-			for(mxPoint p : points)
-				via.add(new Point((int) p.getX(), (int) p.getY()));
+			if(points != null) {
+				ArrayList<Point> via = ((Edge) cell.getValue()).getVia();
+				via.clear();
+				for(mxPoint p : points)
+					via.add(new Point((int) p.getX(), (int) p.getY()));
+			}
 		}
 	}
 
