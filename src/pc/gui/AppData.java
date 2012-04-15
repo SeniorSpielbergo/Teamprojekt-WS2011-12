@@ -35,11 +35,11 @@ public class AppData {
 	/**
 	 * The version of the application.
 	 */
-	public static final String APP_VERSION = "0.9.2";
+	public static final String APP_VERSION = "1.0.0";
 	/**
 	 * The authors of the application.
 	 */
-	public static final String APP_AUTHORS = "Im Rahmen des Teamprojekts 2011 entstanden.\n\nInstitut für Programmierung\nund Reaktive Systeme\n\nBetreuer: Matthias Hagner\n\nVanessa Baier,\n Nils Breyer,\n Phillipp Neumann,\n Sven Schuster,\n David Wille";
+	public static final String APP_AUTHORS = "Im Rahmen des Teamprojekts 2011 entstanden\n\nInstitut für Programmierung\nund Reaktive Systeme\nan der TU Braunschweig\n\nBetreuer: Matthias Hagner\n\nVanessa Baier,\n Nils Breyer,\n Phillipp Neumann,\n Sven Schuster,\n David Wille";
 
 
 	/**
