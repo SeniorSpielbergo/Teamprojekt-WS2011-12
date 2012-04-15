@@ -378,7 +378,11 @@ The Presimulation window (Figure \ref{pic:presimulation}) shows the estimated du
 \end{figure}
 
 \subsection{Simulation window}
-If you run the simulation after the presimulation you will see the turing machine and the tapes (Figure \ref{pic:simulation_window}). After the input word has been written you can start the simulation with the play button. If you have paused the simulation you can simulate the next step with the second button. If you simulate on the LEGO\textregistered\, Tape you can mute and unmute the sound.
+If you run the simulation (after the presimulation) you will see the turing machine in read-only mode in the main window and the simulation window to control the simulation.
+
+ After the input word has been written (if you don't use LEGO\textregistered\, tapes, this should be immediately) you can start (or pause) the simulation with the play/pause button. If the simulation is paused, you can also debug step-by-step using the second button. If you simulate on the LEGO\textregistered\, Tape you can mute and unmute the sound on the robot using the third button.
+
+Below the buttons, the simulation window displays all graphic and LEGO\textregistered\, tapes with their current mermory states. The head field is always in the center of the window and is specially highlighted. (Figure \ref{pic:simulation_window}).
 \begin{figure}[!htb]
 \begin{center}
 \includegraphics[scale=0.35]{graphics_gui/simulation_window.png}
@@ -386,6 +390,14 @@ If you run the simulation after the presimulation you will see the turing machin
 \caption{Simulation window}
 \label{pic:simulation_window}
 \end{figure}
+
+Two special options can be choosen from the \emph{Simulation} menu of the main window:
+
+\begin{itemize}
+\item \emph{Delay}: If enabled, the simulation is artifically slowed down, so you can follow the simulation. Disable this option if you want to see the simulation result as quickly as possible and if you don't need to follow the simulation in detail. This setting has no effect for LEGO\textregistered\, tapes. By default the \emph{Delay} is enabled.
+\item \emph{Tape style}: TuringBrain IDE ships with two diffrent tape styles. The \emph{default} tape style is optimized for normal use on displays, the \emph{large} tape style is specially designed for presentation use (on a beamer for example).
+\end{itemize}
+
 
 \clearpage
 
