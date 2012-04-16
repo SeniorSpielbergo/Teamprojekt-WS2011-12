@@ -120,6 +120,11 @@ x<name>\textbackslash n & state name
 \end{tabular}
 \end{minipage}
 
+\section{Add new machine Types}
+
+If you want to add a new machine type you have to create new packages for the machine and the editor. The machine package must consist of an inheritance of machine.Machine and machine.Simulation. The editor package must only consist of  an inheritance of gui.MachineEditor. Additionally, to be able to open your machine files, you have to adapt the FileChooser in gui.Editor.openFile() and add your machine's file extension to it. \\
+You can also add your machine type to the menu item \textit{New} in the menubar of gui.Editor. Optionally you can add your machine type as a new tab to gui.WelcomeScreen.\\
+For more information on the methods that have to be written you can view our Javadoc.
 
 \makebackpage[trisec]%[<plain/info/addressinfo>]
 
