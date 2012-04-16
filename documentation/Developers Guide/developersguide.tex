@@ -101,7 +101,7 @@ Adding new tape types is a less common task, but examples could be that you want
 
 For this task you have to either inherit from tape.Tape (if you don't want that your tape shows up in the simulation window) or from tape.DisplayableTape (if you want that it shows up in the simulation window). 
 
-To be able to select the new tape type for the simulation you need to modify the relevant methods in the gui.RunWindow class and add your tape type to the Type enum in the tape.Tape class. For machine types that save the tape configurations in the machine file, like Turing machines you will have also to add the new tape tape to the save/load methods of the machine.
+To be able to select the new tape type for the simulation you need to modify the relevant methods in the gui.RunWindow class and add your tape type to the Type enum in the tape.Tape class. For machine types that save the tape configurations in the machine file, like Turing machines you will also have to add the new tape tape to the save/load methods of the machine.
 
 \subsection{Adding new tape styles}
 \label{sec:adding-new-tape}
