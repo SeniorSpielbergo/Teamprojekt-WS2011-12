@@ -1,0 +1,166 @@
+;; RefTeX parse info file
+;; File: /Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex
+;; User: nils (Nils Breyer)
+
+(set reftex-docstruct-symbol '(
+
+
+(xr nil "\\\\\\\\\\\\")
+
+(index-tags)
+
+(is-multi nil)
+
+(bibview-cache)
+
+(master-dir . "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/")
+
+(label-numbers)
+
+(bof "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex")
+
+(toc "toc" "    1 Introduction" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 2 "1" "\\section{Introduction}" 962)
+
+(toc "toc" "      1.1 Features" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "1.1" "\\subsection{Features}" 1184)
+
+(toc "toc" "    2 Getting started" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 2 "2" "\\section{Getting started}" 1951)
+
+(toc "toc" "      2.1 Installation" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "2.1" "\\subsection{Installation}" 1978)
+
+("sec:installation" "s" "If you don't want to use the LEGO\\textregistered\\, tapes, you only have to download the executable ." "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:eclipse_preferences" "f" "Eclipse preferences" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:libraries" "f" "Libraries" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      2.2 Welcome page" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "2.2" "\\subsection{Welcome page}" 5766)
+
+("sec:welcome-page" "s" "If the installation was correct and you have started the application the one or the other way you wi" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:welcome_page" "f" "Welcome page" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "    3 Turing Machine editor" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 2 "3" "\\section{Turing Machine editor}" 6314)
+
+("pic:turing_editor" "f" "Turing Machine editor" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      3.1 Toolbox" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "3.1" "\\subsection{Toolbox}" 7114)
+
+("sec:toolbox" "s" "With the toolbox you can use drag an drop to add states (see \\ref{sec:add-edit-states}), frames and " "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:toolbox" "f" "Toolbox" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      3.2 Edit machine properties" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "3.2" "\\subsection{Edit machine properties}" 7558)
+
+("sec:edit-mach-prop" "s" "First of all you should edit the turing machine properties and enter an author and a description. Th" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:machine_properties" "f" "Edit machine properties" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      3.3 Adding and changing states" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "3.3" "\\subsection{Adding and changing states}" 8117)
+
+("sec:add-edit-states" "s" "If you have created or selected a state you can change the properties of the selected state. You can" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:state_properties" "f" "Adding and changing states" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      3.4 Adding and changing edges" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "3.4" "\\subsection{Adding and changing edges}" 8869)
+
+("sec:adding-chang-edges" "s" "If you want to create an edge you have to move the mouse pointer to the center of a state, which wil" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:edge_properties" "f" "Adding and changing edges" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      3.5 Edit transitions" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "3.5" "\\subsection{Edit transitions}" 9720)
+
+("sec:edit-transitions" "s" "If you double click on a transtion or add a new one, you can edit it. Every transition specifies an " "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:edit_transitions" "f" "Edit transitions" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      3.6 Via points" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "3.6" "\\subsection{Via points}" 12001)
+
+("sec:via-points" "s" "Sometimes it is useful to set via points for edges. For example, if the direct way crosses other sta" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      3.7 Frames and textboxes" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "3.7" "\\subsection{Frames and textboxes}" 12452)
+
+("sec:frames-textboxes" "s" "As via points frames and textboxes don't affect the simulation. These tools provide you a simple way" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:text_properties" "f" "Textbox properties" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      3.8 Export" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "3.8" "\\subsection{Export}" 12924)
+
+("sec:export" "s" "In the menu File \\textgreater \\ Export you can export the turing machine as a table to \\LaTeX\\ (.tex" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "    4 Brainfuck editor" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 2 "4" "\\section{Brainfuck editor}" 13511)
+
+("sec:brainfuck-editor" "s" "The Brainfuck editor can be used to create applications using the esoteric programming language brai" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:brainfuck_editor" "f" "Brainfuck editor" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "    5 Simulation" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 2 "5" "\\section{Simulation}" 15162)
+
+(toc "toc" "      5.1 Run window" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "5.1" "\\subsection{Run window}" 15483)
+
+("pic:run_window_input" "f" "Run window -- Input" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:run_window_tape_settings" "f" "Run window -- Tape settings" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:run_window_robot_settings" "f" "Run window -- Robot settings" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      5.2 Organize robotos" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "5.2" "\\subsection{Organize robotos}" 18128)
+
+("sec:organize-robotos" "s" nil "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil "")
+
+(toc "toc" "      5.2 Organize robots" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "5.2" "\\subsection{Organize robots}" 18128)
+
+("pic:organize_robots" "f" "Organize robots" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      5.3 Presimulation window" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "5.3" "\\subsection{Presimulation window}" 18612)
+
+("pic:presimulation" "f" "Presimulation window" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      5.4 Simulation window" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "5.4" "\\subsection{Simulation window}" 18996)
+
+("pic:simulation_window" "f" "Simulation window" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "    6 Hardware -- LEGO\\textregistered\\, tape" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 2 "6" "\\section{Hardware -- LEGO\\textregistered\\, tape}" 20758)
+
+("sec:hardw-lego-tape" "s" "This section describes the position of the components used in the machine. The following subsections" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      6.1 The machine's motor section" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "6.1" "\\subsection{The machine's motor section}" 21059)
+
+("pic:topview" "f" "Overview of the motor section" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:position1" "f" "Image taken from position 1" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:position2" "f" "Image taken from position 2" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:position3" "f" "Image taken from position 3" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:position4" "f" "Image taken from position 4" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      6.2 The supporting bridge at the end of the tape" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "6.2" "\\subsection{The supporting bridge at the end of the tape}" 22768)
+
+("pic:bridge2" "f" "Position of the bridge" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:bridge1" "f" "Position of the bridge" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      6.3 The sensors" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "6.3" "\\subsection{The sensors}" 23505)
+
+("pic:sensors" "f" "Position of the sensors" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      6.4 The tape" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "6.4" "\\subsection{The tape}" 23967)
+
+("pic:tape" "f" "The tape" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:supporting_pier" "f" "One of the supporting piers" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      6.5 Possible bit combinations on the tape" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "6.5" "\\subsection{Possible bit combinations on the tape}" 25265)
+
+("pic:bit_combinations" "f" "Bit combinations" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(toc "toc" "      6.6 The pushers" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil 3 "6.6" "\\subsection{The pushers}" 26660)
+
+("pic:pusher" "f" "Pusher" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+("pic:topview_pushers" "f" "Position of the pushers" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex" nil)
+
+(eof "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/User Guide/userguide.tex")
+))
+

@@ -1,0 +1,42 @@
+;; RefTeX parse info file
+;; File: /Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/Developers Guide/developersguide.tex
+;; User: nils (Nils Breyer)
+
+(set reftex-docstruct-symbol '(
+
+
+(xr nil "\\\\\\\\\\\\")
+
+(index-tags)
+
+(is-multi nil)
+
+(bibview-cache)
+
+(master-dir . "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/Developers Guide/")
+
+(label-numbers)
+
+(bof "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/Developers Guide/developersguide.tex")
+
+(toc "toc" "    1 Introduction" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/Developers Guide/developersguide.tex" nil 2 "1" "\\section{Introduction}" 1032)
+
+(toc "toc" "    2 Code -- LEGO\\textregistered\\, tape" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/Developers Guide/developersguide.tex" nil 2 "2" "\\section{Code -- LEGO\\textregistered\\, tape}" 1056)
+
+(toc "toc" "    3 PC Packages" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/Developers Guide/developersguide.tex" nil 2 "3" "\\section{PC Packages}" 1783)
+
+(toc "toc" "    4 Adding new tape styles" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/Developers Guide/developersguide.tex" nil 2 "4" "\\section{Adding new tape styles}" 2792)
+
+("sec:adding-new-tape" "s" nil "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/Developers Guide/developersguide.tex" nil "")
+
+(toc "toc" "    4 Adding new tape styles" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/Developers Guide/developersguide.tex" nil 2 "4" "\\section{Adding new tape styles}" 2792)
+
+(toc "toc" "    5 Protocol" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/Developers Guide/developersguide.tex" nil 2 "5" "\\section{Protocol}" 3331)
+
+(toc "toc" "      5.1 Master" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/Developers Guide/developersguide.tex" nil 3 "5.1" "\\subsection{Master}" 4081)
+
+(toc "toc" "      5.2 Slave" "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/Developers Guide/developersguide.tex" nil 3 "5.2" "\\subsection{Slave}" 4340)
+
+(eof "/Users/nils/Documents/Studium/Teamprojekt/Teamprojekt-WS2011-12/documentation/Developers Guide/developersguide.tex")
+))
+
