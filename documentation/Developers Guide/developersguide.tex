@@ -88,6 +88,25 @@ The folder where the AppData is stored differs with your operating system:
 \item Other: \$HOME/Turing Brain IDE
 \end{itemize}
 
+\subsection{Adding new machine types}
+
+If you want to add a new machine type (examples could be new automata types, Load-Store-Architectures, Assembler-Code, esoteric programming languages like COW etc.) you have to create new packages for the machine (machine.yourmachinetype) and the editor (gui.yourmachinetype). The machine package has to contain a class that inherits from \emph{machine.Machine} (contains methods for loading and saving a machine) and \emph{machine.Simulation} (contains methods to simulate a machine). The editor package must contain an inheritance of \emph{gui.MachineEditor} (contains a panel that allows you to edit the machine). 
+Additionally, to be able to open your machine files, you have to adapt the FileChooser in gui.Editor.openFile() and add your machine's file extension to it. \\
+You can also add your machine type to the menu item \textit{New} in the menubar of gui.Editor. Optionally you can add your machine type as a new tab to \emph{gui.WelcomeScreen}.\\
+For more information on the methods that have to be implemented you can view our Javadoc. As a reference implementation you can look at the Brainfuck packages, which are kind of a minimal implementation of a machine, which are much more handy than the corresponding Turing machine packages.
+
+\subsection{Adding new tape types}
+
+Adding new tape types is a less common task, but examples could be that you want to program a tape that works over LAN on another computer, a tape that can be moved by the user manually and not only show the content near the head, or a tape that directly writes its content to a file.
+
+For this task you have to either inherit from tape.Tape (if you don't want that your tape shows up in the simulation window) or from tape.DisplayableTape (if you want that it shows up in the simulation window). To be able to select the new tape type for the simulation you need to modify the relevant methods in the gui.RunWindow class and add your tape type to the Type enum in the tape.Tape class.
+
+\subsection{Adding new tape styles}
+\label{sec:adding-new-tape}
+
+The tape panels (showed in the simulation window) are themeable. The themes are stored in the source code in the pc/tape/images/styles directory. Each folder in this directory is a theme (the folder name is the theme name). Every tape style folder must contain two images: head.png and tape\_field.png. These images should have exactly the same size. Recommend is a size of 28 x 32, but you can also use diffrent sizes. The font size is scaled dynamically with the image size. The head.png should be transparent in the middle, otherwise you won't see the field content.
+
+
 \section{LEGO\textregistered\, tape code}
 \label{sec:lego}
 
@@ -131,27 +150,6 @@ n<name>\textbackslash n & machine name\\
 x<name>\textbackslash n & state name
 \end{tabular}
 \end{minipage}
-
-\section{Howto}
-\label{sec:howto-add-new}
-
-\subsection{Adding new machine types}
-
-If you want to add a new machine type (examples could be new automata types, Load-Store-Architectures, Assembler-Code, esoteric programming languages like COW etc.) you have to create new packages for the machine (machine.yourmachinetype) and the editor (gui.yourmachinetype). The machine package has to contain a class that inherits from \emph{machine.Machine} (contains methods for loading and saving a machine) and \emph{machine.Simulation} (contains methods to simulate a machine). The editor package must contain an inheritance of \emph{gui.MachineEditor} (contains a panel that allows you to edit the machine). 
-Additionally, to be able to open your machine files, you have to adapt the FileChooser in gui.Editor.openFile() and add your machine's file extension to it. \\
-You can also add your machine type to the menu item \textit{New} in the menubar of gui.Editor. Optionally you can add your machine type as a new tab to \emph{gui.WelcomeScreen}.\\
-For more information on the methods that have to be implemented you can view our Javadoc. As a reference implementation you can look at the Brainfuck packages, which are kind of a minimal implementation of a machine, which are much more handy than the corresponding Turing machine packages.
-
-\subsection{Adding new tape types}
-
-Adding new tape types is a less common task, but examples could be that you want to program a tape that works over LAN on another computer, a tape that can be moved by the user manually and not only show the content near the head, or a tape that directly writes its content to a file.
-
-For this task you have to either inherit from tape.Tape (if you don't want that your tape shows up in the simulation window) or from tape.DisplayableTape (if you want that it shows up in the simulation window). To be able to select the new tape type for the simulation you need to modify the relevant methods in the gui.RunWindow class and add your tape type to the Type enum in the tape.Tape class.
-
-\subsection{Adding new tape styles}
-\label{sec:adding-new-tape}
-
-The tape panels (showed in the simulation window) are themeable. The themes are stored in the source code in the pc/tape/images/styles directory. Each folder in this directory is a theme (the folder name is the theme name). Every tape style folder must contain two images: head.png and tape\_field.png. These images should have exactly the same size. Recommend is a size of 28 x 32, but you can also use diffrent sizes. The font size is scaled dynamically with the image size. The head.png should be transparent in the middle, otherwise you won't see the field content.
 
 \makebackpage[trisec]%[<plain/info/addressinfo>]
 
