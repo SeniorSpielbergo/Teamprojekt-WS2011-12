@@ -660,7 +660,7 @@ public class TuringMachine extends Machine{
 			nameElement.appendChild(doc.createTextNode(tape.getName()));
 			tapeElement.appendChild(nameElement);
 
-			if (tape.getType().equals("LEGO")) {
+			if (tape.getType() == Tape.Type.LEGO) {
 				LEGOTape lego_tape = (LEGOTape) tape;
 
 				//save master robot name and mac address
