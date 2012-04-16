@@ -87,7 +87,13 @@ There are some more common classes that can be used for testing the sensors or c
 \end{tikzpicture}
 \end{center}
 
+
+
 \section{Protocol}
+
+This section is an overview over the protocol that is used for the communication between the PC and the LEGO\textregistered\, NXT robots. The communication works via bluetooth and is character based. Usually one character is one command. Some commands (i.e. machine name command) are followed by a character sequence of arbitrary length terminated by a newline character.
+
+The following tables show the complete list of commands sent by the pc to the master. The NXT modules only respond to previous commands by the pc, they will never send commands spontaneously to the pc. The response to most commands is either a ``.'' (ok, success) or ``!'' (failure). The read command is responded by the read symbol.
 
 \begin{minipage}{5cm}
 \subsection{Master}
