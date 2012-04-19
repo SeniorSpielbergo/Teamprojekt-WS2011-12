@@ -26,6 +26,7 @@
 *.synctex.gz
 *.el
 *.pdf
+*.rel
 _region_.tex
 .DS_Store
 *.swp
