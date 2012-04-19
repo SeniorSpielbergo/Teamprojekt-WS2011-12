@@ -172,7 +172,7 @@
 \frame{
 	\frametitle{Kodierung der Symbole}
 	\begin{center}
-		2 bit Kodierung der Symbole auf dem Hardwareband
+		2-Bit-Kodierung der Symbole auf dem Hardwareband
 	\end{center}
   	\begin{figure}[!htb]
 		\begin{center}
@@ -210,8 +210,58 @@
 
 
 \frame{
-	\frametitle{Live Demo}
-	TM erstellen + Sim  		
+	\frametitle{Live demo: Double copy}
+        \textbf{Aufgabe:} Für jede 0 auf Band 1 zwei 0en auf Band 2 schreiben
+\bigskip
+
+	\begin{minipage}[t]{5cm}
+		\textbf{Beispiel:}
+\bigskip
+
+		\textit{Eingabe:}
+		\begin{itemize}
+			\item Band 1: 000
+		\end{itemize}
+		\textit{Ausgabe:}
+		\begin{itemize}
+			\item Band 2: 000000
+		\end{itemize}
+	\end{minipage}
+	\begin{minipage}[t]{5cm}
+		\begin{center}
+		Kodierung der Symbole auf dem Hardwareband
+		\end{center}
+  		\begin{figure}[!htb]
+		\begin{center}
+		\begin{tikzpicture}[scale=0.6]
+		%\draw[help lines,scale=0.5] (0,0) grid (20,5);
+		\draw[thick,scale=0.5] (1,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (3,1) rectangle +(1,1);
+		\draw[thick,scale=0.5,fill=tuRed] (1,3) rectangle +(1,1);
+		\draw[thick,scale=0.5,fill=tuRed] (3,3) rectangle +(1,1);
+		\draw (1.25,0.25) node[draw=none,scale=0.6] {\#};
+
+		\draw[thick,scale=0.5] (6,1) rectangle +(1,1);
+		\draw[thick,scale=0.5,fill=tuRed] (8,1) rectangle +(1,1);
+		\draw[thick,scale=0.5,fill=tuRed] (6,3) rectangle +(1,1);
+		\draw[thick,scale=0.5] (8,3) rectangle +(1,1);
+		\draw (3.75,0.25) node[draw=none,scale=0.6] {0};
+
+		\draw[thick,scale=0.5,fill=tuRed] (11,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (13,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (11,3) rectangle +(1,1);
+		\draw[thick,scale=0.5,fill=tuRed] (13,3) rectangle +(1,1);
+		\draw (6.25,0.25) node[draw=none,scale=0.6] {1};
+
+		\draw[thick,scale=0.5,fill=tuRed] (16,1) rectangle +(1,1);
+		\draw[thick,scale=0.5,fill=tuRed] (18,1) rectangle +(1,1);
+		\draw[thick,scale=0.5] (16,3) rectangle +(1,1);
+		\draw[thick,scale=0.5] (18,3) rectangle +(1,1);
+		\draw (8.75,0.25) node[draw=none,scale=0.6] {2};
+		\end{tikzpicture}
+		\end{center}
+		\end{figure}
+	\end{minipage}		
 }
 
 \frame{
@@ -232,20 +282,26 @@
 
 \frame{
 	\frametitle{Binary Multiplication}
+        \textbf{Aufgabe:} Multiplikation zweier Binärzahlen 
+\bigskip
+
 	\begin{minipage}[t]{5cm}
-		Eingabe:
+          \textbf{Beispiel:}
+\bigskip
+
+		\textit{Eingabe:}
 		\begin{itemize}
 			\item Band 1: 0101 (= 5)
 			\item Band 2: 0010 (= 2)
 		\end{itemize}
-		Ausgabe:
+		\textit{Ausgabe:}
 		\begin{itemize}
 			\item Band 1: 1010 (= 10)
 		\end{itemize}
 	\end{minipage}
 	\begin{minipage}[t]{5cm}
 		\begin{center}
-		2 bit Kodierung der Symbole auf dem Hardwareband
+		Kodierung der Symbole auf dem Hardwareband
 		\end{center}
   		\begin{figure}[!htb]
 		\begin{center}
