@@ -257,6 +257,7 @@ public class LEGOTape extends DisplayableTape {
 		t1.start();
 		try {
 			this.master.moveLeft();
+			this.position--;
 			System.out.println(this.name + "@pos " + this.position);
 			this.currentSymbol = 'n';
 			t1.join();
@@ -287,6 +288,7 @@ public class LEGOTape extends DisplayableTape {
 
 		try {
 			this.master.moveRight();
+			this.position++;
 			System.out.println(this.name + "@pos " + this.position);
 			this.currentSymbol = 'n';
 			t1.join();
