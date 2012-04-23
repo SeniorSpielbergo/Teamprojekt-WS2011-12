@@ -35,11 +35,11 @@ public class AppData {
 	/**
 	 * The version of the application.
 	 */
-	public static final String APP_VERSION = "1.0.0";
+	public static final String APP_VERSION = "1.0.1";
 	/**
 	 * The authors of the application.
 	 */
-	public static final String APP_AUTHORS = "Im Rahmen des Teamprojekts 2011 entstanden\n\nInstitut für Programmierung\nund Reaktive Systeme\nan der TU Braunschweig\n\nBetreuer: Matthias Hagner\n\nVanessa Baier,\n Nils Breyer,\n Phillipp Neumann,\n Sven Schuster,\n David Wille";
+	public static final String APP_AUTHORS = "Im Rahmen eines Teamprojekts 2011/2012\nentstanden am\n\nInstitut für Programmierung\nund Reaktive Systeme\nan der TU Braunschweig\n\nAdvisor: Matthias Hagner\n\nDevelopers:\nVanessa Baier, Nils Breyer, Phillipp Neumann,\n Sven Schuster, David Wille \n\nTuringBrain IDE is licensed under the\nterms of the BEERWARE license.\njgraph is licensed under the terms of the BSD license.";
 
 
 	/**
